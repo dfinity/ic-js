@@ -2,9 +2,10 @@
   "name": "@dfinity/nns",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "./dist-cjs/index.js",
+  "module": "./dist-esm/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b && tsc -p tsconfig-cjs.json",
     "test": "jest",
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",

@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
+    "target": "es2017",
+    "module": "es2020",
+    "moduleResolution": "node",
     "strict": true,
     "declaration": true,
-    "outDir": "./dist",
+    "outDir": "./dist-esm",
     "esModuleInterop": true,
     "lib": ["dom", "es2017"]
   },
