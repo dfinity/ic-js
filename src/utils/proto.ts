@@ -3,14 +3,16 @@ import { Principal } from "@dfinity/principal";
 import { QueryResponseStatus } from "@dfinity/agent";
 import { polling } from "@dfinity/agent";
 
-export const submitUpdateRequest = async (
+/**
+ * Submits an update call to the IC.
+ * @returns The (binary) response if the request succeeded, an error otherwise.
+ */
+export const updateCall = async (
   agent: Agent,
   canisterId: Principal,
   methodName: string,
   arg: ArrayBuffer
-): Promise<ArrayBuffer> => {
-  const pollStrategy = polling.defaultStrategy();
-
+): Promise<Uint8Array | Error> => {
   const submitResponse = await agent.call(canisterId, {
     methodName,
     arg,
@@ -18,7 +20,7 @@ export const submitUpdateRequest = async (
   });
 
   if (!submitResponse.response.ok) {
-    throw new Error(
+    return Error(
       [
         "Call failed:",
         `  Method: ${methodName}`,
@@ -30,30 +32,42 @@ export const submitUpdateRequest = async (
     );
   }
 
-  const blob = await polling.pollForResponse(
-    agent,
-    canisterId,
-    submitResponse.requestId,
-    pollStrategy
-  );
+  try {
+    const blob = await polling.pollForResponse(
+      agent,
+      canisterId,
+      submitResponse.requestId,
+      polling.defaultStrategy()
+    );
+    return new Uint8Array(blob);
+  } catch (err) {
+    if (err instanceof Error) {
+      // Return errors rather than throw them so that callers are forced to handle them.
+      return err;
+    }
 
-  return blob;
+    // Something very wrong happened, and we don't know how to deal with it. Throw as-is.
+    throw err;
+  }
 };
 
-
-export const submitQueryRequest = async (
+/**
+ * Submits a query call to the IC.
+ * @returns The (binary) response if the request succeeded, an error otherwise.
+ */
+export const queryCall = async (
   agent: Agent,
   canisterId: Principal,
   methodName: string,
   arg: ArrayBuffer
-): Promise<ArrayBuffer> => {
+): Promise<Uint8Array | Error> => {
   const queryResponse = await agent.query(canisterId, {
     methodName,
     arg,
   });
 
   if (queryResponse.status == QueryResponseStatus.Rejected) {
-    throw new Error(
+    return new Error(
       [
         "Call failed:",
         `  Method: ${methodName}`,
@@ -64,5 +78,5 @@ export const submitQueryRequest = async (
     );
   }
 
-  return queryResponse.reply.arg;
+  return new Uint8Array(queryResponse.reply.arg);
 };
