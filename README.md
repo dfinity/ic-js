@@ -7,7 +7,7 @@ This library is still in active development, and not all the features are availa
 * [x] Ledger Canister
   * [x] `accountBalance`
   * [x] `transfer`
-* [ ] Governance Canister
+* [ ] Governance Canister (Coming soon)
 
 
 ## Example Usage
