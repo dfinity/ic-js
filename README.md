@@ -13,7 +13,9 @@ This library is still in active development, and not all the features are availa
 ## Example Usage
 
 ```ts
-// Add polyfill for `window.fetch` for agent-js to work.
+import { AccountIdentifier, LedgerCanister } from '@dfinity/nns';
+
+// If not running in browser, add polyfill of `window.fetch` for agent-js to work.
 import fetch from 'cross-fetch';
 global.fetch = fetch;
 
@@ -26,7 +28,7 @@ async function main() {
     )
   );
 
-  console.log(`Balance: ${balance}`);
+  console.log(`Balance: ${balance.toE8s()}`);
 }
 
 main();
