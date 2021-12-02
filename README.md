@@ -2,7 +2,7 @@
 
 A library for interfacing with the Internet Computer's Network Nervous System.
 
-This library is still in active development, and not all the features are available.
+This library is still in active development, and new features will incrementally be available.
 
 * [x] Ledger Canister
   * [x] `accountBalance`
