@@ -1,7 +1,24 @@
 {
   "name": "@dfinity/nns",
   "version": "0.1.0",
-  "description": "",
+  "description": "A library for interfacing with the Internet Computer's Network Nervous System.",
+  "keywords": [
+    "internet computer",
+    "internet-computer",
+    "ic",
+    "dfinity",
+    "dfx",
+    "canister",
+    "candid",
+    "motoko",
+    "javascript",
+    "typescript",
+    "blockchain",
+    "crypto",
+    "nns",
+    "network nervous system",
+    "network-nervous-system"
+  ],
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
