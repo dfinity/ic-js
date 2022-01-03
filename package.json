@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/nns",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "A library for interfacing with the Internet Computer's Network Nervous System.",
   "keywords": [
     "internet computer",
@@ -25,7 +25,7 @@
     "test": "jest",
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
-    "update_proto": "bash ./proto/update_proto.sh"
+    "update_proto": "bash ./scripts/update_proto.sh"
   },
   "devDependencies": {
     "@types/google-protobuf": "^3.15.5",
