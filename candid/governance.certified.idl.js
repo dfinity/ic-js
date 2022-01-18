@@ -12,7 +12,7 @@ export const idlFactory = ({ IDL }) => {
     'known_neurons' : IDL.Vec(KnownNeuron),
   });
   return IDL.Service({
-    'list_known_neurons' : IDL.Func([], [ListKnownNeuronsResponse], ['query']),
+    'list_known_neurons' : IDL.Func([], [ListKnownNeuronsResponse], []),
   });
 };
 export const init = ({ IDL }) => { return []; };
