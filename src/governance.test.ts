@@ -6,7 +6,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
   it("returns the DF and ICA neurons", async () => {
     const response: CandidKnownNeuronsResponse = { known_neurons: [] };
     const service = mock<GovernanceService>();
-    service.list_known_neurons.calledWith().mockResolvedValue(response);
+    service.list_known_neurons.mockResolvedValue(response);
 
     const governance = new GovernanceCanister(service, service);
     const res = await governance.listKnownNeurons(false);
