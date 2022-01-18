@@ -32,12 +32,12 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     const res = await governance.listKnownNeurons(false);
 
     expect(res).toHaveLength(2);
-    expect(res[0]).toEqual({
+    expect(res).toContainEqual({
       id: BigInt(27),
       name: "DFINITY Foundation",
       description: undefined
     });
-    expect(res[1]).toEqual({
+    expect(res).toContainEqual({
       id: BigInt(28),
       name: "Internet Computer Association",
       description: undefined
