@@ -23,4 +23,77 @@ describe("GovernanceCanister.listKnownNeurons", () => {
       description: undefined
     })
   });
+
+  it("return neurons in ascending order of NeuronId", async () => {
+    const response: CandidKnownNeuronsResponse = {
+      known_neurons: [{
+        id: [{ id: BigInt(200) }],
+        known_neuron_data:[{name: "aaa", description: []}]
+      }, {
+        id: [{ id: BigInt(100) }],
+        known_neuron_data:[{name: "bbb", description: []}]
+      }]
+    };
+    const service = mock<GovernanceService>();
+    service.list_known_neurons.mockResolvedValue(response);
+
+    const governance = GovernanceCanister.create({ serviceOverride: service });
+    const res = await governance.listKnownNeurons(false);
+
+    expect(res).toHaveLength(4);
+    expect(res[0].id).toEqual(BigInt(27));
+    expect(res[1].id).toEqual(BigInt(28));
+    expect(res[2].id).toEqual(BigInt(100));
+    expect(res[3].id).toEqual(BigInt(200));
+  });
+
+  it("only adds the DF and ICA neurons if they are not already in the response", async () => {
+    const response: CandidKnownNeuronsResponse = {
+      known_neurons: [{
+        id: [{ id: BigInt(27) }],
+        known_neuron_data:[{name: "DFINITY Foundation", description: []}]
+      }, {
+        id: [{ id: BigInt(28) }],
+        known_neuron_data:[{name: "Internet Computer Association", description: []}]
+      }, {
+        id: [{ id: BigInt(200) }],
+        known_neuron_data:[{name: "aaa", description: []}]
+      }, {
+        id: [{ id: BigInt(100) }],
+        known_neuron_data:[{name: "bbb", description: []}]
+      }]
+    };
+    const service = mock<GovernanceService>();
+    service.list_known_neurons.mockResolvedValue(response);
+
+    const governance = GovernanceCanister.create({ serviceOverride: service });
+    const res = await governance.listKnownNeurons(false);
+
+    expect(res).toHaveLength(4);
+    expect(res[0].id).toEqual(BigInt(27));
+    expect(res[1].id).toEqual(BigInt(28));
+    expect(res[2].id).toEqual(BigInt(100));
+    expect(res[3].id).toEqual(BigInt(200));
+  });
+
+  it("populates all KnownNeuron fields correctly", async () => {
+    const response: CandidKnownNeuronsResponse = {
+      known_neurons: [{
+        id: [{ id: BigInt(100) }],
+        known_neuron_data:[{name: "aaa", description: ["xyz"]}]
+      }]
+    };
+    const service = mock<GovernanceService>();
+    service.list_known_neurons.mockResolvedValue(response);
+
+    const governance = GovernanceCanister.create({ serviceOverride: service });
+    const res = await governance.listKnownNeurons(false);
+
+    expect(res).toHaveLength(3);
+    expect(res[2]).toEqual({
+      id: BigInt(100),
+      name: "aaa",
+      description: "xyz"
+    });
+  });
 });
