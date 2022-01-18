@@ -21,10 +21,16 @@ export interface GovernanceCanisterOptions {
   agent?: Agent;
   // The governance canister's ID.
   canisterId?: Principal;
+  // The default service to use when calling into the IC. Primarily overridden
+  // in test for mocking.
+  serviceOverride?: GovernanceService;
+  // The service to use for performing query calls as updates. Primarily
+  // overridden in test for mocking.
+  certifiedServiceOverride?: GovernanceService;
 }
 
 export class GovernanceCanister {
-  public constructor(
+  private constructor(
     private readonly service: GovernanceService,
     private readonly certifiedService: GovernanceService
   ) {}
@@ -32,14 +38,19 @@ export class GovernanceCanister {
   public static create(options: GovernanceCanisterOptions = {}) {
     const agent = options.agent ?? defaultAgent();
     const canisterId = options.canisterId ?? MAINNET_GOVERNANCE_CANISTER_ID;
-    const service = Actor.createActor<GovernanceService>(idlFactory, {
-      agent,
-      canisterId,
-    });
-    const certifiedService = Actor.createActor<GovernanceService>(certifiedIdlFactory, {
-      agent,
-      canisterId,
-    });
+
+    const service = options.serviceOverride ??
+      Actor.createActor<GovernanceService>(idlFactory, {
+        agent,
+        canisterId,
+      });
+
+    const certifiedService = options.certifiedServiceOverride ??
+      Actor.createActor<GovernanceService>(certifiedIdlFactory, {
+        agent,
+        canisterId,
+      });
+
     return new GovernanceCanister(service, certifiedService);
   }
 

@@ -8,7 +8,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     const service = mock<GovernanceService>();
     service.list_known_neurons.mockResolvedValue(response);
 
-    const governance = new GovernanceCanister(service, service);
+    const governance = GovernanceCanister.create({ serviceOverride: service });
     const res = await governance.listKnownNeurons(false);
 
     expect(res).toHaveLength(2);
