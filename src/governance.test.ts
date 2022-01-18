@@ -24,7 +24,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     })
   });
 
-  it("return neurons in ascending order of NeuronId", async () => {
+  it("returns neurons in ascending order of Id", async () => {
     const response: CandidKnownNeuronsResponse = {
       known_neurons: [{
         id: [{ id: BigInt(200) }],
