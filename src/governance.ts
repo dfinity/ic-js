@@ -67,26 +67,11 @@ export class GovernanceCanister {
     const service = certified ? this.certifiedService : this.service;
     const response = await service.list_known_neurons();
 
-    const knownNeurons = response.known_neurons.map(n => ({
+    return response.known_neurons.map(n => ({
       id: n.id[0]?.id ?? BigInt(0),
       name: n.known_neuron_data[0]?.name ?? "",
       description: n.known_neuron_data[0]?.description[0]
     }));
-    if (!knownNeurons.find(n => n.id === BigInt(27))) {
-      knownNeurons.push({
-        id: BigInt(27),
-        name: "DFINITY Foundation",
-        description: undefined
-      });
-    }
-    if (!knownNeurons.find(n => n.id === BigInt(28))) {
-      knownNeurons.push({
-        id: BigInt(28),
-        name: "Internet Computer Association",
-        description: undefined
-      });
-    }
-    return knownNeurons.sort((a, b) => Number(a.id - b.id));
   };
 }
 
