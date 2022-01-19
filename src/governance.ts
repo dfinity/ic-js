@@ -24,8 +24,9 @@ export interface GovernanceCanisterOptions {
   // The default service to use when calling into the IC. Primarily overridden
   // in test for mocking.
   serviceOverride?: GovernanceService;
-  // The service to use for performing query calls as updates. Primarily
-  // overridden in test for mocking.
+  // The service to use when making 'certified' calls into the IC (as in, using
+  // update calls in place of queries). Primarily overridden in test for
+  // mocking.
   certifiedServiceOverride?: GovernanceService;
 }
 
