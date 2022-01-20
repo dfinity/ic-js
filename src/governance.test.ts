@@ -1,10 +1,11 @@
 import { mock } from "jest-mock-extended";
-import { CandidKnownNeuronsResponse, GovernanceService } from "../candid/governance.idl";
+import { ListKnownNeuronsResponse } from "../candid/governanceTypes";
 import { GovernanceCanister } from "./governance";
+import { GovernanceService } from "../candid/governance.idl";
 
 describe("GovernanceCanister.listKnownNeurons", () => {
   it("populates all KnownNeuron fields correctly", async () => {
-    const response: CandidKnownNeuronsResponse = {
+    const response: ListKnownNeuronsResponse = {
       known_neurons: [{
         id: [{ id: BigInt(100) }],
         known_neuron_data:[{name: "aaa", description: ["xyz"]}]
@@ -24,7 +25,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
   });
 
   it("handles description being undefined", async () => {
-    const response: CandidKnownNeuronsResponse = {
+    const response: ListKnownNeuronsResponse = {
       known_neurons: [{
         id: [{ id: BigInt(100) }],
         known_neuron_data:[{name: "aaa", description: []}]
@@ -44,7 +45,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
   });
 
   it("returns all KnownNeurons returned by the Governance canister", async () => {
-    const response: CandidKnownNeuronsResponse = {
+    const response: ListKnownNeuronsResponse = {
       known_neurons: [{
         id: [{ id: BigInt(100) }],
         known_neuron_data: [{ name: "aaa", description: [] }]
