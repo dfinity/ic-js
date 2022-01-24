@@ -8,5 +8,5 @@
     "esModuleInterop": true,
     "lib": ["dom", "es2017"]
   },
-  "include": ["src/**/*", "proto/**/*"]
+  "include": ["src/**/*", "candid/**/*", "proto/**/*"]
 }

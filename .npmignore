@@ -2,6 +2,7 @@
 # that are.
 **
 
+!candid/**
 !dist/**
 !proto/**
 !package.json
