@@ -3,4 +3,8 @@ module.exports = {
   testEnvironment: "jsdom",
   setupFiles: [`<rootDir>/test-setup.ts`],
   modulePathIgnorePatterns: ["./dist"],
+  transform: {
+    "\\.tsx?$": "ts-jest",
+    "\\.jsx?$": "babel-jest",
+  },
 };

@@ -1,0 +1,10 @@
+type KnownNeuron = record {
+  id : opt NeuronId;
+  known_neuron_data : opt KnownNeuronData;
+};
+type KnownNeuronData = record { name : text; description : opt text };
+type ListKnownNeuronsResponse = record { known_neurons : vec KnownNeuron };
+type NeuronId = record { id : nat64 };
+service : {
+  list_known_neurons : () -> (ListKnownNeuronsResponse) query;
+}

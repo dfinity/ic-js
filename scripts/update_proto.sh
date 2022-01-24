@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # A script for generating the JS of proto files.
 protoc \
 --plugin="protoc-gen-ts=./node_modules/.bin/protoc-gen-ts" \
