@@ -23,6 +23,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "doc": "typedoc ./src/index.ts",
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
     "update_proto": "bash ./scripts/update_proto.sh"
@@ -46,6 +47,7 @@
     "text-encoding": "^0.7.0",
     "ts-jest": "^27.0.7",
     "ts-protoc-gen": "^0.15.0",
+    "typedoc": "^0.22.11",
     "typescript": "^4.5.2",
     "whatwg-fetch": "^3.6.2"
   },
@@ -58,6 +60,10 @@
     "js-sha256": "^0.9.0"
   },
   "browserify": {
-    "transform": [[ "babelify" ]]
+    "transform": [
+      [
+        "babelify"
+      ]
+    ]
   }
 }
