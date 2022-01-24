@@ -23,7 +23,7 @@
   "module": "./dist-esm/index.js",
   "scripts": {
     "build": "tsc -b && tsc -p tsconfig-cjs.json",
-    "postinstall": "npm ci && npm run build",
+    "postinstall": "npm run build",
     "test": "jest",
     "doc": "typedoc ./src/index.ts",
     "lint": "eslint --max-warnings 0 .",
