@@ -65,7 +65,6 @@ export const queryCall = async (
     arg,
   });
 
-  // TODO: Cannot access ambient const enums when the '--isolatedModules' flag is provided. - we cannot use QueryResponseStatus.Rejected
   if (queryResponse.status == "rejected") {
     return new Error(
       [
