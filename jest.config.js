@@ -1,10 +1,16 @@
 module.exports = {
   preset: "ts-jest",
-  testEnvironment: "jsdom",
+  "globals": {
+    "ts-jest": {
+      "tsconfig": {
+        "allowJs": true
+      }
+    }
+  },
+  testEnvironment: "node",
   setupFiles: [`<rootDir>/test-setup.ts`],
   modulePathIgnorePatterns: ["./dist"],
   transform: {
-    "\\.tsx?$": "ts-jest",
-    "\\.jsx?$": "babel-jest",
-  },
+    "^.+\\.(t|j)s$": "ts-jest"
+  }
 };
