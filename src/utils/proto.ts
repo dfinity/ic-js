@@ -1,7 +1,8 @@
-import { Agent } from "@dfinity/agent";
+import { Agent, QueryResponseStatus } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { QueryResponseStatus } from "@dfinity/agent";
 import { polling } from "@dfinity/agent";
+
+export { QueryResponseStatus } from "@dfinity/agent";
 
 /**
  * Submits an update call to the IC.
@@ -66,7 +67,8 @@ export const queryCall = async (
     arg,
   });
 
-  if (queryResponse.status == QueryResponseStatus.Rejected) {
+  // TODO: Cannot access ambient const enums when the '--isolatedModules' flag is provided. - we cannot use QueryResponseStatus.Rejected
+  if (queryResponse.status == "rejected") {
     return new Error(
       [
         "Call failed:",
