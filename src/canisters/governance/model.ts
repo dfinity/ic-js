@@ -1,4 +1,4 @@
-
+import { DerEncodedPublicKey } from "@dfinity/agent";
 import { Option } from "../option";
 type NeuronId = bigint;
 
