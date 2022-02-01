@@ -74,7 +74,9 @@ import {
 export class ResponseConverters {
   public toProposalInfo = (proposalInfo: RawProposalInfo): ProposalInfo => {
     return {
-      id: proposalInfo.id.length ? this.toNeuronId(proposalInfo.id[0]) : undefined,
+      id: proposalInfo.id.length
+        ? this.toNeuronId(proposalInfo.id[0])
+        : undefined,
       ballots: proposalInfo.ballots.map((b) => this.toBallot(b[0], b[1])),
       rejectCost: proposalInfo.reject_cost_e8s,
       proposalTimestampSeconds: proposalInfo.proposal_timestamp_seconds,
@@ -358,7 +360,9 @@ export class ResponseConverters {
     return {
       title: proposal.title.length ? proposal.title[0] : undefined,
       url: proposal.url,
-      action: proposal.action.length ? this.toAction(proposal.action[0]) : undefined,
+      action: proposal.action.length
+        ? this.toAction(proposal.action[0])
+        : undefined,
       summary: proposal.summary,
     };
   };

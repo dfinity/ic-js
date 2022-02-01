@@ -4,7 +4,11 @@ import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { RequestConverters } from "./canisters/governance/RequestConverters";
 import { ResponseConverters } from "./canisters/governance/ResponseConverters";
-import { KnownNeuron, ListProposalsRequest, ListProposalsResponse } from "./canisters/governance/model";
+import {
+  KnownNeuron,
+  ListProposalsRequest,
+  ListProposalsResponse,
+} from "./canisters/governance/model";
 export * from "./canisters/governance/model";
 
 const MAINNET_GOVERNANCE_CANISTER_ID = Principal.fromText(
@@ -27,12 +31,11 @@ export interface GovernanceCanisterOptions {
 }
 
 export class GovernanceCanister {
-
   private constructor(
     private readonly service: GovernanceService,
     private readonly certifiedService: GovernanceService,
     private readonly requestConverters: RequestConverters,
-    private readonly responseConverters: ResponseConverters,
+    private readonly responseConverters: ResponseConverters
   ) {
     this.service = service;
     this.certifiedService = certifiedService;
@@ -44,13 +47,15 @@ export class GovernanceCanister {
     const agent = options.agent ?? defaultAgent();
     const canisterId = options.canisterId ?? MAINNET_GOVERNANCE_CANISTER_ID;
 
-    const service = options.serviceOverride ??
+    const service =
+      options.serviceOverride ??
       Actor.createActor<GovernanceService>(idlFactory, {
         agent,
         canisterId,
       });
 
-    const certifiedService = options.certifiedServiceOverride ??
+    const certifiedService =
+      options.certifiedServiceOverride ??
       Actor.createActor<GovernanceService>(certifiedIdlFactory, {
         agent,
         canisterId,
@@ -59,7 +64,12 @@ export class GovernanceCanister {
     const requestConverters = new RequestConverters();
     const responseConverters = new ResponseConverters();
 
-    return new GovernanceCanister(service, certifiedService, requestConverters, responseConverters);
+    return new GovernanceCanister(
+      service,
+      certifiedService,
+      requestConverters,
+      responseConverters
+    );
   }
 
   /**
@@ -75,10 +85,10 @@ export class GovernanceCanister {
     const service = certified ? this.certifiedService : this.service;
     const response = await service.list_known_neurons();
 
-    return response.known_neurons.map(n => ({
+    return response.known_neurons.map((n) => ({
       id: n.id[0]?.id ?? BigInt(0),
       name: n.known_neuron_data[0]?.name ?? "",
-      description: n.known_neuron_data[0]?.description[0]
+      description: n.known_neuron_data[0]?.description[0],
     }));
   };
 
