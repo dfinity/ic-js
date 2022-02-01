@@ -10,9 +10,9 @@ const MAINNET_GOVERNANCE_CANISTER_ID = Principal.fromText(
 type NeuronId = bigint;
 
 export type KnownNeuron = {
-  id: NeuronId,
-  name: string,
-  description: string | undefined
+  id: NeuronId;
+  name: string;
+  description: string | undefined;
 };
 
 // HttpAgent options that can be used at construction.
@@ -40,13 +40,15 @@ export class GovernanceCanister {
     const agent = options.agent ?? defaultAgent();
     const canisterId = options.canisterId ?? MAINNET_GOVERNANCE_CANISTER_ID;
 
-    const service = options.serviceOverride ??
+    const service =
+      options.serviceOverride ??
       Actor.createActor<GovernanceService>(idlFactory, {
         agent,
         canisterId,
       });
 
-    const certifiedService = options.certifiedServiceOverride ??
+    const certifiedService =
+      options.certifiedServiceOverride ??
       Actor.createActor<GovernanceService>(certifiedIdlFactory, {
         agent,
         canisterId,
@@ -68,10 +70,10 @@ export class GovernanceCanister {
     const service = certified ? this.certifiedService : this.service;
     const response = await service.list_known_neurons();
 
-    return response.known_neurons.map(n => ({
+    return response.known_neurons.map((n) => ({
       id: n.id[0]?.id ?? BigInt(0),
       name: n.known_neuron_data[0]?.name ?? "",
-      description: n.known_neuron_data[0]?.description[0]
+      description: n.known_neuron_data[0]?.description[0],
     }));
   };
 }
