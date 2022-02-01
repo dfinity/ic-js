@@ -65,7 +65,7 @@ export class GovernanceCanister {
     return response.known_neurons.map(n => ({
       id: n.id[0]?.id ?? BigInt(0),
       name: n.known_neuron_data[0]?.name ?? "",
-      description: n.known_neuron_data[0]?.description[0]
+      description: n.known_neuron_data[0]?.description[0] || null
     }));
   };
 }
