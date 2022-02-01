@@ -5,6 +5,4 @@ export const TOP_UP_CANISTER_MEMO = BigInt(0x50555054); // TPUP
 export const TRANSACTION_FEE = BigInt(10_000);
 
 // Note:  Canister IDs are not constant, so are not provided here.
-
-// @ts-ignore
-export const HOST = "HOST" in config ? config["HOST"] : undefined;
+//        The same applies to HOST.
