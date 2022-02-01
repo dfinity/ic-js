@@ -59,4 +59,4 @@ import {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "./rawService";
-
+import { UnsupportedValueError } from "../../utils/conversion";
