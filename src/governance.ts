@@ -2,18 +2,12 @@ import { Actor, Agent, AnonymousIdentity, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
+import { KnownNeuron } from "./canisters/governance/model";
+export * from "./canisters/governance/model";
 
 const MAINNET_GOVERNANCE_CANISTER_ID = Principal.fromText(
   "rrkah-fqaaa-aaaaa-aaaaq-cai"
 );
-
-type NeuronId = bigint;
-
-export type KnownNeuron = {
-  id: NeuronId,
-  name: string,
-  description: string | undefined
-};
 
 // HttpAgent options that can be used at construction.
 export interface GovernanceCanisterOptions {
