@@ -7,6 +7,7 @@ import {
   NeuronId,
   PrincipalString,
 } from "../common/types";
+import { Principal } from "@dfinity/principal";
 
 export type KnownNeuron = {
   id: NeuronId,
