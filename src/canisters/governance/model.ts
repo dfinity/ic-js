@@ -1,6 +1,12 @@
 import { DerEncodedPublicKey } from "@dfinity/agent";
 import { Option } from "../option";
-type NeuronId = bigint;
+import {
+  AccountIdentifier,
+  CanisterIdString,
+  E8s,
+  NeuronId,
+  PrincipalString,
+} from "../common/types";
 
 export type KnownNeuron = {
   id: NeuronId,
