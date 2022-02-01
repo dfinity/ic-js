@@ -57,10 +57,11 @@ import {
 //   ProposalId as PbProposalId,
 // } from "../../proto/base_types_pb";
 import { UnsupportedValueError } from "../../utils/conversion";
-export default class RequestConverters {
-  private readonly principal: Principal;
-  constructor(principal: Principal) {
-    this.principal = principal;
+export class RequestConverters {
+  private readonly principal?: Principal;
+  constructor() {
+    // Needed only for protobuf.
+    // this.principal = principal;
   }
 
   public fromManageNeuron = (manageNeuron: ManageNeuron): RawManageNeuron => {

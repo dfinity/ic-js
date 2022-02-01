@@ -71,7 +71,7 @@ import {
   getNnsFunctionName,
 } from "./nnsFunctions/nnsFunctions";
 
-export default class ResponseConverters {
+export class ResponseConverters {
   public toProposalInfo = (proposalInfo: RawProposalInfo): ProposalInfo => {
     return {
       id: proposalInfo.id.length ? this.toNeuronId(proposalInfo.id[0]) : undefined,

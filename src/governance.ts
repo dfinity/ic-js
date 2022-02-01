@@ -2,7 +2,9 @@ import { Actor, Agent, AnonymousIdentity, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
-import { KnownNeuron } from "./canisters/governance/model";
+import { RequestConverters } from "./canisters/governance/RequestConverters";
+import { ResponseConverters } from "./canisters/governance/ResponseConverters";
+import { KnownNeuron, ListProposalsRequest, ListProposalsResponse } from "./canisters/governance/model";
 export * from "./canisters/governance/model";
 
 const MAINNET_GOVERNANCE_CANISTER_ID = Principal.fromText(
@@ -25,10 +27,18 @@ export interface GovernanceCanisterOptions {
 }
 
 export class GovernanceCanister {
+
   private constructor(
     private readonly service: GovernanceService,
-    private readonly certifiedService: GovernanceService
-  ) {}
+    private readonly certifiedService: GovernanceService,
+    private readonly requestConverters: RequestConverters,
+    private readonly responseConverters: ResponseConverters,
+  ) {
+    this.service = service;
+    this.certifiedService = certifiedService;
+    this.requestConverters = requestConverters;
+    this.responseConverters = responseConverters;
+  }
 
   public static create(options: GovernanceCanisterOptions = {}) {
     const agent = options.agent ?? defaultAgent();
@@ -46,7 +56,10 @@ export class GovernanceCanister {
         canisterId,
       });
 
-    return new GovernanceCanister(service, certifiedService);
+    const requestConverters = new RequestConverters();
+    const responseConverters = new ResponseConverters();
+
+    return new GovernanceCanister(service, certifiedService, requestConverters, responseConverters);
   }
 
   /**
@@ -67,6 +80,16 @@ export class GovernanceCanister {
       name: n.known_neuron_data[0]?.name ?? "",
       description: n.known_neuron_data[0]?.description[0]
     }));
+  };
+
+  public listProposals = async (
+    request: ListProposalsRequest,
+    certified = true
+  ): Promise<ListProposalsResponse> => {
+    const rawRequest = this.requestConverters.fromListProposalsRequest(request);
+    const service = certified ? this.certifiedService : this.service;
+    const rawResponse = await service.list_proposals(rawRequest);
+    return this.responseConverters.toListProposalsResponse(rawResponse);
   };
 }
 
