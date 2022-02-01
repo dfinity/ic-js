@@ -1,3 +1,6 @@
+// Conversion methods.
+// Note: Protobuf methods have not been imported yet.
+
 import { Principal } from "@dfinity/principal";
 import GOVERNANCE_CANISTER_ID from "./canisterId";
 import {
@@ -60,3 +63,4 @@ import {
   Tally as RawTally,
 } from "./rawService";
 import { UnsupportedValueError } from "../../utils/conversion";
+import { Option } from "../option";
