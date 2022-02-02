@@ -49,7 +49,7 @@ jobs:
           curl -L https://github.com/dfinity/candid/releases/download/2022-01-06/didc-linux64 > .bin/didc
           chmod +x .bin/didc
       - name: Add didc to the PATH
-        run:  echo "${PWD}/.bin" >> $GITHUB_PATH
+        run: echo "${PWD}/.bin" >> $GITHUB_PATH
       - name: Compile candid
         run: ./scripts/compile-idl-js
       - name: Verify that there are no changes to the compiled did files
