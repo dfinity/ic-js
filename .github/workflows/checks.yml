@@ -48,6 +48,6 @@ jobs:
       - name: Add didc to the PATH
         run:  echo "${PWD}/.bin" >> $GITHUB_PATH
       - name: Compile candid
-        run: ./scripts/update_proto.sh
+        run: ./scripts/compile-idl-js
       - name: Verify that there are no changes to the compiled did files
         run: git diff --exit-code
