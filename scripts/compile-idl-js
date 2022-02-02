@@ -5,4 +5,4 @@
 set -euo pipefail
 find candid/ -type f -name '*.did' |\
   sed 's/did$//g' |\
-  xargs -I{} bash -c '{ echo "/* Do not edit.  Compiled with didc from {}did */" ; didc bind -t js "{}did" ; } > "{}"idl.js'
+  xargs -I{} bash -c '{ echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from {}did */" ; didc bind -t js "{}did" ; } | sed "s/^export default/export const idlFactory =/g" > "{}"idl.js'
