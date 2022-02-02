@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Compiles candid .did files to .idl.js
+
+set -euo pipefail
+find candid/ -type f -name '*.did' |\
+  sed 's/did$//g' |\
+  xargs -I{} bash -c '{ echo "/* Do not edit.  Compiled with didc from {}did */" ; didc bind -t js "{}did" ; } > "{}"idl.js'
