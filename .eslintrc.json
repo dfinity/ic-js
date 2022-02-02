@@ -11,6 +11,8 @@
     "*.did.js",
     "*_pb.d.ts",
     "jest.config.js",
-    "test-setup.ts"
+    "test-setup.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts"
   ]
 }
