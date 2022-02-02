@@ -1,5 +1,4 @@
-/* Do not edit.  Compiled with didc from candid/governance.certified.did */
-export default ({ IDL }) => {
+export const idlFactory = ({ IDL }) => {
   const NeuronId = IDL.Record({ 'id' : IDL.Nat64 });
   const KnownNeuronData = IDL.Record({
     'name' : IDL.Text,

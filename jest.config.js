@@ -1,16 +1,16 @@
 module.exports = {
   preset: "ts-jest",
-  globals: {
+  "globals": {
     "ts-jest": {
-      tsconfig: {
-        allowJs: true,
-      },
-    },
+      "tsconfig": {
+        "allowJs": true
+      }
+    }
   },
   testEnvironment: "node",
   setupFiles: [`<rootDir>/test-setup.ts`],
   modulePathIgnorePatterns: ["./dist"],
   transform: {
-    "^.+\\.(t|j)s$": "ts-jest",
-  },
+    "^.+\\.(t|j)s$": "ts-jest"
+  }
 };
