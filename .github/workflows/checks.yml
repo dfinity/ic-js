@@ -54,3 +54,16 @@ jobs:
         run: ./scripts/compile-idl-js
       - name: Verify that there are no changes to the compiled did files
         run: git diff --exit-code
+
+  test:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm run test
