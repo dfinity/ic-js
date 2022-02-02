@@ -1,3 +1,4 @@
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/governance.certified.did */
 export const idlFactory = ({ IDL }) => {
   const NeuronId = IDL.Record({ 'id' : IDL.Nat64 });
   const KnownNeuronData = IDL.Record({

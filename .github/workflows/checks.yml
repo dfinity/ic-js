@@ -9,8 +9,6 @@ on:
 jobs:
   formatting:
     runs-on: ubuntu-20.04
-    env:
-      DEPLOY_ENV: mainnet
 
     steps:
       - name: Checkout
@@ -38,3 +36,21 @@ jobs:
           # do not pull: if this branch is behind, then we might as well let
           # the pushing fail
           pull_strategy: "NO-PULL"
+
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install didc
+        run: |
+          mkdir -p .bin
+          curl -L https://github.com/dfinity/candid/releases/download/2022-01-06/didc-linux64 > .bin/didc
+          chmod +x .bin/didc
+      - name: Add didc to the PATH
+        run: echo "${PWD}/.bin" >> $GITHUB_PATH
+      - name: Compile candid
+        run: ./scripts/compile-idl-js
+      - name: Verify that there are no changes to the compiled did files
+        run: git diff --exit-code
