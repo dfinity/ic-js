@@ -14,6 +14,7 @@
   "scripts": {
     "rmdir": "node ./scripts/rmdir.mjs",
     "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
+    "did": "scripts/compile-idl-js",
     "build": "npm run rmdir && node esbuild.mjs && npm run ts-declaration",
     "test": "jest",
     "doc": "typedoc ./src/index.ts",
@@ -30,13 +31,10 @@
     "js-sha256": "^0.9.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.16.11",
     "@types/google-protobuf": "^3.15.5",
     "@types/jest": "^27.0.3",
     "@types/text-encoding": "^0.0.36",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "babel-jest": "^27.4.6",
-    "babelify": "^10.0.0",
     "esbuild": "^0.14.14",
     "eslint": "^7.29.0",
     "eslint-config-standard": "^16.0.3",
@@ -52,13 +50,6 @@
     "typedoc": "^0.22.11",
     "typescript": "^4.5.2",
     "whatwg-fetch": "^3.6.2"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "babelify"
-      ]
-    ]
   },
   "repository": {
     "type": "git",
