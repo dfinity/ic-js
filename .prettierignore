@@ -1,3 +1,4 @@
 dist
 *.did.js
+*.idl.js
 **/proto/*
