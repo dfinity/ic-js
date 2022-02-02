@@ -44,7 +44,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install didc
-        run: mkdir -p .bin && curl https://github.com/dfinity/candid/releases/download/2022-01-06/didc-linux64 > .bin/didc
+        run: |
+          mkdir -p .bin
+          curl https://github.com/dfinity/candid/releases/download/2022-01-06/didc-linux64 > .bin/didc
+          chmod +x .bin/didc
       - name: Add didc to the PATH
         run:  echo "${PWD}/.bin" >> $GITHUB_PATH
       - name: Compile candid
