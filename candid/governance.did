@@ -1,4 +1,3 @@
-// Provenance: A near exact copy of: nns-dapp/frontend/ts/src/canisters/governance/canister.did
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -311,31 +310,28 @@ type Tally = record {
 };
 type UpdateNodeProvider = record { reward_account : opt AccountIdentifier };
 type WaitForQuietState = record { current_deadline_timestamp_seconds : nat64 };
-
-// Note:  nns-dapp/frontend/ts has:
-//          service : (Governance) -> {
-service : {
-  // Unsupported methods are commented out.
-  // claim_gtc_neurons : (principal, vec NeuronId) -> (Result);
-  // claim_or_refresh_neuron_from_account : (ClaimOrRefreshNeuronFromAccount) -> (
-  //    ClaimOrRefreshNeuronFromAccountResponse,
-  //  );
-  // get_full_neuron : (nat64) -> (Result_2) query;
-  // get_full_neuron_by_id_or_subaccount : (NeuronIdOrSubaccount) -> (
-  //    Result_2,
-  //  ) query;
-  // get_monthly_node_provider_rewards : () -> (Result_3);
-  // get_neuron_ids : () -> (vec nat64) query;
-  // get_neuron_info : (nat64) -> (Result_4) query;
-  // get_neuron_info_by_id_or_subaccount : (NeuronIdOrSubaccount) -> (
-  //    Result_4,
-  //  ) query;
-  // get_pending_proposals : () -> (vec ProposalInfo) query;
-  // get_proposal_info : (nat64) -> (opt ProposalInfo) query;
+service : (Governance) -> {
+  claim_gtc_neurons : (principal, vec NeuronId) -> (Result);
+  claim_or_refresh_neuron_from_account : (ClaimOrRefreshNeuronFromAccount) -> (
+      ClaimOrRefreshNeuronFromAccountResponse,
+    );
+  get_full_neuron : (nat64) -> (Result_2) query;
+  get_full_neuron_by_id_or_subaccount : (NeuronIdOrSubaccount) -> (
+      Result_2,
+    ) query;
+  get_monthly_node_provider_rewards : () -> (Result_3);
+  get_neuron_ids : () -> (vec nat64) query;
+  get_neuron_info : (nat64) -> (Result_4) query;
+  get_neuron_info_by_id_or_subaccount : (NeuronIdOrSubaccount) -> (
+      Result_4,
+    ) query;
+  get_pending_proposals : () -> (vec ProposalInfo) query;
+  get_proposal_info : (nat64) -> (opt ProposalInfo) query;
   list_known_neurons : () -> (ListKnownNeuronsResponse) query;
-  // list_neurons : (ListNeurons) -> (ListNeuronsResponse) query;
+  list_neurons : (ListNeurons) -> (ListNeuronsResponse) query;
   list_proposals : (ListProposalInfo) -> (ListProposalInfoResponse) query;
-  // manage_neuron : (ManageNeuron) -> (ManageNeuronResponse);
-  // transfer_gtc_neuron : (NeuronId, NeuronId) -> (Result);
-  // update_node_provider : (UpdateNodeProvider) -> (Result) query;
+  manage_neuron : (ManageNeuron) -> (ManageNeuronResponse);
+  transfer_gtc_neuron : (NeuronId, NeuronId) -> (Result);
+  update_node_provider : (UpdateNodeProvider) -> (Result) query;
 }
+
