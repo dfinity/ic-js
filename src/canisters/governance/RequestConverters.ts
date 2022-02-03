@@ -47,7 +47,7 @@ import {
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
   RewardMode as RawRewardMode,
-} from "./rawService";
+} from "../../../candid/governanceTypes.d";
 // Protobuf is not supported yet.
 // import { AccountIdentifier as PbAccountIdentifier } from "../../proto/ledger_pb";
 // import { ManageNeuron as PbManageNeuron } from "../../proto/governance_pb";

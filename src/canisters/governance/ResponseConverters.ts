@@ -61,7 +61,7 @@ import {
   ProposalInfo as RawProposalInfo,
   RewardMode as RawRewardMode,
   Tally as RawTally,
-} from "./rawService";
+} from "../../../candid/governanceTypes.d";
 import { UnsupportedValueError } from "../../utils/conversion";
 import { Option } from "../option";
 // Protobuf is not supported yet:
