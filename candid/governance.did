@@ -334,3 +334,4 @@ service : (Governance) -> {
   transfer_gtc_neuron : (NeuronId, NeuronId) -> (Result);
   update_node_provider : (UpdateNodeProvider) -> (Result) query;
 }
+
