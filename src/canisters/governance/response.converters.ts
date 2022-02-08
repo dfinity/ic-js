@@ -68,7 +68,7 @@ import { Option } from "../../types/option";
 import {
   convertNnsFunctionPayload,
   getNnsFunctionName,
-} from "../payloads/payloads";
+} from "./payloads";
 import { UnsupportedValueError } from "../../types/error";
 
 export class ResponseConverters {
