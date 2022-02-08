@@ -5,8 +5,9 @@ import {
   InvalidSender,
   LedgerCanister,
   TxCreatedInFuture,
-  TxDuplicate, TxTooOld
-} from '.';
+  TxDuplicate,
+  TxTooOld,
+} from ".";
 
 describe("LedgerCanister.transfer", () => {
   it("handles invalid sender", async () => {
