@@ -62,7 +62,6 @@ import {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governanceTypes.d";
-import { UnsupportedValueError } from "../../utils/conversion";
 import { Option } from "../../types/option";
 // Protobuf is not supported yet:
 // import { ManageNeuronResponse as PbManageNeuronResponse } from "../../proto/governance_pb";
@@ -70,6 +69,7 @@ import {
   convertNnsFunctionPayload,
   getNnsFunctionName,
 } from "./nnsFunctions/nnsFunctions";
+import {UnsupportedValueError} from '../../types/error';
 
 export class ResponseConverters {
   public toProposalInfo = (proposalInfo: RawProposalInfo): ProposalInfo => {
