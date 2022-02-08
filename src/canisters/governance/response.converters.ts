@@ -1,5 +1,6 @@
 // Conversion methods.
 // Note: Protobuf methods have not been imported yet.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { Principal } from "@dfinity/principal";
 import {
