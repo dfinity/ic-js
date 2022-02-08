@@ -1,6 +1,5 @@
-import { ICPTs } from "../proto/ledger_pb";
-
-const E8S_PER_ICP = BigInt(100000000);
+import {ICPTs} from '../proto/ledger_pb';
+import {E8S_PER_ICP} from './constants/constants';
 
 export class ICP {
   private constructor(private e8s: bigint) {}

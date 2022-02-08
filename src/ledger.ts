@@ -1,5 +1,5 @@
-import { Agent, AnonymousIdentity, HttpAgent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import {Agent, AnonymousIdentity, HttpAgent} from '@dfinity/agent';
+import {Principal} from '@dfinity/principal';
 import {
   AccountBalanceRequest,
   BlockHeight as PbBlockHeight,
@@ -7,14 +7,11 @@ import {
   Memo,
   Payment,
   SendRequest,
-} from "../proto/ledger_pb";
-import { AccountIdentifier } from "./account_identifier";
-import { ICP } from "./icp";
-import { updateCall, queryCall } from "./utils/proto.utils";
-
-const MAINNET_LEDGER_CANISTER_ID = Principal.fromText(
-  "ryjl3-tyaaa-aaaaa-aaaba-cai"
-);
+} from '../proto/ledger_pb';
+import {AccountIdentifier} from './account_identifier';
+import {ICP} from './icp';
+import {queryCall, updateCall} from './utils/proto.utils';
+import {MAINNET_LEDGER_CANISTER_ID} from './constants/canister_ids';
 
 type BlockHeight = bigint;
 

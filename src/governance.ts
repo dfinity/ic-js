@@ -1,19 +1,11 @@
-import { Actor, Agent, AnonymousIdentity, HttpAgent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
-import { GovernanceService, idlFactory } from "../candid/governance.idl";
-import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
-import { RequestConverters } from "./canisters/governance/request.converters";
-import { ResponseConverters } from "./canisters/governance/response.converters";
-import {
-  KnownNeuron,
-  ListProposalsRequest,
-  ListProposalsResponse,
-} from "./types/governance";
-export * from "./types/governance";
-
-const MAINNET_GOVERNANCE_CANISTER_ID = Principal.fromText(
-  "rrkah-fqaaa-aaaaa-aaaaq-cai"
-);
+import {Actor, Agent, AnonymousIdentity, HttpAgent} from '@dfinity/agent';
+import {Principal} from '@dfinity/principal';
+import {GovernanceService, idlFactory} from '../candid/governance.idl';
+import {idlFactory as certifiedIdlFactory} from '../candid/governance.certified.idl';
+import {RequestConverters} from './canisters/governance/request.converters';
+import {ResponseConverters} from './canisters/governance/response.converters';
+import {KnownNeuron, ListProposalsRequest, ListProposalsResponse,} from './types/governance';
+import {MAINNET_GOVERNANCE_CANISTER_ID} from './constants/canister_ids';
 
 // HttpAgent options that can be used at construction.
 export interface GovernanceCanisterOptions {
