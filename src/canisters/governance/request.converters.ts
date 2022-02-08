@@ -30,8 +30,9 @@ import {
   SpawnRequest,
   SplitRequest,
   StartDissolvingRequest,
-  StopDissolvingRequest, UnsupportedValueError,
-} from '../../types/governance_converters';
+  StopDissolvingRequest,
+  UnsupportedValueError,
+} from "../../types/governance_converters";
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,

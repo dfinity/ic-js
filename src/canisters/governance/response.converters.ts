@@ -34,8 +34,9 @@ import {
   ProposalInfo,
   RewardMode,
   SpawnResponse,
-  Tally, UnsupportedValueError,
-} from '../../types/governance_converters';
+  Tally,
+  UnsupportedValueError,
+} from "../../types/governance_converters";
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -65,10 +66,7 @@ import {
 import { Option } from "../../types/option";
 // Protobuf is not supported yet:
 // import { ManageNeuronResponse as PbManageNeuronResponse } from "../../proto/governance_pb";
-import {
-  convertNnsFunctionPayload,
-  getNnsFunctionName,
-} from "./payloads";
+import { convertNnsFunctionPayload, getNnsFunctionName } from "./payloads";
 
 export class ResponseConverters {
   public toProposalInfo = (proposalInfo: RawProposalInfo): ProposalInfo => {

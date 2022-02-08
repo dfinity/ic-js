@@ -1,6 +1,6 @@
 import { expect, describe, it } from "@jest/globals";
 import { ICP } from ".";
-import {FromICPStringError} from './types/icp';
+import { FromICPStringError } from "./types/icp";
 
 describe("ICP", () => {
   it("can be initialized from a whole number string", () => {
@@ -45,7 +45,9 @@ describe("ICP", () => {
     expect(ICP.fromString("1.1.1")).toBe(FromICPStringError.INVALID_FORMAT);
     expect(ICP.fromString("a")).toBe(FromICPStringError.INVALID_FORMAT);
     expect(ICP.fromString("3.a")).toBe(FromICPStringError.INVALID_FORMAT);
-    expect(ICP.fromString("123asdf$#@~!")).toBe(FromICPStringError.INVALID_FORMAT);
+    expect(ICP.fromString("123asdf$#@~!")).toBe(
+      FromICPStringError.INVALID_FORMAT
+    );
   });
 
   it("rejects negative numbers", () => {

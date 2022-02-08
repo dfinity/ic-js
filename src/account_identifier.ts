@@ -1,7 +1,11 @@
 import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
 import { sha224 } from "js-sha256";
 import { Principal } from "@dfinity/principal";
-import {asciiStringToByteArray, calculateCrc32, toHexString} from './utils/converter.utils';
+import {
+  asciiStringToByteArray,
+  calculateCrc32,
+  toHexString,
+} from "./utils/converter.utils";
 
 export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}

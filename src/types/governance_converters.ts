@@ -1,7 +1,13 @@
-import {DerEncodedPublicKey} from '@dfinity/agent';
-import {Option} from './option';
-import {AccountIdentifier, CanisterIdString, E8s, NeuronId, PrincipalString,} from './common';
-import {Principal} from '@dfinity/principal';
+import { DerEncodedPublicKey } from "@dfinity/agent";
+import { Option } from "./option";
+import {
+  AccountIdentifier,
+  CanisterIdString,
+  E8s,
+  NeuronId,
+  PrincipalString,
+} from "./common";
+import { Principal } from "@dfinity/principal";
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
@@ -570,6 +576,6 @@ export default interface ServiceInterface {
  */
 export class UnsupportedValueError extends Error {
   constructor(value: never) {
-    super('Unsupported value: ' + value);
+    super("Unsupported value: " + value);
   }
 }

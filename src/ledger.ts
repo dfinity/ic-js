@@ -1,5 +1,5 @@
-import {Agent} from '@dfinity/agent';
-import {Principal} from '@dfinity/principal';
+import { Agent } from "@dfinity/agent";
+import { Principal } from "@dfinity/principal";
 import {
   AccountBalanceRequest,
   BlockHeight as PbBlockHeight,
@@ -7,21 +7,23 @@ import {
   Memo,
   Payment,
   SendRequest,
-} from '../proto/ledger_pb';
-import {AccountIdentifier} from './account_identifier';
-import {ICP} from './icp';
-import {queryCall, updateCall} from './utils/proto.utils';
-import {MAINNET_LEDGER_CANISTER_ID} from './constants/canister_ids';
-import {defaultAgent} from './utils/agent.utils';
+} from "../proto/ledger_pb";
+import { AccountIdentifier } from "./account_identifier";
+import { ICP } from "./icp";
+import { queryCall, updateCall } from "./utils/proto.utils";
+import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
+import { defaultAgent } from "./utils/agent.utils";
 import {
   Fetcher,
   InsufficientFunds,
   InvalidSender,
   LedgerCanisterOptions,
-  TransferError, TxCreatedInFuture,
-  TxDuplicate, TxTooOld
-} from './types/ledger';
-import {BlockHeight} from './types/common';
+  TransferError,
+  TxCreatedInFuture,
+  TxDuplicate,
+  TxTooOld,
+} from "./types/ledger";
+import { BlockHeight } from "./types/common";
 
 export class LedgerCanister {
   private constructor(
