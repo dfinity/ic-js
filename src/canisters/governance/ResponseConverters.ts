@@ -63,7 +63,7 @@ import {
   Tally as RawTally,
 } from "../../../candid/governanceTypes.d";
 import { UnsupportedValueError } from "../../utils/conversion";
-import { Option } from "../option";
+import { Option } from "../../types/option";
 // Protobuf is not supported yet:
 // import { ManageNeuronResponse as PbManageNeuronResponse } from "../../proto/governance_pb";
 import {

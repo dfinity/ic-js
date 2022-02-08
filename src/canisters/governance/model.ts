@@ -1,5 +1,5 @@
 import { DerEncodedPublicKey } from "@dfinity/agent";
-import { Option } from "../option";
+import { Option } from "../../types/option";
 import {
   AccountIdentifier,
   CanisterIdString,

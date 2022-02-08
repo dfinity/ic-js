@@ -1,4 +1,4 @@
-import { Option } from "../../option";
+import { Option } from "../../../types/option";
 import { IDL, JsonObject } from "@dfinity/candid";
 import { Buffer } from "buffer/";
 import {
