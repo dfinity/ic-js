@@ -1,4 +1,4 @@
-import { Agent, AnonymousIdentity, HttpAgent } from "@dfinity/agent";
+import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import {
   AccountBalanceRequest,
@@ -10,55 +10,20 @@ import {
 } from "../proto/ledger_pb";
 import { AccountIdentifier } from "./account_identifier";
 import { ICP } from "./icp";
-import { updateCall, queryCall } from "./utils/proto";
-
-const MAINNET_LEDGER_CANISTER_ID = Principal.fromText(
-  "ryjl3-tyaaa-aaaaa-aaaba-cai"
-);
-
-type BlockHeight = bigint;
-
-export type TransferError =
-  | InvalidSender
-  | InsufficientFunds
-  | TxTooOld
-  | TxCreatedInFuture
-  | TxDuplicate
-  | BadFee;
-
-export class InvalidSender {}
-export class BadFee {}
-export class InsufficientFunds {
-  constructor(public readonly balance: ICP) {}
-}
-export class TxTooOld {
-  constructor(public readonly allowed_window_secs: number) {}
-}
-export class TxCreatedInFuture {}
-export class TxDuplicate {
-  constructor(public readonly duplicateOf: BlockHeight) {}
-}
-
-type Fetcher = (
-  agent: Agent,
-  canisterId: Principal,
-  methodName: string,
-  arg: ArrayBuffer
-) => Promise<Uint8Array | Error>;
-
-// HttpAgent options that can be used at construction.
-export interface LedgerCanisterOptions {
-  // The agent to use when communicating with the ledger canister.
-  agent?: Agent;
-  // The ledger canister's ID.
-  canisterId?: Principal;
-  // The method to use for performing an update call. Primarily overridden
-  // in test for mocking.
-  updateCallOverride?: Fetcher;
-  // The method to use for performing a query call. Primarily overridden
-  // in test for mocking.
-  queryCallOverride?: Fetcher;
-}
+import { queryCall, updateCall } from "./utils/proto.utils";
+import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
+import { defaultAgent } from "./utils/agent.utils";
+import {
+  Fetcher,
+  InsufficientFunds,
+  InvalidSender,
+  LedgerCanisterOptions,
+  TransferError,
+  TxCreatedInFuture,
+  TxDuplicate,
+  TxTooOld,
+} from "./types/ledger";
+import { BlockHeight } from "./types/common";
 
 export class LedgerCanister {
   private constructor(
@@ -189,14 +154,4 @@ export class LedgerCanister {
     // Successful tx. Return the block height.
     return BigInt(PbBlockHeight.deserializeBinary(responseBytes).getHeight());
   };
-}
-
-/**
- * @returns The default agent to use. An agent that connects to mainnet with the anonymous identity.
- */
-function defaultAgent(): Agent {
-  return new HttpAgent({
-    host: "https://ic0.app",
-    identity: new AnonymousIdentity(),
-  });
 }

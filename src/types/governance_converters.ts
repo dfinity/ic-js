@@ -1,12 +1,12 @@
 import { DerEncodedPublicKey } from "@dfinity/agent";
-import { Option } from "../option";
+import { Option } from "./option";
 import {
   AccountIdentifier,
   CanisterIdString,
   E8s,
   NeuronId,
   PrincipalString,
-} from "../common/types";
+} from "./common";
 import { Principal } from "@dfinity/principal";
 
 export type Action =
@@ -569,4 +569,13 @@ export default interface ServiceInterface {
   claimOrRefreshNeuronFromAccount: (
     request: ClaimOrRefreshNeuronFromAccount
   ) => Promise<NeuronId>;
+}
+
+/**
+ * An error used to ensure at compile-time that it's never reached.
+ */
+export class UnsupportedValueError extends Error {
+  constructor(value: never) {
+    super("Unsupported value: " + value);
+  }
 }

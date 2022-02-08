@@ -3,8 +3,8 @@ import { sha224 } from "js-sha256";
 import { Buffer } from "buffer";
 // @ts-ignore (no type definitions for crc are available)
 import crc from "crc";
-import { SUB_ACCOUNT_BYTE_LENGTH } from "./constants";
-import { AccountIdentifier, SubAccount } from "./common/types";
+import { SUB_ACCOUNT_BYTE_LENGTH } from "../constants/constants";
+import { AccountIdentifier, SubAccount } from "../types/common";
 
 export const uint8ArrayToBigInt = (array: Uint8Array): bigint => {
   const view = new DataView(array.buffer, array.byteOffset, array.byteLength);
@@ -120,7 +120,7 @@ export const principalToSubAccount = (principal: Principal): SubAccount => {
   return subAccount;
 };
 
-const toHexString = (bytes: Uint8Array) =>
+export const toHexString = (bytes: Uint8Array) =>
   bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
 
 // 4 bytes

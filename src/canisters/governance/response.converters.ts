@@ -7,9 +7,9 @@ import {
   arrayOfNumberToArrayBuffer,
   arrayOfNumberToUint8Array,
   principalToAccountIdentifier,
-} from "../converter";
-import GOVERNANCE_CANISTER_ID from "./canisterId";
-import { AccountIdentifier, E8s, NeuronId } from "../common/types";
+} from "../../utils/converter.utils";
+import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
+import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {
   Action,
   Ballot,
@@ -35,7 +35,8 @@ import {
   RewardMode,
   SpawnResponse,
   Tally,
-} from "./model";
+  UnsupportedValueError,
+} from "../../types/governance_converters";
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -62,14 +63,10 @@ import {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governanceTypes.d";
-import { UnsupportedValueError } from "../../utils/conversion";
-import { Option } from "../option";
+import { Option } from "../../types/option";
 // Protobuf is not supported yet:
 // import { ManageNeuronResponse as PbManageNeuronResponse } from "../../proto/governance_pb";
-import {
-  convertNnsFunctionPayload,
-  getNnsFunctionName,
-} from "./nnsFunctions/nnsFunctions";
+import { convertNnsFunctionPayload, getNnsFunctionName } from "./payloads";
 
 export class ResponseConverters {
   public toProposalInfo = (proposalInfo: RawProposalInfo): ProposalInfo => {

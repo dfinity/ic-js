@@ -1,6 +1,6 @@
 import { ICPTs } from "../proto/ledger_pb";
-
-const E8S_PER_ICP = BigInt(100000000);
+import { E8S_PER_ICP } from "./constants/constants";
+import { FromICPStringError } from "./types/icp";
 
 export class ICP {
   private constructor(private e8s: bigint) {}
@@ -16,14 +16,14 @@ export class ICP {
    * 1'234'567.8901
    * 1,234,567.8901
    */
-  public static fromString(amount: string): ICP | FromStringError {
+  public static fromString(amount: string): ICP | FromICPStringError {
     // Remove all instances of "," and "'".
     amount = amount.trim().replace(/[,']/g, "");
 
     // Verify that the string is of the format 1234.5678
     const regexMatch = amount.match(/\d*(\.\d*)?/);
     if (!regexMatch || regexMatch[0] !== amount) {
-      return FromStringError.INVALID_FORMAT;
+      return FromICPStringError.INVALID_FORMAT;
     }
 
     const [integral, fractional] = amount.split(".");
@@ -34,18 +34,18 @@ export class ICP {
       try {
         e8s += BigInt(integral) * E8S_PER_ICP;
       } catch {
-        return FromStringError.INVALID_FORMAT;
+        return FromICPStringError.INVALID_FORMAT;
       }
     }
 
     if (fractional) {
       if (fractional.length > 8) {
-        return FromStringError.FRACTIONAL_MORE_THAN_8_DECIMALS;
+        return FromICPStringError.FRACTIONAL_MORE_THAN_8_DECIMALS;
       }
       try {
         e8s += BigInt(fractional.padEnd(8, "0"));
       } catch {
-        return FromStringError.INVALID_FORMAT;
+        return FromICPStringError.INVALID_FORMAT;
       }
     }
 
@@ -61,9 +61,4 @@ export class ICP {
     proto.setE8s(this.e8s.toString());
     return proto;
   }
-}
-
-export enum FromStringError {
-  FRACTIONAL_MORE_THAN_8_DECIMALS,
-  INVALID_FORMAT,
 }

@@ -1,4 +1,4 @@
 dist
-*.did.js
-*.idl.js
+**/*.did.js
+**/*.idl.js
 **/proto/*

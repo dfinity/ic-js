@@ -2,8 +2,8 @@ import { Principal } from "@dfinity/principal";
 import {
   accountIdentifierToBytes,
   arrayBufferToArrayOfNumber,
-} from "../converter";
-import { AccountIdentifier, E8s, NeuronId } from "../common/types";
+} from "../../utils/converter.utils";
+import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {
   Action,
   AddHotKeyRequest,
@@ -31,7 +31,8 @@ import {
   SplitRequest,
   StartDissolvingRequest,
   StopDissolvingRequest,
-} from "./model";
+  UnsupportedValueError,
+} from "../../types/governance_converters";
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -56,7 +57,6 @@ import {
 //   PrincipalId as PbPrincipalId,
 //   ProposalId as PbProposalId,
 // } from "../../proto/base_types_pb";
-import { UnsupportedValueError } from "../../utils/conversion";
 export class RequestConverters {
   private readonly principal?: Principal;
   constructor() {
