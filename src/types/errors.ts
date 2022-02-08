@@ -6,3 +6,8 @@ export class UnsupportedValueError extends Error {
         super('Unsupported value: ' + value);
     }
 }
+
+export enum FromICPStringError {
+    FRACTIONAL_MORE_THAN_8_DECIMALS,
+    INVALID_FORMAT,
+}

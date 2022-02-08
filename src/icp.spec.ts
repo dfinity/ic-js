@@ -1,6 +1,6 @@
 import { expect, describe, it } from "@jest/globals";
 import { ICP } from ".";
-import { FromStringError } from "./icp";
+import {FromICPStringError} from './types/errors';
 
 describe("ICP", () => {
   it("can be initialized from a whole number string", () => {
@@ -22,7 +22,7 @@ describe("ICP", () => {
     expect(ICP.fromString("0.0001")).toEqual(ICP.fromE8s(BigInt(10000)));
     expect(ICP.fromString("0.00000001")).toEqual(ICP.fromE8s(BigInt(1)));
     expect(ICP.fromString("0.0000000001")).toEqual(
-      FromStringError.FRACTIONAL_MORE_THAN_8_DECIMALS
+      FromICPStringError.FRACTIONAL_MORE_THAN_8_DECIMALS
     );
     expect(ICP.fromString(".01")).toEqual(ICP.fromE8s(BigInt(1000000)));
   });
@@ -42,13 +42,13 @@ describe("ICP", () => {
   });
 
   it("returns an error on invalid formats", () => {
-    expect(ICP.fromString("1.1.1")).toBe(FromStringError.INVALID_FORMAT);
-    expect(ICP.fromString("a")).toBe(FromStringError.INVALID_FORMAT);
-    expect(ICP.fromString("3.a")).toBe(FromStringError.INVALID_FORMAT);
-    expect(ICP.fromString("123asdf$#@~!")).toBe(FromStringError.INVALID_FORMAT);
+    expect(ICP.fromString("1.1.1")).toBe(FromICPStringError.INVALID_FORMAT);
+    expect(ICP.fromString("a")).toBe(FromICPStringError.INVALID_FORMAT);
+    expect(ICP.fromString("3.a")).toBe(FromICPStringError.INVALID_FORMAT);
+    expect(ICP.fromString("123asdf$#@~!")).toBe(FromICPStringError.INVALID_FORMAT);
   });
 
   it("rejects negative numbers", () => {
-    expect(ICP.fromString("-1")).toBe(FromStringError.INVALID_FORMAT);
+    expect(ICP.fromString("-1")).toBe(FromICPStringError.INVALID_FORMAT);
   });
 });

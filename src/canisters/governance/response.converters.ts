@@ -69,7 +69,7 @@ import {
   convertNnsFunctionPayload,
   getNnsFunctionName,
 } from "./payloads";
-import { UnsupportedValueError } from "../../types/error";
+import { UnsupportedValueError } from "../../types/errors";
 
 export class ResponseConverters {
   public toProposalInfo = (proposalInfo: RawProposalInfo): ProposalInfo => {

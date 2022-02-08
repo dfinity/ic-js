@@ -56,7 +56,7 @@ import {
 //   PrincipalId as PbPrincipalId,
 //   ProposalId as PbProposalId,
 // } from "../../proto/base_types_pb";
-import {UnsupportedValueError} from '../../types/error';
+import {UnsupportedValueError} from '../../types/errors';
 export class RequestConverters {
   private readonly principal?: Principal;
   constructor() {
