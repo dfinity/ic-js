@@ -18,7 +18,7 @@ import {
   UpdateSubnetPayload,
   UpdateSubnetReplicaVersionPayload,
   UpdateUnassignedNodesConfigPayload,
-} from "../../../candid/payloads";
+} from "../../../candid/payloads.idl";
 
 export const getNnsFunctionName = (nnsFunction: number): string => {
   switch (nnsFunction) {
