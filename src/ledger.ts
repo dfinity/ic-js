@@ -1,4 +1,4 @@
-import {Agent, AnonymousIdentity, HttpAgent} from '@dfinity/agent';
+import {Agent} from '@dfinity/agent';
 import {Principal} from '@dfinity/principal';
 import {
   AccountBalanceRequest,
@@ -12,6 +12,7 @@ import {AccountIdentifier} from './account_identifier';
 import {ICP} from './icp';
 import {queryCall, updateCall} from './utils/proto.utils';
 import {MAINNET_LEDGER_CANISTER_ID} from './constants/canister_ids';
+import {defaultAgent} from './utils/agent.utils';
 
 type BlockHeight = bigint;
 
@@ -186,14 +187,4 @@ export class LedgerCanister {
     // Successful tx. Return the block height.
     return BigInt(PbBlockHeight.deserializeBinary(responseBytes).getHeight());
   };
-}
-
-/**
- * @returns The default agent to use. An agent that connects to mainnet with the anonymous identity.
- */
-function defaultAgent(): Agent {
-  return new HttpAgent({
-    host: "https://ic0.app",
-    identity: new AnonymousIdentity(),
-  });
 }

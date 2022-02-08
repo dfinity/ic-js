@@ -1,4 +1,4 @@
-import {Actor, Agent, AnonymousIdentity, HttpAgent} from '@dfinity/agent';
+import {Actor, Agent} from '@dfinity/agent';
 import {Principal} from '@dfinity/principal';
 import {GovernanceService, idlFactory} from '../candid/governance.idl';
 import {idlFactory as certifiedIdlFactory} from '../candid/governance.certified.idl';
@@ -6,6 +6,7 @@ import {RequestConverters} from './canisters/governance/request.converters';
 import {ResponseConverters} from './canisters/governance/response.converters';
 import {KnownNeuron, ListProposalsRequest, ListProposalsResponse,} from './types/governance';
 import {MAINNET_GOVERNANCE_CANISTER_ID} from './constants/canister_ids';
+import {defaultAgent} from './utils/agent.utils';
 
 // HttpAgent options that can be used at construction.
 export interface GovernanceCanisterOptions {
@@ -93,14 +94,4 @@ export class GovernanceCanister {
     const rawResponse = await service.list_proposals(rawRequest);
     return this.responseConverters.toListProposalsResponse(rawResponse);
   };
-}
-
-/**
- * @returns The default agent to use. An agent that connects to mainnet with the anonymous identity.
- */
-function defaultAgent(): Agent {
-  return new HttpAgent({
-    host: "https://ic0.app",
-    identity: new AnonymousIdentity(),
-  });
 }
