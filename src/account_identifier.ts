@@ -1,7 +1,7 @@
-import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
-import { sha224 } from "js-sha256";
-import * as crc from "crc-32";
 import { Principal } from "@dfinity/principal";
+import * as crc from "crc-32";
+import { sha224 } from "js-sha256";
+import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
 
 export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}

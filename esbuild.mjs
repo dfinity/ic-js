@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
+import esbuild from "esbuild";
 import {
+  existsSync,
+  mkdirSync,
   readdirSync,
   statSync,
   writeFileSync,
-  existsSync,
-  mkdirSync,
 } from "fs";
 import { join } from "path";
-
-import esbuild from "esbuild";
 
 const dist = join(process.cwd(), "dist");
 

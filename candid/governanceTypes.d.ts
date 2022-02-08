@@ -1,4 +1,3 @@
-import type { Principal } from "@dfinity/principal";
 export interface KnownNeuron {
   id: [] | [NeuronId];
   known_neuron_data: [] | [KnownNeuronData];

@@ -1,7 +1,7 @@
 import { Actor, Agent, AnonymousIdentity, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
+import { GovernanceService, idlFactory } from "../candid/governance.idl";
 
 const MAINNET_GOVERNANCE_CANISTER_ID = Principal.fromText(
   "rrkah-fqaaa-aaaaa-aaaaq-cai"

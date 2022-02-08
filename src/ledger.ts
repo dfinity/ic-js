@@ -10,7 +10,7 @@ import {
 } from "../proto/ledger_pb";
 import { AccountIdentifier } from "./account_identifier";
 import { ICP } from "./icp";
-import { updateCall, queryCall } from "./utils/proto";
+import { queryCall, updateCall } from "./utils/proto";
 
 const MAINNET_LEDGER_CANISTER_ID = Principal.fromText(
   "ryjl3-tyaaa-aaaaa-aaaba-cai"
