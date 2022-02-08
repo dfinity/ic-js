@@ -30,8 +30,8 @@ import {
   SpawnRequest,
   SplitRequest,
   StartDissolvingRequest,
-  StopDissolvingRequest,
-} from "../../types/governance";
+  StopDissolvingRequest, UnsupportedValueError,
+} from '../../types/governance';
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -56,7 +56,6 @@ import {
 //   PrincipalId as PbPrincipalId,
 //   ProposalId as PbProposalId,
 // } from "../../proto/base_types_pb";
-import {UnsupportedValueError} from '../../types/errors';
 export class RequestConverters {
   private readonly principal?: Principal;
   constructor() {

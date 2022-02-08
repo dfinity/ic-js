@@ -34,8 +34,8 @@ import {
   ProposalInfo,
   RewardMode,
   SpawnResponse,
-  Tally,
-} from "../../types/governance";
+  Tally, UnsupportedValueError,
+} from '../../types/governance';
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -69,7 +69,6 @@ import {
   convertNnsFunctionPayload,
   getNnsFunctionName,
 } from "./payloads";
-import { UnsupportedValueError } from "../../types/errors";
 
 export class ResponseConverters {
   public toProposalInfo = (proposalInfo: RawProposalInfo): ProposalInfo => {
