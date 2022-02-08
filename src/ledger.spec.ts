@@ -1,11 +1,12 @@
-import { AccountIdentifier, ICP, LedgerCanister } from ".";
 import {
+  AccountIdentifier,
+  ICP,
   InsufficientFunds,
   InvalidSender,
+  LedgerCanister,
   TxCreatedInFuture,
-  TxDuplicate,
-  TxTooOld,
-} from "./ledger";
+  TxDuplicate, TxTooOld
+} from '.';
 
 describe("LedgerCanister.transfer", () => {
   it("handles invalid sender", async () => {
