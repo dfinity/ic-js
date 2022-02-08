@@ -1,6 +1,6 @@
 import { Option } from "../../types/option";
 import { IDL, JsonObject } from "@dfinity/candid";
-import { Buffer } from "Buffer";
+import { Buffer } from "buffer";
 import {
   AddNodeOperatorPayload,
   AddNodesToSubnetPayload,
