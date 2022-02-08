@@ -7,7 +7,7 @@ import {
   arrayOfNumberToArrayBuffer,
   arrayOfNumberToUint8Array,
   principalToAccountIdentifier,
-} from "../converter";
+} from "../../utils/converter.utils";
 import GOVERNANCE_CANISTER_ID from "./canisterId";
 import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {

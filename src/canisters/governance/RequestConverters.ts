@@ -2,7 +2,7 @@ import { Principal } from "@dfinity/principal";
 import {
   accountIdentifierToBytes,
   arrayBufferToArrayOfNumber,
-} from "../converter";
+} from "../../utils/converter.utils";
 import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {
   Action,
