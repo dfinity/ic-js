@@ -1,3 +1,4 @@
+// Generated from IC repo commit a7af3db3065aa1d6acd8160a79b4ca67b20ac63c by governance.update.sh
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -315,6 +316,7 @@ service : (Governance) -> {
   claim_or_refresh_neuron_from_account : (ClaimOrRefreshNeuronFromAccount) -> (
       ClaimOrRefreshNeuronFromAccountResponse,
     );
+  get_build_metadata : () -> (text) query;
   get_full_neuron : (nat64) -> (Result_2) query;
   get_full_neuron_by_id_or_subaccount : (NeuronIdOrSubaccount) -> (
       Result_2,
@@ -334,4 +336,3 @@ service : (Governance) -> {
   transfer_gtc_neuron : (NeuronId, NeuronId) -> (Result);
   update_node_provider : (UpdateNodeProvider) -> (Result) query;
 }
-

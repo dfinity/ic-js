@@ -388,6 +388,7 @@ export const idlFactory = ({ IDL }) => {
         [ClaimOrRefreshNeuronFromAccountResponse],
         [],
       ),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
     'get_full_neuron' : IDL.Func([IDL.Nat64], [Result_2], ['query']),
     'get_full_neuron_by_id_or_subaccount' : IDL.Func(
         [NeuronIdOrSubaccount],
