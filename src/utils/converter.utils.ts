@@ -120,7 +120,7 @@ export const principalToSubAccount = (principal: Principal): SubAccount => {
   return subAccount;
 };
 
-const toHexString = (bytes: Uint8Array) =>
+export const toHexString = (bytes: Uint8Array) =>
   bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
 
 // 4 bytes
