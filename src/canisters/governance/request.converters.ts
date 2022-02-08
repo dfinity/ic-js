@@ -31,7 +31,7 @@ import {
   SplitRequest,
   StartDissolvingRequest,
   StopDissolvingRequest, UnsupportedValueError,
-} from '../../types/governance';
+} from '../../types/governance_converters';
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,

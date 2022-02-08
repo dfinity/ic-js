@@ -20,7 +20,7 @@ import {
   LedgerCanisterOptions,
   TransferError, TxCreatedInFuture,
   TxDuplicate, TxTooOld
-} from './types/ledger_canister';
+} from './types/ledger';
 import {BlockHeight} from './types/common';
 
 export class LedgerCanister {

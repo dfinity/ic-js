@@ -1,6 +1,6 @@
 import { expect, describe, it } from "@jest/globals";
 import { ICP } from ".";
-import {FromICPStringError} from './types/icp_canister';
+import {FromICPStringError} from './types/icp';
 
 describe("ICP", () => {
   it("can be initialized from a whole number string", () => {

@@ -1,6 +1,6 @@
 import {ICPTs} from '../proto/ledger_pb';
 import {E8S_PER_ICP} from './constants/constants';
-import {FromICPStringError} from './types/icp_canister';
+import {FromICPStringError} from './types/icp';
 
 export class ICP {
   private constructor(private e8s: bigint) {}

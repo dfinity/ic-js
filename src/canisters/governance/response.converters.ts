@@ -35,7 +35,7 @@ import {
   RewardMode,
   SpawnResponse,
   Tally, UnsupportedValueError,
-} from '../../types/governance';
+} from '../../types/governance_converters';
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
