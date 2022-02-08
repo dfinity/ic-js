@@ -1,7 +1,11 @@
-import { Principal } from "@dfinity/principal";
-import * as crc from "crc-32";
-import { sha224 } from "js-sha256";
 import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
+import { sha224 } from "js-sha256";
+import { Principal } from "@dfinity/principal";
+import {
+  asciiStringToByteArray,
+  calculateCrc32,
+  toHexString,
+} from "./utils/converter.utils";
 
 export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}
@@ -75,17 +79,3 @@ export class SubAccount {
     return this.bytes;
   }
 }
-
-const asciiStringToByteArray = (text: string): Array<number> => {
-  return Array.from(text).map((c) => c.charCodeAt(0));
-};
-
-const toHexString = (bytes: Uint8Array) =>
-  bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
-
-const calculateCrc32 = (bytes: Uint8Array): Uint8Array => {
-  const checksumArrayBuf = new ArrayBuffer(4);
-  const view = new DataView(checksumArrayBuf);
-  view.setUint32(0, crc.buf(Buffer.from(bytes)), false);
-  return Buffer.from(checksumArrayBuf);
-};
