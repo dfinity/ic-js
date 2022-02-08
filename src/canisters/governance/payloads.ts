@@ -1,4 +1,3 @@
-import { Option } from "../../types/option";
 import { IDL, JsonObject } from "@dfinity/candid";
 import { Buffer } from "buffer";
 import {
@@ -19,6 +18,7 @@ import {
   UpdateSubnetReplicaVersionPayload,
   UpdateUnassignedNodesConfigPayload,
 } from "../../../candid/payloads.idl";
+import { Option } from "../../types/option";
 
 export const getNnsFunctionName = (nnsFunction: number): string => {
   switch (nnsFunction) {

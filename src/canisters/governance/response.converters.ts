@@ -4,41 +4,6 @@
 
 import { Principal } from "@dfinity/principal";
 import {
-  accountIdentifierFromBytes,
-  arrayOfNumberToArrayBuffer,
-  arrayOfNumberToUint8Array,
-  principalToAccountIdentifier,
-} from "../../utils/converter.utils";
-import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
-import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
-import {
-  Action,
-  Ballot,
-  BallotInfo,
-  By,
-  Change,
-  Command,
-  DisburseResponse,
-  DisburseToNeuronResponse,
-  DissolveState,
-  Followees,
-  KnownNeuron,
-  ListProposalsResponse,
-  MakeProposalResponse,
-  MergeMaturityResponse,
-  Neuron,
-  NeuronIdOrSubaccount,
-  NeuronInfo,
-  NodeProvider,
-  Operation,
-  Proposal,
-  ProposalInfo,
-  RewardMode,
-  SpawnResponse,
-  Tally,
-  UnsupportedValueError,
-} from "../../types/governance_converters";
-import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
   Amount as RawAmount,
@@ -64,7 +29,39 @@ import {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governanceTypes.d";
+import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
+import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
+import {
+  Action,
+  Ballot,
+  BallotInfo,
+  By,
+  Change,
+  Command,
+  DisburseToNeuronResponse,
+  DissolveState,
+  Followees,
+  KnownNeuron,
+  ListProposalsResponse,
+  MakeProposalResponse,
+  Neuron,
+  NeuronIdOrSubaccount,
+  NeuronInfo,
+  NodeProvider,
+  Operation,
+  Proposal,
+  ProposalInfo,
+  RewardMode,
+  Tally,
+  UnsupportedValueError,
+} from "../../types/governance_converters";
 import { Option } from "../../types/option";
+import {
+  accountIdentifierFromBytes,
+  arrayOfNumberToArrayBuffer,
+  arrayOfNumberToUint8Array,
+  principalToAccountIdentifier,
+} from "../../utils/converter.utils";
 // Protobuf is not supported yet:
 // import { ManageNeuronResponse as PbManageNeuronResponse } from "../../proto/governance_pb";
 import { convertNnsFunctionPayload, getNnsFunctionName } from "./payloads";

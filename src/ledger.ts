@@ -9,10 +9,9 @@ import {
   SendRequest,
 } from "../proto/ledger_pb";
 import { AccountIdentifier } from "./account_identifier";
-import { ICP } from "./icp";
-import { queryCall, updateCall } from "./utils/proto.utils";
 import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
-import { defaultAgent } from "./utils/agent.utils";
+import { ICP } from "./icp";
+import { BlockHeight } from "./types/common";
 import {
   Fetcher,
   InsufficientFunds,
@@ -23,7 +22,8 @@ import {
   TxDuplicate,
   TxTooOld,
 } from "./types/ledger";
-import { BlockHeight } from "./types/common";
+import { defaultAgent } from "./utils/agent.utils";
+import { queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
   private constructor(

@@ -1,5 +1,5 @@
 import { DerEncodedPublicKey } from "@dfinity/agent";
-import { Option } from "./option";
+import { Principal } from "@dfinity/principal";
 import {
   AccountIdentifier,
   CanisterIdString,
@@ -7,7 +7,7 @@ import {
   NeuronId,
   PrincipalString,
 } from "./common";
-import { Principal } from "@dfinity/principal";
+import { Option } from "./option";
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
