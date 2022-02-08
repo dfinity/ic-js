@@ -3,7 +3,7 @@ import {
   accountIdentifierToBytes,
   arrayBufferToArrayOfNumber,
 } from "../converter";
-import { AccountIdentifier, E8s, NeuronId } from "../common/types";
+import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {
   Action,
   AddHotKeyRequest,

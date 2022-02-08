@@ -9,7 +9,7 @@ import {
   principalToAccountIdentifier,
 } from "../converter";
 import GOVERNANCE_CANISTER_ID from "./canisterId";
-import { AccountIdentifier, E8s, NeuronId } from "../common/types";
+import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {
   Action,
   Ballot,

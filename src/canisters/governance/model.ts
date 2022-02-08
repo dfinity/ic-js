@@ -6,7 +6,7 @@ import {
   E8s,
   NeuronId,
   PrincipalString,
-} from "../common/types";
+} from "../../types/common";
 import { Principal } from "@dfinity/principal";
 
 export type Action =
