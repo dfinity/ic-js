@@ -8,7 +8,7 @@ import {
   arrayOfNumberToUint8Array,
   principalToAccountIdentifier,
 } from "../../utils/converter.utils";
-import GOVERNANCE_CANISTER_ID from "./canisterId";
+import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
 import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {
   Action,
@@ -35,7 +35,7 @@ import {
   RewardMode,
   SpawnResponse,
   Tally,
-} from "./model";
+} from "../../types/governance";
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -69,7 +69,7 @@ import {
   convertNnsFunctionPayload,
   getNnsFunctionName,
 } from "./nnsFunctions/nnsFunctions";
-import {UnsupportedValueError} from '../../types/error';
+import { UnsupportedValueError } from "../../types/error";
 
 export class ResponseConverters {
   public toProposalInfo = (proposalInfo: RawProposalInfo): ProposalInfo => {

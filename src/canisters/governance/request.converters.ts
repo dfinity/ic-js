@@ -31,7 +31,7 @@ import {
   SplitRequest,
   StartDissolvingRequest,
   StopDissolvingRequest,
-} from "./model";
+} from "../../types/governance";
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,

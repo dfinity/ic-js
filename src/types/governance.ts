@@ -1,12 +1,12 @@
 import { DerEncodedPublicKey } from "@dfinity/agent";
-import { Option } from "../../types/option";
+import { Option } from "./option";
 import {
   AccountIdentifier,
   CanisterIdString,
   E8s,
   NeuronId,
   PrincipalString,
-} from "../../types/common";
+} from "./common";
 import { Principal } from "@dfinity/principal";
 
 export type Action =

@@ -2,14 +2,14 @@ import { Actor, Agent, AnonymousIdentity, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
-import { RequestConverters } from "./canisters/governance/RequestConverters";
-import { ResponseConverters } from "./canisters/governance/ResponseConverters";
+import { RequestConverters } from "./canisters/governance/request.converters";
+import { ResponseConverters } from "./canisters/governance/response.converters";
 import {
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
-} from "./canisters/governance/model";
-export * from "./canisters/governance/model";
+} from "./types/governance";
+export * from "./types/governance";
 
 const MAINNET_GOVERNANCE_CANISTER_ID = Principal.fromText(
   "rrkah-fqaaa-aaaaa-aaaaq-cai"
