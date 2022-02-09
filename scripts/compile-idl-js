@@ -17,7 +17,7 @@ compile_did() {
   {
     echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
     didc bind -t js "${didfile}"
-  } | sed "s/^export default/export const idlFactory =/g" > "${jsfile}"
+  } | sed "s/^export default/export const idlFactory =/g" >"${jsfile}"
 }
 
 # The certified API makes use of the fact that update calls are always signed, so it calls query calls as updates.
@@ -40,10 +40,10 @@ compile_certified_did() {
 
 # First generate default certified versions of normal did files.
 # Where there are custom certified did files the normal compilation will override the default.
-did_files_to_compile | grep -v certified | while read line ; do
+did_files_to_compile | grep -v certified | while read line; do
   compile_certified_did "$line"
 done
 
-did_files_to_compile | while read line ; do
+did_files_to_compile | while read line; do
   compile_did "$line"
 done
