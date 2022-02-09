@@ -74,6 +74,13 @@ export class GovernanceCanister {
     }));
   };
 
+  /**
+   * Returns the list of proposals made for the community to vote on,
+   * paginated and filtered by the request.
+   *
+   * If `certified` is true, the request is fetched as an update call, otherwise
+   * it is fetched using a query call.
+   */
   public listProposals = async (
     request: ListProposalsRequest,
     certified = true
