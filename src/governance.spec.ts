@@ -1,7 +1,7 @@
 import { mock } from "jest-mock-extended";
+import { GovernanceService } from "../candid/governance.idl";
 import { ListKnownNeuronsResponse } from "../candid/governanceTypes";
 import { GovernanceCanister } from "./governance";
-import { GovernanceService } from "../candid/governance.idl";
 
 describe("GovernanceCanister.listKnownNeurons", () => {
   it("populates all KnownNeuron fields correctly", async () => {

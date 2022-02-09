@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { expect, describe, it } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { AccountIdentifier } from ".";
 import { SubAccount } from "./account_identifier";
 

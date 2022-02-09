@@ -1,4 +1,4 @@
-import { expect, describe, it } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { ICP } from ".";
 import { FromICPStringError } from "./types/icp";
 

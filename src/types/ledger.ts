@@ -1,6 +1,6 @@
-import { ICP } from "../icp";
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { ICP } from "../icp";
 
 export type BlockHeight = bigint;
 
