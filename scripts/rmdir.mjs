@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { rmSync, existsSync } from "fs";
+import { existsSync, rmSync } from "fs";
 import { join } from "path";
 
 const rmDir = () => {

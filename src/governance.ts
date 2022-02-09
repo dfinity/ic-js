@@ -1,16 +1,16 @@
 import { Actor } from "@dfinity/agent";
-import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
+import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { RequestConverters } from "./canisters/governance/request.converters";
 import { ResponseConverters } from "./canisters/governance/response.converters";
+import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
+import { GovernanceCanisterOptions } from "./types/governance";
 import {
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
 } from "./types/governance_converters";
-import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { defaultAgent } from "./utils/agent.utils";
-import { GovernanceCanisterOptions } from "./types/governance";
 
 export class GovernanceCanister {
   private constructor(
@@ -74,13 +74,17 @@ export class GovernanceCanister {
     }));
   };
 
-  public listProposals = async ({
-    request,
-    certified = true,
-  }: {
-    request: ListProposalsRequest;
-    certified?: boolean;
-  }): Promise<ListProposalsResponse> => {
+  /**
+   * Returns the list of proposals made for the community to vote on,
+   * paginated and filtered by the request.
+   *
+   * If `certified` is true, the request is fetched as an update call, otherwise
+   * it is fetched using a query call.
+   */
+  public listProposals = async (
+    request: ListProposalsRequest,
+    certified = true
+  ): Promise<ListProposalsResponse> => {
     const rawRequest = this.requestConverters.fromListProposalsRequest(request);
     const service = certified ? this.certifiedService : this.service;
     const rawResponse = await service.list_proposals(rawRequest);

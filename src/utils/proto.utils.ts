@@ -1,6 +1,5 @@
-import { Agent } from "@dfinity/agent";
+import { Agent, polling } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { polling } from "@dfinity/agent";
 
 /**
  * Submits an update call to the IC.

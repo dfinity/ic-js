@@ -3,7 +3,47 @@
 # Compiles candid .did files to .idl.js
 
 set -euo pipefail
-find candid/ -type f -name '*.did' |
-  grep -v candid/payloads.did |
-  sed 's/did$//g' |
-  xargs -I{} bash -c '{ echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from {}did */" ; didc bind -t js "{}did" ; } | sed "s/^export default/export const idlFactory =/g" > "{}"idl.js'
+
+did_files_to_compile() {
+  find candid/ -type f -name '*.did' |
+    grep -v candid/payloads.did
+}
+
+# Normal API access.
+compile_did() {
+  local didfile="$1"
+  local jsfile="$(echo "$didfile" | sed 's/did$/idl.js/g')"
+
+  {
+    echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
+    didc bind -t js "${didfile}"
+  } | sed "s/^export default/export const idlFactory =/g" >"${jsfile}"
+}
+
+# The certified API makes use of the fact that update calls are always signed, so it calls query calls as updates.
+# Note: This is inefficient if query calls are already certified, which is often but not always the case.
+# Note: It is not clear which API calls have certified responses or how to check that a query response has a certificate.
+compile_certified_did() {
+  local didfile="$1"
+  local certified_didfile="$(mktemp)"
+  local jsfile="$(echo "$didfile" | sed 's/did$/certified.idl.js/g')"
+
+  sed 's/ *\<query\> *;/;/g' "$didfile" >"$certified_didfile"
+
+  {
+    echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
+    didc bind -t js "${certified_didfile}"
+  } | sed "s/^export default/export const idlFactory =/g" >"${jsfile}"
+
+  rm "$certified_didfile"
+}
+
+# First generate default certified versions of normal did files.
+# Where there are custom certified did files the normal compilation will override the default.
+did_files_to_compile | grep -v certified | while read line; do
+  compile_certified_did "$line"
+done
+
+did_files_to_compile | while read line; do
+  compile_did "$line"
+done

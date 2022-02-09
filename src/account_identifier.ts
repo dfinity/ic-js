@@ -1,6 +1,6 @@
-import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
-import { sha224 } from "js-sha256";
 import { Principal } from "@dfinity/principal";
+import { sha224 } from "js-sha256";
+import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
 import {
   asciiStringToByteArray,
   calculateCrc32,

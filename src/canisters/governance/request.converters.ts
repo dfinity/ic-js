@@ -1,40 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Principal } from "@dfinity/principal";
 import {
-  accountIdentifierToBytes,
-  arrayBufferToArrayOfNumber,
-} from "../../utils/converter.utils";
-import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
-import {
-  Action,
-  AddHotKeyRequest,
-  By,
-  Change,
-  ClaimNeuronRequest,
-  ClaimOrRefreshNeuronRequest,
-  Command,
-  DisburseRequest,
-  DisburseToNeuronRequest,
-  FollowRequest,
-  IncreaseDissolveDelayRequest,
-  ListProposalsRequest,
-  MakeProposalRequest,
-  ManageNeuron,
-  MergeMaturityRequest,
-  NeuronIdOrSubaccount,
-  NodeProvider,
-  Operation,
-  ProposalId,
-  RegisterVoteRequest,
-  RemoveHotKeyRequest,
-  RewardMode,
-  SpawnRequest,
-  SplitRequest,
-  StartDissolvingRequest,
-  StopDissolvingRequest,
-  UnsupportedValueError,
-} from "../../types/governance_converters";
-import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
   Amount,
@@ -50,6 +16,30 @@ import {
   Operation as RawOperation,
   RewardMode as RawRewardMode,
 } from "../../../candid/governanceTypes.d";
+import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
+import {
+  Action,
+  By,
+  Change,
+  ClaimNeuronRequest,
+  ClaimOrRefreshNeuronRequest,
+  Command,
+  DisburseToNeuronRequest,
+  ListProposalsRequest,
+  MakeProposalRequest,
+  ManageNeuron,
+  NeuronIdOrSubaccount,
+  NodeProvider,
+  Operation,
+  ProposalId,
+  RewardMode,
+  SplitRequest,
+  UnsupportedValueError,
+} from "../../types/governance_converters";
+import {
+  accountIdentifierToBytes,
+  arrayBufferToArrayOfNumber,
+} from "../../utils/converter.utils";
 // Protobuf is not supported yet.
 // import { AccountIdentifier as PbAccountIdentifier } from "../../proto/ledger_pb";
 // import { ManageNeuron as PbManageNeuron } from "../../proto/governance_pb";
