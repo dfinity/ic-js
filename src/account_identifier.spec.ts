@@ -62,20 +62,20 @@ describe("AccountIdentifier", () => {
 
   test("can be initialized from a principal", () => {
     expect(
-      AccountIdentifier.fromPrincipal(
-        Principal.fromText(
+      AccountIdentifier.fromPrincipal({
+        principal: Principal.fromText(
           "bwz3t-ercuj-owo6s-4adfr-sbu4o-l72hg-kfhc5-5sapm-tj6bn-3scho-uqe"
-        )
-      ).toHex()
+        ),
+      }).toHex()
     ).toBe("df4ad42194201b15ecbbe66ff68559a126854d8141fd935c5bd53433c2fb28d4");
 
     expect(
-      AccountIdentifier.fromPrincipal(
-        Principal.fromText(
+      AccountIdentifier.fromPrincipal({
+        principal: Principal.fromText(
           "bwz3t-ercuj-owo6s-4adfr-sbu4o-l72hg-kfhc5-5sapm-tj6bn-3scho-uqe"
         ),
-        SubAccount.ZERO
-      ).toHex()
+        subAccount: SubAccount.ZERO,
+      }).toHex()
     ).toBe("df4ad42194201b15ecbbe66ff68559a126854d8141fd935c5bd53433c2fb28d4");
   });
 });

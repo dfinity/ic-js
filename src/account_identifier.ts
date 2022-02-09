@@ -14,10 +14,13 @@ export class AccountIdentifier {
     return new AccountIdentifier(Uint8Array.from(Buffer.from(hex, "hex")));
   }
 
-  public static fromPrincipal(
-    principal: Principal,
-    subAccount = SubAccount.ZERO
-  ): AccountIdentifier {
+  public static fromPrincipal({
+    principal,
+    subAccount = SubAccount.ZERO,
+  }: {
+    principal: Principal;
+    subAccount?: SubAccount;
+  }): AccountIdentifier {
     // Hash (sha224) the principal, the subAccount and some padding
     const padding = asciiStringToByteArray("\x0Aaccount-id");
 

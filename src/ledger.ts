@@ -48,10 +48,13 @@ export class LedgerCanister {
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it is fetched using a query call.
    */
-  public accountBalance = async (
-    accountIdentifier: AccountIdentifier,
-    certified = true
-  ): Promise<ICP> => {
+  public accountBalance = async ({
+    accountIdentifier,
+    certified = true,
+  }: {
+    accountIdentifier: AccountIdentifier;
+    certified?: boolean;
+  }): Promise<ICP> => {
     const callMethod = certified ? this.updateFetcher : this.queryFetcher;
 
     const request = new AccountBalanceRequest();
@@ -79,11 +82,15 @@ export class LedgerCanister {
    *
    * TODO: support remaining options (subaccounts, memos, etc.)
    */
-  public transfer = async (
-    to: AccountIdentifier,
-    amount: ICP,
-    memo?: bigint
-  ): Promise<BlockHeight | TransferError> => {
+  public transfer = async ({
+    to,
+    amount,
+    memo,
+  }: {
+    to: AccountIdentifier;
+    amount: ICP;
+    memo?: bigint;
+  }): Promise<BlockHeight | TransferError> => {
     const request = new SendRequest();
     request.setTo(to.toProto());
 

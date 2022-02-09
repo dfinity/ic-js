@@ -74,10 +74,13 @@ export class GovernanceCanister {
     }));
   };
 
-  public listProposals = async (
-    request: ListProposalsRequest,
-    certified = true
-  ): Promise<ListProposalsResponse> => {
+  public listProposals = async ({
+    request,
+    certified = true,
+  }: {
+    request: ListProposalsRequest;
+    certified?: boolean;
+  }): Promise<ListProposalsResponse> => {
     const rawRequest = this.requestConverters.fromListProposalsRequest(request);
     const service = certified ? this.certifiedService : this.service;
     const rawResponse = await service.list_proposals(rawRequest);

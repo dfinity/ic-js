@@ -20,12 +20,12 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer(
-      AccountIdentifier.fromHex(
+    const res = await ledger.transfer({
+      to: AccountIdentifier.fromHex(
         "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
       ),
-      ICP.fromE8s(BigInt(100000))
-    );
+      amount: ICP.fromE8s(BigInt(100000)),
+    });
 
     expect(res).toBeInstanceOf(InvalidSender);
   });
@@ -40,12 +40,12 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer(
-      AccountIdentifier.fromHex(
+    const res = await ledger.transfer({
+      to: AccountIdentifier.fromHex(
         "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
       ),
-      ICP.fromE8s(BigInt(100000))
-    );
+      amount: ICP.fromE8s(BigInt(100000)),
+    });
 
     expect(res).toEqual(new TxDuplicate(BigInt(1235123)));
   });
@@ -60,12 +60,12 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer(
-      AccountIdentifier.fromHex(
+    const res = await ledger.transfer({
+      to: AccountIdentifier.fromHex(
         "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
       ),
-      ICP.fromE8s(BigInt(100000))
-    );
+      amount: ICP.fromE8s(BigInt(100000)),
+    });
 
     expect(res).toEqual(
       new InsufficientFunds(ICP.fromE8s(BigInt(12346789123)))
@@ -82,12 +82,12 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer(
-      AccountIdentifier.fromHex(
+    const res = await ledger.transfer({
+      to: AccountIdentifier.fromHex(
         "a2a794c66495083317e4be5197eb655b1e63015469d769e2338af3d3e3f3aa86"
       ),
-      ICP.fromE8s(BigInt(100000))
-    );
+      amount: ICP.fromE8s(BigInt(100000)),
+    });
 
     expect(res).toEqual(new TxCreatedInFuture());
   });
@@ -102,12 +102,12 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer(
-      AccountIdentifier.fromHex(
+    const res = await ledger.transfer({
+      to: AccountIdentifier.fromHex(
         "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
       ),
-      ICP.fromE8s(BigInt(100000))
-    );
+      amount: ICP.fromE8s(BigInt(100000)),
+    });
 
     expect(res).toEqual(new TxTooOld(123));
   });
