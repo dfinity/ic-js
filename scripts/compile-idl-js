@@ -28,12 +28,12 @@ compile_certified_did() {
   local certified_didfile="$(mktemp)"
   local jsfile="$(echo "$didfile" | sed 's/did$/certified.idl.js/g')"
 
-  sed 's/ *\<query\> *;/;/g' "$didfile" > "$certified_didfile"
+  sed 's/ *\<query\> *;/;/g' "$didfile" >"$certified_didfile"
 
   {
     echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
     didc bind -t js "${certified_didfile}"
-  } | sed "s/^export default/export const idlFactory =/g" > "${jsfile}"
+  } | sed "s/^export default/export const idlFactory =/g" >"${jsfile}"
 
   rm "$certified_didfile"
 }
