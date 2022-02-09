@@ -20,6 +20,7 @@
     "doc": "typedoc ./src/index.ts",
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
+    "prepare": "npm run build",
     "update_proto": "bash ./scripts/update_proto.sh"
   },
   "dependencies": {
