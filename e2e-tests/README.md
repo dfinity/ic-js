@@ -3,7 +3,7 @@
 These tests use the API as a library user would, invoking the built cjs or esm code against a network.
 
 # Usage
-Run this in the base of the repo:
+Run this in the root of the repo:
 ```
 npm test e2e
 ```
