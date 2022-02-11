@@ -62,6 +62,8 @@ export class GovernanceCanister {
   /**
    * Returns the list of neurons controlled by the caller.
    *
+   * If an array of neuron IDs is provided, precisely those neurons will be fetched.
+   *
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it is fetched using a query call.
    *
@@ -69,7 +71,7 @@ export class GovernanceCanister {
    */
   public getNeurons = async ({
     certified = true,
-    neuronIds, // Presumably: Get all neurons owned by the caller OR get the intersection of this with the given list.
+    neuronIds,
   }: {
     certified: boolean;
     neuronIds?: NeuronId[];
