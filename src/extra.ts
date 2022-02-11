@@ -6,12 +6,14 @@ import { Principal } from "@dfinity/principal";
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
 import { E8S_PER_ICP } from "./constants/constants";
+import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { LedgerCanister } from "./ledger";
 import { NnsDappCanister } from "./nns_dapp";
 import { CreateNeuronRequest } from "./types/extra";
 import {
   asciiStringToByteArray,
   uint8ArrayToBigInt,
+  principalToAccountIdentifier,
 } from "./utils/converter.utils";
 
 /**
@@ -36,12 +38,13 @@ export async function createNeuronWithNnsDapp({
   const nonce = uint8ArrayToBigInt(nonceBytes);
   const toSubAccount = buildSubAccount(nonceBytes, principal);
 
+  const accountIdentifier = principalToAccountIdentifier(
+    MAINNET_GOVERNANCE_CANISTER_ID,
+    toSubAccount
+  );
   /*
 
   const accountIdentifier = convert.principalToAccountIdentifier(
-    GOVERNANCE_CANISTER_ID,
-    toSubAccount
-  );
 
   // Send amount to the ledger.
   await ledgerService.sendICPTs({

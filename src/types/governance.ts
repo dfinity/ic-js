@@ -15,4 +15,6 @@ export interface GovernanceCanisterOptions {
   // update calls in place of queries). Primarily overridden in test for
   // mocking.
   certifiedServiceOverride?: GovernanceService;
+  // The user on behalf of which calls are being made.
+  myPrincipal?: Principal;
 }

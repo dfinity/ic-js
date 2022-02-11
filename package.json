@@ -20,6 +20,7 @@
     "doc": "typedoc ./src/index.ts",
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
+    "quickfmt": "git diff --name-only --diff-filter d | grep -E '[.](ts|js|json)$' | xargs -I{} prettier --write {}",
     "update_proto": "bash ./scripts/update_proto.sh"
   },
   "dependencies": {

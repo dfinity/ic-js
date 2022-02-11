@@ -17,17 +17,21 @@ import { defaultAgent } from "./utils/agent.utils";
 
 // TODO: Should this be renamed to something like GovernanceClient or GovernanceApi or GovernanceService?  The governance canister is something running wasm on the IC, not this code which runs in a browser.
 export class GovernanceCanister {
+  myPrincipal: Principal | undefined;
+
   private constructor(
     private readonly service: GovernanceService,
     private readonly certifiedService: GovernanceService,
     private readonly requestConverters: RequestConverters,
     private readonly responseConverters: ResponseConverters,
-    private readonly myPrincipal?: Principal
+    private readonly canisterId: Principal,
+    myPrincipal?: Principal
   ) {
     this.service = service;
     this.certifiedService = certifiedService;
     this.requestConverters = requestConverters;
     this.responseConverters = responseConverters;
+    this.canisterId = canisterId;
     this.myPrincipal = myPrincipal;
   }
 
@@ -56,7 +60,9 @@ export class GovernanceCanister {
       service,
       certifiedService,
       requestConverters,
-      responseConverters
+      responseConverters,
+      canisterId,
+      options.myPrincipal,
     );
   }
 
