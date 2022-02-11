@@ -60,7 +60,7 @@ export class RequestConverters {
     return {
       neuron_ids: neuronIds ?? [],
       include_neurons_readable_by_caller: neuronIds ? false : true,
-    }
+    };
   };
 
   public fromManageNeuron = (manageNeuron: ManageNeuron): RawManageNeuron => {
