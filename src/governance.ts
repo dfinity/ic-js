@@ -5,13 +5,13 @@ import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { RequestConverters } from "./canisters/governance/request.converters";
 import { ResponseConverters } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
-import { GovernanceCanisterOptions } from "./types/governance";
-import { NeuronInfo } from "./types/governance_converters";
 import { NeuronId } from "./types/common";
+import { GovernanceCanisterOptions } from "./types/governance";
 import {
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
+  NeuronInfo,
 } from "./types/governance_converters";
 import { defaultAgent } from "./utils/agent.utils";
 
@@ -21,7 +21,7 @@ export class GovernanceCanister {
     private readonly certifiedService: GovernanceService,
     private readonly requestConverters: RequestConverters,
     private readonly responseConverters: ResponseConverters,
-    private readonly myPrincipal?: Principal,
+    private readonly myPrincipal?: Principal
   ) {
     this.service = service;
     this.certifiedService = certifiedService;
@@ -69,10 +69,10 @@ export class GovernanceCanister {
    */
   public getNeurons = async ({
     certified = true,
-    neuronIds,  // Presumably: Get all neurons owned by the caller OR get the intersection of this with the given list.
+    neuronIds, // Presumably: Get all neurons owned by the caller OR get the intersection of this with the given list.
   }: {
     certified: boolean;
-    neuronIds?: NeuronId[]
+    neuronIds?: NeuronId[];
   }): Promise<NeuronInfo[]> => {
     if (undefined === this.myPrincipal) {
       // An anonymous caller has no neurons.
