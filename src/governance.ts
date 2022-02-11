@@ -80,7 +80,7 @@ export class GovernanceCanister {
       // An anonymous caller has no neurons.
       return new Promise(() => []);
     }
-    let principal: Principal = this.myPrincipal;
+    const principal: Principal = this.myPrincipal;
     const rawRequest = this.requestConverters.fromListNeurons(neuronIds);
     const service = certified ? this.certifiedService : this.service;
     const raw_response = await service.list_neurons(rawRequest);
