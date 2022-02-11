@@ -24,8 +24,6 @@ import {
 } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
 import { queryCall, updateCall } from "./utils/proto.utils";
-import { Subaccount as PbSubaccount } from "../proto/ledger_pb";  // TODO: This should not be imported here.  Move this to a conversions file.
-
 
 export class LedgerCanister {
   private constructor(

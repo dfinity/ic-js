@@ -5,19 +5,18 @@
 import { Principal } from "@dfinity/principal";
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
-import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
+import { AccountIdentifier } from "./account_identifier";
 import { E8S_PER_ICP } from "./constants/constants";
-import { LedgerCanister } from "./ledger";
 import { GovernanceCanister } from "./governance";
+import { ICP } from "./icp";
+import { LedgerCanister } from "./ledger";
 import { NnsDappCanister } from "./nns_dapp";
 import { CreateNeuronRequest } from "./types/extra";
-import { AccountIdentifier } from "./account_identifier";
 import {
   asciiStringToByteArray,
   principalToAccountIdentifier,
   uint8ArrayToBigInt,
 } from "./utils/converter.utils";
-import { ICP } from "./icp";
 
 /**
  * Uses governance and ledger canisters to create a neuron.
@@ -48,7 +47,9 @@ export async function createNeuronWithNnsDapp({
     governanceCanister.canisterId,
     toSubAccount
   );
-  const accountIdentifier = AccountIdentifier.fromHex(accountIdentifierAsString);
+  const accountIdentifier = AccountIdentifier.fromHex(
+    accountIdentifierAsString
+  );
 
   // Send amount to the ledger.
   await ledgerCanister.transfer({
@@ -64,7 +65,6 @@ export async function createNeuronWithNnsDapp({
     memo: nonce,
   });
 
-  
   return new Promise(() => "foo");
 }
 

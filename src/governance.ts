@@ -8,11 +8,11 @@ import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
 import {
+  ClaimOrRefreshNeuronFromAccount,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
   NeuronInfo,
-  ClaimOrRefreshNeuronFromAccount,
 } from "./types/governance_converters";
 import { defaultAgent } from "./utils/agent.utils";
 
@@ -135,11 +135,10 @@ export class GovernanceCanister {
     return this.responseConverters.toListProposalsResponse(rawResponse);
   };
 
-
   public claimOrRefreshNeuronFromAccount = async (
     request: ClaimOrRefreshNeuronFromAccount
   ): Promise<NeuronId> => {
-    const service = this.certifiedService;  // Note: This is an update call so the certified and uncertified services are identical in this case, however using the certified service provides for additional protection in case anything changes.
+    const service = this.certifiedService; // Note: This is an update call so the certified and uncertified services are identical in this case, however using the certified service provides for additional protection in case anything changes.
     const response = await service.claim_or_refresh_neuron_from_account({
       controller: request.controller ? [request.controller] : [],
       memo: request.memo,
