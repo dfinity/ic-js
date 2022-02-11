@@ -7,6 +7,7 @@ These tests use the API as a library user would, invoking the built cjs or esm c
 Run this in the root of the repo:
 
 ```
+export NETWORK=<some network name from e2e-tests/config.json>
 npm test e2e
 ```
 

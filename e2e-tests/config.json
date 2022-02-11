@@ -1,0 +1,16 @@
+{
+  "networks": {
+    "mainnet": {
+      "host": "https://ic0.app",
+      "accounts": [
+        "268e03eca92149dc91993f843e29aa24b02a55f714b27a3429f40865541b74c5"
+      ]
+    },
+    "nnsdapp": {
+      "host": "https://nnsdapp.dfinity.network",
+      "accounts": [
+        "5b315d2f6702cb3a27d826161797d7b2c2e131cd312aece51d4d5574d1247087"
+      ]
+    }
+  }
+}

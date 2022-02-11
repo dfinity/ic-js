@@ -11,6 +11,7 @@
     "candid/",
     "*.did.js",
     "*_pb.d.ts",
+    "e2e-tests/**/*js",
     "jest.config.js",
     "test-setup.ts",
     "**/*.spec.ts",
