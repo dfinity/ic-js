@@ -133,4 +133,21 @@ export class GovernanceCanister {
     const rawResponse = await service.list_proposals(rawRequest);
     return this.responseConverters.toListProposalsResponse(rawResponse);
   };
+
+
+  public claimOrRefreshNeuronFromAccount = async (
+    request: ClaimOrRefreshNeuronFromAccount
+  ): Promise<NeuronId> => {
+    const response = await this.service.claim_or_refresh_neuron_from_account({
+      controller: request.controller ? [request.controller] : [],
+      memo: request.memo,
+    });
+
+    const result = response.result;
+    if (result.length && "NeuronId" in result[0]) {
+      return result[0].NeuronId.id;
+    }
+
+    throw `Error claiming/refreshing neuron: ${JSON.stringify(result)}`;
+  };
 }

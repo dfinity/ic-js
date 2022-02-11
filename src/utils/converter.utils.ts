@@ -96,7 +96,7 @@ export const accountIdentifierFromBytes = (
 export const principalToAccountIdentifier = (
   principal: Principal,
   subAccount?: Uint8Array
-): string => {
+): AccountIdentifier => {
   // Hash (sha224) the principal, the subAccount and some padding
   const padding = asciiStringToByteArray("\x0Aaccount-id");
 

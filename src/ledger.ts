@@ -24,6 +24,8 @@ import {
 } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
 import { queryCall, updateCall } from "./utils/proto.utils";
+import { Subaccount as PbSubaccount } from "../proto/ledger_pb";  // TODO: This should not be imported here.  Move this to a conversions file.
+
 
 export class LedgerCanister {
   private constructor(
@@ -81,15 +83,19 @@ export class LedgerCanister {
    * Returns the index of the block containing the tx if it was successful.
    *
    * TODO: support remaining options (subaccounts, memos, etc.)
+   *
+   * Note: This is (presumably) equivalent to sendICPTs in `nns-dapp/frontend/ts`.
    */
   public transfer = async ({
     to,
     amount,
     memo,
+    fromSubAccountId,
   }: {
     to: AccountIdentifier;
     amount: ICP;
     memo?: bigint;
+    fromSubAccountId?: Uint8Array | string;
   }): Promise<BlockHeight | TransferError> => {
     const request = new SendRequest();
     request.setTo(to.toProto());
@@ -102,6 +108,15 @@ export class LedgerCanister {
       const memo = new Memo();
       memo.setMemo(memo.toString());
       request.setMemo(memo);
+    }
+
+    if (fromSubAccountId) {
+      // TODO
+      /*
+        const subAccount = new PbSubaccount();
+        subAccount.setSubaccount(fromSubAccountId);
+        request.setFromSubaccount(subAccount);
+      */
     }
 
     const responseBytes = await this.updateFetcher(
