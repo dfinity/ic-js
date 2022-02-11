@@ -59,11 +59,12 @@ export async function createNeuronWithNnsDapp({
   });
 
   // Notify the governance of the transaction so that the neuron is created.
-  return await governanceCanister.claimOrRefreshNeuronFromAccount({
+  const ans = await governanceCanister.claimOrRefreshNeuronFromAccount({
     controller: principal,
     memo: nonce,
   });
 
+  
   return new Promise(() => "foo");
 }
 

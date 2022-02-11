@@ -12,6 +12,7 @@ import {
   ListProposalsRequest,
   ListProposalsResponse,
   NeuronInfo,
+  ClaimOrRefreshNeuronFromAccount,
 } from "./types/governance_converters";
 import { defaultAgent } from "./utils/agent.utils";
 
@@ -138,7 +139,8 @@ export class GovernanceCanister {
   public claimOrRefreshNeuronFromAccount = async (
     request: ClaimOrRefreshNeuronFromAccount
   ): Promise<NeuronId> => {
-    const response = await this.service.claim_or_refresh_neuron_from_account({
+    const service = this.certifiedService;  // Note: This is an update call so the certified and uncertified services are identical in this case, however using the certified service provides for additional protection in case anything changes.
+    const response = await service.claim_or_refresh_neuron_from_account({
       controller: request.controller ? [request.controller] : [],
       memo: request.memo,
     });
