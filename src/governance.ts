@@ -66,7 +66,6 @@ export class GovernanceCanister {
    * it is fetched using a query call.
    *
    * TODO: Decide: The library method is getNeurons but the raw method is list_neurons.  Do we want this inconsistency?
-   * Note: In the API, an empty list is treated as an absent list and returns all.  Treating no filter in the same way as an empty filter is typically error prone.  There was a spectacular example of this in a Google datacentre where a SRE intended to format the disks on one machine, however the command had a typo, so the matching expression matched no disks, no disks was treated as all disks and all the disks in the datacentre were formatted.  Hopefully we won't have any errors as bad as this, however the same pattern of treating empty as all is used here.
    */
   public getNeurons = async ({
     certified = true,
