@@ -56,7 +56,7 @@ export class RequestConverters {
     // this.principal = principal;
   }
 
-  public fromGetNeuron = (neuronIds?: NeuronId[]): RawListNeurons => {
+  public fromListNeurons = (neuronIds?: NeuronId[]): RawListNeurons => {
     return {
       neuron_ids: neuronIds ?? [],
       include_neurons_readable_by_caller: neuronIds ? false : true,

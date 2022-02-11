@@ -1,10 +1,13 @@
 import { Actor } from "@dfinity/agent";
+import { Principal } from "@dfinity/principal";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { RequestConverters } from "./canisters/governance/request.converters";
 import { ResponseConverters } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { GovernanceCanisterOptions } from "./types/governance";
+import { NeuronInfo } from "./types/governance_converters";
+import { NeuronId } from "./types/common";
 import {
   KnownNeuron,
   ListProposalsRequest,
@@ -17,12 +20,14 @@ export class GovernanceCanister {
     private readonly service: GovernanceService,
     private readonly certifiedService: GovernanceService,
     private readonly requestConverters: RequestConverters,
-    private readonly responseConverters: ResponseConverters
+    private readonly responseConverters: ResponseConverters,
+    private readonly myPrincipal?: Principal,
   ) {
     this.service = service;
     this.certifiedService = certifiedService;
     this.requestConverters = requestConverters;
     this.responseConverters = responseConverters;
+    this.myPrincipal = myPrincipal;
   }
 
   public static create(options: GovernanceCanisterOptions = {}) {
@@ -53,6 +58,33 @@ export class GovernanceCanister {
       responseConverters
     );
   }
+
+  /**
+   * Returns the list of neurons controlled by the caller.
+   *
+   * If `certified` is true, the request is fetched as an update call, otherwise
+   * it is fetched using a query call.
+   *
+   * TODO: Decide: The library method is getNeurons but the raw method is list_neurons.  Do we want this inconsistency?
+   * Note: In the API, an empty list is treated as an absent list and returns all.  Treating no filter in the same way as an empty filter is typically error prone.  There was a spectacular example of this in a Google datacentre where a SRE intended to format the disks on one machine, however the command had a typo, so the matching expression matched no disks, no disks was treated as all disks and all the disks in the datacentre were formatted.  Hopefully we won't have any errors as bad as this, however the same pattern of treating empty as all is used here.
+   */
+  public getNeurons = async ({
+    certified = true,
+    neuronIds,  // Presumably: Get all neurons owned by the caller OR get the intersection of this with the given list.
+  }: {
+    certified: boolean;
+    neuronIds?: NeuronId[]
+  }): Promise<NeuronInfo[]> => {
+    if (undefined === this.myPrincipal) {
+      // An anonymous caller has no neurons.
+      return new Promise(() => []);
+    }
+    let principal: Principal = this.myPrincipal;
+    const rawRequest = this.requestConverters.fromListNeurons(neuronIds);
+    const service = certified ? this.certifiedService : this.service;
+    const raw_response = await service.list_neurons(rawRequest);
+    return this.responseConverters.toArrayOfNeuronInfo(raw_response, principal);
+  };
 
   /**
    * Returns the list of neurons who have been approved by the community to
