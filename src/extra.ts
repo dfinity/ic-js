@@ -3,16 +3,24 @@
 // - calls that require additional systems such as hardware wallets.
 
 import { Principal } from "@dfinity/principal";
+import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
 import { E8S_PER_ICP } from "./constants/constants";
 import { LedgerCanister } from "./ledger";
 import { NnsDappCanister } from "./nns_dapp";
 import { CreateNeuronRequest } from "./types/extra";
+import {
+  asciiStringToByteArray,
+  uint8ArrayToBigInt,
+} from "./utils/converter.utils";
 
 /**
  * Uses governance and ledger canisters to create a neuron.
  */
 export async function createNeuronWithNnsDapp({
+  principal,
+  ledgerCanister,
+  nnsDappCanister,
   request,
 }: {
   principal: Principal;
@@ -25,10 +33,10 @@ export async function createNeuronWithNnsDapp({
   }
 
   const nonceBytes = new Uint8Array(randomBytes(8));
+  const nonce = uint8ArrayToBigInt(nonceBytes);
+  const toSubAccount = buildSubAccount(nonceBytes, principal);
 
   /*
-  const nonce = convert.uint8ArrayToBigInt(nonceBytes);
-  const toSubAccount = buildSubAccount(nonceBytes, principal);
 
   const accountIdentifier = convert.principalToAccountIdentifier(
     GOVERNANCE_CANISTER_ID,
@@ -51,4 +59,12 @@ export async function createNeuronWithNnsDapp({
 */
 
   return new Promise(() => "foo");
+}
+
+// 32 bytes
+function buildSubAccount(nonce: Uint8Array, principal: Principal): Uint8Array {
+  const padding = asciiStringToByteArray("neuron-stake");
+  const shaObj = sha256.create();
+  shaObj.update([0x0c, ...padding, ...principal.toUint8Array(), ...nonce]);
+  return new Uint8Array(shaObj.array());
 }
