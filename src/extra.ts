@@ -3,6 +3,7 @@
 // - calls that require additional systems such as hardware wallets.
 
 import { Principal } from "@dfinity/principal";
+import randomBytes from "randombytes";
 import { E8S_PER_ICP } from "./constants/constants";
 import { LedgerCanister } from "./ledger";
 import { NnsDappCanister } from "./nns_dapp";
@@ -23,8 +24,9 @@ export async function createNeuronWithNnsDapp({
     throw "Need a minimum of 1 ICP to stake a neuron";
   }
 
-  /*
   const nonceBytes = new Uint8Array(randomBytes(8));
+
+  /*
   const nonce = convert.uint8ArrayToBigInt(nonceBytes);
   const toSubAccount = buildSubAccount(nonceBytes, principal);
 
