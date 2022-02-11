@@ -1,4 +1,4 @@
-// HttpAgent options that can be used at construction.
+// GovernanceCanister options that can be used at construction.
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { GovernanceService } from "../../candid/governance.idl";
