@@ -13,12 +13,12 @@
       "host": "https://nnsdapp.dfinity.network",
       "accounts": [
         {
-          "description": "A sample account",
-          "principal": "7020bb6ce77261e9d568676b353e89e52fd2af466d45fc29f6f7d4e8966fefbf"
-        },
-        {
           "description": "An account generated for every testnet and prepopulated with ICP",
           "principal": "5b315d2f6702cb3a27d826161797d7b2c2e131cd312aece51d4d5574d1247087"
+        },
+        {
+          "description": "A sample account",
+          "principal": "7020bb6ce77261e9d568676b353e89e52fd2af466d45fc29f6f7d4e8966fefbf"
         }
       ]
     }
