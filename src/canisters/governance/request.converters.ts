@@ -8,6 +8,7 @@ import {
   Change as RawChange,
   Command as RawCommand,
   Followees as RawFollowees,
+  ListNeurons as RawListNeurons,
   ListProposalInfo,
   ManageNeuron as RawManageNeuron,
   NeuronId as RawNeuronId,
@@ -54,6 +55,13 @@ export class RequestConverters {
     // Needed only for protobuf.
     // this.principal = principal;
   }
+
+  public fromListNeurons = (neuronIds?: NeuronId[]): RawListNeurons => {
+    return {
+      neuron_ids: neuronIds ?? [],
+      include_neurons_readable_by_caller: neuronIds ? false : true,
+    };
+  };
 
   public fromManageNeuron = (manageNeuron: ManageNeuron): RawManageNeuron => {
     return {
