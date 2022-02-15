@@ -1,5 +1,7 @@
 import { Actor, Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { idlFactory as certifiedIdlFactory } from "../candid/nns_dapp.certified.idl";
+import { NNSDappService } from "../candid/nns_dapp.idl";
 import {
   AccountBalanceRequest,
   BlockHeight as PbBlockHeight,
@@ -23,8 +25,7 @@ import {
   TxTooOld,
 } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
-import { idlFactory as certifiedIdlFactory } from "../candid/nns_dapp.certified.idl";
-import { NNSDappService } from "../candid/nns_dapp.idl";
+
 import { queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
@@ -78,11 +79,7 @@ export class LedgerCanister {
     );
   };
 
-  public createSubaccount = async ({
-    name,
-  }: {
-    name: string,
-  }) => {
+  public createSubaccount = async ({ name }: { name: string }) => {
     const service = Actor.createActor<NNSDappService>(certifiedIdlFactory, {
       agent: this.agent,
       canisterId: this.canisterId,
@@ -108,7 +105,7 @@ export class LedgerCanister {
     }
 
     return response.Ok;
-  }
+  };
 
   /**
    * Transfer ICP from the caller to the destination `accountIdentifier`.
