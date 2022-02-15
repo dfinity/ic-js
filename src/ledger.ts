@@ -1,4 +1,4 @@
-import { Agent } from "@dfinity/agent";
+import { Actor, Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import {
   AccountBalanceRequest,
@@ -23,6 +23,8 @@ import {
   TxTooOld,
 } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
+import { idlFactory as certifiedIdlFactory } from "../candid/nns_dapp.certified.idl";
+import { NNSDappService, idlFactory } from "../candid/nns_dapp.idl";
 import { queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
@@ -75,6 +77,38 @@ export class LedgerCanister {
       BigInt(ICPTs.deserializeBinary(new Uint8Array(responseBytes)).getE8s())
     );
   };
+
+  public createSubaccount = async ({
+    name,
+  }: {
+    name: string,
+  }) => {
+    const service = Actor.createActor<NNSDappService>(certifiedIdlFactory, {
+      agent: this.agent,
+      canisterId: this.canisterId,
+    });
+
+    let counter = 0;
+    let response = await service.create_sub_account(name);
+    while (response.AccountNotFound === null && counter < 2) {
+      // This was needed at least once, why?
+      // Otherwise I was getting a `AccountNotFound` error
+      await service.add_account();
+      response = await service.create_sub_account(name);
+    }
+
+    if (response.NameTooLong === null) {
+      // Which is the limit?
+      throw new Error(`Error, name ${name} is too long`);
+    }
+
+    if (response.SubAccountLimitExceeded === null) {
+      // Which is the limit?
+      throw new Error(`Error, name ${name} is too long`);
+    }
+
+    return response.Ok;
+  }
 
   /**
    * Transfer ICP from the caller to the destination `accountIdentifier`.
