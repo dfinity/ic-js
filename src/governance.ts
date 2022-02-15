@@ -7,6 +7,7 @@ import { ResponseConverters } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
+import { ProposalInfo } from "./types/governance_converters";
 import {
   KnownNeuron,
   ListProposalsRequest,
@@ -126,4 +127,24 @@ export class GovernanceCanister {
     const rawResponse = await service.list_proposals(rawRequest);
     return this.responseConverters.toListProposalsResponse(rawResponse);
   };
+  
+  /**
+   * Returns the proposal
+   *
+   * If `certified` is true (default), the request is fetched as an update call, otherwise
+   * it is fetched using a query call.
+   */
+  public getProposalInfo = async ({
+    proposalId,
+    certified = true
+  }: {
+    proposalId: bigint,
+    certified?: boolean
+  }): Promise<ProposalInfo | null> => {
+    const service = certified ? this.certifiedService : this.service;
+    const rawResponse = await service.get_proposal_info(proposalId);
+    return rawResponse.length
+      ? this.responseConverters.toProposalInfo(rawResponse[0])
+      : null;
+  }
 }
