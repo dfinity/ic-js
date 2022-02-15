@@ -7,12 +7,12 @@ import { ResponseConverters } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
-import { ProposalInfo } from "./types/governance_converters";
 import {
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
   NeuronInfo,
+  ProposalInfo,
 } from "./types/governance_converters";
 import { defaultAgent } from "./utils/agent.utils";
 
@@ -127,7 +127,7 @@ export class GovernanceCanister {
     const rawResponse = await service.list_proposals(rawRequest);
     return this.responseConverters.toListProposalsResponse(rawResponse);
   };
-  
+
   /**
    * Returns the proposal
    *
@@ -136,15 +136,15 @@ export class GovernanceCanister {
    */
   public getProposalInfo = async ({
     proposalId,
-    certified = true
+    certified = true,
   }: {
-    proposalId: bigint,
-    certified?: boolean
+    proposalId: bigint;
+    certified?: boolean;
   }): Promise<ProposalInfo | null> => {
     const service = certified ? this.certifiedService : this.service;
     const rawResponse = await service.get_proposal_info(proposalId);
     return rawResponse.length
       ? this.responseConverters.toProposalInfo(rawResponse[0])
       : null;
-  }
+  };
 }
