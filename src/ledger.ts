@@ -24,7 +24,7 @@ import {
 } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
 import { idlFactory as certifiedIdlFactory } from "../candid/nns_dapp.certified.idl";
-import { NNSDappService, idlFactory } from "../candid/nns_dapp.idl";
+import { NNSDappService } from "../candid/nns_dapp.idl";
 import { queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
@@ -88,7 +88,7 @@ export class LedgerCanister {
       canisterId: this.canisterId,
     });
 
-    let counter = 0;
+    const counter = 0;
     let response = await service.create_sub_account(name);
     while (response.AccountNotFound === null && counter < 2) {
       // This was needed at least once, why?
