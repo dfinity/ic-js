@@ -25,7 +25,6 @@ import {
   TxTooOld,
 } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
-
 import { queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
