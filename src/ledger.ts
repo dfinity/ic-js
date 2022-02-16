@@ -3,6 +3,10 @@ import { Principal } from "@dfinity/principal";
 import { idlFactory as certifiedIdlFactory } from "../candid/nns_dapp.certified.idl";
 import { NNSDappService } from "../candid/nns_dapp.idl";
 import {
+  CreateSubAccountResponse,
+  SubAccountDetails,
+} from "../candid/nns_dappTypes";
+import {
   AccountBalanceRequest,
   BlockHeight as PbBlockHeight,
   ICPTs,
@@ -78,32 +82,50 @@ export class LedgerCanister {
     );
   };
 
-  public createSubaccount = async ({ name }: { name: string }) => {
-    const service = Actor.createActor<NNSDappService>(certifiedIdlFactory, {
-      agent: this.agent,
-      canisterId: this.canisterId,
-    });
+  /**
+   * Creates a subaccount with the name and returns the Subaccount details
+   *
+   * TODO: Does this belong here in the "LedgerCanister"
+   * TODO: Error messages
+   * TODO: Why is calling to `add_account` needed?
+   */
+  public createSubaccount = async ({
+    subAccountName,
+  }: {
+    subAccountName: string;
+  }): Promise<SubAccountDetails> => {
+    const service: NNSDappService = Actor.createActor<NNSDappService>(
+      certifiedIdlFactory,
+      {
+        agent: this.agent,
+        canisterId: this.canisterId,
+      }
+    );
 
+    const MAX_TRIES = 2;
     const counter = 0;
-    let response = await service.create_sub_account(name);
-    while (response.AccountNotFound === null && counter < 2) {
-      // This was needed at least once, why?
-      // Otherwise I was getting a `AccountNotFound` error
+    let response: CreateSubAccountResponse = await service.create_sub_account(
+      subAccountName
+    );
+    while (response.AccountNotFound === null && counter < MAX_TRIES) {
+      // I was getting a `AccountNotFound` error until `add_account` was called at least once.
+      // Why?
       await service.add_account();
-      response = await service.create_sub_account(name);
+      response = await service.create_sub_account(subAccountName);
+    }
+    const { NameTooLong, SubAccountLimitExceeded, Ok } = response;
+
+    if (NameTooLong === null) {
+      // Which is the character?
+      throw new Error(`Error, name ${subAccountName} is too long`);
     }
 
-    if (response.NameTooLong === null) {
-      // Which is the limit?
-      throw new Error(`Error, name ${name} is too long`);
+    if (SubAccountLimitExceeded === null) {
+      // Which is the limit of subaccounts?
+      throw new Error(`Error, name ${subAccountName} is too long`);
     }
 
-    if (response.SubAccountLimitExceeded === null) {
-      // Which is the limit?
-      throw new Error(`Error, name ${name} is too long`);
-    }
-
-    return response.Ok;
+    return Ok;
   };
 
   /**
