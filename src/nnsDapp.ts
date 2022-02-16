@@ -44,6 +44,7 @@ export class NNSDappCanister {
    * Used to be able to create subAccounts
    *
    * TODO: Understand why we need this?
+   * TODO: Remove if not needed?
    *
    * @returns Promise<void>
    */
@@ -87,6 +88,11 @@ export class NNSDappCanister {
       throw new Error(`Error, name ${subAccountName} is too long`);
     }
 
-    return Ok;
+    if (Ok) {
+      return Ok;
+    }
+
+    // We should never reach here. Some of the previous properties should be present.
+    throw new Error("Error creating subaccount");
   };
 }

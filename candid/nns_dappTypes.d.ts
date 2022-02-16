@@ -23,7 +23,7 @@ export interface CanisterDetails {
 }
 export type CanisterId = Principal;
 export type CreateSubAccountResponse = {
-  Ok: SubAccountDetails;
+  Ok?: SubAccountDetails;
   AccountNotFound?: null;
   NameTooLong?: null;
   SubAccountLimitExceeded?: null;
