@@ -1,11 +1,5 @@
-import { Actor, Agent } from "@dfinity/agent";
+import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { idlFactory as certifiedIdlFactory } from "../candid/nns_dapp.certified.idl";
-import { NNSDappService } from "../candid/nns_dapp.idl";
-import {
-  CreateSubAccountResponse,
-  SubAccountDetails,
-} from "../candid/nns_dappTypes";
 import {
   AccountBalanceRequest,
   BlockHeight as PbBlockHeight,
@@ -80,52 +74,6 @@ export class LedgerCanister {
     return ICP.fromE8s(
       BigInt(ICPTs.deserializeBinary(new Uint8Array(responseBytes)).getE8s())
     );
-  };
-
-  /**
-   * Creates a subaccount with the name and returns the Subaccount details
-   *
-   * TODO: Does this belong here in the "LedgerCanister"
-   * TODO: Error messages
-   * TODO: Why is calling to `add_account` needed?
-   */
-  public createSubaccount = async ({
-    subAccountName,
-  }: {
-    subAccountName: string;
-  }): Promise<SubAccountDetails> => {
-    const service: NNSDappService = Actor.createActor<NNSDappService>(
-      certifiedIdlFactory,
-      {
-        agent: this.agent,
-        canisterId: this.canisterId,
-      }
-    );
-
-    const MAX_TRIES = 2;
-    const counter = 0;
-    let response: CreateSubAccountResponse = await service.create_sub_account(
-      subAccountName
-    );
-    while (response.AccountNotFound === null && counter < MAX_TRIES) {
-      // I was getting a `AccountNotFound` error until `add_account` was called at least once.
-      // Why?
-      await service.add_account();
-      response = await service.create_sub_account(subAccountName);
-    }
-    const { NameTooLong, SubAccountLimitExceeded, Ok } = response;
-
-    if (NameTooLong === null) {
-      // Which is the character?
-      throw new Error(`Error, name ${subAccountName} is too long`);
-    }
-
-    if (SubAccountLimitExceeded === null) {
-      // Which is the limit of subaccounts?
-      throw new Error(`Error, name ${subAccountName} is too long`);
-    }
-
-    return Ok;
   };
 
   /**
