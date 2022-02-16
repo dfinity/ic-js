@@ -24,9 +24,9 @@
     "update_proto": "bash ./scripts/update_proto.sh"
   },
   "dependencies": {
-    "@dfinity/agent": "^0.10.2",
-    "@dfinity/candid": "^0.10.2",
-    "@dfinity/principal": "^0.10.2",
+    "@dfinity/agent": "^0.10.3",
+    "@dfinity/candid": "^0.10.3",
+    "@dfinity/principal": "^0.10.3",
     "crc": "^3.8.0",
     "crc-32": "^1.2.0",
     "google-protobuf": "^3.19.1",
