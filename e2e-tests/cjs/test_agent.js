@@ -10,7 +10,7 @@ import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
  * @return { network: String, testConfig: object }
  */
 const getNetworkConfig = () => {
-  const network = process.env.NETWORK;
+  const network = process.env.NETWORK || "nnsdapp";
   if (!network) throw new Error("Environment variable 'NETWORK' must be set.");
   const testConfig = require("../config").networks[network];
   if (!testConfig)
