@@ -5,10 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build" : "tsc",
-    "test": "( cd ../../ &&  npm pack ) && jest"
+    "test": "( cd ../../ &&  npm pack ) && npm run build && jest"
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@dfinity/agent": "^0.10.3",
+    "@dfinity/nns": "../../dfinity-nns-0.2.1.tgz",
+    "cross-fetch": "^3.1.5"
+  },
   "devDependencies": {
     "typescript": "^4.5.5"
   }
