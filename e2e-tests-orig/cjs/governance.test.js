@@ -3,7 +3,7 @@
  */
 
 const { testConfig, testAgent } = require("./test_agent");
-const nns = require("../../dist"); // in real use cases:  require("@dfinity/nns");
+const nns = require("@dfinity/nns"); // in real use cases:  require("@dfinity/nns");
 const { AccountIdentifier, GovernanceCanister } = nns;
 
 test(

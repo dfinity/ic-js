@@ -37,9 +37,4 @@ const testAgent = () => {
   return ans;
 };
 
-// If not running in browser, add polyfill of `window.fetch` for agent-js to work.
-const fetch = require("cross-fetch");
-global.fetch = fetch;
-
-
 module.exports = { testConfig, testAgent };
