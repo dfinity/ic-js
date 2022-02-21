@@ -1,4 +1,4 @@
-// TODO: Should this be in src/types?
+// TODO (L2-297): Move this to src/types
 import { Principal } from "@dfinity/principal";
 import { sha224 } from "js-sha256";
 import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
@@ -8,7 +8,7 @@ import {
   toHexString,
 } from "./utils/converter.utils";
 
-// TODO: There are two different definitions of AccountIdentifier.
+// TODO (L2-298): There are two different definitions of AccountIdentifier.
 // - One is as a string in src/types/common.ts - it is trivial and is just an alias of `string`.
 // - The other is here.
 // It is confusing having two with the same name.  Can we nuke or rename one?  Perhaps nuke the `string` alias?
