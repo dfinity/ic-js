@@ -1,14 +1,17 @@
 import { Actor } from "@dfinity/agent";
+import { Principal } from "@dfinity/principal";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { RequestConverters } from "./canisters/governance/request.converters";
 import { ResponseConverters } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
+import { NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
 import {
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
+  NeuronInfo,
 } from "./types/governance_converters";
 import { defaultAgent } from "./utils/agent.utils";
 
@@ -17,12 +20,14 @@ export class GovernanceCanister {
     private readonly service: GovernanceService,
     private readonly certifiedService: GovernanceService,
     private readonly requestConverters: RequestConverters,
-    private readonly responseConverters: ResponseConverters
+    private readonly responseConverters: ResponseConverters,
+    private readonly myPrincipal?: Principal
   ) {
     this.service = service;
     this.certifiedService = certifiedService;
     this.requestConverters = requestConverters;
     this.responseConverters = responseConverters;
+    this.myPrincipal = myPrincipal;
   }
 
   public static create(options: GovernanceCanisterOptions = {}) {
@@ -53,6 +58,34 @@ export class GovernanceCanister {
       responseConverters
     );
   }
+
+  /**
+   * Returns the list of neurons controlled by the caller.
+   *
+   * If an array of neuron IDs is provided, precisely those neurons will be fetched.
+   *
+   * If `certified` is true, the request is fetched as an update call, otherwise
+   * it is fetched using a query call.
+   *
+   * TODO: Decide: The library method is getNeurons but the raw method is list_neurons.  Do we want this inconsistency?
+   */
+  public getNeurons = async ({
+    certified = true,
+    neuronIds,
+  }: {
+    certified: boolean;
+    neuronIds?: NeuronId[];
+  }): Promise<NeuronInfo[]> => {
+    if (undefined === this.myPrincipal) {
+      // An anonymous caller has no neurons.
+      return new Promise(() => []);
+    }
+    const principal: Principal = this.myPrincipal;
+    const rawRequest = this.requestConverters.fromListNeurons(neuronIds);
+    const service = certified ? this.certifiedService : this.service;
+    const raw_response = await service.list_neurons(rawRequest);
+    return this.responseConverters.toArrayOfNeuronInfo(raw_response, principal);
+  };
 
   /**
    * Returns the list of neurons who have been approved by the community to
