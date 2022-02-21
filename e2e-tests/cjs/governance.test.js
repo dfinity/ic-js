@@ -6,14 +6,14 @@ const { testConfig, testAgent } = require("./test_agent");
 const nns = require("../../dist"); // in real use cases:  require("@dfinity/nns");
 const { AccountIdentifier, GovernanceCanister } = nns;
 
-test("Should be able to list known neurons", () => {
+test("Should be able to list known neurons", () =>
   testAgent().then((agent) => {
     let gov = GovernanceCanister.create({ agent });
     return gov.listKnownNeurons().then(console.log);
-  });
-}, 30000);
+  })
+, 300000);
 
-test("Should be able to list proposals", () => {
+test("Should be able to list proposals", () =>
   testAgent()
     .then((agent) => GovernanceCanister.create({ agent }))
     .then((gov) =>
@@ -30,5 +30,5 @@ test("Should be able to list proposals", () => {
           console.log(result);
           expect(result.proposals.length).toBe(5);
         })
-    );
-}, 30000);
+    )
+, 30000);
