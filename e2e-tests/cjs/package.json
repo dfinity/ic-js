@@ -1,11 +1,11 @@
 {
-  "name": "foo",
+  "name": "dfinity-nns-cjs-tests",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "jest"
+    "test": "( cd ../../ &&  npm pack ) && jest"
   },
   "dependencies": {
     "@dfinity/agent": "^0.10.3",
