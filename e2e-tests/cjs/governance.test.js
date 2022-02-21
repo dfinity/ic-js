@@ -9,7 +9,9 @@ const { AccountIdentifier, GovernanceCanister } = nns;
 test("Should be able to list known neurons", () =>
   testAgent().then((agent) => {
     let gov = GovernanceCanister.create({ agent });
-    return gov.listKnownNeurons().then(console.log);
+    return gov.listKnownNeurons().then(neurons => {
+      expect(neurons).toBeInstanceOf(Array);
+    });
   })
 , 300000);
 
@@ -27,8 +29,9 @@ test("Should be able to list proposals", () =>
           },
         })
         .then((result) => {
-          console.log(result);
-          expect(result.proposals.length).toBe(5);
+          expect(result).toBeInstanceOf(Object);
+          expect(result.proposals).toBeInstanceOf(Array);
+          expect(result.proposals.length).toBeGreaterThan(0);
         })
     )
 , 30000);
