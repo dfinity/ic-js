@@ -11,15 +11,13 @@ test("Should be able to get a balance", () => {
   return testAgent()
     .then((agent) => {
       return LedgerCanister.create({ agent });
-     })
+    })
     .then((ledger) => {
       let anAccount = testConfig.accounts[0];
       const accountIdentifier = AccountIdentifier.fromHex(anAccount.principal);
 
-      return ledger
-        .accountBalance({ accountIdentifier })
-        .then((balance) => {
-          expect(balance).toBeInstanceOf(ICP);
-        });
+      return ledger.accountBalance({ accountIdentifier }).then((balance) => {
+        expect(balance).toBeInstanceOf(ICP);
+      });
     });
 }, 5000000);
