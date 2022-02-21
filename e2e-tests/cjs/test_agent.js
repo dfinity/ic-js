@@ -1,7 +1,20 @@
 // Creates a @dfinity/agent for testing purposes.
-const network = process.env.NETWORK || "mainnet";
-const testConfig = require("../config").networks[network];
 import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
+
+/**
+ * Gets the configuration for the given network, or panics if there is none.
+ * @return { network: String, testConfig: object }
+ */
+const getNetworkConfig = () => {
+  const network = process.env.NETWORK;
+  if (!network) throw new Error("Environment variable 'NETWORK' must be set.");
+  const testConfig = require("../config").networks[network];
+  if (!testConfig)
+    throw new Error(`Missing e2e configuration for network '${network}'.`);
+  return { network, testConfig };
+};
+
+const { network, testConfig } = getNetworkConfig();
 
 const testAgent = () => {
   let agent = new HttpAgent({
