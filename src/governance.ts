@@ -16,7 +16,6 @@ import {
 } from "./types/governance_converters";
 import { defaultAgent } from "./utils/agent.utils";
 
-// TODO: Should this be renamed to something like GovernanceClient or GovernanceApi or GovernanceService?  The governance canister is something running wasm on the IC, not this code which runs in a browser.
 export class GovernanceCanister {
   readonly canisterId: Principal;
 
