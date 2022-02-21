@@ -81,8 +81,6 @@ export class LedgerCanister {
    * Returns the index of the block containing the tx if it was successful.
    *
    * TODO: support remaining options (subaccounts, memos, etc.)
-   *
-   * Note: This is (presumably) equivalent to sendICPTs in `nns-dapp/frontend/ts`.
    */
   public transfer = async ({
     to,
@@ -109,12 +107,8 @@ export class LedgerCanister {
     }
 
     if (fromSubAccountId) {
-      // TODO
-      /*
-        const subAccount = new PbSubaccount();
-        subAccount.setSubaccount(fromSubAccountId);
-        request.setFromSubaccount(subAccount);
-      */
+      console.warn("Subaccounts are not supported yet.");
+      return new Promise((_, nay) => nay(new InvalidSender()));
     }
 
     const responseBytes = await this.updateFetcher(
