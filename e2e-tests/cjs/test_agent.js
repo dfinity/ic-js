@@ -25,16 +25,13 @@ const { network, testConfig } = getNetworkConfig();
  * @return {HttpAgent}
  */
 const testAgent = () => {
-console.log("Making agent");
   let agent = new HttpAgent({
     host: testConfig.host,
     identity: new AnonymousIdentity(),
   });
-console.log("Making maybe geting the root key");
 
   let ans = new Promise((yay) => yay(agent));
   if (network !== "mainnet") {
-console.log("Fetching...");
     ans = ans.then((agent) => agent.fetchRootKey().then(() => agent));
   }
   return ans;
