@@ -6,7 +6,7 @@ import { testAgent } from "./test_agent";
  */
 async function main() {
   const agent = await testAgent();
-  const ledger = LedgerCanister.create({agent});
+  const ledger = LedgerCanister.create({ agent });
 
   const accountIdentifier = AccountIdentifier.fromHex(
     "efa01544f509c56dd85449edf2381244a48fad1ede5183836229c00ab00d52df"
@@ -18,4 +18,3 @@ async function main() {
 }
 
 main();
-

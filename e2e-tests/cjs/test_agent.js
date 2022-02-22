@@ -41,5 +41,4 @@ const testAgent = () => {
 const fetch = require("cross-fetch");
 global.fetch = fetch;
 
-
 module.exports = { testConfig, testAgent };
