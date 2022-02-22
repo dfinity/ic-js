@@ -4,7 +4,7 @@
  */
 
 import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
-import * as fetch from "cross-fetch";
+import fetch from "cross-fetch";
 
 /**
  * Gets the configuration for the given network, or panics if there is none.
@@ -25,17 +25,16 @@ export const { network, testConfig } = getNetworkConfig();
  * Creates a test agent.
  * @return {HttpAgent}
  */
-export const testAgent = () => {
-  let agent = new HttpAgent({
+export const testAgent: () => Promise<HttpAgent> = async () => {
+  let agent: HttpAgent = new HttpAgent({
     host: testConfig.host,
     identity: new AnonymousIdentity(),
   });
 
-  let ans = new Promise((yay) => yay(agent));
   if (network !== "mainnet") {
-    ans = ans.then((agent) => agent.fetchRootKey().then(() => agent));
+    await agent.fetchRootKey();
   }
-  return ans;
+  return agent;
 };
 
 // If not running in browser, add polyfill of `window.fetch` for agent-js to work.
