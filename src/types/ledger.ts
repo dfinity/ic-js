@@ -1,7 +1,7 @@
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { ICP } from "../icp";
-import {BlockHeight} from './common';
+import { BlockHeight } from "./common";
 
 export type TransferError =
   | InvalidSender
