@@ -8,6 +8,7 @@ import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
 import {
+  ClaimOrRefreshNeuronFromAccount,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
@@ -146,5 +147,29 @@ export class GovernanceCanister {
     return rawResponse.length
       ? this.responseConverters.toProposalInfo(rawResponse[0])
       : null;
+  };
+
+  /**
+   * Gets the NeuronID of a newly created neuron.
+   */
+  public claimOrRefreshNeuronFromAccount = async (
+    request: ClaimOrRefreshNeuronFromAccount
+  ): Promise<NeuronId> => {
+    // Note: This is an update call so the certified and uncertified services are identical in this case,
+    // however using the certified service provides protection in case that changes.
+    const service = this.certifiedService;
+    const response = await service.claim_or_refresh_neuron_from_account({
+      controller: request.controller ? [request.controller] : [],
+      memo: request.memo,
+    });
+
+    const result = response.result;
+    if (result.length && "NeuronId" in result[0]) {
+      return result[0].NeuronId.id;
+    } else {
+      throw new Error(
+        `Error claiming/refreshing neuron: ${JSON.stringify(result)}`
+      );
+    }
   };
 }
