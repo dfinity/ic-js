@@ -85,7 +85,9 @@ export class GovernanceCanister {
     }
     const principal: Principal = this.myPrincipal;
     const rawRequest = this.requestConverters.fromListNeurons(neuronIds);
-    const raw_response = await this.getGovernanceService(certified).list_neurons(rawRequest);
+    const raw_response = await this.getGovernanceService(
+      certified
+    ).list_neurons(rawRequest);
     return this.responseConverters.toArrayOfNeuronInfo(raw_response, principal);
   };
 
@@ -99,7 +101,9 @@ export class GovernanceCanister {
   public listKnownNeurons = async (
     certified = true
   ): Promise<KnownNeuron[]> => {
-    const response = await this.getGovernanceService(certified).list_known_neurons();
+    const response = await this.getGovernanceService(
+      certified
+    ).list_known_neurons();
 
     return response.known_neurons.map((n) => ({
       id: n.id[0]?.id ?? BigInt(0),
@@ -123,7 +127,9 @@ export class GovernanceCanister {
     certified?: boolean;
   }): Promise<ListProposalsResponse> => {
     const rawRequest = this.requestConverters.fromListProposalsRequest(request);
-    const rawResponse = await this.getGovernanceService(certified).list_proposals(rawRequest);
+    const rawResponse = await this.getGovernanceService(
+      certified
+    ).list_proposals(rawRequest);
     return this.responseConverters.toListProposalsResponse(rawResponse);
   };
 
@@ -140,9 +146,12 @@ export class GovernanceCanister {
     proposalId: bigint;
     certified?: boolean;
   }): Promise<ProposalInfo | undefined> => {
-    const [proposalInfo]: [] | [RawProposalInfo] = await this.getGovernanceService(certified).get_proposal_info(proposalId);
-    return proposalInfo ? this.responseConverters.toProposalInfo(proposalInfo) : undefined;
-  }
+    const [proposalInfo]: [] | [RawProposalInfo] =
+      await this.getGovernanceService(certified).get_proposal_info(proposalId);
+    return proposalInfo
+      ? this.responseConverters.toProposalInfo(proposalInfo)
+      : undefined;
+  };
 
   /**
    * Gets the NeuronID of a newly created neuron.
