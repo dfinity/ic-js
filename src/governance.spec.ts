@@ -1,10 +1,16 @@
+import { AnonymousIdentity } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
+import { ICP, LedgerCanister } from ".";
 import { GovernanceService } from "../candid/governance.idl";
 import {
+  ClaimOrRefreshNeuronFromAccountResponse,
   ListKnownNeuronsResponse,
+  ListNeuronsResponse,
+  NeuronInfo,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
 import { GovernanceCanister } from "./governance";
+import { InsufficientAmount } from "./types/errors";
 
 describe("GovernanceCanister.listKnownNeurons", () => {
   it("populates all KnownNeuron fields correctly", async () => {
@@ -106,5 +112,95 @@ describe("GovernanceCanister.listKnownNeurons", () => {
       expect(response).not.toBeUndefined();
       expect(response).toHaveProperty("id", 1n);
     });
+  });
+
+  it("creates new neuron successfully", async () => {
+    const neuronId = BigInt(1);
+    const clainNeuronResponse: ClaimOrRefreshNeuronFromAccountResponse = {
+      result: [{ NeuronId: { id: neuronId } }],
+    };
+    const service = mock<GovernanceService>();
+    service.claim_or_refresh_neuron_from_account.mockResolvedValue(
+      clainNeuronResponse
+    );
+
+    const mockLedger = mock<LedgerCanister>();
+    mockLedger.transfer.mockImplementation(
+      jest.fn().mockResolvedValue(BigInt(1))
+    );
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const response = await governance.stakeNeuron({
+      stake: ICP.fromString("1") as ICP,
+      principal: new AnonymousIdentity().getPrincipal(),
+      ledgerCanister: mockLedger,
+    });
+
+    expect(mockLedger.transfer).toBeCalled();
+    expect(service.claim_or_refresh_neuron_from_account).toBeCalled();
+    expect(response).toEqual(neuronId);
+  });
+
+  it("returns insufficient amount errors", async () => {
+    const neuronId = BigInt(1);
+    const clainNeuronResponse: ClaimOrRefreshNeuronFromAccountResponse = {
+      result: [{ NeuronId: { id: neuronId } }],
+    };
+    const service = mock<GovernanceService>();
+    service.claim_or_refresh_neuron_from_account.mockResolvedValue(
+      clainNeuronResponse
+    );
+
+    const mockLedger = mock<LedgerCanister>();
+    mockLedger.transfer.mockImplementation(jest.fn());
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const response = await governance.stakeNeuron({
+      stake: ICP.fromString("0.1") as ICP,
+      principal: new AnonymousIdentity().getPrincipal(),
+      ledgerCanister: mockLedger,
+    });
+
+    expect(mockLedger.transfer).not.toBeCalled();
+    expect(service.claim_or_refresh_neuron_from_account).not.toBeCalled();
+    expect(response).not.toEqual(neuronId);
+    expect(response).toBeInstanceOf(InsufficientAmount);
+  });
+
+  it("gets user neurons", async () => {
+    const one = BigInt(1);
+    const mockNeuronInfo: NeuronInfo = {
+      dissolve_delay_seconds: one,
+      recent_ballots: [],
+      created_timestamp_seconds: one,
+      state: 2,
+      stake_e8s: one,
+      joined_community_fund_timestamp_seconds: [],
+      retrieved_at_timestamp_seconds: one,
+      known_neuron_data: [],
+      voting_power: one,
+      age_seconds: one,
+    };
+    const response: ListNeuronsResponse = {
+      neuron_infos: [[BigInt(1), mockNeuronInfo]],
+      full_neurons: [],
+    };
+    const service = mock<GovernanceService>();
+    service.list_neurons.mockResolvedValue(response);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+      serviceOverride: service,
+    });
+    const neurons = await governance.getNeurons({
+      certified: true,
+      principal: new AnonymousIdentity().getPrincipal(),
+    });
+    expect(service.list_neurons).toBeCalled();
+    expect(neurons.length).toBe(1);
   });
 });
