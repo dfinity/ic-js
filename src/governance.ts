@@ -1,13 +1,25 @@
 import { Actor } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { sha256 } from "js-sha256";
+import randomBytes from "randombytes";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { GovernanceService, idlFactory } from "../candid/governance.idl";
 import { ProposalInfo as RawProposalInfo } from "../candid/governanceTypes";
+import { AccountIdentifier, SubAccount } from "./account_identifier";
 import { RequestConverters } from "./canisters/governance/request.converters";
 import { ResponseConverters } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
+import { E8S_PER_ICP } from "./constants/constants";
+import { ICP } from "./icp";
+import { LedgerCanister } from "./ledger";
 import { NeuronId } from "./types/common";
-import { GovernanceCanisterOptions } from "./types/governance";
+import {
+  CouldNotClaimNeuronError,
+  GovernanceCanisterOptions,
+  InsufficientAmount,
+  StakeNeuronError,
+  StakeNeuronTransferError,
+} from "./types/governance";
 import {
   ClaimOrRefreshNeuronFromAccount,
   KnownNeuron,
@@ -17,20 +29,24 @@ import {
   ProposalInfo,
 } from "./types/governance_converters";
 import { defaultAgent } from "./utils/agent.utils";
+import {
+  asciiStringToByteArray,
+  uint8ArrayToBigInt,
+} from "./utils/converter.utils";
 
 export class GovernanceCanister {
   private constructor(
+    private readonly canisterId: Principal,
     private readonly service: GovernanceService,
     private readonly certifiedService: GovernanceService,
     private readonly requestConverters: RequestConverters,
-    private readonly responseConverters: ResponseConverters,
-    private readonly myPrincipal?: Principal
+    private readonly responseConverters: ResponseConverters
   ) {
+    this.canisterId = canisterId;
     this.service = service;
     this.certifiedService = certifiedService;
     this.requestConverters = requestConverters;
     this.responseConverters = responseConverters;
-    this.myPrincipal = myPrincipal;
   }
 
   public static create(options: GovernanceCanisterOptions = {}) {
@@ -55,6 +71,7 @@ export class GovernanceCanister {
     const responseConverters = new ResponseConverters();
 
     return new GovernanceCanister(
+      canisterId,
       service,
       certifiedService,
       requestConverters,
@@ -74,16 +91,13 @@ export class GovernanceCanister {
    */
   public getNeurons = async ({
     certified = true,
+    principal,
     neuronIds,
   }: {
     certified: boolean;
+    principal: Principal;
     neuronIds?: NeuronId[];
   }): Promise<NeuronInfo[]> => {
-    if (undefined === this.myPrincipal) {
-      // An anonymous caller has no neurons.
-      return new Promise(() => []);
-    }
-    const principal: Principal = this.myPrincipal;
     const rawRequest = this.requestConverters.fromListNeurons(neuronIds);
     const raw_response = await this.getGovernanceService(
       certified
@@ -133,6 +147,52 @@ export class GovernanceCanister {
     return this.responseConverters.toListProposalsResponse(rawResponse);
   };
 
+  public stakeNeuron = async ({
+    stake,
+    principal,
+    ledgerCanister,
+  }: {
+    stake: ICP;
+    principal: Principal;
+    ledgerCanister: LedgerCanister;
+  }): Promise<NeuronId | StakeNeuronError> => {
+    if (stake.toE8s() < E8S_PER_ICP) {
+      return new InsufficientAmount(ICP.fromString("1") as ICP);
+    }
+
+    const nonceBytes = new Uint8Array(randomBytes(8));
+    const nonce = uint8ArrayToBigInt(nonceBytes);
+    const toSubAccount = this.buildNeuronStakeSubAccount(nonceBytes, principal);
+    const accountIdentifier = AccountIdentifier.fromPrincipal({
+      principal: this.canisterId,
+      subAccount: toSubAccount,
+    });
+
+    // Send amount to the ledger.
+    const response = await ledgerCanister.transfer({
+      memo: nonce,
+      amount: stake,
+      to: accountIdentifier,
+      // TODO: Support subaccounts
+    });
+
+    if (typeof response !== "bigint") {
+      // TransferError
+      return new StakeNeuronTransferError(response);
+    }
+
+    // Notify the governance of the transaction so that the neuron is created.
+    const neuronId = this.claimOrRefreshNeuronFromAccount({
+      controller: principal,
+      memo: nonce,
+    });
+
+    // Typescript was complaining with `neuronId || new NeuronNotFound()`:
+    // "Type 'undefined' is not assignable to type 'bigint | StakeNeuronError | TransferError'"
+    // hence the explicit check.
+    return neuronId === undefined ? new CouldNotClaimNeuronError() : neuronId;
+  };
+
   /**
    * Returns single proposal info
    *
@@ -158,7 +218,7 @@ export class GovernanceCanister {
    */
   public claimOrRefreshNeuronFromAccount = async (
     request: ClaimOrRefreshNeuronFromAccount
-  ): Promise<NeuronId> => {
+  ): Promise<NeuronId | undefined> => {
     // Note: This is an update call so the certified and uncertified services are identical in this case,
     // however using the certified service provides protection in case that changes.
     const service = this.certifiedService;
@@ -170,11 +230,17 @@ export class GovernanceCanister {
     const result = response.result;
     if (result.length && "NeuronId" in result[0]) {
       return result[0].NeuronId.id;
-    } else {
-      throw new Error(
-        `Error claiming/refreshing neuron: ${JSON.stringify(result)}`
-      );
     }
+  };
+
+  private buildNeuronStakeSubAccount = (
+    nonce: Uint8Array,
+    principal: Principal
+  ): SubAccount => {
+    const padding = asciiStringToByteArray("neuron-stake");
+    const shaObj = sha256.create();
+    shaObj.update([0x0c, ...padding, ...principal.toUint8Array(), ...nonce]);
+    return SubAccount.fromBytes(new Uint8Array(shaObj.array())) as SubAccount;
   };
 
   private getGovernanceService(certified: boolean): GovernanceService {
