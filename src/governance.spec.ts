@@ -1,6 +1,9 @@
 import { mock } from "jest-mock-extended";
 import { GovernanceService } from "../candid/governance.idl";
-import { ListKnownNeuronsResponse } from "../candid/governanceTypes";
+import {
+  ListKnownNeuronsResponse,
+  ProposalInfo as RawProposalInfo,
+} from "../candid/governanceTypes";
 import { GovernanceCanister } from "./governance";
 
 describe("GovernanceCanister.listKnownNeurons", () => {
@@ -76,5 +79,32 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     const res = await governance.listKnownNeurons(false);
 
     expect(res.map((n) => Number(n.id))).toEqual([100, 200, 300, 400]);
+  });
+
+  describe("getProposalInfo", () => {
+    it("should fetch and convert single ProposalInfo", async () => {
+      const service = mock<GovernanceService>();
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const rawProposal = {
+        id: [{ id: 1n }],
+        ballots: [],
+        proposal: [],
+        proposer: [],
+        latest_tally: [],
+      } as unknown as RawProposalInfo;
+      service.get_proposal_info.mockResolvedValue(
+        Promise.resolve([rawProposal])
+      );
+      const response = await governance.getProposalInfo({
+        proposalId: BigInt(1),
+      });
+
+      expect(service.get_proposal_info).toBeCalled();
+      expect(response).not.toBeUndefined();
+      expect(response).toHaveProperty("id", 1n);
+    });
   });
 });

@@ -2,6 +2,7 @@ import { Actor } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { GovernanceService, idlFactory } from "../candid/governance.idl";
+import { ProposalInfo as RawProposalInfo } from "../candid/governanceTypes";
 import { RequestConverters } from "./canisters/governance/request.converters";
 import { ResponseConverters } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
@@ -13,6 +14,7 @@ import {
   ListProposalsRequest,
   ListProposalsResponse,
   NeuronInfo,
+  ProposalInfo,
 } from "./types/governance_converters";
 import { defaultAgent } from "./utils/agent.utils";
 
@@ -83,8 +85,9 @@ export class GovernanceCanister {
     }
     const principal: Principal = this.myPrincipal;
     const rawRequest = this.requestConverters.fromListNeurons(neuronIds);
-    const service = certified ? this.certifiedService : this.service;
-    const raw_response = await service.list_neurons(rawRequest);
+    const raw_response = await this.getGovernanceService(
+      certified
+    ).list_neurons(rawRequest);
     return this.responseConverters.toArrayOfNeuronInfo(raw_response, principal);
   };
 
@@ -98,8 +101,9 @@ export class GovernanceCanister {
   public listKnownNeurons = async (
     certified = true
   ): Promise<KnownNeuron[]> => {
-    const service = certified ? this.certifiedService : this.service;
-    const response = await service.list_known_neurons();
+    const response = await this.getGovernanceService(
+      certified
+    ).list_known_neurons();
 
     return response.known_neurons.map((n) => ({
       id: n.id[0]?.id ?? BigInt(0),
@@ -123,9 +127,30 @@ export class GovernanceCanister {
     certified?: boolean;
   }): Promise<ListProposalsResponse> => {
     const rawRequest = this.requestConverters.fromListProposalsRequest(request);
-    const service = certified ? this.certifiedService : this.service;
-    const rawResponse = await service.list_proposals(rawRequest);
+    const rawResponse = await this.getGovernanceService(
+      certified
+    ).list_proposals(rawRequest);
     return this.responseConverters.toListProposalsResponse(rawResponse);
+  };
+
+  /**
+   * Returns single proposal info
+   *
+   * If `certified` is true (default), the request is fetched as an update call, otherwise
+   * it is fetched using a query call.
+   */
+  public getProposalInfo = async ({
+    proposalId,
+    certified = true,
+  }: {
+    proposalId: bigint;
+    certified?: boolean;
+  }): Promise<ProposalInfo | undefined> => {
+    const [proposalInfo]: [] | [RawProposalInfo] =
+      await this.getGovernanceService(certified).get_proposal_info(proposalId);
+    return proposalInfo
+      ? this.responseConverters.toProposalInfo(proposalInfo)
+      : undefined;
   };
 
   /**
@@ -151,4 +176,8 @@ export class GovernanceCanister {
       );
     }
   };
+
+  private getGovernanceService(certified: boolean): GovernanceService {
+    return certified ? this.certifiedService : this.service;
+  }
 }
