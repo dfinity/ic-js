@@ -14,10 +14,11 @@ import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
 import { NeuronId } from "./types/common";
 import {
+  CouldNotClaimNeuronError,
   GovernanceCanisterOptions,
   InsufficientAmount,
-  NeuronNotFound,
   StakeNeuronError,
+  StakeNeuronTransferError,
 } from "./types/governance";
 import {
   ClaimOrRefreshNeuronFromAccount,
@@ -27,7 +28,6 @@ import {
   NeuronInfo,
   ProposalInfo,
 } from "./types/governance_converters";
-import { TransferError } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
 import {
   asciiStringToByteArray,
@@ -155,7 +155,7 @@ export class GovernanceCanister {
     stake: ICP;
     principal: Principal;
     ledgerCanister: LedgerCanister;
-  }): Promise<NeuronId | StakeNeuronError | TransferError> => {
+  }): Promise<NeuronId | StakeNeuronError> => {
     if (stake.toE8s() < E8S_PER_ICP) {
       return new InsufficientAmount(ICP.fromString("1") as ICP);
     }
@@ -182,7 +182,7 @@ export class GovernanceCanister {
 
       if (typeof response !== "bigint") {
         // TransferError
-        return response;
+        return new StakeNeuronTransferError(response);
       }
 
       // Notify the governance of the transaction so that the neuron is created.
@@ -194,7 +194,7 @@ export class GovernanceCanister {
       // Typescript was complaining with `neuronId || new NeuronNotFound()`:
       // "Type 'undefined' is not assignable to type 'bigint | StakeNeuronError | TransferError'"
       // hence the explicit check.
-      return neuronId === undefined ? new NeuronNotFound() : neuronId;
+      return neuronId === undefined ? new CouldNotClaimNeuronError() : neuronId;
     } catch (err) {
       return new StakeNeuronError();
     }
@@ -247,12 +247,7 @@ export class GovernanceCanister {
     const padding = asciiStringToByteArray("neuron-stake");
     const shaObj = sha256.create();
     shaObj.update([0x0c, ...padding, ...principal.toUint8Array(), ...nonce]);
-    try {
-      return SubAccount.fromBytes(new Uint8Array(shaObj.array())) as SubAccount;
-    } catch (err) {
-      console.error(`Error building subaccount for ${principal.toText()}`);
-      throw err;
-    }
+    return SubAccount.fromBytes(new Uint8Array(shaObj.array())) as SubAccount;
   };
 
   private getGovernanceService(certified: boolean): GovernanceService {
