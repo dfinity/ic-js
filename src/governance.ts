@@ -160,44 +160,37 @@ export class GovernanceCanister {
       return new InsufficientAmount(ICP.fromString("1") as ICP);
     }
 
-    try {
-      const nonceBytes = new Uint8Array(randomBytes(8));
-      const nonce = uint8ArrayToBigInt(nonceBytes);
-      const toSubAccount = this.buildNeuronStakeSubAccount(
-        nonceBytes,
-        principal
-      );
-      const accountIdentifier = AccountIdentifier.fromPrincipal({
-        principal: this.canisterId,
-        subAccount: toSubAccount,
-      });
+    const nonceBytes = new Uint8Array(randomBytes(8));
+    const nonce = uint8ArrayToBigInt(nonceBytes);
+    const toSubAccount = this.buildNeuronStakeSubAccount(nonceBytes, principal);
+    const accountIdentifier = AccountIdentifier.fromPrincipal({
+      principal: this.canisterId,
+      subAccount: toSubAccount,
+    });
 
-      // Send amount to the ledger.
-      const response = await ledgerCanister.transfer({
-        memo: nonce,
-        amount: stake,
-        to: accountIdentifier,
-        // TODO: Support subaccounts
-      });
+    // Send amount to the ledger.
+    const response = await ledgerCanister.transfer({
+      memo: nonce,
+      amount: stake,
+      to: accountIdentifier,
+      // TODO: Support subaccounts
+    });
 
-      if (typeof response !== "bigint") {
-        // TransferError
-        return new StakeNeuronTransferError(response);
-      }
-
-      // Notify the governance of the transaction so that the neuron is created.
-      const neuronId = this.claimOrRefreshNeuronFromAccount({
-        controller: principal,
-        memo: nonce,
-      });
-
-      // Typescript was complaining with `neuronId || new NeuronNotFound()`:
-      // "Type 'undefined' is not assignable to type 'bigint | StakeNeuronError | TransferError'"
-      // hence the explicit check.
-      return neuronId === undefined ? new CouldNotClaimNeuronError() : neuronId;
-    } catch (err) {
-      return new StakeNeuronError();
+    if (typeof response !== "bigint") {
+      // TransferError
+      return new StakeNeuronTransferError(response);
     }
+
+    // Notify the governance of the transaction so that the neuron is created.
+    const neuronId = this.claimOrRefreshNeuronFromAccount({
+      controller: principal,
+      memo: nonce,
+    });
+
+    // Typescript was complaining with `neuronId || new NeuronNotFound()`:
+    // "Type 'undefined' is not assignable to type 'bigint | StakeNeuronError | TransferError'"
+    // hence the explicit check.
+    return neuronId === undefined ? new CouldNotClaimNeuronError() : neuronId;
   };
 
   /**
