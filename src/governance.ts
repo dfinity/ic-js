@@ -14,12 +14,11 @@ import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
 import { NeuronId } from "./types/common";
 import {
-  GeneralError,
+  GovernanceCanisterOptions,
   InsufficientAmount,
   NeuronNotFound,
-  TransferError,
-} from "./types/errors";
-import { GovernanceCanisterOptions } from "./types/governance";
+  StakeNeuronError,
+} from "./types/governance";
 import {
   ClaimOrRefreshNeuronFromAccount,
   KnownNeuron,
@@ -28,6 +27,7 @@ import {
   NeuronInfo,
   ProposalInfo,
 } from "./types/governance_converters";
+import { TransferError } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
 import {
   asciiStringToByteArray,
@@ -155,7 +155,7 @@ export class GovernanceCanister {
     stake: ICP;
     principal: Principal;
     ledgerCanister: LedgerCanister;
-  }): Promise<NeuronId | TransferError> => {
+  }): Promise<NeuronId | StakeNeuronError | TransferError> => {
     if (stake.toE8s() < E8S_PER_ICP) {
       return new InsufficientAmount(ICP.fromString("1") as ICP);
     }
@@ -163,7 +163,10 @@ export class GovernanceCanister {
     try {
       const nonceBytes = new Uint8Array(randomBytes(8));
       const nonce = uint8ArrayToBigInt(nonceBytes);
-      const toSubAccount = this.buildSubAccount(nonceBytes, principal);
+      const toSubAccount = this.buildNeuronStakeSubAccount(
+        nonceBytes,
+        principal
+      );
       const accountIdentifier = AccountIdentifier.fromPrincipal({
         principal: this.canisterId,
         subAccount: toSubAccount,
@@ -183,12 +186,17 @@ export class GovernanceCanister {
       }
 
       // Notify the governance of the transaction so that the neuron is created.
-      return this.claimOrRefreshNeuronFromAccount({
+      const neuronId = this.claimOrRefreshNeuronFromAccount({
         controller: principal,
         memo: nonce,
       });
+
+      // Typescript was complaining with `neuronId || new NeuronNotFound()`:
+      // "Type 'undefined' is not assignable to type 'bigint | StakeNeuronError | TransferError'"
+      // hence the explicit check.
+      return neuronId === undefined ? new NeuronNotFound() : neuronId;
     } catch (err) {
-      return new GeneralError();
+      return new StakeNeuronError();
     }
   };
 
@@ -217,7 +225,7 @@ export class GovernanceCanister {
    */
   public claimOrRefreshNeuronFromAccount = async (
     request: ClaimOrRefreshNeuronFromAccount
-  ): Promise<NeuronId | TransferError> => {
+  ): Promise<NeuronId | undefined> => {
     // Note: This is an update call so the certified and uncertified services are identical in this case,
     // however using the certified service provides protection in case that changes.
     const service = this.certifiedService;
@@ -230,11 +238,9 @@ export class GovernanceCanister {
     if (result.length && "NeuronId" in result[0]) {
       return result[0].NeuronId.id;
     }
-
-    return new NeuronNotFound();
   };
 
-  private buildSubAccount = (
+  private buildNeuronStakeSubAccount = (
     nonce: Uint8Array,
     principal: Principal
   ): SubAccount => {

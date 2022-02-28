@@ -7,7 +7,7 @@ import {
   TxCreatedInFuture,
   TxDuplicate,
   TxTooOld,
-} from "./types/errors";
+} from "./types/ledger";
 
 describe("LedgerCanister.transfer", () => {
   it("handles invalid sender", async () => {

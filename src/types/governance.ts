@@ -2,7 +2,16 @@
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { GovernanceService } from "../../candid/governance.idl";
+import { ICP } from "../icp";
 
+export class StakeNeuronError {}
+
+export class NeuronNotFound extends StakeNeuronError {}
+export class InsufficientAmount extends StakeNeuronError {
+  constructor(public readonly minimumAmount: ICP) {
+    super();
+  }
+}
 export interface GovernanceCanisterOptions {
   // The agent to use when communicating with the governance canister.
   agent?: Agent;

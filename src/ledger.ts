@@ -13,14 +13,15 @@ import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
 import { ICP } from "./icp";
 import { BlockHeight } from "./types/common";
 import {
+  Fetcher,
   InsufficientFunds,
   InvalidSender,
+  LedgerCanisterOptions,
   TransferError,
   TxCreatedInFuture,
   TxDuplicate,
   TxTooOld,
-} from "./types/errors";
-import { Fetcher, LedgerCanisterOptions } from "./types/ledger";
+} from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
 import { queryCall, updateCall } from "./utils/proto.utils";
 

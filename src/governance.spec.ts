@@ -10,7 +10,7 @@ import {
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
 import { GovernanceCanister } from "./governance";
-import { InsufficientAmount } from "./types/errors";
+import { InsufficientAmount } from "./types/governance";
 
 describe("GovernanceCanister.listKnownNeurons", () => {
   it("populates all KnownNeuron fields correctly", async () => {
