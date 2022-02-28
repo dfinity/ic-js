@@ -4,7 +4,7 @@ set -eux
 npm ci
 
 : Update the version
-node -e 'fs=require("fs");n="package.json";e={encoding:"utf8"};v=`nightly-${new Date().toISOString().slice(0,10)}`;x = JSON.parse(fs.readFileSync(n,e));x.version=v;fs.writeFileSync(n, JSON.stringify(x, null, 2), e)'
+node -e 'fs=require("fs");n="package.json";e={encoding:"utf8"};x = JSON.parse(fs.readFileSync(n,e));x.version=`${x.version}-nightly-${new Date().toISOString().slice(0,10)}`;fs.writeFileSync(n, JSON.stringify(x, null, 2), e)'
 : The version then needs to be updated in the package.lock
 npm install
 
