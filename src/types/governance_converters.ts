@@ -87,9 +87,10 @@ export interface DisburseToNeuron {
   newController: Option<PrincipalString>;
   nonce: bigint;
 }
-export type DissolveState =
-  | { DissolveDelaySeconds: bigint }
-  | { WhenDissolvedTimestampSeconds: bigint };
+export type DissolveState = {
+  DissolveDelaySeconds?: bigint;
+  WhenDissolvedTimestampSeconds?: bigint;
+};
 export interface ExecuteNnsFunction {
   nnsFunctionId: number;
   nnsFunctionName: Option<string>;
