@@ -2,7 +2,7 @@ name: CI Checks
 
 on:
   schedule:
-  #- cron: "0 0 * * *"
+    - cron: "0 0 * * *"
 jobs:
   formatting:
     runs-on: ubuntu-20.04
