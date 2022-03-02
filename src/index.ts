@@ -7,3 +7,4 @@ export * from "./types/governance";
 export * from "./types/governance_converters";
 export * from "./types/icp";
 export * from "./types/ledger";
+export * from "./utils/neurons.utils";
