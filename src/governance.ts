@@ -4,10 +4,20 @@ import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { GovernanceService, idlFactory } from "../candid/governance.idl";
-import { ProposalInfo as RawProposalInfo } from "../candid/governanceTypes";
+import {
+  ListProposalInfo,
+  ProposalInfo as RawProposalInfo,
+} from "../candid/governanceTypes";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
-import { RequestConverters } from "./canisters/governance/request.converters";
-import { ResponseConverters } from "./canisters/governance/response.converters";
+import {
+  fromListNeurons,
+  fromListProposalsRequest,
+} from "./canisters/governance/request.converters";
+import {
+  toArrayOfNeuronInfo,
+  toListProposalsResponse,
+  toProposalInfo,
+} from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
 import { ICP } from "./icp";
@@ -38,15 +48,11 @@ export class GovernanceCanister {
   private constructor(
     private readonly canisterId: Principal,
     private readonly service: GovernanceService,
-    private readonly certifiedService: GovernanceService,
-    private readonly requestConverters: RequestConverters,
-    private readonly responseConverters: ResponseConverters
+    private readonly certifiedService: GovernanceService
   ) {
     this.canisterId = canisterId;
     this.service = service;
     this.certifiedService = certifiedService;
-    this.requestConverters = requestConverters;
-    this.responseConverters = responseConverters;
   }
 
   public static create(options: GovernanceCanisterOptions = {}) {
@@ -67,16 +73,7 @@ export class GovernanceCanister {
         canisterId,
       });
 
-    const requestConverters = new RequestConverters();
-    const responseConverters = new ResponseConverters();
-
-    return new GovernanceCanister(
-      canisterId,
-      service,
-      certifiedService,
-      requestConverters,
-      responseConverters
-    );
+    return new GovernanceCanister(canisterId, service, certifiedService);
   }
 
   /**
@@ -98,11 +95,11 @@ export class GovernanceCanister {
     principal: Principal;
     neuronIds?: NeuronId[];
   }): Promise<NeuronInfo[]> => {
-    const rawRequest = this.requestConverters.fromListNeurons(neuronIds);
+    const rawRequest = fromListNeurons(neuronIds);
     const raw_response = await this.getGovernanceService(
       certified
     ).list_neurons(rawRequest);
-    return this.responseConverters.toArrayOfNeuronInfo(raw_response, principal);
+    return toArrayOfNeuronInfo(raw_response, principal);
   };
 
   /**
@@ -140,11 +137,11 @@ export class GovernanceCanister {
     request: ListProposalsRequest;
     certified?: boolean;
   }): Promise<ListProposalsResponse> => {
-    const rawRequest = this.requestConverters.fromListProposalsRequest(request);
+    const rawRequest: ListProposalInfo = fromListProposalsRequest(request);
     const rawResponse = await this.getGovernanceService(
       certified
     ).list_proposals(rawRequest);
-    return this.responseConverters.toListProposalsResponse(rawResponse);
+    return toListProposalsResponse(rawResponse);
   };
 
   public stakeNeuron = async ({
@@ -208,9 +205,7 @@ export class GovernanceCanister {
   }): Promise<ProposalInfo | undefined> => {
     const [proposalInfo]: [] | [RawProposalInfo] =
       await this.getGovernanceService(certified).get_proposal_info(proposalId);
-    return proposalInfo
-      ? this.responseConverters.toProposalInfo(proposalInfo)
-      : undefined;
+    return proposalInfo ? toProposalInfo(proposalInfo) : undefined;
   };
 
   /**
