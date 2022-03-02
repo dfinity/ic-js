@@ -592,14 +592,9 @@ const toClaimOrRefreshBy = (by: RawBy): By => {
   }
 };
 
+// prettier-ignore
 // eslint-disable-next-line
-const throwUnrecognisedTypeError = ({
-  name,
-  value,
-}: {
-  name: string;
-  value: any;
-}): Error => {
+const throwUnrecognisedTypeError = ({ name, value, }: { name: string; value: any; }): Error => {
   return new Error(`Unrecognised ${name} type - ${JSON.stringify(value)}`);
 };
 
