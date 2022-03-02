@@ -19,8 +19,7 @@ const voteForProposal = ({
   }
 
   const ballot: BallotInfo | undefined = recentBallots.find(
-    ({ proposalId: id }: BallotInfo) =>
-      proposalId !== undefined && id === proposalId
+    ({ proposalId: id }: BallotInfo) => id === proposalId
   );
   return ballot?.vote;
 };
