@@ -62,14 +62,19 @@ import {
 // import { ManageNeuronResponse as PbManageNeuronResponse } from "../../proto/governance_pb";
 import { convertNnsFunctionPayload, getNnsFunctionName } from "./payloads";
 
-const toNeuronInfo = (
-  neuronId: bigint,
-  principalString: string,
-  neuronInfo: RawNeuronInfo,
-  rawNeuron?: RawNeuron
-): NeuronInfo => {
+const toNeuronInfo = ({
+  neuronId,
+  principalString,
+  neuronInfo,
+  rawNeuron,
+}: {
+  neuronId: bigint;
+  principalString: string;
+  neuronInfo: RawNeuronInfo;
+  rawNeuron?: RawNeuron;
+}): NeuronInfo => {
   const fullNeuron = rawNeuron
-    ? toNeuron(rawNeuron, principalString)
+    ? toNeuron({ neuron: rawNeuron, principalString })
     : undefined;
   return {
     neuronId: neuronId,
@@ -88,7 +93,13 @@ const toNeuronInfo = (
   };
 };
 
-const toNeuron = (neuron: RawNeuron, principalString: string): Neuron => ({
+const toNeuron = ({
+  neuron,
+  principalString,
+}: {
+  neuron: RawNeuron;
+  principalString: string;
+}): Neuron => ({
   id: neuron.id.length ? toNeuronId(neuron.id[0]) : undefined,
   isCurrentUserController: neuron.controller.length
     ? neuron.controller[0].toString() === principalString
@@ -116,7 +127,9 @@ const toNeuron = (neuron: RawNeuron, principalString: string): Neuron => ({
   dissolveState: neuron.dissolve_state.length
     ? toDissolveState(neuron.dissolve_state[0])
     : undefined,
-  followees: neuron.followees.map(([n, f]) => toFollowees(n, f)),
+  followees: neuron.followees.map(([topic, followees]) =>
+    toFollowees({ topic, followees })
+  ),
 });
 
 const toBallotInfo = ({ vote, proposal_id }: RawBallotInfo): BallotInfo => ({
@@ -137,8 +150,14 @@ const toDissolveState = (dissolveState: RawDissolveState): DissolveState => {
   }
 };
 
-const toFollowees = (topic: number, followees: RawFollowees): Followees => ({
-  topic: topic,
+const toFollowees = ({
+  topic,
+  followees,
+}: {
+  topic: number;
+  followees: RawFollowees;
+}): Followees => ({
+  topic,
   followees: followees.followees.map(toNeuronId),
 });
 
@@ -156,11 +175,21 @@ const toNeuronIdOrSubaccount = (
   throw new UnsupportedValueError(neuronIdOrSubaccount);
 };
 
-const toBallot = (neuronId: bigint, ballot: RawBallot): Ballot => ({
-  neuronId: neuronId,
-  vote: ballot.vote,
-  votingPower: ballot.voting_power,
-});
+const toBallot = ({
+  neuronId,
+  ballot,
+}: {
+  neuronId: bigint;
+  ballot: RawBallot;
+}): Ballot => {
+  const { vote, voting_power: votingPower } = ballot;
+
+  return {
+    neuronId,
+    vote,
+    votingPower,
+  };
+};
 
 const toProposal = ({
   title,
@@ -284,8 +313,8 @@ const toAction = (action: RawAction): Action => {
     const setDefaultFollowees = action.SetDefaultFollowees;
     return {
       SetDefaultFollowees: {
-        defaultFollowees: setDefaultFollowees.default_followees.map(([n, f]) =>
-          toFollowees(n, f)
+        defaultFollowees: setDefaultFollowees.default_followees.map(
+          ([topic, followees]) => toFollowees({ topic, followees })
         ),
       },
     };
@@ -564,7 +593,13 @@ const toClaimOrRefreshBy = (by: RawBy): By => {
 };
 
 // eslint-disable-next-line
-const throwUnrecognisedTypeError = (name: string, value: any): Error => {
+const throwUnrecognisedTypeError = ({
+  name,
+  value,
+}: {
+  name: string;
+  value: any;
+}): Error => {
   return new Error(`Unrecognised ${name} type - ${JSON.stringify(value)}`);
 };
 
@@ -572,7 +607,9 @@ export const toProposalInfo = (
   proposalInfo: RawProposalInfo
 ): ProposalInfo => ({
   id: proposalInfo.id.length ? toNeuronId(proposalInfo.id[0]) : undefined,
-  ballots: proposalInfo.ballots.map((b) => toBallot(b[0], b[1])),
+  ballots: proposalInfo.ballots.map((b) =>
+    toBallot({ neuronId: b[0], ballot: b[1] })
+  ),
   rejectCost: proposalInfo.reject_cost_e8s,
   proposalTimestampSeconds: proposalInfo.proposal_timestamp_seconds,
   rewardEventRound: proposalInfo.reward_event_round,
@@ -598,12 +635,14 @@ export const toArrayOfNeuronInfo = (
   principal: Principal
 ): Array<NeuronInfo> =>
   neuron_infos.map(([id, neuronInfo]) =>
-    toNeuronInfo(
-      id,
-      principal.toString(),
+    toNeuronInfo({
+      neuronId: id,
+      principalString: principal.toString(),
       neuronInfo,
-      full_neurons.find((neuron) => neuron.id.length && neuron.id[0].id === id)
-    )
+      rawNeuron: full_neurons.find(
+        (neuron) => neuron.id.length && neuron.id[0].id === id
+      ),
+    })
   );
 
 export const toListProposalsResponse = ({
@@ -650,7 +689,7 @@ export const toSplitResponse = (
       return createdNeuronId[0].id;
     }
   }
-  throw throwUnrecognisedTypeError("response", response);
+  throw throwUnrecognisedTypeError({ name: "response", value: response });
 };
 
 /* Protobuf is not supported yet.
@@ -682,7 +721,7 @@ export const toDisburseToNeuronResult = (
       createdNeuronId: command[0].Spawn.created_neuron_id[0].id,
     };
   }
-  throw throwUnrecognisedTypeError("response", response);
+  throw throwUnrecognisedTypeError({ name: "response", value: response });
 };
 
 export const toClaimOrRefreshNeuronResponse = (
@@ -694,7 +733,7 @@ export const toClaimOrRefreshNeuronResponse = (
       ? command[0].ClaimOrRefresh.refreshed_neuron_id[0].id
       : undefined;
   }
-  throw throwUnrecognisedTypeError("response", response);
+  throw throwUnrecognisedTypeError({ name: "response", value: response });
 };
 
 /* Protobuf is not supported yet.
@@ -731,5 +770,5 @@ export const toMakeProposalResponse = (
       proposalId: command[0].MakeProposal.proposal_id[0].id,
     };
   }
-  throw throwUnrecognisedTypeError("response", response);
+  throw throwUnrecognisedTypeError({ name: "response", value: response });
 };
