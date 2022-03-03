@@ -1,4 +1,4 @@
-name: CI Checks
+name: Nightly Publication
 
 on:
   schedule:
