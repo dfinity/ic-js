@@ -7,7 +7,6 @@ import {
   Change as RawChange,
   Command as RawCommand,
   Followees as RawFollowees,
-  GovernanceError as RawGovernanceError,
   ListNeurons as RawListNeurons,
   ListProposalInfo,
   ManageNeuron as RawManageNeuron,
@@ -26,7 +25,6 @@ import {
   ClaimOrRefreshNeuronRequest,
   Command,
   DisburseToNeuronRequest,
-  GovernanceError,
   ListProposalsRequest,
   MakeProposalRequest,
   ManageNeuron,
@@ -310,13 +308,6 @@ const fromCommand = (command: Command): RawCommand => {
   // If there's a missing command above, this line will cause a compiler error.
   throw new UnsupportedValueError(command);
 };
-
-export const fromGovernanceError = (
-  err: RawGovernanceError
-): GovernanceError => ({
-  errorMessage: err.error_message,
-  errorType: err.error_type,
-});
 
 const fromOperation = (operation: Operation): RawOperation => {
   if ("RemoveHotKey" in operation) {

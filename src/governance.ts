@@ -10,13 +10,13 @@ import {
 } from "../candid/governanceTypes";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
-  fromGovernanceError,
   fromListNeurons,
   fromListProposalsRequest,
   toRegisterVoteRequest,
 } from "./canisters/governance/request.converters";
 import {
   toArrayOfNeuronInfo,
+  toGovernanceError,
   toListProposalsResponse,
   toProposalInfo,
 } from "./canisters/governance/response.converters";
@@ -243,7 +243,7 @@ export class GovernanceCanister {
       };
     }
     if ("Error" in response) {
-      return { Err: fromGovernanceError(response.Error) };
+      return { Err: toGovernanceError(response.Error) };
     }
     if ("RegisterVote" in response) {
       return { Ok: null };
