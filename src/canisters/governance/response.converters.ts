@@ -770,9 +770,10 @@ export const toMakeProposalResponse = (
   throw throwUnrecognisedTypeError({ name: "response", value: response });
 };
 
-export const toGovernanceError = (
-  err: RawGovernanceError
-): GovernanceError => ({
-  errorMessage: err.error_message,
-  errorType: err.error_type,
+export const toGovernanceError = ({
+  error_message,
+  error_type,
+}: RawGovernanceError): GovernanceError => ({
+  errorMessage: error_message,
+  errorType: error_type,
 });

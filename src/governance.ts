@@ -232,8 +232,8 @@ export class GovernanceCanister {
     proposalId: ProposalId;
   }): Promise<EmptyResponse> => {
     const request = toRegisterVoteRequest({ neuronId, vote, proposalId });
-    const rawResponse = await this.certifiedService.manage_neuron(request);
-    const response = rawResponse.command[0];
+    const { command } = await this.certifiedService.manage_neuron(request);
+    const response = command[0];
     if (!response) {
       return {
         Err: {
