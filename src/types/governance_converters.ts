@@ -104,8 +104,10 @@ export interface Followees {
   topic: Topic;
   followees: Array<NeuronId>;
 }
+
 export interface GovernanceError {
   errorMessage: string;
+  // https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/ic_nns_governance/pb/v1/governance.proto#L911
   errorType: number;
 }
 export interface IncreaseDissolveDelay {

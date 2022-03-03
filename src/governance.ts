@@ -12,9 +12,11 @@ import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
   fromListNeurons,
   fromListProposalsRequest,
+  toRegisterVoteRequest,
 } from "./canisters/governance/request.converters";
 import {
   toArrayOfNeuronInfo,
+  toGovernanceError,
   toListProposalsResponse,
   toProposalInfo,
 } from "./canisters/governance/response.converters";
@@ -32,11 +34,14 @@ import {
 } from "./types/governance";
 import {
   ClaimOrRefreshNeuronFromAccount,
+  EmptyResponse,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
   NeuronInfo,
+  ProposalId,
   ProposalInfo,
+  Vote,
 } from "./types/governance_converters";
 import { defaultAgent } from "./utils/agent.utils";
 import {
@@ -206,6 +211,50 @@ export class GovernanceCanister {
     const [proposalInfo]: [] | [RawProposalInfo] =
       await this.getGovernanceService(certified).get_proposal_info(proposalId);
     return proposalInfo ? toProposalInfo(proposalInfo) : undefined;
+  };
+
+  /**
+   *
+   * Registers vote for a proposal from the neuron passed
+   *
+   * @param neuronId: NeuronID
+   * @param vote: Vote
+   * @param ProposalId: ProposalId
+   * @returns EmtpyResponse
+   */
+  public registerVote = async ({
+    neuronId,
+    vote,
+    proposalId,
+  }: {
+    neuronId: NeuronId;
+    vote: Vote;
+    proposalId: ProposalId;
+  }): Promise<EmptyResponse> => {
+    const request = toRegisterVoteRequest({ neuronId, vote, proposalId });
+    const { command } = await this.certifiedService.manage_neuron(request);
+    const response = command[0];
+    if (!response) {
+      return {
+        Err: {
+          errorMessage: "Error registering the vote",
+          errorType: 0,
+        },
+      };
+    }
+    if ("Error" in response) {
+      return { Err: toGovernanceError(response.Error) };
+    }
+    if ("RegisterVote" in response) {
+      return { Ok: null };
+    }
+    // unexpected
+    return {
+      Err: {
+        errorMessage: "Error registering the vote",
+        errorType: 0,
+      },
+    };
   };
 
   /**

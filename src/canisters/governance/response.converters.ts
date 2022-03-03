@@ -10,6 +10,7 @@ import {
   Command as RawCommand,
   DissolveState as RawDissolveState,
   Followees as RawFollowees,
+  GovernanceError as RawGovernanceError,
   KnownNeuron as RawKnownNeuron,
   ListNeuronsResponse as RawListNeuronsResponse,
   ListProposalInfoResponse as RawListProposalInfoResponse,
@@ -37,6 +38,7 @@ import {
   DisburseToNeuronResponse,
   DissolveState,
   Followees,
+  GovernanceError,
   KnownNeuron,
   ListProposalsResponse,
   MakeProposalResponse,
@@ -767,3 +769,11 @@ export const toMakeProposalResponse = (
   }
   throw throwUnrecognisedTypeError({ name: "response", value: response });
 };
+
+export const toGovernanceError = ({
+  error_message,
+  error_type,
+}: RawGovernanceError): GovernanceError => ({
+  errorMessage: error_message,
+  errorType: error_type,
+});

@@ -35,6 +35,7 @@ import {
   RewardMode,
   SplitRequest,
   UnsupportedValueError,
+  Vote,
 } from "../../types/governance_converters";
 import {
   accountIdentifierToBytes,
@@ -760,3 +761,24 @@ export const fromMakeProposalRequest = (
     neuron_id_or_subaccount: [{ NeuronId: { id: request.neuronId } }],
   };
 };
+
+export const toRegisterVoteRequest = ({
+  neuronId,
+  vote,
+  proposalId,
+}: {
+  neuronId: NeuronId;
+  vote: Vote;
+  proposalId: ProposalId;
+}): RawManageNeuron => ({
+  id: [{ id: neuronId }],
+  command: [
+    {
+      RegisterVote: {
+        vote,
+        proposal: [{ id: proposalId }],
+      },
+    },
+  ],
+  neuron_id_or_subaccount: [],
+});
