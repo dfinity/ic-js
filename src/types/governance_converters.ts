@@ -107,7 +107,7 @@ export interface Followees {
 
 export interface GovernanceError {
   errorMessage: string;
-  // TODO: What does this number mean?
+  // https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/ic_nns_governance/pb/v1/governance.proto#L911
   errorType: number;
 }
 export interface IncreaseDissolveDelay {
