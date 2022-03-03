@@ -104,8 +104,10 @@ export interface Followees {
   topic: Topic;
   followees: Array<NeuronId>;
 }
+
 export interface GovernanceError {
   errorMessage: string;
+  // TODO: What does this number mean?
   errorType: number;
 }
 export interface IncreaseDissolveDelay {

@@ -1,11 +1,12 @@
 import { AnonymousIdentity } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
-import { ICP, LedgerCanister } from ".";
+import { ICP, LedgerCanister, Vote } from ".";
 import { GovernanceService } from "../candid/governance.idl";
 import {
   ClaimOrRefreshNeuronFromAccountResponse,
   ListKnownNeuronsResponse,
   ListNeuronsResponse,
+  ManageNeuronResponse,
   NeuronInfo,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
@@ -202,5 +203,65 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     });
     expect(service.list_neurons).toBeCalled();
     expect(neurons.length).toBe(1);
+  });
+
+  it("registers vote successfully", async () => {
+    const serviceResponse: ManageNeuronResponse = {
+      command: [{ RegisterVote: {} }],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const response = await governance.registerVote({
+      neuronId: BigInt(1),
+      vote: Vote.YES,
+      proposalId: BigInt(2),
+    });
+    expect(service.manage_neuron).toBeCalled();
+    expect("Ok" in response).toBeTruthy();
+    expect("Err" in response).toBeFalsy();
+  });
+
+  it("returns error when registers vote fails with error", async () => {
+    const serviceResponse: ManageNeuronResponse = {
+      command: [{ Error: { error_message: "Some error", error_type: 1 } }],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const response = await governance.registerVote({
+      neuronId: BigInt(1),
+      vote: Vote.YES,
+      proposalId: BigInt(2),
+    });
+    expect(service.manage_neuron).toBeCalled();
+    expect("Ok" in response).toBeFalsy();
+    expect("Err" in response).toBeTruthy();
+  });
+
+  it("returns error when registers vote fails unexpectetdly", async () => {
+    const serviceResponse: ManageNeuronResponse = {
+      command: [],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const response = await governance.registerVote({
+      neuronId: BigInt(1),
+      vote: Vote.YES,
+      proposalId: BigInt(2),
+    });
+    expect(service.manage_neuron).toBeCalled();
+    expect("Ok" in response).toBeFalsy();
+    expect("Err" in response).toBeTruthy();
   });
 });
