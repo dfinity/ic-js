@@ -17,7 +17,7 @@ jobs:
       - name: Build nightly
         run: ./scripts/build-nightly
       - name: Set up npm
-        run: printf "%s\n" email=github-action@dfinity.org always-auth=true >> .npmrc
+        run: printf '%s\n' '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}' registry=https://registry.npmjs.org/ always-auth=true >> .npmrc
       - name: Publish
         run: npm publish --tag nightly
         env:
