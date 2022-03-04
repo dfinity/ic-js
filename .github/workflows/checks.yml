@@ -72,7 +72,7 @@ jobs:
       #  run: git diff --exit-code
 
   build:
-    needs: [ build-candid, build-protobuf ]
+    needs: [build-candid, build-protobuf]
     runs-on: ubuntu-20.04
 
     steps:
@@ -111,5 +111,5 @@ jobs:
     needs: ["formatting", "build", "lint", "test"]
     runs-on: ubuntu-20.04
     steps:
-       - name: Cleared for merging
-         run: echo OK
+      - name: Cleared for merging
+        run: echo OK
