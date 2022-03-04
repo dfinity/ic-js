@@ -782,3 +782,27 @@ export const toRegisterVoteRequest = ({
   ],
   neuron_id_or_subaccount: [],
 });
+
+export const toIncreaseDissolveDelayRequest = ({
+  neuronId,
+  additionalDissolveDelaySeconds,
+}: {
+  neuronId: NeuronId;
+  additionalDissolveDelaySeconds: number;
+}): RawManageNeuron => ({
+  id: [{ id: neuronId }],
+  command: [
+    {
+      Configure: {
+        operation: [
+          {
+            IncreaseDissolveDelay: {
+              additional_dissolve_delay_seconds: additionalDissolveDelaySeconds,
+            },
+          },
+        ],
+      },
+    },
+  ],
+  neuron_id_or_subaccount: [],
+});
