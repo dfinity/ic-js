@@ -3,8 +3,12 @@ name: Nightly Publication
 on:
   schedule:
     - cron: "0 0 * * *"
+  push:
+    branches:
+      - nightly
+
 jobs:
-  formatting:
+  publish:
     runs-on: ubuntu-20.04
 
     steps:
