@@ -37,7 +37,7 @@ jobs:
           # the pushing fail
           pull_strategy: "NO-PULL"
 
-  build:
+  build-candid:
     runs-on: ubuntu-20.04
 
     steps:
@@ -54,6 +54,31 @@ jobs:
         run: ./scripts/compile-idl-js
       - name: Verify that there are no changes to the compiled did files
         run: git diff --exit-code
+
+  build-protobuf:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install protoc
+        run: apt-get install protobuf-compiler
+      - name: Compile protobuf
+        run: npm run update_proto
+      - name: Verify that there are no changes to the compiled did files
+        run: git diff --exit-code
+
+  build:
+    needs: [ "build-candid", build-protobuf ]
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
 
   lint:
     runs-on: ubuntu-20.04
@@ -78,3 +103,10 @@ jobs:
         run: npm run build
       - name: Test
         run: npm run test
+
+  may-merge:
+    needs: ["formatting", "build", "lint", "test"]
+    runs-on: ubuntu-20.04
+    steps:
+       - name: Cleared for merging
+         run: echo OK
