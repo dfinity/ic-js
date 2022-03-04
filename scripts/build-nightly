@@ -9,7 +9,6 @@ node -e 'fs=require("fs");n="package.json";e={encoding:"utf8"};x = JSON.parse(fs
 npm install
 
 : Now we can build
-npm run update_proto
 npm run build
 : Create the release tarball
 npm pack
