@@ -105,7 +105,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
       service.get_proposal_info.mockResolvedValue(
         Promise.resolve([rawProposal])
       );
-      const response = await governance.getProposalInfo({
+      const response = await governance.getProposal({
         proposalId: BigInt(1),
       });
 
@@ -197,7 +197,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
       certifiedServiceOverride: service,
       serviceOverride: service,
     });
-    const neurons = await governance.getNeurons({
+    const neurons = await governance.listNeurons({
       certified: true,
       principal: new AnonymousIdentity().getPrincipal(),
     });
