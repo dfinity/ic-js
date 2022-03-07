@@ -1,6 +1,7 @@
 import { ListNeuronsResponse, NeuronInfo } from "../../candid/governanceTypes";
 
-export const one = BigInt(14567);
+const one = BigInt(1);
+export const mockNeuronId = BigInt(14567);
 export const mockNeuronInfo: NeuronInfo = {
   dissolve_delay_seconds: one,
   recent_ballots: [],
@@ -14,6 +15,6 @@ export const mockNeuronInfo: NeuronInfo = {
   age_seconds: one,
 };
 export const mockListNeuronsResponse: ListNeuronsResponse = {
-  neuron_infos: [[BigInt(1), mockNeuronInfo]],
+  neuron_infos: [[mockNeuronId, mockNeuronInfo]],
   full_neurons: [],
 };

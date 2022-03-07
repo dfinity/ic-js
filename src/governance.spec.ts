@@ -12,7 +12,7 @@ import { GovernanceCanister } from "./governance";
 import {
   mockListNeuronsResponse,
   mockNeuronInfo,
-  one,
+  mockNeuronId,
 } from "./mocks/governance.mock";
 import { InsufficientAmount } from "./types/governance";
 
@@ -270,7 +270,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
 
     expect(service.list_neurons).toBeCalled();
     expect(response).not.toBeUndefined();
-    expect(response?.neuronId).toEqual(one);
+    expect(Number(response?.neuronId)).toEqual(Number(mockNeuronId));
     expect(response?.state).toEqual(mockNeuronInfo.state);
   });
 });
