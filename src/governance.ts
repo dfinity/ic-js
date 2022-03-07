@@ -312,4 +312,28 @@ export class GovernanceCanister {
   private getGovernanceService(certified: boolean): GovernanceService {
     return certified ? this.certifiedService : this.service;
   }
+
+  /**
+   * Return the data of the neuron provided as id.
+   */
+  public getNeuron = async ({
+    certified = true,
+    principal,
+    neuronId,
+  }: {
+    certified: boolean;
+    principal: Principal;
+    neuronId: NeuronId;
+  }): Promise<NeuronInfo | undefined> => {
+    // The governance canister exposes two functions "get_neuron_info" and "get_full_neuron" that could probably be used to fetch the neuron details too.
+    // However historically this function has been resolved with a single call "list_neurons".
+
+    const [neuron]: NeuronInfo[] = await this.listNeurons({
+      certified,
+      principal,
+      neuronIds: [neuronId],
+    });
+
+    return neuron;
+  };
 }
