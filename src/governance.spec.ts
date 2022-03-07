@@ -11,8 +11,8 @@ import {
 import { GovernanceCanister } from "./governance";
 import {
   mockListNeuronsResponse,
-  mockNeuronInfo,
   mockNeuronId,
+  mockNeuronInfo,
 } from "./mocks/governance.mock";
 import { InsufficientAmount } from "./types/governance";
 
