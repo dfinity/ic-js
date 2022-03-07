@@ -88,7 +88,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     expect(res.map((n) => Number(n.id))).toEqual([100, 200, 300, 400]);
   });
 
-  describe("getProposalInfo", () => {
+  describe("getProposal", () => {
     it("should fetch and convert single ProposalInfo", async () => {
       const service = mock<GovernanceService>();
       const governance = GovernanceCanister.create({
@@ -172,7 +172,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     expect(response).toBeInstanceOf(InsufficientAmount);
   });
 
-  it("gets user neurons", async () => {
+  it("list user neurons", async () => {
     const one = BigInt(1);
     const mockNeuronInfo: NeuronInfo = {
       dissolve_delay_seconds: one,
