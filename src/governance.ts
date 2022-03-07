@@ -12,14 +12,15 @@ import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
   fromListNeurons,
   fromListProposalsRequest,
+  toIncreaseDissolveDelayRequest,
   toRegisterVoteRequest,
 } from "./canisters/governance/request.converters";
 import {
   toArrayOfNeuronInfo,
-  toGovernanceError,
   toListProposalsResponse,
   toProposalInfo,
 } from "./canisters/governance/response.converters";
+import { manageNeuron } from "./canisters/governance/services";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
 import { ICP } from "./icp";
@@ -149,6 +150,9 @@ export class GovernanceCanister {
     return toListProposalsResponse(rawResponse);
   };
 
+  /**
+   *
+   */
   public stakeNeuron = async ({
     stake,
     principal,
@@ -196,6 +200,37 @@ export class GovernanceCanister {
   };
 
   /**
+   * Increases dissolve delay of a neuron
+   *
+   * Returns whether the update succeeded or not
+   */
+  public increaseDissolveDelay = async ({
+    neuronId,
+    additionalDissolveDelaySeconds,
+  }: {
+    neuronId: NeuronId;
+    additionalDissolveDelaySeconds: number;
+  }): Promise<EmptyResponse> => {
+    const request = toIncreaseDissolveDelayRequest({
+      neuronId,
+      additionalDissolveDelaySeconds,
+    });
+    const response = await manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+    if (response.Ok) {
+      return { Ok: null };
+    }
+    return {
+      Err: response.Err || {
+        errorMessage: "Error updating dissolve delay",
+        errorType: 0,
+      },
+    };
+  };
+
+  /**
    * Returns single proposal info
    *
    * If `certified` is true (default), the request is fetched as an update call, otherwise
@@ -217,10 +252,7 @@ export class GovernanceCanister {
    *
    * Registers vote for a proposal from the neuron passed
    *
-   * @param neuronId: NeuronID
-   * @param vote: Vote
-   * @param ProposalId: ProposalId
-   * @returns EmtpyResponse
+   * Returns whether updated succeeded or not
    */
   public registerVote = async ({
     neuronId,
@@ -232,26 +264,16 @@ export class GovernanceCanister {
     proposalId: ProposalId;
   }): Promise<EmptyResponse> => {
     const request = toRegisterVoteRequest({ neuronId, vote, proposalId });
-    const { command } = await this.certifiedService.manage_neuron(request);
-    const response = command[0];
-    if (!response) {
-      return {
-        Err: {
-          errorMessage: "Error registering the vote",
-          errorType: 0,
-        },
-      };
-    }
-    if ("Error" in response) {
-      return { Err: toGovernanceError(response.Error) };
-    }
-    if ("RegisterVote" in response) {
+    const response = await manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+    if (response.Ok) {
       return { Ok: null };
     }
-    // unexpected
     return {
-      Err: {
-        errorMessage: "Error registering the vote",
+      Err: response.Err || {
+        errorMessage: "Error registering vote",
         errorType: 0,
       },
     };
