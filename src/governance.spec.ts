@@ -5,12 +5,15 @@ import { GovernanceService } from "../candid/governance.idl";
 import {
   ClaimOrRefreshNeuronFromAccountResponse,
   ListKnownNeuronsResponse,
-  ListNeuronsResponse,
   ManageNeuronResponse,
-  NeuronInfo,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
 import { GovernanceCanister } from "./governance";
+import {
+  mockListNeuronsResponse,
+  mockNeuronInfo,
+  one,
+} from "./mocks/governance.mock";
 import { InsufficientAmount } from "./types/governance";
 
 describe("GovernanceCanister.listKnownNeurons", () => {
@@ -173,25 +176,8 @@ describe("GovernanceCanister.listKnownNeurons", () => {
   });
 
   it("gets user neurons", async () => {
-    const one = BigInt(1);
-    const mockNeuronInfo: NeuronInfo = {
-      dissolve_delay_seconds: one,
-      recent_ballots: [],
-      created_timestamp_seconds: one,
-      state: 2,
-      stake_e8s: one,
-      joined_community_fund_timestamp_seconds: [],
-      retrieved_at_timestamp_seconds: one,
-      known_neuron_data: [],
-      voting_power: one,
-      age_seconds: one,
-    };
-    const response: ListNeuronsResponse = {
-      neuron_infos: [[BigInt(1), mockNeuronInfo]],
-      full_neurons: [],
-    };
     const service = mock<GovernanceService>();
-    service.list_neurons.mockResolvedValue(response);
+    service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
 
     const governance = GovernanceCanister.create({
       certifiedServiceOverride: service,
@@ -263,5 +249,28 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     expect(service.manage_neuron).toBeCalled();
     expect("Ok" in response).toBeFalsy();
     expect("Err" in response).toBeTruthy();
+  });
+
+  it("should fetch and convert a neuron", async () => {
+    const service = mock<GovernanceService>();
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+      serviceOverride: service,
+    });
+
+    service.list_neurons.mockResolvedValue(
+      Promise.resolve(mockListNeuronsResponse)
+    );
+
+    const response = await governance.getNeuron({
+      certified: true,
+      principal: new AnonymousIdentity().getPrincipal(),
+      neuronId: BigInt(1),
+    });
+
+    expect(service.list_neurons).toBeCalled();
+    expect(response).not.toBeUndefined();
+    expect(response?.neuronId).toEqual(one);
+    expect(response?.state).toEqual(mockNeuronInfo.state);
   });
 });
