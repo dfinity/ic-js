@@ -91,7 +91,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     expect(res.map((n) => Number(n.id))).toEqual([100, 200, 300, 400]);
   });
 
-  describe("getProposalInfo", () => {
+  describe("getProposal", () => {
     it("should fetch and convert single ProposalInfo", async () => {
       const service = mock<GovernanceService>();
       const governance = GovernanceCanister.create({
@@ -108,7 +108,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
       service.get_proposal_info.mockResolvedValue(
         Promise.resolve([rawProposal])
       );
-      const response = await governance.getProposalInfo({
+      const response = await governance.getProposal({
         proposalId: BigInt(1),
       });
 
@@ -175,7 +175,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     expect(response).toBeInstanceOf(InsufficientAmount);
   });
 
-  it("gets user neurons", async () => {
+  it("list user neurons", async () => {
     const service = mock<GovernanceService>();
     service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
 
@@ -183,7 +183,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
       certifiedServiceOverride: service,
       serviceOverride: service,
     });
-    const neurons = await governance.getNeurons({
+    const neurons = await governance.listNeurons({
       certified: true,
       principal: new AnonymousIdentity().getPrincipal(),
     });

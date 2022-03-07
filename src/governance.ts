@@ -91,7 +91,7 @@ export class GovernanceCanister {
    *
    * TODO: Decide: The library method is getNeurons but the raw method is list_neurons.  Do we want this inconsistency?
    */
-  public getNeurons = async ({
+  public listNeurons = async ({
     certified = true,
     principal,
     neuronIds,
@@ -201,7 +201,7 @@ export class GovernanceCanister {
    * If `certified` is true (default), the request is fetched as an update call, otherwise
    * it is fetched using a query call.
    */
-  public getProposalInfo = async ({
+  public getProposal = async ({
     proposalId,
     certified = true,
   }: {
@@ -306,7 +306,7 @@ export class GovernanceCanister {
     // The governance canister exposes two functions "get_neuron_info" and "get_full_neuron" that could probably be used to fetch the neuron details too.
     // However historically this function has been resolved with a single call "list_neurons".
 
-    const [neuron]: NeuronInfo[] = await this.getNeurons({
+    const [neuron]: NeuronInfo[] = await this.listNeurons({
       certified,
       principal,
       neuronIds: [neuronId],
