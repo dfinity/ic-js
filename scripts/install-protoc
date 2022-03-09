@@ -37,6 +37,19 @@ check_protoc() {
 	protoc --version | awk -v v="$PROTOC_VERSION" '{if ($2 != v) exit 1}'
 }
 
+[[ "$1" != "--help" ]] || {
+	cat <<-EOF
+		Installs a specific version of protoc, the protocol buffer compiler.
+
+		Slightly different versions of protoc can produce large changes in output.
+		The differences MAY be just formatting but this is hard to confirm.
+
+		To ensure that we have consistent, reproducible builds we therefore
+		specify the exact version of protoc to be installed.
+	EOF
+	exit 0
+}
+
 check_protoc || install_protoc && check_protoc
 echo Protoc is installed:
 command -v protoc

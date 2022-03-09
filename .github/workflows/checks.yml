@@ -61,6 +61,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Check the protoc installer
+        run: ./scripts/install-protoc --help
       - name: Install protoc
         run: sudo ./scripts/install-protoc
       - name: Install ts dependencies
