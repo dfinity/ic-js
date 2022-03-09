@@ -69,9 +69,8 @@ jobs:
         run: npm ci
       - name: Compile protobuf
         run: npm run protoc
-      # TODO: Add a check that htere are no changes once this actually passes:
-      #- name: Verify that there are no changes to the compiled proto files
-      #  run: git diff --exit-code
+      - name: Verify that there are no changes to the compiled proto files
+        run: git diff --exit-code
 
   build:
     needs: [build-candid, build-protobuf]
