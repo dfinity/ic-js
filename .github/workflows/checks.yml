@@ -62,7 +62,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install protoc
-        run: sudo apt-get install protobuf-compiler
+        run: sudo ./scripts/install-protoc
       - name: Install ts dependencies
         run: npm ci
       - name: Compile protobuf

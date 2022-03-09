@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+operating_system() {
+	case "$(uname | tr '[:upper:]' '[:lower:]')" in
+	linux) echo linux ;;
+	darwin) echo osx ;;
+	*)
+		echo "Unsupported operating system: $(uname)" >&2
+		exit 1
+		;;
+	esac
+}
+
+PROTOC_VERSION=3.19.4
+OPERATING_SYSTEM="$(operating_system)"
+PROCESSOR="$(uname -p)"
+
+install_protoc() {
+	set -euo pipefail
+
+	(($(id -u) == 0)) || {
+		echo "Please run this as root." >&2
+		exit 1
+	}
+
+	echo "Installing protoc from https://github.com/protocolbuffers/protobuf/releases/tag/${PROTOC_VERSION}"
+	pushd "$(mktemp -d)"
+	wget "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${OPERATING_SYSTEM}-${PROCESSOR}.zip"
+	unzip protoc-3.19.4-linux-x86_64.zip
+	install -m 755 bin/protoc /usr/local/bin/protoc
+	popd
+	echo "Finished installing protoc."
+}
+check_protoc() {
+	set -euo pipefail
+	protoc --version | awk -v v="$PROTOC_VERSION" '{if ($2 != v) exit 1}'
+}
+
+check_protoc || install_protoc && check_protoc
+echo Protoc is installed:
+command -v protoc
+protoc --version
