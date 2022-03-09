@@ -3,8 +3,9 @@ name: Nightly Publication
 on:
   schedule:
     - cron: "0 0 * * *"
+
 jobs:
-  formatting:
+  publish:
     runs-on: ubuntu-20.04
 
     steps:
@@ -12,6 +13,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Build nightly
         run: ./scripts/build-nightly
+      - name: Set up npm
+        run: printf '%s\n' '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}' registry=https://registry.npmjs.org/ always-auth=true >> .npmrc
       - name: Publish
         run: npm publish --tag nightly
         env:

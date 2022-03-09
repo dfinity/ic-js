@@ -5,12 +5,15 @@ import { GovernanceService } from "../candid/governance.idl";
 import {
   ClaimOrRefreshNeuronFromAccountResponse,
   ListKnownNeuronsResponse,
-  ListNeuronsResponse,
   ManageNeuronResponse,
-  NeuronInfo,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
 import { GovernanceCanister } from "./governance";
+import {
+  mockListNeuronsResponse,
+  mockNeuronId,
+  mockNeuronInfo,
+} from "./mocks/governance.mock";
 import { InsufficientAmount } from "./types/governance";
 
 describe("GovernanceCanister.listKnownNeurons", () => {
@@ -88,7 +91,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     expect(res.map((n) => Number(n.id))).toEqual([100, 200, 300, 400]);
   });
 
-  describe("getProposalInfo", () => {
+  describe("getProposal", () => {
     it("should fetch and convert single ProposalInfo", async () => {
       const service = mock<GovernanceService>();
       const governance = GovernanceCanister.create({
@@ -105,7 +108,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
       service.get_proposal_info.mockResolvedValue(
         Promise.resolve([rawProposal])
       );
-      const response = await governance.getProposalInfo({
+      const response = await governance.getProposal({
         proposalId: BigInt(1),
       });
 
@@ -172,32 +175,15 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     expect(response).toBeInstanceOf(InsufficientAmount);
   });
 
-  it("gets user neurons", async () => {
-    const one = BigInt(1);
-    const mockNeuronInfo: NeuronInfo = {
-      dissolve_delay_seconds: one,
-      recent_ballots: [],
-      created_timestamp_seconds: one,
-      state: 2,
-      stake_e8s: one,
-      joined_community_fund_timestamp_seconds: [],
-      retrieved_at_timestamp_seconds: one,
-      known_neuron_data: [],
-      voting_power: one,
-      age_seconds: one,
-    };
-    const response: ListNeuronsResponse = {
-      neuron_infos: [[BigInt(1), mockNeuronInfo]],
-      full_neurons: [],
-    };
+  it("list user neurons", async () => {
     const service = mock<GovernanceService>();
-    service.list_neurons.mockResolvedValue(response);
+    service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
 
     const governance = GovernanceCanister.create({
       certifiedServiceOverride: service,
       serviceOverride: service,
     });
-    const neurons = await governance.getNeurons({
+    const neurons = await governance.listNeurons({
       certified: true,
       principal: new AnonymousIdentity().getPrincipal(),
     });
@@ -259,6 +245,88 @@ describe("GovernanceCanister.listKnownNeurons", () => {
       neuronId: BigInt(1),
       vote: Vote.YES,
       proposalId: BigInt(2),
+    });
+    expect(service.manage_neuron).toBeCalled();
+    expect("Ok" in response).toBeFalsy();
+    expect("Err" in response).toBeTruthy();
+  });
+
+  it("should fetch and convert a neuron", async () => {
+    const service = mock<GovernanceService>();
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+      serviceOverride: service,
+    });
+
+    service.list_neurons.mockResolvedValue(
+      Promise.resolve(mockListNeuronsResponse)
+    );
+
+    const response = await governance.getNeuron({
+      certified: true,
+      principal: new AnonymousIdentity().getPrincipal(),
+      neuronId: BigInt(1),
+    });
+
+    expect(service.list_neurons).toBeCalled();
+    expect(response).not.toBeUndefined();
+    expect(Number(response?.neuronId)).toEqual(Number(mockNeuronId));
+    expect(response?.state).toEqual(mockNeuronInfo.state);
+  });
+});
+
+describe("GovernanceCanister.increaseDissolveDelay", () => {
+  it("increases dissolve delay of the neuron successfully", async () => {
+    const serviceResponse: ManageNeuronResponse = {
+      command: [{ Configure: {} }],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const response = await governance.increaseDissolveDelay({
+      neuronId: BigInt(1),
+      additionalDissolveDelaySeconds: 100000,
+    });
+    expect(service.manage_neuron).toBeCalled();
+    expect("Ok" in response).toBeTruthy();
+    expect("Err" in response).toBeFalsy();
+  });
+
+  it("returns error when increaseDissolveDelay fails with error", async () => {
+    const serviceResponse: ManageNeuronResponse = {
+      command: [{ Error: { error_message: "Some error", error_type: 1 } }],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const response = await governance.increaseDissolveDelay({
+      neuronId: BigInt(1),
+      additionalDissolveDelaySeconds: 100000,
+    });
+    expect(service.manage_neuron).toBeCalled();
+    expect("Ok" in response).toBeFalsy();
+    expect("Err" in response).toBeTruthy();
+  });
+
+  it("returns error when increaseDissolveDelay fails unexpectetdly", async () => {
+    const serviceResponse: ManageNeuronResponse = {
+      command: [],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const response = await governance.increaseDissolveDelay({
+      neuronId: BigInt(1),
+      additionalDissolveDelaySeconds: 100000,
     });
     expect(service.manage_neuron).toBeCalled();
     expect("Ok" in response).toBeFalsy();
