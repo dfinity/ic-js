@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+operating_system() {
+  case "$(uname | tr '[:upper:]' '[:lower:]')" in
+  linux) echo linux ;;
+  darwin) echo osx ;;
+  *)
+    echo "Unsupported operating system: $(uname)" >&2
+    exit 1
+    ;;
+  esac
+}
+
+PROTOC_VERSION=3.19.4
+OPERATING_SYSTEM="$(operating_system)"
+PROCESSOR="$(uname -p)"
+INSTALL_DIR="/usr/local"
+
+install_protoc() {
+  set -euo pipefail
+
+  (($(id -u) == 0)) || {
+    echo "Please run this as root." >&2
+    exit 1
+  }
+
+  echo "Installing protoc from https://github.com/protocolbuffers/protobuf/releases/tag/${PROTOC_VERSION}"
+  pushd "$(mktemp -d)"
+  wget "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${OPERATING_SYSTEM}-${PROCESSOR}.zip"
+  unzip protoc-3.19.4-linux-x86_64.zip
+  install -m 755 bin/protoc "${INSTALL_DIR}/bin/protoc"
+  for dir in /include/google/protobuf /include/google/protobuf/compiler; do
+    install -d "${INSTALL_DIR}${dir}"
+    install -t "${INSTALL_DIR}/include/google/protobuf" ".${dir}"/*
+  done
+  popd
+  echo "Finished installing protoc."
+}
+check_protoc() {
+  set -euo pipefail
+  protoc --version | awk -v v="$PROTOC_VERSION" '{if ($2 != v) exit 1}'
+}
+
+[[ "${1:-}" != "--help" ]] || {
+  cat <<-EOF
+		Installs a specific version of protoc, the protocol buffer compiler.
+
+		Slightly different versions of protoc can produce large changes in output.
+		The differences MAY be just formatting but this is hard to confirm.
+
+		To ensure that we have consistent, reproducible builds we therefore
+		specify the exact version of protoc to be installed.
+	EOF
+  exit 0
+}
+
+check_protoc 2>/dev/null || install_protoc && check_protoc
+echo Protoc is installed:
+command -v protoc
+protoc --version

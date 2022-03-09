@@ -21,7 +21,7 @@
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
     "prepare": "npm run build",
-    "update_proto": "bash ./scripts/update_proto.sh"
+    "protoc": "bash ./scripts/update_proto.sh"
   },
   "dependencies": {
     "@dfinity/agent": "^0.10.3",
