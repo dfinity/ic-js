@@ -32,7 +32,7 @@ install_protoc() {
   install -m 755 bin/protoc "${INSTALL_DIR}/bin/protoc"
   for dir in /include/google/protobuf /include/google/protobuf/compiler; do
     install -d "${INSTALL_DIR}${dir}"
-    install -t "${INSTALL_DIR}/include/google/protobuf" "${dir}"/*
+    install -t "${INSTALL_DIR}/include/google/protobuf" ".${dir}"/*
   done
   popd
   echo "Finished installing protoc."
