@@ -13,6 +13,7 @@ import {
   fromListNeurons,
   fromListProposalsRequest,
   toIncreaseDissolveDelayRequest,
+  toManageNeuronsFollowRequest,
   toRegisterVoteRequest,
 } from "./canisters/governance/request.converters";
 import {
@@ -36,6 +37,7 @@ import {
 import {
   ClaimOrRefreshNeuronFromAccount,
   EmptyResponse,
+  FollowRequest,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
@@ -274,6 +276,28 @@ export class GovernanceCanister {
     return {
       Err: response.Err || {
         errorMessage: "Error registering vote",
+        errorType: 0,
+      },
+    };
+  };
+
+  /**
+   * Edit neuron followees per topic
+   */
+  public setFollowees = async (
+    followRequest: FollowRequest
+  ): Promise<EmptyResponse> => {
+    const request = toManageNeuronsFollowRequest(followRequest);
+    const response = await manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+    if (response.Ok) {
+      return { Ok: null };
+    }
+    return {
+      Err: response.Err || {
+        errorMessage: "Error setting followees",
         errorType: 0,
       },
     };

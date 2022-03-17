@@ -25,6 +25,7 @@ import {
   ClaimOrRefreshNeuronRequest,
   Command,
   DisburseToNeuronRequest,
+  FollowRequest,
   ListProposalsRequest,
   MakeProposalRequest,
   ManageNeuron,
@@ -777,6 +778,23 @@ export const toRegisterVoteRequest = ({
       RegisterVote: {
         vote,
         proposal: [{ id: proposalId }],
+      },
+    },
+  ],
+  neuron_id_or_subaccount: [],
+});
+
+export const toManageNeuronsFollowRequest = ({
+  neuronId,
+  topic,
+  followees,
+}: FollowRequest): RawManageNeuron => ({
+  id: [{ id: neuronId }],
+  command: [
+    {
+      Follow: {
+        topic,
+        followees: followees.map((followeeId) => ({ id: followeeId })),
       },
     },
   ],

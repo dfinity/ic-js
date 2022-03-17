@@ -15,6 +15,7 @@ import {
   mockNeuronInfo,
 } from "./mocks/governance.mock";
 import { InsufficientAmount } from "./types/governance";
+import { Topic } from "./types/governance_converters";
 
 describe("GovernanceCanister.listKnownNeurons", () => {
   it("populates all KnownNeuron fields correctly", async () => {
@@ -331,5 +332,67 @@ describe("GovernanceCanister.increaseDissolveDelay", () => {
     expect(service.manage_neuron).toBeCalled();
     expect("Ok" in response).toBeFalsy();
     expect("Err" in response).toBeTruthy();
+  });
+
+  describe("GovernanceCanister.setFollowees", () => {
+    it("sets followees successfully", async () => {
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Follow: {} }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const response = await governance.setFollowees({
+        neuronId: BigInt(1),
+        topic: Topic.Governance,
+        followees: [BigInt(3), BigInt(6)],
+      });
+      expect(service.manage_neuron).toBeCalled();
+      expect("Ok" in response).toBeTruthy();
+      expect("Err" in response).toBeFalsy();
+    });
+
+    it("returns error when setFollowees fails with error", async () => {
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: { error_message: "Some error", error_type: 1 } }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const response = await governance.setFollowees({
+        neuronId: BigInt(1),
+        topic: Topic.Governance,
+        followees: [BigInt(3), BigInt(6)],
+      });
+      expect(service.manage_neuron).toBeCalled();
+      expect("Ok" in response).toBeFalsy();
+      expect("Err" in response).toBeTruthy();
+    });
+
+    it("returns error when setFollowees fails unexpectetdly", async () => {
+      const serviceResponse: ManageNeuronResponse = {
+        command: [],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const response = await governance.setFollowees({
+        neuronId: BigInt(1),
+        topic: Topic.Governance,
+        followees: [BigInt(3), BigInt(6)],
+      });
+      expect(service.manage_neuron).toBeCalled();
+      expect("Ok" in response).toBeFalsy();
+      expect("Err" in response).toBeTruthy();
+    });
   });
 });
