@@ -517,7 +517,6 @@ export interface SpawnResponse {
 }
 export type EmptyResponse = { Ok: null } | { Err: GovernanceError };
 
-// TODO: Remove, do we ever use this?
 export default interface ServiceInterface {
   getNeurons: (
     certified: boolean,
