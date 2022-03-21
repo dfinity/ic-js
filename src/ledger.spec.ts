@@ -111,4 +111,22 @@ describe("LedgerCanister.transfer", () => {
 
     expect(res).toEqual(new TxTooOld(123));
   });
+
+  it("handles subaccount", async () => {
+    const ledger = LedgerCanister.create({
+      updateCallOverride: jest
+        .fn()
+        .mockResolvedValue(new Uint8Array(32).fill(0)),
+    });
+
+    const res = await ledger.transfer({
+      to: AccountIdentifier.fromHex(
+        "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
+      ),
+      amount: ICP.fromE8s(BigInt(100000)),
+      fromSubAccountId: 1234,
+    });
+
+    expect(typeof res).toEqual("bigint");
+  });
 });
