@@ -1,14 +1,7 @@
 import { GovernanceErrorDetail } from "../../candid/governanceTypes";
 import { ICP } from "../icp";
-import { TransferError } from "../types/ledger";
 
 export class StakeNeuronError extends Error {}
-
-export class StakeNeuronTransferError extends StakeNeuronError {
-  constructor(public readonly err: TransferError) {
-    super();
-  }
-}
 
 export class CouldNotClaimNeuronError extends StakeNeuronError {}
 

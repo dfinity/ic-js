@@ -1,13 +1,5 @@
 export { AccountIdentifier, SubAccount } from "./account_identifier";
 export * from "./errors/governance.errors";
-export {
-  CouldNotClaimNeuronError,
-  GovernanceError,
-  InsufficientAmountError,
-  StakeNeuronError,
-  StakeNeuronTransferError,
-  UnsupportedValueError,
-} from "./errors/governance.errors";
 export { GovernanceCanister } from "./governance";
 export { ICP } from "./icp";
 export { LedgerCanister } from "./ledger";

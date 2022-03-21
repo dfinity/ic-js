@@ -4,24 +4,28 @@ import { ICP } from "../icp";
 import { BlockHeight } from "./common";
 
 export type TransferError =
-  | InvalidSender
-  | InsufficientFunds
-  | TxTooOld
-  | TxCreatedInFuture
-  | TxDuplicate
-  | BadFee;
+    | InvalidSenderError
+    | InsufficientFundsError
+    | TxTooOldError
+    | TxCreatedInFutureError
+    | TxDuplicateError;
 
-export class InvalidSender {}
-export class BadFee {}
-export class InsufficientFunds {
-  constructor(public readonly balance: ICP) {}
+export class InvalidSenderError extends Error {}
+export class InsufficientFundsError extends Error {
+  constructor(public readonly balance: ICP) {
+    super();
+  }
 }
-export class TxTooOld {
-  constructor(public readonly allowed_window_secs: number) {}
+export class TxTooOldError extends Error {
+  constructor(public readonly allowed_window_secs: number) {
+    super();
+  }
 }
-export class TxCreatedInFuture {}
-export class TxDuplicate {
-  constructor(public readonly duplicateOf: BlockHeight) {}
+export class TxCreatedInFutureError extends Error {}
+export class TxDuplicateError extends Error {
+  constructor(public readonly duplicateOf: BlockHeight) {
+    super();
+  }
 }
 
 export type Fetcher = (

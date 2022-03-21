@@ -27,7 +27,6 @@ import { E8S_PER_ICP } from "./constants/constants";
 import {
   CouldNotClaimNeuronError,
   InsufficientAmountError,
-  StakeNeuronTransferError,
 } from "./errors/governance.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
@@ -153,6 +152,7 @@ export class GovernanceCanister {
    * @throws {InsufficientAmountError}
    * @throws {StakeNeuronTransferError}
    * @throws {CouldNotClaimNeuronError}
+   * @throws {TransferError}
    */
   public stakeNeuron = async ({
     stake,
@@ -176,17 +176,12 @@ export class GovernanceCanister {
     });
 
     // Send amount to the ledger.
-    const response = await ledgerCanister.transfer({
+    await ledgerCanister.transfer({
       memo: nonce,
       amount: stake,
       to: accountIdentifier,
       // TODO: Support subaccounts
     });
-
-    if (typeof response !== "bigint") {
-      // TransferError
-      throw new StakeNeuronTransferError(response);
-    }
 
     // Notify the governance of the transaction so that the neuron is created.
     const neuronId: NeuronId | undefined =
