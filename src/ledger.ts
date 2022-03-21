@@ -173,8 +173,8 @@ export class LedgerCanister {
     return BigInt(PbBlockHeight.deserializeBinary(responseBytes).getHeight());
   };
 
-  private subAccountIdToSubaccount = (index: number): Subaccount => {
-    const bytes = numberToArrayBuffer(index, SUB_ACCOUNT_BYTE_LENGTH);
+  private subAccountIdToSubaccount = (subAccountId: number): Subaccount => {
+    const bytes = numberToArrayBuffer(subAccountId, SUB_ACCOUNT_BYTE_LENGTH);
     const subaccount = new Subaccount();
     subaccount.setSubAccount(new Uint8Array(bytes));
     return subaccount;
