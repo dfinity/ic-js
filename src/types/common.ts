@@ -1,5 +1,5 @@
-import { Agent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import {Agent} from "@dfinity/agent";
+import {Principal} from "@dfinity/principal";
 
 export type CanisterIdString = string;
 export type NeuronId = bigint;
@@ -16,3 +16,5 @@ export type CanisterCall = (
   methodName: string,
   arg: ArrayBuffer
 ) => Promise<Uint8Array | Error>;
+
+export type Option<T> = T | undefined;

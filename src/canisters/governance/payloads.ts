@@ -18,7 +18,7 @@ import {
   UpdateSubnetReplicaVersionPayload,
   UpdateUnassignedNodesConfigPayload,
 } from "../../../candid/payloads.idl";
-import { Option } from "../../types/option";
+import {Option} from '../../types/common';
 
 export const getNnsFunctionName = (nnsFunction: number): string => {
   switch (nnsFunction) {

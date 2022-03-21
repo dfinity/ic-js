@@ -4,10 +4,9 @@ import {
   AccountIdentifier,
   CanisterIdString,
   E8s,
-  NeuronId,
+  NeuronId, Option,
   PrincipalString,
 } from "./common";
-import { Option } from "./option";
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
