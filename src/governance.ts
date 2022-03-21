@@ -24,15 +24,15 @@ import {
 import { manageNeuron } from "./canisters/governance/services";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
+import {
+  CouldNotClaimNeuronError,
+  InsufficientAmountError,
+  StakeNeuronTransferError,
+} from "./errors/governance.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
 import { NeuronId } from "./types/common";
-import {
-  CouldNotClaimNeuronError,
-  GovernanceCanisterOptions,
-  InsufficientAmountError,
-  StakeNeuronTransferError,
-} from "./types/governance";
+import { GovernanceCanisterOptions } from "./types/governance";
 import {
   ClaimOrRefreshNeuronFromAccount,
   FollowRequest,
@@ -90,7 +90,6 @@ export class GovernanceCanister {
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it is fetched using a query call.
    *
-   * TODO: Decide: The library method is getNeurons but the raw method is list_neurons.  Do we want this inconsistency?
    */
   public listNeurons = async ({
     certified = true,

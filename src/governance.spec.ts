@@ -9,13 +9,13 @@ import {
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
+import { InsufficientAmountError } from "./errors/governance.errors";
 import { GovernanceCanister } from "./governance";
 import {
   mockListNeuronsResponse,
   mockNeuronId,
   mockNeuronInfo,
 } from "./mocks/governance.mock";
-import { InsufficientAmountError } from "./types/governance";
 import { Topic } from "./types/governance_converters";
 
 const unexpectedGovernanceError: GovernanceErrorDetail = {

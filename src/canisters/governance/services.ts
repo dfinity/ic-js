@@ -1,6 +1,6 @@
 import { GovernanceService } from "../../../candid/governance.idl";
 import { ManageNeuron } from "../../../candid/governanceTypes";
-import { GovernanceError } from "../../types/governance";
+import { GovernanceError } from "../../errors/governance.errors";
 
 /**
  * @throws {GovernanceError}

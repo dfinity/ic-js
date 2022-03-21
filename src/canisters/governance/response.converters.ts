@@ -25,6 +25,7 @@ import {
   Tally as RawTally,
 } from "../../../candid/governanceTypes.d";
 import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
+import { UnsupportedValueError } from "../../errors/governance.errors";
 import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {
   Action,
@@ -46,7 +47,6 @@ import {
   ProposalInfo,
   RewardMode,
   Tally,
-  UnsupportedValueError,
 } from "../../types/governance_converters";
 import {
   accountIdentifierFromBytes,
