@@ -1,5 +1,6 @@
 export { AccountIdentifier, SubAccount } from "./account_identifier";
 export * from "./errors/governance.errors";
+export * from "./errors/ledger.errors";
 export { GovernanceCanister } from "./governance";
 export { ICP } from "./icp";
 export { LedgerCanister } from "./ledger";
@@ -9,9 +10,3 @@ export * from "./types/governance_converters";
 export * from "./types/icp";
 export * from "./types/ledger";
 export * from "./utils/neurons.utils";
-export {TxDuplicateError} from './errors/ledger.errors';
-export {TxCreatedInFutureError} from './errors/ledger.errors';
-export {TxTooOldError} from './errors/ledger.errors';
-export {InsufficientFundsError} from './errors/ledger.errors';
-export {InvalidSenderError} from './errors/ledger.errors';
-export {TransferError} from './errors/ledger.errors';
