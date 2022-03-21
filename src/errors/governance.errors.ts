@@ -1,7 +1,7 @@
 import { GovernanceErrorDetail } from "../../candid/governanceTypes";
 import { ICP } from "../icp";
 
-export class StakeNeuronError extends Error {}
+export abstract class StakeNeuronError extends Error {}
 
 export class CouldNotClaimNeuronError extends StakeNeuronError {}
 
