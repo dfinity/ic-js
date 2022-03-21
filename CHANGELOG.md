@@ -3,7 +3,7 @@
 ### Breaking Changes
 
 - variant return types dropped - i.e. functions now return effective result and throw errors in case of issues
-- governance functions `getNeurons` and `getProposalInfo` renamed
+- governance function `getNeurons` to `listNeurons` renamed
 
 ### Features
 
