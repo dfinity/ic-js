@@ -148,6 +148,36 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     expect(response).toEqual(neuronId);
   });
 
+  it("creates new neuron from subaccount successfully", async () => {
+    const neuronId = BigInt(1);
+    const clainNeuronResponse: ClaimOrRefreshNeuronFromAccountResponse = {
+      result: [{ NeuronId: { id: neuronId } }],
+    };
+    const service = mock<GovernanceService>();
+    service.claim_or_refresh_neuron_from_account.mockResolvedValue(
+      clainNeuronResponse
+    );
+
+    const mockLedger = mock<LedgerCanister>();
+    mockLedger.transfer.mockImplementation(
+      jest.fn().mockResolvedValue(BigInt(1))
+    );
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const response = await governance.stakeNeuron({
+      stake: ICP.fromString("1") as ICP,
+      principal: new AnonymousIdentity().getPrincipal(),
+      ledgerCanister: mockLedger,
+      fromSubAccountId: 1234,
+    });
+
+    expect(mockLedger.transfer).toBeCalled();
+    expect(service.claim_or_refresh_neuron_from_account).toBeCalled();
+    expect(response).toEqual(neuronId);
+  });
+
   it("returns insufficient amount errors", async () => {
     const neuronId = BigInt(1);
     const clainNeuronResponse: ClaimOrRefreshNeuronFromAccountResponse = {
