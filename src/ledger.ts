@@ -12,8 +12,8 @@ import { AccountIdentifier } from "./account_identifier";
 import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
 import { mapTransferError } from "./errors/ledger.errors";
 import { ICP } from "./icp";
-import { BlockHeight } from "./types/common";
-import { Fetcher, LedgerCanisterOptions } from "./types/ledger";
+import {BlockHeight, CanisterCall} from "./types/common";
+import { LedgerCanisterOptions } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
 import { queryCall, updateCall } from "./utils/proto.utils";
 
@@ -21,8 +21,8 @@ export class LedgerCanister {
   private constructor(
     private readonly agent: Agent,
     private readonly canisterId: Principal,
-    private readonly updateFetcher: Fetcher,
-    private readonly queryFetcher: Fetcher
+    private readonly updateFetcher: CanisterCall,
+    private readonly queryFetcher: CanisterCall
   ) {}
 
   public static create(options: LedgerCanisterOptions = {}) {
