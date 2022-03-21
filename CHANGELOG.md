@@ -14,7 +14,7 @@
   - `increaseDissolveDelay`
   - `getNeuron`
   - `setFollowees`
-- ledger `transfer` enhanced with support for subaccount  
+- ledger `transfer` enhanced with support for subaccount
 - new utils to filter voted neurons and proposals
 - export `common` types
 
