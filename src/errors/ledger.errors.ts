@@ -1,30 +1,25 @@
 import { ICP } from "../icp";
 import { BlockHeight } from "../types/common";
 
-export type TransferError =
-  | InvalidSenderError
-  | InsufficientFundsError
-  | TxTooOldError
-  | TxCreatedInFutureError
-  | TxDuplicateError;
+export abstract class TransferError extends Error {}
 
-export class InvalidSenderError extends Error {}
+export class InvalidSenderError extends TransferError {}
 
-export class InsufficientFundsError extends Error {
+export class InsufficientFundsError extends TransferError {
   constructor(public readonly balance: ICP) {
     super();
   }
 }
 
-export class TxTooOldError extends Error {
+export class TxTooOldError extends TransferError {
   constructor(public readonly allowed_window_secs: number) {
     super();
   }
 }
 
-export class TxCreatedInFutureError extends Error {}
+export class TxCreatedInFutureError extends TransferError {}
 
-export class TxDuplicateError extends Error {
+export class TxDuplicateError extends TransferError {
   constructor(public readonly duplicateOf: BlockHeight) {
     super();
   }
