@@ -1,6 +1,5 @@
 import { AnonymousIdentity } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
-import { GovernanceError, ICP, LedgerCanister, Vote } from ".";
 import { GovernanceService } from "../candid/governance.idl";
 import {
   ClaimOrRefreshNeuronFromAccountResponse,
@@ -9,14 +8,19 @@ import {
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
-import { InsufficientAmountError } from "./errors/governance.errors";
+import {
+  GovernanceError,
+  InsufficientAmountError,
+} from "./errors/governance.errors";
 import { GovernanceCanister } from "./governance";
+import { ICP } from "./icp";
+import { LedgerCanister } from "./ledger";
 import {
   mockListNeuronsResponse,
   mockNeuronId,
   mockNeuronInfo,
 } from "./mocks/governance.mock";
-import { Topic } from "./types/governance_converters";
+import { Topic, Vote } from "./types/governance_converters";
 
 const unexpectedGovernanceError: GovernanceErrorDetail = {
   error_message: "Error updating neuron",
