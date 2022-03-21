@@ -4,7 +4,8 @@ import {
   AccountIdentifier,
   CanisterIdString,
   E8s,
-  NeuronId, Option,
+  NeuronId,
+  Option,
   PrincipalString,
 } from "./common";
 

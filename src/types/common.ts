@@ -1,5 +1,5 @@
-import {Agent} from "@dfinity/agent";
-import {Principal} from "@dfinity/principal";
+import { Agent } from "@dfinity/agent";
+import { Principal } from "@dfinity/principal";
 
 export type CanisterIdString = string;
 export type NeuronId = bigint;

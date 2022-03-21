@@ -1,6 +1,6 @@
-import {Agent} from "@dfinity/agent";
-import {Principal} from "@dfinity/principal";
-import {CanisterCall} from './common';
+import { Agent } from "@dfinity/agent";
+import { Principal } from "@dfinity/principal";
+import { CanisterCall } from "./common";
 
 // HttpAgent options that can be used at construction.
 export interface LedgerCanisterOptions {
