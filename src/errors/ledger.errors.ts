@@ -1,15 +1,38 @@
 import { ICP } from "../icp";
-import {
-  InsufficientFundsError,
-  InvalidSenderError, TransferError,
-  TxCreatedInFutureError,
-  TxDuplicateError,
-  TxTooOldError,
-} from "../types/ledger";
+import { BlockHeight } from "../types/common";
+
+export type TransferError =
+  | InvalidSenderError
+  | InsufficientFundsError
+  | TxTooOldError
+  | TxCreatedInFutureError
+  | TxDuplicateError;
+
+export class InvalidSenderError extends Error {}
+
+export class InsufficientFundsError extends Error {
+  constructor(public readonly balance: ICP) {
+    super();
+  }
+}
+
+export class TxTooOldError extends Error {
+  constructor(public readonly allowed_window_secs: number) {
+    super();
+  }
+}
+
+export class TxCreatedInFutureError extends Error {}
+
+export class TxDuplicateError extends Error {
+  constructor(public readonly duplicateOf: BlockHeight) {
+    super();
+  }
+}
 
 export const mapTransferError = (responseBytes: Error): TransferError => {
-  const {message} = responseBytes;  
-  
+  const { message } = responseBytes;
+
   if (message.includes("Reject code: 5")) {
     // Match against the different error types.
     // This string matching is fragile. It's a stop-gap solution until
@@ -20,9 +43,7 @@ export const mapTransferError = (responseBytes: Error): TransferError => {
     }
 
     {
-      const m = message.match(
-        /transaction.*duplicate.* in block (\d+)/
-      );
+      const m = message.match(/transaction.*duplicate.* in block (\d+)/);
       if (m && m.length > 1) {
         return new TxDuplicateError(BigInt(m[1]));
       }

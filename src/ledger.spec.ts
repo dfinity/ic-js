@@ -6,8 +6,8 @@ import {
   InvalidSenderError,
   TxCreatedInFutureError,
   TxDuplicateError,
-  TxTooOldError,
-} from "./types/ledger";
+  TxTooOldError
+} from './errors/ledger.errors';
 
 describe("LedgerCanister.transfer", () => {
   it("handles invalid sender", async () => {

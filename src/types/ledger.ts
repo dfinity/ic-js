@@ -1,32 +1,5 @@
-import { Agent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
-import { ICP } from "../icp";
-import { BlockHeight } from "./common";
-
-export type TransferError =
-    | InvalidSenderError
-    | InsufficientFundsError
-    | TxTooOldError
-    | TxCreatedInFutureError
-    | TxDuplicateError;
-
-export class InvalidSenderError extends Error {}
-export class InsufficientFundsError extends Error {
-  constructor(public readonly balance: ICP) {
-    super();
-  }
-}
-export class TxTooOldError extends Error {
-  constructor(public readonly allowed_window_secs: number) {
-    super();
-  }
-}
-export class TxCreatedInFutureError extends Error {}
-export class TxDuplicateError extends Error {
-  constructor(public readonly duplicateOf: BlockHeight) {
-    super();
-  }
-}
+import {Agent} from "@dfinity/agent";
+import {Principal} from "@dfinity/principal";
 
 export type Fetcher = (
   agent: Agent,
