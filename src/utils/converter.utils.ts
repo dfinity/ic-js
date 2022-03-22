@@ -53,11 +53,6 @@ export const arrayOfNumberToArrayBuffer = (
   return arrayOfNumberToUint8Array(numbers).buffer;
 };
 
-export const arrayBufferToNumber = (buffer: ArrayBuffer): number => {
-  const view = new DataView(buffer);
-  return view.getUint32(view.byteLength - 4);
-};
-
 export const numberToArrayBuffer = (
   value: number,
   byteLength: number
@@ -69,11 +64,6 @@ export const numberToArrayBuffer = (
 
 export const asciiStringToByteArray = (text: string): Array<number> => {
   return Array.from(text).map((c) => c.charCodeAt(0));
-};
-
-export const toSubAccountId = (subAccount: Array<number>): number => {
-  const bytes = arrayOfNumberToArrayBuffer(subAccount);
-  return arrayBufferToNumber(bytes);
 };
 
 export const fromSubAccountId = (subAccountId: number): Array<number> => {
