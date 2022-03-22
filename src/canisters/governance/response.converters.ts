@@ -10,11 +10,9 @@ import {
   Command as RawCommand,
   DissolveState as RawDissolveState,
   Followees as RawFollowees,
-  GovernanceError as RawGovernanceError,
   KnownNeuron as RawKnownNeuron,
   ListNeuronsResponse as RawListNeuronsResponse,
   ListProposalInfoResponse as RawListProposalInfoResponse,
-  ManageNeuronResponse as RawManageNeuronResponse,
   Neuron as RawNeuron,
   NeuronId as RawNeuronId,
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
@@ -27,6 +25,7 @@ import {
   Tally as RawTally,
 } from "../../../candid/governanceTypes.d";
 import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
+import { UnsupportedValueError } from "../../errors/governance.errors";
 import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {
   Action,
@@ -35,13 +34,10 @@ import {
   By,
   Change,
   Command,
-  DisburseToNeuronResponse,
   DissolveState,
   Followees,
-  GovernanceError,
   KnownNeuron,
   ListProposalsResponse,
-  MakeProposalResponse,
   Neuron,
   NeuronIdOrSubaccount,
   NeuronInfo,
@@ -51,9 +47,7 @@ import {
   ProposalInfo,
   RewardMode,
   Tally,
-  UnsupportedValueError,
 } from "../../types/governance_converters";
-import { Option } from "../../types/option";
 import {
   accountIdentifierFromBytes,
   arrayOfNumberToArrayBuffer,
@@ -594,12 +588,6 @@ const toClaimOrRefreshBy = (by: RawBy): By => {
   }
 };
 
-// prettier-ignore
-// eslint-disable-next-line
-const throwUnrecognisedTypeError = ({ name, value, }: { name: string; value: any; }): Error => {
-  return new Error(`Unrecognised ${name} type - ${JSON.stringify(value)}`);
-};
-
 export const toProposalInfo = (
   proposalInfo: RawProposalInfo
 ): ProposalInfo => ({
@@ -658,122 +646,3 @@ export const toKnownNeuron = ({
     description: known_neuron_data[0]?.description[0] ?? "",
   };
 };
-
-/* Protobuf is not supported yet.
-export const toSpawnResponse = (
-  response: PbManageNeuronResponse
-): SpawnResponse => {
-  const createdNeuronId = response.getSpawn()?.getCreatedNeuronId();
-
-  if (!createdNeuronId) {
-    throw throwUnrecognisedTypeError("response", response);
-  }
-
-  return {
-    createdNeuronId: BigInt(createdNeuronId.getId()),
-  };
-};
-*/
-
-export const toSplitResponse = (
-  response: RawManageNeuronResponse
-): NeuronId => {
-  const command = response.command.length ? response.command[0] : undefined;
-
-  if (command && "Split" in command) {
-    const createdNeuronId = command.Split.created_neuron_id;
-    if (createdNeuronId.length) {
-      return createdNeuronId[0].id;
-    }
-  }
-  throw throwUnrecognisedTypeError({ name: "response", value: response });
-};
-
-/* Protobuf is not supported yet.
-export const toDisburseResponse = (
-  response: PbManageNeuronResponse
-): DisburseResponse => {
-  const blockHeight = response.getDisburse()?.getTransferBlockHeight();
-
-  if (!blockHeight) {
-    throw throwUnrecognisedTypeError("response", response);
-  }
-
-  return {
-    transferBlockHeight: BigInt(blockHeight),
-  };
-};
-*/
-
-export const toDisburseToNeuronResult = (
-  response: RawManageNeuronResponse
-): DisburseToNeuronResponse => {
-  const command = response.command;
-  if (
-    command.length &&
-    "Spawn" in command[0] &&
-    command[0].Spawn.created_neuron_id.length
-  ) {
-    return {
-      createdNeuronId: command[0].Spawn.created_neuron_id[0].id,
-    };
-  }
-  throw throwUnrecognisedTypeError({ name: "response", value: response });
-};
-
-export const toClaimOrRefreshNeuronResponse = (
-  response: RawManageNeuronResponse
-): Option<NeuronId> => {
-  const command = response.command;
-  if (command.length && "ClaimOrRefresh" in command[0]) {
-    return command[0].ClaimOrRefresh.refreshed_neuron_id.length
-      ? command[0].ClaimOrRefresh.refreshed_neuron_id[0].id
-      : undefined;
-  }
-  throw throwUnrecognisedTypeError({ name: "response", value: response });
-};
-
-/* Protobuf is not supported yet.
-export const toMergeMaturityResponse = (
-  response: PbManageNeuronResponse
-): MergeMaturityResponse => {
-  const error = response.getError();
-  if (error) {
-    throw error.getErrorMessage();
-  }
-
-  const mergeMaturityResponse = response.getMergeMaturity();
-  if (mergeMaturityResponse) {
-    return {
-      mergedMaturityE8s: BigInt(mergeMaturityResponse.getMergedMaturityE8s()),
-      newStakeE8s: BigInt(mergeMaturityResponse.getNewStakeE8s()),
-    };
-  }
-
-  throw throwUnrecognisedTypeError("response", response);
-};
-*/
-
-export const toMakeProposalResponse = (
-  response: RawManageNeuronResponse
-): MakeProposalResponse => {
-  const command = response.command;
-  if (
-    command.length &&
-    "MakeProposal" in command[0] &&
-    command[0].MakeProposal.proposal_id.length
-  ) {
-    return {
-      proposalId: command[0].MakeProposal.proposal_id[0].id,
-    };
-  }
-  throw throwUnrecognisedTypeError({ name: "response", value: response });
-};
-
-export const toGovernanceError = ({
-  error_message,
-  error_type,
-}: RawGovernanceError): GovernanceError => ({
-  errorMessage: error_message,
-  errorType: error_type,
-});

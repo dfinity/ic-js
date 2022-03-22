@@ -12,18 +12,10 @@ import {
 import { AccountIdentifier } from "./account_identifier";
 import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
 import { SUB_ACCOUNT_BYTE_LENGTH } from "./constants/constants";
+import { mapTransferError } from "./errors/ledger.errors";
 import { ICP } from "./icp";
-import { BlockHeight } from "./types/common";
-import {
-  Fetcher,
-  InsufficientFunds,
-  InvalidSender,
-  LedgerCanisterOptions,
-  TransferError,
-  TxCreatedInFuture,
-  TxDuplicate,
-  TxTooOld,
-} from "./types/ledger";
+import { BlockHeight, CanisterCall } from "./types/common";
+import { LedgerCanisterOptions } from "./types/ledger";
 import { defaultAgent } from "./utils/agent.utils";
 import { numberToArrayBuffer } from "./utils/converter.utils";
 import { queryCall, updateCall } from "./utils/proto.utils";
@@ -32,8 +24,8 @@ export class LedgerCanister {
   private constructor(
     private readonly agent: Agent,
     private readonly canisterId: Principal,
-    private readonly updateFetcher: Fetcher,
-    private readonly queryFetcher: Fetcher
+    private readonly updateFetcher: CanisterCall,
+    private readonly queryFetcher: CanisterCall
   ) {}
 
   public static create(options: LedgerCanisterOptions = {}) {
@@ -50,6 +42,8 @@ export class LedgerCanister {
    *
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it is fetched using a query call.
+   *
+   * @throws {@link Error}
    */
   public accountBalance = async ({
     accountIdentifier,
@@ -84,6 +78,8 @@ export class LedgerCanister {
    * Returns the index of the block containing the tx if it was successful.
    *
    * TODO: support remaining options (subaccounts, memos, etc.)
+   *
+   * @throws {@link TransferError}
    */
   public transfer = async ({
     to,
@@ -95,7 +91,7 @@ export class LedgerCanister {
     amount: ICP;
     memo?: bigint;
     fromSubAccountId?: number;
-  }): Promise<BlockHeight | TransferError> => {
+  }): Promise<BlockHeight> => {
     const request = new SendRequest();
     request.setTo(to.toProto());
 
@@ -123,50 +119,7 @@ export class LedgerCanister {
     );
 
     if (responseBytes instanceof Error) {
-      if (responseBytes.message.includes("Reject code: 5")) {
-        // Match against the different error types.
-        // This string matching is fragile. It's a stop-gap solution until
-        // we migrate to the candid interface.
-
-        if (responseBytes.message.match(/Sending from (.*) is not allowed/)) {
-          return new InvalidSender();
-        }
-
-        {
-          const m = responseBytes.message.match(
-            /transaction.*duplicate.* in block (\d+)/
-          );
-          if (m && m.length > 1) {
-            return new TxDuplicate(BigInt(m[1]));
-          }
-        }
-
-        {
-          const m = responseBytes.message.match(
-            /debit account.*, current balance: (\d*(\.\d*)?)/
-          );
-          if (m && m.length > 1) {
-            const balance = ICP.fromString(m[1]);
-            if (balance instanceof ICP) {
-              return new InsufficientFunds(balance);
-            }
-          }
-        }
-
-        if (responseBytes.message.includes("is in future")) {
-          return new TxCreatedInFuture();
-        }
-
-        {
-          const m = responseBytes.message.match(/older than (\d+)/);
-          if (m && m.length > 1) {
-            return new TxTooOld(Number.parseInt(m[1]));
-          }
-        }
-      }
-
-      // Unknown error. Throw as-is.
-      throw responseBytes;
+      throw mapTransferError(responseBytes);
     }
 
     // Successful tx. Return the block height.

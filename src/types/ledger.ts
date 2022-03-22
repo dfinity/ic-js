@@ -1,35 +1,6 @@
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { ICP } from "../icp";
-import { BlockHeight } from "./common";
-
-export type TransferError =
-  | InvalidSender
-  | InsufficientFunds
-  | TxTooOld
-  | TxCreatedInFuture
-  | TxDuplicate
-  | BadFee;
-
-export class InvalidSender {}
-export class BadFee {}
-export class InsufficientFunds {
-  constructor(public readonly balance: ICP) {}
-}
-export class TxTooOld {
-  constructor(public readonly allowed_window_secs: number) {}
-}
-export class TxCreatedInFuture {}
-export class TxDuplicate {
-  constructor(public readonly duplicateOf: BlockHeight) {}
-}
-
-export type Fetcher = (
-  agent: Agent,
-  canisterId: Principal,
-  methodName: string,
-  arg: ArrayBuffer
-) => Promise<Uint8Array | Error>;
+import { CanisterCall } from "./common";
 
 // HttpAgent options that can be used at construction.
 export interface LedgerCanisterOptions {
@@ -39,8 +10,8 @@ export interface LedgerCanisterOptions {
   canisterId?: Principal;
   // The method to use for performing an update call. Primarily overridden
   // in test for mocking.
-  updateCallOverride?: Fetcher;
+  updateCallOverride?: CanisterCall;
   // The method to use for performing a query call. Primarily overridden
   // in test for mocking.
-  queryCallOverride?: Fetcher;
+  queryCallOverride?: CanisterCall;
 }
