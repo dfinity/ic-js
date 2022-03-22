@@ -43,7 +43,7 @@ export class LedgerCanister {
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it is fetched using a query call.
    *
-   * @throws {Error}
+   * @throws {@link Error}
    */
   public accountBalance = async ({
     accountIdentifier,
@@ -79,7 +79,7 @@ export class LedgerCanister {
    *
    * TODO: support remaining options (subaccounts, memos, etc.)
    *
-   * @throws {TransferError}
+   * @throws {@link TransferError}
    */
   public transfer = async ({
     to,

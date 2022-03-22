@@ -149,10 +149,10 @@ export class GovernanceCanister {
   };
 
   /**
-   * @throws {InsufficientAmountError}
-   * @throws {StakeNeuronTransferError}
-   * @throws {CouldNotClaimNeuronError}
-   * @throws {TransferError}
+   * @throws {@link InsufficientAmountError}
+   * @throws {@link StakeNeuronTransferError}
+   * @throws {@link CouldNotClaimNeuronError}
+   * @throws {@link TransferError}
    */
   public stakeNeuron = async ({
     stake,
@@ -205,9 +205,7 @@ export class GovernanceCanister {
   /**
    * Increases dissolve delay of a neuron
    *
-   * Returns whether the update succeeded or not
-   *
-   * @throws {GovernanceError}
+   * @throws {@link GovernanceError}
    */
   public increaseDissolveDelay = async ({
     neuronId,
@@ -247,11 +245,9 @@ export class GovernanceCanister {
 
   /**
    *
-   * Registers vote for a proposal from the neuron passed
+   * Registers vote for a proposal from the neuron passed.
    *
-   * Returns whether updated succeeded or not
-   *
-   * @throws {GovernanceError2}
+   * @throws {@link @link GovernanceError}
    */
   public registerVote = async ({
     neuronId,
@@ -273,7 +269,7 @@ export class GovernanceCanister {
   /**
    * Edit neuron followees per topic
    *
-   * @throws {GovernanceError}
+   * @throws {@link GovernanceError}
    */
   public setFollowees = async (followRequest: FollowRequest): Promise<void> => {
     const request = toManageNeuronsFollowRequest(followRequest);

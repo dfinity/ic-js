@@ -3,7 +3,7 @@ import { ManageNeuron } from "../../../candid/governanceTypes";
 import { GovernanceError } from "../../errors/governance.errors";
 
 /**
- * @throws {GovernanceError}
+ * @throws {@link GovernanceError}
  */
 export const manageNeuron = async ({
   request,
