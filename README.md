@@ -1,13 +1,8 @@
 # nns-js
 
-A library for interfacing with the Internet Computer's Network Nervous System.
+A library for interfacing with the ledger and governance canisters of the Internet Computer's Network Nervous System.
 
 This library is still in active development, and new features will incrementally be available.
-
-- [x] Ledger Canister
-  - [x] `accountBalance`
-  - [x] `transfer`
-- [ ] Governance Canister (Coming soon)
 
 ## Example Usage
 
