@@ -4,9 +4,7 @@ import { Buffer } from "buffer";
 // @ts-ignore (no type definitions for crc are available)
 import crc from "crc";
 import { sha224 } from "js-sha256";
-/* eslint-enable @typescript-eslint/ban-ts-comment */
-import { SUB_ACCOUNT_BYTE_LENGTH } from "../constants/constants";
-import { AccountIdentifier, SubAccount } from "../types/common";
+import { AccountIdentifier } from "../types/common";
 
 export const uint8ArrayToBigInt = (array: Uint8Array): bigint => {
   const view = new DataView(array.buffer, array.byteOffset, array.byteLength);
@@ -18,20 +16,6 @@ export const uint8ArrayToBigInt = (array: Uint8Array): bigint => {
 
     return (high << BigInt(32)) + low;
   }
-};
-
-const TWO_TO_THE_32 = BigInt(1) << BigInt(32);
-export const bigIntToUint8Array = (value: bigint): Uint8Array => {
-  const array = new Uint8Array(8);
-  const view = new DataView(array.buffer, array.byteOffset, array.byteLength);
-  if (typeof view.setBigUint64 === "function") {
-    view.setBigUint64(0, value);
-  } else {
-    view.setUint32(0, Number(value >> BigInt(32)));
-    view.setUint32(4, Number(value % TWO_TO_THE_32));
-  }
-
-  return array;
 };
 
 export const arrayBufferToArrayOfNumber = (
@@ -53,11 +37,6 @@ export const arrayOfNumberToArrayBuffer = (
   return arrayOfNumberToUint8Array(numbers).buffer;
 };
 
-export const arrayBufferToNumber = (buffer: ArrayBuffer): number => {
-  const view = new DataView(buffer);
-  return view.getUint32(view.byteLength - 4);
-};
-
 export const numberToArrayBuffer = (
   value: number,
   byteLength: number
@@ -69,16 +48,6 @@ export const numberToArrayBuffer = (
 
 export const asciiStringToByteArray = (text: string): Array<number> => {
   return Array.from(text).map((c) => c.charCodeAt(0));
-};
-
-export const toSubAccountId = (subAccount: Array<number>): number => {
-  const bytes = arrayOfNumberToArrayBuffer(subAccount);
-  return arrayBufferToNumber(bytes);
-};
-
-export const fromSubAccountId = (subAccountId: number): Array<number> => {
-  const buffer = numberToArrayBuffer(subAccountId, SUB_ACCOUNT_BYTE_LENGTH);
-  return arrayBufferToArrayOfNumber(buffer);
 };
 
 export const accountIdentifierToBytes = (
@@ -112,14 +81,6 @@ export const principalToAccountIdentifier = (
   const checksum = calculateCrc32(hash);
   const bytes = new Uint8Array([...checksum, ...hash]);
   return toHexString(bytes);
-};
-
-export const principalToSubAccount = (principal: Principal): SubAccount => {
-  const bytes = principal.toUint8Array();
-  const subAccount = new Uint8Array(32);
-  subAccount[0] = bytes.length;
-  subAccount.set(bytes, 1);
-  return subAccount;
 };
 
 export const toHexString = (bytes: Uint8Array) =>
