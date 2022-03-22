@@ -247,7 +247,7 @@ export class GovernanceCanister {
    *
    * Registers vote for a proposal from the neuron passed.
    *
-   * @throws {@link @link GovernanceError}
+   * @throws {@link GovernanceError}
    */
   public registerVote = async ({
     neuronId,
