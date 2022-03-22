@@ -1,23 +1,7 @@
-// HttpAgent options that can be used at construction.
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { GovernanceService } from "../../candid/governance.idl";
-import { ICP } from "../icp";
-import { TransferError } from "./ledger";
 
-export class StakeNeuronError {}
-
-export class StakeNeuronTransferError extends StakeNeuronError {
-  constructor(public readonly err: TransferError) {
-    super();
-  }
-}
-export class CouldNotClaimNeuronError extends StakeNeuronError {}
-export class InsufficientAmount extends StakeNeuronError {
-  constructor(public readonly minimumAmount: ICP) {
-    super();
-  }
-}
 export interface GovernanceCanisterOptions {
   // The agent to use when communicating with the governance canister.
   agent?: Agent;

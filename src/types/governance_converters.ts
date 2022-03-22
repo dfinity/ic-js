@@ -5,9 +5,9 @@ import {
   CanisterIdString,
   E8s,
   NeuronId,
+  Option,
   PrincipalString,
 } from "./common";
-import { Option } from "./option";
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
@@ -105,11 +105,6 @@ export interface Followees {
   followees: Array<NeuronId>;
 }
 
-export interface GovernanceError {
-  errorMessage: string;
-  // https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/ic_nns_governance/pb/v1/governance.proto#L911
-  errorType: number;
-}
 export interface IncreaseDissolveDelay {
   additionalDissolveDelaySeconds: number;
 }
@@ -351,11 +346,6 @@ export type ClaimNeuronRequest = {
   dissolveDelayInSecs: bigint;
 };
 
-export type ClaimNeuronResponse = { Ok: null } | { Err: GovernanceError };
-export type GetFullNeuronResponse = { Ok: Neuron } | { Err: GovernanceError };
-export type GetNeuronInfoResponse =
-  | { Ok: NeuronInfo }
-  | { Err: GovernanceError };
 export interface RewardNodeProvider {
   nodeProvider: Option<NodeProvider>;
   rewardMode: Option<RewardMode>;
@@ -367,9 +357,7 @@ export interface SetDefaultFollowees {
 export interface Spawn {
   newController: Option<PrincipalString>;
 }
-export interface SpawnResponse {
-  createdNeuronId: NeuronId;
-}
+
 export interface Split {
   amount: E8s;
 }
@@ -507,77 +495,4 @@ export interface MakeExecuteNnsFunctionProposalRequest {
   url: string;
   nnsFunction: number;
   payload: ArrayBuffer;
-}
-
-export interface DisburseToNeuronResponse {
-  createdNeuronId: NeuronId;
-}
-export interface SpawnResponse {
-  createdNeuronId: NeuronId;
-}
-export type EmptyResponse = { Ok: null } | { Err: GovernanceError };
-
-export default interface ServiceInterface {
-  getNeurons: (
-    certified: boolean,
-    neuronIds?: NeuronId[]
-  ) => Promise<Array<NeuronInfo>>;
-  getNeuronsForHW: () => Promise<Array<NeuronInfoForHw>>;
-  getPendingProposals: () => Promise<Array<ProposalInfo>>;
-  getProposalInfo: (proposalId: bigint) => Promise<Option<ProposalInfo>>;
-  listKnownNeurons: (certified: boolean) => Promise<Array<KnownNeuron>>;
-  listProposals: (
-    request: ListProposalsRequest
-  ) => Promise<ListProposalsResponse>;
-  addHotKey: (request: AddHotKeyRequest) => Promise<EmptyResponse>;
-  removeHotKey: (request: RemoveHotKeyRequest) => Promise<EmptyResponse>;
-  startDissolving: (request: StartDissolvingRequest) => Promise<EmptyResponse>;
-  stopDissolving: (request: StopDissolvingRequest) => Promise<EmptyResponse>;
-  increaseDissolveDelay: (
-    request: IncreaseDissolveDelayRequest
-  ) => Promise<EmptyResponse>;
-  joinCommunityFund: (
-    request: JoinCommunityFundRequest
-  ) => Promise<EmptyResponse>;
-  follow: (request: FollowRequest) => Promise<EmptyResponse>;
-  mergeMaturity: (
-    request: MergeMaturityRequest
-  ) => Promise<MergeMaturityResponse>;
-  registerVote: (request: RegisterVoteRequest) => Promise<EmptyResponse>;
-  spawn: (request: SpawnRequest) => Promise<SpawnResponse>;
-  split: (request: SplitRequest) => Promise<NeuronId>;
-  disburse: (request: DisburseRequest) => Promise<DisburseResponse>;
-  disburseToNeuron: (
-    request: DisburseToNeuronRequest
-  ) => Promise<DisburseToNeuronResponse>;
-  makeMotionProposal: (
-    request: MakeMotionProposalRequest
-  ) => Promise<MakeProposalResponse>;
-  makeNetworkEconomicsProposal: (
-    request: MakeNetworkEconomicsProposalRequest
-  ) => Promise<MakeProposalResponse>;
-  makeRewardNodeProviderProposal: (
-    request: MakeRewardNodeProviderProposalRequest
-  ) => Promise<MakeProposalResponse>;
-  makeSetDefaultFolloweesProposal: (
-    request: MakeSetDefaultFolloweesProposalRequest
-  ) => Promise<MakeProposalResponse>;
-  makeExecuteNnsFunctionProposal: (
-    request: MakeExecuteNnsFunctionProposalRequest
-  ) => Promise<MakeProposalResponse>;
-  claimOrRefreshNeuron: (
-    request: ClaimOrRefreshNeuronRequest
-  ) => Promise<Option<NeuronId>>;
-  claimOrRefreshNeuronFromAccount: (
-    request: ClaimOrRefreshNeuronFromAccount
-  ) => Promise<NeuronId>;
-}
-
-/**
- * An error used to ensure at compile-time that it's never reached.
- */
-export class UnsupportedValueError extends Error {
-  constructor(value: never) {
-    super("Unsupported value: " + value);
-  }
 }

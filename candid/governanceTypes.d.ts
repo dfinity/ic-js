@@ -64,7 +64,7 @@ export type Command =
   | { MergeMaturity: MergeMaturity }
   | { Disburse: Disburse };
 export type Command_1 =
-  | { Error: GovernanceError }
+  | { Error: GovernanceErrorDetail }
   | { Spawn: SpawnResponse }
   | { Split: SpawnResponse }
   | { Follow: {} }
@@ -148,7 +148,7 @@ export interface GovernanceCachedMetrics {
   community_fund_total_staked_e8s: bigint;
   timestamp_seconds: bigint;
 }
-export interface GovernanceError {
+export interface GovernanceErrorDetail {
   error_message: string;
   error_type: number;
 }
@@ -288,7 +288,7 @@ export interface Proposal {
 }
 export interface ProposalData {
   id: [] | [NeuronId];
-  failure_reason: [] | [GovernanceError];
+  failure_reason: [] | [GovernanceErrorDetail];
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
   reward_event_round: bigint;
@@ -305,7 +305,7 @@ export interface ProposalInfo {
   id: [] | [NeuronId];
   status: number;
   topic: number;
-  failure_reason: [] | [GovernanceError];
+  failure_reason: [] | [GovernanceErrorDetail];
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
   reward_event_round: bigint;
@@ -326,11 +326,15 @@ export interface RegisterVote {
 export interface RemoveHotKey {
   hot_key_to_remove: [] | [Principal];
 }
-export type Result = { Ok: null } | { Err: GovernanceError };
-export type Result_1 = { Error: GovernanceError } | { NeuronId: NeuronId };
-export type Result_2 = { Ok: Neuron } | { Err: GovernanceError };
-export type Result_3 = { Ok: RewardNodeProviders } | { Err: GovernanceError };
-export type Result_4 = { Ok: NeuronInfo } | { Err: GovernanceError };
+export type Result = { Ok: null } | { Err: GovernanceErrorDetail };
+export type Result_1 =
+  | { Error: GovernanceErrorDetail }
+  | { NeuronId: NeuronId };
+export type Result_2 = { Ok: Neuron } | { Err: GovernanceErrorDetail };
+export type Result_3 =
+  | { Ok: RewardNodeProviders }
+  | { Err: GovernanceErrorDetail };
+export type Result_4 = { Ok: NeuronInfo } | { Err: GovernanceErrorDetail };
 export interface RewardEvent {
   day_after_genesis: bigint;
   actual_timestamp_seconds: bigint;

@@ -1,13 +1,13 @@
 import { AccountIdentifier } from "./account_identifier";
+import {
+  InsufficientFundsError,
+  InvalidSenderError,
+  TxCreatedInFutureError,
+  TxDuplicateError,
+  TxTooOldError,
+} from "./errors/ledger.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
-import {
-  InsufficientFunds,
-  InvalidSender,
-  TxCreatedInFuture,
-  TxDuplicate,
-  TxTooOld,
-} from "./types/ledger";
 
 describe("LedgerCanister.transfer", () => {
   it("handles invalid sender", async () => {
@@ -20,14 +20,15 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer({
-      to: AccountIdentifier.fromHex(
-        "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
-      ),
-      amount: ICP.fromE8s(BigInt(100000)),
-    });
+    const call = async () =>
+      await ledger.transfer({
+        to: AccountIdentifier.fromHex(
+          "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
+        ),
+        amount: ICP.fromE8s(BigInt(100000)),
+      });
 
-    expect(res).toBeInstanceOf(InvalidSender);
+    await expect(call).rejects.toThrow(new InvalidSenderError());
   });
 
   it("handles duplicate transaction", async () => {
@@ -40,14 +41,15 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer({
-      to: AccountIdentifier.fromHex(
-        "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
-      ),
-      amount: ICP.fromE8s(BigInt(100000)),
-    });
+    const call = async () =>
+      await ledger.transfer({
+        to: AccountIdentifier.fromHex(
+          "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
+        ),
+        amount: ICP.fromE8s(BigInt(100000)),
+      });
 
-    expect(res).toEqual(new TxDuplicate(BigInt(1235123)));
+    await expect(call).rejects.toThrow(new TxDuplicateError(BigInt(1235123)));
   });
 
   it("handles insufficient balance", async () => {
@@ -60,15 +62,16 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer({
-      to: AccountIdentifier.fromHex(
-        "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
-      ),
-      amount: ICP.fromE8s(BigInt(100000)),
-    });
+    const call = async () =>
+      await ledger.transfer({
+        to: AccountIdentifier.fromHex(
+          "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
+        ),
+        amount: ICP.fromE8s(BigInt(100000)),
+      });
 
-    expect(res).toEqual(
-      new InsufficientFunds(ICP.fromE8s(BigInt(12346789123)))
+    await expect(call).rejects.toThrow(
+      new InsufficientFundsError(ICP.fromE8s(BigInt(12346789123)))
     );
   });
 
@@ -82,14 +85,15 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer({
-      to: AccountIdentifier.fromHex(
-        "a2a794c66495083317e4be5197eb655b1e63015469d769e2338af3d3e3f3aa86"
-      ),
-      amount: ICP.fromE8s(BigInt(100000)),
-    });
+    const call = async () =>
+      await ledger.transfer({
+        to: AccountIdentifier.fromHex(
+          "a2a794c66495083317e4be5197eb655b1e63015469d769e2338af3d3e3f3aa86"
+        ),
+        amount: ICP.fromE8s(BigInt(100000)),
+      });
 
-    expect(res).toEqual(new TxCreatedInFuture());
+    await expect(call).rejects.toThrow(new TxCreatedInFutureError());
   });
 
   it("handles old tx", async () => {
@@ -102,14 +106,15 @@ describe("LedgerCanister.transfer", () => {
       },
     });
 
-    const res = await ledger.transfer({
-      to: AccountIdentifier.fromHex(
-        "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
-      ),
-      amount: ICP.fromE8s(BigInt(100000)),
-    });
+    const call = async () =>
+      await ledger.transfer({
+        to: AccountIdentifier.fromHex(
+          "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
+        ),
+        amount: ICP.fromE8s(BigInt(100000)),
+      });
 
-    expect(res).toEqual(new TxTooOld(123));
+    await expect(call).rejects.toThrow(new TxTooOldError(123));
   });
 
   it("handles subaccount", async () => {

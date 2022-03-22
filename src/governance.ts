@@ -24,19 +24,16 @@ import {
 import { manageNeuron } from "./canisters/governance/services";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
+import {
+  CouldNotClaimNeuronError,
+  InsufficientAmountError,
+} from "./errors/governance.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
 import { NeuronId } from "./types/common";
-import {
-  CouldNotClaimNeuronError,
-  GovernanceCanisterOptions,
-  InsufficientAmount,
-  StakeNeuronError,
-  StakeNeuronTransferError,
-} from "./types/governance";
+import { GovernanceCanisterOptions } from "./types/governance";
 import {
   ClaimOrRefreshNeuronFromAccount,
-  EmptyResponse,
   FollowRequest,
   KnownNeuron,
   ListProposalsRequest,
@@ -92,7 +89,6 @@ export class GovernanceCanister {
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it is fetched using a query call.
    *
-   * TODO: Decide: The library method is getNeurons but the raw method is list_neurons.  Do we want this inconsistency?
    */
   public listNeurons = async ({
     certified = true,
@@ -153,7 +149,10 @@ export class GovernanceCanister {
   };
 
   /**
-   *
+   * @throws {@link InsufficientAmountError}
+   * @throws {@link StakeNeuronTransferError}
+   * @throws {@link CouldNotClaimNeuronError}
+   * @throws {@link TransferError}
    */
   public stakeNeuron = async ({
     stake,
@@ -165,9 +164,9 @@ export class GovernanceCanister {
     principal: Principal;
     fromSubAccountId?: number;
     ledgerCanister: LedgerCanister;
-  }): Promise<NeuronId | StakeNeuronError> => {
+  }): Promise<NeuronId> => {
     if (stake.toE8s() < E8S_PER_ICP) {
-      return new InsufficientAmount(ICP.fromString("1") as ICP);
+      throw new InsufficientAmountError(ICP.fromString("1") as ICP);
     }
 
     const nonceBytes = new Uint8Array(randomBytes(8));
@@ -179,34 +178,34 @@ export class GovernanceCanister {
     });
 
     // Send amount to the ledger.
-    const response = await ledgerCanister.transfer({
+    await ledgerCanister.transfer({
       memo: nonce,
       amount: stake,
       fromSubAccountId,
       to: accountIdentifier,
     });
 
-    if (typeof response !== "bigint") {
-      // TransferError
-      return new StakeNeuronTransferError(response);
-    }
-
     // Notify the governance of the transaction so that the neuron is created.
-    const neuronId = this.claimOrRefreshNeuronFromAccount({
-      controller: principal,
-      memo: nonce,
-    });
+    const neuronId: NeuronId | undefined =
+      await this.claimOrRefreshNeuronFromAccount({
+        controller: principal,
+        memo: nonce,
+      });
 
     // Typescript was complaining with `neuronId || new NeuronNotFound()`:
     // "Type 'undefined' is not assignable to type 'bigint | StakeNeuronError | TransferError'"
     // hence the explicit check.
-    return neuronId === undefined ? new CouldNotClaimNeuronError() : neuronId;
+    if (neuronId === undefined) {
+      throw new CouldNotClaimNeuronError();
+    }
+
+    return neuronId;
   };
 
   /**
    * Increases dissolve delay of a neuron
    *
-   * Returns whether the update succeeded or not
+   * @throws {@link GovernanceError}
    */
   public increaseDissolveDelay = async ({
     neuronId,
@@ -214,24 +213,16 @@ export class GovernanceCanister {
   }: {
     neuronId: NeuronId;
     additionalDissolveDelaySeconds: number;
-  }): Promise<EmptyResponse> => {
+  }): Promise<void> => {
     const request = toIncreaseDissolveDelayRequest({
       neuronId,
       additionalDissolveDelaySeconds,
     });
-    const response = await manageNeuron({
+
+    return manageNeuron({
       request,
       service: this.certifiedService,
     });
-    if (response.Ok) {
-      return { Ok: null };
-    }
-    return {
-      Err: response.Err || {
-        errorMessage: "Error updating dissolve delay",
-        errorType: 0,
-      },
-    };
   };
 
   /**
@@ -254,9 +245,9 @@ export class GovernanceCanister {
 
   /**
    *
-   * Registers vote for a proposal from the neuron passed
+   * Registers vote for a proposal from the neuron passed.
    *
-   * Returns whether updated succeeded or not
+   * @throws {@link GovernanceError}
    */
   public registerVote = async ({
     neuronId,
@@ -266,43 +257,27 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     vote: Vote;
     proposalId: ProposalId;
-  }): Promise<EmptyResponse> => {
+  }): Promise<void> => {
     const request = toRegisterVoteRequest({ neuronId, vote, proposalId });
-    const response = await manageNeuron({
+
+    return manageNeuron({
       request,
       service: this.certifiedService,
     });
-    if (response.Ok) {
-      return { Ok: null };
-    }
-    return {
-      Err: response.Err || {
-        errorMessage: "Error registering vote",
-        errorType: 0,
-      },
-    };
   };
 
   /**
    * Edit neuron followees per topic
+   *
+   * @throws {@link GovernanceError}
    */
-  public setFollowees = async (
-    followRequest: FollowRequest
-  ): Promise<EmptyResponse> => {
+  public setFollowees = async (followRequest: FollowRequest): Promise<void> => {
     const request = toManageNeuronsFollowRequest(followRequest);
-    const response = await manageNeuron({
+
+    return manageNeuron({
       request,
       service: this.certifiedService,
     });
-    if (response.Ok) {
-      return { Ok: null };
-    }
-    return {
-      Err: response.Err || {
-        errorMessage: "Error setting followees",
-        errorType: 0,
-      },
-    };
   };
 
   /**
@@ -313,16 +288,18 @@ export class GovernanceCanister {
   ): Promise<NeuronId | undefined> => {
     // Note: This is an update call so the certified and uncertified services are identical in this case,
     // however using the certified service provides protection in case that changes.
-    const service = this.certifiedService;
-    const response = await service.claim_or_refresh_neuron_from_account({
-      controller: request.controller ? [request.controller] : [],
-      memo: request.memo,
-    });
+    const response =
+      await this.certifiedService.claim_or_refresh_neuron_from_account({
+        controller: request.controller ? [request.controller] : [],
+        memo: request.memo,
+      });
 
-    const result = response.result;
+    const { result } = response;
     if (result.length && "NeuronId" in result[0]) {
       return result[0].NeuronId.id;
     }
+
+    return undefined;
   };
 
   private buildNeuronStakeSubAccount = (

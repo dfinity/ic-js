@@ -16,6 +16,7 @@ import {
   Operation as RawOperation,
   RewardMode as RawRewardMode,
 } from "../../../candid/governanceTypes.d";
+import { UnsupportedValueError } from "../../errors/governance.errors";
 import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {
   Action,
@@ -35,7 +36,6 @@ import {
   ProposalId,
   RewardMode,
   SplitRequest,
-  UnsupportedValueError,
   Vote,
 } from "../../types/governance_converters";
 import {

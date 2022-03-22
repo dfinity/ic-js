@@ -1,32 +1,28 @@
 import { GovernanceService } from "../../../candid/governance.idl";
-import { Command_1, ManageNeuron } from "../../../candid/governanceTypes";
-import { GovernanceError } from "../../types/governance_converters";
-import { toGovernanceError } from "./response.converters";
+import { ManageNeuron } from "../../../candid/governanceTypes";
+import { GovernanceError } from "../../errors/governance.errors";
 
-type ManageNeuronResponse = {
-  Ok?: Command_1;
-  Err?: GovernanceError;
-};
-
+/**
+ * @throws {@link GovernanceError}
+ */
 export const manageNeuron = async ({
   request,
   service,
 }: {
   request: ManageNeuron;
   service: GovernanceService;
-}): Promise<ManageNeuronResponse> => {
+}): Promise<void> => {
   const { command } = await service.manage_neuron(request);
   const response = command[0];
+
   if (!response) {
-    return {
-      Err: {
-        errorMessage: "Error updating neuron",
-        errorType: 0,
-      },
-    };
+    throw new GovernanceError({
+      error_message: "Error updating neuron",
+      error_type: 0,
+    });
   }
+
   if ("Error" in response) {
-    return { Err: toGovernanceError(response.Error) };
+    throw new GovernanceError(response.Error);
   }
-  return { Ok: response };
 };
