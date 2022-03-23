@@ -10,6 +10,7 @@ import {
 } from "../candid/governanceTypes";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
+  fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
   fromListProposalsRequest,
   toIncreaseDissolveDelayRequest,
@@ -27,6 +28,7 @@ import { E8S_PER_ICP } from "./constants/constants";
 import {
   CouldNotClaimNeuronError,
   InsufficientAmountError,
+  UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
@@ -34,6 +36,7 @@ import { NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
 import {
   ClaimOrRefreshNeuronFromAccount,
+  ClaimOrRefreshNeuronRequest,
   FollowRequest,
   KnownNeuron,
   ListProposalsRequest,
@@ -300,6 +303,31 @@ export class GovernanceCanister {
     }
 
     return undefined;
+  };
+
+  /**
+   * Refreshes neuron and returns neuronId when successful
+   * Uses query call only.
+   *
+   * @throws {@link UnrecognizedTypeError}
+   */
+  public claimOrRefreshNeuron = async (
+    request: ClaimOrRefreshNeuronRequest
+  ): Promise<NeuronId | undefined> => {
+    const rawRequest = fromClaimOrRefreshNeuronRequest(request);
+    const rawResponse = await this.service.manage_neuron(rawRequest);
+    const { command } = rawResponse;
+    if (command.length && "ClaimOrRefresh" in command[0]) {
+      const claim = command[0].ClaimOrRefresh;
+      if (claim.refreshed_neuron_id.length) {
+        return claim.refreshed_neuron_id[0].id;
+      }
+      return undefined;
+    }
+
+    throw new UnrecognizedTypeError(
+      `Unrecognized ClaimOrRefresh error in ${JSON.stringify(rawResponse)}`
+    );
   };
 
   private buildNeuronStakeSubAccount = (
