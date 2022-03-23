@@ -319,10 +319,7 @@ export class GovernanceCanister {
     const { command } = rawResponse;
     if (command.length && "ClaimOrRefresh" in command[0]) {
       const claim = command[0].ClaimOrRefresh;
-      if (claim.refreshed_neuron_id.length) {
-        return claim.refreshed_neuron_id[0].id;
-      }
-      return undefined;
+      return claim.refreshed_neuron_id[0]?.id;
     }
 
     throw new UnrecognizedTypeError(
