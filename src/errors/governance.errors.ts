@@ -11,6 +11,7 @@ export class InsufficientAmountError extends StakeNeuronError {
   }
 }
 
+export class UnrecognizedTypeError extends Error {}
 export class GovernanceError extends Error {
   constructor(public readonly detail: GovernanceErrorDetail) {
     super();

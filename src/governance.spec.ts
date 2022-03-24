@@ -459,3 +459,44 @@ describe("GovernanceCanister.increaseDissolveDelay", () => {
     });
   });
 });
+
+describe("GovernanceCanister.claimOrRefreshNeuron", () => {
+  it("successfully claims or refreshes", async () => {
+    const neuronId = BigInt(10);
+    const serviceResponse: ManageNeuronResponse = {
+      command: [
+        { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
+      ],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      serviceOverride: service,
+    });
+    const response = await governance.claimOrRefreshNeuron({
+      neuronId,
+      by: { NeuronIdOrSubaccount: {} },
+    });
+    expect(service.manage_neuron).toBeCalled();
+  });
+
+  it("throws error if response does not match", async () => {
+    const neuronId = BigInt(10);
+    const serviceResponse: ManageNeuronResponse = {
+      command: [{ Configure: {} }],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      serviceOverride: service,
+    });
+    const call = () =>
+      governance.claimOrRefreshNeuron({
+        neuronId,
+        by: { NeuronIdOrSubaccount: {} },
+      });
+    expect(call).rejects.toThrowError();
+  });
+});
