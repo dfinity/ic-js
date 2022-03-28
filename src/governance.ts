@@ -234,7 +234,7 @@ export class GovernanceCanister {
    *
    * @throws {@link GovernanceError}
    */
-  public joinComunityFund = async (neuronId: NeuronId): Promise<void> => {
+  public joinCommunityFund = async (neuronId: NeuronId): Promise<void> => {
     const request = toJoinCommunityFundRequest(neuronId);
 
     return manageNeuron({

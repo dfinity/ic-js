@@ -512,7 +512,7 @@ describe("GovernanceCanister.claimOrRefreshNeuron", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const response = await governance.joinComunityFund(neuronId);
+      const response = await governance.joinCommunityFund(neuronId);
       expect(service.manage_neuron).toBeCalled();
     });
 
@@ -531,7 +531,7 @@ describe("GovernanceCanister.claimOrRefreshNeuron", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const call = () => governance.joinComunityFund(neuronId);
+      const call = () => governance.joinCommunityFund(neuronId);
       expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
