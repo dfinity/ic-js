@@ -14,6 +14,7 @@ import {
   fromListNeurons,
   fromListProposalsRequest,
   toIncreaseDissolveDelayRequest,
+  toJoinCommunityFundRequest,
   toManageNeuronsFollowRequest,
   toRegisterVoteRequest,
 } from "./canisters/governance/request.converters";
@@ -221,6 +222,20 @@ export class GovernanceCanister {
       neuronId,
       additionalDissolveDelaySeconds,
     });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Neuron joins the community fund
+   *
+   * @throws {@link GovernanceError}
+   */
+  public joinComunityFund = async (neuronId: NeuronId): Promise<void> => {
+    const request = toJoinCommunityFundRequest(neuronId);
 
     return manageNeuron({
       request,

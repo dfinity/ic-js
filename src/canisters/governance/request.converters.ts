@@ -824,3 +824,21 @@ export const toIncreaseDissolveDelayRequest = ({
   ],
   neuron_id_or_subaccount: [],
 });
+
+export const toJoinCommunityFundRequest = (
+  neuronId: NeuronId
+): RawManageNeuron => ({
+  id: [{ id: neuronId }],
+  command: [
+    {
+      Configure: {
+        operation: [
+          {
+            JoinCommunityFund: {},
+          },
+        ],
+      },
+    },
+  ],
+  neuron_id_or_subaccount: [],
+});
