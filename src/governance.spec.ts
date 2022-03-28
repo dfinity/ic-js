@@ -499,4 +499,40 @@ describe("GovernanceCanister.claimOrRefreshNeuron", () => {
       });
     expect(call).rejects.toThrowError();
   });
+
+  describe("GovernanceCanister.joinCommunityFund", () => {
+    it("successfully joins community fund", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Configure: {} }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const response = await governance.joinComunityFund(neuronId);
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("throws error if response is error", async () => {
+      const error: GovernanceErrorDetail = {
+        error_message: "Some error",
+        error_type: 1,
+      };
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const call = () => governance.joinComunityFund(neuronId);
+      expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
 });
