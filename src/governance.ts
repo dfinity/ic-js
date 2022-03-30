@@ -17,6 +17,8 @@ import {
   toJoinCommunityFundRequest,
   toManageNeuronsFollowRequest,
   toRegisterVoteRequest,
+  toStartDissolvingRequest,
+  toStopDissolvingRequest,
 } from "./canisters/governance/request.converters";
 import {
   toArrayOfNeuronInfo,
@@ -222,6 +224,34 @@ export class GovernanceCanister {
       neuronId,
       additionalDissolveDelaySeconds,
     });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Start dissolving process of a neuron
+   *
+   * @throws {@link GovernanceError}
+   */
+  public startDissolving = async (neuronId: NeuronId): Promise<void> => {
+    const request = toStartDissolvingRequest(neuronId);
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Stop dissolving process of a neuron
+   *
+   * @throws {@link GovernanceError}
+   */
+  public stopDissolving = async (neuronId: NeuronId): Promise<void> => {
+    const request = toStopDissolvingRequest(neuronId);
 
     return manageNeuron({
       request,

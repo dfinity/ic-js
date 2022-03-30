@@ -842,3 +842,39 @@ export const toJoinCommunityFundRequest = (
   ],
   neuron_id_or_subaccount: [],
 });
+
+export const toStartDissolvingRequest = (
+  neuronId: NeuronId
+): RawManageNeuron => ({
+  id: [{ id: neuronId }],
+  command: [
+    {
+      Configure: {
+        operation: [
+          {
+            StartDissolving: {},
+          },
+        ],
+      },
+    },
+  ],
+  neuron_id_or_subaccount: [],
+});
+
+export const toStopDissolvingRequest = (
+  neuronId: NeuronId
+): RawManageNeuron => ({
+  id: [{ id: neuronId }],
+  command: [
+    {
+      Configure: {
+        operation: [
+          {
+            StopDissolving: {},
+          },
+        ],
+      },
+    },
+  ],
+  neuron_id_or_subaccount: [],
+});
