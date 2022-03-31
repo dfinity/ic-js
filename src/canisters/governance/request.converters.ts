@@ -784,6 +784,24 @@ export const toRegisterVoteRequest = ({
   neuron_id_or_subaccount: [],
 });
 
+export const toMakeProposalRawRequest = (
+  request: MakeProposalRequest
+): RawManageNeuron => {
+  const rawCommand: RawCommand = {
+    MakeProposal: {
+      url: request.url,
+      title: request.title != null ? [request.title] : [],
+      summary: request.summary,
+      action: [fromAction(request.action)],
+    },
+  };
+  return {
+    id: [],
+    command: [rawCommand],
+    neuron_id_or_subaccount: [{ NeuronId: { id: request.neuronId } }],
+  };
+};
+
 export const toManageNeuronsFollowRequest = ({
   neuronId,
   topic,

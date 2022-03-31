@@ -15,6 +15,7 @@ import {
   fromListProposalsRequest,
   toIncreaseDissolveDelayRequest,
   toJoinCommunityFundRequest,
+  toMakeProposalRawRequest,
   toManageNeuronsFollowRequest,
   toRegisterVoteRequest,
   toStartDissolvingRequest,
@@ -44,6 +45,7 @@ import {
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
+  MakeProposalRequest,
   NeuronInfo,
   ProposalId,
   ProposalInfo,
@@ -289,6 +291,20 @@ export class GovernanceCanister {
     const [proposalInfo]: [] | [RawProposalInfo] =
       await this.getGovernanceService(certified).get_proposal_info(proposalId);
     return proposalInfo ? toProposalInfo(proposalInfo) : undefined;
+  };
+
+  /**
+   * Create new proposal
+   *
+   * @throws {@link GovernanceError}
+   */
+  public makeProposal = async (request: MakeProposalRequest): Promise<void> => {
+    const rawRequest = toMakeProposalRawRequest(request);
+
+    return manageNeuron({
+      request: rawRequest,
+      service: this.certifiedService,
+    });
   };
 
   /**
