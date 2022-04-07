@@ -100,18 +100,16 @@ export class GovernanceCanister {
    */
   public listNeurons = async ({
     certified = true,
-    principal,
     neuronIds,
   }: {
     certified: boolean;
-    principal: Principal;
     neuronIds?: NeuronId[];
   }): Promise<NeuronInfo[]> => {
     const rawRequest = fromListNeurons(neuronIds);
     const raw_response = await this.getGovernanceService(
       certified
     ).list_neurons(rawRequest);
-    return toArrayOfNeuronInfo(raw_response, principal);
+    return toArrayOfNeuronInfo(raw_response);
   };
 
   /**
@@ -407,11 +405,9 @@ export class GovernanceCanister {
    */
   public getNeuron = async ({
     certified = true,
-    principal,
     neuronId,
   }: {
     certified: boolean;
-    principal: Principal;
     neuronId: NeuronId;
   }): Promise<NeuronInfo | undefined> => {
     // The governance canister exposes two functions "get_neuron_info" and "get_full_neuron" that could probably be used to fetch the neuron details too.
@@ -419,7 +415,6 @@ export class GovernanceCanister {
 
     const [neuron]: NeuronInfo[] = await this.listNeurons({
       certified,
-      principal,
       neuronIds: [neuronId],
     });
 

@@ -196,7 +196,6 @@ export interface NetworkEconomics {
 }
 export interface Neuron {
   id: Option<NeuronId>;
-  isCurrentUserController: Option<boolean>;
   controller: Option<PrincipalString>;
   recentBallots: Array<BallotInfo>;
   kycVerified: boolean;
