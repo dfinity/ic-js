@@ -234,7 +234,6 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     });
     const neurons = await governance.listNeurons({
       certified: true,
-      principal: new AnonymousIdentity().getPrincipal(),
     });
     expect(service.list_neurons).toBeCalled();
     expect(neurons.length).toBe(1);
@@ -320,7 +319,6 @@ describe("GovernanceCanister.listKnownNeurons", () => {
 
     const response = await governance.getNeuron({
       certified: true,
-      principal: new AnonymousIdentity().getPrincipal(),
       neuronId: BigInt(1),
     });
 

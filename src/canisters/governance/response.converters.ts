@@ -1,4 +1,3 @@
-import { Principal } from "@dfinity/principal";
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -60,18 +59,14 @@ import { convertNnsFunctionPayload, getNnsFunctionName } from "./payloads";
 
 const toNeuronInfo = ({
   neuronId,
-  principalString,
   neuronInfo,
   rawNeuron,
 }: {
   neuronId: bigint;
-  principalString: string;
   neuronInfo: RawNeuronInfo;
   rawNeuron?: RawNeuron;
 }): NeuronInfo => {
-  const fullNeuron = rawNeuron
-    ? toNeuron({ neuron: rawNeuron, principalString })
-    : undefined;
+  const fullNeuron = rawNeuron ? toNeuron(rawNeuron) : undefined;
   return {
     neuronId: neuronId,
     dissolveDelaySeconds: neuronInfo.dissolve_delay_seconds,
@@ -89,17 +84,8 @@ const toNeuronInfo = ({
   };
 };
 
-const toNeuron = ({
-  neuron,
-  principalString,
-}: {
-  neuron: RawNeuron;
-  principalString: string;
-}): Neuron => ({
+const toNeuron = (neuron: RawNeuron): Neuron => ({
   id: neuron.id.length ? toNeuronId(neuron.id[0]) : undefined,
-  isCurrentUserController: neuron.controller.length
-    ? neuron.controller[0].toString() === principalString
-    : undefined,
   controller: neuron.controller.length
     ? neuron.controller[0].toString()
     : undefined,
@@ -615,14 +601,13 @@ export const toProposalInfo = (
   rewardStatus: proposalInfo.reward_status,
 });
 
-export const toArrayOfNeuronInfo = (
-  { neuron_infos, full_neurons }: RawListNeuronsResponse,
-  principal: Principal
-): Array<NeuronInfo> =>
+export const toArrayOfNeuronInfo = ({
+  neuron_infos,
+  full_neurons,
+}: RawListNeuronsResponse): Array<NeuronInfo> =>
   neuron_infos.map(([id, neuronInfo]) =>
     toNeuronInfo({
       neuronId: id,
-      principalString: principal.toString(),
       neuronInfo,
       rawNeuron: full_neurons.find(
         (neuron) => neuron.id.length && neuron.id[0].id === id

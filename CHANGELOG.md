@@ -4,6 +4,8 @@
 
 - variant return types dropped - i.e. functions now return effective result and throw errors in case of issues [#59]
 - governance function `getNeurons` to `listNeurons` renamed [#55]
+- governance functions `getNeurons` and `listNeurons` change signature [#69]
+- Drop `isCurrentUserController` property from `Neuron` type [#69]
 - remove some converters that were not use internally [#62]
 
 ### Features
