@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 set -eux
 
+(( $(date +%s) - $(git log -n1 --format="%at") < 25 * 3600 )) || {
+	echo "No recent commits.  Nothing to do.  Aborting."
+	exit 1
+}
+
+# Bump the prerelease version number.  E.g. v0.2.3 -> v0.2.3-nightly.0
+npm version prerelease --preid nightly
+
+# Verify that the code builds and will pack.
 npm ci
-
-: Update the version to SEMANTIC_VERSION-nightly-DATE e.g. 0.2.2-nightly-2022-02-28
-node -e 'fs=require("fs");n="package.json";e={encoding:"utf8"};x = JSON.parse(fs.readFileSync(n,e));x.version=`${x.version}-nightly-${new Date().toISOString().slice(0,10)}`;fs.writeFileSync(n, JSON.stringify(x, null, 2), e)'
-: The version then needs to be updated in the package.lock
-npm install
-
-: Now we can build
 npm run build
-: Create the release tarball
+npm test
 npm pack
