@@ -7,7 +7,7 @@ set -eux
 }
 
 # Bump the prerelease version number.  E.g. v0.2.3 -> v0.2.3-nightly-2022-02-22.0
-npm version prerelease --preid "nightly-$(date +%Y-%m-%d)"
+npm version prerelease --preid "nightly-$(date +%Y-%m-%d)" --no-git-tag-version
 
 # Verify that the code builds and will pack.
 npm ci
