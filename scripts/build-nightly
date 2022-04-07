@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -eux
 
-(( $(date +%s) - $(git log -n1 --format="%at") < 25 * 3600 )) || {
-	echo "No recent commits.  Nothing to do.  Aborting."
-	exit 1
+(($(date +%s) - $(git log -n1 --format="%at") < 25 * 3600)) || {
+  echo "No recent commits.  Nothing to do.  Aborting."
+  exit 1
 }
 
 # Bump the prerelease version number.  E.g. v0.2.3 -> v0.2.3-nightly.0
