@@ -18,6 +18,7 @@ import {
   toMakeProposalRawRequest,
   toManageNeuronsFollowRequest,
   toRegisterVoteRequest,
+  toSplitRawRequest,
   toStartDissolvingRequest,
   toStopDissolvingRequest,
 } from "./canisters/governance/request.converters";
@@ -31,6 +32,7 @@ import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
 import {
   CouldNotClaimNeuronError,
+  GovernanceError,
   InsufficientAmountError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
@@ -270,6 +272,61 @@ export class GovernanceCanister {
     return manageNeuron({
       request,
       service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Splits a neuron creating a new one
+   *
+   * @returns newNeuronId
+   * @throws {@link GovernanceError}
+   */
+  public splitNeuron = async ({
+    neuronId,
+    amount,
+  }: {
+    neuronId: NeuronId;
+    amount: ICP;
+  }): Promise<NeuronId> => {
+    const request = toSplitRawRequest({
+      neuronId,
+      amount: amount.toE8s(),
+    });
+
+    const { command } = await this.certifiedService.manage_neuron(request);
+    const response = command[0];
+    console.log("after da manage neuron call");
+    console.log(response);
+
+    if (!response) {
+      throw new GovernanceError({
+        error_message: "Error updating neuron",
+        error_type: 0,
+      });
+    }
+
+    if ("Error" in response) {
+      console.log("in da error");
+      console.log(response.Error);
+      throw new GovernanceError(response.Error);
+    }
+
+    if ("Split" in response) {
+      const neuron = response.Split.created_neuron_id[0];
+      if (neuron === undefined) {
+        // Edge case
+        throw new GovernanceError({
+          error_message: "Unexpected error splitting neuron",
+          error_type: 0,
+        });
+      }
+      return neuron.id;
+    }
+
+    // Edge case
+    throw new GovernanceError({
+      error_message: "Unexpected error splitting neuron",
+      error_type: 0,
     });
   };
 
