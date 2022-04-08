@@ -295,8 +295,6 @@ export class GovernanceCanister {
 
     const { command } = await this.certifiedService.manage_neuron(request);
     const response = command[0];
-    console.log("after da manage neuron call");
-    console.log(response);
 
     if (!response) {
       throw new GovernanceError({
@@ -306,8 +304,6 @@ export class GovernanceCanister {
     }
 
     if ("Error" in response) {
-      console.log("in da error");
-      console.log(response.Error);
       throw new GovernanceError(response.Error);
     }
 
