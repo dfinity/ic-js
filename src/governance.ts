@@ -312,7 +312,8 @@ export class GovernanceCanister {
       if (neuron === undefined) {
         // Edge case
         throw new GovernanceError({
-          error_message: "Unexpected error splitting neuron",
+          error_message:
+            "Unexpected error splitting neuron. No neuronId in Split response.",
           error_type: 0,
         });
       }
@@ -321,7 +322,8 @@ export class GovernanceCanister {
 
     // Edge case
     throw new GovernanceError({
-      error_message: "Unexpected error splitting neuron",
+      error_message:
+        "Unexpected error splitting neuron. Response type not expected.",
       error_type: 0,
     });
   };
