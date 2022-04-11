@@ -35,7 +35,6 @@ import {
   Operation,
   ProposalId,
   RewardMode,
-  SplitRequest,
   Vote,
 } from "../../types/governance_converters";
 import {
@@ -679,17 +678,23 @@ export const fromSpawnRequest = (request: SpawnRequest): PbManageNeuron => {
 };
 */
 
-export const fromSplitRequest = (request: SplitRequest): RawManageNeuron => {
+export const toSplitRawRequest = ({
+  neuronId,
+  amount,
+}: {
+  neuronId: NeuronId;
+  amount: E8s;
+}): RawManageNeuron => {
   const rawCommand: RawCommand = {
     Split: {
-      amount_e8s: request.amount,
+      amount_e8s: amount,
     },
   };
 
   return {
     id: [],
     command: [rawCommand],
-    neuron_id_or_subaccount: [{ NeuronId: { id: request.neuronId } }],
+    neuron_id_or_subaccount: [{ NeuronId: { id: neuronId } }],
   };
 };
 
@@ -771,18 +776,16 @@ export const toRegisterVoteRequest = ({
   neuronId: NeuronId;
   vote: Vote;
   proposalId: ProposalId;
-}): RawManageNeuron => ({
-  id: [{ id: neuronId }],
-  command: [
-    {
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
       RegisterVote: {
         vote,
         proposal: [{ id: proposalId }],
       },
     },
-  ],
-  neuron_id_or_subaccount: [],
-});
+  });
 
 export const toMakeProposalRawRequest = (
   request: MakeProposalRequest
@@ -806,18 +809,16 @@ export const toManageNeuronsFollowRequest = ({
   neuronId,
   topic,
   followees,
-}: FollowRequest): RawManageNeuron => ({
-  id: [{ id: neuronId }],
-  command: [
-    {
+}: FollowRequest): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
       Follow: {
         topic,
         followees: followees.map((followeeId) => ({ id: followeeId })),
       },
     },
-  ],
-  neuron_id_or_subaccount: [],
-});
+  });
 
 export const toIncreaseDissolveDelayRequest = ({
   neuronId,
@@ -825,74 +826,66 @@ export const toIncreaseDissolveDelayRequest = ({
 }: {
   neuronId: NeuronId;
   additionalDissolveDelaySeconds: number;
-}): RawManageNeuron => ({
-  id: [{ id: neuronId }],
-  command: [
-    {
-      Configure: {
-        operation: [
-          {
-            IncreaseDissolveDelay: {
-              additional_dissolve_delay_seconds: additionalDissolveDelaySeconds,
-            },
-          },
-        ],
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      IncreaseDissolveDelay: {
+        additional_dissolve_delay_seconds: additionalDissolveDelaySeconds,
       },
     },
-  ],
-  neuron_id_or_subaccount: [],
-});
+  });
 
 export const toJoinCommunityFundRequest = (
   neuronId: NeuronId
-): RawManageNeuron => ({
-  id: [{ id: neuronId }],
-  command: [
-    {
-      Configure: {
-        operation: [
-          {
-            JoinCommunityFund: {},
-          },
-        ],
-      },
+): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      JoinCommunityFund: {},
     },
-  ],
+  });
+
+export const toStartDissolvingRequest = (neuronId: NeuronId): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      StartDissolving: {},
+    },
+  });
+
+export const toStopDissolvingRequest = (neuronId: NeuronId): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      StopDissolving: {},
+    },
+  });
+
+export const toCommand = ({
+  neuronId,
+  command,
+}: {
+  neuronId: NeuronId;
+  command: RawCommand;
+}): RawManageNeuron => ({
+  id: [{ id: neuronId }],
+  command: [command],
   neuron_id_or_subaccount: [],
 });
 
-export const toStartDissolvingRequest = (
-  neuronId: NeuronId
-): RawManageNeuron => ({
-  id: [{ id: neuronId }],
-  command: [
-    {
+export const toConfigureOperation = ({
+  neuronId,
+  operation,
+}: {
+  neuronId: NeuronId;
+  operation: RawOperation;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
       Configure: {
-        operation: [
-          {
-            StartDissolving: {},
-          },
-        ],
+        operation: [operation],
       },
     },
-  ],
-  neuron_id_or_subaccount: [],
-});
-
-export const toStopDissolvingRequest = (
-  neuronId: NeuronId
-): RawManageNeuron => ({
-  id: [{ id: neuronId }],
-  command: [
-    {
-      Configure: {
-        operation: [
-          {
-            StopDissolving: {},
-          },
-        ],
-      },
-    },
-  ],
-  neuron_id_or_subaccount: [],
-});
+  });
