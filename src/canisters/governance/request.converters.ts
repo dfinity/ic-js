@@ -35,7 +35,6 @@ import {
   Operation,
   ProposalId,
   RewardMode,
-  SplitRequest,
   Vote,
 } from "../../types/governance_converters";
 import {
@@ -679,17 +678,23 @@ export const fromSpawnRequest = (request: SpawnRequest): PbManageNeuron => {
 };
 */
 
-export const fromSplitRequest = (request: SplitRequest): RawManageNeuron => {
+export const toSplitRawRequest = ({
+  neuronId,
+  amount,
+}: {
+  neuronId: NeuronId;
+  amount: E8s;
+}): RawManageNeuron => {
   const rawCommand: RawCommand = {
     Split: {
-      amount_e8s: request.amount,
+      amount_e8s: amount,
     },
   };
 
   return {
     id: [],
     command: [rawCommand],
-    neuron_id_or_subaccount: [{ NeuronId: { id: request.neuronId } }],
+    neuron_id_or_subaccount: [{ NeuronId: { id: neuronId } }],
   };
 };
 
