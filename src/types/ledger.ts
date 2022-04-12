@@ -1,6 +1,12 @@
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { CanisterCall } from "./common";
+
+export type LedgerCanisterCall = (params: {
+  agent: Agent;
+  canisterId: Principal;
+  methodName: string;
+  arg: ArrayBuffer;
+}) => Promise<Uint8Array>;
 
 // HttpAgent options that can be used at construction.
 export interface LedgerCanisterOptions {
@@ -10,8 +16,8 @@ export interface LedgerCanisterOptions {
   canisterId?: Principal;
   // The method to use for performing an update call. Primarily overridden
   // in test for mocking.
-  updateCallOverride?: CanisterCall;
+  updateCallOverride?: LedgerCanisterCall;
   // The method to use for performing a query call. Primarily overridden
   // in test for mocking.
-  queryCallOverride?: CanisterCall;
+  queryCallOverride?: LedgerCanisterCall;
 }

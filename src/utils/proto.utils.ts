@@ -5,12 +5,17 @@ import { Principal } from "@dfinity/principal";
  * Submits an update call to the IC.
  * @returns The (binary) response if the request succeeded, an error otherwise.
  */
-export const updateCall = async (
-  agent: Agent,
-  canisterId: Principal,
-  methodName: string,
-  arg: ArrayBuffer
-): Promise<Uint8Array | Error> => {
+export const updateCall = async ({
+  agent,
+  canisterId,
+  methodName,
+  arg,
+}: {
+  agent: Agent;
+  canisterId: Principal;
+  methodName: string;
+  arg: ArrayBuffer;
+}): Promise<Uint8Array> => {
   const submitResponse = await agent.call(canisterId, {
     methodName,
     arg,
@@ -18,7 +23,7 @@ export const updateCall = async (
   });
 
   if (!submitResponse.response.ok) {
-    return Error(
+    throw new Error(
       [
         "Call failed:",
         `  Method: ${methodName}`,
@@ -30,42 +35,38 @@ export const updateCall = async (
     );
   }
 
-  try {
-    const blob = await polling.pollForResponse(
-      agent,
-      canisterId,
-      submitResponse.requestId,
-      polling.defaultStrategy()
-    );
-    return new Uint8Array(blob);
-  } catch (err) {
-    if (err instanceof Error) {
-      // Return errors rather than throw them so that callers are forced to handle them.
-      return err;
-    }
+  const blob = await polling.pollForResponse(
+    agent,
+    canisterId,
+    submitResponse.requestId,
+    polling.defaultStrategy()
+  );
 
-    // Something very wrong happened, and we don't know how to deal with it. Throw as-is.
-    throw err;
-  }
+  return new Uint8Array(blob);
 };
 
 /**
  * Submits a query call to the IC.
  * @returns The (binary) response if the request succeeded, an error otherwise.
  */
-export const queryCall = async (
-  agent: Agent,
-  canisterId: Principal,
-  methodName: string,
-  arg: ArrayBuffer
-): Promise<Uint8Array | Error> => {
+export const queryCall = async ({
+  agent,
+  canisterId,
+  methodName,
+  arg,
+}: {
+  agent: Agent;
+  canisterId: Principal;
+  methodName: string;
+  arg: ArrayBuffer;
+}): Promise<Uint8Array> => {
   const queryResponse = await agent.query(canisterId, {
     methodName,
     arg,
   });
 
   if (queryResponse.status == "rejected") {
-    return new Error(
+    throw new Error(
       [
         "Call failed:",
         `  Method: ${methodName}`,
