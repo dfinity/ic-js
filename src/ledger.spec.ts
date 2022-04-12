@@ -11,7 +11,7 @@ import {
 } from "./errors/ledger.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
-import {E8s} from './types/common';
+import { E8s } from "./types/common";
 
 describe("LedgerCanister.transfer", () => {
   const to = AccountIdentifier.fromHex(
@@ -126,7 +126,7 @@ describe("LedgerCanister.transfer", () => {
     to,
     amount,
     memo,
-      fee
+    fee,
   }: {
     to: AccountIdentifier;
     amount: ICP;
