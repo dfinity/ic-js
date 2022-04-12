@@ -122,7 +122,7 @@ describe("LedgerCanister.transfer", () => {
     expect(typeof res).toEqual("bigint");
   });
 
-  const initExceptedRequest = ({
+  const initExpectedRequest = ({
     to,
     amount,
     memo,
@@ -157,7 +157,7 @@ describe("LedgerCanister.transfer", () => {
     // @ts-ignore - private function
     const spy = jest.spyOn(ledger, "updateFetcher");
 
-    const expectedRequest = initExceptedRequest({ to, amount });
+    const expectedRequest = initExpectedRequest({ to, amount });
 
     await ledger.transfer({
       to,
@@ -184,7 +184,7 @@ describe("LedgerCanister.transfer", () => {
 
     const fee = BigInt(990_000);
 
-    const expectedRequest = initExceptedRequest({ to, amount, fee });
+    const expectedRequest = initExpectedRequest({ to, amount, fee });
 
     await ledger.transfer({
       to,
@@ -212,7 +212,7 @@ describe("LedgerCanister.transfer", () => {
 
     const memo = BigInt(990_000);
 
-    const expectedRequest = initExceptedRequest({ to, amount, memo });
+    const expectedRequest = initExpectedRequest({ to, amount, memo });
 
     await ledger.transfer({
       to,
