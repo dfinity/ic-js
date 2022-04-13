@@ -70,21 +70,21 @@ describe("neurons-utils", () => {
   });
 
   it("should not have votable neurons because ineligible", () => {
-    let notVoted = votableNeurons({
+    let votable = votableNeurons({
       proposal,
       neurons: ineligibleNeuronsDate,
     });
-    expect(notVoted.length).toEqual(0);
+    expect(votable.length).toEqual(0);
 
-    notVoted = votableNeurons({
+    votable = votableNeurons({
       proposal,
       neurons: ineligibleNeuronsTooShort,
     });
-    expect(notVoted.length).toEqual(0);
+    expect(votable.length).toEqual(0);
   });
 
   it("should not have votable neurons because already voted", () => {
-    const notVoted = votableNeurons({
+    const votable = votableNeurons({
       proposal,
       neurons: [
         {
@@ -98,11 +98,11 @@ describe("neurons-utils", () => {
         },
       ],
     });
-    expect(notVoted.length).toEqual(0);
+    expect(votable.length).toEqual(0);
   });
 
   it("should have votable neurons because not yet voted", () => {
-    const notVoted = votableNeurons({
+    const votable = votableNeurons({
       proposal,
       neurons: [
         {
@@ -116,11 +116,11 @@ describe("neurons-utils", () => {
         },
       ],
     });
-    expect(notVoted.length).toEqual(1);
+    expect(votable.length).toEqual(1);
   });
 
   it("should have votable neurons because never voted", () => {
-    const notVoted = votableNeurons({
+    const votable = votableNeurons({
       proposal,
       neurons: [
         {
@@ -129,7 +129,7 @@ describe("neurons-utils", () => {
         },
       ],
     });
-    expect(notVoted.length).toEqual(1);
+    expect(votable.length).toEqual(1);
   });
 
   it("should have votable neurons only with voting power", () => {
