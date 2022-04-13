@@ -1,3 +1,9 @@
+# 0.4.0 (TBD)
+
+### Breaking Changes
+
+- replace `notVotedNeurons` with `votableNeurons` [#77]
+
 # 0.3.0 (2022-04-07)
 
 ### Breaking Changes
