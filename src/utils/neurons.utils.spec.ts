@@ -2,6 +2,7 @@ import { NeuronInfo, ProposalInfo, Vote } from "../types/governance_converters";
 import {
   ineligibleNeurons,
   notVotedNeurons,
+  votableNeurons,
   votedNeurons,
 } from "./neurons.utils";
 
@@ -179,4 +180,30 @@ describe("neurons-utils", () => {
     });
     expect(voted.length).toEqual(1);
   });
+
+  it("should have votable neurons only with voting power", () => {
+    const votable = votableNeurons({
+      proposal,
+      neurons: [
+        {
+          ...eligibleNeuronsDate[0],
+          recentBallots: [],
+          votingPower: BigInt(0),
+        },
+        {
+          ...eligibleNeuronsDate[0],
+          recentBallots: [],
+          votingPower: BigInt(1),
+        },
+        {
+          ...eligibleNeuronsDate[0],
+          recentBallots: [],
+          votingPower: BigInt(0),
+        },
+      ],
+    });
+    expect(votable.length).toEqual(1);
+    expect(votable[0].votingPower).toEqual(BigInt(1));
+  });
+
 });
