@@ -205,5 +205,4 @@ describe("neurons-utils", () => {
     });
     expect(voted.length).toEqual(1);
   });
-
 });
