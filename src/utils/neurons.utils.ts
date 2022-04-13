@@ -46,7 +46,10 @@ export const ineligibleNeurons = ({
   });
 };
 
-export const notVotedNeurons = ({
+/**
+ * Neurons that can vote for the proposal (not voted, with voting power)
+ */
+export const votableNeurons = ({
   neurons,
   proposal,
 }: {
@@ -62,16 +65,8 @@ export const notVotedNeurons = ({
         ({ neuronId: ineligibleNeuronId }: NeuronInfo) =>
           ineligibleNeuronId === neuronId
       ) === undefined
-  );
+  ).filter(({ votingPower }) => votingPower > 0n)
 };
-
-/**
- * Return not voted neurons that have voting power
- */
-export const votableNeurons = (params: {
-  neurons: NeuronInfo[];
-  proposal: ProposalInfo;
-}): NeuronInfo[] => notVotedNeurons(params).filter(({ votingPower }) => votingPower > 0n);
 
 export const votedNeurons = ({
   neurons,
