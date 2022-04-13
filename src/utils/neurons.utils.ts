@@ -71,7 +71,8 @@ export const notVotedNeurons = ({
 export const votableNeurons = (params: {
   neurons: NeuronInfo[];
   proposal: ProposalInfo;
-}): NeuronInfo[] => notVotedNeurons(params).filter(({ votingPower }) => votingPower > 0n);
+}): NeuronInfo[] =>
+  notVotedNeurons(params).filter(({ votingPower }) => votingPower > 0n);
 
 export const votedNeurons = ({
   neurons,

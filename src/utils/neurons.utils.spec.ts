@@ -205,5 +205,4 @@ describe("neurons-utils", () => {
     expect(votable.length).toEqual(1);
     expect(votable[0].votingPower).toEqual(BigInt(1));
   });
-
 });
