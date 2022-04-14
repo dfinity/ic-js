@@ -234,7 +234,6 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     });
     const neurons = await governance.listNeurons({
       certified: true,
-      principal: new AnonymousIdentity().getPrincipal(),
     });
     expect(service.list_neurons).toBeCalled();
     expect(neurons.length).toBe(1);
@@ -320,7 +319,6 @@ describe("GovernanceCanister.listKnownNeurons", () => {
 
     const response = await governance.getNeuron({
       certified: true,
-      principal: new AnonymousIdentity().getPrincipal(),
       neuronId: BigInt(1),
     });
 
@@ -536,6 +534,51 @@ describe("GovernanceCanister.claimOrRefreshNeuron", () => {
         certifiedServiceOverride: service,
       });
       const call = () => governance.joinCommunityFund(neuronId);
+      expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
+
+  describe("GovernanceCanister.splitNeuron", () => {
+    it("successfully splits neuron", async () => {
+      const neuronId = BigInt(10);
+      const amount = ICP.fromString("6") as ICP;
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Split: { created_neuron_id: [{ id: BigInt(11) }] } }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const response = await governance.splitNeuron({
+        neuronId,
+        amount,
+      });
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("throws error if response is error", async () => {
+      const error: GovernanceErrorDetail = {
+        error_message: "Some error",
+        error_type: 1,
+      };
+      const neuronId = BigInt(10);
+      const amount = ICP.fromString("6") as ICP;
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        governance.splitNeuron({
+          neuronId,
+          amount,
+        });
       expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });

@@ -18,6 +18,7 @@ import {
   toMakeProposalRawRequest,
   toManageNeuronsFollowRequest,
   toRegisterVoteRequest,
+  toSplitRawRequest,
   toStartDissolvingRequest,
   toStopDissolvingRequest,
 } from "./canisters/governance/request.converters";
@@ -31,6 +32,7 @@ import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
 import {
   CouldNotClaimNeuronError,
+  GovernanceError,
   InsufficientAmountError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
@@ -100,18 +102,16 @@ export class GovernanceCanister {
    */
   public listNeurons = async ({
     certified = true,
-    principal,
     neuronIds,
   }: {
     certified: boolean;
-    principal: Principal;
     neuronIds?: NeuronId[];
   }): Promise<NeuronInfo[]> => {
     const rawRequest = fromListNeurons(neuronIds);
     const raw_response = await this.getGovernanceService(
       certified
     ).list_neurons(rawRequest);
-    return toArrayOfNeuronInfo(raw_response, principal);
+    return toArrayOfNeuronInfo(raw_response);
   };
 
   /**
@@ -276,6 +276,59 @@ export class GovernanceCanister {
   };
 
   /**
+   * Splits a neuron creating a new one
+   *
+   * @returns newNeuronId
+   * @throws {@link GovernanceError}
+   */
+  public splitNeuron = async ({
+    neuronId,
+    amount,
+  }: {
+    neuronId: NeuronId;
+    amount: ICP;
+  }): Promise<NeuronId> => {
+    const request = toSplitRawRequest({
+      neuronId,
+      amount: amount.toE8s(),
+    });
+
+    const { command } = await this.certifiedService.manage_neuron(request);
+    const response = command[0];
+
+    if (!response) {
+      throw new GovernanceError({
+        error_message: "Error updating neuron",
+        error_type: 0,
+      });
+    }
+
+    if ("Error" in response) {
+      throw new GovernanceError(response.Error);
+    }
+
+    if ("Split" in response) {
+      const neuron = response.Split.created_neuron_id[0];
+      if (neuron === undefined) {
+        // Edge case
+        throw new GovernanceError({
+          error_message:
+            "Unexpected error splitting neuron. No neuronId in Split response.",
+          error_type: 0,
+        });
+      }
+      return neuron.id;
+    }
+
+    // Edge case
+    throw new GovernanceError({
+      error_message:
+        "Unexpected error splitting neuron. Response type not expected.",
+      error_type: 0,
+    });
+  };
+
+  /**
    * Returns single proposal info
    *
    * If `certified` is true (default), the request is fetched as an update call, otherwise
@@ -407,11 +460,9 @@ export class GovernanceCanister {
    */
   public getNeuron = async ({
     certified = true,
-    principal,
     neuronId,
   }: {
     certified: boolean;
-    principal: Principal;
     neuronId: NeuronId;
   }): Promise<NeuronInfo | undefined> => {
     // The governance canister exposes two functions "get_neuron_info" and "get_full_neuron" that could probably be used to fetch the neuron details too.
@@ -419,7 +470,6 @@ export class GovernanceCanister {
 
     const [neuron]: NeuronInfo[] = await this.listNeurons({
       certified,
-      principal,
       neuronIds: [neuronId],
     });
 
