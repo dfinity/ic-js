@@ -538,6 +538,51 @@ describe("GovernanceCanister.claimOrRefreshNeuron", () => {
     });
   });
 
+  describe("GovernanceCanister.mergeNeurons", () => {
+    it("successfully merges two neurons", async () => {
+      const sourceNeuronId = BigInt(10);
+      const targetNeuronId = BigInt(13);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Merge: {} }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const response = await governance.mergeNeurons({
+        sourceNeuronId,
+        targetNeuronId,
+      });
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("throws error if response is error", async () => {
+      const error: GovernanceErrorDetail = {
+        error_message: "Some error",
+        error_type: 1,
+      };
+      const sourceNeuronId = BigInt(10);
+      const targetNeuronId = BigInt(13);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        governance.mergeNeurons({
+          sourceNeuronId,
+          targetNeuronId,
+        });
+      expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
+
   describe("GovernanceCanister.splitNeuron", () => {
     it("successfully splits neuron", async () => {
       const neuronId = BigInt(10);
