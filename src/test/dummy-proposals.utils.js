@@ -236,7 +236,12 @@ export const addOrRemoveDataCentersPayload = new Uint8Array([
   44, 84, 111, 107, 121, 111, 7, 69, 113, 117, 105, 110, 105, 120, 0,
 ]);
 
-export const makeMotionDummyProposalRequest = ({ title, url, summary, neuronId }) => ({
+export const makeMotionDummyProposalRequest = ({
+  title,
+  url,
+  summary,
+  neuronId,
+}) => ({
   neuronId,
   title,
   url: url,
