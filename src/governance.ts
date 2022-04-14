@@ -17,6 +17,7 @@ import {
   toJoinCommunityFundRequest,
   toMakeProposalRawRequest,
   toManageNeuronsFollowRequest,
+  toMergeRequest,
   toRegisterVoteRequest,
   toSplitRawRequest,
   toStartDissolvingRequest,
@@ -271,6 +272,23 @@ export class GovernanceCanister {
 
     return manageNeuron({
       request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Merge two neurons
+   *
+   * @throws {@link GovernanceError}
+   */
+  public mergeNeurons = async (request: {
+    sourceNeuronId: NeuronId;
+    targetNeuronId: NeuronId;
+  }): Promise<void> => {
+    const rawRequest = toMergeRequest(request);
+
+    return manageNeuron({
+      request: rawRequest,
       service: this.certifiedService,
     });
   };
