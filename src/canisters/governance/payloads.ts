@@ -22,8 +22,8 @@ import {
 import { Option } from "../../types/common";
 
 // Represent Principals as strings rather than as byte arrays when serializing to JSON strings
-// @ts-ignore
-Principal.prototype.toJSON = function () {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(Principal.prototype as any).toJSON = function () {
   return this.toString();
 };
 
