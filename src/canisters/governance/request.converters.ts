@@ -846,6 +846,20 @@ export const toJoinCommunityFundRequest = (
     },
   });
 
+export const toMergeRequest = ({
+  sourceNeuronId,
+  targetNeuronId,
+}: {
+  sourceNeuronId: NeuronId;
+  targetNeuronId: NeuronId;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId: targetNeuronId,
+    command: {
+      Merge: { source_neuron_id: [{ id: sourceNeuronId }] },
+    },
+  });
+
 export const toStartDissolvingRequest = (neuronId: NeuronId): RawManageNeuron =>
   toConfigureOperation({
     neuronId,
