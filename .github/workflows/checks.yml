@@ -14,11 +14,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      #- name: Install shfmt
-      #  run: sudo snap install --classic shfmt
+      - name: Install shfmt
+        run: sudo snap install --classic shfmt
 
-      #- name: Format shell scripts
-      #  run: ./scripts/fmt-sh
+      - name: Format shell scripts
+        run: ./scripts/fmt-sh
 
       - name: Install ts dependencies
         run: npm ci
