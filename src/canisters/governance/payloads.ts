@@ -1,5 +1,4 @@
 import { IDL, JsonObject } from "@dfinity/candid";
-import { Principal } from "@dfinity/principal";
 import { Buffer } from "buffer";
 import {
   AddNodeOperatorPayload,
