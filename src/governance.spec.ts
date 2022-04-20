@@ -1,4 +1,5 @@
 import { AnonymousIdentity } from "@dfinity/agent";
+import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import { GovernanceService } from "../candid/governance.idl";
 import {
@@ -8,9 +9,11 @@ import {
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
+import { SubAccount } from "./account_identifier";
 import {
   GovernanceError,
   InsufficientAmountError,
+  UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { GovernanceCanister } from "./governance";
 import { ICP } from "./icp";
@@ -134,14 +137,14 @@ describe("GovernanceCanister.listKnownNeurons", () => {
   });
 
   it("creates new neuron successfully", async () => {
-    const neuronId = BigInt(1);
-    const clainNeuronResponse: ClaimOrRefreshNeuronFromAccountResponse = {
-      result: [{ NeuronId: { id: neuronId } }],
+    const neuronId = BigInt(10);
+    const serviceResponse: ManageNeuronResponse = {
+      command: [
+        { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
+      ],
     };
     const service = mock<GovernanceService>();
-    service.claim_or_refresh_neuron_from_account.mockResolvedValue(
-      clainNeuronResponse
-    );
+    service.manage_neuron.mockResolvedValue(serviceResponse);
 
     const mockLedger = mock<LedgerCanister>();
     mockLedger.transfer.mockImplementation(
@@ -158,19 +161,19 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     });
 
     expect(mockLedger.transfer).toBeCalled();
-    expect(service.claim_or_refresh_neuron_from_account).toBeCalled();
+    expect(service.manage_neuron).toBeCalled();
     expect(response).toEqual(neuronId);
   });
 
   it("creates new neuron from subaccount successfully", async () => {
-    const neuronId = BigInt(1);
-    const clainNeuronResponse: ClaimOrRefreshNeuronFromAccountResponse = {
-      result: [{ NeuronId: { id: neuronId } }],
+    const neuronId = BigInt(10);
+    const serviceResponse: ManageNeuronResponse = {
+      command: [
+        { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
+      ],
     };
     const service = mock<GovernanceService>();
-    service.claim_or_refresh_neuron_from_account.mockResolvedValue(
-      clainNeuronResponse
-    );
+    service.manage_neuron.mockResolvedValue(serviceResponse);
 
     const mockLedger = mock<LedgerCanister>();
     mockLedger.transfer.mockImplementation(
@@ -188,7 +191,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     });
 
     expect(mockLedger.transfer).toBeCalled();
-    expect(service.claim_or_refresh_neuron_from_account).toBeCalled();
+    expect(service.manage_neuron).toBeCalled();
     expect(response).toEqual(neuronId);
   });
 
@@ -326,6 +329,51 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     expect(response).not.toBeUndefined();
     expect(Number(response?.neuronId)).toEqual(Number(mockNeuronId));
     expect(response?.state).toEqual(mockNeuronInfo.state);
+  });
+});
+
+describe("GovernanceCanister.claimOrRefreshNeuronFromAccount", () => {
+  it("returns successfully neuron id", async () => {
+    const neuronId = BigInt(10);
+    const serviceResponse: ManageNeuronResponse = {
+      command: [
+        { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
+      ],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const principal = Principal.fromText("aaaaa-aa");
+    const response = await governance.claimOrRefreshNeuronFromAccount({
+      memo: BigInt(1),
+      controller: principal,
+      subAccount: SubAccount.fromPrincipal(principal),
+    });
+    expect(service.manage_neuron).toBeCalled();
+    expect(response).toBe(neuronId);
+  });
+
+  it("throws in unexpected response", async () => {
+    const serviceResponse: ManageNeuronResponse = {
+      command: [{ Configure: {} }],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const principal = Principal.fromText("aaaaa-aa");
+    const call = () =>
+      governance.claimOrRefreshNeuronFromAccount({
+        memo: BigInt(1),
+        controller: principal,
+        subAccount: SubAccount.fromPrincipal(principal),
+      });
+    expect(call).rejects.toThrow(UnrecognizedTypeError);
   });
 });
 

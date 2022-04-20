@@ -17,7 +17,12 @@ import {
   RewardMode as RawRewardMode,
 } from "../../../candid/governanceTypes.d";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
+import {
+  AccountIdentifier,
+  E8s,
+  NeuronId,
+  SubAccount,
+} from "../../types/common";
 import {
   Action,
   By,
@@ -527,6 +532,28 @@ export const fromClaimOrRefreshNeuronRequest = (
     id: [],
     command: [rawCommand],
     neuron_id_or_subaccount: [{ NeuronId: { id: request.neuronId } }],
+  };
+};
+
+export const toClaimOrRefreshRequest = ({
+  memo,
+  controller,
+  subAccount,
+}: {
+  memo: bigint;
+  controller: Principal;
+  subAccount: SubAccount;
+}): RawManageNeuron => {
+  const rawCommand: RawCommand = {
+    ClaimOrRefresh: {
+      by: [{ MemoAndController: { controller: [controller], memo } }],
+    },
+  };
+
+  return {
+    id: [],
+    command: [rawCommand],
+    neuron_id_or_subaccount: [{ Subaccount: Array.from(subAccount) }],
   };
 };
 
