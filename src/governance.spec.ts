@@ -9,7 +9,6 @@ import {
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
-import { SubAccount } from "./account_identifier";
 import {
   GovernanceError,
   InsufficientAmountError,
@@ -350,7 +349,6 @@ describe("GovernanceCanister.claimOrRefreshNeuronFromAccount", () => {
     const response = await governance.claimOrRefreshNeuronFromAccount({
       memo: BigInt(1),
       controller: principal,
-      subAccount: SubAccount.fromPrincipal(principal),
     });
     expect(service.manage_neuron).toBeCalled();
     expect(response).toBe(neuronId);
@@ -371,7 +369,6 @@ describe("GovernanceCanister.claimOrRefreshNeuronFromAccount", () => {
       governance.claimOrRefreshNeuronFromAccount({
         memo: BigInt(1),
         controller: principal,
-        subAccount: SubAccount.fromPrincipal(principal),
       });
     expect(call).rejects.toThrow(UnrecognizedTypeError);
   });

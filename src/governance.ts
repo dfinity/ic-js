@@ -199,7 +199,6 @@ export class GovernanceCanister {
       await this.claimOrRefreshNeuronFromAccount({
         controller: principal,
         memo: nonce,
-        subAccount: toSubAccount,
       });
 
     // Typescript was complaining with `neuronId || new NeuronNotFound()`:
@@ -422,16 +421,13 @@ export class GovernanceCanister {
   public claimOrRefreshNeuronFromAccount = async ({
     memo,
     controller,
-    subAccount,
   }: {
     memo: bigint;
     controller: Principal;
-    subAccount: SubAccount;
   }): Promise<NeuronId | undefined> => {
     const rawRequest = toClaimOrRefreshRequest({
       memo,
       controller,
-      subAccount: subAccount.toUint8Array(),
     });
     const rawResponse = await this.certifiedService.manage_neuron(rawRequest);
     const { command } = rawResponse;
