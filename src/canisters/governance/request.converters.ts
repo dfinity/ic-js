@@ -530,6 +530,33 @@ export const fromClaimOrRefreshNeuronRequest = (
   };
 };
 
+export const toClaimOrRefreshRequest = ({
+  memo,
+  controller,
+}: {
+  memo: bigint;
+  controller?: Principal;
+}): RawManageNeuron => {
+  const rawCommand: RawCommand = {
+    ClaimOrRefresh: {
+      by: [
+        {
+          MemoAndController: {
+            controller: controller == undefined ? [] : [controller],
+            memo,
+          },
+        },
+      ],
+    },
+  };
+
+  return {
+    id: [],
+    command: [rawCommand],
+    neuron_id_or_subaccount: [],
+  };
+};
+
 /* Protobuf is not supported yet
 export const fromMergeMaturityRequest = (
   request: MergeMaturityRequest

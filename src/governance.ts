@@ -13,6 +13,7 @@ import {
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
   fromListProposalsRequest,
+  toClaimOrRefreshRequest,
   toIncreaseDissolveDelayRequest,
   toJoinCommunityFundRequest,
   toMakeProposalRawRequest,
@@ -42,7 +43,6 @@ import { LedgerCanister } from "./ledger";
 import { NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
 import {
-  ClaimOrRefreshNeuronFromAccount,
   ClaimOrRefreshNeuronRequest,
   FollowRequest,
   KnownNeuron,
@@ -418,23 +418,27 @@ export class GovernanceCanister {
   /**
    * Gets the NeuronID of a newly created neuron.
    */
-  public claimOrRefreshNeuronFromAccount = async (
-    request: ClaimOrRefreshNeuronFromAccount
-  ): Promise<NeuronId | undefined> => {
-    // Note: This is an update call so the certified and uncertified services are identical in this case,
-    // however using the certified service provides protection in case that changes.
-    const response =
-      await this.certifiedService.claim_or_refresh_neuron_from_account({
-        controller: request.controller ? [request.controller] : [],
-        memo: request.memo,
-      });
-
-    const { result } = response;
-    if (result.length && "NeuronId" in result[0]) {
-      return result[0].NeuronId.id;
+  public claimOrRefreshNeuronFromAccount = async ({
+    memo,
+    controller,
+  }: {
+    memo: bigint;
+    controller?: Principal;
+  }): Promise<NeuronId | undefined> => {
+    const rawRequest = toClaimOrRefreshRequest({
+      memo,
+      controller,
+    });
+    const rawResponse = await this.certifiedService.manage_neuron(rawRequest);
+    const { command } = rawResponse;
+    if (command.length && "ClaimOrRefresh" in command[0]) {
+      const claim = command[0].ClaimOrRefresh;
+      return claim.refreshed_neuron_id[0]?.id;
     }
 
-    return undefined;
+    throw new UnrecognizedTypeError(
+      `Unrecognized ClaimOrRefresh error in ${JSON.stringify(rawResponse)}`
+    );
   };
 
   /**
