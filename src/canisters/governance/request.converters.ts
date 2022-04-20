@@ -535,11 +535,18 @@ export const toClaimOrRefreshRequest = ({
   controller,
 }: {
   memo: bigint;
-  controller: Principal;
+  controller?: Principal;
 }): RawManageNeuron => {
   const rawCommand: RawCommand = {
     ClaimOrRefresh: {
-      by: [{ MemoAndController: { controller: [controller], memo } }],
+      by: [
+        {
+          MemoAndController: {
+            controller: controller == undefined ? [] : [controller],
+            memo,
+          },
+        },
+      ],
     },
   };
 

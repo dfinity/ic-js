@@ -423,7 +423,7 @@ export class GovernanceCanister {
     controller,
   }: {
     memo: bigint;
-    controller: Principal;
+    controller?: Principal;
   }): Promise<NeuronId | undefined> => {
     const rawRequest = toClaimOrRefreshRequest({
       memo,
