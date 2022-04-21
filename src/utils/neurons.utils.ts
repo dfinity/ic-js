@@ -15,7 +15,6 @@ const voteForProposal = ({
   proposalId: ProposalId | undefined;
 }): Vote | undefined => {
   if (!proposalId) {
-    console.error("VFP0", recentBallots);
     return undefined;
   }
 
