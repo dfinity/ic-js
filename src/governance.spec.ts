@@ -583,6 +583,84 @@ describe("GovernanceCanister.claimOrRefreshNeuron", () => {
     });
   });
 
+  describe("GovernanceCanister.addHotkey", () => {
+    it("successfully adds hotkey to neuron", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Configure: {} }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
+      await governance.addHotkey({ neuronId, principal });
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("throws error if response is error", async () => {
+      const error: GovernanceErrorDetail = {
+        error_message: "Some error",
+        error_type: 1,
+      };
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
+
+      const call = () => governance.addHotkey({ neuronId, principal });
+      expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
+
+  describe("GovernanceCanister.removeHotkey", () => {
+    it("successfully removes hotkey to neuron", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Configure: {} }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
+      await governance.removeHotkey({ neuronId, principal });
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("throws error if response is error", async () => {
+      const error: GovernanceErrorDetail = {
+        error_message: "Some error",
+        error_type: 1,
+      };
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<GovernanceService>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
+
+      const call = () => governance.removeHotkey({ neuronId, principal });
+      expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
+
   describe("GovernanceCanister.mergeNeurons", () => {
     it("successfully merges two neurons", async () => {
       const sourceNeuronId = BigInt(10);
