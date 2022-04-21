@@ -15,6 +15,7 @@ const voteForProposal = ({
   proposalId: ProposalId | undefined;
 }): Vote | undefined => {
   if (!proposalId) {
+    console.error('VFP0', recentBallots);
     return undefined;
   }
 
@@ -61,13 +62,12 @@ export const votableNeurons = ({
   return neurons
     .filter(
       ({ recentBallots, neuronId }: NeuronInfo) =>
-        voteForProposal({ recentBallots, proposalId }) === undefined &&
+        (voteForProposal({ recentBallots, proposalId }) === undefined &&
         ineligibleNeurons({ neurons, proposal }).find(
           ({ neuronId: ineligibleNeuronId }: NeuronInfo) =>
             ineligibleNeuronId === neuronId
-        ) === undefined
-    )
-    .filter(({ votingPower }) => votingPower > 0n);
+        ) === undefined)
+    );
 };
 
 export const votedNeurons = ({
