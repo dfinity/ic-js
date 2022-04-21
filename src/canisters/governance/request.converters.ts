@@ -847,6 +847,38 @@ export const toManageNeuronsFollowRequest = ({
     },
   });
 
+export const toAddHotkeyRequest = ({
+  neuronId,
+  principal,
+}: {
+  neuronId: NeuronId;
+  principal: Principal;
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      AddHotKey: {
+        new_hot_key: [principal],
+      },
+    },
+  });
+
+export const toRemoveHotkeyRequest = ({
+  neuronId,
+  principal,
+}: {
+  neuronId: NeuronId;
+  principal: Principal;
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      RemoveHotKey: {
+        hot_key_to_remove: [principal],
+      },
+    },
+  });
+
 export const toIncreaseDissolveDelayRequest = ({
   neuronId,
   additionalDissolveDelaySeconds,

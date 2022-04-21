@@ -13,6 +13,7 @@ import {
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
   fromListProposalsRequest,
+  toAddHotkeyRequest,
   toClaimOrRefreshRequest,
   toIncreaseDissolveDelayRequest,
   toJoinCommunityFundRequest,
@@ -20,6 +21,7 @@ import {
   toManageNeuronsFollowRequest,
   toMergeRequest,
   toRegisterVoteRequest,
+  toRemoveHotkeyRequest,
   toSplitRawRequest,
   toStartDissolvingRequest,
   toStopDissolvingRequest,
@@ -408,6 +410,46 @@ export class GovernanceCanister {
    */
   public setFollowees = async (followRequest: FollowRequest): Promise<void> => {
     const request = toManageNeuronsFollowRequest(followRequest);
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Add hotkey to neuron
+   *
+   * @throws {@link GovernanceError}
+   */
+  public addHotkey = async ({
+    neuronId,
+    principal,
+  }: {
+    neuronId: NeuronId;
+    principal: Principal;
+  }): Promise<void> => {
+    const request = toAddHotkeyRequest({ neuronId, principal });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Remove hotkey to neuron
+   *
+   * @throws {@link GovernanceError}
+   */
+  public removeHotkey = async ({
+    neuronId,
+    principal,
+  }: {
+    neuronId: NeuronId;
+    principal: Principal;
+  }): Promise<void> => {
+    const request = toRemoveHotkeyRequest({ neuronId, principal });
 
     return manageNeuron({
       request,
