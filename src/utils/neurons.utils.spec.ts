@@ -132,7 +132,7 @@ describe("neurons-utils", () => {
     expect(votable.length).toEqual(1);
   });
 
-  it("should have votable neurons also with voting power", () => {
+  it("should have votable neurons regardless of voting power", () => {
     const votable = votableNeurons({
       proposal,
       neurons: [
