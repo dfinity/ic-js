@@ -58,16 +58,14 @@ export const votableNeurons = ({
 }): NeuronInfo[] => {
   const { id: proposalId } = proposal;
 
-  return neurons
-    .filter(
-      ({ recentBallots, neuronId }: NeuronInfo) =>
-        voteForProposal({ recentBallots, proposalId }) === undefined &&
-        ineligibleNeurons({ neurons, proposal }).find(
-          ({ neuronId: ineligibleNeuronId }: NeuronInfo) =>
-            ineligibleNeuronId === neuronId
-        ) === undefined
-    )
-    .filter(({ votingPower }) => votingPower > 0n);
+  return neurons.filter(
+    ({ recentBallots, neuronId }: NeuronInfo) =>
+      voteForProposal({ recentBallots, proposalId }) === undefined &&
+      ineligibleNeurons({ neurons, proposal }).find(
+        ({ neuronId: ineligibleNeuronId }: NeuronInfo) =>
+          ineligibleNeuronId === neuronId
+      ) === undefined
+  );
 };
 
 export const votedNeurons = ({
