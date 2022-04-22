@@ -7,6 +7,7 @@
 - Allow neurons with zero stake to pass through the filter.
 
 ### Features
+
 - New methods splitNeuron, mergeNeurons, addHotkey and removeHotkey in Governance Service.
 - Add options `memo` and `fee` to ledger `transfer` function for hardware wallet compatibility.
 - Add `votableNeurons(..)` utility function.
