@@ -15,6 +15,7 @@ import {
   fromListProposalsRequest,
   toAddHotkeyRequest,
   toClaimOrRefreshRequest,
+  toDisburseNeuronRequest,
   toIncreaseDissolveDelayRequest,
   toJoinCommunityFundRequest,
   toMakeProposalRawRequest,
@@ -42,7 +43,7 @@ import {
 } from "./errors/governance.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
-import { NeuronId } from "./types/common";
+import { E8s, NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
 import {
   ClaimOrRefreshNeuronRequest,
@@ -56,6 +57,7 @@ import {
   ProposalInfo,
   Vote,
 } from "./types/governance_converters";
+import { verifyCheckSum } from "./utils/accounts.utils";
 import { defaultAgent } from "./utils/agent.utils";
 import {
   asciiStringToByteArray,
@@ -410,6 +412,33 @@ export class GovernanceCanister {
    */
   public setFollowees = async (followRequest: FollowRequest): Promise<void> => {
     const request = toManageNeuronsFollowRequest(followRequest);
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Disburse neuron on Account
+   *
+   * @throws {@link GovernanceError}
+   * @throws {@link InvalidAccountIDError}
+   */
+  public disburse = async ({
+    neuronId,
+    toAccountId,
+    amount,
+  }: {
+    neuronId: NeuronId;
+    toAccountId?: string;
+    amount?: E8s;
+  }): Promise<void> => {
+    if (toAccountId !== undefined) {
+      // Might throw InvalidAccountIDError
+      verifyCheckSum(toAccountId);
+    }
+    const request = toDisburseNeuronRequest({ neuronId, toAccountId, amount });
 
     return manageNeuron({
       request,

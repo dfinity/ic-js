@@ -847,6 +847,26 @@ export const toManageNeuronsFollowRequest = ({
     },
   });
 
+export const toDisburseNeuronRequest = ({
+  neuronId,
+  toAccountId,
+  amount,
+}: {
+  neuronId: NeuronId;
+  toAccountId?: string;
+  amount?: E8s;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      Disburse: {
+        to_account:
+          toAccountId !== undefined ? [fromAccountIdentifier(toAccountId)] : [],
+        amount: amount !== undefined ? [fromAmount(amount)] : [],
+      },
+    },
+  });
+
 export const toAddHotkeyRequest = ({
   neuronId,
   principal,
