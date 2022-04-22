@@ -2,7 +2,15 @@
 
 ### Breaking Changes
 
-- replace `notVotedNeurons` with `votableNeurons` [#77]
+- Replace `notVotedNeurons` with `votableNeurons` [#77]
+- Serialize Principal rather than a byte array in JSON.
+- Allow neurons with zero stake to pass through the filter.
+
+### Features
+- New methods splitNeuron, mergeNeurons, addHotkey and removeHotkey in Governance Service.
+- Add options `memo` and `fee` to ledger `transfer` function for hardware wallet compatibility.
+- Add `votableNeurons(..)` utility function.
+- Update dependencies and stop using now deprecated functions.
 
 # 0.3.0 (2022-04-07)
 
