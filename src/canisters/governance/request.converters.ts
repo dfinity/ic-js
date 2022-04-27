@@ -867,6 +867,22 @@ export const toDisburseNeuronRequest = ({
     },
   });
 
+export const toMergeMaturityRequest = ({
+  neuronId,
+  percentageToMerge,
+}: {
+  neuronId: NeuronId;
+  percentageToMerge: number;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      MergeMaturity: {
+        percentage_to_merge: percentageToMerge,
+      },
+    },
+  });
+
 export const toAddHotkeyRequest = ({
   neuronId,
   principal,

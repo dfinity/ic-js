@@ -20,6 +20,7 @@ import {
   toJoinCommunityFundRequest,
   toMakeProposalRawRequest,
   toManageNeuronsFollowRequest,
+  toMergeMaturityRequest,
   toMergeRequest,
   toRegisterVoteRequest,
   toRemoveHotkeyRequest,
@@ -63,6 +64,7 @@ import {
   asciiStringToByteArray,
   uint8ArrayToBigInt,
 } from "./utils/converter.utils";
+import { assertPercentageNumber } from "./utils/number.utils";
 
 export class GovernanceCanister {
   private constructor(
@@ -439,6 +441,31 @@ export class GovernanceCanister {
       verifyCheckSum(toAccountId);
     }
     const request = toDisburseNeuronRequest({ neuronId, toAccountId, amount });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Merge Maturity of a neuron
+   *
+   * @throws {@link GovernanceError}
+   * @throws {@link InvalidPercentageError}
+   *
+   */
+  public mergeMaturity = async ({
+    neuronId,
+    percentageToMerge,
+  }: {
+    neuronId: NeuronId;
+    percentageToMerge: number;
+  }): Promise<void> => {
+    // Migth throw InvalidPercentageError
+    assertPercentageNumber(percentageToMerge);
+
+    const request = toMergeMaturityRequest({ neuronId, percentageToMerge });
 
     return manageNeuron({
       request,
