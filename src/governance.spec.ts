@@ -706,6 +706,54 @@ describe("GovernanceCanister.mergeNeurons", () => {
   });
 });
 
+describe("GovernanceCanister.mergeMaturity", () => {
+  it("successfully merges maturity neurons", async () => {
+    const serviceResponse: ManageNeuronResponse = {
+      command: [
+        {
+          MergeMaturity: {
+            merged_maturity_e8s: BigInt(100_000),
+            new_stake_e8s: BigInt(1_000_000),
+          },
+        },
+      ],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    await governance.mergeMaturity({
+      neuronId: BigInt(10),
+      percentageToMerge: 50,
+    });
+    expect(service.manage_neuron).toBeCalled();
+  });
+
+  it("throws error if response is error", async () => {
+    const error: GovernanceErrorDetail = {
+      error_message: "Some error",
+      error_type: 1,
+    };
+    const serviceResponse: ManageNeuronResponse = {
+      command: [{ Error: error }],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const call = () =>
+      governance.mergeMaturity({
+        neuronId: BigInt(10),
+        percentageToMerge: 50,
+      });
+    expect(call).rejects.toThrow(new GovernanceError(error));
+  });
+});
+
 describe("GovernanceCanister.disburse", () => {
   it("successfully disburses neuron", async () => {
     const neuronId = BigInt(10);

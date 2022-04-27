@@ -20,6 +20,7 @@ import {
   toJoinCommunityFundRequest,
   toMakeProposalRawRequest,
   toManageNeuronsFollowRequest,
+  toMergeMaturityRequest,
   toMergeRequest,
   toRegisterVoteRequest,
   toRemoveHotkeyRequest,
@@ -439,6 +440,26 @@ export class GovernanceCanister {
       verifyCheckSum(toAccountId);
     }
     const request = toDisburseNeuronRequest({ neuronId, toAccountId, amount });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Merge Maturity of a neuron
+   *
+   * @throws {@link GovernanceError}
+   */
+  public mergeMaturity = async ({
+    neuronId,
+    percentageToMerge,
+  }: {
+    neuronId: NeuronId;
+    percentageToMerge: number;
+  }): Promise<void> => {
+    const request = toMergeMaturityRequest({ neuronId, percentageToMerge });
 
     return manageNeuron({
       request,
