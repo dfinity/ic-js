@@ -1,4 +1,3 @@
-import { InvalidPercentageError } from "../errors/governance.errors";
 import type {
   Ballot,
   BallotInfo,
@@ -82,12 +81,4 @@ export const votedNeurons = ({
     ({ recentBallots }: NeuronInfo) =>
       voteForProposal({ recentBallots, proposalId }) !== undefined
   );
-};
-
-export const assertPercentageNumber = (percentage: number) => {
-  if (percentage < 0 || percentage > 100) {
-    throw new InvalidPercentageError(
-      `${percentage} is not a valid percentage number.`
-    );
-  }
 };

@@ -64,7 +64,7 @@ import {
   asciiStringToByteArray,
   uint8ArrayToBigInt,
 } from "./utils/converter.utils";
-import { assertPercentageNumber } from "./utils/neurons.utils";
+import { assertPercentageNumber } from "./utils/number.utils";
 
 export class GovernanceCanister {
   private constructor(
