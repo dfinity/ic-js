@@ -1,7 +1,7 @@
 import { InvalidPercentageError } from "../errors/governance.errors";
 import { assertPercentageNumber } from "./number.utils";
 
-describe("accounts-utils", () => {
+describe("number-utils", () => {
   describe("assertPercentageNumber", () => {
     it("should not throw if valid percentage", () => {
       assertPercentageNumber(30);
