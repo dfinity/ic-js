@@ -13,6 +13,7 @@ import {
   GovernanceError,
   InsufficientAmountError,
   InvalidAccountIDError,
+  InvalidPercentageError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { GovernanceCanister } from "./governance";
@@ -729,6 +730,21 @@ describe("GovernanceCanister.mergeMaturity", () => {
       percentageToMerge: 50,
     });
     expect(service.manage_neuron).toBeCalled();
+  });
+
+  it("throws error if percentage not valid", async () => {
+    const service = mock<GovernanceService>();
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const call = () =>
+      governance.mergeMaturity({
+        neuronId: BigInt(10),
+        percentageToMerge: 300,
+      });
+    expect(call).rejects.toThrow(InvalidPercentageError);
+    expect(service.manage_neuron).not.toBeCalled();
   });
 
   it("throws error if response is error", async () => {

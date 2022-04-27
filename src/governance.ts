@@ -64,6 +64,7 @@ import {
   asciiStringToByteArray,
   uint8ArrayToBigInt,
 } from "./utils/converter.utils";
+import { assertPercentageNumber } from "./utils/neurons.utils";
 
 export class GovernanceCanister {
   private constructor(
@@ -451,6 +452,8 @@ export class GovernanceCanister {
    * Merge Maturity of a neuron
    *
    * @throws {@link GovernanceError}
+   * @throws {@link InvalidPercentageError}
+   *
    */
   public mergeMaturity = async ({
     neuronId,
@@ -459,6 +462,9 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     percentageToMerge: number;
   }): Promise<void> => {
+    // Migth throw InvalidPercentageError
+    assertPercentageNumber(percentageToMerge);
+
     const request = toMergeMaturityRequest({ neuronId, percentageToMerge });
 
     return manageNeuron({
