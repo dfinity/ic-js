@@ -49,9 +49,11 @@ import {
 } from "../../types/governance_converters";
 import {
   accountIdentifierFromBytes,
+  principalToAccountIdentifier,
+} from "../../utils/account_identifier.utils";
+import {
   arrayOfNumberToArrayBuffer,
   arrayOfNumberToUint8Array,
-  principalToAccountIdentifier,
 } from "../../utils/converter.utils";
 // Protobuf is not supported yet:
 // import { ManageNeuronResponse as PbManageNeuronResponse } from "../../proto/governance_pb";
