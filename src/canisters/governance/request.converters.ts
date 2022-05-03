@@ -37,10 +37,8 @@ import {
   RewardMode,
   Vote,
 } from "../../types/governance_converters";
-import {
-  accountIdentifierToBytes,
-  arrayBufferToArrayOfNumber,
-} from "../../utils/converter.utils";
+import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
+import { arrayBufferToArrayOfNumber } from "../../utils/converter.utils";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
