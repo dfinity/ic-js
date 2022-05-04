@@ -64,7 +64,7 @@ export type Command =
   | { MergeMaturity: MergeMaturity }
   | { Disburse: Disburse };
 export type Command_1 =
-  | { Error: GovernanceErrorDetail }
+  | { Error: GovernanceError }
   | { Spawn: SpawnResponse }
   | { Split: SpawnResponse }
   | { Follow: {} }
@@ -148,7 +148,7 @@ export interface GovernanceCachedMetrics {
   community_fund_total_staked_e8s: bigint;
   timestamp_seconds: bigint;
 }
-export interface GovernanceErrorDetail {
+export interface GovernanceError {
   error_message: string;
   error_type: number;
 }
@@ -173,6 +173,9 @@ export interface ListNeurons {
 export interface ListNeuronsResponse {
   neuron_infos: Array<[bigint, NeuronInfo]>;
   full_neurons: Array<Neuron>;
+}
+export interface ListNodeProvidersResponse {
+  node_providers: Array<NodeProvider>;
 }
 export interface ListProposalInfo {
   include_reward_status: Array<number>;
@@ -288,7 +291,7 @@ export interface Proposal {
 }
 export interface ProposalData {
   id: [] | [NeuronId];
-  failure_reason: [] | [GovernanceErrorDetail];
+  failure_reason: [] | [GovernanceError];
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
   reward_event_round: bigint;
@@ -305,7 +308,7 @@ export interface ProposalInfo {
   id: [] | [NeuronId];
   status: number;
   topic: number;
-  failure_reason: [] | [GovernanceErrorDetail];
+  failure_reason: [] | [GovernanceError];
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
   reward_event_round: bigint;
@@ -326,15 +329,12 @@ export interface RegisterVote {
 export interface RemoveHotKey {
   hot_key_to_remove: [] | [Principal];
 }
-export type Result = { Ok: null } | { Err: GovernanceErrorDetail };
-export type Result_1 =
-  | { Error: GovernanceErrorDetail }
-  | { NeuronId: NeuronId };
-export type Result_2 = { Ok: Neuron } | { Err: GovernanceErrorDetail };
-export type Result_3 =
-  | { Ok: RewardNodeProviders }
-  | { Err: GovernanceErrorDetail };
-export type Result_4 = { Ok: NeuronInfo } | { Err: GovernanceErrorDetail };
+export type Result = { Ok: null } | { Err: GovernanceError };
+export type Result_1 = { Error: GovernanceError } | { NeuronId: NeuronId };
+export type Result_2 = { Ok: Neuron } | { Err: GovernanceError };
+export type Result_3 = { Ok: RewardNodeProviders } | { Err: GovernanceError };
+export type Result_4 = { Ok: NeuronInfo } | { Err: GovernanceError };
+export type Result_5 = { Ok: NodeProvider } | { Err: GovernanceError };
 export interface RewardEvent {
   day_after_genesis: bigint;
   actual_timestamp_seconds: bigint;
@@ -350,6 +350,7 @@ export interface RewardNodeProvider {
   amount_e8s: bigint;
 }
 export interface RewardNodeProviders {
+  use_registry_derived_rewards: [] | [boolean];
   rewards: Array<RewardNodeProvider>;
 }
 export interface RewardToAccount {
@@ -365,6 +366,7 @@ export interface SetDissolveTimestamp {
   dissolve_timestamp_seconds: bigint;
 }
 export interface Spawn {
+  percentage_to_spawn: [] | [number];
   new_controller: [] | [Principal];
   nonce: [] | [bigint];
 }
@@ -394,20 +396,24 @@ export interface _SERVICE {
   claim_or_refresh_neuron_from_account: (
     arg_0: ClaimOrRefreshNeuronFromAccount
   ) => Promise<ClaimOrRefreshNeuronFromAccountResponse>;
+  get_build_metadata: () => Promise<string>;
   get_full_neuron: (arg_0: bigint) => Promise<Result_2>;
   get_full_neuron_by_id_or_subaccount: (
     arg_0: NeuronIdOrSubaccount
   ) => Promise<Result_2>;
   get_monthly_node_provider_rewards: () => Promise<Result_3>;
+  get_network_economics_parameters: () => Promise<NetworkEconomics>;
   get_neuron_ids: () => Promise<Array<bigint>>;
   get_neuron_info: (arg_0: bigint) => Promise<Result_4>;
   get_neuron_info_by_id_or_subaccount: (
     arg_0: NeuronIdOrSubaccount
   ) => Promise<Result_4>;
+  get_node_provider_by_caller: (arg_0: null) => Promise<Result_5>;
   get_pending_proposals: () => Promise<Array<ProposalInfo>>;
   get_proposal_info: (arg_0: bigint) => Promise<[] | [ProposalInfo]>;
   list_known_neurons: () => Promise<ListKnownNeuronsResponse>;
   list_neurons: (arg_0: ListNeurons) => Promise<ListNeuronsResponse>;
+  list_node_providers: () => Promise<ListNodeProvidersResponse>;
   list_proposals: (
     arg_0: ListProposalInfo
   ) => Promise<ListProposalInfoResponse>;
