@@ -49,9 +49,11 @@ import {
 } from "../../types/governance_converters";
 import {
   accountIdentifierFromBytes,
+  principalToAccountIdentifier,
+} from "../../utils/account_identifier.utils";
+import {
   arrayOfNumberToArrayBuffer,
   arrayOfNumberToUint8Array,
-  principalToAccountIdentifier,
 } from "../../utils/converter.utils";
 // Protobuf is not supported yet:
 // import { ManageNeuronResponse as PbManageNeuronResponse } from "../../proto/governance_pb";
@@ -261,6 +263,10 @@ const toAction = (action: RawAction): Action => {
     const rewardNodeProviders = action.RewardNodeProviders;
     return {
       RewardNodeProviders: {
+        useRegistryDerivedRewards: rewardNodeProviders
+          .use_registry_derived_rewards.length
+          ? rewardNodeProviders.use_registry_derived_rewards[0]
+          : undefined,
         rewards: rewardNodeProviders.rewards.map((r) => ({
           nodeProvider: r.node_provider.length
             ? toNodeProvider(r.node_provider[0])
@@ -328,6 +334,9 @@ const toCommand = (command: RawCommand): Command => {
         newController: spawn.new_controller.length
           ? spawn.new_controller[0].toString()
           : undefined,
+        percentageToSpawn: spawn.percentage_to_spawn.length
+          ? spawn.percentage_to_spawn[0]
+          : 0,
       },
     };
   }

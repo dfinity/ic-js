@@ -13,12 +13,17 @@ import {
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
   fromListProposalsRequest,
+  toAddHotkeyRequest,
+  toClaimOrRefreshRequest,
+  toDisburseNeuronRequest,
   toIncreaseDissolveDelayRequest,
   toJoinCommunityFundRequest,
   toMakeProposalRawRequest,
   toManageNeuronsFollowRequest,
+  toMergeMaturityRequest,
   toMergeRequest,
   toRegisterVoteRequest,
+  toRemoveHotkeyRequest,
   toSplitRawRequest,
   toStartDissolvingRequest,
   toStopDissolvingRequest,
@@ -39,10 +44,9 @@ import {
 } from "./errors/governance.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
-import { NeuronId } from "./types/common";
+import { E8s, NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
 import {
-  ClaimOrRefreshNeuronFromAccount,
   ClaimOrRefreshNeuronRequest,
   FollowRequest,
   KnownNeuron,
@@ -54,11 +58,13 @@ import {
   ProposalInfo,
   Vote,
 } from "./types/governance_converters";
+import { verifyCheckSum } from "./utils/accounts.utils";
 import { defaultAgent } from "./utils/agent.utils";
 import {
   asciiStringToByteArray,
   uint8ArrayToBigInt,
 } from "./utils/converter.utils";
+import { assertPercentageNumber } from "./utils/number.utils";
 
 export class GovernanceCanister {
   private constructor(
@@ -416,25 +422,121 @@ export class GovernanceCanister {
   };
 
   /**
+   * Disburse neuron on Account
+   *
+   * @throws {@link GovernanceError}
+   * @throws {@link InvalidAccountIDError}
+   */
+  public disburse = async ({
+    neuronId,
+    toAccountId,
+    amount,
+  }: {
+    neuronId: NeuronId;
+    toAccountId?: string;
+    amount?: E8s;
+  }): Promise<void> => {
+    if (toAccountId !== undefined) {
+      // Might throw InvalidAccountIDError
+      verifyCheckSum(toAccountId);
+    }
+    const request = toDisburseNeuronRequest({ neuronId, toAccountId, amount });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Merge Maturity of a neuron
+   *
+   * @throws {@link GovernanceError}
+   * @throws {@link InvalidPercentageError}
+   *
+   */
+  public mergeMaturity = async ({
+    neuronId,
+    percentageToMerge,
+  }: {
+    neuronId: NeuronId;
+    percentageToMerge: number;
+  }): Promise<void> => {
+    // Migth throw InvalidPercentageError
+    assertPercentageNumber(percentageToMerge);
+
+    const request = toMergeMaturityRequest({ neuronId, percentageToMerge });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Add hotkey to neuron
+   *
+   * @throws {@link GovernanceError}
+   */
+  public addHotkey = async ({
+    neuronId,
+    principal,
+  }: {
+    neuronId: NeuronId;
+    principal: Principal;
+  }): Promise<void> => {
+    const request = toAddHotkeyRequest({ neuronId, principal });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Remove hotkey to neuron
+   *
+   * @throws {@link GovernanceError}
+   */
+  public removeHotkey = async ({
+    neuronId,
+    principal,
+  }: {
+    neuronId: NeuronId;
+    principal: Principal;
+  }): Promise<void> => {
+    const request = toRemoveHotkeyRequest({ neuronId, principal });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
    * Gets the NeuronID of a newly created neuron.
    */
-  public claimOrRefreshNeuronFromAccount = async (
-    request: ClaimOrRefreshNeuronFromAccount
-  ): Promise<NeuronId | undefined> => {
-    // Note: This is an update call so the certified and uncertified services are identical in this case,
-    // however using the certified service provides protection in case that changes.
-    const response =
-      await this.certifiedService.claim_or_refresh_neuron_from_account({
-        controller: request.controller ? [request.controller] : [],
-        memo: request.memo,
-      });
-
-    const { result } = response;
-    if (result.length && "NeuronId" in result[0]) {
-      return result[0].NeuronId.id;
+  public claimOrRefreshNeuronFromAccount = async ({
+    memo,
+    controller,
+  }: {
+    memo: bigint;
+    controller?: Principal;
+  }): Promise<NeuronId | undefined> => {
+    const rawRequest = toClaimOrRefreshRequest({
+      memo,
+      controller,
+    });
+    const rawResponse = await this.certifiedService.manage_neuron(rawRequest);
+    const { command } = rawResponse;
+    if (command.length && "ClaimOrRefresh" in command[0]) {
+      const claim = command[0].ClaimOrRefresh;
+      return claim.refreshed_neuron_id[0]?.id;
     }
 
-    return undefined;
+    throw new UnrecognizedTypeError(
+      `Unrecognized ClaimOrRefresh error in ${JSON.stringify(rawResponse)}`
+    );
   };
 
   /**

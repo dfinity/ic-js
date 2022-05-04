@@ -1,4 +1,6 @@
 // Generated from IC repo commit a7af3db3065aa1d6acd8160a79b4ca67b20ac63c by governance.update.sh
+// Updated ae1f3a3902240ff31aa4add01122a02274522c96
+
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -138,6 +140,7 @@ type ListNeuronsResponse = record {
   neuron_infos : vec record { nat64; NeuronInfo };
   full_neurons : vec Neuron;
 };
+type ListNodeProvidersResponse = record { node_providers : vec NodeProvider };
 type ListProposalInfo = record {
   include_reward_status : vec int32;
   before_proposal : opt NeuronId;
@@ -278,6 +281,7 @@ type Result_1 = variant { Error : GovernanceError; NeuronId : NeuronId };
 type Result_2 = variant { Ok : Neuron; Err : GovernanceError };
 type Result_3 = variant { Ok : RewardNodeProviders; Err : GovernanceError };
 type Result_4 = variant { Ok : NeuronInfo; Err : GovernanceError };
+type Result_5 = variant { Ok : NodeProvider; Err : GovernanceError };
 type RewardEvent = record {
   day_after_genesis : nat64;
   actual_timestamp_seconds : nat64;
@@ -293,14 +297,21 @@ type RewardNodeProvider = record {
   reward_mode : opt RewardMode;
   amount_e8s : nat64;
 };
-type RewardNodeProviders = record { rewards : vec RewardNodeProvider };
+type RewardNodeProviders = record {
+  use_registry_derived_rewards : opt bool;
+  rewards : vec RewardNodeProvider;
+};
 type RewardToAccount = record { to_account : opt AccountIdentifier };
 type RewardToNeuron = record { dissolve_delay_seconds : nat64 };
 type SetDefaultFollowees = record {
   default_followees : vec record { int32; Followees };
 };
 type SetDissolveTimestamp = record { dissolve_timestamp_seconds : nat64 };
-type Spawn = record { new_controller : opt principal; nonce : opt nat64 };
+type Spawn = record {
+  percentage_to_spawn : opt nat32;
+  new_controller : opt principal;
+  nonce : opt nat64;
+};
 type SpawnResponse = record { created_neuron_id : opt NeuronId };
 type Split = record { amount_e8s : nat64 };
 type Tally = record {
@@ -322,17 +333,20 @@ service : (Governance) -> {
       Result_2,
     ) query;
   get_monthly_node_provider_rewards : () -> (Result_3);
+  get_network_economics_parameters : () -> (NetworkEconomics) query;
   get_neuron_ids : () -> (vec nat64) query;
   get_neuron_info : (nat64) -> (Result_4) query;
   get_neuron_info_by_id_or_subaccount : (NeuronIdOrSubaccount) -> (
       Result_4,
     ) query;
+  get_node_provider_by_caller : (null) -> (Result_5) query;
   get_pending_proposals : () -> (vec ProposalInfo) query;
   get_proposal_info : (nat64) -> (opt ProposalInfo) query;
   list_known_neurons : () -> (ListKnownNeuronsResponse) query;
   list_neurons : (ListNeurons) -> (ListNeuronsResponse) query;
+  list_node_providers : () -> (ListNodeProvidersResponse) query;
   list_proposals : (ListProposalInfo) -> (ListProposalInfoResponse) query;
   manage_neuron : (ManageNeuron) -> (ManageNeuronResponse);
   transfer_gtc_neuron : (NeuronId, NeuronId) -> (Result);
-  update_node_provider : (UpdateNodeProvider) -> (Result) query;
+  update_node_provider : (UpdateNodeProvider) -> (Result);
 }

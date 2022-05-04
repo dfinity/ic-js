@@ -1,4 +1,4 @@
-import { GovernanceErrorDetail } from "../../candid/governanceTypes";
+import { GovernanceError as GovernanceErrorDetail } from "../../candid/governanceTypes";
 import { ICP } from "../icp";
 
 export abstract class StakeNeuronError extends Error {}
@@ -17,6 +17,9 @@ export class GovernanceError extends Error {
     super();
   }
 }
+
+export class InvalidPercentageError extends Error {}
+export class InvalidAccountIDError extends Error {}
 
 /**
  * An error used to ensure at compile-time that it's never reached.

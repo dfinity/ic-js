@@ -1,7 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { describe, expect, it } from "@jest/globals";
-import { AccountIdentifier } from ".";
-import { SubAccount } from "./account_identifier";
+import { AccountIdentifier, SubAccount } from "./account_identifier";
 
 describe("SubAccount", () => {
   it("only accepts 32-byte blobs", () => {

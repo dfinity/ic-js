@@ -37,10 +37,8 @@ import {
   RewardMode,
   Vote,
 } from "../../types/governance_converters";
-import {
-  accountIdentifierToBytes,
-  arrayBufferToArrayOfNumber,
-} from "../../utils/converter.utils";
+import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
+import { arrayBufferToArrayOfNumber } from "../../utils/converter.utils";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
@@ -128,6 +126,10 @@ const fromAction = (action: Action): RawAction => {
     const rewardNodeProviders = action.RewardNodeProviders;
     return {
       RewardNodeProviders: {
+        use_registry_derived_rewards:
+          rewardNodeProviders.useRegistryDerivedRewards === undefined
+            ? []
+            : [rewardNodeProviders.useRegistryDerivedRewards],
         rewards: rewardNodeProviders.rewards.map((r) => ({
           node_provider: r.nodeProvider
             ? [fromNodeProvider(r.nodeProvider)]
@@ -287,6 +289,10 @@ const fromCommand = (command: Command): RawCommand => {
     const spawn = command.Spawn;
     return {
       Spawn: {
+        percentage_to_spawn:
+          spawn.percentageToSpawn === undefined
+            ? []
+            : [spawn.percentageToSpawn],
         new_controller: spawn.newController
           ? [Principal.fromText(spawn.newController)]
           : [],
@@ -527,6 +533,33 @@ export const fromClaimOrRefreshNeuronRequest = (
     id: [],
     command: [rawCommand],
     neuron_id_or_subaccount: [{ NeuronId: { id: request.neuronId } }],
+  };
+};
+
+export const toClaimOrRefreshRequest = ({
+  memo,
+  controller,
+}: {
+  memo: bigint;
+  controller?: Principal;
+}): RawManageNeuron => {
+  const rawCommand: RawCommand = {
+    ClaimOrRefresh: {
+      by: [
+        {
+          MemoAndController: {
+            controller: controller == undefined ? [] : [controller],
+            memo,
+          },
+        },
+      ],
+    },
+  };
+
+  return {
+    id: [],
+    command: [rawCommand],
+    neuron_id_or_subaccount: [],
   };
 };
 
@@ -816,6 +849,74 @@ export const toManageNeuronsFollowRequest = ({
       Follow: {
         topic,
         followees: followees.map((followeeId) => ({ id: followeeId })),
+      },
+    },
+  });
+
+export const toDisburseNeuronRequest = ({
+  neuronId,
+  toAccountId,
+  amount,
+}: {
+  neuronId: NeuronId;
+  toAccountId?: string;
+  amount?: E8s;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      Disburse: {
+        to_account:
+          toAccountId !== undefined ? [fromAccountIdentifier(toAccountId)] : [],
+        amount: amount !== undefined ? [fromAmount(amount)] : [],
+      },
+    },
+  });
+
+export const toMergeMaturityRequest = ({
+  neuronId,
+  percentageToMerge,
+}: {
+  neuronId: NeuronId;
+  percentageToMerge: number;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      MergeMaturity: {
+        percentage_to_merge: percentageToMerge,
+      },
+    },
+  });
+
+export const toAddHotkeyRequest = ({
+  neuronId,
+  principal,
+}: {
+  neuronId: NeuronId;
+  principal: Principal;
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      AddHotKey: {
+        new_hot_key: [principal],
+      },
+    },
+  });
+
+export const toRemoveHotkeyRequest = ({
+  neuronId,
+  principal,
+}: {
+  neuronId: NeuronId;
+  principal: Principal;
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      RemoveHotKey: {
+        hot_key_to_remove: [principal],
       },
     },
   });
