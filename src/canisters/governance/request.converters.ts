@@ -126,6 +126,10 @@ const fromAction = (action: Action): RawAction => {
     const rewardNodeProviders = action.RewardNodeProviders;
     return {
       RewardNodeProviders: {
+        use_registry_derived_rewards:
+          rewardNodeProviders.useRegistryDerivedRewards === undefined
+            ? []
+            : [rewardNodeProviders.useRegistryDerivedRewards],
         rewards: rewardNodeProviders.rewards.map((r) => ({
           node_provider: r.nodeProvider
             ? [fromNodeProvider(r.nodeProvider)]
@@ -285,6 +289,10 @@ const fromCommand = (command: Command): RawCommand => {
     const spawn = command.Spawn;
     return {
       Spawn: {
+        percentage_to_spawn:
+          spawn.percentageToSpawn === undefined
+            ? []
+            : [spawn.percentageToSpawn],
         new_controller: spawn.newController
           ? [Principal.fromText(spawn.newController)]
           : [],

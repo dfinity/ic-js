@@ -4,7 +4,7 @@ import { mock } from "jest-mock-extended";
 import { GovernanceService } from "../candid/governance.idl";
 import {
   ClaimOrRefreshNeuronFromAccountResponse,
-  GovernanceErrorDetail,
+  GovernanceError as GovernanceErrorDetail,
   ListKnownNeuronsResponse,
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
