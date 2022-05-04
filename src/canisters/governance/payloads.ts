@@ -191,7 +191,7 @@ export const convertNnsFunctionPayload = (
           buffer
         )[0] as JsonObject;
       case 27:
-        // not found in did. According to rs equals to AddFirewallRulesPayload
+        // not found in did. According to rs has same structure as AddFirewallRulesPayload
         return IDL.decode([AddFirewallRulesPayload], buffer)[0] as JsonObject;
       default:
         return undefined;
