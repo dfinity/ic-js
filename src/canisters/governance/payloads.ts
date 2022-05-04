@@ -137,10 +137,7 @@ export const convertNnsFunctionPayload = (
         // NNS_FUNCTION_CLEAR_PROVISIONAL_WHITELIST
         return {};
       case 13:
-        return IDL.decode(
-          [RemoveNodesPayload],
-          buffer
-        )[0] as JsonObject;
+        return IDL.decode([RemoveNodesPayload], buffer)[0] as JsonObject;
       case 14:
         return IDL.decode(
           [SetAuthorizedSubnetworkListArgs],
@@ -159,10 +156,7 @@ export const convertNnsFunctionPayload = (
           buffer
         )[0] as JsonObject;
       case 18:
-        return IDL.decode(
-          [RemoveNodesPayload],
-          buffer
-        )[0] as JsonObject;
+        return IDL.decode([RemoveNodesPayload], buffer)[0] as JsonObject;
       // case 19: return "Uninstall code from canister";
       case 20:
         return IDL.decode(
@@ -190,10 +184,7 @@ export const convertNnsFunctionPayload = (
           buffer
         )[0] as JsonObject;
       case 25:
-        return IDL.decode(
-          [AddFirewallRulesPayload],
-          buffer
-        )[0] as JsonObject;
+        return IDL.decode([AddFirewallRulesPayload], buffer)[0] as JsonObject;
       case 26:
         return IDL.decode(
           [RemoveFirewallRulesPayload],
@@ -201,10 +192,7 @@ export const convertNnsFunctionPayload = (
         )[0] as JsonObject;
       case 27:
         // not found in did. According to rs equals to AddFirewallRulesPayload
-        return IDL.decode(
-          [AddFirewallRulesPayload],
-          buffer
-        )[0] as JsonObject;
+        return IDL.decode([AddFirewallRulesPayload], buffer)[0] as JsonObject;
       default:
         return undefined;
     }
