@@ -2,13 +2,17 @@ import { IDL, JsonObject } from "@dfinity/candid";
 import { Principal } from "@dfinity/principal";
 import { Buffer } from "buffer";
 import {
+  AddFirewallRulesPayload,
   AddNodeOperatorPayload,
   AddNodesToSubnetPayload,
   AddOrRemoveDataCentersProposalPayload,
   BlessReplicaVersionPayload,
   CreateSubnetPayload,
   RecoverSubnetPayload,
-  RemoveNodesFromSubnetPayload,
+  RemoveFirewallRulesPayload,
+  RemoveNodeOperatorsPayload,
+  RemoveNodesPayload,
+  RerouteCanisterRangePayload,
   SetAuthorizedSubnetworkListArgs,
   SetFirewallConfigPayload,
   StopOrStartNnsCanisterProposalPayload,
@@ -73,11 +77,22 @@ export const getNnsFunctionName = (nnsFunction: number): string => {
       return "Add or remove data centers";
     case 22:
       return "Update unassigned nodes config";
+    case 23:
+      return "Remove node operators";
+    case 24:
+      return "Reroute canister range";
+    case 25:
+      return "Add firewall rules";
+    case 26:
+      return "Remove firewall rules";
+    case 27:
+      return "Add firewall rules";
     default:
       return "--Unknown--";
   }
 };
 
+// index source -- https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/ic_nns_governance/pb/v1/governance.proto#L349
 export const convertNnsFunctionPayload = (
   nnsFunction: number,
   payload: ArrayBuffer
@@ -104,6 +119,7 @@ export const convertNnsFunctionPayload = (
       case 7:
         return IDL.decode([UpdateSubnetPayload], buffer)[0] as JsonObject;
       case 8:
+        // TODO: NNS_FUNCTION_ASSIGN_NOID in proto
         return IDL.decode([AddNodeOperatorPayload], buffer)[0] as JsonObject;
       case 9:
         return { "Unable to display payload": "Payload too large" };
@@ -118,10 +134,11 @@ export const convertNnsFunctionPayload = (
           buffer
         )[0] as JsonObject;
       case 12:
+        // NNS_FUNCTION_CLEAR_PROVISIONAL_WHITELIST
         return {};
       case 13:
         return IDL.decode(
-          [RemoveNodesFromSubnetPayload],
+          [RemoveNodesPayload],
           buffer
         )[0] as JsonObject;
       case 14:
@@ -143,7 +160,7 @@ export const convertNnsFunctionPayload = (
         )[0] as JsonObject;
       case 18:
         return IDL.decode(
-          [RemoveNodesFromSubnetPayload],
+          [RemoveNodesPayload],
           buffer
         )[0] as JsonObject;
       // case 19: return "Uninstall code from canister";
@@ -160,6 +177,32 @@ export const convertNnsFunctionPayload = (
       case 22:
         return IDL.decode(
           [UpdateUnassignedNodesConfigPayload],
+          buffer
+        )[0] as JsonObject;
+      case 23:
+        return IDL.decode(
+          [RemoveNodeOperatorsPayload],
+          buffer
+        )[0] as JsonObject;
+      case 24:
+        return IDL.decode(
+          [RerouteCanisterRangePayload],
+          buffer
+        )[0] as JsonObject;
+      case 25:
+        return IDL.decode(
+          [AddFirewallRulesPayload],
+          buffer
+        )[0] as JsonObject;
+      case 26:
+        return IDL.decode(
+          [RemoveFirewallRulesPayload],
+          buffer
+        )[0] as JsonObject;
+      case 27:
+        // not found in did. According to rs equals to AddFirewallRulesPayload
+        return IDL.decode(
+          [AddFirewallRulesPayload],
           buffer
         )[0] as JsonObject;
       default:
