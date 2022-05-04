@@ -263,6 +263,10 @@ const toAction = (action: RawAction): Action => {
     const rewardNodeProviders = action.RewardNodeProviders;
     return {
       RewardNodeProviders: {
+        useRegistryDerivedRewards: rewardNodeProviders
+          .use_registry_derived_rewards.length
+          ? rewardNodeProviders.use_registry_derived_rewards[0]
+          : undefined,
         rewards: rewardNodeProviders.rewards.map((r) => ({
           nodeProvider: r.node_provider.length
             ? toNodeProvider(r.node_provider[0])
@@ -330,6 +334,9 @@ const toCommand = (command: RawCommand): Command => {
         newController: spawn.new_controller.length
           ? spawn.new_controller[0].toString()
           : undefined,
+        percentageToSpawn: spawn.percentage_to_spawn.length
+          ? spawn.percentage_to_spawn[0]
+          : 0,
       },
     };
   }
