@@ -234,6 +234,13 @@ type UpdateUnassignedNodesConfigPayload = record {
   ssh_readonly_access : opt vec text;
 };
 service : {
+  // Exceptions (in rs files but not in governance.did)
+  set_authorized_subnetwork_list : (SetAuthorizedSubnetworkListArgs) -> ();
+  stop_or_start_nns_canister : (StopOrStartNnsCanisterProposalPayload) -> ();
+  update_icp_xdr_conversion_rate : (UpdateIcpXdrConversionRatePayload) -> ();
+
+
+  // updated https://github.com/dfinity/ic/commit/620692ef649876447646ffeed16aa3579d3ec3a8
   add_firewall_rules : (AddFirewallRulesPayload) -> ();
   add_node : (AddNodePayload) -> (Result);
   add_node_operator : (AddNodeOperatorPayload) -> ();
