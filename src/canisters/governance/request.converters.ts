@@ -889,6 +889,28 @@ export const toMergeMaturityRequest = ({
     },
   });
 
+export const toSpawnNeuronRequest = ({
+  neuronId,
+  percentageToSpawn,
+  newController,
+  nonce,
+}: {
+  neuronId: NeuronId;
+  percentageToSpawn: number;
+  newController?: Principal;
+  nonce?: bigint;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      Spawn: {
+        percentage_to_spawn: [percentageToSpawn],
+        new_controller: newController === undefined ? [] : [newController],
+        nonce: nonce === undefined ? [] : [nonce],
+      },
+    },
+  });
+
 export const toAddHotkeyRequest = ({
   neuronId,
   principal,

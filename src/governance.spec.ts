@@ -770,6 +770,68 @@ describe("GovernanceCanister.mergeMaturity", () => {
   });
 });
 
+describe("GovernanceCanister.spawnNeuron", () => {
+  it("successfully spawns new neuron", async () => {
+    const serviceResponse: ManageNeuronResponse = {
+      command: [
+        {
+          Spawn: {
+            created_neuron_id: [{ id: BigInt(100_000) }],
+          },
+        },
+      ],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    await governance.spawnNeuron({
+      neuronId: BigInt(10),
+      percentageToSpawn: 50,
+    });
+    expect(service.manage_neuron).toBeCalled();
+  });
+
+  it("throws error if percentage not valid", async () => {
+    const service = mock<GovernanceService>();
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const call = () =>
+      governance.spawnNeuron({
+        neuronId: BigInt(10),
+        percentageToSpawn: 300,
+      });
+    expect(call).rejects.toThrow(InvalidPercentageError);
+    expect(service.manage_neuron).not.toBeCalled();
+  });
+
+  it("throws error if response is error", async () => {
+    const error: GovernanceErrorDetail = {
+      error_message: "Some error",
+      error_type: 1,
+    };
+    const serviceResponse: ManageNeuronResponse = {
+      command: [{ Error: error }],
+    };
+    const service = mock<GovernanceService>();
+    service.manage_neuron.mockResolvedValue(serviceResponse);
+
+    const governance = GovernanceCanister.create({
+      certifiedServiceOverride: service,
+    });
+    const call = () =>
+      governance.spawnNeuron({
+        neuronId: BigInt(10),
+        percentageToSpawn: 50,
+      });
+    expect(call).rejects.toThrow(new GovernanceError(error));
+  });
+});
+
 describe("GovernanceCanister.disburse", () => {
   it("successfully disburses neuron", async () => {
     const neuronId = BigInt(10);
