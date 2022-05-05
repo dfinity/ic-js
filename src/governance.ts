@@ -24,6 +24,7 @@ import {
   toMergeRequest,
   toRegisterVoteRequest,
   toRemoveHotkeyRequest,
+  toSpawnNeuronRequest,
   toSplitRawRequest,
   toStartDissolvingRequest,
   toStopDissolvingRequest,
@@ -466,6 +467,40 @@ export class GovernanceCanister {
     assertPercentageNumber(percentageToMerge);
 
     const request = toMergeMaturityRequest({ neuronId, percentageToMerge });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Merge Maturity of a neuron
+   *
+   * @throws {@link GovernanceError}
+   * @throws {@link InvalidPercentageError}
+   *
+   */
+  public spawnNeuron = async ({
+    neuronId,
+    percentageToSpawn,
+    newController,
+    nonce,
+  }: {
+    neuronId: NeuronId;
+    percentageToSpawn: number;
+    newController?: Principal;
+    nonce?: bigint;
+  }): Promise<void> => {
+    // Migth throw InvalidPercentageError
+    assertPercentageNumber(percentageToSpawn);
+
+    const request = toSpawnNeuronRequest({
+      neuronId,
+      percentageToSpawn,
+      newController,
+      nonce,
+    });
 
     return manageNeuron({
       request,
