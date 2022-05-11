@@ -1,3 +1,4 @@
+import { Map } from "google-protobuf";
 import {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -23,6 +24,12 @@ import {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governanceTypes.d";
+import {
+  BallotInfo as PbBallotInfo,
+  ListNeuronsResponse,
+  Neuron as PbNeuron,
+  NeuronInfo as PbNeuronInfo,
+} from "../../../proto/governance_pb";
 import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
@@ -40,6 +47,7 @@ import {
   Neuron,
   NeuronIdOrSubaccount,
   NeuronInfo,
+  NeuronState,
   NodeProvider,
   Operation,
   Proposal,
@@ -55,8 +63,6 @@ import {
   arrayOfNumberToArrayBuffer,
   arrayOfNumberToUint8Array,
 } from "../../utils/converter.utils";
-// Protobuf is not supported yet:
-// import { ManageNeuronResponse as PbManageNeuronResponse } from "../../proto/governance_pb";
 import { convertNnsFunctionPayload, getNnsFunctionName } from "./payloads";
 
 const toNeuronInfo = ({
@@ -640,3 +646,116 @@ export const toKnownNeuron = ({
     description: known_neuron_data[0]?.description[0] ?? "",
   };
 };
+
+const convertPbBallot = (pbBallot: PbBallotInfo): BallotInfo => {
+  const pbProposalId = pbBallot.getProposalId();
+  return {
+    vote: pbBallot.getVote(),
+    proposalId:
+      pbProposalId !== undefined ? BigInt(pbProposalId.getId()) : undefined,
+  };
+};
+
+const pbNeuronToNeuronState = (neuron?: PbNeuron): NeuronState => {
+  if (neuron?.hasWhenDissolvedTimestampSeconds()) {
+    return NeuronState.DISSOLVING;
+  }
+  if (neuron?.hasDissolveDelaySeconds()) {
+    const delay = neuron.getDissolveDelaySeconds();
+    if (delay === "0") {
+      return NeuronState.DISSOLVED;
+    }
+    return NeuronState.LOCKED;
+  }
+  return NeuronState.UNSPECIFIED;
+};
+
+const convertPbFolloweesMapToFollowees = (
+  pbFolloweesMap: Map<number, PbNeuron.Followees>
+): Followees[] => {
+  return pbFolloweesMap.toArray().map(([topicString, pbFollowees]) => {
+    return {
+      topic: Number(topicString),
+      followees: pbFollowees
+        .getFolloweesList()
+        .map((neuronId) => BigInt(neuronId.getId())),
+    };
+  });
+};
+
+const convertPbNeuronToFullNeuron = (
+  pbNeuron: PbNeuron,
+  pbNeuronInfo: PbNeuronInfo
+): Neuron => {
+  const idObj = pbNeuron.getId();
+  const controller = pbNeuron.getController();
+  let dissolveState = undefined;
+  if (pbNeuron.hasWhenDissolvedTimestampSeconds()) {
+    dissolveState = {
+      WhenDissolvedTimestampSeconds: BigInt(
+        pbNeuron.getWhenDissolvedTimestampSeconds()
+      ),
+    };
+  } else if (pbNeuron.hasDissolveDelaySeconds()) {
+    dissolveState = {
+      DissolveDelaySeconds: BigInt(pbNeuron.getDissolveDelaySeconds()),
+    };
+  }
+  return {
+    id: idObj === undefined ? undefined : BigInt(idObj.getId()),
+    controller:
+      controller === undefined ? undefined : controller.getSerializedId_asB64(),
+    recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
+    kycVerified: pbNeuron.getKycVerified(),
+    notForProfit: pbNeuron.getNotForProfit(),
+    cachedNeuronStake: BigInt(pbNeuron.getCachedNeuronStakeE8s()),
+    createdTimestampSeconds: BigInt(pbNeuron.getCreatedTimestampSeconds()),
+    maturityE8sEquivalent: BigInt(pbNeuron.getMaturityE8sEquivalent()),
+    agingSinceTimestampSeconds: BigInt(
+      pbNeuron.getAgingSinceTimestampSeconds()
+    ),
+    neuronFees: BigInt(pbNeuron.getNeuronFeesE8s()),
+    hotKeys: pbNeuron
+      .getHotKeysList()
+      .map((principal) => principal.getSerializedId_asB64()),
+    accountIdentifier: pbNeuron.getAccount_asB64(),
+    // TODO: Data not available in Neuron type
+    joinedCommunityFundTimestampSeconds: undefined,
+    dissolveState,
+    followees: convertPbFolloweesMapToFollowees(pbNeuron.getFolloweesMap()),
+  };
+};
+
+export const convertPbNeuronToNeuronInfo =
+  (pbNeurons: PbNeuron[]) =>
+  (pbNeuronMapEntry: ListNeuronsResponse.NeuronMapEntry): NeuronInfo => {
+    const pbNeuron = pbNeurons.find(
+      (pbNeuron) => pbNeuron.getId()?.getId() === pbNeuronMapEntry.getKey()
+    );
+    const pbNeuronInfo = pbNeuronMapEntry.getValue();
+    if (pbNeuronInfo === undefined) {
+      throw new Error(
+        `NeuronInfo not present for neuron ${pbNeuronMapEntry.getKey()}`
+      );
+    }
+    return {
+      neuronId: BigInt(pbNeuronMapEntry.getKey()),
+      dissolveDelaySeconds: BigInt(pbNeuronInfo.getDissolveDelaySeconds()),
+      recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
+      createdTimestampSeconds: BigInt(
+        pbNeuronInfo.getCreatedTimestampSeconds()
+      ),
+      state: pbNeuronToNeuronState(pbNeuron),
+      // TODO: Data not available in Neuron type
+      joinedCommunityFundTimestampSeconds: undefined,
+      retrievedAtTimestampSeconds: BigInt(
+        pbNeuronInfo.getRetrievedAtTimestampSeconds()
+      ),
+      votingPower: BigInt(pbNeuronInfo.getVotingPower()),
+      ageSeconds: BigInt(pbNeuronInfo.getAgeSeconds()),
+      fullNeuron:
+        pbNeuron === undefined
+          ? undefined
+          : convertPbNeuronToFullNeuron(pbNeuron, pbNeuronInfo),
+    };
+  };

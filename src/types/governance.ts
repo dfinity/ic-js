@@ -14,4 +14,7 @@ export interface GovernanceCanisterOptions {
   // update calls in place of queries). Primarily overridden in test for
   // mocking.
   certifiedServiceOverride?: GovernanceService;
+  // Ledger IC App needs requests built with Protobuf.
+  // This flag ensures that the methods use Protobuf.
+  hardwareWallet?: boolean;
 }

@@ -1,4 +1,4 @@
-import { Actor } from "@dfinity/agent";
+import { Actor, type Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
@@ -8,6 +8,11 @@ import {
   ListProposalInfo,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
+import {
+  ListNeurons as PbListNeurons,
+  ListNeuronsResponse as PbListNeuronsResponse,
+  ManageNeuronResponse as PbManageNeuronResponse,
+} from "../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
   fromClaimOrRefreshNeuronRequest,
@@ -29,7 +34,9 @@ import {
   toStartDissolvingRequest,
   toStopDissolvingRequest,
 } from "./canisters/governance/request.converters";
+import { fromAddHotKeyRequest } from "./canisters/governance/request.proto.converters";
 import {
+  convertPbNeuronToNeuronInfo,
   toArrayOfNeuronInfo,
   toListProposalsResponse,
   toProposalInfo,
@@ -66,16 +73,21 @@ import {
   uint8ArrayToBigInt,
 } from "./utils/converter.utils";
 import { assertPercentageNumber } from "./utils/number.utils";
+import { updateCall } from "./utils/proto.utils";
 
 export class GovernanceCanister {
   private constructor(
     private readonly canisterId: Principal,
     private readonly service: GovernanceService,
-    private readonly certifiedService: GovernanceService
+    private readonly certifiedService: GovernanceService,
+    private readonly agent: Agent,
+    private readonly hardwareWallet: boolean = false
   ) {
     this.canisterId = canisterId;
     this.service = service;
     this.certifiedService = certifiedService;
+    this.agent = agent;
+    this.hardwareWallet = hardwareWallet;
   }
 
   public static create(options: GovernanceCanisterOptions = {}) {
@@ -96,7 +108,13 @@ export class GovernanceCanister {
         canisterId,
       });
 
-    return new GovernanceCanister(canisterId, service, certifiedService);
+    return new GovernanceCanister(
+      canisterId,
+      service,
+      certifiedService,
+      agent,
+      options.hardwareWallet
+    );
   }
 
   /**
@@ -115,6 +133,10 @@ export class GovernanceCanister {
     certified: boolean;
     neuronIds?: NeuronId[];
   }): Promise<NeuronInfo[]> => {
+    if (this.hardwareWallet) {
+      // Hardware Wallet does not support specifying neuronIds.
+      return this.listNeuronsHardwareWallet();
+    }
     const rawRequest = fromListNeurons(neuronIds);
     const raw_response = await this.getGovernanceService(
       certified
@@ -520,6 +542,10 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     principal: Principal;
   }): Promise<void> => {
+    if (this.hardwareWallet) {
+      return this.addHotkeyHardwareWallet({ neuronId, principal });
+    }
+
     const request = toAddHotkeyRequest({ neuronId, principal });
 
     return manageNeuron({
@@ -629,5 +655,50 @@ export class GovernanceCanister {
     });
 
     return neuron;
+  };
+
+  private listNeuronsHardwareWallet = async (): Promise<Array<NeuronInfo>> => {
+    // We can't pass a list of neuron ids, the HW cannot handle it.
+    const request = new PbListNeurons();
+    request.setIncludeNeuronsReadableByCaller(true);
+
+    const rawResponse = await updateCall({
+      agent: this.agent,
+      canisterId: this.canisterId,
+      methodName: "list_neurons_pb",
+      arg: request.serializeBinary(),
+    });
+
+    const response = PbListNeuronsResponse.deserializeBinary(rawResponse);
+    const pbNeurons = response.getFullNeuronsList();
+    return response
+      .getNeuronIdsList()
+      .map(convertPbNeuronToNeuronInfo(pbNeurons));
+  };
+
+  private addHotkeyHardwareWallet = async ({
+    neuronId,
+    principal,
+  }: {
+    neuronId: NeuronId;
+    principal: Principal;
+  }): Promise<void> => {
+    const rawRequest = fromAddHotKeyRequest({
+      neuronId,
+      principal: principal.toText(),
+    });
+
+    const rawResponse = await updateCall({
+      agent: this.agent,
+      canisterId: this.canisterId,
+      methodName: "manage_neuron_pb",
+      arg: rawRequest.serializeBinary(),
+    });
+
+    const response = PbManageNeuronResponse.deserializeBinary(rawResponse);
+    const err = response.getError();
+    if (err) {
+      throw err;
+    }
   };
 }
