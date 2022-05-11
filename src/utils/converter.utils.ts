@@ -57,3 +57,10 @@ export const calculateCrc32 = (bytes: Uint8Array): Uint8Array => {
   view.setUint32(0, crc.crc32(Buffer.from(bytes)), false);
   return Buffer.from(checksumArrayBuf);
 };
+
+export function uint8ArraytoArrayBuffer(array: Uint8Array): ArrayBuffer {
+  return array.buffer.slice(
+    array.byteOffset,
+    array.byteLength + array.byteOffset
+  );
+}

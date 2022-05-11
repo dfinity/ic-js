@@ -1,4 +1,4 @@
-import { Actor } from "@dfinity/agent";
+import { Actor, type Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
@@ -8,6 +8,10 @@ import {
   ListProposalInfo,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
+import {
+  ListNeurons as PbListNeurons,
+  ListNeuronsResponse as PbListNeuronsResponse,
+} from "../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
   fromClaimOrRefreshNeuronRequest,
@@ -55,6 +59,7 @@ import {
   ListProposalsResponse,
   MakeProposalRequest,
   NeuronInfo,
+  NeuronInfoForHw,
   ProposalId,
   ProposalInfo,
   Vote,
@@ -66,16 +71,19 @@ import {
   uint8ArrayToBigInt,
 } from "./utils/converter.utils";
 import { assertPercentageNumber } from "./utils/number.utils";
+import { submitUpdateRequest } from "./utils/updateRequestHandler.utils";
 
 export class GovernanceCanister {
   private constructor(
     private readonly canisterId: Principal,
     private readonly service: GovernanceService,
-    private readonly certifiedService: GovernanceService
+    private readonly certifiedService: GovernanceService,
+    private readonly agent: Agent
   ) {
     this.canisterId = canisterId;
     this.service = service;
     this.certifiedService = certifiedService;
+    this.agent = agent;
   }
 
   public static create(options: GovernanceCanisterOptions = {}) {
@@ -96,7 +104,7 @@ export class GovernanceCanister {
         canisterId,
       });
 
-    return new GovernanceCanister(canisterId, service, certifiedService);
+    return new GovernanceCanister(canisterId, service, certifiedService, agent);
   }
 
   /**
@@ -120,6 +128,38 @@ export class GovernanceCanister {
       certified
     ).list_neurons(rawRequest);
     return toArrayOfNeuronInfo(raw_response);
+  };
+
+  public getNeuronsForHW = async (): Promise<Array<NeuronInfoForHw>> => {
+    // We can't pass a list of neuron ids, the HW cannot handle it.
+    const request = new PbListNeurons();
+    request.setIncludeNeuronsReadableByCaller(true);
+
+    const rawResponse = await submitUpdateRequest(
+      this.agent,
+      this.canisterId,
+      "list_neurons_pb",
+      request.serializeBinary()
+    );
+
+    const response = PbListNeuronsResponse.deserializeBinary(rawResponse);
+    const neurons = response.getFullNeuronsList();
+    return neurons.map((neuron) => {
+      const id = neuron.getId()?.getId();
+      if (!id) {
+        throw "Neuron must have an ID";
+      }
+
+      return {
+        id: id,
+        amount: neuron.getCachedNeuronStakeE8s(),
+        hotKeys: neuron.getHotKeysList().map((principal) => {
+          return Principal.fromUint8Array(
+            principal.getSerializedId_asU8()
+          ).toText();
+        }),
+      };
+    });
   };
 
   /**
