@@ -1,4 +1,9 @@
-import { AnonymousIdentity } from "@dfinity/agent";
+import {
+  AnonymousIdentity,
+  polling,
+  type Agent,
+  type RequestId,
+} from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import { GovernanceService } from "../candid/governance.idl";
@@ -36,6 +41,10 @@ const unexpectedGovernanceError: GovernanceErrorDetail = {
 };
 
 describe("GovernanceCanister.listKnownNeurons", () => {
+  const spyPollForResponse = jest
+    .spyOn(polling, "pollForResponse")
+    .mockImplementation(jest.fn().mockResolvedValue(new ArrayBuffer(10)));
+
   it("populates all KnownNeuron fields correctly", async () => {
     const response: ListKnownNeuronsResponse = {
       known_neurons: [
@@ -214,6 +223,27 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     });
     expect(service.list_neurons).toBeCalled();
     expect(neurons.length).toBe(1);
+  });
+
+  it("list Hardware Wallet neurons", async () => {
+    const agent = mock<Agent>();
+    const requestId = new ArrayBuffer(20) as RequestId;
+    const response = {
+      requestId,
+      response: {
+        ok: true,
+        status: 13,
+        statusText: "good",
+      },
+    };
+    agent.call.mockResolvedValue(response);
+
+    const governance = GovernanceCanister.create({
+      agent,
+    });
+    const neurons = await governance.listNeuronsHW();
+    expect(agent.call).toBeCalled();
+    expect(spyPollForResponse).toBeCalled();
   });
 
   it("registers vote successfully", async () => {

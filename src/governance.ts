@@ -11,8 +11,10 @@ import {
 import {
   ListNeurons as PbListNeurons,
   ListNeuronsResponse as PbListNeuronsResponse,
+  ManageNeuronResponse as PbManageNeuronResponse,
 } from "../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
+import RequestConverters from "./canisters/governance/proto/requestPb.converters";
 import {
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
@@ -78,12 +80,14 @@ export class GovernanceCanister {
     private readonly canisterId: Principal,
     private readonly service: GovernanceService,
     private readonly certifiedService: GovernanceService,
-    private readonly agent: Agent
+    private readonly agent: Agent,
+    private readonly isHWIdentity: boolean = false
   ) {
     this.canisterId = canisterId;
     this.service = service;
     this.certifiedService = certifiedService;
     this.agent = agent;
+    this.isHWIdentity = isHWIdentity;
   }
 
   public static create(options: GovernanceCanisterOptions = {}) {
@@ -104,7 +108,13 @@ export class GovernanceCanister {
         canisterId,
       });
 
-    return new GovernanceCanister(canisterId, service, certifiedService, agent);
+    return new GovernanceCanister(
+      canisterId,
+      service,
+      certifiedService,
+      agent,
+      options.isHWIdentity
+    );
   }
 
   /**
@@ -130,7 +140,10 @@ export class GovernanceCanister {
     return toArrayOfNeuronInfo(raw_response);
   };
 
-  public getNeuronsForHW = async (): Promise<Array<NeuronInfoForHw>> => {
+  /**
+   * Returns the list of neurons controlled by the hardware wallet caller.
+   */
+  public listNeuronsHW = async (): Promise<Array<NeuronInfoForHw>> => {
     // We can't pass a list of neuron ids, the HW cannot handle it.
     const request = new PbListNeurons();
     request.setIncludeNeuronsReadableByCaller(true);
@@ -560,12 +573,43 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     principal: Principal;
   }): Promise<void> => {
+    if (this.isHWIdentity) {
+      return this.addHotkeyHW({ neuronId, principal });
+    }
     const request = toAddHotkeyRequest({ neuronId, principal });
 
     return manageNeuron({
       request,
       service: this.certifiedService,
     });
+  };
+
+  private addHotkeyHW = async ({
+    neuronId,
+    principal,
+  }: {
+    neuronId: NeuronId;
+    principal: Principal;
+  }): Promise<void> => {
+    const identityPrincipal = await this.agent.getPrincipal();
+    const requestConverters = new RequestConverters(identityPrincipal);
+    const rawRequest = requestConverters.fromAddHotKeyRequest({
+      neuronId,
+      principal: principal.toText(),
+    });
+
+    const rawResponse = await submitUpdateRequest(
+      this.agent,
+      this.canisterId,
+      "manage_neuron_pb",
+      rawRequest.serializeBinary()
+    );
+
+    const response = PbManageNeuronResponse.deserializeBinary(rawResponse);
+    const err = response.getError();
+    if (err) {
+      throw err;
+    }
   };
 
   /**

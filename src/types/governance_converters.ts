@@ -160,6 +160,10 @@ export interface ManageNeuron {
 export interface Merge {
   sourceNeuronId: Option<NeuronId>;
 }
+export interface MergeRequest {
+  neuronId: NeuronId;
+  sourceNeuronId: NeuronId;
+}
 export interface MergeMaturity {
   percentageToMerge: number;
 }
