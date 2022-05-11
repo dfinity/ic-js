@@ -210,40 +210,43 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     );
   });
 
-  it("list user neurons", async () => {
-    const service = mock<GovernanceService>();
-    service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
+  describe("listNeurons", () => {
+    it("list user neurons", async () => {
+      const service = mock<GovernanceService>();
+      service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
 
-    const governance = GovernanceCanister.create({
-      certifiedServiceOverride: service,
-      serviceOverride: service,
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const neurons = await governance.listNeurons({
+        certified: true,
+      });
+      expect(service.list_neurons).toBeCalled();
+      expect(neurons.length).toBe(1);
     });
-    const neurons = await governance.listNeurons({
-      certified: true,
-    });
-    expect(service.list_neurons).toBeCalled();
-    expect(neurons.length).toBe(1);
-  });
 
-  it("list Hardware Wallet neurons", async () => {
-    const agent = mock<Agent>();
-    const requestId = new ArrayBuffer(20) as RequestId;
-    const response = {
-      requestId,
-      response: {
-        ok: true,
-        status: 13,
-        statusText: "good",
-      },
-    };
-    agent.call.mockResolvedValue(response);
+    it("list Hardware Wallet neurons", async () => {
+      const agent = mock<Agent>();
+      const requestId = new ArrayBuffer(20) as RequestId;
+      const response = {
+        requestId,
+        response: {
+          ok: true,
+          status: 13,
+          statusText: "good",
+        },
+      };
+      agent.call.mockResolvedValue(response);
 
-    const governance = GovernanceCanister.create({
-      agent,
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+      await governance.listNeurons({ certified: false });
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
     });
-    const neurons = await governance.listNeuronsHardwareWallet();
-    expect(agent.call).toBeCalled();
-    expect(spyPollForResponse).toBeCalled();
   });
 
   it("registers vote successfully", async () => {

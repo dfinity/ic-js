@@ -36,6 +36,7 @@ import {
 } from "./canisters/governance/request.converters";
 import { fromAddHotKeyRequest } from "./canisters/governance/request.proto.converters";
 import {
+  convertPbNeuronToNeuronInfo,
   toArrayOfNeuronInfo,
   toListProposalsResponse,
   toProposalInfo,
@@ -61,7 +62,6 @@ import {
   ListProposalsResponse,
   MakeProposalRequest,
   NeuronInfo,
-  NeuronInfoForHw,
   ProposalId,
   ProposalInfo,
   Vote,
@@ -133,48 +133,15 @@ export class GovernanceCanister {
     certified: boolean;
     neuronIds?: NeuronId[];
   }): Promise<NeuronInfo[]> => {
+    if (this.hardwareWallet) {
+      // Hardware Wallet does not support specifying neuronIds.
+      return this.listNeuronsHardwareWallet();
+    }
     const rawRequest = fromListNeurons(neuronIds);
     const raw_response = await this.getGovernanceService(
       certified
     ).list_neurons(rawRequest);
     return toArrayOfNeuronInfo(raw_response);
-  };
-
-  /**
-   * Returns the list of neurons controlled by the hardware wallet caller.
-   */
-  public listNeuronsHardwareWallet = async (): Promise<
-    Array<NeuronInfoForHw>
-  > => {
-    // We can't pass a list of neuron ids, the HW cannot handle it.
-    const request = new PbListNeurons();
-    request.setIncludeNeuronsReadableByCaller(true);
-
-    const rawResponse = await updateCall({
-      agent: this.agent,
-      canisterId: this.canisterId,
-      methodName: "list_neurons_pb",
-      arg: request.serializeBinary(),
-    });
-
-    const response = PbListNeuronsResponse.deserializeBinary(rawResponse);
-    const neurons = response.getFullNeuronsList();
-    return neurons.map((neuron) => {
-      const id = neuron.getId()?.getId();
-      if (!id) {
-        throw "Neuron must have an ID";
-      }
-
-      return {
-        id: id,
-        amount: neuron.getCachedNeuronStakeE8s(),
-        hotKeys: neuron.getHotKeysList().map((principal) => {
-          return Principal.fromUint8Array(
-            principal.getSerializedId_asU8()
-          ).toText();
-        }),
-      };
-    });
   };
 
   /**
@@ -688,6 +655,25 @@ export class GovernanceCanister {
     });
 
     return neuron;
+  };
+
+  private listNeuronsHardwareWallet = async (): Promise<Array<NeuronInfo>> => {
+    // We can't pass a list of neuron ids, the HW cannot handle it.
+    const request = new PbListNeurons();
+    request.setIncludeNeuronsReadableByCaller(true);
+
+    const rawResponse = await updateCall({
+      agent: this.agent,
+      canisterId: this.canisterId,
+      methodName: "list_neurons_pb",
+      arg: request.serializeBinary(),
+    });
+
+    const response = PbListNeuronsResponse.deserializeBinary(rawResponse);
+    const pbNeurons = response.getFullNeuronsList();
+    return response
+      .getNeuronIdsList()
+      .map(convertPbNeuronToNeuronInfo(pbNeurons));
   };
 
   private addHotkeyHardwareWallet = async ({
