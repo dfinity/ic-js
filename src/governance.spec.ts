@@ -241,7 +241,7 @@ describe("GovernanceCanister.listKnownNeurons", () => {
     const governance = GovernanceCanister.create({
       agent,
     });
-    const neurons = await governance.listNeuronsHW();
+    const neurons = await governance.listNeuronsHardwareWallet();
     expect(agent.call).toBeCalled();
     expect(spyPollForResponse).toBeCalled();
   });
