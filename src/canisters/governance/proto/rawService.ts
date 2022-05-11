@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import type { Principal } from '@dfinity/principal';
 export interface AccountIdentifier { 'hash' : Array<number> }
 export type Action = { 'RegisterKnownNeuron' : KnownNeuron } |
