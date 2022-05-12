@@ -26,7 +26,7 @@ export const getSuccessfulCommandFromResponse = (
   if ("Error" in data) {
     throw new GovernanceError(data.Error);
   }
-  return response.command[0] as Command_1;
+  return data;
 };
 
 /**
