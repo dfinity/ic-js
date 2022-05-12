@@ -896,7 +896,7 @@ export const toSpawnNeuronRequest = ({
   nonce,
 }: {
   neuronId: NeuronId;
-  percentageToSpawn: number;
+  percentageToSpawn?: number;
   newController?: Principal;
   nonce?: bigint;
 }): RawManageNeuron =>
@@ -904,7 +904,8 @@ export const toSpawnNeuronRequest = ({
     neuronId,
     command: {
       Spawn: {
-        percentage_to_spawn: [percentageToSpawn],
+        percentage_to_spawn:
+          percentageToSpawn === undefined ? [] : [percentageToSpawn],
         new_controller: newController === undefined ? [] : [newController],
         nonce: nonce === undefined ? [] : [nonce],
       },

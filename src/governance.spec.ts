@@ -844,11 +844,12 @@ describe("GovernanceCanister", () => {
 
   describe("GovernanceCanister.spawnNeuron", () => {
     it("successfully spawns new neuron", async () => {
+      const neuronId = BigInt(100_000);
       const serviceResponse: ManageNeuronResponse = {
         command: [
           {
             Spawn: {
-              created_neuron_id: [{ id: BigInt(100_000) }],
+              created_neuron_id: [{ id: neuronId }],
             },
           },
         ],
@@ -859,11 +860,12 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      await governance.spawnNeuron({
+      const response = await governance.spawnNeuron({
         neuronId: BigInt(10),
         percentageToSpawn: 50,
       });
       expect(service.manage_neuron).toBeCalled();
+      expect(response).toBe(neuronId);
     });
 
     it("throws error if percentage not valid", async () => {

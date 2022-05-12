@@ -1,6 +1,33 @@
 import { GovernanceService } from "../../../candid/governance.idl";
-import { ManageNeuron } from "../../../candid/governanceTypes";
+import {
+  Command_1,
+  ManageNeuron,
+  ManageNeuronResponse,
+} from "../../../candid/governanceTypes";
 import { GovernanceError } from "../../errors/governance.errors";
+
+/**
+ * Checks a Manage Neuron Response for error and returns successful response data.
+ *
+ * @throws {@link GovernanceError}
+ */
+export const getSuccessfulCommandFromResponse = (
+  response: ManageNeuronResponse
+): Command_1 => {
+  const { command } = response;
+  const data = command[0];
+  if (!data) {
+    throw new GovernanceError({
+      error_message: "Error updating neuron",
+      error_type: 0,
+    });
+  }
+
+  if ("Error" in data) {
+    throw new GovernanceError(data.Error);
+  }
+  return response.command[0] as Command_1;
+};
 
 /**
  * @throws {@link GovernanceError}
@@ -12,17 +39,7 @@ export const manageNeuron = async ({
   request: ManageNeuron;
   service: GovernanceService;
 }): Promise<void> => {
-  const { command } = await service.manage_neuron(request);
-  const response = command[0];
-
-  if (!response) {
-    throw new GovernanceError({
-      error_message: "Error updating neuron",
-      error_type: 0,
-    });
-  }
-
-  if ("Error" in response) {
-    throw new GovernanceError(response.Error);
-  }
+  const response = await service.manage_neuron(request);
+  // We use it only to assert that there are no errors
+  getSuccessfulCommandFromResponse(response);
 };

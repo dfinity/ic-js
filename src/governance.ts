@@ -41,7 +41,10 @@ import {
   toListProposalsResponse,
   toProposalInfo,
 } from "./canisters/governance/response.converters";
-import { manageNeuron } from "./canisters/governance/services";
+import {
+  getSuccessfulCommandFromResponse,
+  manageNeuron,
+} from "./canisters/governance/services";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
 import {
@@ -340,22 +343,11 @@ export class GovernanceCanister {
       amount: amount.toE8s(),
     });
 
-    const { command } = await this.certifiedService.manage_neuron(request);
-    const response = command[0];
+    const response = await this.certifiedService.manage_neuron(request);
+    const commmand = getSuccessfulCommandFromResponse(response);
 
-    if (!response) {
-      throw new GovernanceError({
-        error_message: "Error updating neuron",
-        error_type: 0,
-      });
-    }
-
-    if ("Error" in response) {
-      throw new GovernanceError(response.Error);
-    }
-
-    if ("Split" in response) {
-      const neuron = response.Split.created_neuron_id[0];
+    if ("Split" in commmand) {
+      const neuron = commmand.Split.created_neuron_id[0];
       if (neuron === undefined) {
         // Edge case
         throw new GovernanceError({
@@ -368,11 +360,9 @@ export class GovernanceCanister {
     }
 
     // Edge case
-    throw new GovernanceError({
-      error_message:
-        "Unexpected error splitting neuron. Response type not expected.",
-      error_type: 0,
-    });
+    throw new UnrecognizedTypeError(
+      `Unrecognized Split error in ${JSON.stringify(response)}`
+    );
   };
 
   /**
@@ -510,12 +500,14 @@ export class GovernanceCanister {
     nonce,
   }: {
     neuronId: NeuronId;
-    percentageToSpawn: number;
+    percentageToSpawn?: number;
     newController?: Principal;
     nonce?: bigint;
-  }): Promise<void> => {
-    // Migth throw InvalidPercentageError
-    assertPercentageNumber(percentageToSpawn);
+  }): Promise<bigint> => {
+    if (percentageToSpawn !== undefined) {
+      // Migth throw InvalidPercentageError
+      assertPercentageNumber(percentageToSpawn);
+    }
 
     const request = toSpawnNeuronRequest({
       neuronId,
@@ -524,10 +516,19 @@ export class GovernanceCanister {
       nonce,
     });
 
-    return manageNeuron({
-      request,
-      service: this.certifiedService,
-    });
+    const response = await this.certifiedService.manage_neuron(request);
+    const command = getSuccessfulCommandFromResponse(response);
+    if (
+      "Spawn" in command &&
+      command.Spawn.created_neuron_id[0] !== undefined
+    ) {
+      return command.Spawn.created_neuron_id[0].id;
+    }
+
+    // Edge case
+    throw new UnrecognizedTypeError(
+      `Unrecognized Spawn error in ${JSON.stringify(response)}`
+    );
   };
 
   /**
