@@ -161,8 +161,8 @@ export interface Merge {
   sourceNeuronId: Option<NeuronId>;
 }
 export interface MergeRequest {
-  neuronId: NeuronId;
   sourceNeuronId: NeuronId;
+  targetNeuronId: NeuronId;
 }
 export interface MergeMaturity {
   percentageToMerge: number;
@@ -423,6 +423,7 @@ export interface RegisterVoteRequest {
 export interface SpawnRequest {
   neuronId: NeuronId;
   newController: Option<PrincipalString>;
+  percentageToSpawn?: number;
 }
 
 export interface SplitRequest {

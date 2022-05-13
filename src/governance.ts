@@ -11,6 +11,7 @@ import {
 import {
   ListNeurons as PbListNeurons,
   ListNeuronsResponse as PbListNeuronsResponse,
+  ManageNeuron as PbManageNeuron,
   ManageNeuronResponse as PbManageNeuronResponse,
 } from "../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
@@ -34,13 +35,24 @@ import {
   toStartDissolvingRequest,
   toStopDissolvingRequest,
 } from "./canisters/governance/request.converters";
-import { fromAddHotKeyRequest } from "./canisters/governance/request.proto.converters";
+import {
+  fromAddHotKeyRequest,
+  fromDisburseRequest,
+  fromIncreaseDissolveDelayRequest,
+  fromMergeMaturityRequest,
+  fromMergeRequest,
+  fromRemoveHotKeyRequest,
+  fromSpawnRequest,
+  fromStartDissolvingRequest,
+  fromStopDissolvingRequest,
+} from "./canisters/governance/request.proto.converters";
 import {
   convertPbNeuronToNeuronInfo,
   toArrayOfNeuronInfo,
   toListProposalsResponse,
   toProposalInfo,
 } from "./canisters/governance/response.converters";
+import { checkPbManageNeuronResponse } from "./canisters/governance/response.proto.converters";
 import {
   getSuccessfulCommandFromResponse,
   manageNeuron,
@@ -59,14 +71,18 @@ import { E8s, NeuronId } from "./types/common";
 import { GovernanceCanisterOptions } from "./types/governance";
 import {
   ClaimOrRefreshNeuronRequest,
+  DisburseRequest,
   FollowRequest,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
   MakeProposalRequest,
+  MergeMaturityRequest,
+  MergeRequest,
   NeuronInfo,
   ProposalId,
   ProposalInfo,
+  SpawnRequest,
   Vote,
 } from "./types/governance_converters";
 import { verifyCheckSum } from "./utils/accounts.utils";
@@ -255,6 +271,12 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     additionalDissolveDelaySeconds: number;
   }): Promise<void> => {
+    if (this.hardwareWallet) {
+      return this.increaseDissolveDelayHardwareWallet({
+        neuronId,
+        additionalDissolveDelaySeconds,
+      });
+    }
     const request = toIncreaseDissolveDelayRequest({
       neuronId,
       additionalDissolveDelaySeconds,
@@ -272,6 +294,9 @@ export class GovernanceCanister {
    * @throws {@link GovernanceError}
    */
   public startDissolving = async (neuronId: NeuronId): Promise<void> => {
+    if (this.hardwareWallet) {
+      return this.startDissolvingHardwareWallet(neuronId);
+    }
     const request = toStartDissolvingRequest(neuronId);
 
     return manageNeuron({
@@ -286,6 +311,9 @@ export class GovernanceCanister {
    * @throws {@link GovernanceError}
    */
   public stopDissolving = async (neuronId: NeuronId): Promise<void> => {
+    if (this.hardwareWallet) {
+      return this.stopDissolvingHardwareWallet(neuronId);
+    }
     const request = toStopDissolvingRequest(neuronId);
 
     return manageNeuron({
@@ -317,6 +345,11 @@ export class GovernanceCanister {
     sourceNeuronId: NeuronId;
     targetNeuronId: NeuronId;
   }): Promise<void> => {
+    console.log("in da mergeNeurons");
+    console.log(this.hardwareWallet);
+    if (this.hardwareWallet) {
+      return this.mergeNeuronsHardwareWallet(request);
+    }
     const rawRequest = toMergeRequest(request);
 
     return manageNeuron({
@@ -453,6 +486,9 @@ export class GovernanceCanister {
       // Might throw InvalidAccountIDError
       verifyCheckSum(toAccountId);
     }
+    if (this.hardwareWallet) {
+      return this.disburseHardwareWallet({ neuronId, toAccountId, amount });
+    }
     const request = toDisburseNeuronRequest({ neuronId, toAccountId, amount });
 
     return manageNeuron({
@@ -477,6 +513,10 @@ export class GovernanceCanister {
   }): Promise<void> => {
     // Migth throw InvalidPercentageError
     assertPercentageNumber(percentageToMerge);
+
+    if (this.hardwareWallet) {
+      return this.mergeMaturityHardwareWallet({ neuronId, percentageToMerge });
+    }
 
     const request = toMergeMaturityRequest({ neuronId, percentageToMerge });
 
@@ -507,6 +547,13 @@ export class GovernanceCanister {
     if (percentageToSpawn !== undefined) {
       // Migth throw InvalidPercentageError
       assertPercentageNumber(percentageToSpawn);
+    }
+    if (this.hardwareWallet) {
+      return this.spawnHardwareWallet({
+        neuronId,
+        percentageToSpawn,
+        newController: newController?.toText(),
+      });
     }
 
     const request = toSpawnNeuronRequest({
@@ -567,6 +614,9 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     principal: Principal;
   }): Promise<void> => {
+    if (this.hardwareWallet) {
+      return this.removeHotkeyHardwareWallet({ neuronId, principal });
+    }
     const request = toRemoveHotkeyRequest({ neuronId, principal });
 
     return manageNeuron({
@@ -677,6 +727,19 @@ export class GovernanceCanister {
       .map(convertPbNeuronToNeuronInfo(pbNeurons));
   };
 
+  private manageNeuronUpdateCall = async (
+    rawRequest: PbManageNeuron
+  ): Promise<void> => {
+    const rawResponse = await updateCall({
+      agent: this.agent,
+      canisterId: this.canisterId,
+      methodName: "manage_neuron_pb",
+      arg: rawRequest.serializeBinary(),
+    });
+
+    checkPbManageNeuronResponse(rawResponse);
+  };
+
   private addHotkeyHardwareWallet = async ({
     neuronId,
     principal,
@@ -688,7 +751,69 @@ export class GovernanceCanister {
       neuronId,
       principal: principal.toText(),
     });
+    await this.manageNeuronUpdateCall(rawRequest);
+  };
 
+  private removeHotkeyHardwareWallet = async ({
+    neuronId,
+    principal,
+  }: {
+    neuronId: NeuronId;
+    principal: Principal;
+  }): Promise<void> => {
+    const rawRequest = fromRemoveHotKeyRequest({
+      neuronId,
+      principal: principal.toText(),
+    });
+    await this.manageNeuronUpdateCall(rawRequest);
+  };
+
+  private increaseDissolveDelayHardwareWallet = async ({
+    neuronId,
+    additionalDissolveDelaySeconds,
+  }: {
+    neuronId: NeuronId;
+    additionalDissolveDelaySeconds: number;
+  }): Promise<void> => {
+    const rawRequest = fromIncreaseDissolveDelayRequest({
+      neuronId,
+      additionalDissolveDelaySeconds,
+    });
+    await this.manageNeuronUpdateCall(rawRequest);
+  };
+
+  private startDissolvingHardwareWallet = async (
+    neuronId: NeuronId
+  ): Promise<void> => {
+    const rawRequest = fromStartDissolvingRequest(neuronId);
+    await this.manageNeuronUpdateCall(rawRequest);
+  };
+
+  private stopDissolvingHardwareWallet = async (
+    neuronId: NeuronId
+  ): Promise<void> => {
+    const rawRequest = fromStopDissolvingRequest(neuronId);
+    await this.manageNeuronUpdateCall(rawRequest);
+  };
+
+  private disburseHardwareWallet = async (
+    request: DisburseRequest
+  ): Promise<void> => {
+    const rawRequest = fromDisburseRequest(request);
+    await this.manageNeuronUpdateCall(rawRequest);
+  };
+
+  private mergeMaturityHardwareWallet = async (
+    request: MergeMaturityRequest
+  ): Promise<void> => {
+    const rawRequest = fromMergeMaturityRequest(request);
+    await this.manageNeuronUpdateCall(rawRequest);
+  };
+
+  private spawnHardwareWallet = async (
+    request: SpawnRequest
+  ): Promise<NeuronId> => {
+    const rawRequest = fromSpawnRequest(request);
     const rawResponse = await updateCall({
       agent: this.agent,
       canisterId: this.canisterId,
@@ -697,9 +822,19 @@ export class GovernanceCanister {
     });
 
     const response = PbManageNeuronResponse.deserializeBinary(rawResponse);
-    const err = response.getError();
-    if (err) {
-      throw err;
+    const createdNeuronId = response.getSpawn()?.getCreatedNeuronId();
+    if (createdNeuronId !== undefined) {
+      return BigInt(createdNeuronId.getId());
     }
+    throw new UnrecognizedTypeError(
+      `Unrecognized Spawn error in ${JSON.stringify(response)}`
+    );
+  };
+
+  private mergeNeuronsHardwareWallet = async (
+    request: MergeRequest
+  ): Promise<void> => {
+    const rawRequest = fromMergeRequest(request);
+    await this.manageNeuronUpdateCall(rawRequest);
   };
 }
