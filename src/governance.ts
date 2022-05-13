@@ -345,8 +345,6 @@ export class GovernanceCanister {
     sourceNeuronId: NeuronId;
     targetNeuronId: NeuronId;
   }): Promise<void> => {
-    console.log("in da mergeNeurons");
-    console.log(this.hardwareWallet);
     if (this.hardwareWallet) {
       return this.mergeNeuronsHardwareWallet(request);
     }
