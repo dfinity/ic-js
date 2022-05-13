@@ -822,6 +822,13 @@ export class GovernanceCanister {
     });
 
     const response = PbManageNeuronResponse.deserializeBinary(rawResponse);
+    const err = response.getError();
+    if (err) {
+      throw new GovernanceError({
+        error_message: err.getErrorMessage(),
+        error_type: err.getErrorType(),
+      });
+    }
     const createdNeuronId = response.getSpawn()?.getCreatedNeuronId();
     if (createdNeuronId !== undefined) {
       return BigInt(createdNeuronId.getId());
