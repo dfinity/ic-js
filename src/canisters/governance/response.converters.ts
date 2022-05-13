@@ -676,9 +676,10 @@ const convertPbFolloweesMapToFollowees = (
   return pbFolloweesMap.toArray().map(([topicString, pbFollowees]) => {
     return {
       topic: Number(topicString),
-      followees: pbFollowees
-        .getFolloweesList()
-        .map((neuronId) => BigInt(neuronId.getId())),
+      followees:
+        pbFollowees
+          .getFolloweesList?.()
+          .map((neuronId) => BigInt(neuronId.getId())) ?? [],
     };
   });
 };

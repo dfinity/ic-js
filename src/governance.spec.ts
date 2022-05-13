@@ -14,6 +14,8 @@ import {
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
 } from "../candid/governanceTypes";
+import { NeuronId as PbNeuronId } from "../proto/base_types_pb";
+import { ManageNeuronResponse as PbManageNeuronResponse } from "../proto/governance_pb";
 import {
   GovernanceError,
   InsufficientAmountError,
@@ -41,9 +43,28 @@ const unexpectedGovernanceError: GovernanceErrorDetail = {
 };
 
 describe("GovernanceCanister", () => {
+  const requestId = new ArrayBuffer(20) as RequestId;
+  const agentCallSuccessfulResponse = {
+    requestId,
+    response: {
+      ok: true,
+      status: 13,
+      statusText: "good",
+    },
+  };
+  const newSpawnNeuronId = new PbNeuronId();
+  newSpawnNeuronId.setId("1234");
+  const spawnResponse = new PbManageNeuronResponse.SpawnResponse();
+  spawnResponse.setCreatedNeuronId(newSpawnNeuronId);
+  const successfulResponse = new PbManageNeuronResponse();
+  successfulResponse.setSpawn(spawnResponse);
+  // We only care about the specifics in the Spawn Response.
+  // Therefore, we don't need to create a valid and specific response for each call.
   const spyPollForResponse = jest
     .spyOn(polling, "pollForResponse")
-    .mockImplementation(jest.fn().mockResolvedValue(new ArrayBuffer(10)));
+    .mockImplementation(
+      jest.fn().mockResolvedValue(successfulResponse.serializeBinary())
+    );
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -240,16 +261,7 @@ describe("GovernanceCanister", () => {
 
       it("list Hardware Wallet neurons", async () => {
         const agent = mock<Agent>();
-        const requestId = new ArrayBuffer(20) as RequestId;
-        const response = {
-          requestId,
-          response: {
-            ok: true,
-            status: 13,
-            statusText: "good",
-          },
-        };
-        agent.call.mockResolvedValue(response);
+        agent.call.mockResolvedValue(agentCallSuccessfulResponse);
 
         const governance = GovernanceCanister.create({
           agent,
@@ -432,11 +444,28 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const response = await governance.increaseDissolveDelay({
+      await governance.increaseDissolveDelay({
         neuronId: BigInt(1),
         additionalDissolveDelaySeconds: 100000,
       });
       expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("increases dissolve delay of the neuron from a Hardware Wallet successfully", async () => {
+      const agent = mock<Agent>();
+      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
+
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+
+      await governance.increaseDissolveDelay({
+        neuronId: BigInt(1),
+        additionalDissolveDelaySeconds: 100000,
+      });
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
     });
 
     it("throw error when increaseDissolveDelay fails with error", async () => {
@@ -650,16 +679,7 @@ describe("GovernanceCanister", () => {
 
     it("successfully adds hotkey to neuron from Hardware Wallet", async () => {
       const agent = mock<Agent>();
-      const requestId = new ArrayBuffer(20) as RequestId;
-      const response = {
-        requestId,
-        response: {
-          ok: true,
-          status: 13,
-          statusText: "good",
-        },
-      };
-      agent.call.mockResolvedValue(response);
+      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
 
       const governance = GovernanceCanister.create({
         agent,
@@ -712,6 +732,22 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
+    it("successfully removes hotkey to neuron from Hardware Wallet", async () => {
+      const agent = mock<Agent>();
+      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
+
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+
+      const neuronId = BigInt(10);
+      const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
+      await governance.removeHotkey({ neuronId, principal });
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
+    });
+
     it("throws error if response is error", async () => {
       const error: GovernanceErrorDetail = {
         error_message: "Some error",
@@ -747,11 +783,30 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const response = await governance.mergeNeurons({
+      await governance.mergeNeurons({
         sourceNeuronId,
         targetNeuronId,
       });
       expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("successfully merges two neurons from Hardware Wallet", async () => {
+      const agent = mock<Agent>();
+      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
+
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+
+      const sourceNeuronId = BigInt(10);
+      const targetNeuronId = BigInt(13);
+      await governance.mergeNeurons({
+        sourceNeuronId,
+        targetNeuronId,
+      });
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
     });
 
     it("throws error if response is error", async () => {
@@ -802,6 +857,23 @@ describe("GovernanceCanister", () => {
         percentageToMerge: 50,
       });
       expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("successfully merges maturity neurons from Hardware Wallet", async () => {
+      const agent = mock<Agent>();
+      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
+
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+
+      await governance.mergeMaturity({
+        neuronId: BigInt(10),
+        percentageToMerge: 50,
+      });
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
     });
 
     it("throws error if percentage not valid", async () => {
@@ -868,6 +940,33 @@ describe("GovernanceCanister", () => {
       expect(response).toBe(neuronId);
     });
 
+    it("successfully spawns new neuron from Hardware Wallet", async () => {
+      const agent = mock<Agent>();
+      const requestId = new ArrayBuffer(20) as RequestId;
+      const response = {
+        requestId,
+        response: {
+          ok: true,
+          status: 13,
+          statusText: "good",
+        },
+      };
+      agent.call.mockResolvedValue(response);
+
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+
+      const neuronId = await governance.spawnNeuron({
+        neuronId: BigInt(10),
+        percentageToSpawn: 50,
+      });
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
+      expect(neuronId).toBe(BigInt(newSpawnNeuronId.getId()));
+    });
+
     it("throws error if percentage not valid", async () => {
       const service = mock<GovernanceService>();
 
@@ -924,6 +1023,22 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
+    it("successfully disburses neuron from Hardware Wallet", async () => {
+      const agent = mock<Agent>();
+      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
+
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+
+      await governance.disburse({
+        neuronId: BigInt(10),
+      });
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
+    });
+
     it("throws error if response is error", async () => {
       const error: GovernanceErrorDetail = {
         error_message: "Some error",
@@ -977,7 +1092,7 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const response = await governance.splitNeuron({
+      await governance.splitNeuron({
         neuronId,
         amount,
       });
@@ -1021,8 +1136,22 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const response = await governance.startDissolving(neuronId);
+      await governance.startDissolving(neuronId);
       expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("successfully starts dissolving process from Hardware Wallet", async () => {
+      const agent = mock<Agent>();
+      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
+
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+
+      await governance.startDissolving(BigInt(10));
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
     });
 
     it("throws error if response is error", async () => {
@@ -1059,6 +1188,20 @@ describe("GovernanceCanister", () => {
       });
       const response = await governance.stopDissolving(neuronId);
       expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("successfully stops dissolving process from Hardware Wallet", async () => {
+      const agent = mock<Agent>();
+      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
+
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+
+      await governance.stopDissolving(BigInt(10));
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
     });
 
     it("throws error if response is error", async () => {
