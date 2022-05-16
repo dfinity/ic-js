@@ -273,7 +273,7 @@ describe("GovernanceCanister", () => {
         expect(spyPollForResponse).toBeCalled();
       });
 
-      it("should not support querying neurons with hardware wallet (only update calls)", async () => {
+      it("should not support query neurons with hardware wallet (only update calls)", async () => {
         const agent = mock<Agent>();
         agent.call.mockResolvedValue(agentCallSuccessfulResponse);
 
