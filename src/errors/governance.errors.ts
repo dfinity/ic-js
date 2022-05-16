@@ -29,3 +29,5 @@ export class UnsupportedValueError extends Error {
     super("Unsupported value: " + value);
   }
 }
+
+export class FeatureNotSupportedError extends Error {}

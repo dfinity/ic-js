@@ -61,6 +61,7 @@ import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
 import {
   CouldNotClaimNeuronError,
+  FeatureNotSupportedError,
   GovernanceError,
   InsufficientAmountError,
   UnrecognizedTypeError,
@@ -152,6 +153,10 @@ export class GovernanceCanister {
     certified: boolean;
     neuronIds?: NeuronId[];
   }): Promise<NeuronInfo[]> => {
+    if (this.hardwareWallet && !certified) {
+      throw new FeatureNotSupportedError();
+    }
+
     if (this.hardwareWallet) {
       // Hardware Wallet does not support specifying neuronIds.
       return this.listNeuronsHardwareWallet();
