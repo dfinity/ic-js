@@ -61,10 +61,10 @@ import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
 import {
   CouldNotClaimNeuronError,
+  FeatureNotSupportedError,
   GovernanceError,
   InsufficientAmountError,
   UnrecognizedTypeError,
-  FeatureNotSupportedError,
 } from "./errors/governance.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
