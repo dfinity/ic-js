@@ -64,6 +64,7 @@ import {
   GovernanceError,
   InsufficientAmountError,
   UnrecognizedTypeError,
+  FeatureNotSupportedError,
 } from "./errors/governance.errors";
 import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
@@ -152,6 +153,10 @@ export class GovernanceCanister {
     certified: boolean;
     neuronIds?: NeuronId[];
   }): Promise<NeuronInfo[]> => {
+    if (this.hardwareWallet && !certified) {
+      throw new FeatureNotSupportedError();
+    }
+
     if (this.hardwareWallet) {
       // Hardware Wallet does not support specifying neuronIds.
       return this.listNeuronsHardwareWallet();

@@ -17,6 +17,7 @@ import {
 import { NeuronId as PbNeuronId } from "../proto/base_types_pb";
 import { ManageNeuronResponse as PbManageNeuronResponse } from "../proto/governance_pb";
 import {
+  FeatureNotSupportedError,
   GovernanceError,
   InsufficientAmountError,
   InvalidAccountIDError,
@@ -267,9 +268,24 @@ describe("GovernanceCanister", () => {
           agent,
           hardwareWallet: true,
         });
-        await governance.listNeurons({ certified: false });
+        await governance.listNeurons({ certified: true });
         expect(agent.call).toBeCalled();
         expect(spyPollForResponse).toBeCalled();
+      });
+
+      it("should not support querying neurons with hardware wallet (only update calls)", async () => {
+        const agent = mock<Agent>();
+        agent.call.mockResolvedValue(agentCallSuccessfulResponse);
+
+        const governance = GovernanceCanister.create({
+          agent,
+          hardwareWallet: true,
+        });
+
+        const call = async () =>
+          await governance.listNeurons({ certified: false });
+
+        await expect(call).rejects.toThrow(new FeatureNotSupportedError());
       });
     });
 
