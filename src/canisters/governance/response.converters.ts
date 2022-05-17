@@ -1,3 +1,4 @@
+import { Principal } from "@dfinity/principal";
 import { Map } from "google-protobuf";
 import {
   AccountIdentifier as RawAccountIdentifier,
@@ -24,6 +25,7 @@ import {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governanceTypes.d";
+import { PrincipalId } from "../../../proto/base_types_pb";
 import {
   BallotInfo as PbBallotInfo,
   ListNeuronsResponse,
@@ -684,12 +686,21 @@ const convertPbFolloweesMapToFollowees = (
   });
 };
 
+const convertPbPrincipalIdToPrincipalString = (
+  pbPrincipal: PrincipalId
+): string =>
+  Principal.fromUint8Array(pbPrincipal.getSerializedId_asU8()).toText();
+
 const convertPbNeuronToFullNeuron = (
   pbNeuron: PbNeuron,
   pbNeuronInfo: PbNeuronInfo
 ): Neuron => {
   const idObj = pbNeuron.getId();
-  const controller = pbNeuron.getController();
+  const pbController = pbNeuron.getController();
+  const controller =
+    pbController === undefined
+      ? pbController
+      : convertPbPrincipalIdToPrincipalString(pbController);
   let dissolveState = undefined;
   if (pbNeuron.hasWhenDissolvedTimestampSeconds()) {
     dissolveState = {
@@ -704,8 +715,7 @@ const convertPbNeuronToFullNeuron = (
   }
   return {
     id: idObj === undefined ? undefined : BigInt(idObj.getId()),
-    controller:
-      controller === undefined ? undefined : controller.getSerializedId_asB64(),
+    controller,
     recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
     kycVerified: pbNeuron.getKycVerified(),
     notForProfit: pbNeuron.getNotForProfit(),
@@ -718,7 +728,7 @@ const convertPbNeuronToFullNeuron = (
     neuronFees: BigInt(pbNeuron.getNeuronFeesE8s()),
     hotKeys: pbNeuron
       .getHotKeysList()
-      .map((principal) => principal.getSerializedId_asB64()),
+      .map(convertPbPrincipalIdToPrincipalString),
     accountIdentifier: pbNeuron.getAccount_asB64(),
     // TODO: Data not available in Neuron type
     joinedCommunityFundTimestampSeconds: undefined,
