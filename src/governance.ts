@@ -86,7 +86,7 @@ import {
   SpawnRequest,
   Vote,
 } from "./types/governance_converters";
-import { verifyCheckSum } from "./utils/accounts.utils";
+import { checkAccountId } from "./utils/accounts.utils";
 import { defaultAgent } from "./utils/agent.utils";
 import {
   asciiStringToByteArray,
@@ -487,7 +487,7 @@ export class GovernanceCanister {
   }): Promise<void> => {
     if (toAccountId !== undefined) {
       // Might throw InvalidAccountIDError
-      verifyCheckSum(toAccountId);
+      checkAccountId(toAccountId);
     }
     if (this.hardwareWallet) {
       return this.disburseHardwareWallet({ neuronId, toAccountId, amount });

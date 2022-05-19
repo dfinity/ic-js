@@ -6,7 +6,7 @@ import { calculateCrc32 } from "./converter.utils";
  *
  * @throws InvalidAccountIDError
  */
-export const verifyCheckSum = (accountId: string): void => {
+export const checkAccountId = (accountId: string): void => {
   // Verify the checksum of the given address.
   if (accountId.length != 64) {
     throw new InvalidAccountIDError(
