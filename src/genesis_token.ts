@@ -43,5 +43,5 @@ export class GenesisTokenCanister {
     }
 
     throw new Error(response.Err);
-  };
+  }
 }

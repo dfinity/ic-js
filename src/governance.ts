@@ -837,7 +837,9 @@ export class GovernanceCanister {
     );
   }
 
-  private async mergeNeuronsHardwareWallet(request: MergeRequest): Promise<void> {
+  private async mergeNeuronsHardwareWallet(
+    request: MergeRequest
+  ): Promise<void> {
     const rawRequest = fromMergeRequest(request);
     await this.manageNeuronUpdateCall(rawRequest);
   }
