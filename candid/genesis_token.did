@@ -27,3 +27,4 @@ service : {
     len : () -> (nat16) query;
     total : () -> (nat32) query;
 }
+
