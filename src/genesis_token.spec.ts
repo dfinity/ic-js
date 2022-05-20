@@ -1,6 +1,6 @@
 import { mock } from "jest-mock-extended";
-import { GenesisTokenService } from "../candid/genesisToken.idl";
-import { GenesisTokenCanister } from "./genesisToken";
+import { GenesisTokenService } from "../candid/genesis_token.idl";
+import { GenesisTokenCanister } from "./genesis_token";
 
 describe("GenesisTokenCanister", () => {
   it("claimNeurons returns a list of neuron ids", async () => {
