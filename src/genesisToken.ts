@@ -7,7 +7,7 @@ import { defaultAgent } from "./utils/agent.utils";
 
 // HttpAgent options that can be used at construction.
 export interface GenesisTokenCanisterOptions {
-  // The agent to use when communicating with the ledger canister.
+  // The agent to use when communicating with the canister.
   agent?: Agent;
   // The canister's ID.
   canisterId?: Principal;
