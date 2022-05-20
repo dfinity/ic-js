@@ -32,11 +32,11 @@ export class GenesisTokenCanister {
     return new GenesisTokenCanister(service);
   }
 
-  public claimNeurons = async ({
+  public async claimNeurons({
     hexPubKey,
   }: {
     hexPubKey: string;
-  }): Promise<NeuronId[]> => {
+  }): Promise<NeuronId[]> {
     const response = await this.service.claim_neurons(hexPubKey);
     if ("Ok" in response) {
       return response.Ok.map((neuronId) => neuronId.id);

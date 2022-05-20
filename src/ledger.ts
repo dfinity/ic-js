@@ -47,13 +47,13 @@ export class LedgerCanister {
    *
    * @throws {@link Error}
    */
-  public accountBalance = async ({
+  public async accountBalance({
     accountIdentifier,
     certified = true,
   }: {
     accountIdentifier: AccountIdentifier;
     certified?: boolean;
-  }): Promise<ICP> => {
+  }): Promise<ICP> {
     const callMethod = certified ? this.updateFetcher : this.queryFetcher;
 
     const request = new AccountBalanceRequest();
@@ -69,7 +69,7 @@ export class LedgerCanister {
     return ICP.fromE8s(
       BigInt(ICPTs.deserializeBinary(new Uint8Array(responseBytes)).getE8s())
     );
-  };
+  }
 
   /**
    * Transfer ICP from the caller to the destination `accountIdentifier`.
@@ -77,7 +77,7 @@ export class LedgerCanister {
    *
    * @throws {@link TransferError}
    */
-  public transfer = async ({
+  public async transfer({
     to,
     amount,
     memo,
@@ -89,7 +89,7 @@ export class LedgerCanister {
     memo?: bigint;
     fee?: E8s;
     fromSubAccountId?: number;
-  }): Promise<BlockHeight> => {
+  }): Promise<BlockHeight> {
     const request = new SendRequest();
     request.setTo(to.toProto());
 
@@ -125,5 +125,5 @@ export class LedgerCanister {
 
       throw err;
     }
-  };
+  }
 }
