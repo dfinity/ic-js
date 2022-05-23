@@ -1,6 +1,7 @@
 export { AccountIdentifier, SubAccount } from "./account_identifier";
 export * from "./errors/governance.errors";
 export * from "./errors/ledger.errors";
+export { GenesisTokenCanister } from "./genesis_token";
 export { GovernanceCanister } from "./governance";
 export { ICP } from "./icp";
 export { LedgerCanister } from "./ledger";
