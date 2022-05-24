@@ -79,7 +79,7 @@ export const getNnsFunctionName = (nnsFunction: number): string => {
     case 26:
       return "Remove firewall rules";
     case 27:
-      return "Add firewall rules";
+      return "Update firewall rules";
     default:
       return "--Unknown--";
   }
@@ -184,7 +184,7 @@ export const convertNnsFunctionPayload = (
           buffer
         )[0] as JsonObject;
       case 27:
-        // not found in did. According to rs has same structure as AddFirewallRulesPayload
+        // "UpdateFirewallRulesPayload" not found in did. According to rs has same structure as AddFirewallRulesPayload
         return IDL.decode([AddFirewallRulesPayload], buffer)[0] as JsonObject;
       default:
         return undefined;

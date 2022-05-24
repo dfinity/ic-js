@@ -16,15 +16,16 @@ type UpdateIcpXdrConversionRatePayload = record {
   timestamp_seconds : nat64;
 };
 
-
-// updated https://github.com/dfinity/ic/commit/620692ef649876447646ffeed16aa3579d3ec3a8
+// Source: ic/.../registry.did
+// from commit: https://github.com/dfinity/ic/commit/160ad719096f47b2ab0d6223f12faccfb0baebf6
 type AddFirewallRulesPayload = record {
   expected_hash : text;
-  scope : text;
+  scope : FirewallRulesScope;
   positions : vec int32;
   rules : vec FirewallRule;
 };
 type AddNodeOperatorPayload = record {
+  ipv6 : opt text;
   node_operator_principal_id : opt principal;
   node_allowance : nat64;
   rewardable_nodes : vec record { text; nat32 };
@@ -50,7 +51,11 @@ type AddOrRemoveDataCentersProposalPayload = record {
   data_centers_to_add : vec DataCenterRecord;
   data_centers_to_remove : vec text;
 };
-type BitcoinFeature = variant { Paused; Enabled; Disabled };
+type BitcoinFeature = record {
+  status : BitcoinFeatureStatus;
+  network : Network;
+};
+type BitcoinFeatureStatus = variant { Paused; Enabled; Disabled; Syncing };
 type BlessReplicaVersionPayload = record {
   node_manager_sha256_hex : text;
   release_package_url : text;
@@ -121,8 +126,16 @@ type FirewallRule = record {
   ipv6_prefixes : vec text;
   ports : vec nat32;
 };
+type FirewallRulesScope = variant {
+  Node : principal;
+  ReplicaNodes;
+  Subnet : principal;
+  Global;
+};
 type Gps = record { latitude : float32; longitude : float32 };
+type Network = variant { Mainnet; Testnet };
 type NodeOperatorRecord = record {
+  ipv6 : opt text;
   node_operator_principal_id : vec nat8;
   node_allowance : nat64;
   rewardable_nodes : vec record { text; nat32 };
@@ -139,12 +152,13 @@ type RecoverSubnetPayload = record {
   replacement_nodes : opt vec principal;
   subnet_id : principal;
   registry_store_uri : opt record { text; text; nat64 };
+  ecdsa_config : opt EcdsaInitialConfig;
   state_hash : vec nat8;
   time_ns : nat64;
 };
 type RemoveFirewallRulesPayload = record {
   expected_hash : text;
-  scope : text;
+  scope : FirewallRulesScope;
   positions : vec int32;
 };
 type RemoveNodeDirectlyPayload = record { node_id : principal };
@@ -172,7 +186,7 @@ type SetFirewallConfigPayload = record {
 type SubnetFeatures = record {
   canister_sandboxing : bool;
   http_requests : bool;
-  bitcoin_testnet_feature : opt BitcoinFeature;
+  bitcoin : opt BitcoinFeature;
   ecdsa_signatures : bool;
 };
 type SubnetType = variant { application; verified_application; system };
@@ -185,6 +199,8 @@ type UpdateNodeOperatorConfigDirectlyPayload = record {
 };
 type UpdateNodeOperatorConfigPayload = record {
   node_operator_id : opt principal;
+  set_ipv6_to_none : opt bool;
+  ipv6 : opt text;
   node_provider_id : opt principal;
   node_allowance : opt nat64;
   rewardable_nodes : vec record { text; nat32 };
@@ -204,6 +220,7 @@ type UpdateSubnetPayload = record {
   subnet_id : principal;
   max_ingress_bytes_per_message : opt nat64;
   dkg_dealings_per_block : opt nat64;
+  ecdsa_key_signing_disable : opt vec EcdsaKeyId;
   max_block_payload_size : opt nat64;
   max_instructions_per_install_code : opt nat64;
   start_as_nns : opt bool;
@@ -234,13 +251,12 @@ type UpdateUnassignedNodesConfigPayload = record {
   ssh_readonly_access : opt vec text;
 };
 service : {
-  // Exceptions (in rs files but not in did)
+  // EXCEPTIONS (in rs files but not in did)
   set_authorized_subnetwork_list : (SetAuthorizedSubnetworkListArgs) -> ();
   stop_or_start_nns_canister : (StopOrStartNnsCanisterProposalPayload) -> ();
   update_icp_xdr_conversion_rate : (UpdateIcpXdrConversionRatePayload) -> ();
 
-
-  // updated https://github.com/dfinity/ic/commit/620692ef649876447646ffeed16aa3579d3ec3a8
+  // from commit: https://github.com/dfinity/ic/commit/160ad719096f47b2ab0d6223f12faccfb0baebf6
   add_firewall_rules : (AddFirewallRulesPayload) -> ();
   add_node : (AddNodePayload) -> (Result);
   add_node_operator : (AddNodeOperatorPayload) -> ();

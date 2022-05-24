@@ -4,6 +4,12 @@
 
 import { IDL } from "@dfinity/candid";
 
+export const FirewallRulesScope = IDL.Variant({
+  Node: IDL.Principal,
+  ReplicaNodes: IDL.Null,
+  Subnet: IDL.Principal,
+  Global: IDL.Null,
+});
 export const FirewallRule = IDL.Record({
   ipv4_prefixes: IDL.Vec(IDL.Text),
   action: IDL.Int32,
@@ -13,7 +19,7 @@ export const FirewallRule = IDL.Record({
 });
 export const AddFirewallRulesPayload = IDL.Record({
   expected_hash: IDL.Text,
-  scope: IDL.Text,
+  scope: FirewallRulesScope,
   positions: IDL.Vec(IDL.Int32),
   rules: IDL.Vec(FirewallRule),
 });
@@ -30,6 +36,7 @@ export const AddNodePayload = IDL.Record({
 });
 export const Result = IDL.Variant({ Ok: IDL.Principal, Err: IDL.Text });
 export const AddNodeOperatorPayload = IDL.Record({
+  ipv6: IDL.Opt(IDL.Text),
   node_operator_principal_id: IDL.Opt(IDL.Principal),
   node_allowance: IDL.Nat64,
   rewardable_nodes: IDL.Vec(IDL.Tuple(IDL.Text, IDL.Nat32)),
@@ -63,15 +70,21 @@ export const BlessReplicaVersionPayload = IDL.Record({
   node_manager_binary_url: IDL.Text,
   binary_url: IDL.Text,
 });
-export const BitcoinFeature = IDL.Variant({
+export const BitcoinFeatureStatus = IDL.Variant({
   Paused: IDL.Null,
   Enabled: IDL.Null,
   Disabled: IDL.Null,
+  Syncing: IDL.Null,
+});
+export const Network = IDL.Variant({ Mainnet: IDL.Null, Testnet: IDL.Null });
+export const BitcoinFeature = IDL.Record({
+  status: BitcoinFeatureStatus,
+  network: Network,
 });
 export const SubnetFeatures = IDL.Record({
   canister_sandboxing: IDL.Bool,
   http_requests: IDL.Bool,
-  bitcoin_testnet_feature: IDL.Opt(BitcoinFeature),
+  bitcoin: IDL.Opt(BitcoinFeature),
   ecdsa_signatures: IDL.Bool,
 });
 export const EcdsaCurve = IDL.Variant({ secp256k1: IDL.Null });
@@ -126,6 +139,7 @@ export const DeleteSubnetPayload = IDL.Record({
   subnet_id: IDL.Opt(IDL.Principal),
 });
 export const NodeOperatorRecord = IDL.Record({
+  ipv6: IDL.Opt(IDL.Text),
   node_operator_principal_id: IDL.Vec(IDL.Nat8),
   node_allowance: IDL.Nat64,
   rewardable_nodes: IDL.Vec(IDL.Tuple(IDL.Text, IDL.Nat32)),
@@ -148,12 +162,13 @@ export const RecoverSubnetPayload = IDL.Record({
   replacement_nodes: IDL.Opt(IDL.Vec(IDL.Principal)),
   subnet_id: IDL.Principal,
   registry_store_uri: IDL.Opt(IDL.Tuple(IDL.Text, IDL.Text, IDL.Nat64)),
+  ecdsa_config: IDL.Opt(EcdsaInitialConfig),
   state_hash: IDL.Vec(IDL.Nat8),
   time_ns: IDL.Nat64,
 });
 export const RemoveFirewallRulesPayload = IDL.Record({
   expected_hash: IDL.Text,
-  scope: IDL.Text,
+  scope: FirewallRulesScope,
   positions: IDL.Vec(IDL.Int32),
 });
 export const RemoveNodeDirectlyPayload = IDL.Record({ node_id: IDL.Principal });
@@ -193,6 +208,8 @@ export const UpdateNodeDirectlyPayload = IDL.Record({
 });
 export const UpdateNodeOperatorConfigPayload = IDL.Record({
   node_operator_id: IDL.Opt(IDL.Principal),
+  set_ipv6_to_none: IDL.Opt(IDL.Bool),
+  ipv6: IDL.Opt(IDL.Text),
   node_provider_id: IDL.Opt(IDL.Principal),
   node_allowance: IDL.Opt(IDL.Nat64),
   rewardable_nodes: IDL.Vec(IDL.Tuple(IDL.Text, IDL.Nat32)),
@@ -226,6 +243,7 @@ export const UpdateSubnetPayload = IDL.Record({
   subnet_id: IDL.Principal,
   max_ingress_bytes_per_message: IDL.Opt(IDL.Nat64),
   dkg_dealings_per_block: IDL.Opt(IDL.Nat64),
+  ecdsa_key_signing_disable: IDL.Opt(IDL.Vec(EcdsaKeyId)),
   max_block_payload_size: IDL.Opt(IDL.Nat64),
   max_instructions_per_install_code: IDL.Opt(IDL.Nat64),
   start_as_nns: IDL.Opt(IDL.Bool),

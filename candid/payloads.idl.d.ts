@@ -1,5 +1,6 @@
 import type { IDL } from "@dfinity/candid";
 
+export const FirewallRulesScope: IDL.RecordClass;
 export const FirewallRule: IDL.RecordClass;
 export const AddFirewallRulesPayload: IDL.RecordClass;
 export const AddNodePayload: IDL.RecordClass;
@@ -10,6 +11,8 @@ export const Gps: IDL.RecordClass;
 export const DataCenterRecord: IDL.RecordClass;
 export const AddOrRemoveDataCentersProposalPayload: IDL.RecordClass;
 export const BlessReplicaVersionPayload: IDL.RecordClass;
+export const BitcoinFeatureStatus: IDL.RecordClass;
+export const Network: IDL.RecordClass;
 export const BitcoinFeature: IDL.RecordClass;
 export const SubnetFeatures: IDL.RecordClass;
 export const EcdsaCurve: IDL.RecordClass;
