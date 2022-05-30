@@ -30,6 +30,5 @@
    1. `npm run protoc`
    2. `npm run build`
    3. `npm pack`
-2. Link or install the tar in the target project (nns-dapp)
-   - install: `npm i {nns-js-directory}/nns-js/dfinity-nns-{PACKED_VERSION}.tgz`
-   - OR link: `npm link {nns-js-directory}/nns-js`
+2. Install the tar in the target project (nns-dapp)
+   - `npm i {nns-js-directory}/nns-js/dfinity-nns-{PACKED_VERSION}.tgz`
