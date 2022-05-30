@@ -6,12 +6,14 @@ import {
   AddNodesToSubnetPayload,
   AddOrRemoveDataCentersProposalPayload,
   BlessReplicaVersionPayload,
+  CompleteCanisterMigrationPayload,
   CreateSubnetPayload,
+  PrepareCanisterMigrationPayload,
   RecoverSubnetPayload,
   RemoveFirewallRulesPayload,
   RemoveNodeOperatorsPayload,
   RemoveNodesPayload,
-  RerouteCanisterRangePayload,
+  RerouteCanisterRangesPayload,
   SetAuthorizedSubnetworkListArgs,
   SetFirewallConfigPayload,
   StopOrStartNnsCanisterProposalPayload,
@@ -80,6 +82,10 @@ export const getNnsFunctionName = (nnsFunction: number): string => {
       return "Remove firewall rules";
     case 27:
       return "Update firewall rules";
+    case 28:
+      return "Prepare Canister Migration";
+    case 29:
+      return "Complete Canister Migration";
     default:
       return "--Unknown--";
   }
@@ -173,7 +179,7 @@ export const convertNnsFunctionPayload = (
         )[0] as JsonObject;
       case 24:
         return IDL.decode(
-          [RerouteCanisterRangePayload],
+          [RerouteCanisterRangesPayload],
           buffer
         )[0] as JsonObject;
       case 25:
@@ -186,6 +192,16 @@ export const convertNnsFunctionPayload = (
       case 27:
         // "UpdateFirewallRulesPayload" not found in did. According to rs has same structure as AddFirewallRulesPayload
         return IDL.decode([AddFirewallRulesPayload], buffer)[0] as JsonObject;
+      case 28:
+        return IDL.decode(
+          [PrepareCanisterMigrationPayload],
+          buffer
+        )[0] as JsonObject;
+      case 29:
+        return IDL.decode(
+          [CompleteCanisterMigrationPayload],
+          buffer
+        )[0] as JsonObject;
       default:
         return undefined;
     }
