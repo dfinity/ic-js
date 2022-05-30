@@ -13,7 +13,7 @@ import {
   RemoveFirewallRulesPayload,
   RemoveNodeOperatorsPayload,
   RemoveNodesPayload,
-  RerouteCanisterRangePayload,
+  RerouteCanisterRangesPayload,
   SetAuthorizedSubnetworkListArgs,
   SetFirewallConfigPayload,
   StopOrStartNnsCanisterProposalPayload,
@@ -179,7 +179,7 @@ export const convertNnsFunctionPayload = (
         )[0] as JsonObject;
       case 24:
         return IDL.decode(
-          [RerouteCanisterRangePayload],
+          [RerouteCanisterRangesPayload],
           buffer
         )[0] as JsonObject;
       case 25:
