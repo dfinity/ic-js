@@ -1,7 +1,5 @@
 # How-To Update `payloads.did` Manually
 
-[Based on notion page](https://www.notion.so/Manual-payload-did-update-f8c6d70378aa4b08b513d289fbc029e2)
-
 1. Check [ic/rs/registry/canister/canister/registry.did](https://github.com/dfinity/ic/blob/master/rs/registry/canister/canister/registry.did) latest changes
 2. Update `candid/payloads.did` (payloads.did consists of registry.did with a couple of exceptions marked with `// Exceptions` - in the beginning of the file and in `service: {...` section)
    1. Copy paste everything from [registry.did](https://github.com/dfinity/ic/blob/master/rs/registry/canister/canister/registry.did)
