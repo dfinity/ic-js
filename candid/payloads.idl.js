@@ -70,6 +70,15 @@ export const BlessReplicaVersionPayload = IDL.Record({
   node_manager_binary_url: IDL.Text,
   binary_url: IDL.Text,
 });
+export const CanisterIdRange = IDL.Record({
+  end: IDL.Principal,
+  start: IDL.Principal,
+});
+export const CompleteCanisterMigrationPayload = IDL.Record({
+  canister_id_ranges: IDL.Vec(CanisterIdRange),
+  migration_trace: IDL.Vec(IDL.Principal),
+});
+export const Result_1 = IDL.Variant({ Ok: IDL.Null, Err: IDL.Text });
 export const BitcoinFeatureStatus = IDL.Variant({
   Paused: IDL.Null,
   Enabled: IDL.Null,
@@ -146,16 +155,21 @@ export const NodeOperatorRecord = IDL.Record({
   node_provider_principal_id: IDL.Vec(IDL.Nat8),
   dc_id: IDL.Text,
 });
-export const Result_1 = IDL.Variant({
+export const Result_2 = IDL.Variant({
   Ok: IDL.Vec(IDL.Tuple(DataCenterRecord, NodeOperatorRecord)),
   Err: IDL.Text,
 });
 export const NodeProvidersMonthlyXdrRewards = IDL.Record({
   rewards: IDL.Vec(IDL.Tuple(IDL.Text, IDL.Nat64)),
 });
-export const Result_2 = IDL.Variant({
+export const Result_3 = IDL.Variant({
   Ok: NodeProvidersMonthlyXdrRewards,
   Err: IDL.Text,
+});
+export const PrepareCanisterMigrationPayload = IDL.Record({
+  canister_id_ranges: IDL.Vec(CanisterIdRange),
+  source_subnet: IDL.Principal,
+  destination_subnet: IDL.Principal,
 });
 export const RecoverSubnetPayload = IDL.Record({
   height: IDL.Nat64,
@@ -178,12 +192,11 @@ export const RemoveNodeOperatorsPayload = IDL.Record({
 export const RemoveNodesPayload = IDL.Record({
   node_ids: IDL.Vec(IDL.Principal),
 });
-export const RerouteCanisterRangePayload = IDL.Record({
-  range_end_inclusive: IDL.Principal,
-  range_start_inclusive: IDL.Principal,
+export const RerouteCanisterRangesPayload = IDL.Record({
+  source_subnet: IDL.Principal,
+  reassigned_canister_ranges: IDL.Vec(CanisterIdRange),
   destination_subnet: IDL.Principal,
 });
-export const Result_3 = IDL.Variant({ Ok: IDL.Null, Err: IDL.Text });
 export const SetAuthorizedSubnetworkListArgs = IDL.Record({
   who: IDL.Opt(IDL.Principal),
   subnets: IDL.Vec(IDL.Principal),
