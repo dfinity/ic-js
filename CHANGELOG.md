@@ -4,6 +4,10 @@
 
 - update most recent candid payloads
 
+### Build
+
+- bump agent-js `v0.11.3` with `setBigUint64` for iOS < v15
+
 # 0.4.1 - 0.4.2 (2022-05-23)
 
 ### Features
