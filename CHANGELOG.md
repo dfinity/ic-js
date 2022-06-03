@@ -1,3 +1,25 @@
+# 0.4.3 (2022-06-01)
+
+### Features
+
+- update most recent candid payloads
+
+# 0.4.1 - 0.4.2 (2022-05-23)
+
+### Features
+
+- new methods `disburse`, `mergeMaturity` and `spawnNeuron`
+- expose account utilities
+- expose account identifier utilities
+- update most recent candid payloads
+- remove principal toJSON workaround
+- Hardware wallet compatibility with protobuf
+- add support for `GenesisTokenCanister::claim_neurons`
+
+### Build
+
+- bump dependencies
+
 # 0.4.0 (2022-04-22)
 
 ### Breaking Changes
