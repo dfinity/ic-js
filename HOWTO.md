@@ -7,6 +7,13 @@
    3. Update commit hash in the comments
 3. `npm run did`
    1. Remove `payloads.certified.idl.js` (not in use)
+   2. Remove `['query']` from `.certified.idl.`
+   ```js
+   // from
+   'get_full_neuron' : IDL.Func([IDL.Nat64], [Result_2], ['query'])
+   // to
+   'get_full_neuron' : IDL.Func([IDL.Nat64], [Result_2], [])
+   ```
 4. refactor `candid/payloads.idl.js` to preserve the structure
    1. import IDL …
    2. add export const …
