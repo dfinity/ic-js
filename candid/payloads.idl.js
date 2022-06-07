@@ -104,6 +104,7 @@ export const EcdsaKeyRequest = IDL.Record({
 });
 export const EcdsaInitialConfig = IDL.Record({
   quadruples_to_create_in_advance: IDL.Nat32,
+  max_queue_size: IDL.Opt(IDL.Nat32),
   keys: IDL.Vec(EcdsaKeyRequest),
 });
 export const SubnetType = IDL.Variant({
@@ -243,6 +244,7 @@ export const UpdateNodeRewardsTableProposalPayload = IDL.Record({
 });
 export const EcdsaConfig = IDL.Record({
   quadruples_to_create_in_advance: IDL.Nat32,
+  max_queue_size: IDL.Opt(IDL.Nat32),
   key_ids: IDL.Vec(EcdsaKeyId),
 });
 export const UpdateSubnetPayload = IDL.Record({
