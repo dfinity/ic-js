@@ -8,8 +8,8 @@
 3. `npm run did`
    1. Remove `payloads.certified.idl.js` (not in use)
 4. refactor `candid/payloads.idl.js` to preserve the structure
-   1. add export const …
-   2. import IDL …
+   1. import IDL …
+   2. add export const …
    3. remove — return IDL.Service({…
 5. format `candid/payloads.idl.js`
 6. run `./scripts/update_payloads_idl_declarations.sh` to update `candid/payloads.idl.d.ts` with new types
@@ -25,8 +25,6 @@
 ## using npm pack
 
 1. Prepare the tar file (from nns-js)
-   1. `npm run protoc`
-   2. `npm run build`
-   3. `npm pack`
+   `npm run protoc && npm run build && npm pack`
 2. Install the tar in the target project (nns-dapp)
    - `npm i {nns-js-directory}/nns-js/dfinity-nns-{PACKED_VERSION}.tgz`
