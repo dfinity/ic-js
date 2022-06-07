@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid//genesis_token.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/genesis_token.did */
 export const idlFactory = ({ IDL }) => {
   const NeuronId = IDL.Record({ 'id' : IDL.Nat64 });
   const Result = IDL.Variant({ 'Ok' : IDL.Vec(NeuronId), 'Err' : IDL.Text });
