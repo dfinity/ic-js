@@ -405,11 +405,7 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'get_monthly_node_provider_rewards' : IDL.Func([], [Result_3], []),
-    'get_network_economics_parameters' : IDL.Func(
-        [],
-        [NetworkEconomics],
-        [],
-      ),
+    'get_network_economics_parameters' : IDL.Func([], [NetworkEconomics], []),
     'get_neuron_ids' : IDL.Func([], [IDL.Vec(IDL.Nat64)], []),
     'get_neuron_info' : IDL.Func([IDL.Nat64], [Result_4], []),
     'get_neuron_info_by_id_or_subaccount' : IDL.Func(
@@ -419,18 +415,10 @@ export const idlFactory = ({ IDL }) => {
       ),
     'get_node_provider_by_caller' : IDL.Func([IDL.Null], [Result_5], []),
     'get_pending_proposals' : IDL.Func([], [IDL.Vec(ProposalInfo)], []),
-    'get_proposal_info' : IDL.Func(
-        [IDL.Nat64],
-        [IDL.Opt(ProposalInfo)],
-        [],
-      ),
+    'get_proposal_info' : IDL.Func([IDL.Nat64], [IDL.Opt(ProposalInfo)], []),
     'list_known_neurons' : IDL.Func([], [ListKnownNeuronsResponse], []),
     'list_neurons' : IDL.Func([ListNeurons], [ListNeuronsResponse], []),
-    'list_node_providers' : IDL.Func(
-        [],
-        [ListNodeProvidersResponse],
-        [],
-      ),
+    'list_node_providers' : IDL.Func([], [ListNodeProvidersResponse], []),
     'list_proposals' : IDL.Func(
         [ListProposalInfo],
         [ListProposalInfoResponse],
