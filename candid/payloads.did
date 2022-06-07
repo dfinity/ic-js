@@ -18,7 +18,7 @@ type UpdateIcpXdrConversionRatePayload = record {
 };
 
 // Source: ic/master/rs/registry/canister/canister/registry.did
-// Commit: https://github.com/dfinity/ic/commit/3b8c3db8acbb1fa5d3f751a53ee9638264062808
+// Commit: https://github.com/dfinity/ic/commit/77bddc2dca2a01db19506a4798aa2cbc23c8cf9a
 type AddFirewallRulesPayload = record {
   expected_hash : text;
   scope : FirewallRulesScope;
@@ -113,11 +113,13 @@ type DataCenterRecord = record {
 type DeleteSubnetPayload = record { subnet_id : opt principal };
 type EcdsaConfig = record {
   quadruples_to_create_in_advance : nat32;
+  max_queue_size : opt nat32;
   key_ids : vec EcdsaKeyId;
 };
 type EcdsaCurve = variant { secp256k1 };
 type EcdsaInitialConfig = record {
   quadruples_to_create_in_advance : nat32;
+  max_queue_size : opt nat32;
   keys : vec EcdsaKeyRequest;
 };
 type EcdsaKeyId = record { name : text; curve : EcdsaCurve };
@@ -269,7 +271,7 @@ service : {
 
 
   // Source: ic/master/rs/registry/canister/canister/registry.did
-  // Commit: https://github.com/dfinity/ic/commit/3b8c3db8acbb1fa5d3f751a53ee9638264062808
+  // Commit: https://github.com/dfinity/ic/commit/77bddc2dca2a01db19506a4798aa2cbc23c8cf9a
   add_firewall_rules : (AddFirewallRulesPayload) -> ();
   add_node : (AddNodePayload) -> (Result);
   add_node_operator : (AddNodeOperatorPayload) -> ();
