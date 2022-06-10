@@ -85,7 +85,11 @@ export const BitcoinFeatureStatus = IDL.Variant({
   Disabled: IDL.Null,
   Syncing: IDL.Null,
 });
-export const Network = IDL.Variant({ Mainnet: IDL.Null, Testnet: IDL.Null });
+export const Network = IDL.Variant({
+  Mainnet: IDL.Null,
+  Regtest: IDL.Null,
+  Testnet: IDL.Null,
+});
 export const BitcoinFeature = IDL.Record({
   status: BitcoinFeatureStatus,
   network: Network,
