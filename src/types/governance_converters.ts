@@ -93,8 +93,7 @@ export type DissolveState =
 export interface ExecuteNnsFunction {
   nnsFunctionId: number;
   nnsFunctionName: Option<string>;
-  payload: Option<Record<string, unknown>>;
-  payloadBytes: ArrayBuffer;
+  payload: null;
 }
 export interface Follow {
   topic: Topic;
