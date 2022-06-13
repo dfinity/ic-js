@@ -94,6 +94,7 @@ export interface ExecuteNnsFunction {
   nnsFunctionId: number;
   nnsFunctionName: Option<string>;
   payload: null;
+  payloadBytes: ArrayBuffer;
 }
 export interface Follow {
   topic: Topic;
