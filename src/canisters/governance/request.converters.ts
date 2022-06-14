@@ -67,6 +67,11 @@ const fromNeuronIdOrSubaccount = (
 const fromAction = (action: Action): RawAction => {
   if ("ExecuteNnsFunction" in action) {
     const executeNnsFunction = action.ExecuteNnsFunction;
+
+    if (executeNnsFunction.payloadBytes === undefined) {
+      throw new Error("payloadBytes not found");
+    }
+
     return {
       ExecuteNnsFunction: {
         nns_function: executeNnsFunction.nnsFunctionId,
