@@ -39,6 +39,27 @@ import {
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../src/constants/canister_ids";
 import { ListNeuronsFn, ManageNeuronFn } from "./candid";
 
+/**
+ * Changes needed to match the `arg` inside the blob_proto with the Hardware Wallet CLI blob.
+ *
+ * In this file
+ * - Change `sender` in the `createCallRequest` to the one commented.
+ *
+ * In the hardware-wallet-cli
+ * - `disableNonce: true` in `getAgent` when creating the `new HttpAgent(...)`.
+ * - `console.log(Buffer.from(blob).toString("hex"));` inside the `sign` method in LedgerIdentity
+ *
+ * Go to cbor.me and decode both blobs.
+ * The `arg` property should match.
+ */
+
+/**
+ * Extra change to check for `candid`.
+ *
+ * In the hardware-wallet-cli
+ * - `hardwareWallet: false` in the method.
+ */
+
 function _prepareCborForLedger(
   request: ReadRequest | CallRequest
 ): ArrayBuffer {
