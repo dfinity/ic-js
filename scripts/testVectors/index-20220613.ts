@@ -8,6 +8,7 @@ import {
 } from "@dfinity/agent";
 import { IDL } from "@dfinity/candid";
 import { Principal } from "@dfinity/principal";
+import { writeFileSync } from "fs";
 import { NeuronId as PbNeuronId } from "../../proto/base_types_pb";
 import {
   ListNeurons as PbListNeurons,
@@ -24,6 +25,7 @@ import {
   toMergeMaturityRequest,
   toRemoveHotkeyRequest,
   toSpawnNeuronRequest,
+  toStartDissolvingRequest,
   toStopDissolvingRequest,
 } from "../../src/canisters/governance/request.converters";
 import {
@@ -34,6 +36,7 @@ import {
   fromMergeMaturityRequest,
   fromRemoveHotKeyRequest,
   fromSpawnRequest,
+  fromStartDissolvingRequest,
   fromStopDissolvingRequest,
 } from "../../src/canisters/governance/request.proto.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../src/constants/canister_ids";
@@ -125,7 +128,7 @@ const createListNeuronsVector = () => {
       methodName: "list_neurons_pb",
     }),
     name: "List Neurons",
-    params: undefined,
+    candid_request: rawRequestBody,
   };
 };
 
@@ -146,7 +149,7 @@ const createMergeMaturityVector = () => {
       methodName: "manage_neuron_pb",
     }),
     name: "Merge Maturity",
-    params,
+    candid_request: rawRequestBody,
   };
 };
 
@@ -167,7 +170,7 @@ const createIncreaseDissolveDelayVector = () => {
       methodName: "manage_neuron_pb",
     }),
     name: "Increase Dissolve Delay",
-    params,
+    candid_request: rawRequestBody,
   };
 };
 
@@ -188,7 +191,7 @@ const createDisburseVector = () => {
       methodName: "manage_neuron_pb",
     }),
     name: "Disburse Neuron",
-    params,
+    candid_request: rawRequestBody,
   };
 };
 
@@ -209,7 +212,7 @@ const createSpawnVector = () => {
       methodName: "manage_neuron_pb",
     }),
     name: "Spawn Neuron",
-    params,
+    candid_request: rawRequestBody,
   };
 };
 
@@ -227,7 +230,25 @@ const createStopDissolvingVector = () => {
       methodName: "manage_neuron_pb",
     }),
     name: "Stop Dissolving",
-    params,
+    candid_request: rawRequestBody,
+  };
+};
+
+const createStartDissolvingVector = () => {
+  const params = mockNeuronId;
+  const rawRequestBody = toStartDissolvingRequest(params);
+  const rawRequestPb = fromStartDissolvingRequest(params);
+  return {
+    blob_candid: createBlob({
+      arg: IDL.encode(ManageNeuronFn.argTypes, [rawRequestBody]),
+      methodName: "manage_neuron",
+    }),
+    blob_proto: createBlob({
+      arg: rawRequestPb.serializeBinary(),
+      methodName: "manage_neuron_pb",
+    }),
+    name: "Start Dissolving",
+    candid_request: rawRequestBody,
   };
 };
 
@@ -251,10 +272,7 @@ const createRemoveHotkeyVector = () => {
       methodName: "manage_neuron_pb",
     }),
     name: "Remove Hotkey",
-    params: {
-      neuronId: mockNeuronId,
-      principal: mockPrincipal.toText(),
-    },
+    candid_request: rawRequestBody,
   };
 };
 
@@ -278,10 +296,7 @@ const createAddHotkeyVector = () => {
       methodName: "manage_neuron_pb",
     }),
     name: "Add Hotkey",
-    params: {
-      neuronId: mockNeuronId,
-      principal: mockPrincipal.toText(),
-    },
+    candid_request: rawRequestBody,
   };
 };
 
@@ -305,7 +320,7 @@ const createJoinCommunityFundVector = () => {
       methodName: "manage_neuron_pb",
     }),
     name: "Join Community Fund",
-    params,
+    candid_request: rawRequestBody,
   };
 };
 
@@ -326,17 +341,44 @@ const createEditFolloweesVector = () => {
       arg: rawRequestPb.serializeBinary(),
       methodName: "manage_neuron_pb",
     }),
-    name: "Join Community Fund",
-    params,
+    name: "Follow",
+    candid_request: rawRequestBody,
   };
 };
 
-// console.log(createListNeuronsVector());
-// console.log(createMergeMaturityVector());
-// console.log(createIncreaseDissolveDelayVector());
-// console.log(createDisburseVector());
-// console.log(createSpawnVector());
-// console.log(createStopDissolvingVector());
-// console.log(createRemoveHotkeyVector());
-// console.log(createAddHotkeyVector());
-// console.log(createJoinCommunityFundVector());
+const main = () => {
+  try {
+    const vectors = [
+      createListNeuronsVector(),
+      createMergeMaturityVector(),
+      createIncreaseDissolveDelayVector(),
+      createDisburseVector(),
+      createSpawnVector(),
+      createStopDissolvingVector(),
+      createStartDissolvingVector(),
+      createRemoveHotkeyVector(),
+      createAddHotkeyVector(),
+      createJoinCommunityFundVector(),
+      createEditFolloweesVector(),
+    ];
+
+    writeFileSync(
+      "test-vectors-20220613.json",
+      JSON.stringify(vectors, (key, value) => {
+        if (typeof value === "bigint") {
+          return value.toString();
+        }
+        if (value instanceof Principal) {
+          return value.toText();
+        }
+        return value;
+      })
+    );
+    console.log("File created successfully");
+  } catch (error) {
+    console.log("There was an error");
+    console.log(error);
+  }
+};
+
+main();
