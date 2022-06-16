@@ -1,7 +1,8 @@
+import { TransferError as RawTransferError } from "../../candid/ledger.idl";
 import { ICP } from "../icp";
 import { BlockHeight } from "../types/common";
 
-export abstract class TransferError extends Error {}
+export class TransferError extends Error {}
 
 export class InvalidSenderError extends TransferError {}
 
@@ -25,7 +26,40 @@ export class TxDuplicateError extends TransferError {
   }
 }
 
-export const mapTransferError = (responseBytes: Error): TransferError => {
+export class BadFeeError extends TransferError {
+  constructor(public readonly expectedFee: bigint) {
+    super();
+  }
+}
+
+export const mapTransferError = (
+  rawTransferError: RawTransferError
+): TransferError => {
+  if ("TxDuplicate" in rawTransferError) {
+    return new TxDuplicateError(rawTransferError.TxDuplicate.duplicate_of);
+  }
+  if ("InsufficientFunds" in rawTransferError) {
+    const icp = ICP.fromE8s(rawTransferError.InsufficientFunds.balance.e8s);
+    return new InsufficientFundsError(icp);
+  }
+  if ("TxCreatedInFuture" in rawTransferError) {
+    return new TxCreatedInFutureError();
+  }
+  if ("TxTooOld" in rawTransferError) {
+    return new TxTooOldError(
+      Number(rawTransferError.TxTooOld.allowed_window_nanos)
+    );
+  }
+  if ("BadFee" in rawTransferError) {
+    return new BadFeeError(rawTransferError.BadFee.expected_fee.e8s);
+  }
+  // Edge case
+  return new TransferError(
+    `Unknown error type ${JSON.stringify(rawTransferError)}`
+  );
+};
+
+export const mapTransferProtoError = (responseBytes: Error): TransferError => {
   const { message } = responseBytes;
 
   if (message.includes("Reject code: 5")) {

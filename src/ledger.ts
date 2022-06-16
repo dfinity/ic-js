@@ -1,5 +1,7 @@
-import { Agent } from "@dfinity/agent";
+import { Actor, Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
+import { idlFactory, _SERVICE as LedgerService } from "../candid/ledger.idl";
 import {
   AccountBalanceRequest,
   BlockHeight as PbBlockHeight,
@@ -12,13 +14,18 @@ import { AccountIdentifier } from "./account_identifier";
 import {
   subAccountIdToSubaccount,
   toICPTs,
+  toTransferRawRequest,
 } from "./canisters/ledger/ledger.request.converts";
 import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
 import { TRANSACTION_FEE } from "./constants/constants";
-import { mapTransferError } from "./errors/ledger.errors";
+import {
+  mapTransferError,
+  mapTransferProtoError,
+} from "./errors/ledger.errors";
 import { ICP } from "./icp";
-import { BlockHeight, E8s } from "./types/common";
+import { BlockHeight } from "./types/common";
 import { LedgerCanisterCall, LedgerCanisterOptions } from "./types/ledger";
+import { TransferRequest } from "./types/ledger_converters";
 import { defaultAgent } from "./utils/agent.utils";
 import { queryCall, updateCall } from "./utils/proto.utils";
 
@@ -26,16 +33,38 @@ export class LedgerCanister {
   private constructor(
     private readonly agent: Agent,
     private readonly canisterId: Principal,
+    private readonly service: LedgerService,
+    private readonly certifiedService: LedgerService,
     private readonly updateFetcher: LedgerCanisterCall,
-    private readonly queryFetcher: LedgerCanisterCall
+    private readonly queryFetcher: LedgerCanisterCall,
+    private readonly hardwareWallet: boolean = false
   ) {}
 
   public static create(options: LedgerCanisterOptions = {}) {
+    const agent = options.agent ?? defaultAgent();
+    const canisterId = options.canisterId ?? MAINNET_LEDGER_CANISTER_ID;
+
+    const service =
+      options.serviceOverride ??
+      Actor.createActor<LedgerService>(idlFactory, {
+        agent,
+        canisterId,
+      });
+
+    const certifiedService =
+      options.certifiedServiceOverride ??
+      Actor.createActor<LedgerService>(certifiedIdlFactory, {
+        agent,
+        canisterId,
+      });
     return new LedgerCanister(
-      options.agent ?? defaultAgent(),
-      options.canisterId ?? MAINNET_LEDGER_CANISTER_ID,
+      agent,
+      canisterId,
+      service,
+      certifiedService,
       options.updateCallOverride ?? updateCall,
-      options.queryCallOverride ?? queryCall
+      options.queryCallOverride ?? queryCall,
+      options.hardwareWallet
     );
   }
 
@@ -48,6 +77,50 @@ export class LedgerCanister {
    * @throws {@link Error}
    */
   public accountBalance = async ({
+    accountIdentifier,
+    certified = true,
+  }: {
+    accountIdentifier: AccountIdentifier;
+    certified?: boolean;
+  }): Promise<ICP> => {
+    if (this.hardwareWallet) {
+      return this.accountBalanceHardwareWallet({
+        accountIdentifier,
+        certified,
+      });
+    }
+    const service = certified ? this.certifiedService : this.service;
+    const tokens = await service.account_balance({
+      account: accountIdentifier.toNumbers(),
+    });
+    return ICP.fromE8s(tokens.e8s);
+  };
+
+  /**
+   * Transfer ICP from the caller to the destination `accountIdentifier`.
+   * Returns the index of the block containing the tx if it was successful.
+   *
+   * @throws {@link TransferError}
+   */
+  public transfer = async (request: TransferRequest): Promise<BlockHeight> => {
+    if (this.hardwareWallet) {
+      return this.transferHardwareWallet(request);
+    }
+    if (request.fee === undefined) {
+      const {
+        transfer_fee: { e8s },
+      } = await this.service.transfer_fee({});
+      request.fee = e8s;
+    }
+    const rawRequest = toTransferRawRequest(request);
+    const response = await this.certifiedService.transfer(rawRequest);
+    if ("Err" in response) {
+      throw mapTransferError(response.Err);
+    }
+    return response.Ok;
+  };
+
+  private accountBalanceHardwareWallet = async ({
     accountIdentifier,
     certified = true,
   }: {
@@ -71,25 +144,13 @@ export class LedgerCanister {
     );
   };
 
-  /**
-   * Transfer ICP from the caller to the destination `accountIdentifier`.
-   * Returns the index of the block containing the tx if it was successful.
-   *
-   * @throws {@link TransferError}
-   */
-  public transfer = async ({
+  private transferHardwareWallet = async ({
     to,
     amount,
     memo,
     fee,
     fromSubAccountId,
-  }: {
-    to: AccountIdentifier;
-    amount: ICP;
-    memo?: bigint;
-    fee?: E8s;
-    fromSubAccountId?: number;
-  }): Promise<BlockHeight> => {
+  }: TransferRequest): Promise<BlockHeight> => {
     const request = new SendRequest();
     request.setTo(to.toProto());
 
@@ -120,7 +181,7 @@ export class LedgerCanister {
       return BigInt(PbBlockHeight.deserializeBinary(responseBytes).getHeight());
     } catch (err) {
       if (err instanceof Error) {
-        throw mapTransferError(err);
+        throw mapTransferProtoError(err);
       }
 
       throw err;

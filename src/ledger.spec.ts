@@ -1,8 +1,14 @@
+import { mock } from "jest-mock-extended";
+import { _SERVICE as LedgerService } from "../candid/ledger.idl";
 import { Memo, Payment, SendRequest } from "../proto/ledger_pb";
 import { AccountIdentifier } from "./account_identifier";
-import { toICPTs } from "./canisters/ledger/ledger.request.converts";
+import {
+  subAccountIdToNumbers,
+  toICPTs,
+} from "./canisters/ledger/ledger.request.converts";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
+  BadFeeError,
   InsufficientFundsError,
   InvalidSenderError,
   TxCreatedInFutureError,
@@ -13,220 +19,543 @@ import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger";
 import { E8s } from "./types/common";
 
-describe("LedgerCanister.transfer", () => {
-  const to = AccountIdentifier.fromHex(
+describe("LedgerCanister", () => {
+  const accountIdentifier = AccountIdentifier.fromHex(
     "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
   );
-  const amount = ICP.fromE8s(BigInt(100000));
+  describe("accountBalance", () => {
+    describe("no hardware wallet", () => {
+      const tokens = {
+        e8s: BigInt(30_000_000),
+      };
+      it("returns account balance with query call", async () => {
+        const service = mock<LedgerService>();
+        service.account_balance.mockResolvedValue(tokens);
+        const ledger = LedgerCanister.create({
+          serviceOverride: service,
+        });
 
-  it("handles invalid sender", async () => {
-    const ledger = LedgerCanister.create({
-      updateCallOverride: () => {
-        throw new Error(`Reject code: 5
-            Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'Sending from 2vxsx-fae is not allowed', rosetta-api/ledger_canister/src/main.rs:135:9`);
-      },
-    });
-
-    const call = async () =>
-      await ledger.transfer({
-        to,
-        amount,
+        const balance = await ledger.accountBalance({
+          accountIdentifier,
+          certified: false,
+        });
+        expect(balance.toE8s()).toEqual(tokens.e8s);
+        expect(service.account_balance).toBeCalled();
       });
 
-    await expect(call).rejects.toThrow(new InvalidSenderError());
-  });
+      it("returns account balance with update call", async () => {
+        const service = mock<LedgerService>();
+        service.account_balance.mockResolvedValue(tokens);
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
 
-  it("handles duplicate transaction", async () => {
-    const ledger = LedgerCanister.create({
-      updateCallOverride: () => {
-        throw new Error(`Reject code: 5
-            Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'transaction is a duplicate of another transaction in block 1235123', rosetta-api/ledger_canister/src/main.rs:135:9`);
-      },
+        const balance = await ledger.accountBalance({
+          accountIdentifier,
+          certified: true,
+        });
+        expect(balance.toE8s()).toEqual(tokens.e8s);
+        expect(service.account_balance).toBeCalled();
+      });
     });
 
-    const call = async () =>
-      await ledger.transfer({
-        to,
-        amount,
+    describe("for hardware wallet", () => {
+      it("returns account balance with query call", async () => {
+        const queryFetcher = jest
+          .fn()
+          .mockResolvedValue(new Uint8Array(32).fill(0));
+        const ledger = LedgerCanister.create({
+          queryCallOverride: queryFetcher,
+          hardwareWallet: true,
+        });
+        const balance = await ledger.accountBalance({
+          accountIdentifier,
+          certified: false,
+        });
+        expect(typeof balance.toE8s()).toEqual("bigint");
+        expect(queryFetcher).toBeCalled();
       });
 
-    await expect(call).rejects.toThrow(new TxDuplicateError(BigInt(1235123)));
+      it("returns account balance with update call", async () => {
+        const updateFetcher = jest
+          .fn()
+          .mockResolvedValue(new Uint8Array(32).fill(0));
+        const ledger = LedgerCanister.create({
+          updateCallOverride: updateFetcher,
+          hardwareWallet: true,
+        });
+        const balance = await ledger.accountBalance({
+          accountIdentifier,
+          certified: true,
+        });
+        expect(typeof balance.toE8s()).toEqual("bigint");
+        expect(updateFetcher).toBeCalled();
+      });
+    });
   });
 
-  it("handles insufficient balance", async () => {
-    const ledger = LedgerCanister.create({
-      updateCallOverride: () => {
-        throw new Error(`Reject code: 5
-            Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'the debit account doesn't have enough funds to complete the transaction, current balance: 123.46789123', rosetta-api/ledger_canister/src/main.rs:135:9`);
-      },
-    });
+  describe("transfer", () => {
+    describe("no hardware wallet", () => {
+      const to = accountIdentifier;
+      const amount = ICP.fromE8s(BigInt(100000));
 
-    const call = async () =>
-      await ledger.transfer({
-        to,
-        amount,
+      it("fetches transaction fee if not present", async () => {
+        const service = mock<LedgerService>();
+        service.transfer_fee.mockResolvedValue({
+          transfer_fee: { e8s: BigInt(10_000) },
+        });
+        service.transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        await ledger.transfer({
+          to,
+          amount,
+        });
+
+        expect(service.transfer_fee).toBeCalled();
       });
 
-    await expect(call).rejects.toThrow(
-      new InsufficientFundsError(ICP.fromE8s(BigInt(12346789123)))
-    );
-  });
+      it("calls transfer certified service with data", async () => {
+        const service = mock<LedgerService>();
+        service.transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const fee = BigInt(10_000);
+        const memo = BigInt(3456);
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+        await ledger.transfer({
+          to,
+          amount,
+          fee,
+          memo,
+        });
 
-  it("handles future tx", async () => {
-    const ledger = LedgerCanister.create({
-      updateCallOverride: () => {
-        throw new Error(`Reject code: 5
-            Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'transaction's created_at_time is in future', rosetta-api/ledger_canister/src/main.rs:135:9`);
-      },
-    });
-
-    const call = async () =>
-      await ledger.transfer({
-        to,
-        amount,
+        expect(service.transfer).toBeCalledWith({
+          to: to.toNumbers(),
+          fee: {
+            e8s: fee,
+          },
+          amount: {
+            e8s: amount.toE8s(),
+          },
+          memo,
+          created_at_time: [],
+          from_subaccount: [],
+        });
       });
 
-    await expect(call).rejects.toThrow(new TxCreatedInFutureError());
-  });
+      it("sets a default memo if not passed", async () => {
+        const service = mock<LedgerService>();
+        service.transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const fee = BigInt(10_000);
+        const defaultMemo = BigInt(0);
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+        await ledger.transfer({
+          to,
+          amount,
+          fee,
+        });
 
-  it("handles old tx", async () => {
-    const ledger = LedgerCanister.create({
-      updateCallOverride: () => {
-        throw new Error(`Reject code: 5
-            Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'transaction is older than 123 seconds', rosetta-api/ledger_canister/src/main.rs:135:9`);
-      },
-    });
-
-    const call = async () =>
-      await ledger.transfer({
-        to,
-        amount,
+        expect(service.transfer).toBeCalledWith({
+          to: to.toNumbers(),
+          fee: {
+            e8s: fee,
+          },
+          amount: {
+            e8s: amount.toE8s(),
+          },
+          memo: defaultMemo,
+          created_at_time: [],
+          from_subaccount: [],
+        });
       });
 
-    await expect(call).rejects.toThrow(new TxTooOldError(123));
-  });
+      it("handles subaccount", async () => {
+        const service = mock<LedgerService>();
+        service.transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const fee = BigInt(10_000);
+        const memo = BigInt(0);
+        const fromSubAccountId = 12345;
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+        await ledger.transfer({
+          to,
+          amount,
+          fee,
+          memo,
+          fromSubAccountId,
+        });
 
-  it("handles subaccount", async () => {
-    const ledger = LedgerCanister.create({
-      updateCallOverride: jest
-        .fn()
-        .mockResolvedValue(new Uint8Array(32).fill(0)),
+        expect(service.transfer).toBeCalledWith({
+          to: to.toNumbers(),
+          fee: {
+            e8s: fee,
+          },
+          amount: {
+            e8s: amount.toE8s(),
+          },
+          memo,
+          created_at_time: [],
+          from_subaccount: [subAccountIdToNumbers(fromSubAccountId)],
+        });
+      });
+
+      it("handles duplicate transaction", async () => {
+        const service = mock<LedgerService>();
+        service.transfer.mockResolvedValue({
+          Err: {
+            TxDuplicate: {
+              duplicate_of: BigInt(10),
+            },
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(TxDuplicateError);
+      });
+
+      it("handles insufficient balance", async () => {
+        const service = mock<LedgerService>();
+        service.transfer.mockResolvedValue({
+          Err: {
+            InsufficientFunds: {
+              balance: {
+                e8s: BigInt(12312414),
+              },
+            },
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(InsufficientFundsError);
+      });
+
+      it("handles old tx", async () => {
+        const service = mock<LedgerService>();
+        service.transfer.mockResolvedValue({
+          Err: {
+            TxTooOld: {
+              allowed_window_nanos: BigInt(1234),
+            },
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(TxTooOldError);
+      });
+
+      it("handles bad fee", async () => {
+        const service = mock<LedgerService>();
+        service.transfer.mockResolvedValue({
+          Err: {
+            BadFee: {
+              expected_fee: {
+                e8s: BigInt(1234),
+              },
+            },
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(BadFeeError);
+      });
+
+      it("handles transaction created in the future", async () => {
+        const service = mock<LedgerService>();
+        service.transfer.mockResolvedValue({
+          Err: {
+            TxCreatedInFuture: null,
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(TxCreatedInFutureError);
+      });
     });
 
-    const res = await ledger.transfer({
-      to,
-      amount,
-      fromSubAccountId: 1234,
-    });
+    describe("for hardware wallet", () => {
+      const to = accountIdentifier;
+      const amount = ICP.fromE8s(BigInt(100000));
 
-    expect(typeof res).toEqual("bigint");
-  });
+      it("handles invalid sender", async () => {
+        const ledger = LedgerCanister.create({
+          updateCallOverride: () => {
+            throw new Error(`Reject code: 5
+                Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'Sending from 2vxsx-fae is not allowed', rosetta-api/ledger_canister/src/main.rs:135:9`);
+          },
+          hardwareWallet: true,
+        });
 
-  const initExpectedRequest = ({
-    to,
-    amount,
-    memo,
-    fee,
-  }: {
-    to: AccountIdentifier;
-    amount: ICP;
-    memo?: bigint;
-    fee?: E8s;
-  }): SendRequest => {
-    const expectedRequest = new SendRequest();
-    expectedRequest.setTo(to.toProto());
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+          });
 
-    const payment = new Payment();
-    payment.setReceiverGets(amount.toProto());
-    expectedRequest.setPayment(payment);
+        await expect(call).rejects.toThrow(new InvalidSenderError());
+      });
 
-    const requestMemo: Memo = new Memo();
-    requestMemo.setMemo((memo ?? BigInt(0)).toString());
-    expectedRequest.setMemo(requestMemo);
+      it("handles duplicate transaction", async () => {
+        const ledger = LedgerCanister.create({
+          updateCallOverride: () => {
+            throw new Error(`Reject code: 5
+                Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'transaction is a duplicate of another transaction in block 1235123', rosetta-api/ledger_canister/src/main.rs:135:9`);
+          },
+          hardwareWallet: true,
+        });
 
-    expectedRequest.setMaxFee(toICPTs(fee ?? TRANSACTION_FEE));
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+          });
 
-    return expectedRequest;
-  };
+        await expect(call).rejects.toThrow(
+          new TxDuplicateError(BigInt(1235123))
+        );
+      });
 
-  it("should set a default fee for a transfer", async () => {
-    const ledger = LedgerCanister.create({
-      updateCallOverride: () => Promise.resolve(new Uint8Array()),
-    });
+      it("handles insufficient balance", async () => {
+        const ledger = LedgerCanister.create({
+          updateCallOverride: () => {
+            throw new Error(`Reject code: 5
+                Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'the debit account doesn't have enough funds to complete the transaction, current balance: 123.46789123', rosetta-api/ledger_canister/src/main.rs:135:9`);
+          },
+          hardwareWallet: true,
+        });
 
-    // @ts-ignore - private function
-    const spy = jest.spyOn(ledger, "updateFetcher");
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+          });
 
-    const expectedRequest = initExpectedRequest({ to, amount });
+        await expect(call).rejects.toThrow(
+          new InsufficientFundsError(ICP.fromE8s(BigInt(12346789123)))
+        );
+      });
 
-    await ledger.transfer({
-      to,
-      amount,
-    });
+      it("handles future tx", async () => {
+        const ledger = LedgerCanister.create({
+          updateCallOverride: () => {
+            throw new Error(`Reject code: 5
+                Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'transaction's created_at_time is in future', rosetta-api/ledger_canister/src/main.rs:135:9`);
+          },
+          hardwareWallet: true,
+        });
 
-    expect(spy).toHaveBeenCalledWith({
-      // @ts-ignore - private variable
-      agent: ledger.agent,
-      // @ts-ignore - private variable
-      canisterId: ledger.canisterId,
-      methodName: "send_pb",
-      arg: expectedRequest.serializeBinary(),
-    });
-  });
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+          });
 
-  it("should use custom fee for a transfer", async () => {
-    const ledger = LedgerCanister.create({
-      updateCallOverride: () => Promise.resolve(new Uint8Array()),
-    });
+        await expect(call).rejects.toThrow(new TxCreatedInFutureError());
+      });
 
-    // @ts-ignore - private function
-    const spy = jest.spyOn(ledger, "updateFetcher");
+      it("handles old tx", async () => {
+        const ledger = LedgerCanister.create({
+          updateCallOverride: () => {
+            throw new Error(`Reject code: 5
+                Reject text: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'transaction is older than 123 seconds', rosetta-api/ledger_canister/src/main.rs:135:9`);
+          },
+          hardwareWallet: true,
+        });
 
-    const fee = BigInt(990_000);
+        const call = async () =>
+          await ledger.transfer({
+            to,
+            amount,
+          });
 
-    const expectedRequest = initExpectedRequest({ to, amount, fee });
+        await expect(call).rejects.toThrow(new TxTooOldError(123));
+      });
 
-    await ledger.transfer({
-      to,
-      amount,
-      fee,
-    });
+      it("handles subaccount", async () => {
+        const ledger = LedgerCanister.create({
+          updateCallOverride: jest
+            .fn()
+            .mockResolvedValue(new Uint8Array(32).fill(0)),
+          hardwareWallet: true,
+        });
 
-    expect(spy).toHaveBeenCalledWith({
-      // @ts-ignore - private variable
-      agent: ledger.agent,
-      // @ts-ignore - private variable
-      canisterId: ledger.canisterId,
-      methodName: "send_pb",
-      arg: expectedRequest.serializeBinary(),
-    });
-  });
+        const res = await ledger.transfer({
+          to,
+          amount,
+          fromSubAccountId: 1234,
+        });
 
-  it("should use custom memo for a transfer", async () => {
-    const ledger = LedgerCanister.create({
-      updateCallOverride: () => Promise.resolve(new Uint8Array()),
-    });
+        expect(typeof res).toEqual("bigint");
+      });
 
-    // @ts-ignore - private function
-    const spy = jest.spyOn(ledger, "updateFetcher");
+      const initExpectedRequest = ({
+        to,
+        amount,
+        memo,
+        fee,
+      }: {
+        to: AccountIdentifier;
+        amount: ICP;
+        memo?: bigint;
+        fee?: E8s;
+      }): SendRequest => {
+        const expectedRequest = new SendRequest();
+        expectedRequest.setTo(to.toProto());
 
-    const memo = BigInt(990_000);
+        const payment = new Payment();
+        payment.setReceiverGets(amount.toProto());
+        expectedRequest.setPayment(payment);
 
-    const expectedRequest = initExpectedRequest({ to, amount, memo });
+        const requestMemo: Memo = new Memo();
+        requestMemo.setMemo((memo ?? BigInt(0)).toString());
+        expectedRequest.setMemo(requestMemo);
 
-    await ledger.transfer({
-      to,
-      amount,
-      memo,
-    });
+        expectedRequest.setMaxFee(toICPTs(fee ?? TRANSACTION_FEE));
 
-    expect(spy).toHaveBeenCalledWith({
-      // @ts-ignore - private variable
-      agent: ledger.agent,
-      // @ts-ignore - private variable
-      canisterId: ledger.canisterId,
-      methodName: "send_pb",
-      arg: expectedRequest.serializeBinary(),
+        return expectedRequest;
+      };
+
+      it("should set a default fee for a transfer", async () => {
+        const ledger = LedgerCanister.create({
+          updateCallOverride: () => Promise.resolve(new Uint8Array()),
+          hardwareWallet: true,
+        });
+
+        // @ts-ignore - private function
+        const spy = jest.spyOn(ledger, "updateFetcher");
+
+        const expectedRequest = initExpectedRequest({ to, amount });
+
+        await ledger.transfer({
+          to,
+          amount,
+        });
+
+        expect(spy).toHaveBeenCalledWith({
+          // @ts-ignore - private variable
+          agent: ledger.agent,
+          // @ts-ignore - private variable
+          canisterId: ledger.canisterId,
+          methodName: "send_pb",
+          arg: expectedRequest.serializeBinary(),
+        });
+      });
+
+      it("should use custom fee for a transfer", async () => {
+        const ledger = LedgerCanister.create({
+          updateCallOverride: () => Promise.resolve(new Uint8Array()),
+          hardwareWallet: true,
+        });
+
+        // @ts-ignore - private function
+        const spy = jest.spyOn(ledger, "updateFetcher");
+
+        const fee = BigInt(990_000);
+
+        const expectedRequest = initExpectedRequest({ to, amount, fee });
+
+        await ledger.transfer({
+          to,
+          amount,
+          fee,
+        });
+
+        expect(spy).toHaveBeenCalledWith({
+          // @ts-ignore - private variable
+          agent: ledger.agent,
+          // @ts-ignore - private variable
+          canisterId: ledger.canisterId,
+          methodName: "send_pb",
+          arg: expectedRequest.serializeBinary(),
+        });
+      });
+
+      it("should use custom memo for a transfer", async () => {
+        const ledger = LedgerCanister.create({
+          updateCallOverride: () => Promise.resolve(new Uint8Array()),
+          hardwareWallet: true,
+        });
+
+        // @ts-ignore - private function
+        const spy = jest.spyOn(ledger, "updateFetcher");
+
+        const memo = BigInt(990_000);
+
+        const expectedRequest = initExpectedRequest({ to, amount, memo });
+
+        await ledger.transfer({
+          to,
+          amount,
+          memo,
+        });
+
+        expect(spy).toHaveBeenCalledWith({
+          // @ts-ignore - private variable
+          agent: ledger.agent,
+          // @ts-ignore - private variable
+          canisterId: ledger.canisterId,
+          methodName: "send_pb",
+          arg: expectedRequest.serializeBinary(),
+        });
+      });
     });
   });
 });
