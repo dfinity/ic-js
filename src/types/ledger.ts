@@ -1,6 +1,6 @@
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { _SERVICE as LedgerService } from "../../candid/ledger.idl";
+import { LedgerService } from "../../candid/ledger.idl";
 
 export type LedgerCanisterCall = (params: {
   agent: Agent;

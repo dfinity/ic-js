@@ -1,7 +1,7 @@
 import {
   Tokens,
   TransferArgs as TransferRawRequest,
-} from "../../../candid/ledger.idl";
+} from "../../../candid/ledgerTypes";
 import { ICPTs, Subaccount } from "../../../proto/ledger_pb";
 import {
   SUB_ACCOUNT_BYTE_LENGTH,
