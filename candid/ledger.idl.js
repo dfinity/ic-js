@@ -1,4 +1,4 @@
-/* Do not edit. Compiled with Canlist https://k7gat-daaaa-aaaae-qaahq-cai.ic0.app/ from candid/genesis_token.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/ledger.did */
 export const idlFactory = ({ IDL }) => {
   const AccountIdentifier = IDL.Vec(IDL.Nat8);
   const AccountBalanceArgs = IDL.Record({ 'account' : AccountIdentifier });

@@ -1,4 +1,4 @@
-/* Do not edit. Copied from ./ledger.idl.js, remove 'query' from services */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/ledger.did */
 export const idlFactory = ({ IDL }) => {
   const AccountIdentifier = IDL.Vec(IDL.Nat8);
   const AccountBalanceArgs = IDL.Record({ 'account' : AccountIdentifier });
