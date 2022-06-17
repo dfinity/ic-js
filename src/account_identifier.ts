@@ -50,6 +50,10 @@ export class AccountIdentifier {
   public toHex(): string {
     return toHexString(this.bytes);
   }
+
+  public toNumbers(): number[] {
+    return Array.from(this.bytes);
+  }
 }
 
 export class SubAccount {

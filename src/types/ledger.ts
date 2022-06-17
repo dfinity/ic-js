@@ -1,5 +1,6 @@
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { LedgerService } from "../../candid/ledger.idl";
 
 export type LedgerCanisterCall = (params: {
   agent: Agent;
@@ -14,10 +15,19 @@ export interface LedgerCanisterOptions {
   agent?: Agent;
   // The ledger canister's ID.
   canisterId?: Principal;
+  // The service to use when calling into the IC. Primarily overridden
+  // in test for mocking.
+  serviceOverride?: LedgerService;
+  // The service to use when calling into the IC. Primarily overridden
+  // in test for mocking.
+  certifiedServiceOverride?: LedgerService;
   // The method to use for performing an update call. Primarily overridden
   // in test for mocking.
   updateCallOverride?: LedgerCanisterCall;
   // The method to use for performing a query call. Primarily overridden
   // in test for mocking.
   queryCallOverride?: LedgerCanisterCall;
+  // Ledger IC App needs requests built with Protobuf.
+  // This flag ensures that the methods use Protobuf.
+  hardwareWallet?: boolean;
 }
