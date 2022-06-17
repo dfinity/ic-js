@@ -59,6 +59,25 @@ describe("LedgerCanister", () => {
       });
     });
 
+    describe("transactionFee", () => {
+      it("returns the transaction fee in e8s", async () => {
+        const fee = BigInt(10_000);
+        const service = mock<LedgerService>();
+        service.transfer_fee.mockResolvedValue({
+          transfer_fee: {
+            e8s: fee,
+          },
+        });
+        const ledger = LedgerCanister.create({
+          serviceOverride: service,
+        });
+
+        const expectedFee = await ledger.transactionFee();
+        expect(service.transfer_fee).toBeCalled();
+        expect(expectedFee).toBe(fee);
+      });
+    });
+
     describe("for hardware wallet", () => {
       it("returns account balance with query call", async () => {
         const queryFetcher = jest

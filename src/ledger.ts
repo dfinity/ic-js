@@ -97,6 +97,17 @@ export class LedgerCanister {
   };
 
   /**
+   * Returns the transaction fee of the ledger canister
+   * @returns {BigInt}
+   */
+  public transactionFee = async () => {
+    const {
+      transfer_fee: { e8s },
+    } = await this.service.transfer_fee({});
+    return e8s;
+  };
+
+  /**
    * Transfer ICP from the caller to the destination `accountIdentifier`.
    * Returns the index of the block containing the tx if it was successful.
    *
@@ -106,11 +117,12 @@ export class LedgerCanister {
     if (this.hardwareWallet) {
       return this.transferHardwareWallet(request);
     }
+    // When candid is implemented, the previous lines will go away.
+    // But the transaction fee method is not supported by Ledger App yet.
     if (request.fee === undefined) {
-      const {
-        transfer_fee: { e8s },
-      } = await this.service.transfer_fee({});
-      request.fee = e8s;
+      request.fee = this.hardwareWallet
+        ? TRANSACTION_FEE
+        : await this.transactionFee();
     }
     const rawRequest = toTransferRawRequest(request);
     const response = await this.certifiedService.transfer(rawRequest);
