@@ -12,7 +12,7 @@ import {
 } from "../proto/ledger_pb";
 import { AccountIdentifier } from "./account_identifier";
 import {
-  subAccountIdToSubaccount,
+  subAccountNumbersToSubaccount,
   toICPTs,
   toTransferRawRequest,
 } from "./canisters/ledger/ledger.request.converts";
@@ -161,7 +161,7 @@ export class LedgerCanister {
     amount,
     memo,
     fee,
-    fromSubAccountId,
+    fromSubAccount,
   }: TransferRequest): Promise<BlockHeight> => {
     const request = new SendRequest();
     request.setTo(to.toProto());
@@ -177,8 +177,8 @@ export class LedgerCanister {
     requestMemo.setMemo((memo ?? BigInt(0)).toString());
     request.setMemo(requestMemo);
 
-    if (fromSubAccountId !== undefined) {
-      request.setFromSubaccount(subAccountIdToSubaccount(fromSubAccountId));
+    if (fromSubAccount !== undefined) {
+      request.setFromSubaccount(subAccountNumbersToSubaccount(fromSubAccount));
     }
 
     try {
