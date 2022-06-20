@@ -2,10 +2,7 @@ import { mock } from "jest-mock-extended";
 import { LedgerService } from "../candid/ledger.idl";
 import { Memo, Payment, SendRequest } from "../proto/ledger_pb";
 import { AccountIdentifier } from "./account_identifier";
-import {
-  subAccountIdToNumbers,
-  toICPTs,
-} from "./canisters/ledger/ledger.request.converts";
+import { toICPTs } from "./canisters/ledger/ledger.request.converts";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
   BadFeeError,
@@ -206,7 +203,10 @@ describe("LedgerCanister", () => {
         });
         const fee = BigInt(10_000);
         const memo = BigInt(0);
-        const fromSubAccountId = 12345;
+        const fromSubAccount = [
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 1,
+        ];
         const ledger = LedgerCanister.create({
           certifiedServiceOverride: service,
         });
@@ -215,7 +215,7 @@ describe("LedgerCanister", () => {
           amount,
           fee,
           memo,
-          fromSubAccountId,
+          fromSubAccount,
         });
 
         expect(service.transfer).toBeCalledWith({
@@ -228,7 +228,7 @@ describe("LedgerCanister", () => {
           },
           memo,
           created_at_time: [],
-          from_subaccount: [subAccountIdToNumbers(fromSubAccountId)],
+          from_subaccount: [fromSubAccount],
         });
       });
 
@@ -455,11 +455,15 @@ describe("LedgerCanister", () => {
             .mockResolvedValue(new Uint8Array(32).fill(0)),
           hardwareWallet: true,
         });
+        const fromSubAccount = [
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 1,
+        ];
 
         const res = await ledger.transfer({
           to,
           amount,
-          fromSubAccountId: 1234,
+          fromSubAccount,
         });
 
         expect(typeof res).toEqual("bigint");

@@ -7,5 +7,5 @@ export type TransferRequest = {
   amount: ICP;
   memo?: bigint;
   fee?: E8s;
-  fromSubAccountId?: number;
+  fromSubAccount?: number[];
 };

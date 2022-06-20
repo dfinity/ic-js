@@ -219,12 +219,12 @@ export class GovernanceCanister {
   public stakeNeuron = async ({
     stake,
     principal,
-    fromSubAccountId,
+    fromSubAccount,
     ledgerCanister,
   }: {
     stake: ICP;
     principal: Principal;
-    fromSubAccountId?: number;
+    fromSubAccount?: number[];
     ledgerCanister: LedgerCanister;
   }): Promise<NeuronId> => {
     if (stake.toE8s() < E8S_PER_ICP) {
@@ -243,7 +243,7 @@ export class GovernanceCanister {
     await ledgerCanister.transfer({
       memo: nonce,
       amount: stake,
-      fromSubAccountId,
+      fromSubAccount,
       to: accountIdentifier,
     });
 
