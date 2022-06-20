@@ -3,7 +3,9 @@
  */
 
 /**
- * Hard-wired list as a placeholder:
+ * Placeholder for the sns-manager canister contents.
+ * The canister will provide a paginated list of root canister IDs.
+ * We provide a hard-wired list, until the canister exists.
  */
 const snsRootCanisters = [
   // Page 1: (Realistically might have 500 entries per page)
