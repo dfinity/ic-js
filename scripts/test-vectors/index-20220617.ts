@@ -1,3 +1,6 @@
+// Date represents the date of the issue with the test vectors sent to Zondax:
+// https://github.com/Zondax/ledger-icp/issues/162
+// We'll keep each script for reproducibility.
 import { IDL } from "@dfinity/candid";
 import { Memo, Payment, SendRequest } from "../../proto/ledger_pb";
 import { AccountIdentifier } from "../../src/account_identifier";
@@ -6,7 +9,7 @@ import {
   toTransferRawRequest,
 } from "../../src/canisters/ledger/ledger.request.converts";
 import { ICP } from "../../src/icp";
-import { TransferFn } from "./ledgerCandid";
+import { TransferFn } from "./ledger.idl";
 import { createBlob, writeToJson } from "./utils";
 
 const mockAccountIdentifier = AccountIdentifier.fromHex(
