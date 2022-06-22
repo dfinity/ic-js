@@ -204,7 +204,10 @@ describe("GovernanceCanister", () => {
         stake: ICP.fromString("1") as ICP,
         principal: new AnonymousIdentity().getPrincipal(),
         ledgerCanister: mockLedger,
-        fromSubAccountId: 1234,
+        fromSubAccount: [
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 1,
+        ],
       });
 
       expect(mockLedger.transfer).toBeCalled();
