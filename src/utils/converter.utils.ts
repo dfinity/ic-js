@@ -34,15 +34,6 @@ export const arrayOfNumberToArrayBuffer = (
   return arrayOfNumberToUint8Array(numbers).buffer;
 };
 
-export const numberToArrayBuffer = (
-  value: number,
-  byteLength: number
-): ArrayBuffer => {
-  const buffer = new ArrayBuffer(byteLength);
-  new DataView(buffer).setUint32(byteLength - 4, value);
-  return buffer;
-};
-
 export const asciiStringToByteArray = (text: string): Array<number> => {
   return Array.from(text).map((c) => c.charCodeAt(0));
 };
