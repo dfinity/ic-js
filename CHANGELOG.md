@@ -1,9 +1,11 @@
 # 0.5.0 (2022-06-23)
 
 ## Breaking
+
 - Change "fromSubAccountId: string" param to "fromSubAccount: number[]"
 
 ## Features
+
 - Remove payload, payloadBytes and nnsFunctionName fields from proposal of type ExecuteNnsFunction action (moved to nns-dapp)
 - Use Candid interface by default for ledger canister and proto for hardware wallet
 - New function transactionFee to query the current transaction fee
