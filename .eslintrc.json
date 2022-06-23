@@ -15,6 +15,7 @@
     "test-setup.ts",
     "**/*.spec.ts",
     "**/*.test.ts",
-    "**/*.mock.ts"
+    "**/*.mock.ts",
+    "scripts/**/*"
   ]
 }
