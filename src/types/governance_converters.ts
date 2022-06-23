@@ -11,7 +11,9 @@ import {
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
-  | { ExecuteNnsFunction: ExecuteNnsFunction }
+  | {
+      ExecuteNnsFunction: ExecuteNnsFunction;
+    }
   | { ManageNeuron: ManageNeuron }
   | { ApproveGenesisKyc: ApproveGenesisKyc }
   | { ManageNetworkEconomics: NetworkEconomics }
@@ -92,9 +94,7 @@ export type DissolveState =
   | { WhenDissolvedTimestampSeconds: bigint };
 export interface ExecuteNnsFunction {
   nnsFunctionId: number;
-  nnsFunctionName: Option<string>;
-  payload: Option<Record<string, unknown>>;
-  payloadBytes: ArrayBuffer;
+  payloadBytes?: ArrayBuffer;
 }
 export interface Follow {
   topic: Topic;

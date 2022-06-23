@@ -61,11 +61,7 @@ import {
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
-import {
-  arrayOfNumberToArrayBuffer,
-  arrayOfNumberToUint8Array,
-} from "../../utils/converter.utils";
-import { convertNnsFunctionPayload, getNnsFunctionName } from "./payloads";
+import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
 
 const toNeuronInfo = ({
   neuronId,
@@ -198,17 +194,10 @@ const toProposal = ({
 const toAction = (action: RawAction): Action => {
   if ("ExecuteNnsFunction" in action) {
     const executeNnsFunction = action.ExecuteNnsFunction;
-    const payloadBytes = arrayOfNumberToArrayBuffer(executeNnsFunction.payload);
-    const payload = payloadBytes.byteLength
-      ? convertNnsFunctionPayload(executeNnsFunction.nns_function, payloadBytes)
-      : undefined;
 
     return {
       ExecuteNnsFunction: {
         nnsFunctionId: executeNnsFunction.nns_function,
-        nnsFunctionName: getNnsFunctionName(executeNnsFunction.nns_function),
-        payload,
-        payloadBytes,
       },
     };
   }
