@@ -1,6 +1,6 @@
 # 0.5.0 (2022-06-23)
 
-- ???
+- remove `payload`, `payloadBytes` and `nnsFunctionName` fields from proposal of type ExecuteNnsFunction action (moved to nns-dapp)
 
 # 0.4.3 (2022-06-01)
 
