@@ -22,6 +22,15 @@ export const arrayBufferToArrayOfNumber = (
   return Array.from(typedArray);
 };
 
+export const numberToArrayBuffer = (
+  value: number,
+  byteLength: number
+): ArrayBuffer => {
+  const buffer = new ArrayBuffer(byteLength);
+  new DataView(buffer).setUint32(byteLength - 4, value);
+  return buffer;
+};
+
 export const arrayOfNumberToUint8Array = (
   numbers: Array<number>
 ): Uint8Array => {

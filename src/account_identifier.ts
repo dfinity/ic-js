@@ -1,9 +1,13 @@
 import { Principal } from "@dfinity/principal";
 import { sha224 } from "js-sha256";
 import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
+import { SUB_ACCOUNT_BYTE_LENGTH } from "./constants/constants";
 import {
+  arrayBufferToArrayOfNumber,
+  arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   calculateCrc32,
+  numberToArrayBuffer,
   toHexString,
 } from "./utils/converter.utils";
 
@@ -80,9 +84,20 @@ export class SubAccount {
     return new SubAccount(bytes);
   }
 
+  public static fromSubAccountId(subAccount: number): SubAccount {
+    const buffer = numberToArrayBuffer(subAccount, SUB_ACCOUNT_BYTE_LENGTH);
+    return new SubAccount(
+      arrayOfNumberToUint8Array(arrayBufferToArrayOfNumber(buffer))
+    );
+  }
+
   public static ZERO: SubAccount = new SubAccount(new Uint8Array(32).fill(0));
 
   public toUint8Array(): Uint8Array {
     return this.bytes;
+  }
+
+  public toNumberArray(): Array<number> {
+    return Array.from(this.bytes);
   }
 }
