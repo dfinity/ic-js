@@ -1,3 +1,9 @@
+# 0.x.y (2022-aa-bb)
+
+### Build
+
+- bump dependencies including agent-js v0.12.0
+
 # 0.5.0 (2022-06-23)
 
 ## Breaking
