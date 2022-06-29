@@ -18,5 +18,5 @@ export const MAINNET_GENESIS_TOKEN_CANISTER_ID = Principal.fromText(
 
 // TODO: tbd
 export const MAINNET_SNS_WASM_CANISTER_ID = Principal.fromText(
-    "renrk-eyaaa-aaaaa-aaada-cai"
+  "renrk-eyaaa-aaaaa-aaada-cai"
 );
