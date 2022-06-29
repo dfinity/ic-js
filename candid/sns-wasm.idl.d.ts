@@ -1,5 +1,5 @@
-import type { Principal } from "@dfinity/principal";
 import type { IDL } from "@dfinity/candid";
+import type { Principal } from "@dfinity/principal";
 
 export const idlFactory: IDL.InterfaceFactory;
 
