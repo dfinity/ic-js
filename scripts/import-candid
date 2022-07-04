@@ -3,7 +3,7 @@ set -ueo pipefail
 
 help_text() {
   cat <<-EOF
-	Imports did files for SNS canisters from the IC repo.
+	Imports did files for NNS canisters from the IC repo.
 
 	Usage:
 	  $(basename "$0") <ic_repo_dir>
