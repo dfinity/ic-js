@@ -7,10 +7,10 @@ describe("Sns-wasm", () => {
   it("should return the list of sns", async () => {
     const sns: DeployedSns[] = [
       {
-        root_canister_id: [Principal.fromText("ryjl3-tyaaa-aaaaa-aaaba-cai")],
+        root_canister_id: [Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai")],
       },
       {
-        root_canister_id: [Principal.fromText("renrk-eyaaa-aaaaa-aaada-cai")],
+        root_canister_id: [Principal.fromText("ryjl3-tyaaa-aaaaa-aaaba-cai")],
       },
     ];
     const service = mock<SnsWasmService>();

@@ -16,7 +16,7 @@ export const MAINNET_GENESIS_TOKEN_CANISTER_ID = Principal.fromText(
   "renrk-eyaaa-aaaaa-aaada-cai"
 );
 
-// TODO: tbd
+// TODO: Sns-wasm canister is not yet deployed on mainnet
 export const MAINNET_SNS_WASM_CANISTER_ID = Principal.fromText(
-  "renrk-eyaaa-aaaaa-aaada-cai"
+  "r7inp-6aaaa-aaaaa-aaabq-cai"
 );
