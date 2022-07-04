@@ -5,11 +5,11 @@ protoc \
   --ts_out="./" \
   --js_out="import_style=commonjs,binary:./" \
   --proto_path="./" \
-  ./proto/base_types.proto
+  ./packages/nns-js/proto/base_types.proto
 
 protoc \
   --plugin="protoc-gen-ts=./node_modules/.bin/protoc-gen-ts" \
   --ts_out="./proto" \
   --js_out="import_style=commonjs,binary:./proto" \
   --proto_path="./proto" \
-  ./proto/ledger.proto
+  ./packages/nns-js/proto/ledger.proto
