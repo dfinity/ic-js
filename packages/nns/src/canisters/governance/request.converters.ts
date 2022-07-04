@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import {
+import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
   Amount,
@@ -15,7 +15,7 @@ import {
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
   RewardMode as RawRewardMode,
-} from "../../../../../candid/governanceTypes.d";
+} from "../../../../../candid/governance";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import {

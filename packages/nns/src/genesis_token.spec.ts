@@ -1,5 +1,5 @@
 import { mock } from "jest-mock-extended";
-import { GenesisTokenService } from "../../../candid/genesis_token.idl";
+import type { _SERVICE as GenesisTokenService } from "../../../candid/genesis_token";
 import { GenesisTokenCanister } from "./genesis_token";
 
 describe("GenesisTokenCanister", () => {

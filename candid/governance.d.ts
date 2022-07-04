@@ -1,4 +1,6 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface AccountIdentifier {
   hash: Array<number>;
 }
@@ -118,6 +120,9 @@ export interface Followees {
 }
 export interface Governance {
   default_followees: Array<[number, Followees]>;
+  most_recent_monthly_node_provider_rewards:
+    | []
+    | [MostRecentMonthlyNodeProviderRewards];
   wait_for_quiet_threshold_seconds: bigint;
   metrics: [] | [GovernanceCachedMetrics];
   node_providers: Array<NodeProvider>;
@@ -207,6 +212,10 @@ export interface MergeMaturity {
 export interface MergeMaturityResponse {
   merged_maturity_e8s: bigint;
   new_stake_e8s: bigint;
+}
+export interface MostRecentMonthlyNodeProviderRewards {
+  timestamp: bigint;
+  rewards: Array<RewardNodeProvider>;
 }
 export interface Motion {
   motion_text: string;
@@ -389,35 +398,37 @@ export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
-  claim_gtc_neurons: (
-    arg_0: Principal,
-    arg_1: Array<NeuronId>
-  ) => Promise<Result>;
-  claim_or_refresh_neuron_from_account: (
-    arg_0: ClaimOrRefreshNeuronFromAccount
-  ) => Promise<ClaimOrRefreshNeuronFromAccountResponse>;
-  get_build_metadata: () => Promise<string>;
-  get_full_neuron: (arg_0: bigint) => Promise<Result_2>;
-  get_full_neuron_by_id_or_subaccount: (
-    arg_0: NeuronIdOrSubaccount
-  ) => Promise<Result_2>;
-  get_monthly_node_provider_rewards: () => Promise<Result_3>;
-  get_network_economics_parameters: () => Promise<NetworkEconomics>;
-  get_neuron_ids: () => Promise<Array<bigint>>;
-  get_neuron_info: (arg_0: bigint) => Promise<Result_4>;
-  get_neuron_info_by_id_or_subaccount: (
-    arg_0: NeuronIdOrSubaccount
-  ) => Promise<Result_4>;
-  get_node_provider_by_caller: (arg_0: null) => Promise<Result_5>;
-  get_pending_proposals: () => Promise<Array<ProposalInfo>>;
-  get_proposal_info: (arg_0: bigint) => Promise<[] | [ProposalInfo]>;
-  list_known_neurons: () => Promise<ListKnownNeuronsResponse>;
-  list_neurons: (arg_0: ListNeurons) => Promise<ListNeuronsResponse>;
-  list_node_providers: () => Promise<ListNodeProvidersResponse>;
-  list_proposals: (
-    arg_0: ListProposalInfo
-  ) => Promise<ListProposalInfoResponse>;
-  manage_neuron: (arg_0: ManageNeuron) => Promise<ManageNeuronResponse>;
-  transfer_gtc_neuron: (arg_0: NeuronId, arg_1: NeuronId) => Promise<Result>;
-  update_node_provider: (arg_0: UpdateNodeProvider) => Promise<Result>;
+  claim_gtc_neurons: ActorMethod<[Principal, Array<NeuronId>], Result>;
+  claim_or_refresh_neuron_from_account: ActorMethod<
+    [ClaimOrRefreshNeuronFromAccount],
+    ClaimOrRefreshNeuronFromAccountResponse
+  >;
+  get_build_metadata: ActorMethod<[], string>;
+  get_full_neuron: ActorMethod<[bigint], Result_2>;
+  get_full_neuron_by_id_or_subaccount: ActorMethod<
+    [NeuronIdOrSubaccount],
+    Result_2
+  >;
+  get_monthly_node_provider_rewards: ActorMethod<[], Result_3>;
+  get_most_recent_monthly_node_provider_rewards: ActorMethod<
+    [],
+    [] | [MostRecentMonthlyNodeProviderRewards]
+  >;
+  get_network_economics_parameters: ActorMethod<[], NetworkEconomics>;
+  get_neuron_ids: ActorMethod<[], Array<bigint>>;
+  get_neuron_info: ActorMethod<[bigint], Result_4>;
+  get_neuron_info_by_id_or_subaccount: ActorMethod<
+    [NeuronIdOrSubaccount],
+    Result_4
+  >;
+  get_node_provider_by_caller: ActorMethod<[null], Result_5>;
+  get_pending_proposals: ActorMethod<[], Array<ProposalInfo>>;
+  get_proposal_info: ActorMethod<[bigint], [] | [ProposalInfo]>;
+  list_known_neurons: ActorMethod<[], ListKnownNeuronsResponse>;
+  list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
+  list_node_providers: ActorMethod<[], ListNodeProvidersResponse>;
+  list_proposals: ActorMethod<[ListProposalInfo], ListProposalInfoResponse>;
+  manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
+  transfer_gtc_neuron: ActorMethod<[NeuronId, NeuronId], Result>;
+  update_node_provider: ActorMethod<[UpdateNodeProvider], Result>;
 }

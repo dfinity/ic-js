@@ -1,6 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { Map } from "google-protobuf";
-import {
+import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
   Amount as RawAmount,
@@ -24,7 +24,7 @@ import {
   ProposalInfo as RawProposalInfo,
   RewardMode as RawRewardMode,
   Tally as RawTally,
-} from "../../../../../candid/governanceTypes.d";
+} from "../../../../../candid/governance";
 import { PrincipalId } from "../../../proto/base_types_pb";
 import {
   BallotInfo as PbBallotInfo,

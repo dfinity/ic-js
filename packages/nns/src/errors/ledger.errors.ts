@@ -1,4 +1,4 @@
-import { TransferError as RawTransferError } from "../../../../candid/ledgerTypes";
+import type { TransferError as RawTransferError } from "../../../../candid/ledger";
 import { ICP } from "../icp";
 import { BlockHeight } from "../types/common";
 

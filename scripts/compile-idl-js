@@ -12,12 +12,18 @@ did_files_to_compile() {
 # Normal API access.
 compile_did() {
   local didfile="$1"
-  local jsfile="$(echo "$didfile" | sed 's/did$/idl.js/g')"
+  local jsFactoryFile="$(echo "$didfile" | sed 's/did$/idl.js/g')"
+  local tsFactoryFile="$(echo "$didfile" | sed 's/did$/idl.d.ts/g')"
+  local tsfile="$(echo "$didfile" | sed 's/did$/d.ts/g')"
 
   {
     echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
     didc bind -t js "${didfile}"
-  } | sed "s/^export default/export const idlFactory =/g" >"${jsfile}"
+  } | sed -E "s/^export default/export const idlFactory =/g" > "${jsFactoryFile}"
+
+  generate_did_factory_ts
+
+  didc bind -t ts "${didfile}" > "${tsfile}"
 }
 
 # The certified API makes use of the fact that update calls are always signed, so it calls query calls as updates.
@@ -26,7 +32,8 @@ compile_did() {
 compile_certified_did() {
   local didfile="$1"
   local certified_didfile="$(mktemp)"
-  local jsfile="$(echo "$didfile" | sed 's/did$/certified.idl.js/g')"
+  local jsFactoryFile="$(echo "$didfile" | sed 's/did$/certified.idl.js/g')"
+  local tsFactoryFile="$(echo "$didfile" | sed 's/did$/certified.idl.d.ts/g')"
 
   QUERY_ARG='query'
   sed "s/$QUERY_ARG//g" "$didfile" >"$certified_didfile"
@@ -34,9 +41,15 @@ compile_certified_did() {
   {
     echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
     didc bind -t js "${certified_didfile}"
-  } | sed "s/^export default/export const idlFactory =/g" >"${jsfile}"
+  } | sed "s/^export default/export const idlFactory =/g" >"${jsFactoryFile}"
+
+  generate_did_factory_ts
 
   rm "$certified_didfile"
+}
+
+generate_did_factory_ts() {
+  echo "import type { IDL } from \"@dfinity/candid\";export const idlFactory: IDL.InterfaceFactory;" > "${tsFactoryFile}"
 }
 
 # First generate default certified versions of normal did files.
@@ -48,3 +61,7 @@ done
 did_files_to_compile | while read line; do
   compile_did "$line"
 done
+
+# didc might generate definition file with invalid trailing comma which can be fixed by the code formatter
+# in addition, types we create with generate_did_factory_ts are not formatted
+npm run format

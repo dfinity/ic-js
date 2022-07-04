@@ -2,12 +2,13 @@ import { Actor, type Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
-import { idlFactory as certifiedIdlFactory } from "../../../candid/governance.certified.idl";
-import { GovernanceService, idlFactory } from "../../../candid/governance.idl";
-import {
+import type {
   ListProposalInfo,
   ProposalInfo as RawProposalInfo,
-} from "../../../candid/governanceTypes";
+  _SERVICE as GovernanceService,
+} from "../../../candid/governance";
+import { idlFactory as certifiedIdlFactory } from "../../../candid/governance.certified.idl";
+import { idlFactory } from "../../../candid/governance.idl";
 import {
   ListNeurons as PbListNeurons,
   ListNeuronsResponse as PbListNeuronsResponse,
