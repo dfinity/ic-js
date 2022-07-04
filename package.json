@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dfinity/nns-js.git"
+    "url": "git+https://github.com/dfinity/ic-js.git"
   },
   "bugs": {
-    "url": "https://github.com/dfinity/nns-js"
+    "url": "https://github.com/dfinity/ic-js"
   },
   "dependencies": {
     "@dfinity/agent": "^0.12.0",
