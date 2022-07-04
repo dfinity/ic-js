@@ -14,4 +14,4 @@ The libraries are still in active development, and new features will incremental
 
 Here are some useful links:
 
-- See the [HACKING](/HACKING.md) document for some information about local development 
+- See the [HACKING](/HACKING.md) document for some information about local development
