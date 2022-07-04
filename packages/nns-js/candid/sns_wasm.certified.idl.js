@@ -15,6 +15,32 @@ export const idlFactory = ({ IDL }) => {
   const AddWasmError = IDL.Record({ 'error' : IDL.Text });
   const Result = IDL.Variant({ 'Ok' : AddWasmOk, 'Error' : AddWasmError });
   const AddWasmResponse = IDL.Record({ 'result' : IDL.Opt(Result) });
+  const TokenDistribution = IDL.Record({
+    'distributions' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Nat64)),
+    'total_e8s' : IDL.Nat64,
+  });
+  const InitialTokenDistribution = IDL.Record({
+    'swap' : IDL.Nat64,
+    'developers' : IDL.Opt(TokenDistribution),
+    'treasury' : IDL.Opt(TokenDistribution),
+  });
+  const SnsInitPayload = IDL.Record({
+    'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
+    'token_symbol' : IDL.Opt(IDL.Text),
+    'max_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
+    'min_participants' : IDL.Opt(IDL.Nat32),
+    'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
+    'initial_token_distribution' : IDL.Opt(InitialTokenDistribution),
+    'token_name' : IDL.Opt(IDL.Text),
+    'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'proposal_reject_cost_e8s' : IDL.Opt(IDL.Nat64),
+    'min_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const DeployNewSnsRequest = IDL.Record({
+    'sns_init_payload' : IDL.Opt(SnsInitPayload),
+  });
   const SnsCanisterIds = IDL.Record({
     'root' : IDL.Opt(IDL.Principal),
     'swap' : IDL.Opt(IDL.Principal),
@@ -46,7 +72,11 @@ export const idlFactory = ({ IDL }) => {
   });
   return IDL.Service({
     'add_wasm' : IDL.Func([AddWasmRequest], [AddWasmResponse], []),
-    'deploy_new_sns' : IDL.Func([IDL.Record({})], [DeployNewSnsResponse], []),
+    'deploy_new_sns' : IDL.Func(
+        [DeployNewSnsRequest],
+        [DeployNewSnsResponse],
+        [],
+      ),
     'get_next_sns_version' : IDL.Func(
         [GetNextSnsVersionRequest],
         [GetNextSnsVersionResponse],
