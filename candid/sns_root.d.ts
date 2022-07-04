@@ -1,6 +1,4 @@
-import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
-
 export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType_1;
@@ -24,8 +22,7 @@ export interface DefiniteCanisterSettingsArgs {
   compute_allocation: bigint;
 }
 export interface _SERVICE {
-  get_sns_canisters_summary: ActorMethod<
-    [Array<Principal>],
-    Array<[string, Principal, CanisterStatusResultV2]>
-  >;
+  get_sns_canisters_summary: (
+    arg_0: Array<Principal>
+  ) => Promise<Array<[string, Principal, CanisterStatusResultV2]>>;
 }
