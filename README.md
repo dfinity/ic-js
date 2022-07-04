@@ -7,8 +7,8 @@ The libraries are still in active development, and new features will incremental
 ## Libraries
 
 - [nns](/packages/nns): interfacing with the **ledger** and **governance** canisters of the IC
-- sns-js: interacting with a Sns project (_coming soon_)
-- cmc-js: querying the Cmc canister (_coming soon_)
+- [sns](/packages/sns): interacting with a sns project (_coming soon_)
+- cmc: querying the Cmc canister (_coming soon_)
 
 ## Integration with NNS-dapp
 
