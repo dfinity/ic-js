@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -ueo pipefail
+
+help_text() {
+  cat <<-EOF
+	Imports did files for SNS canisters from the IC repo.
+
+	Usage:
+	  $(basename "$0") <ic_repo_dir>
+	EOF
+}
+
+import_did() {
+  local in_path="$1"
+  local out_filename="${2:-$(basename "$1")}"
+  local in_fullpath="$IC_DIR/$in_path"
+  local out_path="candid/${out_filename}"
+  echo "Copying ${in_fullpath} -> REPO_ROOT/${out_path}"
+  {
+    echo "// Generated from IC repo commit ${IC_COMMIT} '${in_path}' by $(basename "${0}")"
+    cat "$in_fullpath"
+  } >"${out_path}"
+}
+
+: Move to root of the repo
+cd "$(dirname "$(realpath "$0")")/.."
+
+: Get args
+while (( $# >0 )); do
+  arg="${1:-}" ; shift 1
+  case "$arg" in
+  --help)
+    help_text
+    exit 0 ;;
+  *)
+    test -d "${arg:-}" || {
+      echo "ERROR: Invalid directory for IC repo dir: '${arg:-}'"
+      echo "       Use --help for usage."
+      exit 1
+    } >&2
+    IC_DIR="$(realpath "$arg")"
+  esac
+done
+test -n "${IC_DIR:-}" || {
+  echo "ERROR: ic_repo_dir command line argument not provided."
+  echo "       Use --help for usage."
+  exit 1
+} >&2
+IC_COMMIT="$(cd "${IC_DIR}" && git rev-parse HEAD)"
+THIS_SCRIPT_NAME="$(basename "$0")"
+
+: Import canisters
+mkdir -p candid
+import_did "rs/sns/sale/canister/sale.did" "swap.did"
+import_did "rs/rosetta-api/ledger_canister/ledger.did" "ledger.did"
+import_did "rs/sns/root/canister/root.did" "root.did"
+: Fin
