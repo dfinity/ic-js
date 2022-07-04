@@ -25,7 +25,7 @@ install_protoc() {
     exit 1
   }
 
-  echo "Installing protoc from https://github.com/protocolbuffers/protobuf/releases/tag/${PROTOC_VERSION}"
+  echo "Installing protoc from https://github.com/protocolbuffers/protobuf/releases/tag/v${PROTOC_VERSION}"
   pushd "$(mktemp -d)"
   wget "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${OPERATING_SYSTEM}-${PROCESSOR}.zip"
   unzip protoc-3.19.4-linux-x86_64.zip
