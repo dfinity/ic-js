@@ -11,7 +11,7 @@ export * from "./types/governance";
 export * from "./types/governance_converters";
 export * from "./types/icp";
 export * from "./types/ledger";
-export * from "./types/sns-wasm";
+export * from "./types/sns_wasm";
 export * from "./utils/accounts.utils";
 export * from "./utils/account_identifier.utils";
 export * from "./utils/neurons.utils";

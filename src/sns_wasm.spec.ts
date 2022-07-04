@@ -1,7 +1,7 @@
 import { mock } from "jest-mock-extended";
 import { SnsWasmService } from "../candid/sns_wasm.idl";
-import { snsMock } from "./mocks/sns-wasm.mock";
-import { SnsWasmCanister } from "./sns-wasm";
+import { snsMock } from "./mocks/sns_wasm.mock";
+import { SnsWasmCanister } from "./sns_wasm";
 
 describe("Sns-wasm", () => {
   it("should return the list of sns", async () => {
