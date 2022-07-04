@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns/candid/genesis_token.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/genesis_token.did */
 export const idlFactory = ({ IDL }) => {
   const NeuronId = IDL.Record({ 'id' : IDL.Nat64 });
   const Result = IDL.Variant({ 'Ok' : IDL.Vec(NeuronId), 'Err' : IDL.Text });
@@ -21,7 +21,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Result_2 = IDL.Variant({ 'Ok' : AccountState, 'Err' : IDL.Text });
   return IDL.Service({
-    'balance' : IDL.Func([IDL.Text], [IDL.Nat32], []),
+    'balance' : IDL.Func([IDL.Text], [IDL.Nat32], ['query']),
     'claim_neurons' : IDL.Func([IDL.Text], [Result], []),
     'donate_account' : IDL.Func([IDL.Text], [Result_1], []),
     'forward_whitelisted_unclaimed_accounts' : IDL.Func(
@@ -29,10 +29,10 @@ export const idlFactory = ({ IDL }) => {
         [Result_1],
         [],
       ),
-    'get_account' : IDL.Func([IDL.Text], [Result_2], []),
-    'get_build_metadata' : IDL.Func([], [IDL.Text], []),
-    'len' : IDL.Func([], [IDL.Nat16], []),
-    'total' : IDL.Func([], [IDL.Nat32], []),
+    'get_account' : IDL.Func([IDL.Text], [Result_2], ['query']),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
+    'len' : IDL.Func([], [IDL.Nat16], ['query']),
+    'total' : IDL.Func([], [IDL.Nat32], ['query']),
   });
 };
 export const init = ({ IDL }) => { return []; };

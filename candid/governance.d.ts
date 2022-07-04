@@ -118,6 +118,9 @@ export interface Followees {
 }
 export interface Governance {
   default_followees: Array<[number, Followees]>;
+  most_recent_monthly_node_provider_rewards:
+    | []
+    | [MostRecentMonthlyNodeProviderRewards];
   wait_for_quiet_threshold_seconds: bigint;
   metrics: [] | [GovernanceCachedMetrics];
   node_providers: Array<NodeProvider>;
@@ -207,6 +210,10 @@ export interface MergeMaturity {
 export interface MergeMaturityResponse {
   merged_maturity_e8s: bigint;
   new_stake_e8s: bigint;
+}
+export interface MostRecentMonthlyNodeProviderRewards {
+  timestamp: bigint;
+  rewards: Array<RewardNodeProvider>;
 }
 export interface Motion {
   motion_text: string;
@@ -402,6 +409,9 @@ export interface _SERVICE {
     arg_0: NeuronIdOrSubaccount
   ) => Promise<Result_2>;
   get_monthly_node_provider_rewards: () => Promise<Result_3>;
+  get_most_recent_monthly_node_provider_rewards: () => Promise<
+    [] | [MostRecentMonthlyNodeProviderRewards]
+  >;
   get_network_economics_parameters: () => Promise<NetworkEconomics>;
   get_neuron_ids: () => Promise<Array<bigint>>;
   get_neuron_info: (arg_0: bigint) => Promise<Result_4>;

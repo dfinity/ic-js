@@ -1,9 +1,4 @@
-/* Do not edit.  Compiled with Canlist https://k7gat-daaaa-aaaae-qaahq-cai.ic0.app/ from candid/genesis_token.did */
-// Added manually the IDL part
-import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
-export const idlFactory: IDL.InterfaceFactory;
-
 export interface AccountBalanceArgs {
   account: AccountIdentifier;
 }

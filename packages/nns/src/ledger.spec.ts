@@ -1,5 +1,5 @@
 import { mock } from "jest-mock-extended";
-import { LedgerService } from "../candid/ledger.idl";
+import type { _SERVICE as LedgerService } from "../../../candid/ledger";
 import { Memo, Payment, SendRequest } from "../proto/ledger_pb";
 import { AccountIdentifier } from "./account_identifier";
 import { toICPTs } from "./canisters/ledger/ledger.request.converts";

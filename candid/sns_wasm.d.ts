@@ -1,8 +1,4 @@
-import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
-
-export const idlFactory: IDL.InterfaceFactory;
-
 export interface AddWasmError {
   error: string;
 }
@@ -15,6 +11,9 @@ export interface AddWasmRequest {
 }
 export interface AddWasmResponse {
   result: [] | [Result];
+}
+export interface DeployNewSnsRequest {
+  sns_init_payload: [] | [SnsInitPayload];
 }
 export interface DeployNewSnsResponse {
   subnet_id: [] | [Principal];
@@ -35,6 +34,11 @@ export interface GetWasmRequest {
 export interface GetWasmResponse {
   wasm: [] | [SnsWasm];
 }
+export interface InitialTokenDistribution {
+  swap: bigint;
+  developers: [] | [TokenDistribution];
+  treasury: [] | [TokenDistribution];
+}
 export interface ListDeployedSnsesResponse {
   instances: Array<DeployedSns>;
 }
@@ -44,6 +48,20 @@ export interface SnsCanisterIds {
   swap: [] | [Principal];
   ledger: [] | [Principal];
   governance: [] | [Principal];
+}
+export interface SnsInitPayload {
+  min_participant_icp_e8s: [] | [bigint];
+  fallback_controller_principal_ids: Array<string>;
+  token_symbol: [] | [string];
+  max_icp_e8s: [] | [bigint];
+  neuron_minimum_stake_e8s: [] | [bigint];
+  min_participants: [] | [number];
+  transaction_fee_e8s: [] | [bigint];
+  initial_token_distribution: [] | [InitialTokenDistribution];
+  token_name: [] | [string];
+  max_participant_icp_e8s: [] | [bigint];
+  proposal_reject_cost_e8s: [] | [bigint];
+  min_icp_e8s: [] | [bigint];
 }
 export interface SnsVersion {
   root_wasm_hash: Array<number>;
@@ -57,9 +75,13 @@ export interface SnsWasm {
 export interface SnsWasmCanisterInitPayload {
   sns_subnet_ids: Array<Principal>;
 }
-export interface SnsWasmService {
+export interface TokenDistribution {
+  distributions: Array<[string, bigint]>;
+  total_e8s: bigint;
+}
+export interface _SERVICE {
   add_wasm: (arg_0: AddWasmRequest) => Promise<AddWasmResponse>;
-  deploy_new_sns: (arg_0: {}) => Promise<DeployNewSnsResponse>;
+  deploy_new_sns: (arg_0: DeployNewSnsRequest) => Promise<DeployNewSnsResponse>;
   get_next_sns_version: (
     arg_0: GetNextSnsVersionRequest
   ) => Promise<GetNextSnsVersionResponse>;

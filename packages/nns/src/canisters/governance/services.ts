@@ -1,9 +1,9 @@
-import { GovernanceService } from "../../../candid/governance.idl";
-import {
+import type {
   Command_1,
   ManageNeuron,
   ManageNeuronResponse,
-} from "../../../candid/governanceTypes";
+  _SERVICE as GovernanceService,
+} from "../../../../../candid/governance";
 import { GovernanceError } from "../../errors/governance.errors";
 
 /**

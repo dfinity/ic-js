@@ -50,6 +50,8 @@ jobs:
           chmod +x .bin/didc
       - name: Add didc to the PATH
         run: echo "${PWD}/.bin" >> $GITHUB_PATH
+      - name: Install ts dependencies
+        run: npm ci --include=dev
       - name: Compile candid
         run: ./scripts/compile-idl-js
       - name: Verify that there are no changes to the compiled did files
@@ -66,7 +68,7 @@ jobs:
       - name: Install protoc
         run: sudo ./scripts/install-protoc
       - name: Install ts dependencies
-        run: npm ci
+        run: npm ci --include=dev
       - name: Compile protobuf
         run: npm run protoc
       - name: Verify that there are no changes to the compiled proto files

@@ -6,14 +6,14 @@ import {
 } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
-import { GovernanceService } from "../candid/governance.idl";
-import {
+import type {
   ClaimOrRefreshNeuronFromAccountResponse,
   GovernanceError as GovernanceErrorDetail,
   ListKnownNeuronsResponse,
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
-} from "../candid/governanceTypes";
+  _SERVICE as GovernanceService,
+} from "../../../candid/governance";
 import { NeuronId as PbNeuronId } from "../proto/base_types_pb";
 import { ManageNeuronResponse as PbManageNeuronResponse } from "../proto/governance_pb";
 import {

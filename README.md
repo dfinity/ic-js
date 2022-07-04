@@ -7,9 +7,11 @@ The libraries are still in active development, and new features will incremental
 ## Libraries
 
 - [nns](/packages/nns): interfacing with the **ledger** and **governance** canisters of the IC
-- sns-js: interacting with a Sns project (_coming soon_)
-- cmc-js: querying the Cmc canister (_coming soon_)
+- [sns](/packages/sns): interacting with a sns project (_coming soon_)
+- cmc: querying the Cmc canister (_coming soon_)
 
-## Integration with NNS-dapp
+## Links
 
-These packages are used in [NNS-dapp](https://github.com/dfinity/nns-dapp/). Checkout the [How-To](/HOWTO.md) if you wish to test local changes with the app.
+Here are some useful links:
+
+- See the [HACKING](/HACKING.md) document for some information about local development
