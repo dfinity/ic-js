@@ -9,7 +9,6 @@ module.exports = {
   },
   testEnvironment: "node",
   setupFiles: [`<rootDir>/test-setup.ts`],
-  modulePathIgnorePatterns: ["./dist"],
   transform: {
     "^.+\\.(t|j)s$": "ts-jest",
   },
