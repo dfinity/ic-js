@@ -26,12 +26,14 @@ import_did() {
 cd "$(dirname "$(realpath "$0")")/.."
 
 : Get args
-while (( $# >0 )); do
-  arg="${1:-}" ; shift 1
+while (($# > 0)); do
+  arg="${1:-}"
+  shift 1
   case "$arg" in
   --help)
     help_text
-    exit 0 ;;
+    exit 0
+    ;;
   *)
     test -d "${arg:-}" || {
       echo "ERROR: Invalid directory for IC repo dir: '${arg:-}'"
@@ -39,6 +41,7 @@ while (( $# >0 )); do
       exit 1
     } >&2
     IC_DIR="$(realpath "$arg")"
+    ;;
   esac
 done
 test -n "${IC_DIR:-}" || {
