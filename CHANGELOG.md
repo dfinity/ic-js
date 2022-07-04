@@ -1,8 +1,14 @@
 # 0.x.y (2022-aa-bb)
 
+### Features
+
+- new library `@dfinity/sns`
+
 ### Build
 
 - bump dependencies including agent-js v0.12.0
+- rename repo from `nns-js` to `ic-js`
+- transform repo into a mono-repo for packages `nns`, `sns` and in the future more libraries
 
 # 0.5.0 (2022-06-23)
 
