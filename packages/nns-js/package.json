@@ -1,0 +1,55 @@
+{
+  "name": "@dfinity/nns",
+  "version": "0.5.0",
+  "description": "A library for interfacing with the Internet Computer's Network Nervous System.",
+  "license": "Apache-2.0",
+  "main": "dist/cjs/index.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "rmdir": "node ../../scripts/rmdir.mjs",
+    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
+    "build": "npm run rmdir && mkdir -p dist && cp -R proto candid dist && node esbuild.mjs && npm run ts-declaration",
+    "test": "jest"
+  },
+  "dependencies": {
+    "crc": "^4.1.1",
+    "crc-32": "^1.2.2",
+    "google-protobuf": "^3.20.1",
+    "js-sha256": "^0.9.0",
+    "randombytes": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/google-protobuf": "^3.15.6",
+    "@types/randombytes": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfinity/nns-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dfinity/nns-js"
+  },
+  "keywords": [
+    "internet computer",
+    "internet-computer",
+    "ic",
+    "dfinity",
+    "dfx",
+    "canister",
+    "candid",
+    "motoko",
+    "javascript",
+    "typescript",
+    "blockchain",
+    "crypto",
+    "nns",
+    "network nervous system",
+    "network-nervous-system"
+  ]
+}
