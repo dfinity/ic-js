@@ -12,9 +12,10 @@ help_text() {
 
 import_did() {
   local in_path="$1"
-  local out_filename="${2:-$(basename "$1")}"
+  local out_packages="$2"
+  local out_filename="${3:-$(basename "$1")}"
   local in_fullpath="$IC_DIR/$in_path"
-  local out_path="candid/${out_filename}"
+  local out_path="packages/${out_packages}/candid/${out_filename}"
   echo "Copying ${in_fullpath} -> REPO_ROOT/${out_path}"
   {
     echo "// Generated from IC repo commit ${IC_COMMIT} '${in_path}' by $(basename "${0}")"
@@ -53,9 +54,9 @@ IC_COMMIT="$(cd "${IC_DIR}" && git rev-parse HEAD)"
 THIS_SCRIPT_NAME="$(basename "$0")"
 
 : Import canisters
-mkdir -p candid
-import_did "rs/nns/governance/canister/governance.did" "governance.did"
-import_did "rs/rosetta-api/ledger_canister/ledger.did" "ledger.did"
-import_did "rs/nns/gtc/canister/gtc.did" "genesis_token.did"
-import_did "rs/nns/sns-wasm/canister/sns-wasm.did" "sns_wasm.did"
+mkdir -p packages/nns-js/candid
+import_did "rs/nns/governance/canister/governance.did" "nns-js" "governance.did"
+import_did "rs/rosetta-api/ledger_canister/ledger.did" "nns-js" "ledger.did"
+import_did "rs/nns/gtc/canister/gtc.did" "nns-js" "genesis_token.did"
+import_did "rs/nns/sns-wasm/canister/sns-wasm.did" "nns-js" "sns_wasm.did"
 : Fin

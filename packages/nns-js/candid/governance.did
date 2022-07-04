@@ -1,4 +1,4 @@
-// Generated from IC repo commit 8662d46f0ea81d04abaf6e597a99e67c576fc73e 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 906ba2724bd8addd30f8918b5aef4245c6b9febd 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
