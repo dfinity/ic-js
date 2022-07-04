@@ -1,4 +1,4 @@
-// Generated from IC repo commit 8662d46f0ea81d04abaf6e597a99e67c576fc73e 'rs/rosetta-api/ledger_canister/ledger.did' by import-candid
+// Generated from IC repo commit 906ba2724bd8addd30f8918b5aef4245c6b9febd 'rs/rosetta-api/ledger_canister/ledger.did' by import-candid
 // This is the official Ledger interface that is guaranteed to be backward compatible.
 
 // Amount of tokens, measured in 10^-8 of a token.

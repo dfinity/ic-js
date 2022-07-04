@@ -7,8 +7,8 @@
   },
   "plugins": ["@typescript-eslint"],
   "ignorePatterns": [
-    "dist/",
-    "candid/",
+    "**/dist/",
+    "**/candid/",
     "*.did.js",
     "*_pb.d.ts",
     "jest.config.js",
