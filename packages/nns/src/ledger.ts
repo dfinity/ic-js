@@ -1,7 +1,7 @@
 import { Actor, Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
-import { idlFactory, LedgerService } from "../candid/ledger.idl";
+import { idlFactory as certifiedIdlFactory } from "../../../candid/ledger.certified.idl";
+import { idlFactory, LedgerService } from "../../../candid/ledger.idl";
 import {
   AccountBalanceRequest,
   BlockHeight as PbBlockHeight,

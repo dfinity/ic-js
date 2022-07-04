@@ -1,4 +1,4 @@
-import { ListNeuronsResponse, NeuronInfo } from "../../candid/governanceTypes";
+import { ListNeuronsResponse, NeuronInfo } from "../../../../candid/governanceTypes";
 
 const one = BigInt(1);
 export const mockNeuronId = BigInt(14567);

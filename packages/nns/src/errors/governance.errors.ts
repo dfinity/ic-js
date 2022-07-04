@@ -1,4 +1,4 @@
-import { GovernanceError as GovernanceErrorDetail } from "../../candid/governanceTypes";
+import { GovernanceError as GovernanceErrorDetail } from "../../../../candid/governanceTypes";
 import { ICP } from "../icp";
 
 export abstract class StakeNeuronError extends Error {}

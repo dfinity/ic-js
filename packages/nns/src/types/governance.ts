@@ -1,6 +1,6 @@
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { GovernanceService } from "../../candid/governance.idl";
+import { GovernanceService } from "../../../../candid/governance.idl";
 
 export interface GovernanceCanisterOptions {
   // The agent to use when communicating with the governance canister.

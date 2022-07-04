@@ -1,5 +1,5 @@
 import { mock } from "jest-mock-extended";
-import { SnsWasmService } from "../candid/sns_wasm.idl";
+import { SnsWasmService } from "../../../candid/sns_wasm.idl";
 import { snsMock } from "./mocks/sns_wasm.mock";
 import { SnsWasmCanister } from "./sns_wasm";
 

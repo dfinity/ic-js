@@ -1,6 +1,6 @@
 import { Agent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { SnsWasmService } from "../../candid/sns_wasm.idl";
+import { SnsWasmService } from "../../../../candid/sns_wasm.idl";
 
 export interface SnsWasmCanisterOptions {
   // The agent to use when communicating with the Sns-wasm canister.
