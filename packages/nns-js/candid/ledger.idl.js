@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns-js/candid//ledger.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns-js/candid/ledger.did */
 export const idlFactory = ({ IDL }) => {
   const AccountIdentifier = IDL.Vec(IDL.Nat8);
   const AccountBalanceArgs = IDL.Record({ 'account' : AccountIdentifier });
