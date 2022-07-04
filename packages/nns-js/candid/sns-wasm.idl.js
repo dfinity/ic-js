@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/sns-wasm.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns-js/candid//sns-wasm.did */
 export const idlFactory = ({ IDL }) => {
   const SnsWasmCanisterInitPayload = IDL.Record({
     'sns_subnet_ids' : IDL.Vec(IDL.Principal),
