@@ -19,11 +19,11 @@ compile_did() {
   {
     echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
     didc bind -t js "${didfile}"
-  } | sed -E "s/^export default/export const idlFactory =/g" > "${jsFactoryFile}"
+  } | sed -E "s/^export default/export const idlFactory =/g" >"${jsFactoryFile}"
 
   generate_did_factory_ts
 
-  didc bind -t ts "${didfile}" > "${tsfile}"
+  didc bind -t ts "${didfile}" >"${tsfile}"
 }
 
 # The certified API makes use of the fact that update calls are always signed, so it calls query calls as updates.
@@ -49,7 +49,7 @@ compile_certified_did() {
 }
 
 generate_did_factory_ts() {
-  echo "import type { IDL } from \"@dfinity/candid\";export const idlFactory: IDL.InterfaceFactory;" > "${tsFactoryFile}"
+  echo "import type { IDL } from \"@dfinity/candid\";export const idlFactory: IDL.InterfaceFactory;" >"${tsFactoryFile}"
 }
 
 # First generate default certified versions of normal did files.
