@@ -31,10 +31,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dfinity/nns-js.git"
+    "url": "git+https://github.com/dfinity/ic-js.git",
+    "directory": "packages/nns"
   },
   "bugs": {
-    "url": "https://github.com/dfinity/nns-js"
+    "url": "https://github.com/dfinity/ic-js"
   },
   "keywords": [
     "internet computer",

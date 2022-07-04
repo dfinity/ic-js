@@ -4,7 +4,7 @@
 
 ## using npm pack
 
-1. Prepare the tar file (from nns-js)
-   `npm run protoc && npm run build --workspace=packages/nns-js && npm pack --workspace=packages/nns-js`
+1. Prepare the tar file (from nns)
+   `npm run protoc && npm run build --workspace=packages/nns && npm pack --workspace=packages/nns`
 2. Install the tar in the target project (nns-dapp)
-   - `npm i {nns-js-directory}/nns-js/dfinity-nns-{PACKED_VERSION}.tgz`
+   - `npm i {ic-js-directory}/dfinity-nns-{PACKED_VERSION}.tgz`

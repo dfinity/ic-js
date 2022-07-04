@@ -1,16 +1,13 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns-js/candid/ledger.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns/candid/ledger.did */
 export const idlFactory = ({ IDL }) => {
-  const AccountIdentifier = IDL.Vec(IDL.Nat8);
-  const AccountBalanceArgs = IDL.Record({ 'account' : AccountIdentifier });
-  const Tokens = IDL.Record({ 'e8s' : IDL.Nat64 });
-  const Archive = IDL.Record({ 'canister_id' : IDL.Principal });
-  const Archives = IDL.Record({ 'archives' : IDL.Vec(Archive) });
   const BlockIndex = IDL.Nat64;
   const GetBlocksArgs = IDL.Record({
     'start' : BlockIndex,
     'length' : IDL.Nat64,
   });
   const Memo = IDL.Nat64;
+  const AccountIdentifier = IDL.Vec(IDL.Nat8);
+  const Tokens = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Operation = IDL.Variant({
     'Burn' : IDL.Record({ 'from' : AccountIdentifier, 'amount' : Tokens }),
     'Mint' : IDL.Record({ 'to' : AccountIdentifier, 'amount' : Tokens }),
@@ -47,11 +44,7 @@ export const idlFactory = ({ IDL }) => {
     'Ok' : BlockRange,
     'Err' : QueryArchiveError,
   });
-  const QueryArchiveFn = IDL.Func(
-      [GetBlocksArgs],
-      [QueryArchiveResult],
-      ['query'],
-    );
+  const QueryArchiveFn = IDL.Func([GetBlocksArgs], [QueryArchiveResult], []);
   const QueryBlocksResponse = IDL.Record({
     'certificate' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'blocks' : IDL.Vec(Block),
@@ -65,6 +58,9 @@ export const idlFactory = ({ IDL }) => {
       })
     ),
   });
+  const AccountBalanceArgs = IDL.Record({ 'account' : AccountIdentifier });
+  const Archive = IDL.Record({ 'canister_id' : IDL.Principal });
+  const Archives = IDL.Record({ 'archives' : IDL.Vec(Archive) });
   const SubAccount = IDL.Vec(IDL.Nat8);
   const TransferArgs = IDL.Record({
     'to' : AccountIdentifier,
@@ -88,22 +84,14 @@ export const idlFactory = ({ IDL }) => {
   const TransferFeeArg = IDL.Record({});
   const TransferFee = IDL.Record({ 'transfer_fee' : Tokens });
   return IDL.Service({
-    'account_balance' : IDL.Func([AccountBalanceArgs], [Tokens], ['query']),
-    'archives' : IDL.Func([], [Archives], ['query']),
-    'decimals' : IDL.Func(
-        [],
-        [IDL.Record({ 'decimals' : IDL.Nat32 })],
-        ['query'],
-      ),
-    'name' : IDL.Func([], [IDL.Record({ 'name' : IDL.Text })], ['query']),
-    'query_blocks' : IDL.Func(
-        [GetBlocksArgs],
-        [QueryBlocksResponse],
-        ['query'],
-      ),
-    'symbol' : IDL.Func([], [IDL.Record({ 'symbol' : IDL.Text })], ['query']),
+    '_blocks' : IDL.Func([GetBlocksArgs], [QueryBlocksResponse], []),
+    'account_balance' : IDL.Func([AccountBalanceArgs], [Tokens], []),
+    'archives' : IDL.Func([], [Archives], []),
+    'decimals' : IDL.Func([], [IDL.Record({ 'decimals' : IDL.Nat32 })], []),
+    'name' : IDL.Func([], [IDL.Record({ 'name' : IDL.Text })], []),
+    'symbol' : IDL.Func([], [IDL.Record({ 'symbol' : IDL.Text })], []),
     'transfer' : IDL.Func([TransferArgs], [TransferResult], []),
-    'transfer_fee' : IDL.Func([TransferFeeArg], [TransferFee], ['query']),
+    'transfer_fee' : IDL.Func([TransferFeeArg], [TransferFee], []),
   });
 };
 export const init = ({ IDL }) => { return []; };
