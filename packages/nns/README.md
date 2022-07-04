@@ -28,4 +28,4 @@ async function main() {
 main();
 ```
 
-# [How-To](/HOWTO.md)
+# [How-To](/HACKING.md)
