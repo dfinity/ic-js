@@ -6,16 +6,16 @@ import {
   SnsWasmService,
 } from "../candid/sns-wasm.idl";
 import { MAINNET_SNS_WASM_CANISTER_ID } from "./constants/canister_ids";
-import { SnsManagerCanisterOptions } from "./types/sns-manager";
+import { SnsWasmCanisterOptions } from "./types/sns-wasm";
 import { defaultAgent } from "./utils/agent.utils";
 
-export class SnsManagerCanister {
+export class SnsWasmCanister {
   private constructor(
     private readonly service: SnsWasmService,
     private readonly certifiedService: SnsWasmService
   ) {}
 
-  public static create(options: SnsManagerCanisterOptions = {}) {
+  public static create(options: SnsWasmCanisterOptions = {}) {
     const agent = options.agent ?? defaultAgent();
     const canisterId = options.canisterId ?? MAINNET_SNS_WASM_CANISTER_ID;
 
@@ -33,7 +33,7 @@ export class SnsManagerCanister {
         canisterId,
       });
 
-    return new SnsManagerCanister(service, certifiedService);
+    return new SnsWasmCanister(service, certifiedService);
   }
 
   public listSns = async ({

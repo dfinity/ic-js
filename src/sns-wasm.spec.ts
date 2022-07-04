@@ -1,9 +1,9 @@
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import { DeployedSns, SnsWasmService } from "../candid/sns-wasm.idl";
-import { SnsManagerCanister } from "./sns-manager";
+import { SnsWasmCanister } from "./sns-wasm";
 
-describe("Sns", () => {
+describe("Sns-wasm", () => {
   it("should return the list of sns", async () => {
     const sns: DeployedSns[] = [
       {
@@ -18,7 +18,7 @@ describe("Sns", () => {
       instances: sns,
     });
 
-    const canister = SnsManagerCanister.create({
+    const canister = SnsWasmCanister.create({
       certifiedServiceOverride: service,
     });
     const res = await canister.listSns({});
