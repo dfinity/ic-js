@@ -1,12 +1,12 @@
 import { Actor } from "@dfinity/agent";
-import { idlFactory as certifiedIdlFactory } from "../candid/sns-wasm.certified.idl";
+import { idlFactory as certifiedIdlFactory } from "../candid/sns_wasm.certified.idl";
 import {
   DeployedSns,
   idlFactory,
   SnsWasmService,
-} from "../candid/sns-wasm.idl";
+} from "../candid/sns_wasm.idl";
 import { MAINNET_SNS_WASM_CANISTER_ID } from "./constants/canister_ids";
-import { SnsWasmCanisterOptions } from "./types/sns-wasm";
+import { SnsWasmCanisterOptions } from "./types/sns_wasm";
 import { defaultAgent } from "./utils/agent.utils";
 
 export class SnsWasmCanister {

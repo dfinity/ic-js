@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns-js/candid/sns-wasm.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/sns_wasm.did */
 export const idlFactory = ({ IDL }) => {
   const SnsWasmCanisterInitPayload = IDL.Record({
     'sns_subnet_ids' : IDL.Vec(IDL.Principal),
@@ -50,13 +50,13 @@ export const idlFactory = ({ IDL }) => {
     'get_next_sns_version' : IDL.Func(
         [GetNextSnsVersionRequest],
         [GetNextSnsVersionResponse],
-        [],
+        ['query'],
       ),
-    'get_wasm' : IDL.Func([GetWasmRequest], [GetWasmResponse], []),
+    'get_wasm' : IDL.Func([GetWasmRequest], [GetWasmResponse], ['query']),
     'list_deployed_snses' : IDL.Func(
         [IDL.Record({})],
         [ListDeployedSnsesResponse],
-        [],
+        ['query'],
       ),
   });
 };

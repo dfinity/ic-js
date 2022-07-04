@@ -30,6 +30,7 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'get_account' : IDL.Func([IDL.Text], [Result_2], []),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], []),
     'len' : IDL.Func([], [IDL.Nat16], []),
     'total' : IDL.Func([], [IDL.Nat32], []),
   });
