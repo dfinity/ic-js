@@ -32,7 +32,7 @@ jobs:
           add: .
           author_name: Formatting Committer
           author_email: "<nobody@example.com>"
-          message: "Updating svelte frontend formatting"
+          message: "Updating formatting"
           # do not pull: if this branch is behind, then we might as well let
           # the pushing fail
           pull_strategy: "NO-PULL"
@@ -82,7 +82,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build
+        run: npm run build --workspaces
 
   lint:
     runs-on: ubuntu-20.04
@@ -104,9 +104,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build
+        run: npm run build --workspaces
       - name: Test
-        run: npm run test
+        run: npm run test --workspaces
 
   may-merge:
     needs: ["formatting", "build", "lint", "test"]

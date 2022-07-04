@@ -10,8 +10,7 @@
     "did": "scripts/compile-idl-js",
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
-    "protoc": "bash ./scripts/update_proto.sh",
-    "test": "jest"
+    "protoc": "bash ./scripts/update_proto.sh"
   },
   "repository": {
     "type": "git",
