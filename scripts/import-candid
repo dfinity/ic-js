@@ -57,6 +57,5 @@ mkdir -p candid
 import_did "rs/nns/governance/canister/governance.did" "governance.did"
 import_did "rs/rosetta-api/ledger_canister/ledger.did" "ledger.did"
 import_did "rs/nns/gtc/canister/gtc.did" "genesis_token.did"
-import_did "rs/sns/swap/canister/swap.did" "sns_swap.did"
 import_did "rs/nns/sns-wasm/canister/sns-wasm.did" "sns_wasm.did"
 : Fin
