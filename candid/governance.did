@@ -1,6 +1,4 @@
-// Generated from IC repo commit a7af3db3065aa1d6acd8160a79b4ca67b20ac63c by governance.update.sh
-// Updated ae1f3a3902240ff31aa4add01122a02274522c96
-
+// Generated from IC repo commit 8662d46f0ea81d04abaf6e597a99e67c576fc73e 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -92,6 +90,7 @@ type Follow = record { topic : int32; followees : vec NeuronId };
 type Followees = record { followees : vec NeuronId };
 type Governance = record {
   default_followees : vec record { int32; Followees };
+  most_recent_monthly_node_provider_rewards : opt MostRecentMonthlyNodeProviderRewards;
   wait_for_quiet_threshold_seconds : nat64;
   metrics : opt GovernanceCachedMetrics;
   node_providers : vec NodeProvider;
@@ -161,6 +160,10 @@ type MergeMaturity = record { percentage_to_merge : nat32 };
 type MergeMaturityResponse = record {
   merged_maturity_e8s : nat64;
   new_stake_e8s : nat64;
+};
+type MostRecentMonthlyNodeProviderRewards = record {
+  timestamp : nat64;
+  rewards : vec RewardNodeProvider;
 };
 type Motion = record { motion_text : text };
 type NetworkEconomics = record {
@@ -333,6 +336,9 @@ service : (Governance) -> {
       Result_2,
     ) query;
   get_monthly_node_provider_rewards : () -> (Result_3);
+  get_most_recent_monthly_node_provider_rewards : () -> (
+      opt MostRecentMonthlyNodeProviderRewards,
+    ) query;
   get_network_economics_parameters : () -> (NetworkEconomics) query;
   get_neuron_ids : () -> (vec nat64) query;
   get_neuron_info : (nat64) -> (Result_4) query;
