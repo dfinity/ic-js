@@ -1,4 +1,3 @@
-import { Actor } from "@dfinity/agent";
 import type {
   DeployedSns,
   _SERVICE as SnsWasmService,
@@ -6,8 +5,8 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../../../candid/sns_wasm.certified.idl";
 import { idlFactory } from "../../../candid/sns_wasm.idl";
 import { MAINNET_SNS_WASM_CANISTER_ID } from "./constants/canister_ids";
-import type { SnsWasmCanisterOptions } from "./types/sns_wasm";
-import { defaultAgent } from "./utils/agent.utils";
+import type { CanisterOptions } from "./types/canister.options";
+import { createServices } from "./utils/actor.utils";
 
 export class SnsWasmCanister {
   private constructor(
@@ -15,23 +14,15 @@ export class SnsWasmCanister {
     private readonly certifiedService: SnsWasmService
   ) {}
 
-  public static create(options: SnsWasmCanisterOptions = {}) {
-    const agent = options.agent ?? defaultAgent();
-    const canisterId = options.canisterId ?? MAINNET_SNS_WASM_CANISTER_ID;
-
-    const service =
-      options.serviceOverride ??
-      Actor.createActor<SnsWasmService>(idlFactory, {
-        agent,
-        canisterId,
-      });
-
-    const certifiedService =
-      options.certifiedServiceOverride ??
-      Actor.createActor<SnsWasmService>(certifiedIdlFactory, {
-        agent,
-        canisterId,
-      });
+  public static create(options: CanisterOptions<SnsWasmService> = {}) {
+    const { service, certifiedService } = createServices<SnsWasmService>({
+      options: {
+        ...options,
+        canisterId: options.canisterId ?? MAINNET_SNS_WASM_CANISTER_ID,
+      },
+      idlFactory,
+      certifiedIdlFactory,
+    });
 
     return new SnsWasmCanister(service, certifiedService);
   }

@@ -1,3 +1,4 @@
+import { ActorSubclass } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as LedgerService } from "../../../candid/ledger";
 import { Memo, Payment, SendRequest } from "../proto/ledger_pb";
@@ -26,7 +27,7 @@ describe("LedgerCanister", () => {
         e8s: BigInt(30_000_000),
       };
       it("returns account balance with query call", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.account_balance.mockResolvedValue(tokens);
         const ledger = LedgerCanister.create({
           serviceOverride: service,
@@ -41,7 +42,7 @@ describe("LedgerCanister", () => {
       });
 
       it("returns account balance with update call", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.account_balance.mockResolvedValue(tokens);
         const ledger = LedgerCanister.create({
           certifiedServiceOverride: service,
@@ -59,7 +60,7 @@ describe("LedgerCanister", () => {
     describe("transactionFee", () => {
       it("returns the transaction fee in e8s", async () => {
         const fee = BigInt(10_000);
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer_fee.mockResolvedValue({
           transfer_fee: {
             e8s: fee,
@@ -116,7 +117,7 @@ describe("LedgerCanister", () => {
       const amount = ICP.fromE8s(BigInt(100000));
 
       it("fetches transaction fee if not present", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer_fee.mockResolvedValue({
           transfer_fee: { e8s: BigInt(10_000) },
         });
@@ -136,7 +137,7 @@ describe("LedgerCanister", () => {
       });
 
       it("calls transfer certified service with data", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Ok: BigInt(1234),
         });
@@ -167,7 +168,7 @@ describe("LedgerCanister", () => {
       });
 
       it("sets a default memo if not passed", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Ok: BigInt(1234),
         });
@@ -197,7 +198,7 @@ describe("LedgerCanister", () => {
       });
 
       it("handles subaccount", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Ok: BigInt(1234),
         });
@@ -233,7 +234,7 @@ describe("LedgerCanister", () => {
       });
 
       it("handles duplicate transaction", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
             TxDuplicate: {
@@ -256,7 +257,7 @@ describe("LedgerCanister", () => {
       });
 
       it("handles insufficient balance", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
             InsufficientFunds: {
@@ -281,7 +282,7 @@ describe("LedgerCanister", () => {
       });
 
       it("handles old tx", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
             TxTooOld: {
@@ -304,7 +305,7 @@ describe("LedgerCanister", () => {
       });
 
       it("handles bad fee", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
             BadFee: {
@@ -329,7 +330,7 @@ describe("LedgerCanister", () => {
       });
 
       it("handles transaction created in the future", async () => {
-        const service = mock<LedgerService>();
+        const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
             TxCreatedInFuture: null,

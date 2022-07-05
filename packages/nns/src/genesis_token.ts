@@ -1,35 +1,26 @@
-import type { Agent } from "@dfinity/agent";
-import { Actor } from "@dfinity/agent";
-import type { Principal } from "@dfinity/principal";
+import type { ActorSubclass } from "@dfinity/agent";
 import type { _SERVICE as GenesisTokenService } from "../../../candid/genesis_token";
+import { idlFactory as certifiedIdlFactory } from "../../../candid/genesis_token.certified.idl";
 import { idlFactory } from "../../../candid/genesis_token.idl";
 import { MAINNET_GENESIS_TOKEN_CANISTER_ID } from "./constants/canister_ids";
+import type { CanisterOptions } from "./types/canister.options";
 import type { NeuronId } from "./types/common";
-import { defaultAgent } from "./utils/agent.utils";
-
-// HttpAgent options that can be used at construction.
-export interface GenesisTokenCanisterOptions {
-  // The agent to use when communicating with the canister.
-  agent?: Agent;
-  // The canister's ID.
-  canisterId?: Principal;
-  // The default service to use when calling into the IC. Primarily overridden
-  // in test for mocking.
-  serviceOverride?: GenesisTokenService;
-}
+import { createServices } from "./utils/actor.utils";
 
 export class GenesisTokenCanister {
-  private constructor(private readonly service: GenesisTokenService) {}
+  private constructor(
+    private readonly service: ActorSubclass<GenesisTokenService>
+  ) {}
 
-  public static create(options: GenesisTokenCanisterOptions = {}) {
-    const agent = options.agent ?? defaultAgent();
-    const canisterId = options.canisterId ?? MAINNET_GENESIS_TOKEN_CANISTER_ID;
-    const service =
-      options.serviceOverride ??
-      Actor.createActor<GenesisTokenService>(idlFactory, {
-        agent,
-        canisterId,
-      });
+  public static create(options: CanisterOptions<GenesisTokenService> = {}) {
+    const { service } = createServices<GenesisTokenService>({
+      options: {
+        ...options,
+        canisterId: options.canisterId ?? MAINNET_GENESIS_TOKEN_CANISTER_ID,
+      },
+      idlFactory,
+      certifiedIdlFactory,
+    });
 
     return new GenesisTokenCanister(service);
   }

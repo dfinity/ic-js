@@ -1,4 +1,4 @@
-import { Actor, type Agent } from "@dfinity/agent";
+import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
@@ -70,7 +70,7 @@ import {
 import { ICP } from "./icp";
 import type { LedgerCanister } from "./ledger";
 import type { E8s, NeuronId } from "./types/common";
-import type { GovernanceCanisterOptions } from "./types/governance";
+import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
   ClaimOrRefreshNeuronRequest,
   DisburseRequest,
@@ -88,7 +88,7 @@ import type {
   Vote,
 } from "./types/governance_converters";
 import { checkAccountId } from "./utils/accounts.utils";
-import { defaultAgent } from "./utils/agent.utils";
+import { createServices } from "./utils/actor.utils";
 import {
   asciiStringToByteArray,
   uint8ArrayToBigInt,
@@ -99,8 +99,8 @@ import { updateCall } from "./utils/proto.utils";
 export class GovernanceCanister {
   private constructor(
     private readonly canisterId: Principal,
-    private readonly service: GovernanceService,
-    private readonly certifiedService: GovernanceService,
+    private readonly service: ActorSubclass<GovernanceService>,
+    private readonly certifiedService: ActorSubclass<GovernanceService>,
     private readonly agent: Agent,
     private readonly hardwareWallet: boolean = false
   ) {
@@ -112,21 +112,17 @@ export class GovernanceCanister {
   }
 
   public static create(options: GovernanceCanisterOptions = {}) {
-    const agent = options.agent ?? defaultAgent();
-    const canisterId = options.canisterId ?? MAINNET_GOVERNANCE_CANISTER_ID;
+    const canisterId: Principal =
+      options.canisterId ?? MAINNET_GOVERNANCE_CANISTER_ID;
 
-    const service =
-      options.serviceOverride ??
-      Actor.createActor<GovernanceService>(idlFactory, {
-        agent,
-        canisterId,
-      });
-
-    const certifiedService =
-      options.certifiedServiceOverride ??
-      Actor.createActor<GovernanceService>(certifiedIdlFactory, {
-        agent,
-        canisterId,
+    const { service, certifiedService, agent } =
+      createServices<GovernanceService>({
+        options: {
+          ...options,
+          canisterId,
+        },
+        idlFactory,
+        certifiedIdlFactory,
       });
 
     return new GovernanceCanister(

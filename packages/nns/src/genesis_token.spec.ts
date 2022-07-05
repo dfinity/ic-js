@@ -1,3 +1,4 @@
+import { ActorSubclass } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as GenesisTokenService } from "../../../candid/genesis_token";
 import { GenesisTokenCanister } from "./genesis_token";
@@ -14,7 +15,7 @@ describe("GenesisTokenCanister", () => {
         },
       ],
     };
-    const service = mock<GenesisTokenService>();
+    const service = mock<ActorSubclass<GenesisTokenService>>();
     service.claim_neurons.mockResolvedValue(response);
 
     const gtc = GenesisTokenCanister.create({ serviceOverride: service });
@@ -28,7 +29,7 @@ describe("GenesisTokenCanister", () => {
     const response = {
       Err: "An error occurred.",
     };
-    const service = mock<GenesisTokenService>();
+    const service = mock<ActorSubclass<GenesisTokenService>>();
     service.claim_neurons.mockResolvedValue(response);
 
     const gtc = GenesisTokenCanister.create({ serviceOverride: service });
