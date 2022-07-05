@@ -55,7 +55,7 @@ jobs:
       - name: Compile candid
         run: ./scripts/compile-idl-js
       - name: Verify that there are no changes to the compiled did files
-        run: git diff --exit-code
+        run: git diff --exit-code -- candid/
 
   build-protobuf:
     runs-on: ubuntu-20.04
@@ -72,7 +72,7 @@ jobs:
       - name: Compile protobuf
         run: npm run protoc
       - name: Verify that there are no changes to the compiled proto files
-        run: git diff --exit-code
+        run: git diff --exit-code -- packages/nns/proto/
 
   build:
     needs: [build-candid, build-protobuf]
