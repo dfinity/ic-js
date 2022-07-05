@@ -44,11 +44,11 @@ The `did` files, related `.js` and `.d.ts` are generated automatically.
 
 The files of the [candid](./candid) folders are shared across packages. Their architectur is the following:
 
-a. `something.did`: the candid definition
-b. `something.d.ts`: the typescript definition for the types and service of the did files (1)
-c. `something.idl.js`: the factory js file (1)
-d. `something.idl.d.ts`: the typescript definition of the above factory file
-e. `something.certified.idl.js`: the factory js file for the certified calls (1)
-f. `something.certified.idl.d.ts`: the typescript definition of the above factory file
+- `something.did`: the candid definition
+- `something.d.ts`: the typescript definition for the types and service of the did files (1)
+- `something.idl.js`: the factory js file (1)
+- `something.idl.d.ts`: the typescript definition of the above factory file
+- `something.certified.idl.js`: the factory js file for the certified calls (1)
+- `something.certified.idl.d.ts`: the typescript definition of the above factory file
 
 (1) auto-generated with [didc](https://github.com/dfinity/candid)
