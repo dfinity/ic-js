@@ -1,5 +1,4 @@
-import type { Agent } from "@dfinity/agent";
-import { Actor } from "@dfinity/agent";
+import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 import type { _SERVICE as LedgerService } from "../../../candid/ledger";
 import { idlFactory as certifiedIdlFactory } from "../../../candid/ledger.certified.idl";
@@ -26,39 +25,38 @@ import {
 } from "./errors/ledger.errors";
 import { ICP } from "./icp";
 import type { BlockHeight } from "./types/common";
-import type { LedgerCanisterCall, LedgerCanisterOptions } from "./types/ledger";
+import type {
+  LedgerCanisterCall,
+  LedgerCanisterOptions,
+} from "./types/ledger.options";
 import type { TransferRequest } from "./types/ledger_converters";
-import { defaultAgent } from "./utils/agent.utils";
+import { createServices } from "./utils/actor.utils";
 import { queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
   private constructor(
     private readonly agent: Agent,
     private readonly canisterId: Principal,
-    private readonly service: LedgerService,
-    private readonly certifiedService: LedgerService,
+    private readonly service: ActorSubclass<LedgerService>,
+    private readonly certifiedService: ActorSubclass<LedgerService>,
     private readonly updateFetcher: LedgerCanisterCall,
     private readonly queryFetcher: LedgerCanisterCall,
     private readonly hardwareWallet: boolean = false
   ) {}
 
   public static create(options: LedgerCanisterOptions = {}) {
-    const agent = options.agent ?? defaultAgent();
-    const canisterId = options.canisterId ?? MAINNET_LEDGER_CANISTER_ID;
+    const canisterId: Principal =
+      options.canisterId ?? MAINNET_LEDGER_CANISTER_ID;
 
-    const service =
-      options.serviceOverride ??
-      Actor.createActor<LedgerService>(idlFactory, {
-        agent,
+    const { service, certifiedService, agent } = createServices<LedgerService>({
+      options: {
+        ...options,
         canisterId,
-      });
+      },
+      idlFactory,
+      certifiedIdlFactory,
+    });
 
-    const certifiedService =
-      options.certifiedServiceOverride ??
-      Actor.createActor<LedgerService>(certifiedIdlFactory, {
-        agent,
-        canisterId,
-      });
     return new LedgerCanister(
       agent,
       canisterId,

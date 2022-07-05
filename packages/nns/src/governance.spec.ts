@@ -1,4 +1,5 @@
 import {
+  ActorSubclass,
   AnonymousIdentity,
   polling,
   type Agent,
@@ -82,7 +83,7 @@ describe("GovernanceCanister", () => {
           },
         ],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.list_known_neurons.mockResolvedValue(response);
 
       const governance = GovernanceCanister.create({
@@ -106,7 +107,7 @@ describe("GovernanceCanister", () => {
           },
         ],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.list_known_neurons.mockResolvedValue(response);
 
       const governance = GovernanceCanister.create({
@@ -142,7 +143,7 @@ describe("GovernanceCanister", () => {
           },
         ],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.list_known_neurons.mockResolvedValue(response);
 
       const governance = GovernanceCanister.create({
@@ -160,7 +161,7 @@ describe("GovernanceCanister", () => {
           { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
         ],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const mockLedger = mock<LedgerCanister>();
@@ -189,7 +190,7 @@ describe("GovernanceCanister", () => {
           { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
         ],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const mockLedger = mock<LedgerCanister>();
@@ -220,7 +221,7 @@ describe("GovernanceCanister", () => {
       const clainNeuronResponse: ClaimOrRefreshNeuronFromAccountResponse = {
         result: [{ NeuronId: { id: neuronId } }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.claim_or_refresh_neuron_from_account.mockResolvedValue(
         clainNeuronResponse
       );
@@ -249,7 +250,7 @@ describe("GovernanceCanister", () => {
 
     describe("listNeurons", () => {
       it("list user neurons", async () => {
-        const service = mock<GovernanceService>();
+        const service = mock<ActorSubclass<GovernanceService>>();
         service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
 
         const governance = GovernanceCanister.create({
@@ -296,7 +297,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ RegisterVote: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -319,7 +320,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -340,7 +341,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -360,7 +361,7 @@ describe("GovernanceCanister", () => {
     });
 
     it("should fetch and convert a neuron", async () => {
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
         serviceOverride: service,
@@ -384,7 +385,7 @@ describe("GovernanceCanister", () => {
 
   describe("GovernanceCanister.getProposal", () => {
     it("should fetch and convert single ProposalInfo", async () => {
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
         serviceOverride: service,
@@ -417,7 +418,7 @@ describe("GovernanceCanister", () => {
           { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
         ],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -436,7 +437,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -457,7 +458,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -495,7 +496,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -515,7 +516,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -539,7 +540,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Follow: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -561,7 +562,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -582,7 +583,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -610,7 +611,7 @@ describe("GovernanceCanister", () => {
           { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
         ],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -628,7 +629,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -649,7 +650,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -668,7 +669,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -685,7 +686,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -721,7 +722,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -740,7 +741,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -776,7 +777,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -796,7 +797,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Merge: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -838,7 +839,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -865,7 +866,7 @@ describe("GovernanceCanister", () => {
           },
         ],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -896,7 +897,7 @@ describe("GovernanceCanister", () => {
     });
 
     it("throws error if percentage not valid", async () => {
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
@@ -918,7 +919,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -945,7 +946,7 @@ describe("GovernanceCanister", () => {
           },
         ],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -987,7 +988,7 @@ describe("GovernanceCanister", () => {
     });
 
     it("throws error if percentage not valid", async () => {
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
@@ -1009,7 +1010,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1030,7 +1031,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Disburse: { transfer_block_height: BigInt(12345) } }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1067,7 +1068,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1082,7 +1083,7 @@ describe("GovernanceCanister", () => {
 
     it("throws error if invalid account id", async () => {
       const neuronId = BigInt(10);
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockImplementation(jest.fn());
 
       const governance = GovernanceCanister.create({
@@ -1105,7 +1106,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Split: { created_neuron_id: [{ id: BigInt(11) }] } }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1128,7 +1129,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1149,7 +1150,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1182,7 +1183,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1199,7 +1200,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1232,7 +1233,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1266,7 +1267,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ MakeProposal: { proposal_id: [{ id: BigInt(10) }] } }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
@@ -1285,7 +1286,7 @@ describe("GovernanceCanister", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
-      const service = mock<GovernanceService>();
+      const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
       const governance = GovernanceCanister.create({
