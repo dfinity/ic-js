@@ -1,9 +1,10 @@
-import { Actor, Agent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import type { Agent } from "@dfinity/agent";
+import { Actor } from "@dfinity/agent";
+import type { Principal } from "@dfinity/principal";
 import type { _SERVICE as GenesisTokenService } from "../../../candid/genesis_token";
 import { idlFactory } from "../../../candid/genesis_token.idl";
 import { MAINNET_GENESIS_TOKEN_CANISTER_ID } from "./constants/canister_ids";
-import { NeuronId } from "./types/common";
+import type { NeuronId } from "./types/common";
 import { defaultAgent } from "./utils/agent.utils";
 
 // HttpAgent options that can be used at construction.

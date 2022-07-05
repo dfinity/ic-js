@@ -1,4 +1,5 @@
-import { Agent, AnonymousIdentity, HttpAgent } from "@dfinity/agent";
+import type { Agent } from "@dfinity/agent";
+import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
 
 /**
  * @returns The default agent to use. An agent that connects to mainnet with the anonymous identity.

@@ -1,5 +1,6 @@
-import { Actor, Agent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import type { Agent } from "@dfinity/agent";
+import { Actor } from "@dfinity/agent";
+import type { Principal } from "@dfinity/principal";
 import type { _SERVICE as LedgerService } from "../../../candid/ledger";
 import { idlFactory as certifiedIdlFactory } from "../../../candid/ledger.certified.idl";
 import { idlFactory } from "../../../candid/ledger.idl";
@@ -11,7 +12,7 @@ import {
   Payment,
   SendRequest,
 } from "../proto/ledger_pb";
-import { AccountIdentifier } from "./account_identifier";
+import type { AccountIdentifier } from "./account_identifier";
 import {
   subAccountNumbersToSubaccount,
   toICPTs,
@@ -24,9 +25,9 @@ import {
   mapTransferProtoError,
 } from "./errors/ledger.errors";
 import { ICP } from "./icp";
-import { BlockHeight } from "./types/common";
-import { LedgerCanisterCall, LedgerCanisterOptions } from "./types/ledger";
-import { TransferRequest } from "./types/ledger_converters";
+import type { BlockHeight } from "./types/common";
+import type { LedgerCanisterCall, LedgerCanisterOptions } from "./types/ledger";
+import type { TransferRequest } from "./types/ledger_converters";
 import { defaultAgent } from "./utils/agent.utils";
 import { queryCall, updateCall } from "./utils/proto.utils";
 

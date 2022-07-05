@@ -17,8 +17,8 @@ import type {
   RewardMode as RawRewardMode,
 } from "../../../../../candid/governance";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
-import {
+import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
+import type {
   Action,
   By,
   Change,

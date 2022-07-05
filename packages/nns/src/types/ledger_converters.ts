@@ -1,6 +1,6 @@
-import { AccountIdentifier } from "../account_identifier";
-import { ICP } from "../icp";
-import { E8s } from "./common";
+import type { AccountIdentifier } from "../account_identifier";
+import type { ICP } from "../icp";
+import type { E8s } from "./common";
 
 export type TransferRequest = {
   to: AccountIdentifier;

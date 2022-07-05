@@ -5,8 +5,8 @@ import {
 } from "../../../proto/base_types_pb";
 import { ManageNeuron as PbManageNeuron } from "../../../proto/governance_pb";
 import { AccountIdentifier as PbAccountIdentifier } from "../../../proto/ledger_pb";
-import { NeuronId } from "../../types/common";
-import {
+import type { NeuronId } from "../../types/common";
+import type {
   AddHotKeyRequest,
   DisburseRequest,
   FollowRequest,

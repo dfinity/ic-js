@@ -4,7 +4,7 @@ import type {
 } from "../../../../../candid/ledger";
 import { ICPTs, Subaccount } from "../../../proto/ledger_pb";
 import { TRANSACTION_FEE } from "../../constants/constants";
-import { TransferRequest } from "../../types/ledger_converters";
+import type { TransferRequest } from "../../types/ledger_converters";
 
 export const subAccountNumbersToSubaccount = (
   subAccountNumbers: number[]

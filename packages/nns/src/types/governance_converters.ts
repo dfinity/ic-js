@@ -1,6 +1,6 @@
-import { DerEncodedPublicKey } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
-import {
+import type { DerEncodedPublicKey } from "@dfinity/agent";
+import type { Principal } from "@dfinity/principal";
+import type {
   AccountIdentifier,
   CanisterIdString,
   E8s,
