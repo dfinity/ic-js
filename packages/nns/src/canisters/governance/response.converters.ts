@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { Map } from "google-protobuf";
+import type { Map } from "google-protobuf";
 import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -25,8 +25,8 @@ import type {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../../../candid/governance";
-import { PrincipalId } from "../../../proto/base_types_pb";
-import {
+import type { PrincipalId } from "../../../proto/base_types_pb";
+import type {
   BallotInfo as PbBallotInfo,
   ListNeuronsResponse,
   Neuron as PbNeuron,
@@ -34,8 +34,8 @@ import {
 } from "../../../proto/governance_pb";
 import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import { AccountIdentifier, E8s, NeuronId } from "../../types/common";
-import {
+import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
+import type {
   Action,
   Ballot,
   BallotInfo,
@@ -49,7 +49,6 @@ import {
   Neuron,
   NeuronIdOrSubaccount,
   NeuronInfo,
-  NeuronState,
   NodeProvider,
   Operation,
   Proposal,
@@ -57,6 +56,7 @@ import {
   RewardMode,
   Tally,
 } from "../../types/governance_converters";
+import { NeuronState } from "../../types/governance_converters";
 import {
   accountIdentifierFromBytes,
   principalToAccountIdentifier,

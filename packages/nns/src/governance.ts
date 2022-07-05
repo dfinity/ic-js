@@ -1,5 +1,5 @@
 import { Actor, type Agent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import type { Principal } from "@dfinity/principal";
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
 import type {
@@ -9,10 +9,10 @@ import type {
 } from "../../../candid/governance";
 import { idlFactory as certifiedIdlFactory } from "../../../candid/governance.certified.idl";
 import { idlFactory } from "../../../candid/governance.idl";
+import type { ManageNeuron as PbManageNeuron } from "../proto/governance_pb";
 import {
   ListNeurons as PbListNeurons,
   ListNeuronsResponse as PbListNeuronsResponse,
-  ManageNeuron as PbManageNeuron,
   ManageNeuronResponse as PbManageNeuronResponse,
 } from "../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
@@ -68,10 +68,10 @@ import {
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { ICP } from "./icp";
-import { LedgerCanister } from "./ledger";
-import { E8s, NeuronId } from "./types/common";
-import { GovernanceCanisterOptions } from "./types/governance";
-import {
+import type { LedgerCanister } from "./ledger";
+import type { E8s, NeuronId } from "./types/common";
+import type { GovernanceCanisterOptions } from "./types/governance";
+import type {
   ClaimOrRefreshNeuronRequest,
   DisburseRequest,
   FollowRequest,

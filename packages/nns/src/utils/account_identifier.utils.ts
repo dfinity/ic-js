@@ -1,7 +1,7 @@
-import { Principal } from "@dfinity/principal";
+import type { Principal } from "@dfinity/principal";
 import { Buffer } from "buffer";
 import { sha224 } from "js-sha256";
-import { AccountIdentifier } from "../types/common";
+import type { AccountIdentifier } from "../types/common";
 import {
   asciiStringToByteArray,
   calculateCrc32,

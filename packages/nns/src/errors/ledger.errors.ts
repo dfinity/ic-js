@@ -1,6 +1,6 @@
 import type { TransferError as RawTransferError } from "../../../../candid/ledger";
 import { ICP } from "../icp";
-import { BlockHeight } from "../types/common";
+import type { BlockHeight } from "../types/common";
 
 export class TransferError extends Error {}
 

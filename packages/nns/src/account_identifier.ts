@@ -1,4 +1,4 @@
-import { Principal } from "@dfinity/principal";
+import type { Principal } from "@dfinity/principal";
 import { sha224 } from "js-sha256";
 import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
 import {
