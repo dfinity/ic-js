@@ -4,11 +4,7 @@ set -eux
 npm ci
 
 : Update the version to SEMANTIC_VERSION-nightly-DATE e.g. 0.2.2-nightly-2022-02-28
-node -e 'fs=require("fs");n="package.json";e={encoding:"utf8"};x = JSON.parse(fs.readFileSync(n,e));x.version=`${x.version}-nightly-${new Date().toISOString().slice(0,10)}`;fs.writeFileSync(n, JSON.stringify(x, null, 2), e)'
-: The version then needs to be updated in the package.lock
-npm install
+node ./scripts/update-version.mjs nns
 
 : Now we can build
-npm run build
-: Create the release tarball
-npm pack
+npm run build --workspace=packages/nns
