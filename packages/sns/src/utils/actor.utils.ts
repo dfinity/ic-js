@@ -19,7 +19,11 @@ export const createServices = <T>({
   options: CanisterOptions<T>;
   idlFactory: IDL.InterfaceFactory;
   certifiedIdlFactory: IDL.InterfaceFactory;
-}): { service: ActorSubclass<T>; certifiedService: ActorSubclass<T>; agent: Agent } => {
+}): {
+  service: ActorSubclass<T>;
+  certifiedService: ActorSubclass<T>;
+  agent: Agent;
+} => {
   const agent: Agent = agentOption ?? defaultAgent();
 
   const service: ActorSubclass<T> =

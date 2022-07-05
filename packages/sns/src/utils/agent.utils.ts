@@ -1,4 +1,4 @@
-import type { Agent} from "@dfinity/agent";
+import type { Agent } from "@dfinity/agent";
 import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
 
 // Note: same as nns agent.utils - could be extracted to a utility

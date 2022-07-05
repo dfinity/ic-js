@@ -1,6 +1,5 @@
-import type { Agent } from "@dfinity/agent";
+import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
-import type {ActorSubclass} from '@dfinity/agent';
 
 // Note: only difference with nns canister options is canisterId is mandatory for sns
 
