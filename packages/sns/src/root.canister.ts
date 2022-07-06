@@ -24,8 +24,6 @@ export class RootCanister {
     return new RootCanister(service, certifiedService);
   }
 
-  // Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
-
   /**
    * List and get a summary of the canisters that are part of the Sns.
    *
@@ -43,6 +41,28 @@ export class RootCanister {
     certified?: boolean;
     additionalCanisterIds?: Principal[];
   }): Promise<Array<[string, Principal, CanisterStatusResultV2]>> => {
+    /**
+     * TODO: candid definition will change soon:
+     * - no more additionalCanisterIds param
+     * - variant answer
+     *
+     * type GetSnsCanistersSummaryResponse = record {
+     *   root : SnsCanisterSummary;
+     *   swap : SnsCanisterSummary;
+     *   ledger : SnsCanisterSummary;
+     *   governance : SnsCanisterSummary;
+     *   dapps : vec SnsCanisterSummary;
+     *   archives : vec SnsCanisterSummary;
+     * };
+     * type SnsCanisterSummary = record {
+     *   status : CanisterStatusResultV2;
+     *   principal_id : principal;
+     * };
+     * service : (SnsRootCanister) -> {
+     *   get_sns_canisters_summary : () -> (GetSnsCanistersSummaryResponse);
+     * }
+     */
+
     // TODO(NNS1-1519): Currently support only certified calls - we need query calls for nns-dapp too (as we used both to offer best user experience)
     const service = certified ? this.certifiedService : this.service;
 
