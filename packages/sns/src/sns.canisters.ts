@@ -1,4 +1,4 @@
-import type { Neuron } from "../../../candid/sns_governance";
+import type { Neuron } from "../candid/sns_governance";
 import type { GovernanceCanister } from "./governance.canister";
 import type { LedgerCanister } from "./ledger.canister";
 import type { RootCanister } from "./root.canister";

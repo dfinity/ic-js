@@ -2,7 +2,7 @@ import type { Principal } from "@dfinity/principal";
 import type {
   CanisterStatusResultV2,
   _SERVICE as SnsRootCanister,
-} from "../../../candid/sns_root";
+} from "../candid/sns_root";
 import { GovernanceCanister } from "./governance.canister";
 import { LedgerCanister } from "./ledger.canister";
 import { RootCanister } from "./root.canister";
