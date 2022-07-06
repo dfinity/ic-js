@@ -1,4 +1,4 @@
-export type { DeployedSns } from "../../../candid/sns_wasm";
+export type { DeployedSns } from "../candid/sns_wasm";
 export { AccountIdentifier, SubAccount } from "./account_identifier";
 export * from "./errors/governance.errors";
 export * from "./errors/ledger.errors";

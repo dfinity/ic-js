@@ -2,9 +2,9 @@ import type { Principal } from "@dfinity/principal";
 import type {
   CanisterStatusResultV2,
   _SERVICE as SnsRootCanister,
-} from "../../../candid/sns_root";
-import { idlFactory as certifiedIdlFactory } from "../../../candid/sns_root.certified.idl";
-import { idlFactory } from "../../../candid/sns_root.idl";
+} from "../candid/sns_root";
+import { idlFactory as certifiedIdlFactory } from "../candid/sns_root.certified.idl";
+import { idlFactory } from "../candid/sns_root.idl";
 import type { CanisterOptions } from "./types/canister.options";
 import { createServices } from "./utils/actor.utils";
 

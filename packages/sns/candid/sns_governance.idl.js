@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/sns_governance.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_governance.did */
 export const idlFactory = ({ IDL }) => {
   const GenericNervousSystemFunction = IDL.Record({
     'validator_canister_id' : IDL.Opt(IDL.Principal),

@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import type { DeployedSns } from "../../../../candid/sns_wasm";
+import type { DeployedSns } from "../../candid/sns_wasm";
 
 export const snsMock: DeployedSns[] = [
   {

@@ -1,4 +1,4 @@
-import type { _SERVICE as GovernanceService } from "../../../../candid/governance";
+import type { _SERVICE as GovernanceService } from "../../candid/governance";
 import type { CanisterOptions } from "./canister.options";
 
 export interface GovernanceCanisterOptions

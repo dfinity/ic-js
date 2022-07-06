@@ -1,6 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
-import type { _SERVICE as SnsRootCanister } from "../../../candid/sns_root";
+import type { _SERVICE as SnsRootCanister } from "../candid/sns_root";
 import { rootCanisterId, snsMock } from "./mocks/sns.mock";
 import { RootCanister } from "./root.canister";
 

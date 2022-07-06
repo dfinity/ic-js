@@ -1,4 +1,4 @@
-// Generated from IC repo commit 906ba2724bd8addd30f8918b5aef4245c6b9febd 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit 987e1c810a9f6770fd1b2f1ae4a895d751d5ef41 'rs/sns/root/canister/root.did' by import-candid
 type CanisterStatusResultV2 = record {
   controller : principal;
   status : CanisterStatusType_1;

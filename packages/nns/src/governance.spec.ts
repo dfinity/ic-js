@@ -14,7 +14,7 @@ import type {
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
   _SERVICE as GovernanceService,
-} from "../../../candid/governance";
+} from "../candid/governance";
 import { NeuronId as PbNeuronId } from "../proto/base_types_pb";
 import { ManageNeuronResponse as PbManageNeuronResponse } from "../proto/governance_pb";
 import {
