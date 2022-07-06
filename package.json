@@ -7,7 +7,6 @@
     "packages/*"
   ],
   "scripts": {
-    "prepare": "scripts/copy-candid",
     "did": "scripts/compile-idl-js",
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",

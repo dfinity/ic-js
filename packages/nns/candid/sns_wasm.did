@@ -1,4 +1,4 @@
-// Generated from IC repo commit 906ba2724bd8addd30f8918b5aef4245c6b9febd 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
+// Generated from IC repo commit 987e1c810a9f6770fd1b2f1ae4a895d751d5ef41 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
 type AddWasmError = record { error : text };
 type AddWasmOk = record { hash : vec nat8 };
 type AddWasmRequest = record { hash : vec nat8; wasm : opt SnsWasm };

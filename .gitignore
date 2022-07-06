@@ -114,6 +114,3 @@ dist
 
 # Built documentation
 /docs/
-
-# Candid copy
-/packages/*/candid
