@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/sns_root.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_root.did */
 export const idlFactory = ({ IDL }) => {
   const CanisterStatusType_1 = IDL.Variant({
     'stopped' : IDL.Null,

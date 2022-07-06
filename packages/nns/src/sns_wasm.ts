@@ -1,9 +1,9 @@
 import type {
   DeployedSns,
   _SERVICE as SnsWasmService,
-} from "../../../candid/sns_wasm";
-import { idlFactory as certifiedIdlFactory } from "../../../candid/sns_wasm.certified.idl";
-import { idlFactory } from "../../../candid/sns_wasm.idl";
+} from "../candid/sns_wasm";
+import { idlFactory as certifiedIdlFactory } from "../candid/sns_wasm.certified.idl";
+import { idlFactory } from "../candid/sns_wasm.idl";
 import { MAINNET_SNS_WASM_CANISTER_ID } from "./constants/canister_ids";
 import type { CanisterOptions } from "./types/canister.options";
 import { createServices } from "./utils/actor.utils";
@@ -27,7 +27,7 @@ export class SnsWasmCanister {
     return new SnsWasmCanister(service, certifiedService);
   }
 
-  public listSns = async ({
+  public listSnses = async ({
     certified = true,
   }: {
     certified?: boolean;

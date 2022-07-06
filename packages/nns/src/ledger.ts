@@ -1,8 +1,8 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
-import type { _SERVICE as LedgerService } from "../../../candid/ledger";
-import { idlFactory as certifiedIdlFactory } from "../../../candid/ledger.certified.idl";
-import { idlFactory } from "../../../candid/ledger.idl";
+import type { _SERVICE as LedgerService } from "../candid/ledger";
+import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
+import { idlFactory } from "../candid/ledger.idl";
 import {
   AccountBalanceRequest,
   BlockHeight as PbBlockHeight,

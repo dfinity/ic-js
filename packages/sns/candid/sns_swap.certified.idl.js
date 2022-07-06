@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from candid/sns_swap.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_swap.did */
 export const idlFactory = ({ IDL }) => {
   const Init = IDL.Record({
     'min_participant_icp_e8s' : IDL.Nat64,

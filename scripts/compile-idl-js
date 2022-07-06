@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
 
-# Compiles candid .did files to .idl.js
+# Compiles candid .did files to .idl.js and .d.ts
 
 set -euo pipefail
 
+did_files_to_compile_for_pkg() {
+  local pkg="$1"
+  local path=packages/${pkg}/candid
+
+  find ${path} -type f -name '*.did' |
+    grep -vE ${path}/+payloads.did
+}
+
 did_files_to_compile() {
-  find candid/ -type f -name '*.did' |
-    grep -vE candid/+payloads.did
+  did_files_to_compile_for_pkg "nns"
+  did_files_to_compile_for_pkg "sns"
 }
 
 # Normal API access.

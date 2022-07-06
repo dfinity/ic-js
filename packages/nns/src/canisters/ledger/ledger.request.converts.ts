@@ -1,7 +1,7 @@
 import type {
   Tokens,
   TransferArgs as TransferRawRequest,
-} from "../../../../../candid/ledger";
+} from "../../../candid/ledger";
 import { ICPTs, Subaccount } from "../../../proto/ledger_pb";
 import { TRANSACTION_FEE } from "../../constants/constants";
 import type { TransferRequest } from "../../types/ledger_converters";

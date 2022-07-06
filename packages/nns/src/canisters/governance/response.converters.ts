@@ -24,7 +24,7 @@ import type {
   ProposalInfo as RawProposalInfo,
   RewardMode as RawRewardMode,
   Tally as RawTally,
-} from "../../../../../candid/governance";
+} from "../../../candid/governance";
 import type { PrincipalId } from "../../../proto/base_types_pb";
 import type {
   BallotInfo as PbBallotInfo,
