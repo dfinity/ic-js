@@ -35,6 +35,7 @@ export const initSns: InitSns = async ({
     type: "governance" | "ledger" | "swap"
   ): Principal | undefined =>
     canisters.find(
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       ([canisterType, _canisterId, _status]: [
         string,
         Principal,
