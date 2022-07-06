@@ -6,31 +6,9 @@ import type {
 import { GovernanceCanister } from "./governance.canister";
 import { LedgerCanister } from "./ledger.canister";
 import { RootCanister } from "./root.canister";
+import { SnsCanisters } from "./sns.canisters";
 import type { CanisterOptions } from "./types/canister.options";
 import { assertNonNullish } from "./utils/asserts.utils";
-
-interface SnsCanistersOptions {
-  root: RootCanister;
-  governance: GovernanceCanister;
-  ledger: LedgerCanister;
-}
-
-export class SnsCanisters {
-  private readonly root: RootCanister;
-  private readonly governance: GovernanceCanister;
-  private readonly ledger: LedgerCanister;
-
-  constructor({ root, governance, ledger }: SnsCanistersOptions) {
-    this.root = root;
-    this.governance = governance;
-    this.ledger = ledger;
-  }
-
-  // Wrapper functions that calls the canisters
-
-  private testValue: number = Math.random();
-  public test = () => console.log("SnsCanisters", this.testValue);
-}
 
 export interface InitSnsCanistersOptions {
   rootOptions: CanisterOptions<SnsRootCanister>;
@@ -40,12 +18,16 @@ export interface InitSns {
   (options: InitSnsCanistersOptions): Promise<SnsCanisters>;
 }
 
+/**
+ * Lookup for the canister ids of a Sns and initialize the wrapper to access all its features.
+ * @param rootOptions - The options that will be used to instantiate the actors of the root canister of the particular Sns.
+ */
 export const initSns: InitSns = async ({
   rootOptions,
 }: InitSnsCanistersOptions): Promise<SnsCanisters> => {
   const rootCanister: RootCanister = RootCanister.create(rootOptions);
 
-  // TODO: this will soon change for variants, see canistersSummary details
+  // TODO: this will be soon modified to variants, see canistersSummary details
   const canisters: Array<[string, Principal, CanisterStatusResultV2]> =
     await rootCanister.canistersSummary({});
 
