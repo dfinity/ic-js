@@ -27,7 +27,7 @@ export class SnsWasmCanister {
     return new SnsWasmCanister(service, certifiedService);
   }
 
-  public listSns = async ({
+  public listSnses = async ({
     certified = true,
   }: {
     certified?: boolean;

@@ -14,7 +14,7 @@ describe("Sns-wasm", () => {
     const canister = SnsWasmCanister.create({
       certifiedServiceOverride: service,
     });
-    const res = await canister.listSns({});
+    const res = await canister.listSnses({});
     expect(res).toEqual(snsMock);
   });
 });
