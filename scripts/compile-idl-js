@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Compiles candid .did files to .idl.js
+# Compiles candid .did files to .idl.js and .d.ts
 
 set -euo pipefail
 

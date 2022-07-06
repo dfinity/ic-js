@@ -14,7 +14,7 @@
   "scripts": {
     "rmdir": "node ../../scripts/rmdir.mjs",
     "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
-    "build": "npm run rmdir && mkdir -p dist && cp -R proto ../../candid dist && node esbuild.mjs && npm run ts-declaration",
+    "build": "npm run rmdir && mkdir -p dist && cp -R proto candid dist && node esbuild.mjs && npm run ts-declaration",
     "prepare": "npm run build",
     "test": "jest"
   },

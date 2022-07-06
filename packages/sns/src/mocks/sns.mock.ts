@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { CanisterStatusResultV2 } from "../../../../candid/sns_root";
+import { CanisterStatusResultV2 } from "../../candid/sns_root";
 
 export const rootCanisterId: Principal = Principal.fromText(
   "sp3hj-caaaa-aaaaa-aaajq-cai"

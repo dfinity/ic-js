@@ -15,7 +15,7 @@ import type {
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
   RewardMode as RawRewardMode,
-} from "../../../../../candid/governance";
+} from "../../../candid/governance";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import type {

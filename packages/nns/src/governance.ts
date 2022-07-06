@@ -6,9 +6,9 @@ import type {
   ListProposalInfo,
   ProposalInfo as RawProposalInfo,
   _SERVICE as GovernanceService,
-} from "../../../candid/governance";
-import { idlFactory as certifiedIdlFactory } from "../../../candid/governance.certified.idl";
-import { idlFactory } from "../../../candid/governance.idl";
+} from "../candid/governance";
+import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
+import { idlFactory } from "../candid/governance.idl";
 import type { ManageNeuron as PbManageNeuron } from "../proto/governance_pb";
 import {
   ListNeurons as PbListNeurons,
