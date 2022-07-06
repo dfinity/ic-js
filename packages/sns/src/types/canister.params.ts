@@ -1,3 +1,3 @@
 export interface CanisterParams {
-    certified?: boolean;
+  certified?: boolean;
 }
