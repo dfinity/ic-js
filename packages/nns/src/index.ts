@@ -14,3 +14,5 @@ export * from "./types/ledger.options";
 export * from "./utils/accounts.utils";
 export * from "./utils/account_identifier.utils";
 export * from "./utils/neurons.utils";
+export type {SnsWasmCanister} from "./sns_wasm"
+export type {SnsWasmCanisterOptions} from './types/sns_wasm.options'
