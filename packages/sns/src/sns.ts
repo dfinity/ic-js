@@ -1,3 +1,4 @@
+import type { Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 import type {
   CanisterStatusResultV2,
@@ -11,7 +12,8 @@ import type { CanisterOptions } from "./types/canister.options";
 import { assertNonNullish } from "./utils/asserts.utils";
 
 export interface InitSnsCanistersOptions {
-  rootOptions: CanisterOptions<SnsRootCanister>;
+  agent?: Agent;
+  rootOptions: Omit<CanisterOptions<SnsRootCanister>, "agent">;
 }
 
 export interface InitSns {
@@ -23,9 +25,13 @@ export interface InitSns {
  * @param rootOptions - The options that will be used to instantiate the actors of the root canister of the particular Sns.
  */
 export const initSns: InitSns = async ({
+  agent,
   rootOptions,
 }: InitSnsCanistersOptions): Promise<SnsCanisters> => {
-  const rootCanister: RootCanister = RootCanister.create(rootOptions);
+  const rootCanister: RootCanister = RootCanister.create({
+    ...rootOptions,
+    agent,
+  });
 
   // TODO: this will be soon modified to variants, see canistersSummary details
   const canisters: Array<[string, Principal, CanisterStatusResultV2]> =
@@ -55,7 +61,10 @@ export const initSns: InitSns = async ({
 
   return new SnsCanisters({
     root: rootCanister,
-    governance: GovernanceCanister.create({ canisterId: governanceCanisterId }),
-    ledger: LedgerCanister.create({ canisterId: ledgerCanisterId }),
+    governance: GovernanceCanister.create({
+      canisterId: governanceCanisterId,
+      agent,
+    }),
+    ledger: LedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
   });
 };

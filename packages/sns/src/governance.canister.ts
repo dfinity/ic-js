@@ -4,8 +4,8 @@ import type {
   NeuronId,
   _SERVICE as SnsGovernanceCanister,
 } from "../candid/sns_governance";
-import { idlFactory as certifiedIdlFactory } from "../candid/sns_root.certified.idl";
-import { idlFactory } from "../candid/sns_root.idl";
+import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
+import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import type { CanisterOptions } from "./types/canister.options";
 import type { CanisterParams } from "./types/canister.params";

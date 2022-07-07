@@ -1,4 +1,4 @@
-// Generated from IC repo commit 987e1c810a9f6770fd1b2f1ae4a895d751d5ef41 'rs/sns/swap/canister/swap.did' by import-candid
+// Generated from IC repo commit efa65b94c4a09975c3c2f2b96a03196273b689f7 'rs/sns/swap/canister/swap.did' by import-candid
 type BuyerState = record {
   icp_disbursing : bool;
   amount_sns_e8s : nat64;
