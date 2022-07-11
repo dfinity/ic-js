@@ -35,7 +35,11 @@ import type {
 import { AccountIdentifier, SubAccount } from "../../account_identifier";
 import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import type { E8s, NeuronId } from "../../types/common";
+import type {
+  AccountIdentifier as AccountIdentifierString,
+  E8s,
+  NeuronId,
+} from "../../types/common";
 import type {
   Action,
   Ballot,
@@ -531,7 +535,7 @@ const toAmount = (amount: RawAmount): E8s => {
 
 const toAccountIdentifier = (
   accountIdentifier: RawAccountIdentifier
-): AccountIdentifier =>
+): AccountIdentifierString =>
   accountIdentifierFromBytes(new Uint8Array(accountIdentifier.hash));
 
 const toRewardMode = (rewardMode: RawRewardMode): RewardMode => {
