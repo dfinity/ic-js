@@ -10,7 +10,6 @@ import type { CanisterOptions } from "./types/canister.options";
 import { createServices } from "./utils/actor.utils";
 
 export class RootCanister extends Canister<SnsRootCanister> {
-
   public static create(options: CanisterOptions<SnsRootCanister>) {
     const { service, certifiedService, canisterId } =
       createServices<SnsRootCanister>({
@@ -64,6 +63,8 @@ export class RootCanister extends Canister<SnsRootCanister> {
     // TODO(NNS1-1519): Currently support only certified calls - we need query calls for nns-dapp too (as we used both to offer best user experience)
 
     // TODO(NNS1-1487): Swap canister ID is currently not fetched and listed among the results
-    return this.caller({certified}).get_sns_canisters_summary(additionalCanisterIds ?? []);
+    return this.caller({ certified }).get_sns_canisters_summary(
+      additionalCanisterIds ?? []
+    );
   };
 }
