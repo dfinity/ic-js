@@ -51,6 +51,10 @@ export class AccountIdentifier {
     return toHexString(this.bytes);
   }
 
+  public toUint8Array(): Uint8Array {
+    return this.bytes;
+  }
+
   public toNumbers(): number[] {
     return Array.from(this.bytes);
   }
@@ -80,7 +84,17 @@ export class SubAccount {
     return new SubAccount(bytes);
   }
 
-  public static ZERO: SubAccount = new SubAccount(new Uint8Array(32).fill(0));
+  public static fromID(id: number): SubAccount {
+    if (id < 0 || id > 255) {
+      throw "Subaccount ID must be >= 0 and <= 255";
+    }
+
+    const bytes: Uint8Array = new Uint8Array(32).fill(0);
+    bytes[31] = id;
+    return new SubAccount(bytes);
+  }
+
+  public static ZERO: SubAccount = this.fromID(0);
 
   public toUint8Array(): Uint8Array {
     return this.bytes;
