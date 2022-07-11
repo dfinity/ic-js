@@ -32,9 +32,10 @@ import type {
   Neuron as PbNeuron,
   NeuronInfo as PbNeuronInfo,
 } from "../../../proto/governance_pb";
+import { AccountIdentifier, SubAccount } from "../../account_identifier";
 import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
+import type { E8s, NeuronId } from "../../types/common";
 import type {
   Action,
   Ballot,
@@ -680,6 +681,19 @@ const convertPbPrincipalIdToPrincipalString = (
 ): string =>
   Principal.fromUint8Array(pbPrincipal.getSerializedId_asU8()).toText();
 
+const convertNeuronSubaccountToAccountIdentifier = (
+  neuron: PbNeuron
+): string => {
+  const subAccount = SubAccount.fromBytes(
+    neuron.getAccount_asU8()
+  ) as SubAccount;
+
+  return AccountIdentifier.fromPrincipal({
+    principal: GOVERNANCE_CANISTER_ID,
+    subAccount: subAccount,
+  }).toHex();
+};
+
 const convertPbNeuronToFullNeuron = (
   pbNeuron: PbNeuron,
   pbNeuronInfo: PbNeuronInfo
@@ -718,7 +732,7 @@ const convertPbNeuronToFullNeuron = (
     hotKeys: pbNeuron
       .getHotKeysList()
       .map(convertPbPrincipalIdToPrincipalString),
-    accountIdentifier: pbNeuron.getAccount_asB64(),
+    accountIdentifier: convertNeuronSubaccountToAccountIdentifier(pbNeuron),
     // TODO: Data not available in Neuron type
     joinedCommunityFundTimestampSeconds: undefined,
     dissolveState,
