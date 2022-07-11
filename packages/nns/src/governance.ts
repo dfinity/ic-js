@@ -162,7 +162,10 @@ export class GovernanceCanister {
     const raw_response = await this.getGovernanceService(
       certified
     ).list_neurons(rawRequest);
-    return toArrayOfNeuronInfo(raw_response);
+    return toArrayOfNeuronInfo({
+      response: raw_response,
+      canisterId: this.canisterId,
+    });
   };
 
   /**
@@ -724,7 +727,9 @@ export class GovernanceCanister {
     const pbNeurons = response.getFullNeuronsList();
     return response
       .getNeuronIdsList()
-      .map(convertPbNeuronToNeuronInfo(pbNeurons));
+      .map(
+        convertPbNeuronToNeuronInfo({ pbNeurons, canisterId: this.canisterId })
+      );
   };
 
   private manageNeuronUpdateCall = async (
