@@ -9,6 +9,7 @@ import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import { Canister } from "./services/canister";
 import type { CanisterOptions } from "./types/canister.options";
+import type { CanisterParams } from "./types/canister.params";
 import type { ListNeuronsParams } from "./types/governance.params";
 import { createServices } from "./utils/actor.utils";
 import { toNullable } from "./utils/did.utils";
@@ -42,5 +43,10 @@ export class GovernanceCanister extends Canister<SnsGovernanceCanister> {
       start_page_at: toNullable<NeuronId>(beforeNeuronId),
     });
     return neurons;
+  };
+
+  // TODO: replace with effective implementation and types to get the list of metadata once implemented in backend
+  metadata = async (params: CanisterParams): Promise<string> => {
+    return this.caller(params).get_build_metadata();
   };
 }

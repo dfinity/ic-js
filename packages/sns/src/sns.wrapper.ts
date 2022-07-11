@@ -3,6 +3,7 @@ import type { Neuron } from "../candid/sns_governance";
 import type { GovernanceCanister } from "./governance.canister";
 import type { LedgerCanister } from "./ledger.canister";
 import type { RootCanister } from "./root.canister";
+import type { CanisterParams } from "./types/canister.params";
 import type { ListNeuronsParams } from "./types/governance.params";
 
 interface SnsWrapperOptions {
@@ -47,4 +48,7 @@ export class SnsWrapper {
 
   listNeurons = (params: ListNeuronsParams): Promise<Neuron[]> =>
     this.governance.listNeurons(params);
+
+  metadata = async (params: CanisterParams): Promise<string> =>
+    this.governance.metadata(params);
 }
