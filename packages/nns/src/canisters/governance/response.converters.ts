@@ -705,6 +705,7 @@ const convertNeuronSubaccountToAccountIdentifier = ({
   neuron: PbNeuron;
   canisterId: Principal;
 }): AccountIdentifier => {
+  // We assume fromBytes does not return an Error type.
   const subAccount = SubAccount.fromBytes(
     neuron.getAccount_asU8()
   ) as SubAccount;
