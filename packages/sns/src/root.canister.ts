@@ -26,8 +26,9 @@ export class RootCanister extends Canister<SnsRootCanister> {
    *
    * Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
    *
-   * @param {boolean} [certified=true] - Query or update calls
-   * @param {Principal[]} additionalCanisterIds - An optional list of additional canister ids whose status would also have to be requested and added to the returned list
+   * @param {Object} params
+   * @param {boolean} [params.certified=true] - Query or update calls
+   * @param {Principal[]} params.additionalCanisterIds - An optional list of additional canister ids whose status would also have to be requested and added to the returned list
    *
    * @returns {Array<[string, Principal, CanisterStatusResultV2]>} - A list of canisters with type ('root' | 'governance' | 'ledger' | 'dapp' | 'sale'), id and status
    */

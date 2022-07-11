@@ -1,5 +1,5 @@
 import type { Principal } from "@dfinity/principal";
-import type { CanisterParams } from "../types/canister.params";
+import type { QueryParams } from "../types/query.params";
 
 export abstract class Canister<T> {
   protected constructor(
@@ -12,6 +12,6 @@ export abstract class Canister<T> {
     return this.id;
   }
 
-  protected caller = ({ certified = true }: CanisterParams): T =>
+  protected caller = ({ certified = true }: QueryParams): T =>
     certified ? this.certifiedService : this.service;
 }

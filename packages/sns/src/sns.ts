@@ -10,8 +10,9 @@ import { RootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import type { CanisterOptions } from "./types/canister.options";
 import { assertNonNullish } from "./utils/asserts.utils";
+import type {QueryParams} from './types/query.params';
 
-export interface InitSnsCanistersOptions {
+export interface InitSnsCanistersOptions extends QueryParams {
   agent?: Agent;
   rootOptions: Omit<CanisterOptions<SnsRootCanister>, "agent">;
 }
@@ -22,11 +23,16 @@ export interface InitSns {
 
 /**
  * Lookup for the canister ids of a Sns and initialize the wrapper to access all its features.
- * @param rootOptions - The options that will be used to instantiate the actors of the root canister of the particular Sns.
+ *
+ * @param {Object} params
+ * @paramm params.agent - An agent that can be used to override the default agent. Useful to target another environment that mainnet.
+ * @param params.rootOptions - The options that will be used to instantiate the actors of the root canister of the particular Sns.
+ * @param {boolean} [params.certified=true] - Perform update calls (certified) or query calls (not certified).
  */
 export const initSns: InitSns = async ({
   agent,
   rootOptions,
+  certified = true,
 }: InitSnsCanistersOptions): Promise<SnsWrapper> => {
   const rootCanister: RootCanister = RootCanister.create({
     ...rootOptions,
@@ -35,7 +41,7 @@ export const initSns: InitSns = async ({
 
   // TODO: this will be soon modified to variants, see canistersSummary details
   const canisters: Array<[string, Principal, CanisterStatusResultV2]> =
-    await rootCanister.canistersSummary({});
+    await rootCanister.canistersSummary({ certified });
 
   const canisterId = (
     type: "governance" | "ledger" | "swap"
@@ -66,5 +72,6 @@ export const initSns: InitSns = async ({
       agent,
     }),
     ledger: LedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
+    certified,
   });
 };
