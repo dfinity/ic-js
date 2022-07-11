@@ -9,8 +9,8 @@ import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import { Canister } from "./services/canister";
 import type { CanisterOptions } from "./types/canister.options";
-import type { QueryParams } from "./types/query.params";
 import type { ListNeuronsParams } from "./types/governance.params";
+import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
 import { toNullable } from "./utils/did.utils";
 

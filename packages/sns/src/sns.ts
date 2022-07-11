@@ -9,8 +9,8 @@ import { LedgerCanister } from "./ledger.canister";
 import { RootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import type { CanisterOptions } from "./types/canister.options";
+import type { QueryParams } from "./types/query.params";
 import { assertNonNullish } from "./utils/asserts.utils";
-import type {QueryParams} from './types/query.params';
 
 export interface InitSnsCanistersOptions extends QueryParams {
   agent?: Agent;
