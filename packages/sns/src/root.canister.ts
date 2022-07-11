@@ -5,16 +5,11 @@ import type {
 } from "../candid/sns_root";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_root.certified.idl";
 import { idlFactory } from "../candid/sns_root.idl";
-import type { Canister } from "./types/canister";
+import { Canister } from "./services/canister";
 import type { CanisterOptions } from "./types/canister.options";
 import { createServices } from "./utils/actor.utils";
 
-export class RootCanister implements Canister {
-  private constructor(
-    private readonly rootCanisterId: Principal,
-    private readonly service: SnsRootCanister,
-    private readonly certifiedService: SnsRootCanister
-  ) {}
+export class RootCanister extends Canister<SnsRootCanister> {
 
   public static create(options: CanisterOptions<SnsRootCanister>) {
     const { service, certifiedService, canisterId } =
@@ -25,10 +20,6 @@ export class RootCanister implements Canister {
       });
 
     return new RootCanister(canisterId, service, certifiedService);
-  }
-
-  get canisterId(): Principal {
-    return this.rootCanisterId;
   }
 
   /**
@@ -71,9 +62,8 @@ export class RootCanister implements Canister {
      */
 
     // TODO(NNS1-1519): Currently support only certified calls - we need query calls for nns-dapp too (as we used both to offer best user experience)
-    const service = certified ? this.certifiedService : this.service;
 
-    // TODO(NNS1-1487): Sale canister ID is currently not fetched and listed among the results
-    return service.get_sns_canisters_summary(additionalCanisterIds ?? []);
+    // TODO(NNS1-1487): Swap canister ID is currently not fetched and listed among the results
+    return this.caller({certified}).get_sns_canisters_summary(additionalCanisterIds ?? []);
   };
 }
