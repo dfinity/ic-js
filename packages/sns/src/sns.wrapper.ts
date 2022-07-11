@@ -4,7 +4,7 @@ import type { LedgerCanister } from "./ledger.canister";
 import type { RootCanister } from "./root.canister";
 import type { ListNeuronsParams } from "./types/governance.params";
 
-interface SnsCanistersOptions {
+interface SnsWrapperOptions {
   root: RootCanister;
   governance: GovernanceCanister;
   ledger: LedgerCanister;
@@ -12,10 +12,10 @@ interface SnsCanistersOptions {
 }
 
 /**
- * Sns canisters is a wrapper - notably used by NNS-dapp - to access a particular Sns.
+ * Sns wrapper - notably used by NNS-dapp - ease the access to a particular Sns.
  * It knows all the Sns' canisters, wrap and enhance the available features.
  */
-export class SnsCanisters {
+export class SnsWrapper {
   private readonly root: RootCanister;
   private readonly governance: GovernanceCanister;
   private readonly ledger: LedgerCanister;
@@ -26,7 +26,7 @@ export class SnsCanisters {
    * @param governance - The wrapper for the "governance" canister of the particular Sns
    * @param ledger - The wrapper for the "ledger" canister of the particular Sns
    */
-  constructor({ root, governance, ledger }: SnsCanistersOptions) {
+  constructor({ root, governance, ledger }: SnsWrapperOptions) {
     this.root = root;
     this.governance = governance;
     this.ledger = ledger;

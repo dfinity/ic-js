@@ -7,7 +7,7 @@ import type {
 import { GovernanceCanister } from "./governance.canister";
 import { LedgerCanister } from "./ledger.canister";
 import { RootCanister } from "./root.canister";
-import { SnsCanisters } from "./sns.canisters";
+import { SnsWrapper } from "./sns.wrapper";
 import type { CanisterOptions } from "./types/canister.options";
 import { assertNonNullish } from "./utils/asserts.utils";
 
@@ -17,7 +17,7 @@ export interface InitSnsCanistersOptions {
 }
 
 export interface InitSns {
-  (options: InitSnsCanistersOptions): Promise<SnsCanisters>;
+  (options: InitSnsCanistersOptions): Promise<SnsWrapper>;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface InitSns {
 export const initSns: InitSns = async ({
   agent,
   rootOptions,
-}: InitSnsCanistersOptions): Promise<SnsCanisters> => {
+}: InitSnsCanistersOptions): Promise<SnsWrapper> => {
   const rootCanister: RootCanister = RootCanister.create({
     ...rootOptions,
     agent,
@@ -59,7 +59,7 @@ export const initSns: InitSns = async ({
   assertNonNullish(ledgerCanisterId);
   // assert(swapCanisterId);
 
-  return new SnsCanisters({
+  return new SnsWrapper({
     root: rootCanister,
     governance: GovernanceCanister.create({
       canisterId: governanceCanisterId,
