@@ -5,23 +5,30 @@ import type {
 } from "../candid/sns_root";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_root.certified.idl";
 import { idlFactory } from "../candid/sns_root.idl";
+import type { Canister } from "./types/canister";
 import type { CanisterOptions } from "./types/canister.options";
 import { createServices } from "./utils/actor.utils";
 
-export class RootCanister {
+export class RootCanister implements Canister {
   private constructor(
+    private readonly rootCanisterId: Principal,
     private readonly service: SnsRootCanister,
     private readonly certifiedService: SnsRootCanister
   ) {}
 
   public static create(options: CanisterOptions<SnsRootCanister>) {
-    const { service, certifiedService } = createServices<SnsRootCanister>({
-      options,
-      idlFactory,
-      certifiedIdlFactory,
-    });
+    const { service, certifiedService, canisterId } =
+      createServices<SnsRootCanister>({
+        options,
+        idlFactory,
+        certifiedIdlFactory,
+      });
 
-    return new RootCanister(service, certifiedService);
+    return new RootCanister(canisterId, service, certifiedService);
+  }
+
+  get canisterId(): Principal {
+    return this.rootCanisterId;
   }
 
   /**

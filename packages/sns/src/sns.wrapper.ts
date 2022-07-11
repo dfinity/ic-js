@@ -1,3 +1,4 @@
+import type { Principal } from "@dfinity/principal";
 import type { Neuron } from "../candid/sns_governance";
 import type { GovernanceCanister } from "./governance.canister";
 import type { LedgerCanister } from "./ledger.canister";
@@ -30,6 +31,18 @@ export class SnsWrapper {
     this.root = root;
     this.governance = governance;
     this.ledger = ledger;
+  }
+
+  get canisterIds(): {
+    rootCanisterId: Principal;
+    ledgerCanisterId: Principal;
+    governanceCanisterId: Principal;
+  } {
+    return {
+      rootCanisterId: this.root.canisterId,
+      ledgerCanisterId: this.ledger.canisterId,
+      governanceCanisterId: this.governance.canisterId,
+    };
   }
 
   listNeurons = (params: ListNeuronsParams): Promise<Neuron[]> =>

@@ -7,28 +7,33 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
+import type { Canister } from "./types/canister";
 import type { CanisterOptions } from "./types/canister.options";
 import type { CanisterParams } from "./types/canister.params";
 import type { ListNeuronsParams } from "./types/governance.params";
 import { createServices } from "./utils/actor.utils";
 import { toNullable } from "./utils/did.utils";
 
-export class GovernanceCanister {
+export class GovernanceCanister implements Canister {
   private constructor(
+    private readonly governanceCanisterId: Principal,
     private readonly service: SnsGovernanceCanister,
     private readonly certifiedService: SnsGovernanceCanister
   ) {}
 
   public static create(options: CanisterOptions<SnsGovernanceCanister>) {
-    const { service, certifiedService } = createServices<SnsGovernanceCanister>(
-      {
+    const { service, certifiedService, canisterId } =
+      createServices<SnsGovernanceCanister>({
         options,
         idlFactory,
         certifiedIdlFactory,
-      }
-    );
+      });
 
-    return new GovernanceCanister(service, certifiedService);
+    return new GovernanceCanister(canisterId, service, certifiedService);
+  }
+
+  get canisterId(): Principal {
+    return this.governanceCanisterId;
   }
 
   /**
