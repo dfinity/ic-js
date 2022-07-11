@@ -10,7 +10,7 @@ import type { CanisterOptions } from "./types/canister.options";
 import { createServices } from "./utils/actor.utils";
 
 export class RootCanister extends Canister<SnsRootCanister> {
-  public static create(options: CanisterOptions<SnsRootCanister>) {
+  static create(options: CanisterOptions<SnsRootCanister>) {
     const { service, certifiedService, canisterId } =
       createServices<SnsRootCanister>({
         options,
@@ -31,7 +31,7 @@ export class RootCanister extends Canister<SnsRootCanister> {
    *
    * @returns {Array<[string, Principal, CanisterStatusResultV2]>} - A list of canisters with type ('root' | 'governance' | 'ledger' | 'dapp' | 'sale'), id and status
    */
-  public canistersSummary = async ({
+  canistersSummary = async ({
     certified = true,
     additionalCanisterIds,
   }: {

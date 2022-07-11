@@ -14,7 +14,7 @@ import { createServices } from "./utils/actor.utils";
 import { toNullable } from "./utils/did.utils";
 
 export class GovernanceCanister extends Canister<SnsGovernanceCanister> {
-  public static create(options: CanisterOptions<SnsGovernanceCanister>) {
+  static create(options: CanisterOptions<SnsGovernanceCanister>) {
     const { service, certifiedService, canisterId } =
       createServices<SnsGovernanceCanister>({
         options,
@@ -33,7 +33,7 @@ export class GovernanceCanister extends Canister<SnsGovernanceCanister> {
    * @param {limit} [params.limit=MAX_LIST_NEURONS_RESULTS] - The maximum number of neurons returned by the method `list_neurons`
    * @param {beforeNeuronId} params.beforeNeuronId - Index the search to returns a list that starts after specified neuron id
    */
-  public listNeurons = async (params: ListNeuronsParams): Promise<Neuron[]> => {
+  listNeurons = async (params: ListNeuronsParams): Promise<Neuron[]> => {
     const { principal, limit, beforeNeuronId } = params;
 
     const { neurons } = await this.caller(params).list_neurons({

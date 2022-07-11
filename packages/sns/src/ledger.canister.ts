@@ -6,7 +6,7 @@ import type { CanisterOptions } from "./types/canister.options";
 import { createServices } from "./utils/actor.utils";
 
 export class LedgerCanister extends Canister<SnsLedgerCanister> {
-  public static create(options: CanisterOptions<SnsLedgerCanister>) {
+  static create(options: CanisterOptions<SnsLedgerCanister>) {
     const { service, certifiedService, canisterId } =
       createServices<SnsLedgerCanister>({
         options,
