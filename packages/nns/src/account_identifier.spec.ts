@@ -50,20 +50,26 @@ describe("SubAccount", () => {
   });
 
   it("can be initialized from an ID", () => {
-    expect(SubAccount.fromID(0)).toEqual(SubAccount.fromBytes(new Uint8Array(32).fill(0)));
+    expect(SubAccount.fromID(0)).toEqual(
+      SubAccount.fromBytes(new Uint8Array(32).fill(0))
+    );
     const bytes = new Uint8Array(32).fill(0);
     bytes[31] = 1;
     expect(SubAccount.fromID(1)).toEqual(SubAccount.fromBytes(bytes));
     bytes[31] = 255;
-    expect(SubAccount.fromID(255)).toEqual(SubAccount.fromBytes(bytes))
+    expect(SubAccount.fromID(255)).toEqual(SubAccount.fromBytes(bytes));
   });
 
   it("throws an exception if initialized with an ID < 0", () => {
-    expect(() => {SubAccount.fromID(-1)}).toThrow();
+    expect(() => {
+      SubAccount.fromID(-1);
+    }).toThrow();
   });
 
   it("throws an exception if initialized with an ID > 255", () => {
-    expect(() => {SubAccount.fromID(256)}).toThrow();
+    expect(() => {
+      SubAccount.fromID(256);
+    }).toThrow();
   });
 });
 
@@ -101,7 +107,7 @@ describe("AccountIdentifier", () => {
         principal: Principal.fromText(
           "bwz3t-ercuj-owo6s-4adfr-sbu4o-l72hg-kfhc5-5sapm-tj6bn-3scho-uqe"
         ),
-        subAccount: SubAccount.fromID(1)
+        subAccount: SubAccount.fromID(1),
       }).toHex()
     ).toBe("16c3ca805340f0e426023bea907488100f93d5e2a654644d5d6881c7a7b2071e");
 
@@ -110,7 +116,7 @@ describe("AccountIdentifier", () => {
         principal: Principal.fromText(
           "bwz3t-ercuj-owo6s-4adfr-sbu4o-l72hg-kfhc5-5sapm-tj6bn-3scho-uqe"
         ),
-        subAccount: SubAccount.fromID(255)
+        subAccount: SubAccount.fromID(255),
       }).toHex()
     ).toBe("f9d8833b97d142d888d00606e2cadec4e70b9798d71c35091a20daaa14082e67");
   });
