@@ -1,11 +1,17 @@
 # 0.x.y (2022-aa-bb)
 
-- Fix how the neuron account was converted to a string for Proto.
-- Use the governance canister id of the class in converters. This allows to also have proper conversion on testnets.
+### Breaking Changes
+
+- `nns` library `esm` canisters chunks renamed with suffix `.canister`
 
 ### Features
 
 - new library `@dfinity/sns`
+- use the governance canister id of the class in converters. This allows to also have proper conversion on testnets.
+
+### Fix
+
+- fix how the neuron account was converted to a `string` for `proto`.
 
 ### Build
 

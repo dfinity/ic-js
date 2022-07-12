@@ -12,6 +12,9 @@ export interface AddWasmRequest {
 export interface AddWasmResponse {
   result: [] | [Result];
 }
+export interface AirdropDistribution {
+  airdrop_neurons: Array<NeuronDistribution>;
+}
 export interface DeployNewSnsRequest {
   sns_init_payload: [] | [SnsInitPayload];
 }
@@ -21,6 +24,15 @@ export interface DeployNewSnsResponse {
 }
 export interface DeployedSns {
   root_canister_id: [] | [Principal];
+}
+export interface DeveloperDistribution {
+  developer_neurons: Array<NeuronDistribution>;
+}
+export interface FractionalDeveloperVotingPower {
+  treasury_distribution: [] | [TreasuryDistribution];
+  developer_distribution: [] | [DeveloperDistribution];
+  airdrop_distribution: [] | [AirdropDistribution];
+  swap_distribution: [] | [SwapDistribution];
 }
 export interface GetNextSnsVersionRequest {
   current_version: [] | [SnsVersion];
@@ -34,13 +46,15 @@ export interface GetWasmRequest {
 export interface GetWasmResponse {
   wasm: [] | [SnsWasm];
 }
-export interface InitialTokenDistribution {
-  swap: bigint;
-  developers: [] | [TokenDistribution];
-  treasury: [] | [TokenDistribution];
-}
+export type InitialTokenDistribution = {
+  FractionalDeveloperVotingPower: FractionalDeveloperVotingPower;
+};
 export interface ListDeployedSnsesResponse {
   instances: Array<DeployedSns>;
+}
+export interface NeuronDistribution {
+  controller: [] | [Principal];
+  stake_e8s: bigint;
 }
 export type Result = { Ok: AddWasmOk } | { Error: AddWasmError };
 export interface SnsCanisterIds {
@@ -75,8 +89,11 @@ export interface SnsWasm {
 export interface SnsWasmCanisterInitPayload {
   sns_subnet_ids: Array<Principal>;
 }
-export interface TokenDistribution {
-  distributions: Array<[string, bigint]>;
+export interface SwapDistribution {
+  total_e8s: bigint;
+  initial_swap_amount_e8s: bigint;
+}
+export interface TreasuryDistribution {
   total_e8s: bigint;
 }
 export interface _SERVICE {

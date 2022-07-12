@@ -68,7 +68,7 @@ import {
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { ICP } from "./icp";
-import type { LedgerCanister } from "./ledger";
+import type { LedgerCanister } from "./ledger.canister";
 import type { E8s, NeuronId } from "./types/common";
 import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
