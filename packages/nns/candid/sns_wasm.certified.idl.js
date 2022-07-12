@@ -15,14 +15,29 @@ export const idlFactory = ({ IDL }) => {
   const AddWasmError = IDL.Record({ 'error' : IDL.Text });
   const Result = IDL.Variant({ 'Ok' : AddWasmOk, 'Error' : AddWasmError });
   const AddWasmResponse = IDL.Record({ 'result' : IDL.Opt(Result) });
-  const TokenDistribution = IDL.Record({
-    'distributions' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Nat64)),
-    'total_e8s' : IDL.Nat64,
+  const TreasuryDistribution = IDL.Record({ 'total_e8s' : IDL.Nat64 });
+  const NeuronDistribution = IDL.Record({
+    'controller' : IDL.Opt(IDL.Principal),
+    'stake_e8s' : IDL.Nat64,
   });
-  const InitialTokenDistribution = IDL.Record({
-    'swap' : IDL.Nat64,
-    'developers' : IDL.Opt(TokenDistribution),
-    'treasury' : IDL.Opt(TokenDistribution),
+  const DeveloperDistribution = IDL.Record({
+    'developer_neurons' : IDL.Vec(NeuronDistribution),
+  });
+  const AirdropDistribution = IDL.Record({
+    'airdrop_neurons' : IDL.Vec(NeuronDistribution),
+  });
+  const SwapDistribution = IDL.Record({
+    'total_e8s' : IDL.Nat64,
+    'initial_swap_amount_e8s' : IDL.Nat64,
+  });
+  const FractionalDeveloperVotingPower = IDL.Record({
+    'treasury_distribution' : IDL.Opt(TreasuryDistribution),
+    'developer_distribution' : IDL.Opt(DeveloperDistribution),
+    'airdrop_distribution' : IDL.Opt(AirdropDistribution),
+    'swap_distribution' : IDL.Opt(SwapDistribution),
+  });
+  const InitialTokenDistribution = IDL.Variant({
+    'FractionalDeveloperVotingPower' : FractionalDeveloperVotingPower,
   });
   const SnsInitPayload = IDL.Record({
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
