@@ -7,17 +7,22 @@ import type { ListNeuronsParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
 interface SnsWrapperOptions {
+  /** The wrapper for the "root" canister of the particular Sns */
   root: RootCanister;
+  /** The wrapper for the "governance" canister of the particular Sns */
   governance: GovernanceCanister;
+  /** The wrapper for the "ledger" canister of the particular Sns */
   ledger: LedgerCanister;
   // TODO: add swap canister
 
+  /** The wrapper has been instantiated and should perform query or update calls */
   certified: boolean;
 }
 
 /**
  * Sns wrapper - notably used by NNS-dapp - ease the access to a particular Sns.
  * It knows all the Sns' canisters, wrap and enhance their available features.
+ * A wrapper either performs query or update calls.
  */
 export class SnsWrapper {
   private readonly root: RootCanister;
@@ -27,10 +32,6 @@ export class SnsWrapper {
 
   /**
    * Constructor to instantiate a Sns
-   * @param root - The wrapper for the "root" canister of the particular Sns
-   * @param governance - The wrapper for the "governance" canister of the particular Sns
-   * @param ledger - The wrapper for the "ledger" canister of the particular Sns
-   * @param certified - The wrapper has been instantiated and should perform query or update calls
    */
   constructor({ root, governance, ledger, certified }: SnsWrapperOptions) {
     this.root = root;

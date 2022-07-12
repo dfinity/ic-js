@@ -28,11 +28,6 @@ export class GovernanceCanister extends Canister<SnsGovernanceCanister> {
 
   /**
    * List the neurons of the Sns
-   * @param {ListNeuronsParams} params
-   * @param {certified} [params.certified=true] - Query (false) or update (true) call
-   * @param {principal} params.principal - Scope the query to a particular principal
-   * @param {limit} [params.limit=MAX_LIST_NEURONS_RESULTS] - The maximum number of neurons returned by the method `list_neurons`
-   * @param {beforeNeuronId} params.beforeNeuronId - Index the search to returns a list that starts after specified neuron id
    */
   listNeurons = async (params: ListNeuronsParams): Promise<Neuron[]> => {
     const { principal, limit, beforeNeuronId } = params;

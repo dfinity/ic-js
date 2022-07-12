@@ -12,8 +12,13 @@ import type { CanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
 import { assertNonNullish } from "./utils/asserts.utils";
 
+/**
+ * Options to discover and initialize all canisters of a Sns.
+ */
 export interface InitSnsCanistersOptions extends QueryParams {
+  /** An agent that can be used to override the default agent. Useful to target another environment that mainnet. */
   agent?: Agent;
+  /** The options that will be used to instantiate the actors of the root canister of the particular Sns. */
   rootOptions: Omit<CanisterOptions<SnsRootCanister>, "agent">;
 }
 
@@ -23,13 +28,6 @@ export interface InitSns {
 
 /**
  * Lookup for the canister ids of a Sns and initialize the wrapper to access its features.
- *
- * @param {Object} params
- * @param params.agent - An agent that can be used to override the default agent. Useful to target another environment that mainnet.
- * @param params.rootOptions - The options that will be used to instantiate the actors of the root canister of the particular Sns.
- * @param {boolean} [params.certified=true] - Perform update calls (certified) or query calls (not certified).
- *
- * @return A Sns wrapper that inherits the certified mode that has been used for initialization purpose - i.e. an all wrapper either performs query or update calls.
  */
 export const initSns: InitSns = async ({
   agent,
