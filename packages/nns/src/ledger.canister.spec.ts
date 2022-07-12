@@ -14,7 +14,7 @@ import {
   TxTooOldError,
 } from "./errors/ledger.errors";
 import { ICP } from "./icp";
-import { LedgerCanister } from "./ledger";
+import { LedgerCanister } from "./ledger.canister";
 import { E8s } from "./types/common";
 
 describe("LedgerCanister", () => {
