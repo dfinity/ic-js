@@ -1,20 +1,20 @@
 import { ActorSubclass } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as SnsWasmService } from "../candid/sns_wasm";
-import { snsMock } from "./mocks/sns_wasm.mock";
+import { deployedSnsMock } from "./mocks/sns_wasm.mock";
 import { SnsWasmCanister } from "./sns_wasm.canister";
 
 describe("Sns-wasm", () => {
   it("should return the list of sns", async () => {
     const service = mock<ActorSubclass<SnsWasmService>>();
     service.list_deployed_snses.mockResolvedValue({
-      instances: snsMock,
+      instances: deployedSnsMock,
     });
 
     const canister = SnsWasmCanister.create({
       certifiedServiceOverride: service,
     });
     const res = await canister.listSnses({});
-    expect(res).toEqual(snsMock);
+    expect(res).toEqual(deployedSnsMock);
   });
 });

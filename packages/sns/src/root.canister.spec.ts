@@ -1,7 +1,7 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as SnsRootCanister } from "../candid/sns_root";
-import { rootCanisterId, snsMock } from "./mocks/sns.mock";
+import { rootCanisterIdMock, snsMock } from "./mocks/sns.mock";
 import { RootCanister } from "./root.canister";
 
 describe("Root canister", () => {
@@ -10,7 +10,7 @@ describe("Root canister", () => {
     service.get_sns_canisters_summary.mockResolvedValue(snsMock);
 
     const canister = RootCanister.create({
-      canisterId: rootCanisterId,
+      canisterId: rootCanisterIdMock,
       certifiedServiceOverride: service,
     });
     const res = await canister.canistersSummary({});
