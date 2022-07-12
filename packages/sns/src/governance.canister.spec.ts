@@ -4,7 +4,7 @@ import type { _SERVICE as SnsGovernanceCanister } from "../candid/sns_governance
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import { GovernanceCanister } from "./governance.canister";
 import { neuronsMock } from "./mocks/governance.mock";
-import { rootCanisterId } from "./mocks/sns.mock";
+import { rootCanisterIdMock } from "./mocks/sns.mock";
 
 describe("Governance canister", () => {
   it("should return the list of neurons of the sns", async () => {
@@ -12,7 +12,7 @@ describe("Governance canister", () => {
     service.list_neurons.mockResolvedValue({ neurons: neuronsMock });
 
     const canister = GovernanceCanister.create({
-      canisterId: rootCanisterId,
+      canisterId: rootCanisterIdMock,
       certifiedServiceOverride: service,
     });
     const res = await canister.listNeurons({});
@@ -26,7 +26,7 @@ describe("Governance canister", () => {
     });
 
     const canister = GovernanceCanister.create({
-      canisterId: rootCanisterId,
+      canisterId: rootCanisterIdMock,
       certifiedServiceOverride: service,
     });
     await canister.listNeurons({});
