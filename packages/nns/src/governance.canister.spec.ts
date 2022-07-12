@@ -25,9 +25,9 @@ import {
   InvalidPercentageError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
-import { GovernanceCanister } from "./governance";
+import { GovernanceCanister } from "./governance.canister";
 import { ICP } from "./icp";
-import { LedgerCanister } from "./ledger";
+import { LedgerCanister } from "./ledger.canister";
 import {
   mockListNeuronsResponse,
   mockNeuronId,
