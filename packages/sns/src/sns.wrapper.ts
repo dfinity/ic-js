@@ -17,7 +17,7 @@ interface SnsWrapperOptions {
 
 /**
  * Sns wrapper - notably used by NNS-dapp - ease the access to a particular Sns.
- * It knows all the Sns' canisters, wrap and enhance the available features.
+ * It knows all the Sns' canisters, wrap and enhance their available features.
  */
 export class SnsWrapper {
   private readonly root: RootCanister;
@@ -39,6 +39,9 @@ export class SnsWrapper {
     this.certified = certified;
   }
 
+  /**
+   * Binds the list of canister ids of the Sns.
+   */
   get canisterIds(): {
     rootCanisterId: Principal;
     ledgerCanisterId: Principal;
@@ -59,7 +62,7 @@ export class SnsWrapper {
       certified: this.certified,
     });
 
-  metadata = async (params: Omit<QueryParams, "certified">): Promise<string> =>
+  metadata = (params: Omit<QueryParams, "certified">): Promise<string> =>
     this.governance.metadata({
       ...params,
       certified: this.certified,
