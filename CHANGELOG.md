@@ -1,5 +1,9 @@
 # 0.x.y (2022-aa-bb)
 
+### Breaking Changes
+
+- `nns` library `esm` canisters chunks renamed with suffix `.canister`
+
 ### Features
 
 - new library `@dfinity/sns`
