@@ -45,8 +45,8 @@ const buildEsmCjs = () => {
   // cjs output bundle
   esbuild
     .build({
-      entryPoints: ["src/index.ts"],
-      outfile: "dist/cjs/index.cjs.js",
+      entryPoints,
+      outdir: "dist/cjs",
       bundle: true,
       sourcemap: true,
       minify: true,
