@@ -32,9 +32,13 @@ import type {
   Neuron as PbNeuron,
   NeuronInfo as PbNeuronInfo,
 } from "../../../proto/governance_pb";
-import { GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
+import { AccountIdentifier, SubAccount } from "../../account_identifier";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
+import type {
+  AccountIdentifier as AccountIdentifierString,
+  E8s,
+  NeuronId,
+} from "../../types/common";
 import type {
   Action,
   Ballot,
@@ -67,12 +71,16 @@ const toNeuronInfo = ({
   neuronId,
   neuronInfo,
   rawNeuron,
+  canisterId,
 }: {
   neuronId: bigint;
   neuronInfo: RawNeuronInfo;
   rawNeuron?: RawNeuron;
+  canisterId: Principal;
 }): NeuronInfo => {
-  const fullNeuron = rawNeuron ? toNeuron(rawNeuron) : undefined;
+  const fullNeuron = rawNeuron
+    ? toNeuron({ neuron: rawNeuron, canisterId })
+    : undefined;
   return {
     neuronId: neuronId,
     dissolveDelaySeconds: neuronInfo.dissolve_delay_seconds,
@@ -90,7 +98,13 @@ const toNeuronInfo = ({
   };
 };
 
-const toNeuron = (neuron: RawNeuron): Neuron => ({
+const toNeuron = ({
+  neuron,
+  canisterId,
+}: {
+  neuron: RawNeuron;
+  canisterId: Principal;
+}): Neuron => ({
   id: neuron.id.length ? toNeuronId(neuron.id[0]) : undefined,
   controller: neuron.controller.length
     ? neuron.controller[0].toString()
@@ -105,7 +119,7 @@ const toNeuron = (neuron: RawNeuron): Neuron => ({
   neuronFees: neuron.neuron_fees_e8s,
   hotKeys: neuron.hot_keys.map((p) => p.toString()),
   accountIdentifier: principalToAccountIdentifier(
-    GOVERNANCE_CANISTER_ID,
+    canisterId,
     arrayOfNumberToUint8Array(neuron.account)
   ),
   joinedCommunityFundTimestampSeconds: neuron
@@ -530,7 +544,7 @@ const toAmount = (amount: RawAmount): E8s => {
 
 const toAccountIdentifier = (
   accountIdentifier: RawAccountIdentifier
-): AccountIdentifier =>
+): AccountIdentifierString =>
   accountIdentifierFromBytes(new Uint8Array(accountIdentifier.hash));
 
 const toRewardMode = (rewardMode: RawRewardMode): RewardMode => {
@@ -608,9 +622,12 @@ export const toProposalInfo = (
 });
 
 export const toArrayOfNeuronInfo = ({
-  neuron_infos,
-  full_neurons,
-}: RawListNeuronsResponse): Array<NeuronInfo> =>
+  response: { neuron_infos, full_neurons },
+  canisterId,
+}: {
+  response: RawListNeuronsResponse;
+  canisterId: Principal;
+}): Array<NeuronInfo> =>
   neuron_infos.map(([id, neuronInfo]) =>
     toNeuronInfo({
       neuronId: id,
@@ -618,6 +635,7 @@ export const toArrayOfNeuronInfo = ({
       rawNeuron: full_neurons.find(
         (neuron) => neuron.id.length && neuron.id[0].id === id
       ),
+      canisterId,
     })
   );
 
@@ -680,10 +698,33 @@ const convertPbPrincipalIdToPrincipalString = (
 ): string =>
   Principal.fromUint8Array(pbPrincipal.getSerializedId_asU8()).toText();
 
-const convertPbNeuronToFullNeuron = (
-  pbNeuron: PbNeuron,
-  pbNeuronInfo: PbNeuronInfo
-): Neuron => {
+const convertNeuronSubaccountToAccountIdentifier = ({
+  neuron,
+  canisterId,
+}: {
+  neuron: PbNeuron;
+  canisterId: Principal;
+}): AccountIdentifier => {
+  // We assume fromBytes does not return an Error type.
+  const subAccount = SubAccount.fromBytes(
+    neuron.getAccount_asU8()
+  ) as SubAccount;
+
+  return AccountIdentifier.fromPrincipal({
+    principal: canisterId,
+    subAccount: subAccount,
+  });
+};
+
+const convertPbNeuronToFullNeuron = ({
+  pbNeuron,
+  pbNeuronInfo,
+  canisterId,
+}: {
+  pbNeuron: PbNeuron;
+  pbNeuronInfo: PbNeuronInfo;
+  canisterId: Principal;
+}): Neuron => {
   const idObj = pbNeuron.getId();
   const pbController = pbNeuron.getController();
   const controller =
@@ -718,7 +759,10 @@ const convertPbNeuronToFullNeuron = (
     hotKeys: pbNeuron
       .getHotKeysList()
       .map(convertPbPrincipalIdToPrincipalString),
-    accountIdentifier: pbNeuron.getAccount_asB64(),
+    accountIdentifier: convertNeuronSubaccountToAccountIdentifier({
+      neuron: pbNeuron,
+      canisterId,
+    }).toHex(),
     // TODO: Data not available in Neuron type
     joinedCommunityFundTimestampSeconds: undefined,
     dissolveState,
@@ -727,7 +771,13 @@ const convertPbNeuronToFullNeuron = (
 };
 
 export const convertPbNeuronToNeuronInfo =
-  (pbNeurons: PbNeuron[]) =>
+  ({
+    pbNeurons,
+    canisterId,
+  }: {
+    pbNeurons: PbNeuron[];
+    canisterId: Principal;
+  }) =>
   (pbNeuronMapEntry: ListNeuronsResponse.NeuronMapEntry): NeuronInfo => {
     const pbNeuron = pbNeurons.find(
       (pbNeuron) => pbNeuron.getId()?.getId() === pbNeuronMapEntry.getKey()
@@ -756,6 +806,6 @@ export const convertPbNeuronToNeuronInfo =
       fullNeuron:
         pbNeuron === undefined
           ? undefined
-          : convertPbNeuronToFullNeuron(pbNeuron, pbNeuronInfo),
+          : convertPbNeuronToFullNeuron({ pbNeuron, pbNeuronInfo, canisterId }),
     };
   };
