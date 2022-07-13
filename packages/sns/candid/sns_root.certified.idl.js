@@ -1,23 +1,5 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_root.did */
 export const idlFactory = ({ IDL }) => {
-  const SnsRootCanister = IDL.Record({
-    'dapp_canister_ids' : IDL.Vec(IDL.Principal),
-    'governance_canister_id' : IDL.Opt(IDL.Principal),
-    'swap_canister_id' : IDL.Opt(IDL.Principal),
-    'ledger_canister_id' : IDL.Opt(IDL.Principal),
-  });
-  const CanisterIdRecord = IDL.Record({ 'canister_id' : IDL.Principal });
-  const CanisterStatusType = IDL.Variant({
-    'stopped' : IDL.Null,
-    'stopping' : IDL.Null,
-    'running' : IDL.Null,
-  });
-  const CanisterStatusResult = IDL.Record({
-    'controller' : IDL.Principal,
-    'status' : CanisterStatusType,
-    'memory_size' : IDL.Nat,
-    'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
-  });
   const CanisterStatusType_1 = IDL.Variant({
     'stopped' : IDL.Null,
     'stopping' : IDL.Null,
@@ -41,63 +23,12 @@ export const idlFactory = ({ IDL }) => {
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
-  const CanisterSummary = IDL.Record({
-    'status' : IDL.Opt(CanisterStatusResultV2),
-    'canister_id' : IDL.Opt(IDL.Principal),
-  });
-  const GetSnsCanistersSummaryResponse = IDL.Record({
-    'ledger_canister_summary' : IDL.Opt(CanisterSummary),
-    'governance_canister_summary' : IDL.Opt(CanisterSummary),
-    'root_canister_summary' : IDL.Opt(CanisterSummary),
-    'dapp_canister_summaries' : IDL.Vec(CanisterSummary),
-  });
-  const RegisterDappCanisterRequest = IDL.Record({
-    'canister_id' : IDL.Opt(IDL.Principal),
-  });
-  const SetDappControllersRequest = IDL.Record({
-    'controller_principal_ids' : IDL.Vec(IDL.Principal),
-  });
-  const CanisterCallError = IDL.Record({
-    'code' : IDL.Opt(IDL.Int32),
-    'description' : IDL.Text,
-  });
-  const FailedUpdate = IDL.Record({
-    'err' : IDL.Opt(CanisterCallError),
-    'dapp_canister_id' : IDL.Opt(IDL.Principal),
-  });
-  const SetDappControllersResponse = IDL.Record({
-    'failed_updates' : IDL.Vec(FailedUpdate),
-  });
   return IDL.Service({
-    'canister_status' : IDL.Func(
-        [CanisterIdRecord],
-        [CanisterStatusResult],
-        [],
-      ),
-    'get_build_metadata' : IDL.Func([], [IDL.Text], []),
     'get_sns_canisters_summary' : IDL.Func(
-        [IDL.Record({})],
-        [GetSnsCanistersSummaryResponse],
-        [],
-      ),
-    'register_dapp_canister' : IDL.Func(
-        [RegisterDappCanisterRequest],
-        [IDL.Record({})],
-        [],
-      ),
-    'set_dapp_controllers' : IDL.Func(
-        [SetDappControllersRequest],
-        [SetDappControllersResponse],
+        [IDL.Vec(IDL.Principal)],
+        [IDL.Vec(IDL.Tuple(IDL.Text, IDL.Principal, CanisterStatusResultV2))],
         [],
       ),
   });
 };
-export const init = ({ IDL }) => {
-  const SnsRootCanister = IDL.Record({
-    'dapp_canister_ids' : IDL.Vec(IDL.Principal),
-    'governance_canister_id' : IDL.Opt(IDL.Principal),
-    'swap_canister_id' : IDL.Opt(IDL.Principal),
-    'ledger_canister_id' : IDL.Opt(IDL.Principal),
-  });
-  return [SnsRootCanister];
-};
+export const init = ({ IDL }) => { return []; };
