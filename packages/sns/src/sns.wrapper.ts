@@ -1,8 +1,10 @@
 import type { Principal } from "@dfinity/principal";
 import type { Neuron } from "../candid/sns_governance";
+import type { GetStateResponse } from "../candid/sns_swap";
 import type { GovernanceCanister } from "./governance.canister";
 import type { LedgerCanister } from "./ledger.canister";
 import type { RootCanister } from "./root.canister";
+import type { SwapCanister } from "./swap.canister";
 import type { ListNeuronsParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
@@ -13,7 +15,8 @@ interface SnsWrapperOptions {
   governance: GovernanceCanister;
   /** The wrapper for the "ledger" canister of the particular Sns */
   ledger: LedgerCanister;
-  // TODO: add swap canister
+  /** The wrapper for the "swap" canister of the particular Sns */
+  swap: SwapCanister;
 
   /** The wrapper has been instantiated and should perform query or update calls */
   certified: boolean;
@@ -28,15 +31,23 @@ export class SnsWrapper {
   private readonly root: RootCanister;
   private readonly governance: GovernanceCanister;
   private readonly ledger: LedgerCanister;
+  private readonly swap: SwapCanister;
   private readonly certified: boolean;
 
   /**
    * Constructor to instantiate a Sns
    */
-  constructor({ root, governance, ledger, certified }: SnsWrapperOptions) {
+  constructor({
+    root,
+    governance,
+    ledger,
+    swap,
+    certified,
+  }: SnsWrapperOptions) {
     this.root = root;
     this.governance = governance;
     this.ledger = ledger;
+    this.swap = swap;
     this.certified = certified;
   }
 
@@ -57,15 +68,19 @@ export class SnsWrapper {
 
   listNeurons = (
     params: Omit<ListNeuronsParams, "certified">
-  ): Promise<Neuron[]> =>
-    this.governance.listNeurons({
-      ...params,
-      certified: this.certified,
-    });
+  ): Promise<Neuron[]> => this.governance.listNeurons(this.mergeParams(params));
 
   metadata = (params: Omit<QueryParams, "certified">): Promise<string> =>
-    this.governance.metadata({
+    this.governance.metadata(this.mergeParams(params));
+
+  swapState = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<GetStateResponse> => this.swap.state(this.mergeParams(params));
+
+  private mergeParams(params: Omit<QueryParams, "certified">): QueryParams {
+    return {
       ...params,
       certified: this.certified,
-    });
+    };
+  }
 }

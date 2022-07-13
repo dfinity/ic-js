@@ -1,5 +1,5 @@
 import type { Agent } from "@dfinity/agent";
-import type { Principal } from "@dfinity/principal";
+import { Principal } from "@dfinity/principal";
 import type {
   CanisterStatusResultV2,
   _SERVICE as SnsRootCanister,
@@ -8,6 +8,7 @@ import { GovernanceCanister } from "./governance.canister";
 import { LedgerCanister } from "./ledger.canister";
 import { RootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
+import { SwapCanister } from "./swap.canister";
 import type { CanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
 import { assertNonNullish } from "./utils/asserts.utils";
@@ -60,10 +61,13 @@ export const initSns: InitSns = async ({
 
   // TODO: not yet provided, see canistersSummary
   // const swapCanisterId: Principal | undefined = canisterId('swap');
+  const swapCanisterId: Principal | undefined = Principal.fromText(
+    "mr56c-4qaaa-aaaaa-aacgq-cai"
+  );
 
   assertNonNullish(governanceCanisterId);
   assertNonNullish(ledgerCanisterId);
-  // assert(swapCanisterId);
+  assertNonNullish(swapCanisterId);
 
   return new SnsWrapper({
     root: rootCanister,
@@ -72,6 +76,7 @@ export const initSns: InitSns = async ({
       agent,
     }),
     ledger: LedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
+    swap: SwapCanister.create({ canisterId: swapCanisterId, agent }),
     certified,
   });
 };
