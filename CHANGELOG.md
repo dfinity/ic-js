@@ -8,6 +8,7 @@
 
 - new library `@dfinity/sns`
 - use the governance canister id of the class in converters. This allows to also have proper conversion on testnets.
+- add "leaveCommunityFund" functionality to governance canister in `@dfinity/nns`.
 
 ### Fix
 

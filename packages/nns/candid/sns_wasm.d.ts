@@ -1,10 +1,4 @@
 import type { Principal } from "@dfinity/principal";
-export interface AddWasmError {
-  error: string;
-}
-export interface AddWasmOk {
-  hash: Array<number>;
-}
 export interface AddWasmRequest {
   hash: Array<number>;
   wasm: [] | [SnsWasm];
@@ -20,6 +14,7 @@ export interface DeployNewSnsRequest {
 }
 export interface DeployNewSnsResponse {
   subnet_id: [] | [Principal];
+  error: [] | [SnsWasmError];
   canisters: [] | [SnsCanisterIds];
 }
 export interface DeployedSns {
@@ -56,7 +51,7 @@ export interface NeuronDistribution {
   controller: [] | [Principal];
   stake_e8s: bigint;
 }
-export type Result = { Ok: AddWasmOk } | { Error: AddWasmError };
+export type Result = { Error: SnsWasmError } | { Hash: Array<number> };
 export interface SnsCanisterIds {
   root: [] | [Principal];
   swap: [] | [Principal];
@@ -88,6 +83,9 @@ export interface SnsWasm {
 }
 export interface SnsWasmCanisterInitPayload {
   sns_subnet_ids: Array<Principal>;
+}
+export interface SnsWasmError {
+  message: string;
 }
 export interface SwapDistribution {
   total_e8s: bigint;

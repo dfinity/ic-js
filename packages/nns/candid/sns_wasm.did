@@ -1,12 +1,11 @@
-// Generated from IC repo commit a1080f27696c890c19d7068f668bd062f3787564 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
-type AddWasmError = record { error : text };
-type AddWasmOk = record { hash : vec nat8 };
+// Generated from IC repo commit 3ffb60db1338d1c59d429eecd5e406ebae39dc99 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
 type AddWasmRequest = record { hash : vec nat8; wasm : opt SnsWasm };
 type AddWasmResponse = record { result : opt Result };
 type AirdropDistribution = record { airdrop_neurons : vec NeuronDistribution };
 type DeployNewSnsRequest = record { sns_init_payload : opt SnsInitPayload };
 type DeployNewSnsResponse = record {
   subnet_id : opt principal;
+  error : opt SnsWasmError;
   canisters : opt SnsCanisterIds;
 };
 type DeployedSns = record { root_canister_id : opt principal };
@@ -31,7 +30,7 @@ type NeuronDistribution = record {
   controller : opt principal;
   stake_e8s : nat64;
 };
-type Result = variant { Ok : AddWasmOk; Error : AddWasmError };
+type Result = variant { Error : SnsWasmError; Hash : vec nat8 };
 type SnsCanisterIds = record {
   root : opt principal;
   swap : opt principal;
@@ -59,6 +58,7 @@ type SnsVersion = record {
 };
 type SnsWasm = record { wasm : vec nat8; canister_type : int32 };
 type SnsWasmCanisterInitPayload = record { sns_subnet_ids : vec principal };
+type SnsWasmError = record { message : text };
 type SwapDistribution = record {
   total_e8s : nat64;
   initial_swap_amount_e8s : nat64;
