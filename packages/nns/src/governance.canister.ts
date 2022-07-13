@@ -343,7 +343,7 @@ export class GovernanceCanister {
   };
 
   /**
-   * Neuron joins the community fund
+   * Neuron leaves the community fund
    *
    * @throws {@link GovernanceError}
    */

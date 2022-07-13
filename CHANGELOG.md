@@ -1,7 +1,5 @@
 # 0.x.y (2022-aa-bb)
 
-- Add "leaveCommunityFund" functionality to governance canister.
-
 ### Breaking Changes
 
 - `nns` library `esm` canisters chunks renamed with suffix `.canister`
@@ -10,6 +8,7 @@
 
 - new library `@dfinity/sns`
 - use the governance canister id of the class in converters. This allows to also have proper conversion on testnets.
+- add "leaveCommunityFund" functionality to governance canister in `@dfinity/nns`.
 
 ### Fix
 
