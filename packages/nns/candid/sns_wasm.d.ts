@@ -1,6 +1,4 @@
-import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
-
 export interface AddWasmRequest {
   hash: Array<number>;
   wasm: [] | [SnsWasm];
@@ -97,12 +95,11 @@ export interface TreasuryDistribution {
   total_e8s: bigint;
 }
 export interface _SERVICE {
-  add_wasm: ActorMethod<[AddWasmRequest], AddWasmResponse>;
-  deploy_new_sns: ActorMethod<[DeployNewSnsRequest], DeployNewSnsResponse>;
-  get_next_sns_version: ActorMethod<
-    [GetNextSnsVersionRequest],
-    GetNextSnsVersionResponse
-  >;
-  get_wasm: ActorMethod<[GetWasmRequest], GetWasmResponse>;
-  list_deployed_snses: ActorMethod<[{}], ListDeployedSnsesResponse>;
+  add_wasm: (arg_0: AddWasmRequest) => Promise<AddWasmResponse>;
+  deploy_new_sns: (arg_0: DeployNewSnsRequest) => Promise<DeployNewSnsResponse>;
+  get_next_sns_version: (
+    arg_0: GetNextSnsVersionRequest
+  ) => Promise<GetNextSnsVersionResponse>;
+  get_wasm: (arg_0: GetWasmRequest) => Promise<GetWasmResponse>;
+  list_deployed_snses: (arg_0: {}) => Promise<ListDeployedSnsesResponse>;
 }
