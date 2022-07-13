@@ -1,5 +1,7 @@
 # 0.x.y (2022-aa-bb)
 
+- Add "leaveCommunityFund" functionality to governance canister.
+
 ### Breaking Changes
 
 - `nns` library `esm` canisters chunks renamed with suffix `.canister`

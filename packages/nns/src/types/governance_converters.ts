@@ -248,6 +248,7 @@ export type Operation =
   | { StartDissolving: Record<string, never> }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { JoinCommunityFund: Record<string, never> }
+  | { LeaveCommunityFund: Record<string, never> }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
 export interface Proposal {
   title: Option<string>;

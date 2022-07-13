@@ -132,6 +132,7 @@ export const idlFactory = ({ IDL }) => {
     'StartDissolving' : IDL.Record({}),
     'IncreaseDissolveDelay' : IncreaseDissolveDelay,
     'JoinCommunityFund' : IDL.Record({}),
+    'LeaveCommunityFund' : IDL.Record({}),
     'SetDissolveTimestamp' : SetDissolveTimestamp,
   });
   const Configure = IDL.Record({ 'operation' : IDL.Opt(Operation) });
@@ -574,6 +575,7 @@ export const init = ({ IDL }) => {
     'StartDissolving' : IDL.Record({}),
     'IncreaseDissolveDelay' : IncreaseDissolveDelay,
     'JoinCommunityFund' : IDL.Record({}),
+    'LeaveCommunityFund' : IDL.Record({}),
     'SetDissolveTimestamp' : SetDissolveTimestamp,
   });
   const Configure = IDL.Record({ 'operation' : IDL.Opt(Operation) });

@@ -364,6 +364,9 @@ const fromOperation = (operation: Operation): RawOperation => {
   if ("JoinCommunityFund" in operation) {
     return operation;
   }
+  if ("LeaveCommunityFund" in operation) {
+    return operation;
+  }
   if ("SetDissolveTimestamp" in operation) {
     const setDissolveTimestamp = operation.SetDissolveTimestamp;
     return {
@@ -972,6 +975,16 @@ export const toJoinCommunityFundRequest = (
     neuronId,
     operation: {
       JoinCommunityFund: {},
+    },
+  });
+
+export const toLeaveCommunityFundRequest = (
+  neuronId: NeuronId
+): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      LeaveCommunityFund: {},
     },
   });
 

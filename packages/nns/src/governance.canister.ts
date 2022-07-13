@@ -25,6 +25,7 @@ import {
   toDisburseNeuronRequest,
   toIncreaseDissolveDelayRequest,
   toJoinCommunityFundRequest,
+  toLeaveCommunityFundRequest,
   toMakeProposalRawRequest,
   toManageNeuronsFollowRequest,
   toMergeMaturityRequest,
@@ -334,6 +335,20 @@ export class GovernanceCanister {
    */
   public joinCommunityFund = async (neuronId: NeuronId): Promise<void> => {
     const request = toJoinCommunityFundRequest(neuronId);
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Neuron joins the community fund
+   *
+   * @throws {@link GovernanceError}
+   */
+  public leaveCommunityFund = async (neuronId: NeuronId): Promise<void> => {
+    const request = toLeaveCommunityFundRequest(neuronId);
 
     return manageNeuron({
       request,

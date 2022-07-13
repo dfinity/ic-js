@@ -503,6 +503,9 @@ const toOperation = (operation: RawOperation): Operation => {
   if ("JoinCommunityFund" in operation) {
     return operation;
   }
+  if ("LeaveCommunityFund" in operation) {
+    return operation;
+  }
   if ("SetDissolveTimestamp" in operation) {
     const setDissolveTimestamp = operation.SetDissolveTimestamp;
     return {
