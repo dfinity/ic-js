@@ -266,6 +266,7 @@ export interface ProposalInfo {
   rewardEventRound: bigint;
   failedTimestampSeconds: bigint;
   decidedTimestampSeconds: bigint;
+  deadlineTimestampSeconds: Option<bigint>;
   latestTally: Option<Tally>;
   proposal: Option<Proposal>;
   proposer: Option<NeuronId>;
