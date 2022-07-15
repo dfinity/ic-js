@@ -247,6 +247,7 @@ export interface Neuron {
   neuron_fees_e8s: bigint;
   transfer: [] | [NeuronStakeTransfer];
   known_neuron_data: [] | [KnownNeuronData];
+  spawn_at_timestamp_seconds: [] | [bigint];
 }
 export interface NeuronId {
   id: bigint;

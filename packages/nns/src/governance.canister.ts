@@ -163,6 +163,7 @@ export class GovernanceCanister {
     const raw_response = await this.getGovernanceService(
       certified
     ).list_neurons(rawRequest);
+
     return toArrayOfNeuronInfo({
       response: raw_response,
       canisterId: this.canisterId,
@@ -349,7 +350,6 @@ export class GovernanceCanister {
    */
   public leaveCommunityFund = async (neuronId: NeuronId): Promise<void> => {
     const request = toLeaveCommunityFundRequest(neuronId);
-
     return manageNeuron({
       request,
       service: this.certifiedService,

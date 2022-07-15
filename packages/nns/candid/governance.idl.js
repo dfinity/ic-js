@@ -286,6 +286,7 @@ export const idlFactory = ({ IDL }) => {
     'neuron_fees_e8s' : IDL.Nat64,
     'transfer' : IDL.Opt(NeuronStakeTransfer),
     'known_neuron_data' : IDL.Opt(KnownNeuronData),
+    'spawn_at_timestamp_seconds' : IDL.Opt(IDL.Nat64),
   });
   const Governance = IDL.Record({
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
@@ -753,6 +754,7 @@ export const init = ({ IDL }) => {
     'neuron_fees_e8s' : IDL.Nat64,
     'transfer' : IDL.Opt(NeuronStakeTransfer),
     'known_neuron_data' : IDL.Opt(KnownNeuronData),
+    'spawn_at_timestamp_seconds' : IDL.Opt(IDL.Nat64),
   });
   const Governance = IDL.Record({
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),

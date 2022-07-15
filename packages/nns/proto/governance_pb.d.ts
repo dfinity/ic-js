@@ -888,6 +888,9 @@ export class Neuron extends jspb.Message {
   getAgingSinceTimestampSeconds(): string;
   setAgingSinceTimestampSeconds(value: string): void;
 
+  getSpawnAtTimestampSeconds(): string;
+  setSpawnAtTimestampSeconds(value: string): void;
+
   hasWhenDissolvedTimestampSeconds(): boolean;
   clearWhenDissolvedTimestampSeconds(): void;
   getWhenDissolvedTimestampSeconds(): string;
@@ -940,6 +943,7 @@ export namespace Neuron {
     neuronFeesE8s: string,
     createdTimestampSeconds: string,
     agingSinceTimestampSeconds: string,
+    spawnAtTimestampSeconds: string,
     whenDissolvedTimestampSeconds: string,
     dissolveDelaySeconds: string,
     followeesMap: Array<[number, Neuron.Followees.AsObject]>,

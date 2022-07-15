@@ -187,6 +187,7 @@ type Neuron = record {
   cached_neuron_stake_e8s : nat64;
   created_timestamp_seconds : nat64;
   aging_since_timestamp_seconds : nat64;
+  spawn_at_timestamp_seconds: opt nat64;
   hot_keys : vec principal;
   account : vec nat8;
   joined_community_fund_timestamp_seconds : opt nat64;

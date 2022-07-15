@@ -6533,6 +6533,7 @@ proto.ic_nns_governance.pb.v1.Neuron.toObject = function(includeInstance, msg) {
     neuronFeesE8s: jspb.Message.getFieldWithDefault(msg, 6, "0"),
     createdTimestampSeconds: jspb.Message.getFieldWithDefault(msg, 7, "0"),
     agingSinceTimestampSeconds: jspb.Message.getFieldWithDefault(msg, 8, "0"),
+    spawnAtTimestampSeconds: jspb.Message.getFieldWithDefault(msg, 19, "0"),
     whenDissolvedTimestampSeconds: jspb.Message.getFieldWithDefault(msg, 9, "0"),
     dissolveDelaySeconds: jspb.Message.getFieldWithDefault(msg, 10, "0"),
     followeesMap: (f = msg.getFolloweesMap()) ? f.toObject(includeInstance, proto.ic_nns_governance.pb.v1.Neuron.Followees.toObject) : [],
@@ -6612,6 +6613,10 @@ proto.ic_nns_governance.pb.v1.Neuron.deserializeBinaryFromReader = function(msg,
     case 8:
       var value = /** @type {string} */ (reader.readUint64String());
       msg.setAgingSinceTimestampSeconds(value);
+      break;
+    case 19:
+      var value = /** @type {string} */ (reader.readUint64String());
+      msg.setSpawnAtTimestampSeconds(value);
       break;
     case 9:
       var value = /** @type {string} */ (reader.readUint64String());
@@ -6734,6 +6739,13 @@ proto.ic_nns_governance.pb.v1.Neuron.serializeBinaryToWriter = function(message,
   if (parseInt(f, 10) !== 0) {
     writer.writeUint64String(
       8,
+      f
+    );
+  }
+  f = message.getSpawnAtTimestampSeconds();
+  if (parseInt(f, 10) !== 0) {
+    writer.writeUint64String(
+      19,
       f
     );
   }
@@ -7178,6 +7190,24 @@ proto.ic_nns_governance.pb.v1.Neuron.prototype.getAgingSinceTimestampSeconds = f
  */
 proto.ic_nns_governance.pb.v1.Neuron.prototype.setAgingSinceTimestampSeconds = function(value) {
   return jspb.Message.setProto3StringIntField(this, 8, value);
+};
+
+
+/**
+ * optional uint64 spawn_at_timestamp_seconds = 19;
+ * @return {string}
+ */
+proto.ic_nns_governance.pb.v1.Neuron.prototype.getSpawnAtTimestampSeconds = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 19, "0"));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.ic_nns_governance.pb.v1.Neuron} returns this
+ */
+proto.ic_nns_governance.pb.v1.Neuron.prototype.setSpawnAtTimestampSeconds = function(value) {
+  return jspb.Message.setProto3StringIntField(this, 19, value);
 };
 
 

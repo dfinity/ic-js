@@ -133,6 +133,10 @@ const toNeuron = ({
   dissolveState: neuron.dissolve_state.length
     ? toDissolveState(neuron.dissolve_state[0])
     : undefined,
+  spawnAtTimesSeconds:
+    neuron.spawn_at_timestamp_seconds.length > 0
+      ? neuron.spawn_at_timestamp_seconds[0]
+      : undefined,
   followees: neuron.followees.map(([topic, followees]) =>
     toFollowees({ topic, followees })
   ),
@@ -769,6 +773,7 @@ const convertPbNeuronToFullNeuron = ({
     agingSinceTimestampSeconds: BigInt(
       pbNeuron.getAgingSinceTimestampSeconds()
     ),
+    spawnAtTimesSeconds: BigInt(pbNeuron.getSpawnAtTimestampSeconds()),
     neuronFees: BigInt(pbNeuron.getNeuronFeesE8s()),
     hotKeys: pbNeuron
       .getHotKeysList()
