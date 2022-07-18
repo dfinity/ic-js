@@ -289,6 +289,7 @@ export type Operation =
   | { StartDissolving: {} }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { JoinCommunityFund: {} }
+  | { LeaveCommunityFund: {} }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
 export interface Proposal {
   url: string;

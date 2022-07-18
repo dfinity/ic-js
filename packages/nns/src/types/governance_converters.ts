@@ -248,6 +248,7 @@ export type Operation =
   | { StartDissolving: Record<string, never> }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { JoinCommunityFund: Record<string, never> }
+  | { LeaveCommunityFund: Record<string, never> }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
 export interface Proposal {
   title: Option<string>;
@@ -265,6 +266,7 @@ export interface ProposalInfo {
   rewardEventRound: bigint;
   failedTimestampSeconds: bigint;
   decidedTimestampSeconds: bigint;
+  deadlineTimestampSeconds: Option<bigint>;
   latestTally: Option<Tally>;
   proposal: Option<Proposal>;
   proposer: Option<NeuronId>;

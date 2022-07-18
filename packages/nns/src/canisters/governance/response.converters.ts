@@ -66,6 +66,7 @@ import {
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
 import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
+import { fromNullable } from "../../utils/did.utils";
 
 const toNeuronInfo = ({
   neuronId,
@@ -503,6 +504,9 @@ const toOperation = (operation: RawOperation): Operation => {
   if ("JoinCommunityFund" in operation) {
     return operation;
   }
+  if ("LeaveCommunityFund" in operation) {
+    return operation;
+  }
   if ("SetDissolveTimestamp" in operation) {
     const setDissolveTimestamp = operation.SetDissolveTimestamp;
     return {
@@ -605,6 +609,9 @@ export const toProposalInfo = (
   proposalTimestampSeconds: proposalInfo.proposal_timestamp_seconds,
   rewardEventRound: proposalInfo.reward_event_round,
   failedTimestampSeconds: proposalInfo.failed_timestamp_seconds,
+  deadlineTimestampSeconds: fromNullable(
+    proposalInfo.deadline_timestamp_seconds
+  ),
   decidedTimestampSeconds: proposalInfo.decided_timestamp_seconds,
   proposal: proposalInfo.proposal.length
     ? toProposal(proposalInfo.proposal[0])

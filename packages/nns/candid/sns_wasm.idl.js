@@ -11,9 +11,11 @@ export const idlFactory = ({ IDL }) => {
     'hash' : IDL.Vec(IDL.Nat8),
     'wasm' : IDL.Opt(SnsWasm),
   });
-  const AddWasmOk = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
-  const AddWasmError = IDL.Record({ 'error' : IDL.Text });
-  const Result = IDL.Variant({ 'Ok' : AddWasmOk, 'Error' : AddWasmError });
+  const SnsWasmError = IDL.Record({ 'message' : IDL.Text });
+  const Result = IDL.Variant({
+    'Error' : SnsWasmError,
+    'Hash' : IDL.Vec(IDL.Nat8),
+  });
   const AddWasmResponse = IDL.Record({ 'result' : IDL.Opt(Result) });
   const TreasuryDistribution = IDL.Record({ 'total_e8s' : IDL.Nat64 });
   const NeuronDistribution = IDL.Record({
@@ -64,6 +66,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const DeployNewSnsResponse = IDL.Record({
     'subnet_id' : IDL.Opt(IDL.Principal),
+    'error' : IDL.Opt(SnsWasmError),
     'canisters' : IDL.Opt(SnsCanisterIds),
   });
   const SnsVersion = IDL.Record({
