@@ -1,5 +1,7 @@
-import type { _SERVICE as SnsRootCanister } from "../candid/sns_root";
-import type { ListSnsCanistersResponse } from "../candid/sns_root";
+import type {
+  ListSnsCanistersResponse,
+  _SERVICE as SnsRootCanister,
+} from "../candid/sns_root";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_root.certified.idl";
 import { idlFactory } from "../candid/sns_root.idl";
 import { Canister } from "./services/canister";
