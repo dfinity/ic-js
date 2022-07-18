@@ -7,13 +7,13 @@ import { RootCanister } from "./root.canister";
 describe("Root canister", () => {
   it("should return the list of canister of the sns", async () => {
     const service = mock<ActorSubclass<SnsRootCanister>>();
-    service.get_sns_canisters_summary.mockResolvedValue(snsMock);
+    service.list_sns_canisters.mockResolvedValue(snsMock);
 
     const canister = RootCanister.create({
       canisterId: rootCanisterIdMock,
       certifiedServiceOverride: service,
     });
-    const res = await canister.canistersSummary({});
+    const res = await canister.listSnsCanisters({});
     expect(res).toEqual(snsMock);
   });
 });

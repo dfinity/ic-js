@@ -35,8 +35,31 @@ export const idlFactory = ({ IDL }) => {
     'sweep_sns' : IDL.Opt(SweepResult),
     'create_neuron' : IDL.Opt(SweepResult),
   });
+  const CanisterStatusType = IDL.Variant({
+    'stopped' : IDL.Null,
+    'stopping' : IDL.Null,
+    'running' : IDL.Null,
+  });
+  const DefiniteCanisterSettingsArgs = IDL.Record({
+    'controller' : IDL.Principal,
+    'freezing_threshold' : IDL.Nat,
+    'controllers' : IDL.Vec(IDL.Principal),
+    'memory_allocation' : IDL.Nat,
+    'compute_allocation' : IDL.Nat,
+  });
+  const CanisterStatusResultV2 = IDL.Record({
+    'controller' : IDL.Principal,
+    'status' : CanisterStatusType,
+    'freezing_threshold' : IDL.Nat,
+    'balance' : IDL.Vec(IDL.Tuple(IDL.Vec(IDL.Nat8), IDL.Nat)),
+    'memory_size' : IDL.Nat,
+    'cycles' : IDL.Nat,
+    'settings' : DefiniteCanisterSettingsArgs,
+    'idle_cycles_burned_per_day' : IDL.Nat,
+    'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
   const GetCanisterStatusResponse = IDL.Record({
-    'canister_cycle_balance' : IDL.Nat64,
+    'status' : CanisterStatusResultV2,
   });
   const TimeWindow = IDL.Record({
     'start_timestamp_seconds' : IDL.Nat64,

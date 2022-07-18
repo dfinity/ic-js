@@ -4,6 +4,7 @@ import { LedgerCanister } from "./ledger.canister";
 import { neuronsMock } from "./mocks/governance.mock";
 import { RootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
+import { SwapCanister } from "./swap.canister";
 
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<GovernanceCanister>();
@@ -17,10 +18,24 @@ describe("SnsWrapper", () => {
   const mockCertifiedMetadata =
     mockCertifiedGovernanceCanister.metadata.mockResolvedValue("");
 
+  const mockSwapCanister = mock<SwapCanister>();
+  const mockSwapState = mockSwapCanister.state.mockResolvedValue({
+    swap: [],
+    derived: [],
+  });
+
+  const mockCertifiedSwapCanister = mock<SwapCanister>();
+  const mockCertifiedSwapState =
+    mockCertifiedSwapCanister.state.mockResolvedValue({
+      swap: [],
+      derived: [],
+    });
+
   const snsWrapper: SnsWrapper = new SnsWrapper({
     root: {} as RootCanister,
     ledger: {} as LedgerCanister,
     governance: mockGovernanceCanister,
+    swap: mockSwapCanister,
     certified: false,
   });
 
@@ -28,6 +43,7 @@ describe("SnsWrapper", () => {
     root: {} as RootCanister,
     ledger: {} as LedgerCanister,
     governance: mockCertifiedGovernanceCanister,
+    swap: mockCertifiedSwapCanister,
     certified: true,
   });
 

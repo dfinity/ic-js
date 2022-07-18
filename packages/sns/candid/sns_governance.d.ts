@@ -1,6 +1,7 @@
 import type { Principal } from "@dfinity/principal";
-export interface AccountIdentifier {
-  hash: Array<number>;
+export interface Account {
+  of: [] | [Principal];
+  subaccount: [] | [Subaccount];
 }
 export type Action =
   | {
@@ -99,11 +100,11 @@ export interface DefiniteCanisterSettingsArgs {
   compute_allocation: bigint;
 }
 export interface Disburse {
-  to_account: [] | [AccountIdentifier];
+  to_account: [] | [Account];
   amount: [] | [Amount];
 }
 export interface DisburseMaturity {
-  to_account: [] | [AccountIdentifier];
+  to_account: [] | [Account];
   percentage_to_disburse: number;
 }
 export interface DisburseMaturityResponse {
@@ -336,6 +337,9 @@ export interface Split {
 }
 export interface SplitResponse {
   created_neuron_id: [] | [NeuronId];
+}
+export interface Subaccount {
+  subaccount: Array<number>;
 }
 export interface Tally {
   no: bigint;

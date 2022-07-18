@@ -1,3 +1,4 @@
+import type { Principal } from "@dfinity/principal";
 export interface BuyerState {
   icp_disbursing: boolean;
   amount_sns_e8s: bigint;
@@ -7,6 +8,28 @@ export interface BuyerState {
 export interface CanisterCallError {
   code: [] | [number];
   description: string;
+}
+export interface CanisterStatusResultV2 {
+  controller: Principal;
+  status: CanisterStatusType;
+  freezing_threshold: bigint;
+  balance: Array<[Array<number>, bigint]>;
+  memory_size: bigint;
+  cycles: bigint;
+  settings: DefiniteCanisterSettingsArgs;
+  idle_cycles_burned_per_day: bigint;
+  module_hash: [] | [Array<number>];
+}
+export type CanisterStatusType =
+  | { stopped: null }
+  | { stopping: null }
+  | { running: null };
+export interface DefiniteCanisterSettingsArgs {
+  controller: Principal;
+  freezing_threshold: bigint;
+  controllers: Array<Principal>;
+  memory_allocation: bigint;
+  compute_allocation: bigint;
 }
 export interface DerivedState {
   sns_tokens_per_icp: number;
@@ -23,7 +46,7 @@ export interface FinalizeSwapResponse {
   create_neuron: [] | [SweepResult];
 }
 export interface GetCanisterStatusResponse {
-  canister_cycle_balance: bigint;
+  status: CanisterStatusResultV2;
 }
 export interface GetStateResponse {
   swap: [] | [Swap];

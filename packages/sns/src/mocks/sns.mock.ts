@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { CanisterStatusResultV2 } from "../../candid/sns_root";
+import type { ListSnsCanistersResponse } from "../../candid/sns_root";
 
 export const rootCanisterIdMock: Principal = Principal.fromText(
   "pin7y-wyaaa-aaaaa-aacpa-cai"
@@ -17,13 +17,11 @@ export const swapCanisterIdMock: Principal = Principal.fromText(
   "kuwf5-5qaaa-aaaaa-aacqq-cai"
 );
 
-export const snsMock: [string, Principal, CanisterStatusResultV2][] = [
-  ["root", rootCanisterIdMock, {} as unknown as CanisterStatusResultV2],
-  ["ledger", ledgerCanisterIdMock, {} as unknown as CanisterStatusResultV2],
-  [
-    "governance",
-    governanceCanisterIdMock,
-    {} as unknown as CanisterStatusResultV2,
-  ],
-  ["swap", swapCanisterIdMock, {} as unknown as CanisterStatusResultV2],
-];
+export const snsMock: ListSnsCanistersResponse = {
+  root: [rootCanisterIdMock],
+  ledger: [ledgerCanisterIdMock],
+  governance: [governanceCanisterIdMock],
+  swap: [swapCanisterIdMock],
+  dapps: [],
+  archives: [],
+};

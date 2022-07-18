@@ -1,4 +1,4 @@
-// Generated from IC repo commit a1080f27696c890c19d7068f668bd062f3787564 'rs/sns/swap/canister/swap.did' by import-candid
+// Generated from IC repo commit 12bd50418009ea8d6aabf4f5ac1182aceaf56689 'rs/sns/swap/canister/swap.did' by import-candid
 type BuyerState = record {
   icp_disbursing : bool;
   amount_sns_e8s : nat64;
@@ -6,6 +6,25 @@ type BuyerState = record {
   sns_disbursing : bool;
 };
 type CanisterCallError = record { code : opt int32; description : text };
+type CanisterStatusResultV2 = record {
+  controller : principal;
+  status : CanisterStatusType;
+  freezing_threshold : nat;
+  balance : vec record { vec nat8; nat };
+  memory_size : nat;
+  cycles : nat;
+  settings : DefiniteCanisterSettingsArgs;
+  idle_cycles_burned_per_day : nat;
+  module_hash : opt vec nat8;
+};
+type CanisterStatusType = variant { stopped; stopping; running };
+type DefiniteCanisterSettingsArgs = record {
+  controller : principal;
+  freezing_threshold : nat;
+  controllers : vec principal;
+  memory_allocation : nat;
+  compute_allocation : nat;
+};
 type DerivedState = record {
   sns_tokens_per_icp : float32;
   buyer_total_icp_e8s : nat64;
@@ -20,7 +39,7 @@ type FinalizeSwapResponse = record {
   sweep_sns : opt SweepResult;
   create_neuron : opt SweepResult;
 };
-type GetCanisterStatusResponse = record { canister_cycle_balance : nat64 };
+type GetCanisterStatusResponse = record { status : CanisterStatusResultV2 };
 type GetStateResponse = record { swap : opt Swap; derived : opt DerivedState };
 type Init = record {
   min_participant_icp_e8s : nat64;
