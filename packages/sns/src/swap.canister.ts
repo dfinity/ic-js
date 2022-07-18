@@ -24,6 +24,6 @@ export class SwapCanister extends Canister<SnsSwapCanister> {
   /**
    * Get the state of the swap
    */
-  state = async (params: QueryParams): Promise<GetStateResponse> =>
+  state = (params: QueryParams): Promise<GetStateResponse> =>
     this.caller(params).get_state({});
 }
