@@ -1,7 +1,7 @@
 import type { Agent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import type { Principal } from "@dfinity/principal";
 import type {
-  CanisterStatusResultV2,
+  ListSnsCanistersResponse,
   _SERVICE as SnsRootCanister,
 } from "../candid/sns_root";
 import { GovernanceCanister } from "./governance.canister";
@@ -12,6 +12,7 @@ import { SwapCanister } from "./swap.canister";
 import type { CanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
 import { assertNonNullish } from "./utils/asserts.utils";
+import { fromNullable } from "./utils/did.utils";
 
 /**
  * Options to discover and initialize all canisters of a Sns.
@@ -40,30 +41,12 @@ export const initSns: InitSns = async ({
     agent,
   });
 
-  // TODO: this will be soon modified to variants, see canistersSummary details
-  const canisters: Array<[string, Principal, CanisterStatusResultV2]> =
-    await rootCanister.canistersSummary({ certified });
+  const { ledger, swap, governance }: ListSnsCanistersResponse =
+    await rootCanister.listSnsCanisters({ certified });
 
-  const canisterId = (
-    type: "governance" | "ledger" | "swap"
-  ): Principal | undefined =>
-    canisters.find(
-      /* eslint-disable @typescript-eslint/no-unused-vars */
-      ([canisterType, _canisterId, _status]: [
-        string,
-        Principal,
-        CanisterStatusResultV2
-      ]) => canisterType === type
-    )?.[1];
-
-  const governanceCanisterId: Principal | undefined = canisterId("governance");
-  const ledgerCanisterId: Principal | undefined = canisterId("ledger");
-
-  // TODO: not yet provided, see canistersSummary
-  // const swapCanisterId: Principal | undefined = canisterId('swap');
-  const swapCanisterId: Principal | undefined = Principal.fromText(
-    "mr56c-4qaaa-aaaaa-aacgq-cai"
-  );
+  const governanceCanisterId: Principal | undefined = fromNullable(governance);
+  const ledgerCanisterId: Principal | undefined = fromNullable(ledger);
+  const swapCanisterId: Principal | undefined = fromNullable(swap);
 
   assertNonNullish(governanceCanisterId);
   assertNonNullish(ledgerCanisterId);

@@ -138,9 +138,13 @@ export const idlFactory = ({ IDL }) => {
     'function_id' : IDL.Nat64,
     'followees' : IDL.Vec(NeuronId),
   });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
+  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
+  const Account = IDL.Record({
+    'of' : IDL.Opt(IDL.Principal),
+    'subaccount' : IDL.Opt(Subaccount),
+  });
   const DisburseMaturity = IDL.Record({
-    'to_account' : IDL.Opt(AccountIdentifier),
+    'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
   const IncreaseDissolveDelay = IDL.Record({
@@ -180,7 +184,7 @@ export const idlFactory = ({ IDL }) => {
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
-    'to_account' : IDL.Opt(AccountIdentifier),
+    'to_account' : IDL.Opt(Account),
     'amount' : IDL.Opt(Amount),
   });
   const Command_2 = IDL.Variant({
@@ -500,9 +504,13 @@ export const init = ({ IDL }) => {
     'function_id' : IDL.Nat64,
     'followees' : IDL.Vec(NeuronId),
   });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
+  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
+  const Account = IDL.Record({
+    'of' : IDL.Opt(IDL.Principal),
+    'subaccount' : IDL.Opt(Subaccount),
+  });
   const DisburseMaturity = IDL.Record({
-    'to_account' : IDL.Opt(AccountIdentifier),
+    'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
   const IncreaseDissolveDelay = IDL.Record({
@@ -542,7 +550,7 @@ export const init = ({ IDL }) => {
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
-    'to_account' : IDL.Opt(AccountIdentifier),
+    'to_account' : IDL.Opt(Account),
     'amount' : IDL.Opt(Amount),
   });
   const Command_2 = IDL.Variant({

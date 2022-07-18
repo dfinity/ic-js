@@ -12,7 +12,7 @@ import { initSns } from "./sns";
 describe("Sns", () => {
   it("should init a wrapper", async () => {
     const service = mock<ActorSubclass<SnsRootCanister>>();
-    service.get_sns_canisters_summary.mockResolvedValue(snsMock);
+    service.list_sns_canisters.mockResolvedValue(snsMock);
 
     const { canisterIds } = await initSns({
       rootOptions: {

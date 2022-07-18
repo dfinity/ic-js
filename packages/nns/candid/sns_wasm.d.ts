@@ -74,6 +74,7 @@ export interface SnsInitPayload {
 }
 export interface SnsVersion {
   root_wasm_hash: Array<number>;
+  swap_wasm_hash: Array<number>;
   ledger_wasm_hash: Array<number>;
   governance_wasm_hash: Array<number>;
 }

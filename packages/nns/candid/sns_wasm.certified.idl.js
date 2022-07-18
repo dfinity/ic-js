@@ -71,6 +71,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const SnsVersion = IDL.Record({
     'root_wasm_hash' : IDL.Vec(IDL.Nat8),
+    'swap_wasm_hash' : IDL.Vec(IDL.Nat8),
     'ledger_wasm_hash' : IDL.Vec(IDL.Nat8),
     'governance_wasm_hash' : IDL.Vec(IDL.Nat8),
   });
