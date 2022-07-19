@@ -10,6 +10,7 @@
 - use the governance canister id of the class in converters. This allows to also have proper conversion on testnets.
 - add `leaveCommunityFund` functionality to governance canister in `@dfinity/nns`.
 - map `deadline_timestamp_seconds` to proposal object
+- new NNS proposal topic `SnsDecentralizationSale`
 
 ### Fix
 
