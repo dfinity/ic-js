@@ -1,5 +1,5 @@
 // Source: https://github.com/dfinity/ic/blob/master/rs/sns/swap/gen/ic_sns_swap.pb.v1.rs - Lifecycle
-export enum SwapLifecycle {
+export enum SnsSwapLifecycle {
   Unspecified = 0,
   Pending = 1,
   Open = 2,

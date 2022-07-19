@@ -24,14 +24,14 @@ export interface InitSnsCanistersOptions extends QueryParams {
   rootOptions: Omit<CanisterOptions<SnsRootCanister>, "agent">;
 }
 
-export interface InitSns {
+export interface InitSnsWrapper {
   (options: InitSnsCanistersOptions): Promise<SnsWrapper>;
 }
 
 /**
  * Lookup for the canister ids of a Sns and initialize the wrapper to access its features.
  */
-export const initSns: InitSns = async ({
+export const initSns: InitSnsWrapper = async ({
   agent,
   rootOptions,
   certified = true,
