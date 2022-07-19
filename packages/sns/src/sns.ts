@@ -31,7 +31,7 @@ export interface InitSnsWrapper {
 /**
  * Lookup for the canister ids of a Sns and initialize the wrapper to access its features.
  */
-export const initSns: InitSnsWrapper = async ({
+export const initSnsWrapper: InitSnsWrapper = async ({
   agent,
   rootOptions,
   certified = true,
