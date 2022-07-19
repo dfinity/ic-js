@@ -7,6 +7,7 @@ export type Action =
   | { ManageNeuron: ManageNeuron }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
   | { RewardNodeProvider: RewardNodeProvider }
+  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
   | { SetDefaultFollowees: SetDefaultFollowees }
   | { RewardNodeProviders: RewardNodeProviders }
   | { ManageNetworkEconomics: NetworkEconomics }
@@ -373,6 +374,13 @@ export interface SetDefaultFollowees {
 export interface SetDissolveTimestamp {
   dissolve_timestamp_seconds: bigint;
 }
+export interface SetOpenTimeWindowRequest {
+  open_time_window: [] | [TimeWindow];
+}
+export interface SetSnsTokenSwapOpenTimeWindow {
+  request: [] | [SetOpenTimeWindowRequest];
+  swap_canister_id: [] | [Principal];
+}
 export interface Spawn {
   percentage_to_spawn: [] | [number];
   new_controller: [] | [Principal];
@@ -389,6 +397,10 @@ export interface Tally {
   yes: bigint;
   total: bigint;
   timestamp_seconds: bigint;
+}
+export interface TimeWindow {
+  start_timestamp_seconds: bigint;
+  end_timestamp_seconds: bigint;
 }
 export interface UpdateNodeProvider {
   reward_account: [] | [AccountIdentifier];
