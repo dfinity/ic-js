@@ -19,7 +19,7 @@ protoc \
   --proto_path="./packages/nns/proto" \
   ./packages/nns/proto/types.proto
 
-# ledger.proto: TODO
+# ledger.proto: https://github.com/dfinity/ic/blob/master/rs/rosetta-api/ledger_canister/proto/ic_ledger/pb/v1/types.proto
 
 protoc \
   --plugin="protoc-gen-ts=./node_modules/.bin/protoc-gen-ts" \
