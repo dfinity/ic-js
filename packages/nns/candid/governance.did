@@ -1,10 +1,11 @@
-// Generated from IC repo commit 3ffb60db1338d1c59d429eecd5e406ebae39dc99 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 5f9638e8ff281c27a791bf26fd3e4b5c06d000b2 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
   ManageNeuron : ManageNeuron;
   ExecuteNnsFunction : ExecuteNnsFunction;
   RewardNodeProvider : RewardNodeProvider;
+  SetSnsTokenSwapOpenTimeWindow : SetSnsTokenSwapOpenTimeWindow;
   SetDefaultFollowees : SetDefaultFollowees;
   RewardNodeProviders : RewardNodeProviders;
   ManageNetworkEconomics : NetworkEconomics;
@@ -311,6 +312,11 @@ type SetDefaultFollowees = record {
   default_followees : vec record { int32; Followees };
 };
 type SetDissolveTimestamp = record { dissolve_timestamp_seconds : nat64 };
+type SetOpenTimeWindowRequest = record { open_time_window : opt TimeWindow };
+type SetSnsTokenSwapOpenTimeWindow = record {
+  request : opt SetOpenTimeWindowRequest;
+  swap_canister_id : opt principal;
+};
 type Spawn = record {
   percentage_to_spawn : opt nat32;
   new_controller : opt principal;
@@ -323,6 +329,10 @@ type Tally = record {
   yes : nat64;
   total : nat64;
   timestamp_seconds : nat64;
+};
+type TimeWindow = record {
+  start_timestamp_seconds : nat64;
+  end_timestamp_seconds : nat64;
 };
 type UpdateNodeProvider = record { reward_account : opt AccountIdentifier };
 type WaitForQuietState = record { current_deadline_timestamp_seconds : nat64 };

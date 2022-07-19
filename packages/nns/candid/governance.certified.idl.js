@@ -180,6 +180,17 @@ export const idlFactory = ({ IDL }) => {
     'nns_function' : IDL.Int32,
     'payload' : IDL.Vec(IDL.Nat8),
   });
+  const TimeWindow = IDL.Record({
+    'start_timestamp_seconds' : IDL.Nat64,
+    'end_timestamp_seconds' : IDL.Nat64,
+  });
+  const SetOpenTimeWindowRequest = IDL.Record({
+    'open_time_window' : IDL.Opt(TimeWindow),
+  });
+  const SetSnsTokenSwapOpenTimeWindow = IDL.Record({
+    'request' : IDL.Opt(SetOpenTimeWindowRequest),
+    'swap_canister_id' : IDL.Opt(IDL.Principal),
+  });
   const SetDefaultFollowees = IDL.Record({
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
   });
@@ -201,6 +212,7 @@ export const idlFactory = ({ IDL }) => {
     'ManageNeuron' : ManageNeuron,
     'ExecuteNnsFunction' : ExecuteNnsFunction,
     'RewardNodeProvider' : RewardNodeProvider,
+    'SetSnsTokenSwapOpenTimeWindow' : SetSnsTokenSwapOpenTimeWindow,
     'SetDefaultFollowees' : SetDefaultFollowees,
     'RewardNodeProviders' : RewardNodeProviders,
     'ManageNetworkEconomics' : NetworkEconomics,
@@ -623,6 +635,17 @@ export const init = ({ IDL }) => {
     'nns_function' : IDL.Int32,
     'payload' : IDL.Vec(IDL.Nat8),
   });
+  const TimeWindow = IDL.Record({
+    'start_timestamp_seconds' : IDL.Nat64,
+    'end_timestamp_seconds' : IDL.Nat64,
+  });
+  const SetOpenTimeWindowRequest = IDL.Record({
+    'open_time_window' : IDL.Opt(TimeWindow),
+  });
+  const SetSnsTokenSwapOpenTimeWindow = IDL.Record({
+    'request' : IDL.Opt(SetOpenTimeWindowRequest),
+    'swap_canister_id' : IDL.Opt(IDL.Principal),
+  });
   const SetDefaultFollowees = IDL.Record({
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
   });
@@ -644,6 +667,7 @@ export const init = ({ IDL }) => {
     'ManageNeuron' : ManageNeuron,
     'ExecuteNnsFunction' : ExecuteNnsFunction,
     'RewardNodeProvider' : RewardNodeProvider,
+    'SetSnsTokenSwapOpenTimeWindow' : SetSnsTokenSwapOpenTimeWindow,
     'SetDefaultFollowees' : SetDefaultFollowees,
     'RewardNodeProviders' : RewardNodeProviders,
     'ManageNetworkEconomics' : NetworkEconomics,

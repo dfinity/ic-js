@@ -13,7 +13,13 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global = Function('return this')();
+var global = (function() {
+  if (this) { return this; }
+  if (typeof window !== 'undefined') { return window; }
+  if (typeof global !== 'undefined') { return global; }
+  if (typeof self !== 'undefined') { return self; }
+  return Function('return this')();
+}.call(null));
 
 var base_types_pb = require('./base_types_pb.js');
 goog.object.extend(proto, base_types_pb);
@@ -7800,7 +7806,8 @@ proto.ic_nns_governance.pb.v1.Topic = {
   TOPIC_SUBNET_MANAGEMENT: 7,
   TOPIC_NETWORK_CANISTER_MANAGEMENT: 8,
   TOPIC_KYC: 9,
-  TOPIC_NODE_PROVIDER_REWARDS: 10
+  TOPIC_NODE_PROVIDER_REWARDS: 10,
+  TOPIC_SNS_DECENTRALIZATION_SALE: 11
 };
 
 goog.object.extend(exports, proto.ic_nns_governance.pb.v1);

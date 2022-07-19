@@ -385,6 +385,7 @@ export enum Topic {
   NetworkCanisterManagement = 8,
   Kyc = 9,
   NodeProviderRewards = 10,
+  SnsDecentralizationSale = 11,
 }
 
 export interface AddHotKeyRequest {
