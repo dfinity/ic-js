@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# For OSX manual installation: https://github.com/grpc-ecosystem/grpc-gateway/issues/422#issuecomment-409809309
+
 operating_system() {
   case "$(uname | tr '[:upper:]' '[:lower:]')" in
   linux) echo linux ;;
-  darwin) echo osx ;;
   *)
     echo "Unsupported operating system: $(uname)" >&2
     exit 1
