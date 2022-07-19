@@ -1,12 +1,15 @@
-export type { Neuron, NeuronId } from "../candid/sns_governance";
-export type { CanisterStatusResultV2 } from "../candid/sns_root";
 export type {
-  BuyerState,
-  DerivedState,
-  Init,
-  State,
-  Swap,
-  TimeWindow,
+  Neuron as SnsNeuron,
+  NeuronId as SnsNeuronId,
+} from "../candid/sns_governance";
+export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
+export type {
+  BuyerState as SnsSwapBuyerState,
+  DerivedState as SnsSwapDerivedState,
+  Init as SnsSwapInit,
+  State as SnsSwapState,
+  Swap as SnsSwap,
+  TimeWindow as SnsSwapTimeWindow,
 } from "../candid/sns_swap";
 export * from "./enums/swap.enums";
 export { GovernanceCanister } from "./governance.canister";
