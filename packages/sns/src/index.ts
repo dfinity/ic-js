@@ -8,6 +8,7 @@ export type {
   Swap,
   TimeWindow,
 } from "../candid/sns_swap";
+export * from "./enums/swap.enums";
 export { GovernanceCanister } from "./governance.canister";
 export { LedgerCanister } from "./ledger.canister";
 export { RootCanister } from "./root.canister";
@@ -17,4 +18,3 @@ export { SwapCanister } from "./swap.canister";
 export type { CanisterOptions } from "./types/canister.options";
 export type { ListNeuronsParams } from "./types/governance.params";
 export type { QueryParams } from "./types/query.params";
-export * from './enums/swap.enums'
