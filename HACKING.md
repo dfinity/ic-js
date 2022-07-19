@@ -52,3 +52,16 @@ The files of the [candid](./candid) folders are shared across packages. Their ar
 - `something.certified.idl.d.ts`: the typescript definition of the above factory file
 
 (1) auto-generated with [didc](https://github.com/dfinity/candid)
+
+## Proto files
+
+To update the proto files proceed as following:
+
+1. Update the `.proto` with their up-to-date source files (see [./script/update_proto.sh](./script/update_proto.sh) for the list of repos)
+2. Manually update the files to set local `import`
+
+e.g. `import "base_types.proto";` instead of `import "ic_base_types/pb/v1/types.proto";`
+
+3. Execute [./script/update_proto.sh](./script/update_proto.sh) to generate the related `.js` and `.d.ts` files automatically
+
+Note: you need to use the exact version of `protoc` bin. See [./script/install-protoc](./script/install-protoc) for current version number.
