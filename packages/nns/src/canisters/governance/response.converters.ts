@@ -33,7 +33,10 @@ import type {
   NeuronInfo as PbNeuronInfo,
 } from "../../../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "../../account_identifier";
-import { UnsupportedValueError } from "../../errors/governance.errors";
+import {
+  FeatureNotSupportedError,
+  UnsupportedValueError,
+} from "../../errors/governance.errors";
 import type {
   AccountIdentifier as AccountIdentifierString,
   E8s,
@@ -324,6 +327,10 @@ const toAction = (action: RawAction): Action => {
     return {
       RegisterKnownNeuron: toKnownNeuron(knownNeuron),
     };
+  }
+
+  if ("SetSnsTokenSwapOpenTimeWindow" in action) {
+    throw new FeatureNotSupportedError();
   }
 
   throw new UnsupportedValueError(action);

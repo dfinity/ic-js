@@ -7800,7 +7800,8 @@ proto.ic_nns_governance.pb.v1.Topic = {
   TOPIC_SUBNET_MANAGEMENT: 7,
   TOPIC_NETWORK_CANISTER_MANAGEMENT: 8,
   TOPIC_KYC: 9,
-  TOPIC_NODE_PROVIDER_REWARDS: 10
+  TOPIC_NODE_PROVIDER_REWARDS: 10,
+  TOPIC_SNS_DECENTRALIZATION_SALE: 11
 };
 
 goog.object.extend(exports, proto.ic_nns_governance.pb.v1);
