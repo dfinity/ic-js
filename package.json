@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@types/jest": "^28.1.4",
+    "@types/node-fetch": "^2.6.2",
     "@types/text-encoding": "^0.0.36",
     "@typescript-eslint/eslint-plugin": "^5.30.4",
     "esbuild": "^0.14.48",
@@ -37,6 +38,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "jest": "^28.1.2",
     "jest-mock-extended": "^2.0.6",
+    "node-fetch": "^3.2.8",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",
     "text-encoding": "^0.7.0",
