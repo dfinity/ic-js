@@ -219,6 +219,7 @@ export interface Neuron {
   createdTimestampSeconds: bigint;
   maturityE8sEquivalent: bigint;
   agingSinceTimestampSeconds: bigint;
+  spawnAtTimesSeconds: Option<bigint>;
   neuronFees: E8s;
   hotKeys: Array<PrincipalString>;
   accountIdentifier: AccountIdentifier;
@@ -234,6 +235,7 @@ export enum NeuronState {
   LOCKED = 1,
   DISSOLVING = 2,
   DISSOLVED = 3,
+  SPAWNING = 4,
 }
 export interface NeuronInfo {
   neuronId: NeuronId;
