@@ -349,6 +349,7 @@ export class GovernanceCanister {
    */
   public leaveCommunityFund = async (neuronId: NeuronId): Promise<void> => {
     const request = toLeaveCommunityFundRequest(neuronId);
+
     return manageNeuron({
       request,
       service: this.certifiedService,
