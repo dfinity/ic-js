@@ -21,7 +21,8 @@ export type Action =
   | { RewardNodeProviders: RewardNodeProviders }
   | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
   | { SetDefaultFollowees: SetDefaultFollowees }
-  | { Motion: Motion };
+  | { Motion: Motion }
+  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow };
 export interface AddHotKey {
   newHotKey: Option<PrincipalString>;
 }
@@ -187,6 +188,16 @@ export interface MethodAuthzInfo {
 }
 export interface Motion {
   motionText: string;
+}
+
+export interface SetSnsTokenSwapOpenTimeWindow {
+  request?: {
+    openTimeWindow?: {
+      startTimestampSeconds: bigint;
+      endTimestampSeconds: bigint;
+    };
+  };
+  swapCanisterId?: string;
 }
 export interface NetworkEconomics {
   neuronMinimumStake: E8s;
