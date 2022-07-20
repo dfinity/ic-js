@@ -33,10 +33,7 @@ import type {
   NeuronInfo as PbNeuronInfo,
 } from "../../../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "../../account_identifier";
-import {
-  FeatureNotSupportedError,
-  UnsupportedValueError,
-} from "../../errors/governance.errors";
+import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
   AccountIdentifier as AccountIdentifierString,
   E8s,
@@ -133,6 +130,7 @@ const toNeuron = ({
   dissolveState: neuron.dissolve_state.length
     ? toDissolveState(neuron.dissolve_state[0])
     : undefined,
+  spawnAtTimesSeconds: neuron.spawn_at_timestamp_seconds[0],
   followees: neuron.followees.map(([topic, followees]) =>
     toFollowees({ topic, followees })
   ),
@@ -330,7 +328,34 @@ const toAction = (action: RawAction): Action => {
   }
 
   if ("SetSnsTokenSwapOpenTimeWindow" in action) {
-    throw new FeatureNotSupportedError();
+    const SetSnsTokenSwapOpenTimeWindow = action.SetSnsTokenSwapOpenTimeWindow;
+    const request = SetSnsTokenSwapOpenTimeWindow.request?.length
+      ? {
+          openTimeWindow: SetSnsTokenSwapOpenTimeWindow.request[0]
+            .open_time_window.length
+            ? {
+                startTimestampSeconds:
+                  SetSnsTokenSwapOpenTimeWindow.request[0].open_time_window[0]
+                    .start_timestamp_seconds,
+                endTimestampSeconds:
+                  SetSnsTokenSwapOpenTimeWindow.request[0].open_time_window[0]
+                    .end_timestamp_seconds,
+              }
+            : undefined,
+        }
+      : undefined;
+
+    const swapCanisterId = SetSnsTokenSwapOpenTimeWindow?.swap_canister_id
+      .length
+      ? SetSnsTokenSwapOpenTimeWindow.swap_canister_id[0].toString()
+      : undefined;
+
+    return {
+      SetSnsTokenSwapOpenTimeWindow: {
+        request,
+        swapCanisterId,
+      },
+    };
   }
 
   throw new UnsupportedValueError(action);
@@ -769,6 +794,9 @@ const convertPbNeuronToFullNeuron = ({
     agingSinceTimestampSeconds: BigInt(
       pbNeuron.getAgingSinceTimestampSeconds()
     ),
+    spawnAtTimesSeconds: pbNeuron.hasSpawnAtTimestampSeconds()
+      ? BigInt(pbNeuron.getSpawnAtTimestampSeconds())
+      : undefined,
     neuronFees: BigInt(pbNeuron.getNeuronFeesE8s()),
     hotKeys: pbNeuron
       .getHotKeysList()

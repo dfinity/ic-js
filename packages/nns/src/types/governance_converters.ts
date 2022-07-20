@@ -21,7 +21,8 @@ export type Action =
   | { RewardNodeProviders: RewardNodeProviders }
   | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
   | { SetDefaultFollowees: SetDefaultFollowees }
-  | { Motion: Motion };
+  | { Motion: Motion }
+  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow };
 export interface AddHotKey {
   newHotKey: Option<PrincipalString>;
 }
@@ -188,6 +189,16 @@ export interface MethodAuthzInfo {
 export interface Motion {
   motionText: string;
 }
+
+export interface SetSnsTokenSwapOpenTimeWindow {
+  request?: {
+    openTimeWindow?: {
+      startTimestampSeconds: bigint;
+      endTimestampSeconds: bigint;
+    };
+  };
+  swapCanisterId?: string;
+}
 export interface NetworkEconomics {
   neuronMinimumStake: E8s;
   maxProposalsToKeepPerTopic: number;
@@ -208,6 +219,7 @@ export interface Neuron {
   createdTimestampSeconds: bigint;
   maturityE8sEquivalent: bigint;
   agingSinceTimestampSeconds: bigint;
+  spawnAtTimesSeconds: Option<bigint>;
   neuronFees: E8s;
   hotKeys: Array<PrincipalString>;
   accountIdentifier: AccountIdentifier;
@@ -223,6 +235,7 @@ export enum NeuronState {
   LOCKED = 1,
   DISSOLVING = 2,
   DISSOLVED = 3,
+  SPAWNING = 4,
 }
 export interface NeuronInfo {
   neuronId: NeuronId;

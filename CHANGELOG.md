@@ -1,5 +1,22 @@
 # 0.x.y (2022-aa-bb)
 
+## Release
+
+- nns `v0.x.y`
+- sns `v0.x.y`
+- gix-utils `v0.x.y`
+
+### Features
+
+- new library `@dfinity/gix-utils`
+
+# 0.6.0 (2022-07-20)
+
+## Release
+
+- nns `v0.6.0`
+- sns `v0.0.2`
+
 ### Breaking Changes
 
 - `nns` library `esm` canisters chunks renamed with suffix `.canister`
@@ -7,7 +24,8 @@
 ### Features
 
 - new library `@dfinity/sns`
-- new library `@dfinity/gix-utils`
+- add `SetSnsTokenSwapOpenTimeWindow` proposal action support to request and response converters
+- add new property in Neuron type: `spawn_at_timestamp_seconds`
 - use the governance canister id of the class in converters. This allows to also have proper conversion on testnets.
 - add `leaveCommunityFund` functionality to governance canister in `@dfinity/nns`.
 - map `deadline_timestamp_seconds` to proposal object
