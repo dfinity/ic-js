@@ -133,10 +133,7 @@ const toNeuron = ({
   dissolveState: neuron.dissolve_state.length
     ? toDissolveState(neuron.dissolve_state[0])
     : undefined,
-  spawnAtTimesSeconds:
-    neuron.spawn_at_timestamp_seconds.length > 0
-      ? neuron.spawn_at_timestamp_seconds[0]
-      : undefined,
+  spawnAtTimesSeconds: neuron.spawn_at_timestamp_seconds[0],
   followees: neuron.followees.map(([topic, followees]) =>
     toFollowees({ topic, followees })
   ),
