@@ -195,6 +195,37 @@ const fromAction = (action: Action): RawAction => {
     };
   }
 
+  if ("SetSnsTokenSwapOpenTimeWindow" in action) {
+    const swapOpenTimeWindow = action.SetSnsTokenSwapOpenTimeWindow;
+
+    return {
+      SetSnsTokenSwapOpenTimeWindow: {
+        request: swapOpenTimeWindow.request
+          ? [
+              {
+                open_time_window: swapOpenTimeWindow.request.openTimeWindow
+                  ? [
+                      {
+                        start_timestamp_seconds:
+                          swapOpenTimeWindow.request.openTimeWindow
+                            .start_timestamp_seconds,
+                        end_timestamp_seconds:
+                          swapOpenTimeWindow.request.openTimeWindow
+                            .end_timestamp_seconds,
+                      },
+                    ]
+                  : [],
+              },
+            ]
+          : [],
+
+        swap_canister_id: swapOpenTimeWindow.swapCanisterId
+          ? [Principal.fromText(swapOpenTimeWindow.swapCanisterId)]
+          : [],
+      },
+    };
+  }
+
   // If there's a missing action, this line will cause a compiler error.
   throw new UnsupportedValueError(action);
 };
