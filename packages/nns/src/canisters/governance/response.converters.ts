@@ -333,10 +333,10 @@ const toAction = (action: RawAction): Action => {
           openTimeWindow: SetSnsTokenSwapOpenTimeWindow.request[0]
             .open_time_window.length
             ? {
-                start_timestamp_seconds:
+                startTimestampSeconds:
                   SetSnsTokenSwapOpenTimeWindow.request[0].open_time_window[0]
                     .start_timestamp_seconds,
-                end_timestamp_seconds:
+                endTimestampSeconds:
                   SetSnsTokenSwapOpenTimeWindow.request[0].open_time_window[0]
                     .end_timestamp_seconds,
               }

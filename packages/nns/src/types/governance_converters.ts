@@ -193,8 +193,8 @@ export interface Motion {
 export interface SetSnsTokenSwapOpenTimeWindow {
   request?: {
     openTimeWindow?: {
-      start_timestamp_seconds: bigint;
-      end_timestamp_seconds: bigint;
+      startTimestampSeconds: bigint;
+      endTimestampSeconds: bigint;
     };
   };
   swapCanisterId?: string;
