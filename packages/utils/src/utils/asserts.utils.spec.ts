@@ -1,4 +1,4 @@
-import {assertNonNullish, NullishError} from "./asserts.utils";
+import { assertNonNullish, NullishError } from "./asserts.utils";
 
 describe("asserts-utils", () => {
   it("should throw an exception if undefined", () => {
