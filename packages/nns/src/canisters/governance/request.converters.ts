@@ -208,10 +208,10 @@ const fromAction = (action: Action): RawAction => {
                       {
                         start_timestamp_seconds:
                           swapOpenTimeWindow.request.openTimeWindow
-                            .start_timestamp_seconds,
+                            .startTimestampSeconds,
                         end_timestamp_seconds:
                           swapOpenTimeWindow.request.openTimeWindow
-                            .end_timestamp_seconds,
+                            .endTimestampSeconds,
                       },
                     ]
                   : [],
