@@ -773,7 +773,9 @@ const convertPbNeuronToFullNeuron = ({
     agingSinceTimestampSeconds: BigInt(
       pbNeuron.getAgingSinceTimestampSeconds()
     ),
-    spawnAtTimesSeconds: BigInt(pbNeuron.getSpawnAtTimestampSeconds()),
+    spawnAtTimesSeconds: pbNeuron.hasSpawnAtTimestampSeconds()
+      ? BigInt(pbNeuron.getSpawnAtTimestampSeconds())
+      : undefined,
     neuronFees: BigInt(pbNeuron.getNeuronFeesE8s()),
     hotKeys: pbNeuron
       .getHotKeysList()
