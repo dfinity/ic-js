@@ -1,4 +1,9 @@
-# 0.x.y (2022-aa-bb)
+# 0.6.0 (2022-07-20)
+
+## Release
+
+- nns `v0.6.0`
+- sns `v0.0.2`
 
 ### Breaking Changes
 
@@ -6,8 +11,9 @@
 
 ### Features
 
-- add `SetSnsTokenSwapOpenTimeWindow` proposal action support to request and response converters
 - new library `@dfinity/sns`
+- add `SetSnsTokenSwapOpenTimeWindow` proposal action support to request and response converters
+- add new property in Neuron type: `spawn_at_timestamp_seconds`
 - use the governance canister id of the class in converters. This allows to also have proper conversion on testnets.
 - add `leaveCommunityFund` functionality to governance canister in `@dfinity/nns`.
 - map `deadline_timestamp_seconds` to proposal object
