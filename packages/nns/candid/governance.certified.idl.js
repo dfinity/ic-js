@@ -247,7 +247,7 @@ export const idlFactory = ({ IDL }) => {
     'executed_timestamp_seconds' : IDL.Nat64,
   });
   const Command_2 = IDL.Variant({
-    'Spawn' : Spawn,
+    'Spawn' : NeuronId,
     'Split' : Split,
     'Configure' : Configure,
     'Merge' : Merge,
@@ -295,14 +295,17 @@ export const idlFactory = ({ IDL }) => {
     ),
     'wait_for_quiet_threshold_seconds' : IDL.Nat64,
     'metrics' : IDL.Opt(GovernanceCachedMetrics),
+    'cached_daily_maturity_modulation' : IDL.Opt(IDL.Float64),
     'node_providers' : IDL.Vec(NodeProvider),
     'economics' : IDL.Opt(NetworkEconomics),
+    'spawning_neurons' : IDL.Opt(IDL.Bool),
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'to_claim_transfers' : IDL.Vec(NeuronStakeTransfer),
     'short_voting_period_seconds' : IDL.Nat64,
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInFlightCommand)),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Nat64, Neuron)),
+    'last_updated_maturity_modulation_cache' : IDL.Opt(IDL.Nat64),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });
   const Result = IDL.Variant({ 'Ok' : IDL.Null, 'Err' : GovernanceError });
@@ -703,7 +706,7 @@ export const init = ({ IDL }) => {
     'executed_timestamp_seconds' : IDL.Nat64,
   });
   const Command_2 = IDL.Variant({
-    'Spawn' : Spawn,
+    'Spawn' : NeuronId,
     'Split' : Split,
     'Configure' : Configure,
     'Merge' : Merge,
@@ -751,14 +754,17 @@ export const init = ({ IDL }) => {
     ),
     'wait_for_quiet_threshold_seconds' : IDL.Nat64,
     'metrics' : IDL.Opt(GovernanceCachedMetrics),
+    'cached_daily_maturity_modulation' : IDL.Opt(IDL.Float64),
     'node_providers' : IDL.Vec(NodeProvider),
     'economics' : IDL.Opt(NetworkEconomics),
+    'spawning_neurons' : IDL.Opt(IDL.Bool),
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'to_claim_transfers' : IDL.Vec(NeuronStakeTransfer),
     'short_voting_period_seconds' : IDL.Nat64,
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInFlightCommand)),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Nat64, Neuron)),
+    'last_updated_maturity_modulation_cache' : IDL.Opt(IDL.Nat64),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });
   return [Governance];

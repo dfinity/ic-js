@@ -1,4 +1,4 @@
-// Generated from IC repo commit 5f9638e8ff281c27a791bf26fd3e4b5c06d000b2 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit d1f1bbefafa90fd444a9088e377bf68c78ee0f3f 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -60,7 +60,7 @@ type Command_1 = variant {
   Disburse : DisburseResponse;
 };
 type Command_2 = variant {
-  Spawn : Spawn;
+  Spawn : NeuronId;
   Split : Split;
   Configure : Configure;
   Merge : Merge;
@@ -94,14 +94,17 @@ type Governance = record {
   most_recent_monthly_node_provider_rewards : opt MostRecentMonthlyNodeProviderRewards;
   wait_for_quiet_threshold_seconds : nat64;
   metrics : opt GovernanceCachedMetrics;
+  cached_daily_maturity_modulation : opt float64;
   node_providers : vec NodeProvider;
   economics : opt NetworkEconomics;
+  spawning_neurons : opt bool;
   latest_reward_event : opt RewardEvent;
   to_claim_transfers : vec NeuronStakeTransfer;
   short_voting_period_seconds : nat64;
   proposals : vec record { nat64; ProposalData };
   in_flight_commands : vec record { nat64; NeuronInFlightCommand };
   neurons : vec record { nat64; Neuron };
+  last_updated_maturity_modulation_cache : opt nat64;
   genesis_timestamp_seconds : nat64;
 };
 type GovernanceCachedMetrics = record {
@@ -187,7 +190,6 @@ type Neuron = record {
   cached_neuron_stake_e8s : nat64;
   created_timestamp_seconds : nat64;
   aging_since_timestamp_seconds : nat64;
-  spawn_at_timestamp_seconds: opt nat64;
   hot_keys : vec principal;
   account : vec nat8;
   joined_community_fund_timestamp_seconds : opt nat64;
@@ -196,6 +198,7 @@ type Neuron = record {
   neuron_fees_e8s : nat64;
   transfer : opt NeuronStakeTransfer;
   known_neuron_data : opt KnownNeuronData;
+  spawn_at_timestamp_seconds : opt nat64;
 };
 type NeuronId = record { id : nat64 };
 type NeuronIdOrSubaccount = variant {

@@ -78,7 +78,7 @@ export type Command_1 =
   | { MergeMaturity: MergeMaturityResponse }
   | { Disburse: DisburseResponse };
 export type Command_2 =
-  | { Spawn: Spawn }
+  | { Spawn: NeuronId }
   | { Split: Split }
   | { Configure: Configure }
   | { Merge: Merge }
@@ -124,14 +124,17 @@ export interface Governance {
     | [MostRecentMonthlyNodeProviderRewards];
   wait_for_quiet_threshold_seconds: bigint;
   metrics: [] | [GovernanceCachedMetrics];
+  cached_daily_maturity_modulation: [] | [number];
   node_providers: Array<NodeProvider>;
   economics: [] | [NetworkEconomics];
+  spawning_neurons: [] | [boolean];
   latest_reward_event: [] | [RewardEvent];
   to_claim_transfers: Array<NeuronStakeTransfer>;
   short_voting_period_seconds: bigint;
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
   neurons: Array<[bigint, Neuron]>;
+  last_updated_maturity_modulation_cache: [] | [bigint];
   genesis_timestamp_seconds: bigint;
 }
 export interface GovernanceCachedMetrics {
