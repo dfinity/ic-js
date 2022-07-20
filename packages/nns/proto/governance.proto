@@ -243,7 +243,7 @@ message Neuron {
   uint64 neuron_fees_e8s = 6 [jstype = JS_STRING];
   uint64 created_timestamp_seconds = 7 [jstype = JS_STRING];
   uint64 aging_since_timestamp_seconds = 8 [jstype = JS_STRING];
-  uint64 spawn_at_timestamp_seconds = 19 [jstype = JS_STRING];
+  optional uint64 spawn_at_timestamp_seconds = 19 [jstype = JS_STRING];
   oneof dissolve_state {
     uint64 when_dissolved_timestamp_seconds = 9 [jstype = JS_STRING];
     uint64 dissolve_delay_seconds = 10 [jstype = JS_STRING];

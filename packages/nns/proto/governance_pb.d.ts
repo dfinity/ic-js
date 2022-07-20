@@ -888,6 +888,8 @@ export class Neuron extends jspb.Message {
   getAgingSinceTimestampSeconds(): string;
   setAgingSinceTimestampSeconds(value: string): void;
 
+  hasSpawnAtTimestampSeconds(): boolean;
+  clearSpawnAtTimestampSeconds(): void;
   getSpawnAtTimestampSeconds(): string;
   setSpawnAtTimestampSeconds(value: string): void;
 

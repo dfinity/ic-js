@@ -6742,8 +6742,8 @@ proto.ic_nns_governance.pb.v1.Neuron.serializeBinaryToWriter = function(message,
       f
     );
   }
-  f = message.getSpawnAtTimestampSeconds();
-  if (parseInt(f, 10) !== 0) {
+  f = /** @type {string} */ (jspb.Message.getField(message, 19));
+  if (f != null) {
     writer.writeUint64String(
       19,
       f
@@ -7207,7 +7207,25 @@ proto.ic_nns_governance.pb.v1.Neuron.prototype.getSpawnAtTimestampSeconds = func
  * @return {!proto.ic_nns_governance.pb.v1.Neuron} returns this
  */
 proto.ic_nns_governance.pb.v1.Neuron.prototype.setSpawnAtTimestampSeconds = function(value) {
-  return jspb.Message.setProto3StringIntField(this, 19, value);
+  return jspb.Message.setField(this, 19, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.ic_nns_governance.pb.v1.Neuron} returns this
+ */
+proto.ic_nns_governance.pb.v1.Neuron.prototype.clearSpawnAtTimestampSeconds = function() {
+  return jspb.Message.setField(this, 19, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ic_nns_governance.pb.v1.Neuron.prototype.hasSpawnAtTimestampSeconds = function() {
+  return jspb.Message.getField(this, 19) != null;
 };
 
 
