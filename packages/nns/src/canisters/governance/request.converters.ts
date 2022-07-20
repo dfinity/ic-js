@@ -196,32 +196,33 @@ const fromAction = (action: Action): RawAction => {
   }
 
   if ("SetSnsTokenSwapOpenTimeWindow" in action) {
-    const swapOpenTimeWindow = action.SetSnsTokenSwapOpenTimeWindow;
+    const { request, swapCanisterId } = action.SetSnsTokenSwapOpenTimeWindow;
 
     return {
       SetSnsTokenSwapOpenTimeWindow: {
-        request: swapOpenTimeWindow.request
-          ? [
-              {
-                open_time_window: swapOpenTimeWindow.request.openTimeWindow
-                  ? [
-                      {
-                        start_timestamp_seconds:
-                          swapOpenTimeWindow.request.openTimeWindow
-                            .startTimestampSeconds,
-                        end_timestamp_seconds:
-                          swapOpenTimeWindow.request.openTimeWindow
-                            .endTimestampSeconds,
-                      },
-                    ]
-                  : [],
-              },
-            ]
-          : [],
+        request:
+          request === undefined
+            ? []
+            : [
+                {
+                  open_time_window:
+                    request.openTimeWindow === undefined
+                      ? []
+                      : [
+                          {
+                            start_timestamp_seconds:
+                              request.openTimeWindow.startTimestampSeconds,
+                            end_timestamp_seconds:
+                              request.openTimeWindow.endTimestampSeconds,
+                          },
+                        ],
+                },
+              ],
 
-        swap_canister_id: swapOpenTimeWindow.swapCanisterId
-          ? [Principal.fromText(swapOpenTimeWindow.swapCanisterId)]
-          : [],
+        swap_canister_id:
+          swapCanisterId === undefined
+            ? []
+            : [Principal.fromText(swapCanisterId)],
       },
     };
   }
