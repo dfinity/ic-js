@@ -4,11 +4,11 @@
 
 - nns `v0.x.y`
 - sns `v0.x.y`
-- gix-utils `v0.x.y`
+- utils `v0.x.y`
 
 ### Features
 
-- new library `@dfinity/gix-utils`
+- new library `@dfinity/utils`
 
 # 0.6.0 (2022-07-20)
 
