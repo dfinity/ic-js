@@ -1,6 +1,9 @@
 import type { Principal } from "@dfinity/principal";
 import type { Neuron } from "../candid/sns_governance";
-import type { GetStateResponse } from "../candid/sns_swap";
+import type {
+  GetStateResponse,
+  RefreshBuyerTokensRequest,
+} from "../candid/sns_swap";
 import type { GovernanceCanister } from "./governance.canister";
 import type { LedgerCanister } from "./ledger.canister";
 import type { RootCanister } from "./root.canister";
@@ -76,6 +79,10 @@ export class SnsWrapper {
   swapState = (
     params: Omit<QueryParams, "certified">
   ): Promise<GetStateResponse> => this.swap.state(this.mergeParams(params));
+
+  // Always certified
+  notifyParticipation = (params: RefreshBuyerTokensRequest): Promise<void> =>
+    this.swap.notifyParticipation(params);
 
   private mergeParams(params: Omit<QueryParams, "certified">): QueryParams {
     return {

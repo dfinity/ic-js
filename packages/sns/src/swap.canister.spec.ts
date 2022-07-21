@@ -6,6 +6,8 @@ import { swapCanisterIdMock } from "./mocks/sns.mock";
 import { SwapCanister } from "./swap.canister";
 
 describe("Swap canister", () => {
+  afterEach(() => jest.clearAllMocks());
+
   it("should return the state of the swap canister", async () => {
     const mockSwap: Swap = {
       swap: [
@@ -31,5 +33,19 @@ describe("Swap canister", () => {
     });
     const res = await canister.state({});
     expect(res).toEqual(mockResponse);
+  });
+
+  it("should call to notify the buyer tokens", async () => {
+    const service = mock<ActorSubclass<SnsSwapCanister>>();
+    service.refresh_buyer_tokens.mockResolvedValue({});
+
+    const canister = SwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    await canister.notifyParticipation({ buyer: "aaaaa-aa" });
+    expect(service.refresh_buyer_tokens).toHaveBeenCalledWith({
+      buyer: "aaaaa-aa",
+    });
   });
 });

@@ -8,28 +8,24 @@ import { SwapCanister } from "./swap.canister";
 
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<GovernanceCanister>();
-  const mockListNeurons =
-    mockGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
-  const mockMetadata = mockGovernanceCanister.metadata.mockResolvedValue("");
+  mockGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
+  mockGovernanceCanister.metadata.mockResolvedValue("");
 
   const mockCertifiedGovernanceCanister = mock<GovernanceCanister>();
-  const mockCertifiedListNeurons =
-    mockCertifiedGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
-  const mockCertifiedMetadata =
-    mockCertifiedGovernanceCanister.metadata.mockResolvedValue("");
+  mockCertifiedGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
+  mockCertifiedGovernanceCanister.metadata.mockResolvedValue("");
 
   const mockSwapCanister = mock<SwapCanister>();
-  const mockSwapState = mockSwapCanister.state.mockResolvedValue({
+  mockSwapCanister.state.mockResolvedValue({
     swap: [],
     derived: [],
   });
 
   const mockCertifiedSwapCanister = mock<SwapCanister>();
-  const mockCertifiedSwapState =
-    mockCertifiedSwapCanister.state.mockResolvedValue({
-      swap: [],
-      derived: [],
-    });
+  mockCertifiedSwapCanister.state.mockResolvedValue({
+    swap: [],
+    derived: [],
+  });
 
   const snsWrapper: SnsWrapper = new SnsWrapper({
     root: {} as RootCanister,
@@ -47,17 +43,43 @@ describe("SnsWrapper", () => {
     certified: true,
   });
 
+  afterEach(() => jest.clearAllMocks());
+
   it("should call list of neurons with query or update", async () => {
     await snsWrapper.listNeurons({});
-    expect(mockListNeurons).toHaveBeenCalledWith({ certified: false });
+    expect(mockGovernanceCanister.listNeurons).toHaveBeenCalledWith({
+      certified: false,
+    });
     await certifiedSnsWrapper.listNeurons({});
-    expect(mockCertifiedListNeurons).toHaveBeenCalledWith({ certified: true });
+    expect(mockCertifiedGovernanceCanister.listNeurons).toHaveBeenCalledWith({
+      certified: true,
+    });
   });
 
   it("should call metadata with query or update", async () => {
     await snsWrapper.metadata({});
-    expect(mockListNeurons).toHaveBeenCalledWith({ certified: false });
+    expect(mockGovernanceCanister.metadata).toHaveBeenCalledWith({
+      certified: false,
+    });
     await certifiedSnsWrapper.metadata({});
-    expect(mockCertifiedListNeurons).toHaveBeenCalledWith({ certified: true });
+    expect(mockCertifiedGovernanceCanister.metadata).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
+  it("should call swapState with query and update", async () => {
+    await snsWrapper.swapState({});
+    expect(mockSwapCanister.state).toHaveBeenCalledWith({ certified: false });
+    await certifiedSnsWrapper.swapState({});
+    expect(mockCertifiedSwapCanister.state).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
+  it("should call notifyParticipation", async () => {
+    await snsWrapper.notifyParticipation({ buyer: "aaaaa-aa" });
+    expect(mockSwapCanister.notifyParticipation).toHaveBeenCalledWith({
+      buyer: "aaaaa-aa",
+    });
   });
 });
