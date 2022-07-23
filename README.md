@@ -9,6 +9,7 @@ The libraries are still in active development, and new features will incremental
 - [nns](/packages/nns): interfacing with the **ledger** and **governance** canisters of the IC
 - [sns](/packages/sns): interacting with a Service Nervous System (SNS) project
 - cmc: querying the Cmc canister (_coming soon_)
+- [utils](/packages/utils): a collection of utilities and constants for NNS/SNS projects.
 
 ## Links
 

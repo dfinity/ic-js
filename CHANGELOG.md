@@ -1,3 +1,15 @@
+# 0.x.y (2022-aa-bb)
+
+## Release
+
+- nns `v0.x.y`
+- sns `v0.x.y`
+- utils `v0.x.y`
+
+### Features
+
+- new library `@dfinity/utils`
+
 # 0.6.0 (2022-07-20)
 
 ## Release
