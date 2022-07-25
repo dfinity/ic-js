@@ -1,5 +1,6 @@
 import type {
   GetStateResponse,
+  RefreshBuyerTokensRequest,
   _SERVICE as SnsSwapCanister,
 } from "../candid/sns_swap";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
@@ -26,4 +27,13 @@ export class SwapCanister extends Canister<SnsSwapCanister> {
    */
   state = (params: QueryParams): Promise<GetStateResponse> =>
     this.caller(params).get_state({});
+
+  /**
+   * Notify of the user participating in the swap
+   */
+  notifyParticipation = async (
+    params: RefreshBuyerTokensRequest
+  ): Promise<void> => {
+    await this.caller({ certified: true }).refresh_buyer_tokens(params);
+  };
 }
