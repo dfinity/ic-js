@@ -11,6 +11,7 @@ import { Canister } from "./services/canister";
 import type { CanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
+import { fromNullable } from "./utils/did.utils";
 
 export class SwapCanister extends Canister<SnsSwapCanister> {
   static create(options: CanisterOptions<SnsSwapCanister>) {
@@ -45,9 +46,9 @@ export class SwapCanister extends Canister<SnsSwapCanister> {
   getUserCommitment = async (
     params: GetBuyerStateRequest & QueryParams
   ): Promise<BuyerState | undefined> => {
-    const response = await this.caller({
+    const { buyer_state } = await this.caller({
       certified: params.certified,
     }).get_buyer_state({ principal_id: params.principal_id });
-    return response.buyer_state[0];
+    return fromNullable(buyer_state);
   };
 }
