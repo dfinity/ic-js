@@ -46,10 +46,12 @@ export const idlFactory = ({ IDL }) => {
     'canister_id' : IDL.Opt(IDL.Principal),
   });
   const GetSnsCanistersSummaryResponse = IDL.Record({
-    'ledger_canister_summary' : IDL.Opt(CanisterSummary),
-    'governance_canister_summary' : IDL.Opt(CanisterSummary),
-    'root_canister_summary' : IDL.Opt(CanisterSummary),
-    'dapp_canister_summaries' : IDL.Vec(CanisterSummary),
+    'root' : IDL.Opt(CanisterSummary),
+    'swap' : IDL.Opt(CanisterSummary),
+    'ledger' : IDL.Opt(CanisterSummary),
+    'governance' : IDL.Opt(CanisterSummary),
+    'dapps' : IDL.Vec(CanisterSummary),
+    'archives' : IDL.Vec(CanisterSummary),
   });
   const ListSnsCanistersResponse = IDL.Record({
     'root' : IDL.Opt(IDL.Principal),

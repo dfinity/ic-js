@@ -1,4 +1,5 @@
 import type { ActorSubclass } from "@dfinity/agent";
+import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import type { Swap, _SERVICE as SnsSwapCanister } from "../candid/sns_swap";
 import { GetStateResponse } from "../candid/sns_swap";
@@ -47,5 +48,26 @@ describe("Swap canister", () => {
     expect(service.refresh_buyer_tokens).toHaveBeenCalledWith({
       buyer: "aaaaa-aa",
     });
+  });
+
+  it("should return the user commitment", async () => {
+    const buyerState = {
+      icp_disbursing: false,
+      amount_sns_e8s: BigInt(100000000),
+      amount_icp_e8s: BigInt(0),
+      sns_disbursing: false,
+    };
+    const service = mock<ActorSubclass<SnsSwapCanister>>();
+    service.get_buyer_state.mockResolvedValue({
+        buyer_state: [buyerState]
+      });
+
+    const canister = SwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const response = await canister.getUserCommitment({ principal_id: [Principal.fromText("aaaaa-aa")] });
+    expect(service.get_buyer_state).toBeCalled();
+    expect(response).toEqual(buyerState);
   });
 });

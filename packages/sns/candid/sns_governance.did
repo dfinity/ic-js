@@ -1,9 +1,10 @@
-// Generated from IC repo commit 12bd50418009ea8d6aabf4f5ac1182aceaf56689 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit d06567deb84dddcfb495be96ed9c318d2d3e8ce1 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { of : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
   AddGenericNervousSystemFunction : NervousSystemFunction;
   RemoveGenericNervousSystemFunction : nat64;
+  UpgradeSnsToNextVersion : record {};
   UpgradeSnsControlledCanister : UpgradeSnsControlledCanister;
   Unspecified : record {};
   ExecuteGenericNervousSystemFunction : ExecuteGenericNervousSystemFunction;

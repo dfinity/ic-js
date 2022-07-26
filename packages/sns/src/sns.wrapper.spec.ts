@@ -1,3 +1,4 @@
+import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import { GovernanceCanister } from "./governance.canister";
 import { LedgerCanister } from "./ledger.canister";
@@ -81,5 +82,13 @@ describe("SnsWrapper", () => {
     expect(mockSwapCanister.notifyParticipation).toHaveBeenCalledWith({
       buyer: "aaaaa-aa",
     });
+  });
+
+  it("should call getUserCommitment with query and update", async () => {
+    await snsWrapper.getUserCommitment({ principal_id: [Principal.fromText("aaaaa-aa")] });
+    expect(mockSwapCanister.getUserCommitment).toBeCalled();
+    expect(mockCertifiedSwapCanister.getUserCommitment).not.toBeCalled();
+    await certifiedSnsWrapper.getUserCommitment({ principal_id: [Principal.fromText("aaaaa-aa")] });
+    expect(mockCertifiedSwapCanister.getUserCommitment).toBeCalled();
   });
 });
