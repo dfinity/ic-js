@@ -59,14 +59,16 @@ describe("Swap canister", () => {
     };
     const service = mock<ActorSubclass<SnsSwapCanister>>();
     service.get_buyer_state.mockResolvedValue({
-        buyer_state: [buyerState]
-      });
+      buyer_state: [buyerState],
+    });
 
     const canister = SwapCanister.create({
       canisterId: swapCanisterIdMock,
       certifiedServiceOverride: service,
     });
-    const response = await canister.getUserCommitment({ principal_id: [Principal.fromText("aaaaa-aa")] });
+    const response = await canister.getUserCommitment({
+      principal_id: [Principal.fromText("aaaaa-aa")],
+    });
     expect(service.get_buyer_state).toBeCalled();
     expect(response).toEqual(buyerState);
   });

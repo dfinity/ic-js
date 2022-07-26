@@ -85,10 +85,14 @@ describe("SnsWrapper", () => {
   });
 
   it("should call getUserCommitment with query and update", async () => {
-    await snsWrapper.getUserCommitment({ principal_id: [Principal.fromText("aaaaa-aa")] });
+    await snsWrapper.getUserCommitment({
+      principal_id: [Principal.fromText("aaaaa-aa")],
+    });
     expect(mockSwapCanister.getUserCommitment).toBeCalled();
     expect(mockCertifiedSwapCanister.getUserCommitment).not.toBeCalled();
-    await certifiedSnsWrapper.getUserCommitment({ principal_id: [Principal.fromText("aaaaa-aa")] });
+    await certifiedSnsWrapper.getUserCommitment({
+      principal_id: [Principal.fromText("aaaaa-aa")],
+    });
     expect(mockCertifiedSwapCanister.getUserCommitment).toBeCalled();
   });
 });
