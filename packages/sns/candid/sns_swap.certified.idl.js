@@ -20,9 +20,23 @@ export const idlFactory = ({ IDL }) => {
     'code' : IDL.Opt(IDL.Int32),
     'description' : IDL.Text,
   });
-  const Possibility = IDL.Variant({ 'Err' : CanisterCallError });
-  const SetModeCallResult = IDL.Record({
+  const FailedUpdate = IDL.Record({
+    'err' : IDL.Opt(CanisterCallError),
+    'dapp_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const SetDappControllersResponse = IDL.Record({
+    'failed_updates' : IDL.Vec(FailedUpdate),
+  });
+  const Possibility = IDL.Variant({
+    'Ok' : SetDappControllersResponse,
+    'Err' : CanisterCallError,
+  });
+  const SetDappControllersCallResult = IDL.Record({
     'possibility' : IDL.Opt(Possibility),
+  });
+  const Possibility_1 = IDL.Variant({ 'Err' : CanisterCallError });
+  const SetModeCallResult = IDL.Record({
+    'possibility' : IDL.Opt(Possibility_1),
   });
   const SweepResult = IDL.Record({
     'failure' : IDL.Nat32,
@@ -30,11 +44,25 @@ export const idlFactory = ({ IDL }) => {
     'success' : IDL.Nat32,
   });
   const FinalizeSwapResponse = IDL.Record({
+    'set_dapp_controllers_result' : IDL.Opt(SetDappControllersCallResult),
     'sns_governance_normal_mode_enabled' : IDL.Opt(SetModeCallResult),
     'sweep_icp' : IDL.Opt(SweepResult),
     'sweep_sns' : IDL.Opt(SweepResult),
     'create_neuron' : IDL.Opt(SweepResult),
   });
+  const GetBuyerStateRequest = IDL.Record({
+    'principal_id' : IDL.Opt(IDL.Principal),
+  });
+  const BuyerState = IDL.Record({
+    'icp_disbursing' : IDL.Bool,
+    'amount_sns_e8s' : IDL.Nat64,
+    'amount_icp_e8s' : IDL.Nat64,
+    'sns_disbursing' : IDL.Bool,
+  });
+  const GetBuyerStateResponse = IDL.Record({
+    'buyer_state' : IDL.Opt(BuyerState),
+  });
+  const GetBuyersTotalResponse = IDL.Record({ 'buyers_total' : IDL.Nat64 });
   const CanisterStatusType = IDL.Variant({
     'stopped' : IDL.Null,
     'stopping' : IDL.Null,
@@ -58,18 +86,9 @@ export const idlFactory = ({ IDL }) => {
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
-  const GetCanisterStatusResponse = IDL.Record({
-    'status' : CanisterStatusResultV2,
-  });
   const TimeWindow = IDL.Record({
     'start_timestamp_seconds' : IDL.Nat64,
     'end_timestamp_seconds' : IDL.Nat64,
-  });
-  const BuyerState = IDL.Record({
-    'icp_disbursing' : IDL.Bool,
-    'amount_sns_e8s' : IDL.Nat64,
-    'amount_icp_e8s' : IDL.Nat64,
-    'sns_disbursing' : IDL.Bool,
   });
   const State = IDL.Record({
     'open_time_window' : IDL.Opt(TimeWindow),
@@ -97,9 +116,19 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'finalize_swap' : IDL.Func([IDL.Record({})], [FinalizeSwapResponse], []),
+    'get_buyer_state' : IDL.Func(
+        [GetBuyerStateRequest],
+        [GetBuyerStateResponse],
+        [],
+      ),
+    'get_buyers_total' : IDL.Func(
+        [IDL.Record({})],
+        [GetBuyersTotalResponse],
+        [],
+      ),
     'get_canister_status' : IDL.Func(
         [IDL.Record({})],
-        [GetCanisterStatusResponse],
+        [CanisterStatusResultV2],
         [],
       ),
     'get_state' : IDL.Func([IDL.Record({})], [GetStateResponse], []),
