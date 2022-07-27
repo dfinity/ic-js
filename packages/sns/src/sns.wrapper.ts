@@ -7,7 +7,7 @@ import type {
 import type { SnsGovernanceCanister } from "./governance.canister";
 import type { SnsLedgerCanister } from "./ledger.canister";
 import type { SnsRootCanister } from "./root.canister";
-import type { SwapCanister } from "./swap.canister";
+import type { SnsSwapCanister } from "./swap.canister";
 import type { ListNeuronsParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
@@ -19,7 +19,7 @@ interface SnsWrapperOptions {
   /** The wrapper for the "ledger" canister of the particular Sns */
   ledger: SnsLedgerCanister;
   /** The wrapper for the "swap" canister of the particular Sns */
-  swap: SwapCanister;
+  swap: SnsSwapCanister;
 
   /** The wrapper has been instantiated and should perform query or update calls */
   certified: boolean;
@@ -34,7 +34,7 @@ export class SnsWrapper {
   private readonly root: SnsRootCanister;
   private readonly governance: SnsGovernanceCanister;
   private readonly ledger: SnsLedgerCanister;
-  private readonly swap: SwapCanister;
+  private readonly swap: SnsSwapCanister;
   private readonly certified: boolean;
 
   /**

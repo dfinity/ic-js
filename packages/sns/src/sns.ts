@@ -8,7 +8,7 @@ import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsLedgerCanister } from "./ledger.canister";
 import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
-import { SwapCanister } from "./swap.canister";
+import { SnsSwapCanister } from "./swap.canister";
 import type { CanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
 import { assertNonNullish } from "./utils/asserts.utils";
@@ -59,7 +59,7 @@ export const initSnsWrapper: InitSnsWrapper = async ({
       agent,
     }),
     ledger: SnsLedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
-    swap: SwapCanister.create({ canisterId: swapCanisterId, agent }),
+    swap: SnsSwapCanister.create({ canisterId: swapCanisterId, agent }),
     certified,
   });
 };

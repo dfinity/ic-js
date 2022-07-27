@@ -17,7 +17,7 @@ export { SnsLedgerCanister } from "./ledger.canister";
 export { SnsRootCanister } from "./root.canister";
 export * from "./sns";
 export * from "./sns.wrapper";
-export { SwapCanister } from "./swap.canister";
+export { SnsSwapCanister } from "./swap.canister";
 export type { CanisterOptions } from "./types/canister.options";
 export type { ListNeuronsParams } from "./types/governance.params";
 export type { QueryParams } from "./types/query.params";

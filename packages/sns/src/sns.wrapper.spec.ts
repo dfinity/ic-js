@@ -4,7 +4,7 @@ import { SnsLedgerCanister } from "./ledger.canister";
 import { neuronsMock } from "./mocks/governance.mock";
 import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
-import { SwapCanister } from "./swap.canister";
+import { SnsSwapCanister } from "./swap.canister";
 
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<SnsGovernanceCanister>();
@@ -15,13 +15,13 @@ describe("SnsWrapper", () => {
   mockCertifiedGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
   mockCertifiedGovernanceCanister.metadata.mockResolvedValue("");
 
-  const mockSwapCanister = mock<SwapCanister>();
+  const mockSwapCanister = mock<SnsSwapCanister>();
   mockSwapCanister.state.mockResolvedValue({
     swap: [],
     derived: [],
   });
 
-  const mockCertifiedSwapCanister = mock<SwapCanister>();
+  const mockCertifiedSwapCanister = mock<SnsSwapCanister>();
   mockCertifiedSwapCanister.state.mockResolvedValue({
     swap: [],
     derived: [],

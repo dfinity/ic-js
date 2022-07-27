@@ -1,7 +1,7 @@
 import type {
   GetStateResponse,
   RefreshBuyerTokensRequest,
-  _SERVICE as SnsSwapCanister,
+  _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";
@@ -10,16 +10,16 @@ import type { CanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
 
-export class SwapCanister extends Canister<SnsSwapCanister> {
-  static create(options: CanisterOptions<SnsSwapCanister>) {
+export class SnsSwapCanister extends Canister<SnsSwapService> {
+  static create(options: CanisterOptions<SnsSwapService>) {
     const { service, certifiedService, canisterId } =
-      createServices<SnsSwapCanister>({
+      createServices<SnsSwapService>({
         options,
         idlFactory,
         certifiedIdlFactory,
       });
 
-    return new SwapCanister(canisterId, service, certifiedService);
+    return new SnsSwapCanister(canisterId, service, certifiedService);
   }
 
   /**
