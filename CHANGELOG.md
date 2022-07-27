@@ -12,7 +12,7 @@
 
 ### Features
 
-- more Sns related features such as `notifyParticipation`
+- more Sns related features: `notifyParticipation` and `getUserCommitment`
 
 # 0.6.0 (2022-07-20)
 
