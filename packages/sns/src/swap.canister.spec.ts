@@ -57,12 +57,12 @@ describe("Swap canister", () => {
       amount_icp_e8s: BigInt(0),
       sns_disbursing: false,
     };
-    const service = mock<ActorSubclass<SnsSwapCanister>>();
+    const service = mock<ActorSubclass<SnsSwapService>>();
     service.get_buyer_state.mockResolvedValue({
       buyer_state: [buyerState],
     });
 
-    const canister = SwapCanister.create({
+    const canister = SnsSwapCanister.create({
       canisterId: swapCanisterIdMock,
       certifiedServiceOverride: service,
     });
