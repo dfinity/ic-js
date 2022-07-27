@@ -47,10 +47,12 @@ export interface FailedUpdate {
   dapp_canister_id: [] | [Principal];
 }
 export interface GetSnsCanistersSummaryResponse {
-  ledger_canister_summary: [] | [CanisterSummary];
-  governance_canister_summary: [] | [CanisterSummary];
-  root_canister_summary: [] | [CanisterSummary];
-  dapp_canister_summaries: Array<CanisterSummary>;
+  root: [] | [CanisterSummary];
+  swap: [] | [CanisterSummary];
+  ledger: [] | [CanisterSummary];
+  governance: [] | [CanisterSummary];
+  dapps: Array<CanisterSummary>;
+  archives: Array<CanisterSummary>;
 }
 export interface ListSnsCanistersResponse {
   root: [] | [Principal];

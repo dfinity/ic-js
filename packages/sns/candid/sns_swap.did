@@ -1,4 +1,4 @@
-// Generated from IC repo commit 12bd50418009ea8d6aabf4f5ac1182aceaf56689 'rs/sns/swap/canister/swap.did' by import-candid
+// Generated from IC repo commit d06567deb84dddcfb495be96ed9c318d2d3e8ce1 'rs/sns/swap/canister/swap.did' by import-candid
 type BuyerState = record {
   icp_disbursing : bool;
   amount_sns_e8s : nat64;
@@ -33,15 +33,24 @@ type ErrorRefundIcpRequest = record {
   icp_e8s : nat64;
   fee_override_e8s : nat64;
 };
+type FailedUpdate = record {
+  err : opt CanisterCallError;
+  dapp_canister_id : opt principal;
+};
 type FinalizeSwapResponse = record {
+  set_dapp_controllers_result : opt SetDappControllersCallResult;
   sns_governance_normal_mode_enabled : opt SetModeCallResult;
   sweep_icp : opt SweepResult;
   sweep_sns : opt SweepResult;
   create_neuron : opt SweepResult;
 };
-type GetCanisterStatusResponse = record { status : CanisterStatusResultV2 };
+type GetBuyerStateRequest = record { principal_id : opt principal };
+type GetBuyerStateResponse = record { buyer_state : opt BuyerState };
+type GetBuyersTotalResponse = record { buyers_total : nat64 };
 type GetStateResponse = record { swap : opt Swap; derived : opt DerivedState };
 type Init = record {
+  // Not deployed yet
+  // sns_root_canister_id : text;
   min_participant_icp_e8s : nat64;
   fallback_controller_principal_ids : vec text;
   max_icp_e8s : nat64;
@@ -53,9 +62,15 @@ type Init = record {
   sns_governance_canister_id : text;
   min_icp_e8s : nat64;
 };
-type Possibility = variant { Err : CanisterCallError };
+type Possibility = variant {
+  Ok : SetDappControllersResponse;
+  Err : CanisterCallError;
+};
+type Possibility_1 = variant { Err : CanisterCallError };
 type RefreshBuyerTokensRequest = record { buyer : text };
-type SetModeCallResult = record { possibility : opt Possibility };
+type SetDappControllersCallResult = record { possibility : opt Possibility };
+type SetDappControllersResponse = record { failed_updates : vec FailedUpdate };
+type SetModeCallResult = record { possibility : opt Possibility_1 };
 type SetOpenTimeWindowRequest = record { open_time_window : opt TimeWindow };
 type State = record {
   open_time_window : opt TimeWindow;
@@ -72,7 +87,9 @@ type TimeWindow = record {
 service : (Init) -> {
   error_refund_icp : (ErrorRefundIcpRequest) -> (record {});
   finalize_swap : (record {}) -> (FinalizeSwapResponse);
-  get_canister_status : (record {}) -> (GetCanisterStatusResponse);
+  get_buyer_state : (GetBuyerStateRequest) -> (GetBuyerStateResponse) query;
+  get_buyers_total : (record {}) -> (GetBuyersTotalResponse);
+  get_canister_status : (record {}) -> (CanisterStatusResultV2);
   get_state : (record {}) -> (GetStateResponse) query;
   refresh_buyer_tokens : (RefreshBuyerTokensRequest) -> (record {});
   refresh_sns_tokens : (record {}) -> (record {});

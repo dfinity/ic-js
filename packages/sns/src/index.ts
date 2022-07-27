@@ -6,6 +6,8 @@ export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_
 export type {
   BuyerState as SnsSwapBuyerState,
   DerivedState as SnsSwapDerivedState,
+  GetBuyerStateRequest as SnsGetBuyerStateRequest,
+  GetBuyerStateResponse as SnsGetBuyerStateResponse,
   Init as SnsSwapInit,
   State as SnsSwapState,
   Swap as SnsSwap,

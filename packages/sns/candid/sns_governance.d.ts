@@ -9,6 +9,7 @@ export type Action =
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { RemoveGenericNervousSystemFunction: bigint }
+  | { UpgradeSnsToNextVersion: {} }
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { Unspecified: {} }
   | {

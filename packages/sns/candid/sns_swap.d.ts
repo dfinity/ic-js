@@ -39,14 +39,25 @@ export interface ErrorRefundIcpRequest {
   icp_e8s: bigint;
   fee_override_e8s: bigint;
 }
+export interface FailedUpdate {
+  err: [] | [CanisterCallError];
+  dapp_canister_id: [] | [Principal];
+}
 export interface FinalizeSwapResponse {
+  set_dapp_controllers_result: [] | [SetDappControllersCallResult];
   sns_governance_normal_mode_enabled: [] | [SetModeCallResult];
   sweep_icp: [] | [SweepResult];
   sweep_sns: [] | [SweepResult];
   create_neuron: [] | [SweepResult];
 }
-export interface GetCanisterStatusResponse {
-  status: CanisterStatusResultV2;
+export interface GetBuyerStateRequest {
+  principal_id: [] | [Principal];
+}
+export interface GetBuyerStateResponse {
+  buyer_state: [] | [BuyerState];
+}
+export interface GetBuyersTotalResponse {
+  buyers_total: bigint;
 }
 export interface GetStateResponse {
   swap: [] | [Swap];
@@ -64,12 +75,21 @@ export interface Init {
   sns_governance_canister_id: string;
   min_icp_e8s: bigint;
 }
-export type Possibility = { Err: CanisterCallError };
+export type Possibility =
+  | { Ok: SetDappControllersResponse }
+  | { Err: CanisterCallError };
+export type Possibility_1 = { Err: CanisterCallError };
 export interface RefreshBuyerTokensRequest {
   buyer: string;
 }
-export interface SetModeCallResult {
+export interface SetDappControllersCallResult {
   possibility: [] | [Possibility];
+}
+export interface SetDappControllersResponse {
+  failed_updates: Array<FailedUpdate>;
+}
+export interface SetModeCallResult {
+  possibility: [] | [Possibility_1];
 }
 export interface SetOpenTimeWindowRequest {
   open_time_window: [] | [TimeWindow];
@@ -96,7 +116,11 @@ export interface TimeWindow {
 export interface _SERVICE {
   error_refund_icp: (arg_0: ErrorRefundIcpRequest) => Promise<{}>;
   finalize_swap: (arg_0: {}) => Promise<FinalizeSwapResponse>;
-  get_canister_status: (arg_0: {}) => Promise<GetCanisterStatusResponse>;
+  get_buyer_state: (
+    arg_0: GetBuyerStateRequest
+  ) => Promise<GetBuyerStateResponse>;
+  get_buyers_total: (arg_0: {}) => Promise<GetBuyersTotalResponse>;
+  get_canister_status: (arg_0: {}) => Promise<CanisterStatusResultV2>;
   get_state: (arg_0: {}) => Promise<GetStateResponse>;
   refresh_buyer_tokens: (arg_0: RefreshBuyerTokensRequest) => Promise<{}>;
   refresh_sns_tokens: (arg_0: {}) => Promise<{}>;

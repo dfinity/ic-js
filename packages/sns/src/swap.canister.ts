@@ -1,4 +1,6 @@
 import type {
+  BuyerState,
+  GetBuyerStateRequest,
   GetStateResponse,
   RefreshBuyerTokensRequest,
   _SERVICE as SnsSwapService,
@@ -9,6 +11,7 @@ import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
+import { fromNullable } from "./utils/did.utils";
 
 export class SnsSwapCanister extends Canister<SnsSwapService> {
   static create(options: SnsCanisterOptions<SnsSwapService>) {
@@ -35,5 +38,17 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
     params: RefreshBuyerTokensRequest
   ): Promise<void> => {
     await this.caller({ certified: true }).refresh_buyer_tokens(params);
+  };
+
+  /**
+   * Get user commitment
+   */
+  getUserCommitment = async (
+    params: GetBuyerStateRequest & QueryParams
+  ): Promise<BuyerState | undefined> => {
+    const { buyer_state } = await this.caller({
+      certified: params.certified,
+    }).get_buyer_state({ principal_id: params.principal_id });
+    return fromNullable(buyer_state);
   };
 }
