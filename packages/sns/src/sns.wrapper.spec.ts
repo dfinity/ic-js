@@ -1,5 +1,5 @@
 import { mock } from "jest-mock-extended";
-import { GovernanceCanister } from "./governance.canister";
+import { SnsGovernanceCanister } from "./governance.canister";
 import { LedgerCanister } from "./ledger.canister";
 import { neuronsMock } from "./mocks/governance.mock";
 import { RootCanister } from "./root.canister";
@@ -7,11 +7,11 @@ import { SnsWrapper } from "./sns.wrapper";
 import { SwapCanister } from "./swap.canister";
 
 describe("SnsWrapper", () => {
-  const mockGovernanceCanister = mock<GovernanceCanister>();
+  const mockGovernanceCanister = mock<SnsGovernanceCanister>();
   mockGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
   mockGovernanceCanister.metadata.mockResolvedValue("");
 
-  const mockCertifiedGovernanceCanister = mock<GovernanceCanister>();
+  const mockCertifiedGovernanceCanister = mock<SnsGovernanceCanister>();
   mockCertifiedGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
   mockCertifiedGovernanceCanister.metadata.mockResolvedValue("");
 

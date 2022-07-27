@@ -4,7 +4,7 @@ import type {
   ListSnsCanistersResponse,
   _SERVICE as SnsRootCanister,
 } from "../candid/sns_root";
-import { GovernanceCanister } from "./governance.canister";
+import { SnsGovernanceCanister } from "./governance.canister";
 import { LedgerCanister } from "./ledger.canister";
 import { RootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
@@ -54,7 +54,7 @@ export const initSnsWrapper: InitSnsWrapper = async ({
 
   return new SnsWrapper({
     root: rootCanister,
-    governance: GovernanceCanister.create({
+    governance: SnsGovernanceCanister.create({
       canisterId: governanceCanisterId,
       agent,
     }),

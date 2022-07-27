@@ -2,7 +2,7 @@ import type { Principal } from "@dfinity/principal";
 import type {
   Neuron,
   NeuronId,
-  _SERVICE as SnsGovernanceCanister,
+  _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";
@@ -14,16 +14,16 @@ import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
 import { toNullable } from "./utils/did.utils";
 
-export class GovernanceCanister extends Canister<SnsGovernanceCanister> {
-  static create(options: CanisterOptions<SnsGovernanceCanister>) {
+export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
+  static create(options: CanisterOptions<SnsGovernanceService>) {
     const { service, certifiedService, canisterId } =
-      createServices<SnsGovernanceCanister>({
+      createServices<SnsGovernanceService>({
         options,
         idlFactory,
         certifiedIdlFactory,
       });
 
-    return new GovernanceCanister(canisterId, service, certifiedService);
+    return new SnsGovernanceCanister(canisterId, service, certifiedService);
   }
 
   /**

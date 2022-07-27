@@ -12,7 +12,7 @@ export type {
   TimeWindow as SnsSwapTimeWindow,
 } from "../candid/sns_swap";
 export * from "./enums/swap.enums";
-export { GovernanceCanister } from "./governance.canister";
+export { SnsGovernanceCanister } from "./governance.canister";
 export { LedgerCanister } from "./ledger.canister";
 export { RootCanister } from "./root.canister";
 export * from "./sns";

@@ -4,7 +4,7 @@ import type {
   GetStateResponse,
   RefreshBuyerTokensRequest,
 } from "../candid/sns_swap";
-import type { GovernanceCanister } from "./governance.canister";
+import type { SnsGovernanceCanister } from "./governance.canister";
 import type { LedgerCanister } from "./ledger.canister";
 import type { RootCanister } from "./root.canister";
 import type { SwapCanister } from "./swap.canister";
@@ -15,7 +15,7 @@ interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
   root: RootCanister;
   /** The wrapper for the "governance" canister of the particular Sns */
-  governance: GovernanceCanister;
+  governance: SnsGovernanceCanister;
   /** The wrapper for the "ledger" canister of the particular Sns */
   ledger: LedgerCanister;
   /** The wrapper for the "swap" canister of the particular Sns */
@@ -32,7 +32,7 @@ interface SnsWrapperOptions {
  */
 export class SnsWrapper {
   private readonly root: RootCanister;
-  private readonly governance: GovernanceCanister;
+  private readonly governance: SnsGovernanceCanister;
   private readonly ledger: LedgerCanister;
   private readonly swap: SwapCanister;
   private readonly certified: boolean;
