@@ -1,44 +1,44 @@
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
-import { GovernanceCanister } from "./governance.canister";
-import { LedgerCanister } from "./ledger.canister";
+import { SnsGovernanceCanister } from "./governance.canister";
+import { SnsLedgerCanister } from "./ledger.canister";
 import { neuronsMock } from "./mocks/governance.mock";
-import { RootCanister } from "./root.canister";
+import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
-import { SwapCanister } from "./swap.canister";
+import { SnsSwapCanister } from "./swap.canister";
 
 describe("SnsWrapper", () => {
-  const mockGovernanceCanister = mock<GovernanceCanister>();
+  const mockGovernanceCanister = mock<SnsGovernanceCanister>();
   mockGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
   mockGovernanceCanister.metadata.mockResolvedValue("");
 
-  const mockCertifiedGovernanceCanister = mock<GovernanceCanister>();
+  const mockCertifiedGovernanceCanister = mock<SnsGovernanceCanister>();
   mockCertifiedGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
   mockCertifiedGovernanceCanister.metadata.mockResolvedValue("");
 
-  const mockSwapCanister = mock<SwapCanister>();
+  const mockSwapCanister = mock<SnsSwapCanister>();
   mockSwapCanister.state.mockResolvedValue({
     swap: [],
     derived: [],
   });
 
-  const mockCertifiedSwapCanister = mock<SwapCanister>();
+  const mockCertifiedSwapCanister = mock<SnsSwapCanister>();
   mockCertifiedSwapCanister.state.mockResolvedValue({
     swap: [],
     derived: [],
   });
 
   const snsWrapper: SnsWrapper = new SnsWrapper({
-    root: {} as RootCanister,
-    ledger: {} as LedgerCanister,
+    root: {} as SnsRootCanister,
+    ledger: {} as SnsLedgerCanister,
     governance: mockGovernanceCanister,
     swap: mockSwapCanister,
     certified: false,
   });
 
   const certifiedSnsWrapper: SnsWrapper = new SnsWrapper({
-    root: {} as RootCanister,
-    ledger: {} as LedgerCanister,
+    root: {} as SnsRootCanister,
+    ledger: {} as SnsLedgerCanister,
     governance: mockCertifiedGovernanceCanister,
     swap: mockCertifiedSwapCanister,
     certified: true,

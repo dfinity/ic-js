@@ -2,34 +2,34 @@ import type { Principal } from "@dfinity/principal";
 import type {
   Neuron,
   NeuronId,
-  _SERVICE as SnsGovernanceCanister,
+  _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import { Canister } from "./services/canister";
-import type { CanisterOptions } from "./types/canister.options";
-import type { ListNeuronsParams } from "./types/governance.params";
+import type { SnsCanisterOptions } from "./types/canister.options";
+import type { SnsListNeuronsParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
 import { toNullable } from "./utils/did.utils";
 
-export class GovernanceCanister extends Canister<SnsGovernanceCanister> {
-  static create(options: CanisterOptions<SnsGovernanceCanister>) {
+export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
+  static create(options: SnsCanisterOptions<SnsGovernanceService>) {
     const { service, certifiedService, canisterId } =
-      createServices<SnsGovernanceCanister>({
+      createServices<SnsGovernanceService>({
         options,
         idlFactory,
         certifiedIdlFactory,
       });
 
-    return new GovernanceCanister(canisterId, service, certifiedService);
+    return new SnsGovernanceCanister(canisterId, service, certifiedService);
   }
 
   /**
    * List the neurons of the Sns
    */
-  listNeurons = async (params: ListNeuronsParams): Promise<Neuron[]> => {
+  listNeurons = async (params: SnsListNeuronsParams): Promise<Neuron[]> => {
     const { principal, limit, beforeNeuronId } = params;
 
     const { neurons } = await this.caller(params).list_neurons({

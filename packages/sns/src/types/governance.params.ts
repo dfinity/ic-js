@@ -5,7 +5,7 @@ import type { QueryParams } from "./query.params";
 /**
  * The parameters available to list Sns neurons
  */
-export interface ListNeuronsParams extends QueryParams {
+export interface SnsListNeuronsParams extends QueryParams {
   /** Scope the query to a particular principal */
   principal?: Principal | undefined;
   /** The maximum number of neurons returned by the method `list_neurons` */

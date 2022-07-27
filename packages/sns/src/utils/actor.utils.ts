@@ -2,7 +2,7 @@ import type { ActorSubclass, Agent } from "@dfinity/agent";
 import { Actor } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
-import type { CanisterOptions } from "../types/canister.options";
+import type { SnsCanisterOptions } from "../types/canister.options";
 import { defaultAgent } from "./agent.utils";
 
 // Note: almost same as nns actor.utils - could be extracted to a utility
@@ -17,7 +17,7 @@ export const createServices = <T>({
   idlFactory,
   certifiedIdlFactory,
 }: {
-  options: CanisterOptions<T>;
+  options: SnsCanisterOptions<T>;
   idlFactory: IDL.InterfaceFactory;
   certifiedIdlFactory: IDL.InterfaceFactory;
 }): {

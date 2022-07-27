@@ -6,9 +6,13 @@
 - sns `v0.x.y`
 - utils `v0.x.y`
 
+### Breaking changes
+
+- Sns canisters' classes renamed with prefix `Sns`
+
 ### Features
 
-- new library `@dfinity/utils`
+- more Sns related features: `notifyParticipation` and `getUserCommitment`
 
 # 0.6.0 (2022-07-20)
 

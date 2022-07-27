@@ -1,10 +1,10 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
-import type { Swap, _SERVICE as SnsSwapCanister } from "../candid/sns_swap";
+import type { Swap, _SERVICE as SnsSwapService } from "../candid/sns_swap";
 import { GetStateResponse } from "../candid/sns_swap";
 import { swapCanisterIdMock } from "./mocks/sns.mock";
-import { SwapCanister } from "./swap.canister";
+import { SnsSwapCanister } from "./swap.canister";
 
 describe("Swap canister", () => {
   afterEach(() => jest.clearAllMocks());
@@ -25,10 +25,10 @@ describe("Swap canister", () => {
       derived: [],
     };
 
-    const service = mock<ActorSubclass<SnsSwapCanister>>();
+    const service = mock<ActorSubclass<SnsSwapService>>();
     service.get_state.mockResolvedValue(mockResponse);
 
-    const canister = SwapCanister.create({
+    const canister = SnsSwapCanister.create({
       canisterId: swapCanisterIdMock,
       certifiedServiceOverride: service,
     });
@@ -37,10 +37,10 @@ describe("Swap canister", () => {
   });
 
   it("should call to notify the buyer tokens", async () => {
-    const service = mock<ActorSubclass<SnsSwapCanister>>();
+    const service = mock<ActorSubclass<SnsSwapService>>();
     service.refresh_buyer_tokens.mockResolvedValue({});
 
-    const canister = SwapCanister.create({
+    const canister = SnsSwapCanister.create({
       canisterId: swapCanisterIdMock,
       certifiedServiceOverride: service,
     });
@@ -57,12 +57,12 @@ describe("Swap canister", () => {
       amount_icp_e8s: BigInt(0),
       sns_disbursing: false,
     };
-    const service = mock<ActorSubclass<SnsSwapCanister>>();
+    const service = mock<ActorSubclass<SnsSwapService>>();
     service.get_buyer_state.mockResolvedValue({
       buyer_state: [buyerState],
     });
 
-    const canister = SwapCanister.create({
+    const canister = SnsSwapCanister.create({
       canisterId: swapCanisterIdMock,
       certifiedServiceOverride: service,
     });
