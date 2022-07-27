@@ -9,7 +9,7 @@ import { SnsLedgerCanister } from "./ledger.canister";
 import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
-import type { CanisterOptions } from "./types/canister.options";
+import type { SnsCanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
 import { assertNonNullish } from "./utils/asserts.utils";
 import { fromNullable } from "./utils/did.utils";
@@ -21,7 +21,7 @@ export interface InitSnsCanistersOptions extends QueryParams {
   /** An agent that can be used to override the default agent. Useful to target another environment that mainnet. */
   agent?: Agent;
   /** The options that will be used to instantiate the actors of the root canister of the particular Sns. */
-  rootOptions: Omit<CanisterOptions<SnsRootService>, "agent">;
+  rootOptions: Omit<SnsCanisterOptions<SnsRootService>, "agent">;
 }
 
 export interface InitSnsWrapper {

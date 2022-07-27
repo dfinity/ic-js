@@ -6,12 +6,12 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";
 import { Canister } from "./services/canister";
-import type { CanisterOptions } from "./types/canister.options";
+import type { SnsCanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
 
 export class SnsSwapCanister extends Canister<SnsSwapService> {
-  static create(options: CanisterOptions<SnsSwapService>) {
+  static create(options: SnsCanisterOptions<SnsSwapService>) {
     const { service, certifiedService, canisterId } =
       createServices<SnsSwapService>({
         options,

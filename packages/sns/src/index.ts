@@ -18,6 +18,6 @@ export { SnsRootCanister } from "./root.canister";
 export * from "./sns";
 export * from "./sns.wrapper";
 export { SnsSwapCanister } from "./swap.canister";
-export type { CanisterOptions } from "./types/canister.options";
+export type { SnsCanisterOptions } from "./types/canister.options";
 export type { ListNeuronsParams } from "./types/governance.params";
 export type { QueryParams } from "./types/query.params";

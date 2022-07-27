@@ -5,11 +5,11 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_root.certified.idl";
 import { idlFactory } from "../candid/sns_root.idl";
 import { Canister } from "./services/canister";
-import type { CanisterOptions } from "./types/canister.options";
+import type { SnsCanisterOptions } from "./types/canister.options";
 import { createServices } from "./utils/actor.utils";
 
 export class SnsRootCanister extends Canister<SnsRootService> {
-  static create(options: CanisterOptions<SnsRootService>) {
+  static create(options: SnsCanisterOptions<SnsRootService>) {
     const { service, certifiedService, canisterId } =
       createServices<SnsRootService>({
         options,
