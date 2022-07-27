@@ -2,11 +2,11 @@ import type { Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 import type {
   ListSnsCanistersResponse,
-  _SERVICE as SnsRootCanister,
+  _SERVICE as SnsRootService,
 } from "../candid/sns_root";
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsLedgerCanister } from "./ledger.canister";
-import { RootCanister } from "./root.canister";
+import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SwapCanister } from "./swap.canister";
 import type { CanisterOptions } from "./types/canister.options";
@@ -21,7 +21,7 @@ export interface InitSnsCanistersOptions extends QueryParams {
   /** An agent that can be used to override the default agent. Useful to target another environment that mainnet. */
   agent?: Agent;
   /** The options that will be used to instantiate the actors of the root canister of the particular Sns. */
-  rootOptions: Omit<CanisterOptions<SnsRootCanister>, "agent">;
+  rootOptions: Omit<CanisterOptions<SnsRootService>, "agent">;
 }
 
 export interface InitSnsWrapper {
@@ -36,7 +36,7 @@ export const initSnsWrapper: InitSnsWrapper = async ({
   rootOptions,
   certified = true,
 }: InitSnsCanistersOptions): Promise<SnsWrapper> => {
-  const rootCanister: RootCanister = RootCanister.create({
+  const rootCanister: SnsRootCanister = SnsRootCanister.create({
     ...rootOptions,
     agent,
   });

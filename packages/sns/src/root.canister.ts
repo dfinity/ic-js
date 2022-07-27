@@ -1,6 +1,6 @@
 import type {
   ListSnsCanistersResponse,
-  _SERVICE as SnsRootCanister,
+  _SERVICE as SnsRootService,
 } from "../candid/sns_root";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_root.certified.idl";
 import { idlFactory } from "../candid/sns_root.idl";
@@ -8,16 +8,16 @@ import { Canister } from "./services/canister";
 import type { CanisterOptions } from "./types/canister.options";
 import { createServices } from "./utils/actor.utils";
 
-export class RootCanister extends Canister<SnsRootCanister> {
-  static create(options: CanisterOptions<SnsRootCanister>) {
+export class SnsRootCanister extends Canister<SnsRootService> {
+  static create(options: CanisterOptions<SnsRootService>) {
     const { service, certifiedService, canisterId } =
-      createServices<SnsRootCanister>({
+      createServices<SnsRootService>({
         options,
         idlFactory,
         certifiedIdlFactory,
       });
 
-    return new RootCanister(canisterId, service, certifiedService);
+    return new SnsRootCanister(canisterId, service, certifiedService);
   }
 
   /**

@@ -14,7 +14,7 @@ export type {
 export * from "./enums/swap.enums";
 export { SnsGovernanceCanister } from "./governance.canister";
 export { SnsLedgerCanister } from "./ledger.canister";
-export { RootCanister } from "./root.canister";
+export { SnsRootCanister } from "./root.canister";
 export * from "./sns";
 export * from "./sns.wrapper";
 export { SwapCanister } from "./swap.canister";
