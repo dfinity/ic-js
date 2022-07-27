@@ -8,7 +8,7 @@ import type { SnsGovernanceCanister } from "./governance.canister";
 import type { SnsLedgerCanister } from "./ledger.canister";
 import type { SnsRootCanister } from "./root.canister";
 import type { SnsSwapCanister } from "./swap.canister";
-import type { ListNeuronsParams } from "./types/governance.params";
+import type { SnsListNeuronsParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
 interface SnsWrapperOptions {
@@ -72,7 +72,7 @@ export class SnsWrapper {
   }
 
   listNeurons = (
-    params: Omit<ListNeuronsParams, "certified">
+    params: Omit<SnsListNeuronsParams, "certified">
   ): Promise<Neuron[]> => this.governance.listNeurons(this.mergeParams(params));
 
   metadata = (params: Omit<QueryParams, "certified">): Promise<string> =>

@@ -9,7 +9,7 @@ import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
-import type { ListNeuronsParams } from "./types/governance.params";
+import type { SnsListNeuronsParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
 import { toNullable } from "./utils/did.utils";
@@ -29,7 +29,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * List the neurons of the Sns
    */
-  listNeurons = async (params: ListNeuronsParams): Promise<Neuron[]> => {
+  listNeurons = async (params: SnsListNeuronsParams): Promise<Neuron[]> => {
     const { principal, limit, beforeNeuronId } = params;
 
     const { neurons } = await this.caller(params).list_neurons({
