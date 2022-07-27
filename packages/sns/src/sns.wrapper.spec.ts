@@ -1,6 +1,6 @@
 import { mock } from "jest-mock-extended";
 import { SnsGovernanceCanister } from "./governance.canister";
-import { LedgerCanister } from "./ledger.canister";
+import { SnsLedgerCanister } from "./ledger.canister";
 import { neuronsMock } from "./mocks/governance.mock";
 import { RootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
@@ -29,7 +29,7 @@ describe("SnsWrapper", () => {
 
   const snsWrapper: SnsWrapper = new SnsWrapper({
     root: {} as RootCanister,
-    ledger: {} as LedgerCanister,
+    ledger: {} as SnsLedgerCanister,
     governance: mockGovernanceCanister,
     swap: mockSwapCanister,
     certified: false,
@@ -37,7 +37,7 @@ describe("SnsWrapper", () => {
 
   const certifiedSnsWrapper: SnsWrapper = new SnsWrapper({
     root: {} as RootCanister,
-    ledger: {} as LedgerCanister,
+    ledger: {} as SnsLedgerCanister,
     governance: mockCertifiedGovernanceCanister,
     swap: mockCertifiedSwapCanister,
     certified: true,

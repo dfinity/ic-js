@@ -5,7 +5,7 @@ import type {
   _SERVICE as SnsRootCanister,
 } from "../candid/sns_root";
 import { SnsGovernanceCanister } from "./governance.canister";
-import { LedgerCanister } from "./ledger.canister";
+import { SnsLedgerCanister } from "./ledger.canister";
 import { RootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SwapCanister } from "./swap.canister";
@@ -58,7 +58,7 @@ export const initSnsWrapper: InitSnsWrapper = async ({
       canisterId: governanceCanisterId,
       agent,
     }),
-    ledger: LedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
+    ledger: SnsLedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
     swap: SwapCanister.create({ canisterId: swapCanisterId, agent }),
     certified,
   });

@@ -13,7 +13,7 @@ export type {
 } from "../candid/sns_swap";
 export * from "./enums/swap.enums";
 export { SnsGovernanceCanister } from "./governance.canister";
-export { LedgerCanister } from "./ledger.canister";
+export { SnsLedgerCanister } from "./ledger.canister";
 export { RootCanister } from "./root.canister";
 export * from "./sns";
 export * from "./sns.wrapper";
