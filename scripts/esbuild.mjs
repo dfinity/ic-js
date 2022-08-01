@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const packageJson = join(__dirname, "../package.json");
 const json = readFileSync(packageJson, "utf8");
-const { peerDependencies } = JSON.parse(json)
+const { peerDependencies } = JSON.parse(json);
 
 const dist = join(process.cwd(), "dist");
 
