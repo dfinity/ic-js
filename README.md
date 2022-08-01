@@ -11,6 +11,24 @@ The libraries are still in active development, and new features will incremental
 - cmc: querying the Cmc canister (_coming soon_)
 - [utils](/packages/utils): a collection of utilities and constants for NNS/SNS projects.
 
+## Installation
+
+Install [nns](/packages/nns) and/or [sns](/packages/sns) in your project from [npm](https://www.npmjs.com):
+
+```bash
+npm i @dfinity/nns
+npm i @dfinity/sns
+```
+
+You may be using both [nns](/packages/nns) and [sns](/packages/sns) in your project - as we do in [NNS-dapp](https://github.com/dfinity/nns-dapp/).
+That is s why, to help tree-shaking and avoid duplication of code, the libraries of this project are referencing [agent-js](https://github.com/dfinity/agent-js) as peer dependencies.
+
+Therefore, be sure that the needed `agent-js` dependencies are available in your project or install these as following:
+
+```bash
+npm i @dfinity/agent @dfinity/candid @dfinity/principal
+```
+
 ## Links
 
 Here are some useful links:

@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/ic-js",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
   "workspaces": [
@@ -19,11 +19,6 @@
   },
   "bugs": {
     "url": "https://github.com/dfinity/ic-js"
-  },
-  "dependencies": {
-    "@dfinity/agent": "^0.12.0",
-    "@dfinity/candid": "^0.12.0",
-    "@dfinity/principal": "^0.12.0"
   },
   "devDependencies": {
     "@types/jest": "^28.1.4",
@@ -45,5 +40,10 @@
     "ts-protoc-gen": "^0.15.0",
     "typescript": "^4.5.5",
     "whatwg-fetch": "^3.6.2"
+  },
+  "peerDependencies": {
+    "@dfinity/agent": "^0.12.0",
+    "@dfinity/candid": "^0.12.0",
+    "@dfinity/principal": "^0.12.0"
   }
 }

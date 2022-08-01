@@ -52,3 +52,10 @@ The files of the [candid](./candid) folders are shared across packages. Their ar
 - `something.certified.idl.d.ts`: the typescript definition of the above factory file
 
 (1) auto-generated with [didc](https://github.com/dfinity/candid)
+
+# Update peer dependencies
+
+```bash
+npm rm @dfinity/principal @dfinity/agent @dfinity/candid
+npm i @dfinity/principal@0.12.0 @dfinity/agent@0.12.0 @dfinity/candid@0.12.0 --save-peer
+```

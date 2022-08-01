@@ -3,10 +3,19 @@ import {
   existsSync,
   mkdirSync,
   readdirSync,
+  readFileSync,
   statSync,
   writeFileSync,
 } from "fs";
-import { join } from "path";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+/** Core peerDependencies are common external dependencies for all libraries of the mono-repo */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const packageJson = join(__dirname, "../package.json");
+const json = readFileSync(packageJson, "utf8");
+const { peerDependencies } = JSON.parse(json)
 
 const dist = join(process.cwd(), "dist");
 
@@ -39,6 +48,7 @@ const buildEsmCjs = () => {
       format: "esm",
       define: { global: "window" },
       target: ["esnext"],
+      external: [...Object.keys(peerDependencies || {})],
     })
     .catch(() => process.exit(1));
 
@@ -52,6 +62,7 @@ const buildEsmCjs = () => {
       minify: true,
       platform: "node",
       target: ["node16"],
+      external: [...Object.keys(peerDependencies || {})],
     })
     .catch(() => process.exit(1));
 };
