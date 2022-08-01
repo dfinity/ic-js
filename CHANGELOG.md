@@ -8,6 +8,7 @@
 
 ### Breaking changes
 
+- `agent-js` dependencies set as `peerDependencies`
 - Sns canisters' classes renamed with prefix `Sns`
 
 ### Features
