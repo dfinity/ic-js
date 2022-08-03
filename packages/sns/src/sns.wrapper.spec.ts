@@ -59,8 +59,8 @@ describe("SnsWrapper", () => {
 
   it("should call get neuron with query or update", async () => {
     const neuronId = {
-      id: [1,2,3]
-    }
+      id: [1, 2, 3],
+    };
     await snsWrapper.getNeuron({ neuronId });
     expect(mockGovernanceCanister.getNeuron).toHaveBeenCalledWith({
       neuronId,
