@@ -1,5 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
+import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsLedgerCanister } from "./ledger.canister";
 import { neuronsMock } from "./mocks/governance.mock";
@@ -70,6 +71,20 @@ describe("SnsWrapper", () => {
     expect(mockCertifiedGovernanceCanister.getNeuron).toHaveBeenCalledWith({
       neuronId,
       certified: true,
+    });
+  });
+
+  it("should call addNeuronPermissions with query or update", async () => {
+    const neuronId = {
+      id: [1, 2, 3],
+    };
+    const principal = Principal.fromText("aaaaa-aa");
+    const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
+    await snsWrapper.addNeuronPermissions({ permissions, neuronId, principal });
+    expect(mockGovernanceCanister.addNeuronPermissions).toHaveBeenCalledWith({
+      neuronId,
+      permissions,
+      principal,
     });
   });
 

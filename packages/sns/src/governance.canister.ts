@@ -1,5 +1,7 @@
 import type { Principal } from "@dfinity/principal";
 import type {
+  ManageNeuron,
+  ManageNeuronResponse,
   Neuron,
   NeuronId,
   _SERVICE as SnsGovernanceService,
@@ -11,6 +13,7 @@ import { SnsGovernanceError } from "./errors/governance.errors";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type {
+  SnsAddNeuronPermissions,
   SnsGetNeuronParams,
   SnsListNeuronsParams,
 } from "./types/governance.params";
@@ -67,5 +70,48 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
       );
     }
     return data.Neuron;
+  };
+
+  /**
+   * Manage neuron. For advanced users.
+   */
+  manageNeuron = async (request: ManageNeuron): Promise<ManageNeuronResponse> =>
+    this.caller({ certified: true }).manage_neuron(request);
+
+  /**
+   * Set permissions of a neuron for a specific principal
+   */
+  addNeuronPermissions = async ({
+    neuronId,
+    permissions,
+    principal,
+  }: SnsAddNeuronPermissions): Promise<void> => {
+    const request: ManageNeuron = {
+      subaccount: neuronId.id,
+      command: [
+        {
+          AddNeuronPermissions: {
+            permissions_to_add: [{ permissions }],
+            principal_id: [principal],
+          },
+        },
+      ],
+    };
+    const response = await this.manageNeuron(request);
+    this.assertManageNeuronError(response);
+  };
+
+  /**
+   *
+   * @param response ManageNeuronResponse
+   * @throws SnsGovernanceError
+   */
+  private assertManageNeuronError = ({
+    command,
+  }: ManageNeuronResponse): void => {
+    const firstCommand = command[0];
+    if (firstCommand !== undefined && "Error" in firstCommand) {
+      throw new SnsGovernanceError(firstCommand.Error.error_message);
+    }
   };
 }

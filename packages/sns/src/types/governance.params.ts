@@ -1,5 +1,6 @@
 import type { Principal } from "@dfinity/principal";
 import type { NeuronId } from "../../candid/sns_governance";
+import type { SnsNeuronPermissionType } from "../enums/governance.enums";
 import type { QueryParams } from "./query.params";
 
 /**
@@ -19,4 +20,13 @@ export interface SnsListNeuronsParams extends QueryParams {
  */
 export interface SnsGetNeuronParams extends QueryParams {
   neuronId: NeuronId;
+}
+
+/**
+ * Parametes to add permissions to a neuron
+ */
+export interface SnsAddNeuronPermissions {
+  principal: Principal;
+  neuronId: NeuronId;
+  permissions: SnsNeuronPermissionType[];
 }

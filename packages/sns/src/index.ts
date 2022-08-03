@@ -1,4 +1,6 @@
 export type {
+  ManageNeuron as SnsManageNeuron,
+  ManageNeuronResponse as SnsManageNeuronResponse,
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
 } from "../candid/sns_governance";
@@ -13,6 +15,7 @@ export type {
   Swap as SnsSwap,
   TimeWindow as SnsSwapTimeWindow,
 } from "../candid/sns_swap";
+export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
 export * from "./errors/governance.errors";
 export { SnsGovernanceCanister } from "./governance.canister";
