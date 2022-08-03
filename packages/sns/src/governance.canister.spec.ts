@@ -40,7 +40,7 @@ describe("Governance canister", () => {
 
   describe("getNeuron", () => {
     it("should return the neuron", async () => {
-      const service = mock<ActorSubclass<SnsGovernanceCanister>>();
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.get_neuron.mockResolvedValue({
         result: [{ Neuron: neuronMock }],
       });
@@ -57,7 +57,7 @@ describe("Governance canister", () => {
     });
 
     it("should raise error on governance error", async () => {
-      const service = mock<ActorSubclass<SnsGovernanceCanister>>();
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.get_neuron.mockResolvedValue({
         result: [{ Error: { error_message: "error", error_type: 2 } }],
       });
