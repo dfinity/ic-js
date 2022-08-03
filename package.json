@@ -42,8 +42,8 @@
     "whatwg-fetch": "^3.6.2"
   },
   "peerDependencies": {
-    "@dfinity/agent": "^0.12.0",
-    "@dfinity/candid": "^0.12.0",
-    "@dfinity/principal": "^0.12.0"
+    "@dfinity/agent": "^0.12.2",
+    "@dfinity/candid": "^0.12.2",
+    "@dfinity/principal": "^0.12.2"
   }
 }
