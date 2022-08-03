@@ -97,6 +97,21 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
         },
       ],
     };
-    await this.manageNeuron(request);
+    const response = await this.manageNeuron(request);
+    this.assertManageNeuronError(response);
+  };
+
+  /**
+   *
+   * @param response ManageNeuronResponse
+   * @throws SnsGovernanceError
+   */
+  private assertManageNeuronError = ({
+    command,
+  }: ManageNeuronResponse): void => {
+    const firstCommand = command[0];
+    if (firstCommand !== undefined && "Error" in firstCommand) {
+      throw new SnsGovernanceError(firstCommand.Error.error_message);
+    }
   };
 }
