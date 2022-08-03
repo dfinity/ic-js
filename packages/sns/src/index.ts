@@ -14,6 +14,7 @@ export type {
   TimeWindow as SnsSwapTimeWindow,
 } from "../candid/sns_swap";
 export * from "./enums/swap.enums";
+export * from "./errors/governance.errors";
 export { SnsGovernanceCanister } from "./governance.canister";
 export { SnsLedgerCanister } from "./ledger.canister";
 export { SnsRootCanister } from "./root.canister";
@@ -21,5 +22,8 @@ export * from "./sns";
 export * from "./sns.wrapper";
 export { SnsSwapCanister } from "./swap.canister";
 export type { SnsCanisterOptions } from "./types/canister.options";
-export type { SnsListNeuronsParams } from "./types/governance.params";
+export type {
+  SnsGetNeuronParams,
+  SnsListNeuronsParams,
+} from "./types/governance.params";
 export type { QueryParams } from "./types/query.params";
