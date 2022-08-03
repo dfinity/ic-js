@@ -57,6 +57,22 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call get neuron with query or update", async () => {
+    const neuronId = {
+      id: [1, 2, 3],
+    };
+    await snsWrapper.getNeuron({ neuronId });
+    expect(mockGovernanceCanister.getNeuron).toHaveBeenCalledWith({
+      neuronId,
+      certified: false,
+    });
+    await certifiedSnsWrapper.getNeuron({ neuronId });
+    expect(mockCertifiedGovernanceCanister.getNeuron).toHaveBeenCalledWith({
+      neuronId,
+      certified: true,
+    });
+  });
+
   it("should call metadata with query or update", async () => {
     await snsWrapper.metadata({});
     expect(mockGovernanceCanister.metadata).toHaveBeenCalledWith({

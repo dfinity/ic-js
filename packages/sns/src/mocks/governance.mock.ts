@@ -1,9 +1,9 @@
 import type { Neuron, NeuronId } from "../../candid/sns_governance";
 
-const neuronId: NeuronId = { id: [1] };
+export const neuronIdMock: NeuronId = { id: [1] };
 
-export const neuronsMock: Neuron[] = [
-  {
-    id: [neuronId],
-  } as Neuron,
-];
+export const neuronMock = {
+  id: [neuronIdMock],
+} as Neuron;
+
+export const neuronsMock: Neuron[] = [neuronMock];

@@ -14,6 +14,7 @@
 ### Features
 
 - more Sns related features: `notifyParticipation` and `getUserCommitment`
+- sns: new method `getNeuron` to get neuron data by neuron id.
 
 # 0.6.0 (2022-07-20)
 

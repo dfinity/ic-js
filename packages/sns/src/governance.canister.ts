@@ -7,12 +7,16 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
+import { SnsGovernanceError } from "./errors/governance.errors";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
-import type { SnsListNeuronsParams } from "./types/governance.params";
+import type {
+  SnsGetNeuronParams,
+  SnsListNeuronsParams,
+} from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
-import { toNullable } from "./utils/did.utils";
+import { fromNullable, toNullable } from "./utils/did.utils";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   static create(options: SnsCanisterOptions<SnsGovernanceService>) {
@@ -43,5 +47,25 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   // TODO: replace with effective implementation and types to get the list of metadata once implemented in backend
   metadata = async (params: QueryParams): Promise<string> => {
     return this.caller(params).get_build_metadata();
+  };
+
+  /**
+   * Get the neuron of the Sns
+   */
+  getNeuron = async (
+    params: SnsGetNeuronParams & QueryParams
+  ): Promise<Neuron> => {
+    const { neuronId } = params;
+
+    const { result } = await this.caller(params).get_neuron({
+      neuron_id: toNullable(neuronId),
+    });
+    const data = fromNullable(result);
+    if (data === undefined || "Error" in data) {
+      throw new SnsGovernanceError(
+        data?.Error.error_message ?? "Response type not supported"
+      );
+    }
+    return data.Neuron;
   };
 }

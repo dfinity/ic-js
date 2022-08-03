@@ -13,3 +13,10 @@ export interface SnsListNeuronsParams extends QueryParams {
   /** Index the search to returns a list that starts after specified neuron id */
   beforeNeuronId?: NeuronId;
 }
+
+/**
+ * The parameters to get an sns neuron
+ */
+export interface SnsGetNeuronParams extends QueryParams {
+  neuronId: NeuronId;
+}
