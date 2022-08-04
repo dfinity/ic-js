@@ -9,7 +9,12 @@ import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import { SnsGovernanceCanister } from "./governance.canister";
-import {metadataMock, neuronIdMock, neuronMock, neuronsMock} from "./mocks/governance.mock";
+import {
+  metadataMock,
+  neuronIdMock,
+  neuronMock,
+  neuronsMock,
+} from "./mocks/governance.mock";
 import { rootCanisterIdMock } from "./mocks/sns.mock";
 
 describe("Governance canister", () => {
@@ -172,5 +177,5 @@ describe("Governance canister", () => {
       const res = await canister.metadata({});
       expect(res).toEqual(metadataMock);
     });
-  })
+  });
 });

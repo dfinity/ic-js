@@ -3,9 +3,9 @@ import { mock } from "jest-mock-extended";
 import type { _SERVICE as SnsLedgerService } from "../candid/ledger";
 import { SnsLedgerCanister } from "./ledger.canister";
 import {
+  tokenInfoResponseMock,
   tokenNameResponseMock,
   tokenSymbolResponseMock,
-  tokenInfoResponseMock,
 } from "./mocks/ledger.mock";
 import { rootCanisterIdMock } from "./mocks/sns.mock";
 
