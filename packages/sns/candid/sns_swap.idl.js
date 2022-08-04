@@ -1,6 +1,7 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_swap.did */
 export const idlFactory = ({ IDL }) => {
   const Init = IDL.Record({
+    'sns_root_canister_id' : IDL.Text,
     'min_participant_icp_e8s' : IDL.Nat64,
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
     'max_icp_e8s' : IDL.Nat64,
@@ -147,6 +148,7 @@ export const idlFactory = ({ IDL }) => {
 };
 export const init = ({ IDL }) => {
   const Init = IDL.Record({
+    'sns_root_canister_id' : IDL.Text,
     'min_participant_icp_e8s' : IDL.Nat64,
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
     'max_icp_e8s' : IDL.Nat64,

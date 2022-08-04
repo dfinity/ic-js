@@ -122,10 +122,11 @@ export interface Governance {
   most_recent_monthly_node_provider_rewards:
     | []
     | [MostRecentMonthlyNodeProviderRewards];
+  maturity_modulation_last_updated_at_timestamp_seconds: [] | [bigint];
   wait_for_quiet_threshold_seconds: bigint;
   metrics: [] | [GovernanceCachedMetrics];
-  cached_daily_maturity_modulation: [] | [number];
   node_providers: Array<NodeProvider>;
+  cached_daily_maturity_modulation_basis_points: [] | [number];
   economics: [] | [NetworkEconomics];
   spawning_neurons: [] | [boolean];
   latest_reward_event: [] | [RewardEvent];
@@ -134,7 +135,6 @@ export interface Governance {
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
   neurons: Array<[bigint, Neuron]>;
-  last_updated_maturity_modulation_cache: [] | [bigint];
   genesis_timestamp_seconds: bigint;
 }
 export interface GovernanceCachedMetrics {

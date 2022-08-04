@@ -59,11 +59,15 @@ export interface SnsCanisterIds {
   governance: [] | [Principal];
 }
 export interface SnsInitPayload {
+  url: [] | [string];
   min_participant_icp_e8s: [] | [bigint];
   fallback_controller_principal_ids: Array<string>;
   token_symbol: [] | [string];
   max_icp_e8s: [] | [bigint];
   neuron_minimum_stake_e8s: [] | [bigint];
+  logo: [] | [string];
+  name: [] | [string];
+  description: [] | [string];
   min_participants: [] | [number];
   transaction_fee_e8s: [] | [bigint];
   initial_token_distribution: [] | [InitialTokenDistribution];
@@ -83,6 +87,7 @@ export interface SnsWasm {
   canister_type: number;
 }
 export interface SnsWasmCanisterInitPayload {
+  access_controls_enabled: boolean;
   sns_subnet_ids: Array<Principal>;
 }
 export interface SnsWasmError {
