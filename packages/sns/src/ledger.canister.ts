@@ -4,7 +4,7 @@ import { idlFactory } from "../candid/ledger.idl";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type {
-  TokenInfoResponse,
+  TokenMetadataResponse,
   TokenNameResponse,
   TokenSymbolResponse,
 } from "./types/governance.responses";
@@ -36,10 +36,10 @@ export class SnsLedgerCanister extends Canister<SnsLedgerService> {
     this.caller(params).symbol();
 
   /**
-   * The token info - name and symbol - at once.
+   * The token metadata - name and symbol - at once.
    * Note: this performs two queries, one for each information.
    */
-  tokenInfo = async (params: QueryParams): Promise<TokenInfoResponse> => {
+  metadata = async (params: QueryParams): Promise<TokenMetadataResponse> => {
     const [{ name }, { symbol }] = await Promise.all([
       this.getName(params),
       this.getSymbol(params),

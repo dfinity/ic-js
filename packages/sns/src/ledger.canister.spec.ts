@@ -3,7 +3,7 @@ import { mock } from "jest-mock-extended";
 import type { _SERVICE as SnsLedgerService } from "../candid/ledger";
 import { SnsLedgerCanister } from "./ledger.canister";
 import {
-  tokenInfoResponseMock,
+  tokeMetadataResponseMock,
   tokenNameResponseMock,
   tokenSymbolResponseMock,
 } from "./mocks/ledger.mock";
@@ -36,7 +36,7 @@ describe("Ledger canister", () => {
     expect(res).toEqual(tokenSymbolResponseMock);
   });
 
-  it("should return the token info", async () => {
+  it("should return the token metadata", async () => {
     const service = mock<ActorSubclass<SnsLedgerService>>();
     service.name.mockResolvedValue(tokenNameResponseMock);
     service.symbol.mockResolvedValue(tokenSymbolResponseMock);
@@ -46,7 +46,7 @@ describe("Ledger canister", () => {
       certifiedServiceOverride: service,
     });
 
-    const res = await canister.tokenInfo({});
-    expect(res).toEqual(tokenInfoResponseMock);
+    const res = await canister.metadata({});
+    expect(res).toEqual(tokeMetadataResponseMock);
   });
 });

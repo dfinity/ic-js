@@ -1,5 +1,5 @@
 import type {
-  TokenInfoResponse,
+  TokenMetadataResponse,
   TokenNameResponse,
   TokenSymbolResponse,
 } from "../types/governance.responses";
@@ -7,7 +7,7 @@ import type {
 export const tokenNameResponseMock: TokenNameResponse = { name: "Test" };
 export const tokenSymbolResponseMock: TokenSymbolResponse = { symbol: "TST" };
 
-export const tokenInfoResponseMock: TokenInfoResponse = {
+export const tokeMetadataResponseMock: TokenMetadataResponse = {
   ...tokenNameResponseMock,
   ...tokenSymbolResponseMock,
 };

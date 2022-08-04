@@ -4,7 +4,7 @@ import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsLedgerCanister } from "./ledger.canister";
 import { metadataMock, neuronsMock } from "./mocks/governance.mock";
-import { tokenInfoResponseMock } from "./mocks/ledger.mock";
+import { tokeMetadataResponseMock } from "./mocks/ledger.mock";
 import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
@@ -30,11 +30,11 @@ describe("SnsWrapper", () => {
     derived: [],
   });
   const mockLedgerCanister = mock<SnsLedgerCanister>();
-  mockLedgerCanister.tokenInfo.mockResolvedValue(tokenInfoResponseMock);
+  mockLedgerCanister.metadata.mockResolvedValue(tokeMetadataResponseMock);
 
   const mockCertifiedLedgerCanister = mock<SnsLedgerCanister>();
-  mockCertifiedLedgerCanister.tokenInfo.mockResolvedValue(
-    tokenInfoResponseMock
+  mockCertifiedLedgerCanister.metadata.mockResolvedValue(
+    tokeMetadataResponseMock
   );
 
   const snsWrapper: SnsWrapper = new SnsWrapper({
@@ -136,12 +136,12 @@ describe("SnsWrapper", () => {
   });
 
   it("should call token info with query or update", async () => {
-    await snsWrapper.tokenInfo({});
-    expect(mockLedgerCanister.tokenInfo).toHaveBeenCalledWith({
+    await snsWrapper.tokenMetadata({});
+    expect(mockLedgerCanister.metadata).toHaveBeenCalledWith({
       certified: false,
     });
-    await certifiedSnsWrapper.tokenInfo({});
-    expect(mockCertifiedLedgerCanister.tokenInfo).toHaveBeenCalledWith({
+    await certifiedSnsWrapper.tokenMetadata({});
+    expect(mockCertifiedLedgerCanister.metadata).toHaveBeenCalledWith({
       certified: true,
     });
   });
