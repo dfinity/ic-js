@@ -7,7 +7,7 @@ import type {
   SnsTokenMetadata,
   SnsTokenName,
   SnsTokenSymbol,
-} from "./types/governance.responses";
+} from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
 

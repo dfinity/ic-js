@@ -2,7 +2,7 @@ import type {
   SnsTokenMetadata,
   SnsTokenName,
   SnsTokenSymbol,
-} from "../types/governance.responses";
+} from "../types/ledger.responses";
 
 export const tokenNameResponseMock: SnsTokenName = { name: "Test" };
 export const tokenSymbolResponseMock: SnsTokenSymbol = { symbol: "TST" };
