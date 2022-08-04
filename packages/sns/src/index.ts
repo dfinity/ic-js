@@ -1,4 +1,5 @@
 export type {
+  GetMetadataResponse as SnsGetMetadataResponse,
   ManageNeuron as SnsManageNeuron,
   ManageNeuronResponse as SnsManageNeuronResponse,
   Neuron as SnsNeuron,
@@ -29,4 +30,5 @@ export type {
   SnsGetNeuronParams,
   SnsListNeuronsParams,
 } from "./types/governance.params";
+export * from "./types/ledger.responses";
 export type { QueryParams } from "./types/query.params";

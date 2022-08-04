@@ -73,6 +73,8 @@ export interface SetDappControllersResponse {
 }
 export interface SnsRootCanister {
   dapp_canister_ids: Array<Principal>;
+  latest_ledger_archive_poll_timestamp_seconds: [] | [bigint];
+  archive_canister_ids: Array<Principal>;
   governance_canister_id: [] | [Principal];
   swap_canister_id: [] | [Principal];
   ledger_canister_id: [] | [Principal];

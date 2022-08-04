@@ -3,7 +3,8 @@ import { mock } from "jest-mock-extended";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsLedgerCanister } from "./ledger.canister";
-import { neuronsMock } from "./mocks/governance.mock";
+import { metadataMock, neuronsMock } from "./mocks/governance.mock";
+import { tokeMetadataResponseMock } from "./mocks/ledger.mock";
 import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
@@ -11,11 +12,11 @@ import { SnsSwapCanister } from "./swap.canister";
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<SnsGovernanceCanister>();
   mockGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
-  mockGovernanceCanister.metadata.mockResolvedValue("");
+  mockGovernanceCanister.metadata.mockResolvedValue(metadataMock);
 
   const mockCertifiedGovernanceCanister = mock<SnsGovernanceCanister>();
   mockCertifiedGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
-  mockCertifiedGovernanceCanister.metadata.mockResolvedValue("");
+  mockCertifiedGovernanceCanister.metadata.mockResolvedValue(metadataMock);
 
   const mockSwapCanister = mock<SnsSwapCanister>();
   mockSwapCanister.state.mockResolvedValue({
@@ -28,10 +29,17 @@ describe("SnsWrapper", () => {
     swap: [],
     derived: [],
   });
+  const mockLedgerCanister = mock<SnsLedgerCanister>();
+  mockLedgerCanister.metadata.mockResolvedValue(tokeMetadataResponseMock);
+
+  const mockCertifiedLedgerCanister = mock<SnsLedgerCanister>();
+  mockCertifiedLedgerCanister.metadata.mockResolvedValue(
+    tokeMetadataResponseMock
+  );
 
   const snsWrapper: SnsWrapper = new SnsWrapper({
     root: {} as SnsRootCanister,
-    ledger: {} as SnsLedgerCanister,
+    ledger: mockLedgerCanister,
     governance: mockGovernanceCanister,
     swap: mockSwapCanister,
     certified: false,
@@ -39,7 +47,7 @@ describe("SnsWrapper", () => {
 
   const certifiedSnsWrapper: SnsWrapper = new SnsWrapper({
     root: {} as SnsRootCanister,
-    ledger: {} as SnsLedgerCanister,
+    ledger: mockCertifiedLedgerCanister,
     governance: mockCertifiedGovernanceCanister,
     swap: mockCertifiedSwapCanister,
     certified: true,
@@ -88,13 +96,21 @@ describe("SnsWrapper", () => {
     });
   });
 
-  it("should call metadata with query or update", async () => {
+  it("should collect metadata with query or update", async () => {
     await snsWrapper.metadata({});
+    await certifiedSnsWrapper.metadata({});
+
     expect(mockGovernanceCanister.metadata).toHaveBeenCalledWith({
       certified: false,
     });
-    await certifiedSnsWrapper.metadata({});
     expect(mockCertifiedGovernanceCanister.metadata).toHaveBeenCalledWith({
+      certified: true,
+    });
+
+    expect(mockLedgerCanister.metadata).toHaveBeenCalledWith({
+      certified: false,
+    });
+    expect(mockCertifiedLedgerCanister.metadata).toHaveBeenCalledWith({
       certified: true,
     });
   });

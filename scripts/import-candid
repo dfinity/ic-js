@@ -61,7 +61,7 @@ import_did "rs/nns/gtc/canister/gtc.did" "genesis_token.did" "nns"
 import_did "rs/nns/sns-wasm/canister/sns-wasm.did" "sns_wasm.did" "nns"
 
 mkdir -p packages/sns/candid
-import_did "rs/rosetta-api/ledger_canister/ledger.did" "ledger.did" "sns"
+import_did "rs/rosetta-api/icrc1/ledger/icrc1.did" "icrc1_ledger.did" "sns"
 import_did "rs/sns/swap/canister/swap.did" "sns_swap.did" "sns"
 import_did "rs/sns/root/canister/root.did" "sns_root.did" "sns"
 import_did "rs/sns/governance/canister/governance.did" "sns_governance.did" "sns"

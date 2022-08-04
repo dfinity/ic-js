@@ -1,6 +1,7 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns/candid/sns_wasm.did */
 export const idlFactory = ({ IDL }) => {
   const SnsWasmCanisterInitPayload = IDL.Record({
+    'access_controls_enabled' : IDL.Bool,
     'sns_subnet_ids' : IDL.Vec(IDL.Principal),
   });
   const SnsWasm = IDL.Record({
@@ -42,11 +43,15 @@ export const idlFactory = ({ IDL }) => {
     'FractionalDeveloperVotingPower' : FractionalDeveloperVotingPower,
   });
   const SnsInitPayload = IDL.Record({
+    'url' : IDL.Opt(IDL.Text),
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
     'token_symbol' : IDL.Opt(IDL.Text),
     'max_icp_e8s' : IDL.Opt(IDL.Nat64),
     'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
+    'logo' : IDL.Opt(IDL.Text),
+    'name' : IDL.Opt(IDL.Text),
+    'description' : IDL.Opt(IDL.Text),
     'min_participants' : IDL.Opt(IDL.Nat32),
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'initial_token_distribution' : IDL.Opt(InitialTokenDistribution),
@@ -111,6 +116,7 @@ export const idlFactory = ({ IDL }) => {
 };
 export const init = ({ IDL }) => {
   const SnsWasmCanisterInitPayload = IDL.Record({
+    'access_controls_enabled' : IDL.Bool,
     'sns_subnet_ids' : IDL.Vec(IDL.Principal),
   });
   return [SnsWasmCanisterInitPayload];

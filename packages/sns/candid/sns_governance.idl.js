@@ -60,6 +60,7 @@ export const idlFactory = ({ IDL }) => {
     'neuron_minimum_dissolve_delay_to_vote_seconds' : IDL.Opt(IDL.Nat64),
     'reject_cost_e8s' : IDL.Opt(IDL.Nat64),
     'max_proposals_to_keep_per_action' : IDL.Opt(IDL.Nat32),
+    'wait_for_quiet_deadline_increase_seconds' : IDL.Opt(IDL.Nat64),
     'max_number_of_neurons' : IDL.Opt(IDL.Nat64),
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'max_number_of_proposals_with_ballots' : IDL.Opt(IDL.Nat64),
@@ -205,6 +206,12 @@ export const idlFactory = ({ IDL }) => {
     'command' : IDL.Opt(Command_2),
     'timestamp' : IDL.Nat64,
   });
+  const GetMetadataResponse = IDL.Record({
+    'url' : IDL.Opt(IDL.Text),
+    'logo' : IDL.Opt(IDL.Text),
+    'name' : IDL.Opt(IDL.Text),
+    'description' : IDL.Opt(IDL.Text),
+  });
   const NeuronPermission = IDL.Record({
     'principal' : IDL.Opt(IDL.Principal),
     'permission_type' : IDL.Vec(IDL.Int32),
@@ -233,9 +240,11 @@ export const idlFactory = ({ IDL }) => {
     'mode' : IDL.Int32,
     'parameters' : IDL.Opt(NervousSystemParameters),
     'latest_reward_event' : IDL.Opt(RewardEvent),
+    'swap_canister_id' : IDL.Opt(IDL.Principal),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Text, NeuronInFlightCommand)),
+    'sns_metadata' : IDL.Opt(GetMetadataResponse),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Text, Neuron)),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });
@@ -339,6 +348,11 @@ export const idlFactory = ({ IDL }) => {
   const SetMode = IDL.Record({ 'mode' : IDL.Int32 });
   return IDL.Service({
     'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
+    'get_metadata' : IDL.Func(
+        [IDL.Record({})],
+        [GetMetadataResponse],
+        ['query'],
+      ),
     'get_nervous_system_parameters' : IDL.Func(
         [IDL.Null],
         [NervousSystemParameters],
@@ -427,6 +441,7 @@ export const init = ({ IDL }) => {
     'neuron_minimum_dissolve_delay_to_vote_seconds' : IDL.Opt(IDL.Nat64),
     'reject_cost_e8s' : IDL.Opt(IDL.Nat64),
     'max_proposals_to_keep_per_action' : IDL.Opt(IDL.Nat32),
+    'wait_for_quiet_deadline_increase_seconds' : IDL.Opt(IDL.Nat64),
     'max_number_of_neurons' : IDL.Opt(IDL.Nat64),
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'max_number_of_proposals_with_ballots' : IDL.Opt(IDL.Nat64),
@@ -572,6 +587,12 @@ export const init = ({ IDL }) => {
     'command' : IDL.Opt(Command_2),
     'timestamp' : IDL.Nat64,
   });
+  const GetMetadataResponse = IDL.Record({
+    'url' : IDL.Opt(IDL.Text),
+    'logo' : IDL.Opt(IDL.Text),
+    'name' : IDL.Opt(IDL.Text),
+    'description' : IDL.Opt(IDL.Text),
+  });
   const NeuronPermission = IDL.Record({
     'principal' : IDL.Opt(IDL.Principal),
     'permission_type' : IDL.Vec(IDL.Int32),
@@ -600,9 +621,11 @@ export const init = ({ IDL }) => {
     'mode' : IDL.Int32,
     'parameters' : IDL.Opt(NervousSystemParameters),
     'latest_reward_event' : IDL.Opt(RewardEvent),
+    'swap_canister_id' : IDL.Opt(IDL.Principal),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Text, NeuronInFlightCommand)),
+    'sns_metadata' : IDL.Opt(GetMetadataResponse),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Text, Neuron)),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });

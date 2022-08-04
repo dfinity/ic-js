@@ -64,6 +64,7 @@ export interface GetStateResponse {
   derived: [] | [DerivedState];
 }
 export interface Init {
+  sns_root_canister_id: string;
   min_participant_icp_e8s: bigint;
   fallback_controller_principal_ids: Array<string>;
   max_icp_e8s: bigint;

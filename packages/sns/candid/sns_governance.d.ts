@@ -138,6 +138,12 @@ export interface GenericNervousSystemFunction {
   validator_method_name: [] | [string];
   target_method_name: [] | [string];
 }
+export interface GetMetadataResponse {
+  url: [] | [string];
+  logo: [] | [string];
+  name: [] | [string];
+  description: [] | [string];
+}
 export interface GetNeuron {
   neuron_id: [] | [NeuronId];
 }
@@ -157,9 +163,11 @@ export interface Governance {
   mode: number;
   parameters: [] | [NervousSystemParameters];
   latest_reward_event: [] | [RewardEvent];
+  swap_canister_id: [] | [Principal];
   ledger_canister_id: [] | [Principal];
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[string, NeuronInFlightCommand]>;
+  sns_metadata: [] | [GetMetadataResponse];
   neurons: Array<[string, Neuron]>;
   genesis_timestamp_seconds: bigint;
 }
@@ -247,6 +255,7 @@ export interface NervousSystemParameters {
   neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
   reject_cost_e8s: [] | [bigint];
   max_proposals_to_keep_per_action: [] | [number];
+  wait_for_quiet_deadline_increase_seconds: [] | [bigint];
   max_number_of_neurons: [] | [bigint];
   transaction_fee_e8s: [] | [bigint];
   max_number_of_proposals_with_ballots: [] | [bigint];
@@ -357,6 +366,7 @@ export interface WaitForQuietState {
 }
 export interface _SERVICE {
   get_build_metadata: () => Promise<string>;
+  get_metadata: (arg_0: {}) => Promise<GetMetadataResponse>;
   get_nervous_system_parameters: (
     arg_0: null
   ) => Promise<NervousSystemParameters>;

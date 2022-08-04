@@ -1,4 +1,4 @@
-// Generated from IC repo commit d06567deb84dddcfb495be96ed9c318d2d3e8ce1 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit 518271451cf8901c77c986e007e2c4762d1fc948 'rs/sns/root/canister/root.did' by import-candid
 type CanisterCallError = record { code : opt int32; description : text };
 type CanisterIdRecord = record { canister_id : principal };
 type CanisterStatusResult = record {
@@ -58,6 +58,8 @@ type SetDappControllersRequest = record {
 type SetDappControllersResponse = record { failed_updates : vec FailedUpdate };
 type SnsRootCanister = record {
   dapp_canister_ids : vec principal;
+  latest_ledger_archive_poll_timestamp_seconds : opt nat64;
+  archive_canister_ids : vec principal;
   governance_canister_id : opt principal;
   swap_canister_id : opt principal;
   ledger_canister_id : opt principal;

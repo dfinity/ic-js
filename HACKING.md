@@ -42,7 +42,7 @@ The `did` files, related `.js` and `.d.ts` are generated automatically.
 1. [import-candid](./scripts/import-candid) generates the `.did` files
 2. [compile-idl-js](./scripts/compile-idl-js) extract and write the related `.js` and `.d.ts`
 
-The files of the [candid](./candid) folders are shared across packages. Their architectur is the following:
+The files of the [candid](./candid) folders are shared across packages. Their architecture is the following:
 
 - `something.did`: the candid definition
 - `something.d.ts`: the typescript definition for the types and service of the did files (1)
