@@ -3,7 +3,8 @@ import { mock } from "jest-mock-extended";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsLedgerCanister } from "./ledger.canister";
-import {metadataMock, neuronsMock} from "./mocks/governance.mock";
+import { metadataMock, neuronsMock } from "./mocks/governance.mock";
+import { tokenInfoResponseMock } from "./mocks/ledger.mock";
 import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
@@ -28,10 +29,17 @@ describe("SnsWrapper", () => {
     swap: [],
     derived: [],
   });
+  const mockLedgerCanister = mock<SnsLedgerCanister>();
+  mockLedgerCanister.tokenInfo.mockResolvedValue(tokenInfoResponseMock);
+
+  const mockCertifiedLedgerCanister = mock<SnsLedgerCanister>();
+  mockCertifiedLedgerCanister.tokenInfo.mockResolvedValue(
+    tokenInfoResponseMock
+  );
 
   const snsWrapper: SnsWrapper = new SnsWrapper({
     root: {} as SnsRootCanister,
-    ledger: {} as SnsLedgerCanister,
+    ledger: mockLedgerCanister,
     governance: mockGovernanceCanister,
     swap: mockSwapCanister,
     certified: false,
@@ -39,7 +47,7 @@ describe("SnsWrapper", () => {
 
   const certifiedSnsWrapper: SnsWrapper = new SnsWrapper({
     root: {} as SnsRootCanister,
-    ledger: {} as SnsLedgerCanister,
+    ledger: mockCertifiedLedgerCanister,
     governance: mockCertifiedGovernanceCanister,
     swap: mockCertifiedSwapCanister,
     certified: true,
@@ -125,5 +133,16 @@ describe("SnsWrapper", () => {
       principal_id: [Principal.fromText("aaaaa-aa")],
     });
     expect(mockCertifiedSwapCanister.getUserCommitment).toBeCalled();
+  });
+
+  it("should call token info with query or update", async () => {
+    await snsWrapper.tokenInfo({});
+    expect(mockLedgerCanister.tokenInfo).toHaveBeenCalledWith({
+      certified: false,
+    });
+    await certifiedSnsWrapper.tokenInfo({});
+    expect(mockCertifiedLedgerCanister.tokenInfo).toHaveBeenCalledWith({
+      certified: true,
+    });
   });
 });

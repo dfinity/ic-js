@@ -30,4 +30,5 @@ export type {
   SnsGetNeuronParams,
   SnsListNeuronsParams,
 } from "./types/governance.params";
+export * from "./types/governance.responses";
 export type { QueryParams } from "./types/query.params";
