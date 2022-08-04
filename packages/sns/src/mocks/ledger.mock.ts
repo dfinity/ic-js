@@ -1,10 +1,10 @@
 import type { Value } from "../../candid/icrc1_ledger";
-import { SnsMetadataEntries } from "../types/ledger.responses";
+import { SnsMetadataResponseEntries } from "../types/ledger.responses";
 
-export const tokeMetadataResponseMock: [string | SnsMetadataEntries, Value][] =
+export const tokeMetadataResponseMock: [string | SnsMetadataResponseEntries, Value][] =
   [
-    [SnsMetadataEntries.DECIMALS, { Nat: BigInt(8) }],
-    [SnsMetadataEntries.NAME, { Text: "Beta Test" }],
-    [SnsMetadataEntries.SYMBOL, { Text: "BTA" }],
-    [SnsMetadataEntries.FEE, { Nat: BigInt(1000) }],
+    [SnsMetadataResponseEntries.DECIMALS, { Nat: BigInt(8) }],
+    [SnsMetadataResponseEntries.NAME, { Text: "Beta Test" }],
+    [SnsMetadataResponseEntries.SYMBOL, { Text: "BTA" }],
+    [SnsMetadataResponseEntries.FEE, { Nat: BigInt(1000) }],
   ];

@@ -15,7 +15,7 @@ import type {
   SnsGetNeuronParams,
   SnsListNeuronsParams,
 } from "./types/governance.params";
-import { SnsTokenMetadata } from "./types/ledger.responses";
+import { SnsTokenMetadataResponse } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 
 interface SnsWrapperOptions {
@@ -84,7 +84,7 @@ export class SnsWrapper {
 
   metadata = (
     params: Omit<QueryParams, "certified">
-  ): Promise<[GetMetadataResponse, SnsTokenMetadata]> =>
+  ): Promise<[GetMetadataResponse, SnsTokenMetadataResponse]> =>
     Promise.all([
       this.governance.metadata(this.mergeParams(params)),
       this.ledger.metadata(this.mergeParams(params)),
