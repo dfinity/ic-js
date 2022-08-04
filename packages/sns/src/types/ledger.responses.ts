@@ -8,4 +8,7 @@ export enum SnsMetadataResponseEntries {
   FEE = "icrc1:fee",
 }
 
-export type SnsTokenMetadataResponse = [string | SnsMetadataResponseEntries, Value][];
+export type SnsTokenMetadataResponse = [
+  string | SnsMetadataResponseEntries,
+  Value
+][];
