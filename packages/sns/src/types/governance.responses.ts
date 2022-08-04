@@ -1,3 +1,3 @@
-export type SnsTokenNameResponse = { name: string };
-export type SnsTokenSymbolResponse = { symbol: string };
-export type SnsTokenMetadataResponse = SnsTokenNameResponse & SnsTokenSymbolResponse;
+export type SnsTokenName = { name: string };
+export type SnsTokenSymbol = { symbol: string };
+export type SnsTokenMetadata = SnsTokenName & SnsTokenSymbol;
