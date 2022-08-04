@@ -9,7 +9,7 @@ import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import { SnsGovernanceCanister } from "./governance.canister";
-import { neuronIdMock, neuronMock, neuronsMock } from "./mocks/governance.mock";
+import {metadataMock, neuronIdMock, neuronMock, neuronsMock} from "./mocks/governance.mock";
 import { rootCanisterIdMock } from "./mocks/sns.mock";
 
 describe("Governance canister", () => {
@@ -158,4 +158,19 @@ describe("Governance canister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
   });
+
+  describe("metadata", () => {
+    it("should return the metadata of the sns", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.get_metadata.mockResolvedValue(metadataMock);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.metadata({});
+      expect(res).toEqual(metadataMock);
+    });
+  })
 });

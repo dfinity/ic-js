@@ -1,5 +1,6 @@
 import type { Principal } from "@dfinity/principal";
 import type {
+  GetMetadataResponse,
   ManageNeuron,
   ManageNeuronResponse,
   Neuron,
@@ -47,10 +48,11 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     return neurons;
   };
 
-  // TODO: replace with effective implementation and types to get the list of metadata once implemented in backend
-  metadata = async (params: QueryParams): Promise<string> => {
-    return this.caller(params).get_build_metadata();
-  };
+  /**
+   * Get the Sns metadata (title, description, etc.)
+   */
+  metadata = (params: QueryParams): Promise<GetMetadataResponse> =>
+    this.caller(params).get_metadata({});
 
   /**
    * Get the neuron of the Sns
@@ -109,6 +111,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   private assertManageNeuronError = ({
     command,
   }: ManageNeuronResponse): void => {
+    // TODO: use upcoming fromDefinedNullable
     const firstCommand = command[0];
     if (firstCommand !== undefined && "Error" in firstCommand) {
       throw new SnsGovernanceError(firstCommand.Error.error_message);

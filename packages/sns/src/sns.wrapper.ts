@@ -1,5 +1,5 @@
 import type { Principal } from "@dfinity/principal";
-import type { Neuron } from "../candid/sns_governance";
+import type { GetMetadataResponse, Neuron } from "../candid/sns_governance";
 import type {
   BuyerState,
   GetBuyerStateRequest,
@@ -81,7 +81,9 @@ export class SnsWrapper {
     params: Omit<SnsListNeuronsParams, "certified">
   ): Promise<Neuron[]> => this.governance.listNeurons(this.mergeParams(params));
 
-  metadata = (params: Omit<QueryParams, "certified">): Promise<string> =>
+  metadata = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<GetMetadataResponse> =>
     this.governance.metadata(this.mergeParams(params));
 
   getNeuron = (

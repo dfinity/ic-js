@@ -3,7 +3,7 @@ import { mock } from "jest-mock-extended";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsLedgerCanister } from "./ledger.canister";
-import { neuronsMock } from "./mocks/governance.mock";
+import {metadataMock, neuronsMock} from "./mocks/governance.mock";
 import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
@@ -11,11 +11,11 @@ import { SnsSwapCanister } from "./swap.canister";
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<SnsGovernanceCanister>();
   mockGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
-  mockGovernanceCanister.metadata.mockResolvedValue("");
+  mockGovernanceCanister.metadata.mockResolvedValue(metadataMock);
 
   const mockCertifiedGovernanceCanister = mock<SnsGovernanceCanister>();
   mockCertifiedGovernanceCanister.listNeurons.mockResolvedValue(neuronsMock);
-  mockCertifiedGovernanceCanister.metadata.mockResolvedValue("");
+  mockCertifiedGovernanceCanister.metadata.mockResolvedValue(metadataMock);
 
   const mockSwapCanister = mock<SnsSwapCanister>();
   mockSwapCanister.state.mockResolvedValue({

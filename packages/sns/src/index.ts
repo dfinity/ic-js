@@ -1,4 +1,5 @@
 export type {
+  GetMetadataResponse as SnsGetMetadataResponse,
   ManageNeuron as SnsManageNeuron,
   ManageNeuronResponse as SnsManageNeuronResponse,
   Neuron as SnsNeuron,
