@@ -96,13 +96,21 @@ describe("SnsWrapper", () => {
     });
   });
 
-  it("should call metadata with query or update", async () => {
+  it("should collect metadata with query or update", async () => {
     await snsWrapper.metadata({});
+    await certifiedSnsWrapper.metadata({});
+
     expect(mockGovernanceCanister.metadata).toHaveBeenCalledWith({
       certified: false,
     });
-    await certifiedSnsWrapper.metadata({});
     expect(mockCertifiedGovernanceCanister.metadata).toHaveBeenCalledWith({
+      certified: true,
+    });
+
+    expect(mockLedgerCanister.metadata).toHaveBeenCalledWith({
+      certified: false,
+    });
+    expect(mockCertifiedLedgerCanister.metadata).toHaveBeenCalledWith({
       certified: true,
     });
   });
@@ -133,16 +141,5 @@ describe("SnsWrapper", () => {
       principal_id: [Principal.fromText("aaaaa-aa")],
     });
     expect(mockCertifiedSwapCanister.getUserCommitment).toBeCalled();
-  });
-
-  it("should call token info with query or update", async () => {
-    await snsWrapper.tokenMetadata({});
-    expect(mockLedgerCanister.metadata).toHaveBeenCalledWith({
-      certified: false,
-    });
-    await certifiedSnsWrapper.tokenMetadata({});
-    expect(mockCertifiedLedgerCanister.metadata).toHaveBeenCalledWith({
-      certified: true,
-    });
   });
 });

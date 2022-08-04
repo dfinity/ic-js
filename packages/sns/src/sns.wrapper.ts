@@ -84,13 +84,11 @@ export class SnsWrapper {
 
   metadata = (
     params: Omit<QueryParams, "certified">
-  ): Promise<GetMetadataResponse> =>
-    this.governance.metadata(this.mergeParams(params));
-
-  tokenMetadata = (
-    params: Omit<QueryParams, "certified">
-  ): Promise<TokenMetadataResponse> =>
-    this.ledger.metadata(this.mergeParams(params));
+  ): Promise<[GetMetadataResponse, TokenMetadataResponse]> =>
+    Promise.all([
+      this.governance.metadata(this.mergeParams(params)),
+      this.ledger.metadata(this.mergeParams(params)),
+    ]);
 
   getNeuron = (
     params: Omit<SnsGetNeuronParams, "certified">
