@@ -1,13 +1,13 @@
 import type {
-  TokenMetadataResponse,
-  TokenNameResponse,
-  TokenSymbolResponse,
+  SnsTokenMetadataResponse,
+  SnsTokenNameResponse,
+  SnsTokenSymbolResponse,
 } from "../types/governance.responses";
 
-export const tokenNameResponseMock: TokenNameResponse = { name: "Test" };
-export const tokenSymbolResponseMock: TokenSymbolResponse = { symbol: "TST" };
+export const tokenNameResponseMock: SnsTokenNameResponse = { name: "Test" };
+export const tokenSymbolResponseMock: SnsTokenSymbolResponse = { symbol: "TST" };
 
-export const tokeMetadataResponseMock: TokenMetadataResponse = {
+export const tokeMetadataResponseMock: SnsTokenMetadataResponse = {
   ...tokenNameResponseMock,
   ...tokenSymbolResponseMock,
 };
