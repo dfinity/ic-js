@@ -1,13 +1,9 @@
-import type { _SERVICE as SnsLedgerService } from "../candid/ledger";
-import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
-import { idlFactory } from "../candid/ledger.idl";
+import type { _SERVICE as SnsLedgerService } from "../candid/icrc1_ledger";
+import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
+import { idlFactory } from "../candid/icrc1_ledger.idl";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
-import type {
-  SnsTokenMetadata,
-  SnsTokenName,
-  SnsTokenSymbol,
-} from "./types/ledger.responses";
+import { SnsTokenMetadata } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 import { createServices } from "./utils/actor.utils";
 
@@ -24,26 +20,8 @@ export class SnsLedgerCanister extends Canister<SnsLedgerService> {
   }
 
   /**
-   * The token name.
+   * The token metadata (name, symbol, etc.).
    */
-  getName = (params: QueryParams): Promise<SnsTokenName> =>
-    this.caller(params).name();
-
-  /**
-   * The token symbol.
-   */
-  getSymbol = (params: QueryParams): Promise<SnsTokenSymbol> =>
-    this.caller(params).symbol();
-
-  /**
-   * The token metadata - name and symbol - at once.
-   * Note: this performs two queries, one for each information.
-   */
-  metadata = async (params: QueryParams): Promise<SnsTokenMetadata> => {
-    const [{ name }, { symbol }] = await Promise.all([
-      this.getName(params),
-      this.getSymbol(params),
-    ]);
-    return { name, symbol };
-  };
+  metadata = (params: QueryParams): Promise<SnsTokenMetadata> =>
+    this.caller(params).icrc1_metadata();
 }

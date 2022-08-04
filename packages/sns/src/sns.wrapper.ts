@@ -15,7 +15,7 @@ import type {
   SnsGetNeuronParams,
   SnsListNeuronsParams,
 } from "./types/governance.params";
-import type { SnsTokenMetadata } from "./types/ledger.responses";
+import { SnsTokenMetadata } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 
 interface SnsWrapperOptions {
