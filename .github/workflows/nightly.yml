@@ -15,6 +15,10 @@ jobs:
         run: ./scripts/build-nightly
       - name: Set up npm
         run: printf '%s\n' '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}' registry=https://registry.npmjs.org/ always-auth=true >> .npmrc
+      - name: Publish utils
+        run: npm publish --tag nightly --workspace=packages/utils
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish NNS
         run: npm publish --tag nightly --workspace=packages/nns
         env:
