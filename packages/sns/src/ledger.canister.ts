@@ -5,7 +5,7 @@ import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { SnsTokenMetadataResponse } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
-import { createServices } from "./utils/actor.utils";
+import { createServices } from "@dfinity/utils";
 
 export class SnsLedgerCanister extends Canister<SnsLedgerService> {
   static create(options: SnsCanisterOptions<SnsLedgerService>) {

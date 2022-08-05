@@ -11,7 +11,7 @@ import { idlFactory } from "../candid/sns_swap.idl";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
-import { createServices } from "./utils/actor.utils";
+import { createServices } from "@dfinity/utils";
 
 export class SnsSwapCanister extends Canister<SnsSwapService> {
   static create(options: SnsCanisterOptions<SnsSwapService>) {

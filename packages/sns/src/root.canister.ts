@@ -6,7 +6,7 @@ import { idlFactory as certifiedIdlFactory } from "../candid/sns_root.certified.
 import { idlFactory } from "../candid/sns_root.idl";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
-import { createServices } from "./utils/actor.utils";
+import { createServices } from "@dfinity/utils";
 
 export class SnsRootCanister extends Canister<SnsRootService> {
   static create(options: SnsCanisterOptions<SnsRootService>) {
