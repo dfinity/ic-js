@@ -1,8 +1,8 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
 import { Actor } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
+import { defaultAgent } from "@dfinity/utils";
 import type { CanisterOptions } from "../types/canister.options";
-import { defaultAgent } from "./agent.utils";
 
 type RequiredCanisterOptions<T> = Required<
   Pick<CanisterOptions<T>, "canisterId">
