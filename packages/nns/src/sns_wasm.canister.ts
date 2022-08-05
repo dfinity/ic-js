@@ -1,4 +1,4 @@
-import {type CanisterOptions, createServices} from "@dfinity/utils";
+import { createServices, type CanisterOptions } from "@dfinity/utils";
 import type {
   DeployedSns,
   _SERVICE as SnsWasmService,

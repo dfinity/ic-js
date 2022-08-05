@@ -1,5 +1,5 @@
 import type { ActorSubclass } from "@dfinity/agent";
-import {type CanisterOptions, createServices} from "@dfinity/utils";
+import { createServices, type CanisterOptions } from "@dfinity/utils";
 import type { _SERVICE as GenesisTokenService } from "../candid/genesis_token";
 import { idlFactory as certifiedIdlFactory } from "../candid/genesis_token.certified.idl";
 import { idlFactory } from "../candid/genesis_token.idl";
