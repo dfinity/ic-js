@@ -1,5 +1,5 @@
 import type { Principal } from "@dfinity/principal";
-import { fromNullable, toNullable } from "@dfinity/utils";
+import { createServices, fromNullable, toNullable } from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ManageNeuron,
@@ -20,7 +20,6 @@ import type {
   SnsListNeuronsParams,
 } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
-import { createServices } from "./utils/actor.utils";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   static create(options: SnsCanisterOptions<SnsGovernanceService>) {
