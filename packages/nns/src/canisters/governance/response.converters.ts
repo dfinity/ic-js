@@ -1,4 +1,5 @@
 import { Principal } from "@dfinity/principal";
+import { fromNullable } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
 import type {
   AccountIdentifier as RawAccountIdentifier,
@@ -66,7 +67,6 @@ import {
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
 import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
-import { fromNullable } from "../../utils/did.utils";
 
 const toNeuronInfo = ({
   neuronId,

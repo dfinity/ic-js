@@ -13,8 +13,8 @@
 
 ### Features
 
-- more Sns related features: `notifyParticipation` and `getUserCommitment`
-- sns: new method `getNeuron` to get neuron data by neuron id.
+- new library `@dfinity/utils`
+- more Sns related features: `notifyParticipation`, `getUserCommitment`, `getNeuron` and ledger and governance `metadata`
 
 # 0.6.0 (2022-07-20)
 

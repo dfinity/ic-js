@@ -25,7 +25,7 @@ export interface SnsGetNeuronParams extends QueryParams {
 /**
  * Parametes to add permissions to a neuron
  */
-export interface SnsAddNeuronPermissions {
+export interface SnsNeuronPermissionsParams {
   principal: Principal;
   neuronId: NeuronId;
   permissions: SnsNeuronPermissionType[];

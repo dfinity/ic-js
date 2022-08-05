@@ -1,4 +1,5 @@
 import type { Principal } from "@dfinity/principal";
+import { createServices, fromNullable, toNullable } from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ManageNeuron,
@@ -10,17 +11,19 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
+import {
+  toAddPermissionsRequest,
+  toRemovePermissionsRequest,
+} from "./converters/governance.converters";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type {
-  SnsAddNeuronPermissions,
   SnsGetNeuronParams,
   SnsListNeuronsParams,
+  SnsNeuronPermissionsParams,
 } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
-import { createServices } from "./utils/actor.utils";
-import { fromNullable, toNullable } from "./utils/did.utils";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   static create(options: SnsCanisterOptions<SnsGovernanceService>) {
@@ -77,30 +80,34 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Manage neuron. For advanced users.
    */
-  manageNeuron = async (request: ManageNeuron): Promise<ManageNeuronResponse> =>
-    this.caller({ certified: true }).manage_neuron(request);
+  manageNeuron = async (
+    request: ManageNeuron
+  ): Promise<ManageNeuronResponse> => {
+    const response = await this.caller({ certified: true }).manage_neuron(
+      request
+    );
+    this.assertManageNeuronError(response);
+    return response;
+  };
 
   /**
-   * Set permissions of a neuron for a specific principal
+   * Add permissions to a neuron for a specific principal
    */
-  addNeuronPermissions = async ({
-    neuronId,
-    permissions,
-    principal,
-  }: SnsAddNeuronPermissions): Promise<void> => {
-    const request: ManageNeuron = {
-      subaccount: neuronId.id,
-      command: [
-        {
-          AddNeuronPermissions: {
-            permissions_to_add: [{ permissions }],
-            principal_id: [principal],
-          },
-        },
-      ],
-    };
-    const response = await this.manageNeuron(request);
-    this.assertManageNeuronError(response);
+  addNeuronPermissions = async (
+    params: SnsNeuronPermissionsParams
+  ): Promise<void> => {
+    const request: ManageNeuron = toAddPermissionsRequest(params);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Remove permissions to a neuron for a specific principal
+   */
+  removeNeuronPermissions = async (
+    params: SnsNeuronPermissionsParams
+  ): Promise<void> => {
+    const request: ManageNeuron = toRemovePermissionsRequest(params);
+    await this.manageNeuron(request);
   };
 
   /**

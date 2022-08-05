@@ -1,5 +1,6 @@
 import type { Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+import { assertNonNullish, fromNullable } from "@dfinity/utils";
 import type {
   ListSnsCanistersResponse,
   _SERVICE as SnsRootService,
@@ -11,8 +12,6 @@ import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
-import { assertNonNullish } from "./utils/asserts.utils";
-import { fromNullable } from "./utils/did.utils";
 
 /**
  * Options to discover and initialize all canisters of a Sns.

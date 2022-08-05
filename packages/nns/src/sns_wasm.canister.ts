@@ -1,3 +1,4 @@
+import { createServices, type CanisterOptions } from "@dfinity/utils";
 import type {
   DeployedSns,
   _SERVICE as SnsWasmService,
@@ -5,8 +6,6 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_wasm.certified.idl";
 import { idlFactory } from "../candid/sns_wasm.idl";
 import { MAINNET_SNS_WASM_CANISTER_ID } from "./constants/canister_ids";
-import type { CanisterOptions } from "./types/canister.options";
-import { createServices } from "./utils/actor.utils";
 
 export class SnsWasmCanister {
   private constructor(
