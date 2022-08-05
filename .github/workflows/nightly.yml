@@ -23,3 +23,7 @@ jobs:
         run: npm publish --tag nightly --workspace=packages/sns
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish utils
+        run: npm publish --tag nightly --workspace=packages/utils
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
