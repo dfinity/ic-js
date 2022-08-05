@@ -135,6 +135,56 @@ describe("Governance canister", () => {
     });
   });
 
+  describe("removeNeuronPermissions", () => {
+    it("should manage the neuron", async () => {
+      const neuronId = {
+        id: [1, 2, 3],
+      };
+      const principal = Principal.fromText("aaaaa-aa");
+      const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ AddNeuronPermission: {} }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      await canister.removeNeuronPermissions({
+        neuronId: neuronIdMock,
+        permissions,
+        principal,
+      });
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("should raise error", async () => {
+      const neuronId = {
+        id: [1, 2, 3],
+      };
+      const principal = Principal.fromText("aaaaa-aa");
+      const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Error: { error_message: "test", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        canister.removeNeuronPermissions({
+          neuronId: neuronIdMock,
+          permissions,
+          principal,
+        });
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
   describe("manageNeuron", () => {
     it("should manage the neuron", async () => {
       const principal = Principal.fromText("aaaaa-aa");
@@ -160,6 +210,34 @@ describe("Governance canister", () => {
         certifiedServiceOverride: service,
       });
       await canister.manageNeuron(request);
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("should raise an error", async () => {
+      const principal = Principal.fromText("aaaaa-aa");
+      const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
+      const request: ManageNeuron = {
+        subaccount: [1, 2, 3],
+        command: [
+          {
+            AddNeuronPermissions: {
+              permissions_to_add: [{ permissions }],
+              principal_id: [principal],
+            },
+          },
+        ],
+      };
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Error: { error_message: "test", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.manageNeuron(request);
+      expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
