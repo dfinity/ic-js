@@ -2,8 +2,8 @@ import type { ActorSubclass, Agent } from "@dfinity/agent";
 import { Actor } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
+import { defaultAgent } from "@dfinity/utils";
 import type { SnsCanisterOptions } from "../types/canister.options";
-import { defaultAgent } from "./agent.utils";
 
 // Note: almost same as nns actor.utils - could be extracted to a utility
 

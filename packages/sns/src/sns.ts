@@ -11,8 +11,7 @@ import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { QueryParams } from "./types/query.params";
-import { assertNonNullish } from "./utils/asserts.utils";
-import { fromNullable } from "./utils/did.utils";
+import { fromNullable, assertNonNullish } from "@dfinity/utils";
 
 /**
  * Options to discover and initialize all canisters of a Sns.

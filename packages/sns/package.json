@@ -18,7 +18,6 @@
     "prepack": "npm run build",
     "test": "jest"
   },
-  "dependencies": {},
   "devDependencies": {},
   "repository": {
     "type": "git",
@@ -36,5 +35,8 @@
     "service nervous system",
     "service-nervous-system",
     "sns"
-  ]
+  ],
+  "peerDependencies": {
+    "@dfinity/utils": "^0.0.1"
+  }
 }
