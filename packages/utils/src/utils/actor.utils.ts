@@ -1,6 +1,7 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
 import { Actor } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
+import type { Principal } from "@dfinity/principal";
 import type { CanisterOptions } from "../types/canister.options";
 import { defaultAgent } from "./agent.utils";
 
@@ -26,6 +27,7 @@ export const createServices = <T>({
   service: ActorSubclass<T>;
   certifiedService: ActorSubclass<T>;
   agent: Agent;
+  canisterId: Principal;
 } => {
   const agent: Agent = agentOption ?? defaultAgent();
 
@@ -43,5 +45,5 @@ export const createServices = <T>({
       canisterId,
     });
 
-  return { service, certifiedService, agent };
+  return { service, certifiedService, agent, canisterId };
 };

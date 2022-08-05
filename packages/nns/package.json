@@ -53,5 +53,8 @@
     "nns",
     "network nervous system",
     "network-nervous-system"
-  ]
+  ],
+  "peerDependencies": {
+    "@dfinity/utils": "^0.0.1"
+  }
 }

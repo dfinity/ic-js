@@ -1,5 +1,6 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+import { createServices } from "@dfinity/utils";
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
 import type {
@@ -89,7 +90,6 @@ import type {
   Vote,
 } from "./types/governance_converters";
 import { checkAccountId } from "./utils/accounts.utils";
-import { createServices } from "./utils/actor.utils";
 import {
   asciiStringToByteArray,
   uint8ArrayToBigInt,

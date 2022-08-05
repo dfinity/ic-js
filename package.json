@@ -4,7 +4,9 @@
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
   "workspaces": [
-    "packages/*"
+    "packages/utils",
+    "packages/nns",
+    "packages/sns"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",

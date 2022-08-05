@@ -1,5 +1,6 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+import { createServices } from "@dfinity/utils";
 import type { _SERVICE as LedgerService } from "../candid/ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
 import { idlFactory } from "../candid/ledger.idl";
@@ -30,7 +31,6 @@ import type {
   LedgerCanisterOptions,
 } from "./types/ledger.options";
 import type { TransferRequest } from "./types/ledger_converters";
-import { createServices } from "./utils/actor.utils";
 import { queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
