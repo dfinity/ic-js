@@ -66,7 +66,7 @@ import {
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
 import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
-import { fromNullable } from "../../utils/did.utils";
+import { fromNullable } from "@dfinity/utils";
 
 const toNeuronInfo = ({
   neuronId,
