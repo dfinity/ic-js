@@ -96,6 +96,26 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call removeNeuronPermissions with query or update", async () => {
+    const neuronId = {
+      id: [1, 2, 3],
+    };
+    const principal = Principal.fromText("aaaaa-aa");
+    const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
+    await snsWrapper.removeNeuronPermissions({
+      permissions,
+      neuronId,
+      principal,
+    });
+    expect(mockGovernanceCanister.removeNeuronPermissions).toHaveBeenCalledWith(
+      {
+        neuronId,
+        permissions,
+        principal,
+      }
+    );
+  });
+
   it("should collect metadata with query or update", async () => {
     await snsWrapper.metadata({});
     await certifiedSnsWrapper.metadata({});
