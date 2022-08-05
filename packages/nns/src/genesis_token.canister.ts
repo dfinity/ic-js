@@ -1,11 +1,10 @@
 import type { ActorSubclass } from "@dfinity/agent";
+import {type CanisterOptions, createServices} from "@dfinity/utils";
 import type { _SERVICE as GenesisTokenService } from "../candid/genesis_token";
 import { idlFactory as certifiedIdlFactory } from "../candid/genesis_token.certified.idl";
 import { idlFactory } from "../candid/genesis_token.idl";
 import { MAINNET_GENESIS_TOKEN_CANISTER_ID } from "./constants/canister_ids";
-import type { CanisterOptions } from "./types/canister.options";
 import type { NeuronId } from "./types/common";
-import { createServices } from "./utils/actor.utils";
 
 export class GenesisTokenCanister {
   private constructor(
