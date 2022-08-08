@@ -20,9 +20,7 @@ const nextVersion = async ({ project, currentVersion }) => {
   }
 
   // There was some wip versions already published so, we increment the version number
-  const count = Object.keys(versions).filter((v) =>
-    v.includes(version)
-  ).length;
+  const count = Object.keys(versions).filter((v) => v.includes(version)).length;
   return `${version}.${count}`;
 };
 
