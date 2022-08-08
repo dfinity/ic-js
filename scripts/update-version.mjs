@@ -2,8 +2,11 @@ import { existsSync, readFileSync, writeFileSync } from "fs";
 import fetch from "node-fetch";
 import { join } from "path";
 
+// The suffix we use to publish to npm wip version of the libs
+const SUFFIX = "next";
+
 const nextVersion = async ({ project, currentVersion }) => {
-  const nightlyVersion = `${currentVersion}-nightly-${new Date()
+  const version = `${currentVersion}-${SUFFIX}-${new Date()
     .toISOString()
     .slice(0, 10)}`;
 
@@ -11,16 +14,16 @@ const nextVersion = async ({ project, currentVersion }) => {
     await fetch(`http://registry.npmjs.org/@dfinity/${project}`)
   ).json();
 
-  // The nightly version has never been published
-  if (versions[nightlyVersion] === undefined) {
-    return nightlyVersion;
+  // The wip version has never been published
+  if (versions[version] === undefined) {
+    return version;
   }
 
-  // There was some nightly versions already published so, we increment the version number
+  // There was some wip versions already published so, we increment the version number
   const count = Object.keys(versions).filter((v) =>
-    v.includes(nightlyVersion)
+    v.includes(version)
   ).length;
-  return `${nightlyVersion}.${count}`;
+  return `${version}.${count}`;
 };
 
 const updateVersion = async () => {
@@ -40,17 +43,17 @@ const updateVersion = async () => {
 
   const packageJson = JSON.parse(readFileSync(packagePath, "utf-8"));
 
-  // Update nightly version
+  // Build wip version number
   const version = await nextVersion({
     project,
     currentVersion: packageJson.version,
   });
 
-  // Peer dependencies nightly references - e.g. @dfinity/utils@0.0.1-nightly
+  // Peer dependencies need to point to wip references - e.g. @dfinity/utils@0.0.1-next
   const peerDependencies = Object.entries(
     packageJson.peerDependencies ?? {}
   ).reduce((acc, [key, value]) => {
-    acc[key] = `${value}-nightly`;
+    acc[key] = `${value}-${SUFFIX}`;
     return acc;
   }, {});
 
