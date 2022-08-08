@@ -1,7 +1,29 @@
 import { existsSync, readFileSync, writeFileSync } from "fs";
+import fetch from "node-fetch";
 import { join } from "path";
 
-const updateVersion = () => {
+const nextVersion = async ({ project, version }) => {
+  const nightlyVersion = `${version}-nightly-${new Date()
+    .toISOString()
+    .slice(0, 10)}`;
+
+  const { versions } = await (
+    await fetch(`http://registry.npmjs.org/@dfinity/${project}`)
+  ).json();
+
+  // The nightly version has never been published
+  if (versions[nightlyVersion] === undefined) {
+    return nightlyVersion;
+  }
+
+  // There was some nightly versions already published so, we increment the version number
+  const count = Object.keys(versions).filter((v) =>
+    v.includes(nightlyVersion)
+  ).length;
+  return `${nightlyVersion}.${count}`;
+};
+
+const updateVersion = async () => {
   if (process.argv.length !== 3) {
     console.log("Invalid arguments: node update-version.mjs nns|sns|etc.");
     return;
@@ -17,10 +39,31 @@ const updateVersion = () => {
   }
 
   const packageJson = JSON.parse(readFileSync(packagePath, "utf-8"));
-  packageJson.version = `${packageJson.version}-nightly-${new Date()
-    .toISOString()
-    .slice(0, 10)}`;
-  writeFileSync(packagePath, JSON.stringify(packageJson, null, 2), "utf-8");
+
+  // Update nightly version
+  const version = await nextVersion({ project, version: packageJson.version });
+
+  // Peer dependencies nightly references - e.g. @dfinity/utils@0.0.1-nightly
+  const peerDependencies = Object.entries(
+    packageJson.peerDependencies ?? {}
+  ).reduce((acc, [key, value]) => {
+    acc[key] = `${value}-nightly`;
+    return acc;
+  }, {});
+
+  writeFileSync(
+    packagePath,
+    JSON.stringify(
+      {
+        ...packageJson,
+        version,
+        ...(Object.keys(peerDependencies).length > 0 && { peerDependencies }),
+      },
+      null,
+      2
+    ),
+    "utf-8"
+  );
 };
 
-updateVersion();
+await updateVersion();
