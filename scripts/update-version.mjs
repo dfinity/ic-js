@@ -2,8 +2,8 @@ import { existsSync, readFileSync, writeFileSync } from "fs";
 import fetch from "node-fetch";
 import { join } from "path";
 
-const nextVersion = async ({ project, version }) => {
-  const nightlyVersion = `${version}-nightly-${new Date()
+const nextVersion = async ({ project, currentVersion }) => {
+  const nightlyVersion = `${currentVersion}-nightly-${new Date()
     .toISOString()
     .slice(0, 10)}`;
 
@@ -41,7 +41,10 @@ const updateVersion = async () => {
   const packageJson = JSON.parse(readFileSync(packagePath, "utf-8"));
 
   // Update nightly version
-  const version = await nextVersion({ project, version: packageJson.version });
+  const version = await nextVersion({
+    project,
+    currentVersion: packageJson.version,
+  });
 
   // Peer dependencies nightly references - e.g. @dfinity/utils@0.0.1-nightly
   const peerDependencies = Object.entries(
