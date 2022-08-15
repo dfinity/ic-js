@@ -1,7 +1,7 @@
 import type {DerEncodedPublicKey} from "@dfinity/agent";
 import type {Principal} from "@dfinity/principal";
 import type {AccountIdentifier, CanisterIdString, E8s, NeuronId, Option, PrincipalString,} from "./common";
-import {NeuronState, ProposalRewardStatus, ProposalStatus, Topic, Vote} from '../enums/governance.enums';
+import type {NeuronState, ProposalRewardStatus, ProposalStatus, Topic, Vote} from '../enums/governance.enums';
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
