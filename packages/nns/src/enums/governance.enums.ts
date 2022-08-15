@@ -64,6 +64,7 @@ export enum ProposalStatus {
   PROPOSAL_STATUS_FAILED = 5,
 }
 
+// Source: https://github.com/dfinity/ic/blob/master/rs/nns/governance/gen/ic_nns_governance.pb.v1.rs#L1820
 export enum ProposalActionNnsFunction {
   UNSPECIFIED = 0,
   CREATE_SUBNET = 1,
