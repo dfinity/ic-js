@@ -1,10 +1,10 @@
-import { NeuronInfo, ProposalInfo} from "../types/governance_converters";
+import { Vote } from "../enums/governance.enums";
+import { NeuronInfo, ProposalInfo } from "../types/governance_converters";
 import {
   ineligibleNeurons,
   votableNeurons,
   votedNeurons,
 } from "./neurons.utils";
-import {Vote} from '../enums/governance.enums';
 
 describe("neurons-utils", () => {
   const proposalTimestampSeconds = BigInt(new Date().getTime());

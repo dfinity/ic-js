@@ -34,6 +34,7 @@ import type {
   NeuronInfo as PbNeuronInfo,
 } from "../../../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "../../account_identifier";
+import { NeuronState } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
   AccountIdentifier as AccountIdentifierString,
@@ -66,7 +67,6 @@ import {
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
 import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
-import {NeuronState} from '../../enums/governance.enums';
 
 const toNeuronInfo = ({
   neuronId,

@@ -16,6 +16,7 @@ import type {
   Operation as RawOperation,
   RewardMode as RawRewardMode,
 } from "../../../candid/governance";
+import type { Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
 import type {
@@ -35,11 +36,9 @@ import type {
   Operation,
   ProposalId,
   RewardMode,
-
 } from "../../types/governance_converters";
 import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
 import { arrayBufferToArrayOfNumber } from "../../utils/converter.utils";
-import type {Vote} from '../../enums/governance.enums';
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
