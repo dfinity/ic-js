@@ -1,10 +1,10 @@
+import type { Vote } from "../enums/governance.enums";
 import type {
   Ballot,
   BallotInfo,
   NeuronInfo,
   ProposalId,
   ProposalInfo,
-  Vote,
 } from "../types/governance_converters";
 
 const voteForProposal = ({

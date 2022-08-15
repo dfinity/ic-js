@@ -17,6 +17,7 @@ import type {
 } from "../candid/governance";
 import { NeuronId as PbNeuronId } from "../proto/base_types_pb";
 import { ManageNeuronResponse as PbManageNeuronResponse } from "../proto/governance_pb";
+import { Topic, Vote } from "./enums/governance.enums";
 import {
   FeatureNotSupportedError,
   GovernanceError,
@@ -33,11 +34,7 @@ import {
   mockNeuronId,
   mockNeuronInfo,
 } from "./mocks/governance.mock";
-import {
-  MakeProposalRequest,
-  Topic,
-  Vote,
-} from "./types/governance_converters";
+import { MakeProposalRequest } from "./types/governance_converters";
 
 const unexpectedGovernanceError: GovernanceErrorDetail = {
   error_message: "Error updating neuron",
