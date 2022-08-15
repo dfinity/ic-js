@@ -6,7 +6,7 @@ import type {
   ProposalInfo,
 
 } from "../types/governance_converters";
-import {Vote} from '../enums/governance.enums';
+import type {Vote} from '../enums/governance.enums';
 
 const voteForProposal = ({
   recentBallots,

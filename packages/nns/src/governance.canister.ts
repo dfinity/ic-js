@@ -96,7 +96,7 @@ import {
 } from "./utils/converter.utils";
 import { assertPercentageNumber } from "./utils/number.utils";
 import { updateCall } from "./utils/proto.utils";
-import {Vote} from './enums/governance.enums';
+import type {Vote} from './enums/governance.enums';
 
 export class GovernanceCanister {
   private constructor(
