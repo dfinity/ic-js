@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { ICP } from ".";
-import { FromICPStringError } from "./types/icp";
+import { FromICPStringError } from "./enums/icp.enums";
 
 describe("ICP", () => {
   it("can be initialized from a whole number string", () => {
