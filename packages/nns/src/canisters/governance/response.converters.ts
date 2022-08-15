@@ -34,6 +34,7 @@ import type {
   NeuronInfo as PbNeuronInfo,
 } from "../../../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "../../account_identifier";
+import { NeuronState } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
   AccountIdentifier as AccountIdentifierString,
@@ -61,7 +62,6 @@ import type {
   RewardMode,
   Tally,
 } from "../../types/governance_converters";
-import { NeuronState } from "../../types/governance_converters";
 import {
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
