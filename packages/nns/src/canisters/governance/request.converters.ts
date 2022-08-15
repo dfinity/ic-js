@@ -35,10 +35,11 @@ import type {
   Operation,
   ProposalId,
   RewardMode,
-  Vote,
+
 } from "../../types/governance_converters";
 import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
 import { arrayBufferToArrayOfNumber } from "../../utils/converter.utils";
+import {Vote} from '../../enums/governance.enums';
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,

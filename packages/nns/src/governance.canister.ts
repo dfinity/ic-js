@@ -87,7 +87,7 @@ import type {
   ProposalId,
   ProposalInfo,
   SpawnRequest,
-  Vote,
+
 } from "./types/governance_converters";
 import { checkAccountId } from "./utils/accounts.utils";
 import {
@@ -96,6 +96,7 @@ import {
 } from "./utils/converter.utils";
 import { assertPercentageNumber } from "./utils/number.utils";
 import { updateCall } from "./utils/proto.utils";
+import {Vote} from './enums/governance.enums';
 
 export class GovernanceCanister {
   private constructor(

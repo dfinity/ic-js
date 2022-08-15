@@ -4,8 +4,9 @@ import type {
   NeuronInfo,
   ProposalId,
   ProposalInfo,
-  Vote,
+
 } from "../types/governance_converters";
+import {Vote} from '../enums/governance.enums';
 
 const voteForProposal = ({
   recentBallots,

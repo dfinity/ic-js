@@ -35,9 +35,10 @@ import {
 } from "./mocks/governance.mock";
 import {
   MakeProposalRequest,
-  Topic,
-  Vote,
+
+
 } from "./types/governance_converters";
+import {Topic, Vote} from './enums/governance.enums';
 
 const unexpectedGovernanceError: GovernanceErrorDetail = {
   error_message: "Error updating neuron",

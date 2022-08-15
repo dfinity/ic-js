@@ -1,5 +1,6 @@
 export type { DeployedSns } from "../candid/sns_wasm";
 export { AccountIdentifier, SubAccount } from "./account_identifier";
+export * from "./enums/governance.enums";
 export * from "./errors/governance.errors";
 export * from "./errors/ledger.errors";
 export { GenesisTokenCanister } from "./genesis_token.canister";

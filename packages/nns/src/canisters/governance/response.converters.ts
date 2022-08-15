@@ -61,12 +61,12 @@ import type {
   RewardMode,
   Tally,
 } from "../../types/governance_converters";
-import { NeuronState } from "../../types/governance_converters";
 import {
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
 import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
+import {NeuronState} from '../../enums/governance.enums';
 
 const toNeuronInfo = ({
   neuronId,
