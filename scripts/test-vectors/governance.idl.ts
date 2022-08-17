@@ -3,6 +3,28 @@ import { IDL } from "@dfinity/candid";
 const Proposal = IDL.Rec();
 const NeuronId = IDL.Record({ id: IDL.Nat64 });
 const Followees = IDL.Record({ followees: IDL.Vec(NeuronId) });
+const AccountIdentifier = IDL.Record({ hash: IDL.Vec(IDL.Nat8) });
+const NodeProvider = IDL.Record({
+  id: IDL.Opt(IDL.Principal),
+  reward_account: IDL.Opt(AccountIdentifier),
+});
+const RewardToNeuron = IDL.Record({ dissolve_delay_seconds: IDL.Nat64 });
+const RewardToAccount = IDL.Record({
+  to_account: IDL.Opt(AccountIdentifier),
+});
+const RewardMode = IDL.Variant({
+  RewardToNeuron: RewardToNeuron,
+  RewardToAccount: RewardToAccount,
+});
+const RewardNodeProvider = IDL.Record({
+  node_provider: IDL.Opt(NodeProvider),
+  reward_mode: IDL.Opt(RewardMode),
+  amount_e8s: IDL.Nat64,
+});
+const MostRecentMonthlyNodeProviderRewards = IDL.Record({
+  timestamp: IDL.Nat64,
+  rewards: IDL.Vec(RewardNodeProvider),
+});
 const GovernanceCachedMetrics = IDL.Record({
   not_dissolving_neurons_e8s_buckets: IDL.Vec(
     IDL.Tuple(IDL.Nat64, IDL.Float64)
@@ -24,11 +46,6 @@ const GovernanceCachedMetrics = IDL.Record({
   dissolving_neurons_e8s_buckets: IDL.Vec(IDL.Tuple(IDL.Nat64, IDL.Float64)),
   community_fund_total_staked_e8s: IDL.Nat64,
   timestamp_seconds: IDL.Nat64,
-});
-const AccountIdentifier = IDL.Record({ hash: IDL.Vec(IDL.Nat8) });
-const NodeProvider = IDL.Record({
-  id: IDL.Opt(IDL.Principal),
-  reward_account: IDL.Opt(AccountIdentifier),
 });
 const NetworkEconomics = IDL.Record({
   neuron_minimum_stake_e8s: IDL.Nat64,
@@ -111,6 +128,7 @@ const Operation = IDL.Variant({
   StartDissolving: IDL.Record({}),
   IncreaseDissolveDelay: IncreaseDissolveDelay,
   JoinCommunityFund: IDL.Record({}),
+  LeaveCommunityFund: IDL.Record({}),
   SetDissolveTimestamp: SetDissolveTimestamp,
 });
 const Configure = IDL.Record({ operation: IDL.Opt(Operation) });
@@ -158,18 +176,16 @@ const ExecuteNnsFunction = IDL.Record({
   nns_function: IDL.Int32,
   payload: IDL.Vec(IDL.Nat8),
 });
-const RewardToNeuron = IDL.Record({ dissolve_delay_seconds: IDL.Nat64 });
-const RewardToAccount = IDL.Record({
-  to_account: IDL.Opt(AccountIdentifier),
+const TimeWindow = IDL.Record({
+  start_timestamp_seconds: IDL.Nat64,
+  end_timestamp_seconds: IDL.Nat64,
 });
-const RewardMode = IDL.Variant({
-  RewardToNeuron: RewardToNeuron,
-  RewardToAccount: RewardToAccount,
+const SetOpenTimeWindowRequest = IDL.Record({
+  open_time_window: IDL.Opt(TimeWindow),
 });
-const RewardNodeProvider = IDL.Record({
-  node_provider: IDL.Opt(NodeProvider),
-  reward_mode: IDL.Opt(RewardMode),
-  amount_e8s: IDL.Nat64,
+const SetSnsTokenSwapOpenTimeWindow = IDL.Record({
+  request: IDL.Opt(SetOpenTimeWindowRequest),
+  swap_canister_id: IDL.Opt(IDL.Principal),
 });
 const SetDefaultFollowees = IDL.Record({
   default_followees: IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
@@ -192,6 +208,7 @@ const Action = IDL.Variant({
   ManageNeuron: ManageNeuron,
   ExecuteNnsFunction: ExecuteNnsFunction,
   RewardNodeProvider: RewardNodeProvider,
+  SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow,
   SetDefaultFollowees: SetDefaultFollowees,
   RewardNodeProviders: RewardNodeProviders,
   ManageNetworkEconomics: NetworkEconomics,
@@ -226,7 +243,7 @@ const ProposalData = IDL.Record({
   executed_timestamp_seconds: IDL.Nat64,
 });
 const Command_2 = IDL.Variant({
-  Spawn: Spawn,
+  Spawn: NeuronId,
   Split: Split,
   Configure: Configure,
   Merge: Merge,
@@ -265,19 +282,26 @@ const Neuron = IDL.Record({
   neuron_fees_e8s: IDL.Nat64,
   transfer: IDL.Opt(NeuronStakeTransfer),
   known_neuron_data: IDL.Opt(KnownNeuronData),
+  spawn_at_timestamp_seconds: IDL.Opt(IDL.Nat64),
 });
 const Governance = IDL.Record({
   default_followees: IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
+  most_recent_monthly_node_provider_rewards: IDL.Opt(
+    MostRecentMonthlyNodeProviderRewards
+  ),
   wait_for_quiet_threshold_seconds: IDL.Nat64,
   metrics: IDL.Opt(GovernanceCachedMetrics),
+  cached_daily_maturity_modulation: IDL.Opt(IDL.Float64),
   node_providers: IDL.Vec(NodeProvider),
   economics: IDL.Opt(NetworkEconomics),
+  spawning_neurons: IDL.Opt(IDL.Bool),
   latest_reward_event: IDL.Opt(RewardEvent),
   to_claim_transfers: IDL.Vec(NeuronStakeTransfer),
   short_voting_period_seconds: IDL.Nat64,
   proposals: IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
   in_flight_commands: IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInFlightCommand)),
   neurons: IDL.Vec(IDL.Tuple(IDL.Nat64, Neuron)),
+  last_updated_maturity_modulation_cache: IDL.Opt(IDL.Nat64),
   genesis_timestamp_seconds: IDL.Nat64,
 });
 const Result = IDL.Variant({ Ok: IDL.Null, Err: GovernanceError });
@@ -382,11 +406,6 @@ const ManageNeuronResponse = IDL.Record({ command: IDL.Opt(Command_1) });
 const UpdateNodeProvider = IDL.Record({
   reward_account: IDL.Opt(AccountIdentifier),
 });
-export const ListNeuronsFn = IDL.Func(
-  [ListNeurons],
-  [ListNeuronsResponse],
-  ["query"]
-);
 export const ManageNeuronFn = IDL.Func(
   [ManageNeuron],
   [ManageNeuronResponse],
