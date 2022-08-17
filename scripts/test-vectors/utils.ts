@@ -8,7 +8,7 @@ import {
 } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { writeFileSync } from "fs";
-import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../src/constants/canister_ids";
+import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../packages/nns/src/constants/canister_ids";
 
 /**
  * Changes needed to match the `arg` inside the blob_proto with the Hardware Wallet CLI blob.
