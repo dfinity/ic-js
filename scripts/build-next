@@ -3,7 +3,7 @@ set -eux
 
 npm ci
 
-: Update the version to SEMANTIC_VERSION-nightly-DATE e.g. 0.2.2-nightly-2022-02-28
+: Update the package.json version before build and publish
 node ./scripts/update-version.mjs utils
 node ./scripts/update-version.mjs nns
 node ./scripts/update-version.mjs sns

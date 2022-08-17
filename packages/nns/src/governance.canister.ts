@@ -62,6 +62,7 @@ import {
 } from "./canisters/governance/services";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_ICP } from "./constants/constants";
+import type { Vote } from "./enums/governance.enums";
 import {
   CouldNotClaimNeuronError,
   FeatureNotSupportedError,
@@ -87,7 +88,6 @@ import type {
   ProposalId,
   ProposalInfo,
   SpawnRequest,
-  Vote,
 } from "./types/governance_converters";
 import { checkAccountId } from "./utils/accounts.utils";
 import {
