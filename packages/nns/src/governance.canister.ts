@@ -189,13 +189,15 @@ export class GovernanceCanister {
       description: n.known_neuron_data[0]?.description[0],
     }));
   };
-
   /**
    * Returns the list of proposals made for the community to vote on,
    * paginated and filtered by the request.
    *
    * If `certified` is true (default), the request is fetched as an update call, otherwise
    * it is fetched using a query call.
+   *
+   * @param request the options to list the proposals (limit number of results, topics to search for, etc.)
+   * @param certified query or update calls
    */
   public listProposals = async ({
     request,

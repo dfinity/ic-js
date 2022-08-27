@@ -13,7 +13,8 @@
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
     "protoc": "bash ./scripts/update_proto.sh",
-    "test": "jest"
+    "test": "jest",
+    "docs": "node scripts/docs.js"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "text-encoding": "^0.7.0",
     "ts-jest": "^28.0.5",
     "ts-protoc-gen": "^0.15.0",
+    "tsdoc-to-markdown": "file:../../opensource/tsdoc-to-markdown",
     "typescript": "^4.5.5",
     "whatwg-fetch": "^3.6.2"
   },
