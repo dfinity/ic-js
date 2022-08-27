@@ -11,4 +11,7 @@ const nnsInputFiles = [
   "./packages/nns/src/sns_wasm.canister.ts",
 ];
 
-generateDocumentation({ inputFiles: nnsInputFiles, outputFile: './packages/nns/README.md' });
+generateDocumentation({
+  inputFiles: nnsInputFiles,
+  outputFile: "./packages/nns/README.md",
+});
