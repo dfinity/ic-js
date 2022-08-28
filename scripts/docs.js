@@ -14,5 +14,5 @@ const nnsInputFiles = [
 generateDocumentation({
   inputFiles: nnsInputFiles,
   outputFile: "./packages/nns/README.md",
-  markdownOptions: {headingLevel: '###'}
+  markdownOptions: { headingLevel: "###" },
 });
