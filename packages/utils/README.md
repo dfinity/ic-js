@@ -58,21 +58,21 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 
 #### :gear: toNullable
 
-| Function     | Type                  |
-| ------------ | --------------------- | ---- |
-| `toNullable` | `<T>(value?: T) => [] | [T]` |
+| Function     | Type                          |
+| ------------ | ----------------------------- |
+| `toNullable` | `<T>(value?: T) => [] or [T]` |
 
 #### :gear: fromNullable
 
-| Function       | Type           |
-| -------------- | -------------- | ---------- |
-| `fromNullable` | `<T>(value: [] | [T]) => T` |
+| Function       | Type                         |
+| -------------- | ---------------------------- |
+| `fromNullable` | `<T>(value: [] or [T]) => T` |
 
 #### :gear: fromDefinedNullable
 
-| Function              | Type           |
-| --------------------- | -------------- | ---------- |
-| `fromDefinedNullable` | `<T>(value: [] | [T]) => T` |
+| Function              | Type                         |
+| --------------------- | ---------------------------- |
+| `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
 
 ### :factory: NullishError
 

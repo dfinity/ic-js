@@ -125,9 +125,9 @@ Get the Sns metadata (title, description, etc.)
 
 Get the neuron of the Sns
 
-| Method      | Type                                                            |
-| ----------- | --------------------------------------------------------------- |
-| `getNeuron` | `(params: SnsGetNeuronParams & QueryParams) => Promise<Neuron>` |
+| Method      | Type                                                              |
+| ----------- | ----------------------------------------------------------------- |
+| `getNeuron` | `(params: SnsGetNeuronParams and QueryParams) => Promise<Neuron>` |
 
 ##### :gear: manageNeuron
 
@@ -241,9 +241,9 @@ Notify of the user participating in the swap
 
 Get user commitment
 
-| Method              | Type                                                                  |
-| ------------------- | --------------------------------------------------------------------- |
-| `getUserCommitment` | `(params: GetBuyerStateRequest & QueryParams) => Promise<BuyerState>` |
+| Method              | Type                                                                    |
+| ------------------- | ----------------------------------------------------------------------- |
+| `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
 
 ### :factory: SnsWrapper
 

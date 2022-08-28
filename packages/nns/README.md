@@ -121,9 +121,9 @@ await main();
 
 ##### :gear: fromBytes
 
-| Method      | Type                               |
-| ----------- | ---------------------------------- | ------ |
-| `fromBytes` | `(bytes: Uint8Array) => SubAccount | Error` |
+| Method      | Type                                         |
+| ----------- | -------------------------------------------- |
+| `fromBytes` | `(bytes: Uint8Array) => SubAccount or Error` |
 
 ##### :gear: fromPrincipal
 
@@ -185,9 +185,9 @@ Initialize from a string. Accepted formats:
 1'234'567.8901
 1,234,567.8901
 
-| Method       | Type                     |
-| ------------ | ------------------------ | ------------------- |
-| `fromString` | `(amount: string) => ICP | FromICPStringError` |
+| Method       | Type                                            |
+| ------------ | ----------------------------------------------- |
+| `fromString` | `(amount: string) => ICP or FromICPStringError` |
 
 ##### :gear: toE8s
 
