@@ -29,4 +29,42 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 
 <!-- TSDOC_START -->
 
+### :toolbox: Functions
+
+- [defaultAgent](#gear-defaultagent)
+- [createServices](#gear-createservices)
+- [toNullable](#gear-tonullable)
+- [fromNullable](#gear-fromnullable)
+- [fromDefinedNullable](#gear-fromdefinednullable)
+
+#### :gear: defaultAgent
+
+| Function       | Type          |
+| -------------- | ------------- |
+| `defaultAgent` | `() => Agent` |
+
+#### :gear: createServices
+
+| Function         | Type                                                                                                                                                                                                                                                            |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, }, idlFactory, certifiedIdlFactory, }: { options: RequiredCanisterOptions<T>; idlFactory: InterfaceFactory; certifiedIdlFactory: InterfaceFactory; }) => { ...; }` |
+
+#### :gear: toNullable
+
+| Function     | Type                  |
+| ------------ | --------------------- | ---- |
+| `toNullable` | `<T>(value?: T) => [] | [T]` |
+
+#### :gear: fromNullable
+
+| Function       | Type           |
+| -------------- | -------------- | ---------- |
+| `fromNullable` | `<T>(value: [] | [T]) => T` |
+
+#### :gear: fromDefinedNullable
+
+| Function              | Type           |
+| --------------------- | -------------- | ---------- |
+| `fromDefinedNullable` | `<T>(value: [] | [T]) => T` |
+
 <!-- TSDOC_END -->

@@ -22,10 +22,10 @@ const snsInputFiles = [
 ];
 
 const utilsInputFiles = [
-  "./packages/utils/src/utils/actor.utils",
-  "./packages/utils/src/utils/agent.utils",
-  "./packages/utils/src/utils/assert.utils",
-  "./packages/utils/src/utils/did.utils",
+  "./packages/utils/src/utils/actor.utils.ts",
+  "./packages/utils/src/utils/agent.utils.ts",
+  "./packages/utils/src/utils/assert.utils.ts",
+  "./packages/utils/src/utils/did.utils.ts",
 ];
 
 generateDocumentation({
