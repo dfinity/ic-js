@@ -98,12 +98,25 @@ Parameters:
 
 #### Methods
 
+- [create](#gear-create)
 - [listNeurons](#gear-listneurons)
 - [metadata](#gear-metadata)
 - [getNeuron](#gear-getneuron)
 - [manageNeuron](#gear-manageneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
+
+##### :gear: create
+
+Instantiate a canister to interact with the governance of a Sns project.
+
+| Method   | Type                                                               |
+| -------- | ------------------------------------------------------------------ |
+| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsGovernanceCanister` |
+
+Parameters:
+
+- `options`: Miscellaneous options to initialize the canister. Its ID being the only mandatory parammeter.
 
 ##### :gear: listNeurons
 
@@ -167,7 +180,14 @@ Parameters:
 
 #### Methods
 
+- [create](#gear-create)
 - [metadata](#gear-metadata)
+
+##### :gear: create
+
+| Method   | Type                                                           |
+| -------- | -------------------------------------------------------------- |
+| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsLedgerCanister` |
 
 ##### :gear: metadata
 
@@ -191,7 +211,14 @@ Parameters:
 
 #### Methods
 
+- [create](#gear-create)
 - [listSnsCanisters](#gear-listsnscanisters)
+
+##### :gear: create
+
+| Method   | Type                                                         |
+| -------- | ------------------------------------------------------------ |
+| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsRootCanister` |
 
 ##### :gear: listSnsCanisters
 
@@ -217,9 +244,16 @@ Parameters:
 
 #### Methods
 
+- [create](#gear-create)
 - [state](#gear-state)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+
+##### :gear: create
+
+| Method   | Type                                                         |
+| -------- | ------------------------------------------------------------ |
+| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsSwapCanister` |
 
 ##### :gear: state
 
