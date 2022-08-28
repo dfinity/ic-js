@@ -30,21 +30,21 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 ### Explorative way
 
-The `explorative` approach has the advantage to simplify the code but, implies more costs as it queries the `root` canister for the list of canister IDs of the Sns project upon initialization. 
+The `explorative` approach has the advantage to simplify the code but, implies more costs as it queries the `root` canister for the list of canister IDs of the Sns project upon initialization.
 
 ```ts
 const snsWrapper: SnsWrapper = await initSnsWrapper({
-    rootOptions: {
-      canisterId: rootCanisterId,
-    },
-    agent,
-    certified,
+  rootOptions: {
+    canisterId: rootCanisterId,
+  },
+  agent,
+  certified,
 });
 
 const { metadata: meta, swapState } = wrapper;
 const [metadata, token] = await meta({});
 
-console.log('Summary data:', metadata, token);
+console.log("Summary data:", metadata, token);
 ```
 
 ### Descriptive way
@@ -52,12 +52,18 @@ console.log('Summary data:', metadata, token);
 The descriptive approach limits the scope of the features but, is more verbose.
 
 ```ts
-const {metadata: governanceMetadata} = SnsGovernanceCanister.create({agent, canisterId: rootCanisterId});
-const {metadata: ledgerMetadata} = SnsLedgerCanister.create({agent, canisterId: rootCanisterId});
-const metadata = await governanceMetadata({certified: true});
-const token = await ledgerMetadata({certified: true});
+const { metadata: governanceMetadata } = SnsGovernanceCanister.create({
+  agent,
+  canisterId: rootCanisterId,
+});
+const { metadata: ledgerMetadata } = SnsLedgerCanister.create({
+  agent,
+  canisterId: rootCanisterId,
+});
+const metadata = await governanceMetadata({ certified: true });
+const token = await ledgerMetadata({ certified: true });
 
-console.log('Summary data:', metadata, token);
+console.log("Summary data:", metadata, token);
 ```
 
 ## Features
@@ -74,94 +80,170 @@ console.log('Summary data:', metadata, token);
 
 Lookup for the canister ids of a Sns and initialize the wrapper to access its features.
 
-| Function | Type |
-| ---------- | ---------- |
+| Function         | Type             |
+| ---------------- | ---------------- |
 | `initSnsWrapper` | `InitSnsWrapper` |
-
 
 ### :factory: SnsGovernanceCanister
 
-
-
 #### Constructors
 
-`public`: 
+`public`:
 
 Parameters:
 
-* `id`: 
-* `service`: 
-* `certifiedService`: 
-
+- `id`:
+- `service`:
+- `certifiedService`:
 
 #### Methods
 
+- [listNeurons](#gear-listneurons)
+- [metadata](#gear-metadata)
+- [getNeuron](#gear-getneuron)
+- [manageNeuron](#gear-manageneuron)
+- [addNeuronPermissions](#gear-addneuronpermissions)
+- [removeNeuronPermissions](#gear-removeneuronpermissions)
 
+##### :gear: listNeurons
 
+List the neurons of the Sns
 
+| Method        | Type                                                  |
+| ------------- | ----------------------------------------------------- |
+| `listNeurons` | `(params: SnsListNeuronsParams) => Promise<Neuron[]>` |
+
+##### :gear: metadata
+
+Get the Sns metadata (title, description, etc.)
+
+| Method     | Type                                                    |
+| ---------- | ------------------------------------------------------- |
+| `metadata` | `(params: QueryParams) => Promise<GetMetadataResponse>` |
+
+##### :gear: getNeuron
+
+Get the neuron of the Sns
+
+| Method      | Type                                                            |
+| ----------- | --------------------------------------------------------------- |
+| `getNeuron` | `(params: SnsGetNeuronParams & QueryParams) => Promise<Neuron>` |
+
+##### :gear: manageNeuron
+
+Manage neuron. For advanced users.
+
+| Method         | Type                                                       |
+| -------------- | ---------------------------------------------------------- |
+| `manageNeuron` | `(request: ManageNeuron) => Promise<ManageNeuronResponse>` |
+
+##### :gear: addNeuronPermissions
+
+Add permissions to a neuron for a specific principal
+
+| Method                 | Type                                                    |
+| ---------------------- | ------------------------------------------------------- |
+| `addNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: removeNeuronPermissions
+
+Remove permissions to a neuron for a specific principal
+
+| Method                    | Type                                                    |
+| ------------------------- | ------------------------------------------------------- |
+| `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
 
 ### :factory: SnsLedgerCanister
 
-
-
 #### Constructors
 
-`public`: 
+`public`:
 
 Parameters:
 
-* `id`: 
-* `service`: 
-* `certifiedService`: 
-
+- `id`:
+- `service`:
+- `certifiedService`:
 
 #### Methods
 
+- [metadata](#gear-metadata)
 
+##### :gear: metadata
 
+The token metadata (name, symbol, etc.).
 
+| Method     | Type                                                         |
+| ---------- | ------------------------------------------------------------ |
+| `metadata` | `(params: QueryParams) => Promise<SnsTokenMetadataResponse>` |
 
 ### :factory: SnsRootCanister
 
-
-
 #### Constructors
 
-`public`: 
+`public`:
 
 Parameters:
 
-* `id`: 
-* `service`: 
-* `certifiedService`: 
-
+- `id`:
+- `service`:
+- `certifiedService`:
 
 #### Methods
 
+- [listSnsCanisters](#gear-listsnscanisters)
 
+##### :gear: listSnsCanisters
 
+List the canisters that are part of the Sns.
 
+Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
+
+| Method             | Type                                                                              |
+| ------------------ | --------------------------------------------------------------------------------- |
+| `listSnsCanisters` | `({ certified, }: { certified?: boolean; }) => Promise<ListSnsCanistersResponse>` |
 
 ### :factory: SnsSwapCanister
 
-
-
 #### Constructors
 
-`public`: 
+`public`:
 
 Parameters:
 
-* `id`: 
-* `service`: 
-* `certifiedService`: 
-
+- `id`:
+- `service`:
+- `certifiedService`:
 
 #### Methods
 
+- [state](#gear-state)
+- [notifyParticipation](#gear-notifyparticipation)
+- [getUserCommitment](#gear-getusercommitment)
 
+##### :gear: state
 
+Get the state of the swap
 
+| Method  | Type                                                 |
+| ------- | ---------------------------------------------------- |
+| `state` | `(params: QueryParams) => Promise<GetStateResponse>` |
+
+##### :gear: notifyParticipation
+
+Notify of the user participating in the swap
+
+| Method                | Type                                                   |
+| --------------------- | ------------------------------------------------------ |
+| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<void>` |
+
+##### :gear: getUserCommitment
+
+Get user commitment
+
+| Method              | Type                                                                  |
+| ------------------- | --------------------------------------------------------------------- |
+| `getUserCommitment` | `(params: GetBuyerStateRequest & QueryParams) => Promise<BuyerState>` |
 
 ### :factory: SnsWrapper
 
@@ -175,13 +257,65 @@ A wrapper either performs query or update calls.
 
 Parameters:
 
-* `__0`: 
-
+- `__0`:
 
 #### Methods
 
+- [listNeurons](#gear-listneurons)
+- [metadata](#gear-metadata)
+- [getNeuron](#gear-getneuron)
+- [addNeuronPermissions](#gear-addneuronpermissions)
+- [removeNeuronPermissions](#gear-removeneuronpermissions)
+- [swapState](#gear-swapstate)
+- [notifyParticipation](#gear-notifyparticipation)
+- [getUserCommitment](#gear-getusercommitment)
 
+##### :gear: listNeurons
 
+| Method        | Type                                                                     |
+| ------------- | ------------------------------------------------------------------------ |
+| `listNeurons` | `(params: Omit<SnsListNeuronsParams, "certified">) => Promise<Neuron[]>` |
 
+##### :gear: metadata
+
+| Method     | Type                                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------------------------ |
+| `metadata` | `(params: Omit<QueryParams, "certified">) => Promise<[GetMetadataResponse, SnsTokenMetadataResponse]>` |
+
+##### :gear: getNeuron
+
+| Method      | Type                                                                 |
+| ----------- | -------------------------------------------------------------------- |
+| `getNeuron` | `(params: Omit<SnsGetNeuronParams, "certified">) => Promise<Neuron>` |
+
+##### :gear: addNeuronPermissions
+
+| Method                 | Type                                                    |
+| ---------------------- | ------------------------------------------------------- |
+| `addNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: removeNeuronPermissions
+
+| Method                    | Type                                                    |
+| ------------------------- | ------------------------------------------------------- |
+| `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: swapState
+
+| Method      | Type                                                                    |
+| ----------- | ----------------------------------------------------------------------- |
+| `swapState` | `(params: Omit<QueryParams, "certified">) => Promise<GetStateResponse>` |
+
+##### :gear: notifyParticipation
+
+| Method                | Type                                                   |
+| --------------------- | ------------------------------------------------------ |
+| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<void>` |
+
+##### :gear: getUserCommitment
+
+| Method              | Type                                                    |
+| ------------------- | ------------------------------------------------------- |
+| `getUserCommitment` | `(params: GetBuyerStateRequest) => Promise<BuyerState>` |
 
 <!-- TSDOC_END -->
