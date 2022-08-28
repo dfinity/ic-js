@@ -2,6 +2,21 @@
 
 A library for interfacing with the Internet Computer's Network Nervous System.
 
+[![npm version](https://img.shields.io/npm/v/@dfinity/nns.svg?logo=npm)](https://www.npmjs.com/package/@dfinity/nns) [![GitHub license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+## Table of contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+  - [AccountIdentifier](#factory-accountidentifier)
+  - [SubAccount](#factory-subaccount)
+  - [GenesisTokenCanister](#factory-genesistokencanister)
+  - [ICP](#factory-icp)
+  - [LedgerCanister](#factory-ledgercanister)
+  - [GovernanceCanister](#factory-governancecanister)
+  - [SnsWasmCanister](#factory-snswasmcanister)
+
 ## Installation
 
 You can use `nns-js` by installing it in your project.
@@ -42,11 +57,17 @@ const main = async () => {
 await main();
 ```
 
+## Features
+
+`nns-js` implement following features:
+
 <!-- TSDOC_START -->
 
-## :factory: AccountIdentifier
+### :factory: AccountIdentifier
 
-### Methods
+
+
+#### Methods
 
 - [fromHex](#gear-fromhex)
 - [fromPrincipal](#gear-fromprincipal)
@@ -55,110 +76,119 @@ await main();
 - [toUint8Array](#gear-touint8array)
 - [toNumbers](#gear-tonumbers)
 
-#### :gear: fromHex
+##### :gear: fromHex
 
-| Method    | Type                                 |
-| --------- | ------------------------------------ |
+| Method | Type |
+| ---------- | ---------- |
 | `fromHex` | `(hex: string) => AccountIdentifier` |
 
-#### :gear: fromPrincipal
+##### :gear: fromPrincipal
 
-| Method          | Type                                                                                                    |
-| --------------- | ------------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `fromPrincipal` | `({ principal, subAccount, }: { principal: Principal; subAccount?: SubAccount; }) => AccountIdentifier` |
 
-#### :gear: toProto
+##### :gear: toProto
 
-| Method    | Type                      |
-| --------- | ------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `toProto` | `() => AccountIdentifier` |
 
-#### :gear: toHex
+##### :gear: toHex
 
-| Method  | Type           |
-| ------- | -------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `toHex` | `() => string` |
 
-#### :gear: toUint8Array
+##### :gear: toUint8Array
 
-| Method         | Type               |
-| -------------- | ------------------ |
+| Method | Type |
+| ---------- | ---------- |
 | `toUint8Array` | `() => Uint8Array` |
 
-#### :gear: toNumbers
+##### :gear: toNumbers
 
-| Method      | Type             |
-| ----------- | ---------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `toNumbers` | `() => number[]` |
 
-## :factory: SubAccount
 
-### Methods
+### :factory: SubAccount
+
+
+
+#### Methods
 
 - [fromBytes](#gear-frombytes)
 - [fromPrincipal](#gear-fromprincipal)
 - [fromID](#gear-fromid)
 - [toUint8Array](#gear-touint8array)
 
-#### :gear: fromBytes
+##### :gear: fromBytes
 
-| Method      | Type                               |
-| ----------- | ---------------------------------- | ------ |
+| Method | Type |
+| ---------- | ---------- |
 | `fromBytes` | `(bytes: Uint8Array) => SubAccount | Error` |
 
-#### :gear: fromPrincipal
+##### :gear: fromPrincipal
 
-| Method          | Type                                   |
-| --------------- | -------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `fromPrincipal` | `(principal: Principal) => SubAccount` |
 
-#### :gear: fromID
+##### :gear: fromID
 
-| Method   | Type                         |
-| -------- | ---------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `fromID` | `(id: number) => SubAccount` |
 
-#### :gear: toUint8Array
+##### :gear: toUint8Array
 
-| Method         | Type               |
-| -------------- | ------------------ |
+| Method | Type |
+| ---------- | ---------- |
 | `toUint8Array` | `() => Uint8Array` |
 
-## :factory: GenesisTokenCanister
 
-### Methods
+### :factory: GenesisTokenCanister
+
+
+
+#### Methods
 
 - [create](#gear-create)
 - [claimNeurons](#gear-claimneurons)
 
-#### :gear: create
+##### :gear: create
 
-| Method   | Type                                                            |
-| -------- | --------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `create` | `(options?: CanisterOptions<_SERVICE>) => GenesisTokenCanister` |
 
-#### :gear: claimNeurons
+##### :gear: claimNeurons
 
-| Method         | Type                                                            |
-| -------------- | --------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `claimNeurons` | `({ hexPubKey, }: { hexPubKey: string; }) => Promise<bigint[]>` |
 
-## :factory: ICP
 
-### Methods
+### :factory: ICP
+
+
+
+#### Methods
 
 - [fromE8s](#gear-frome8s)
 - [fromString](#gear-fromstring)
 - [toE8s](#gear-toe8s)
 - [toProto](#gear-toproto)
 
-#### :gear: fromE8s
+##### :gear: fromE8s
 
-| Method    | Type                      |
-| --------- | ------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `fromE8s` | `(amount: bigint) => ICP` |
 
-#### :gear: fromString
+##### :gear: fromString
 
 Initialize from a string. Accepted formats:
 
@@ -166,68 +196,74 @@ Initialize from a string. Accepted formats:
 1'234'567.8901
 1,234,567.8901
 
-| Method       | Type                     |
-| ------------ | ------------------------ | ------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `fromString` | `(amount: string) => ICP | FromICPStringError` |
 
-#### :gear: toE8s
+##### :gear: toE8s
 
-| Method  | Type           |
-| ------- | -------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `toE8s` | `() => bigint` |
 
-#### :gear: toProto
+##### :gear: toProto
 
-| Method    | Type          |
-| --------- | ------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `toProto` | `() => ICPTs` |
 
-## :factory: LedgerCanister
 
-### Methods
+### :factory: LedgerCanister
+
+
+
+#### Methods
 
 - [create](#gear-create)
 - [accountBalance](#gear-accountbalance)
 - [transactionFee](#gear-transactionfee)
 - [transfer](#gear-transfer)
 
-#### :gear: create
+##### :gear: create
 
-| Method   | Type                                                  |
-| -------- | ----------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `create` | `(options?: LedgerCanisterOptions) => LedgerCanister` |
 
-#### :gear: accountBalance
+##### :gear: accountBalance
 
 Returns the balance of the specified account identifier.
 
 If `certified` is true, the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method           | Type                                                                                                                  |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `accountBalance` | `({ accountIdentifier, certified, }: { accountIdentifier: AccountIdentifier; certified?: boolean; }) => Promise<ICP>` |
 
-#### :gear: transactionFee
+##### :gear: transactionFee
 
 Returns the transaction fee of the ledger canister
 
-| Method           | Type                    |
-| ---------------- | ----------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `transactionFee` | `() => Promise<bigint>` |
 
-#### :gear: transfer
+##### :gear: transfer
 
 Transfer ICP from the caller to the destination `accountIdentifier`.
 Returns the index of the block containing the tx if it was successful.
 
-| Method     | Type                                            |
-| ---------- | ----------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `transfer` | `(request: TransferRequest) => Promise<bigint>` |
 
-## :factory: GovernanceCanister
 
-### Methods
+### :factory: GovernanceCanister
+
+
+
+#### Methods
 
 - [create](#gear-create)
 - [listNeurons](#gear-listneurons)
@@ -254,13 +290,13 @@ Returns the index of the block containing the tx if it was successful.
 - [claimOrRefreshNeuron](#gear-claimorrefreshneuron)
 - [getNeuron](#gear-getneuron)
 
-#### :gear: create
+##### :gear: create
 
-| Method   | Type                                                          |
-| -------- | ------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `create` | `(options?: GovernanceCanisterOptions) => GovernanceCanister` |
 
-#### :gear: listNeurons
+##### :gear: listNeurons
 
 Returns the list of neurons controlled by the caller.
 
@@ -269,11 +305,11 @@ If an array of neuron IDs is provided, precisely those neurons will be fetched.
 If `certified` is true, the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method        | Type                                                                                                  |
-| ------------- | ----------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `listNeurons` | `({ certified, neuronIds, }: { certified: boolean; neuronIds?: bigint[]; }) => Promise<NeuronInfo[]>` |
 
-#### :gear: listKnownNeurons
+##### :gear: listKnownNeurons
 
 Returns the list of neurons who have been approved by the community to
 appear as the default followee options.
@@ -281,11 +317,11 @@ appear as the default followee options.
 If `certified` is true, the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method             | Type                                              |
-| ------------------ | ------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `listKnownNeurons` | `(certified?: boolean) => Promise<KnownNeuron[]>` |
 
-#### :gear: listProposals
+##### :gear: listProposals
 
 Returns the list of proposals made for the community to vote on,
 paginated and filtered by the request.
@@ -293,194 +329,200 @@ paginated and filtered by the request.
 If `certified` is true (default), the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method          | Type                                                                                                                   |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `listProposals` | `({ request, certified, }: { request: ListProposalsRequest; certified?: boolean; }) => Promise<ListProposalsResponse>` |
 
 Parameters:
 
-- `request`: the options to list the proposals (limit number of results, topics to search for, etc.)
-- `certified`: query or update calls
+* `request`: the options to list the proposals (limit number of results, topics to search for, etc.)
+* `certified`: query or update calls
 
-#### :gear: stakeNeuron
 
-| Method        | Type                                                                                                                                                                           |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+##### :gear: stakeNeuron
+
+| Method | Type |
+| ---------- | ---------- |
 | `stakeNeuron` | `({ stake, principal, fromSubAccount, ledgerCanister, }: { stake: ICP; principal: Principal; fromSubAccount?: number[]; ledgerCanister: LedgerCanister; }) => Promise<bigint>` |
 
-#### :gear: increaseDissolveDelay
+##### :gear: increaseDissolveDelay
 
 Increases dissolve delay of a neuron
 
-| Method                  | Type                                                                                                                              |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `increaseDissolveDelay` | `({ neuronId, additionalDissolveDelaySeconds, }: { neuronId: bigint; additionalDissolveDelaySeconds: number; }) => Promise<void>` |
 
-#### :gear: startDissolving
+##### :gear: startDissolving
 
 Start dissolving process of a neuron
 
-| Method            | Type                                  |
-| ----------------- | ------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `startDissolving` | `(neuronId: bigint) => Promise<void>` |
 
-#### :gear: stopDissolving
+##### :gear: stopDissolving
 
 Stop dissolving process of a neuron
 
-| Method           | Type                                  |
-| ---------------- | ------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `stopDissolving` | `(neuronId: bigint) => Promise<void>` |
 
-#### :gear: joinCommunityFund
+##### :gear: joinCommunityFund
 
 Neuron joins the community fund
 
-| Method              | Type                                  |
-| ------------------- | ------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `joinCommunityFund` | `(neuronId: bigint) => Promise<void>` |
 
-#### :gear: leaveCommunityFund
+##### :gear: leaveCommunityFund
 
 Neuron leaves the community fund
 
-| Method               | Type                                  |
-| -------------------- | ------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `leaveCommunityFund` | `(neuronId: bigint) => Promise<void>` |
 
-#### :gear: mergeNeurons
+##### :gear: mergeNeurons
 
 Merge two neurons
 
-| Method         | Type                                                                              |
-| -------------- | --------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `mergeNeurons` | `(request: { sourceNeuronId: bigint; targetNeuronId: bigint; }) => Promise<void>` |
 
-#### :gear: splitNeuron
+##### :gear: splitNeuron
 
 Splits a neuron creating a new one
 
-| Method        | Type                                                                             |
-| ------------- | -------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `splitNeuron` | `({ neuronId, amount, }: { neuronId: bigint; amount: ICP; }) => Promise<bigint>` |
 
-#### :gear: getProposal
+##### :gear: getProposal
 
 Returns single proposal info
 
 If `certified` is true (default), the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method        | Type                                                                                                  |
-| ------------- | ----------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `getProposal` | `({ proposalId, certified, }: { proposalId: bigint; certified?: boolean; }) => Promise<ProposalInfo>` |
 
-#### :gear: makeProposal
+##### :gear: makeProposal
 
 Create new proposal
 
-| Method         | Type                                              |
-| -------------- | ------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `makeProposal` | `(request: MakeProposalRequest) => Promise<void>` |
 
-#### :gear: registerVote
+##### :gear: registerVote
+
 
 Registers vote for a proposal from the neuron passed.
 
-| Method         | Type                                                                                                        |
-| -------------- | ----------------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `registerVote` | `({ neuronId, vote, proposalId, }: { neuronId: bigint; vote: Vote; proposalId: bigint; }) => Promise<void>` |
 
-#### :gear: setFollowees
+##### :gear: setFollowees
 
 Edit neuron followees per topic
 
-| Method         | Type                                              |
-| -------------- | ------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `setFollowees` | `(followRequest: FollowRequest) => Promise<void>` |
 
-#### :gear: disburse
+##### :gear: disburse
 
 Disburse neuron on Account
 
-| Method     | Type                                                                                                                  |
-| ---------- | --------------------------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `disburse` | `({ neuronId, toAccountId, amount, }: { neuronId: bigint; toAccountId?: string; amount?: bigint; }) => Promise<void>` |
 
-#### :gear: mergeMaturity
+##### :gear: mergeMaturity
 
 Merge Maturity of a neuron
 
-| Method          | Type                                                                                                    |
-| --------------- | ------------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `mergeMaturity` | `({ neuronId, percentageToMerge, }: { neuronId: bigint; percentageToMerge: number; }) => Promise<void>` |
 
-#### :gear: spawnNeuron
+##### :gear: spawnNeuron
 
 Merge Maturity of a neuron
 
-| Method        | Type                                                                                                                                                                        |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `spawnNeuron` | `({ neuronId, percentageToSpawn, newController, nonce, }: { neuronId: bigint; percentageToSpawn?: number; newController?: Principal; nonce?: bigint; }) => Promise<bigint>` |
 
-#### :gear: addHotkey
+##### :gear: addHotkey
 
 Add hotkey to neuron
 
-| Method      | Type                                                                                       |
-| ----------- | ------------------------------------------------------------------------------------------ |
+| Method | Type |
+| ---------- | ---------- |
 | `addHotkey` | `({ neuronId, principal, }: { neuronId: bigint; principal: Principal; }) => Promise<void>` |
 
-#### :gear: removeHotkey
+##### :gear: removeHotkey
 
 Remove hotkey to neuron
 
-| Method         | Type                                                                                       |
-| -------------- | ------------------------------------------------------------------------------------------ |
+| Method | Type |
+| ---------- | ---------- |
 | `removeHotkey` | `({ neuronId, principal, }: { neuronId: bigint; principal: Principal; }) => Promise<void>` |
 
-#### :gear: claimOrRefreshNeuronFromAccount
+##### :gear: claimOrRefreshNeuronFromAccount
 
 Gets the NeuronID of a newly created neuron.
 
-| Method                            | Type                                                                                    |
-| --------------------------------- | --------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `claimOrRefreshNeuronFromAccount` | `({ memo, controller, }: { memo: bigint; controller?: Principal; }) => Promise<bigint>` |
 
-#### :gear: claimOrRefreshNeuron
+##### :gear: claimOrRefreshNeuron
 
 Refreshes neuron and returns neuronId when successful
 Uses query call only.
 
-| Method                 | Type                                                        |
-| ---------------------- | ----------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `claimOrRefreshNeuron` | `(request: ClaimOrRefreshNeuronRequest) => Promise<bigint>` |
 
-#### :gear: getNeuron
+##### :gear: getNeuron
 
 Return the data of the neuron provided as id.
 
-| Method      | Type                                                                                           |
-| ----------- | ---------------------------------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `getNeuron` | `({ certified, neuronId, }: { certified: boolean; neuronId: bigint; }) => Promise<NeuronInfo>` |
 
-## :factory: SnsWasmCanister
 
-### Methods
+### :factory: SnsWasmCanister
+
+
+
+#### Methods
 
 - [create](#gear-create)
 - [listSnses](#gear-listsnses)
 
-#### :gear: create
+##### :gear: create
 
-| Method   | Type                                                       |
-| -------- | ---------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `create` | `(options?: CanisterOptions<_SERVICE>) => SnsWasmCanister` |
 
-#### :gear: listSnses
+##### :gear: listSnses
 
-| Method      | Type                                                                   |
-| ----------- | ---------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `listSnses` | `({ certified, }: { certified?: boolean; }) => Promise<DeployedSns[]>` |
+
 
 <!-- TSDOC_END -->
