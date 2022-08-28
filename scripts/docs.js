@@ -11,7 +11,6 @@ const nnsInputFiles = [
   "./packages/nns/src/sns_wasm.canister.ts",
 ];
 
-
 const snsInputFiles = [
   "./packages/sns/src/governance.canister.ts",
   "./packages/sns/src/ledger.canister.ts",
@@ -31,5 +30,5 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: snsInputFiles,
   outputFile: "./packages/sns/README.md",
-  markdownOptions: {headingLevel: '###'}
+  markdownOptions: { headingLevel: "###" },
 });

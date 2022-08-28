@@ -30,21 +30,21 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 ### Explorative way
 
-The `explorative` approach has the advantage to simplify the code but, implies more costs as it queries the `root` canister for the list of canister IDs of the Sns project upon initialization. 
+The `explorative` approach has the advantage to simplify the code but, implies more costs as it queries the `root` canister for the list of canister IDs of the Sns project upon initialization.
 
 ```ts
 const snsWrapper: SnsWrapper = await initSnsWrapper({
-    rootOptions: {
-      canisterId: rootCanisterId,
-    },
-    agent,
-    certified,
+  rootOptions: {
+    canisterId: rootCanisterId,
+  },
+  agent,
+  certified,
 });
 
 const { metadata: meta, swapState } = wrapper;
 const [metadata, token] = await meta({});
 
-console.log('Summary data:', metadata, token);
+console.log("Summary data:", metadata, token);
 ```
 
 ### Descriptive way
@@ -52,12 +52,18 @@ console.log('Summary data:', metadata, token);
 The descriptive approach limits the scope of the features but, is more verbose.
 
 ```ts
-const {metadata: governanceMetadata} = SnsGovernanceCanister.create({agent, canisterId: rootCanisterId});
-const {metadata: ledgerMetadata} = SnsLedgerCanister.create({agent, canisterId: rootCanisterId});
-const metadata = await governanceMetadata({certified: true});
-const token = await ledgerMetadata({certified: true});
+const { metadata: governanceMetadata } = SnsGovernanceCanister.create({
+  agent,
+  canisterId: rootCanisterId,
+});
+const { metadata: ledgerMetadata } = SnsLedgerCanister.create({
+  agent,
+  canisterId: rootCanisterId,
+});
+const metadata = await governanceMetadata({ certified: true });
+const token = await ledgerMetadata({ certified: true });
 
-console.log('Summary data:', metadata, token);
+console.log("Summary data:", metadata, token);
 ```
 
 ## Features
@@ -74,94 +80,65 @@ console.log('Summary data:', metadata, token);
 
 Lookup for the canister ids of a Sns and initialize the wrapper to access its features.
 
-| Function | Type |
-| ---------- | ---------- |
+| Function         | Type             |
+| ---------------- | ---------------- |
 | `initSnsWrapper` | `InitSnsWrapper` |
-
 
 ### :factory: SnsGovernanceCanister
 
-
-
 #### Constructors
 
-`public`: 
+`public`:
 
 Parameters:
 
-* `id`: 
-* `service`: 
-* `certifiedService`: 
-
+- `id`:
+- `service`:
+- `certifiedService`:
 
 #### Methods
-
-
-
-
 
 ### :factory: SnsLedgerCanister
 
-
-
 #### Constructors
 
-`public`: 
+`public`:
 
 Parameters:
 
-* `id`: 
-* `service`: 
-* `certifiedService`: 
-
+- `id`:
+- `service`:
+- `certifiedService`:
 
 #### Methods
-
-
-
-
 
 ### :factory: SnsRootCanister
 
-
-
 #### Constructors
 
-`public`: 
+`public`:
 
 Parameters:
 
-* `id`: 
-* `service`: 
-* `certifiedService`: 
-
+- `id`:
+- `service`:
+- `certifiedService`:
 
 #### Methods
-
-
-
-
 
 ### :factory: SnsSwapCanister
 
-
-
 #### Constructors
 
-`public`: 
+`public`:
 
 Parameters:
 
-* `id`: 
-* `service`: 
-* `certifiedService`: 
-
+- `id`:
+- `service`:
+- `certifiedService`:
 
 #### Methods
-
-
-
-
 
 ### :factory: SnsWrapper
 
@@ -175,13 +152,8 @@ A wrapper either performs query or update calls.
 
 Parameters:
 
-* `__0`: 
-
+- `__0`:
 
 #### Methods
-
-
-
-
 
 <!-- TSDOC_END -->
