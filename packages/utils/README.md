@@ -33,6 +33,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 
 - [defaultAgent](#gear-defaultagent)
 - [createServices](#gear-createservices)
+- [assertNonNullish](#gear-assertnonnullish)
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
@@ -48,6 +49,12 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 | Function         | Type                                                                                                                                                                                                                                                            |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, }, idlFactory, certifiedIdlFactory, }: { options: RequiredCanisterOptions<T>; idlFactory: InterfaceFactory; certifiedIdlFactory: InterfaceFactory; }) => { ...; }` |
+
+#### :gear: assertNonNullish
+
+| Function           | Type                                                                 |
+| ------------------ | -------------------------------------------------------------------- |
+| `assertNonNullish` | `<T>(value: T, message?: string) => asserts value is NonNullable<T>` |
 
 #### :gear: toNullable
 
@@ -66,5 +73,15 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 | Function              | Type           |
 | --------------------- | -------------- | ---------- |
 | `fromDefinedNullable` | `<T>(value: [] | [T]) => T` |
+
+### :factory: NullishError
+
+#### Constructors
+
+`public`:
+
+Parameters:
+
+- `message`:
 
 <!-- TSDOC_END -->
