@@ -39,5 +39,5 @@ generateDocumentation({
   inputFiles: utilsInputFiles,
   outputFile: "./packages/utils/README.md",
   markdownOptions: { headingLevel: "###" },
-  buildOptions: {explore: true}
+  buildOptions: { explore: true },
 });
