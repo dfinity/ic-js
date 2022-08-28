@@ -59,7 +59,7 @@ await main();
 
 ## Features
 
-`nns-js` implement following features:
+`nns-js` implements following features:
 
 <!-- TSDOC_START -->
 

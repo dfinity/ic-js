@@ -21,6 +21,13 @@ const snsInputFiles = [
   "./packages/sns/src/swap.canister.ts",
 ];
 
+const utilsInputFiles = [
+  "./packages/utils/src/utils/actor.utils",
+  "./packages/utils/src/utils/agent.utils",
+  "./packages/utils/src/utils/assert.utils",
+  "./packages/utils/src/utils/did.utils",
+];
+
 generateDocumentation({
   inputFiles: nnsInputFiles,
   outputFile: "./packages/nns/README.md",
@@ -30,5 +37,11 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: snsInputFiles,
   outputFile: "./packages/sns/README.md",
+  markdownOptions: { headingLevel: "###" },
+});
+
+generateDocumentation({
+  inputFiles: utilsInputFiles,
+  outputFile: "./packages/utils/README.md",
   markdownOptions: { headingLevel: "###" },
 });

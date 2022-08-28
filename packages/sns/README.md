@@ -68,7 +68,7 @@ console.log("Summary data:", metadata, token);
 
 ## Features
 
-`sns-js` implement following features:
+`sns-js` implements following features:
 
 <!-- TSDOC_START -->
 
