@@ -23,7 +23,7 @@ export class ICP {
     // Verify that the string is of the format 1234.5678
     const regexMatch = amount.match(/\d*(\.\d*)?/);
     if (!regexMatch || regexMatch[0] !== amount) {
-      return FromICPStringError.INVALID_FORMAT;
+      return FromICPStringError.InvalidFormat;
     }
 
     const [integral, fractional] = amount.split(".");
@@ -34,18 +34,18 @@ export class ICP {
       try {
         e8s += BigInt(integral) * E8S_PER_ICP;
       } catch {
-        return FromICPStringError.INVALID_FORMAT;
+        return FromICPStringError.InvalidFormat;
       }
     }
 
     if (fractional) {
       if (fractional.length > 8) {
-        return FromICPStringError.FRACTIONAL_MORE_THAN_8_DECIMALS;
+        return FromICPStringError.FractionalMoreThan8Decimals;
       }
       try {
         e8s += BigInt(fractional.padEnd(8, "0"));
       } catch {
-        return FromICPStringError.INVALID_FORMAT;
+        return FromICPStringError.InvalidFormat;
       }
     }
 
