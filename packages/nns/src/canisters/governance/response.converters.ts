@@ -706,16 +706,16 @@ const convertPbBallot = (pbBallot: PbBallotInfo): BallotInfo => {
 
 const pbNeuronToNeuronState = (neuron?: PbNeuron): NeuronState => {
   if (neuron?.hasWhenDissolvedTimestampSeconds()) {
-    return NeuronState.DISSOLVING;
+    return NeuronState.Dissolving;
   }
   if (neuron?.hasDissolveDelaySeconds()) {
     const delay = neuron.getDissolveDelaySeconds();
     if (delay === "0") {
-      return NeuronState.DISSOLVED;
+      return NeuronState.Dissolved;
     }
-    return NeuronState.LOCKED;
+    return NeuronState.Locked;
   }
-  return NeuronState.UNSPECIFIED;
+  return NeuronState.Unspecified;
 };
 
 const convertPbFolloweesMapToFollowees = (

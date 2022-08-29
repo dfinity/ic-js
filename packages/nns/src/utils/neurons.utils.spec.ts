@@ -18,7 +18,7 @@ describe("neurons-utils", () => {
     ballots: [
       {
         neuronId: proposalNeuronId,
-        vote: Vote.YES,
+        vote: Vote.Yes,
         votingPower: BigInt(1),
       },
     ],
@@ -93,7 +93,7 @@ describe("neurons-utils", () => {
           recentBallots: [
             {
               proposalId,
-              vote: Vote.NO,
+              vote: Vote.No,
             },
           ],
         },
@@ -111,7 +111,7 @@ describe("neurons-utils", () => {
           recentBallots: [
             {
               proposalId: BigInt(4),
-              vote: Vote.NO,
+              vote: Vote.No,
             },
           ],
         },
@@ -166,7 +166,7 @@ describe("neurons-utils", () => {
           recentBallots: [
             {
               proposalId: BigInt(4),
-              vote: Vote.NO,
+              vote: Vote.No,
             },
           ],
         },
@@ -197,7 +197,7 @@ describe("neurons-utils", () => {
           recentBallots: [
             {
               proposalId,
-              vote: Vote.NO,
+              vote: Vote.No,
             },
           ],
         },
