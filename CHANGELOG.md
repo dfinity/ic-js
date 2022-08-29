@@ -10,11 +10,18 @@
 
 - `agent-js` dependencies set as `peerDependencies`
 - Sns canisters' classes renamed with prefix `Sns`
+- enums renamed with Pascal case for consistency reason 
 
 ### Features
 
 - new library `@dfinity/utils`
-- more Sns related features: `notifyParticipation`, `getUserCommitment`, `getNeuron` and ledger and governance `metadata`
+- more Sns related features: `notifyParticipation`, `getUserCommitment`, some Sns neurons related features and governance `metadata`
+
+### Build
+
+- bump agent-js `v0.13.1`
+- publish `next` instead of `nightly-build` working versions
+- add manual trigger to GitHub Actions for npm publish
 
 # 0.6.0 (2022-07-20)
 
