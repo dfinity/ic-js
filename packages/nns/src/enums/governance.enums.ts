@@ -2,7 +2,7 @@
 // These enums are used to map back numbers provided by the backend through the Candid declaration.
 // We use Pascal case for consistency reason.
 //
-// Proto source: https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/ic_nns_governance/pb/v1/governance.proto
+// Proto source: https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/icNns_governance/pb/v1/governance.proto
 
 export enum NeuronState {
   Unspecified = 0,
@@ -73,4 +73,38 @@ export enum Vote {
   Unspecified = 0,
   Yes = 1,
   No = 2,
+}
+
+export enum NnsFunction {
+  Unspecified = 0,
+  CreateSubnet = 1,
+  AddNodeToSubnet = 2,
+  NnsCanisterInstall = 3,
+  NnsCanisterUpgrade = 4,
+  BlessReplicaVersion = 5,
+  RecoverSubnet = 6,
+  UpdateConfigOfSubnet = 7,
+  AssignNoid = 8,
+  NnsRootUpgrade = 9,
+  IcpXdrConversionRate = 10,
+  UpdateSubnetReplicaVersion = 11,
+  ClearProvisionalWhitelist = 12,
+  RemoveNodesFromSubnet = 13,
+  SetAuthorizedSubnetworks = 14,
+  SetFirewallConfig = 15,
+  UpdateNodeOperatorConfig = 16,
+  StopOrStartNnsCanister = 17,
+  RemoveNodes = 18,
+  UninstallCode = 19,
+  UpdateNodeRewardsTable = 20,
+  AddOrRemoveDataCenters = 21,
+  UpdateUnassignedNodesConfig = 22,
+  RemoveNodeOperators = 23,
+  RerouteCanisterRanges = 24,
+  AddFirewallRules = 25,
+  RemoveFirewallRules = 26,
+  UpdateFirewallRules = 27,
+  PrepareCanisterMigration = 28,
+  CompleteCanisterMigration = 29,
+  AddSnsWasm = 30,
 }
