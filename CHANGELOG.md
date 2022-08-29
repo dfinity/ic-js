@@ -10,7 +10,7 @@
 
 - `agent-js` dependencies set as `peerDependencies`
 - Sns canisters' classes renamed with prefix `Sns`
-- enums renamed with Pascal case for consistency reason 
+- enums renamed with Pascal case for consistency reason
 
 ### Features
 
