@@ -1,13 +1,18 @@
+// The Candid files are generated from Proto. That's why the enums are currently lost in the conversion process.
+// These enums are used to map back numbers provided by the backend through the Candid declaration.
+// We use Pascal case for consistency reason.
+//
+// Proto source: https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/icNns_governance/pb/v1/governance.proto
+
 export enum NeuronState {
-  UNSPECIFIED = 0,
-  LOCKED = 1,
-  DISSOLVING = 2,
-  DISSOLVED = 3,
-  SPAWNING = 4,
+  Unspecified = 0,
+  Locked = 1,
+  Dissolving = 2,
+  Dissolved = 3,
+  Spawning = 4,
 }
 
 export enum Topic {
-  // https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/ic_nns_governance/pb/v1/governance.proto#L27
   Unspecified = 0,
   ManageNeuron = 1,
   ExchangeRate = 2,
@@ -25,47 +30,81 @@ export enum Topic {
 // The proposal status, with respect to reward distribution.
 // See also ProposalStatus.
 export enum ProposalRewardStatus {
-  PROPOSAL_REWARD_STATUS_UNKNOWN = 0,
+  Unknown = 0,
 
   // The proposal still accept votes, for the purpose of
   // vote rewards. This implies nothing on the ProposalStatus.
-  PROPOSAL_REWARD_STATUS_ACCEPT_VOTES = 1,
+  AcceptVotes = 1,
 
   // The proposal no longer accepts votes. It is due to settle
   // at the next reward event.
-  PROPOSAL_REWARD_STATUS_READY_TO_SETTLE = 2,
+  ReadyToSettle = 2,
 
   // The proposal has been taken into account in a reward event.
-  PROPOSAL_REWARD_STATUS_SETTLED = 3,
+  Settled = 3,
 
   // The proposal is not eligible to be taken into account in a reward event.
-  PROPOSAL_REWARD_STATUS_INELIGIBLE = 4,
+  Ineligible = 4,
 }
 
 // The proposal status, with respect to decision making and execution.
 // See also ProposalRewardStatus.
 export enum ProposalStatus {
-  PROPOSAL_STATUS_UNKNOWN = 0,
+  Unknown = 0,
 
   // A decision (accept/reject) has yet to be made.
-  PROPOSAL_STATUS_OPEN = 1,
+  Open = 1,
 
   // The proposal has been rejected.
-  PROPOSAL_STATUS_REJECTED = 2,
+  Rejected = 2,
 
   // The proposal has been accepted. At this time, either execution
   // as not yet started, or it has but the outcome is not yet known.
-  PROPOSAL_STATUS_ACCEPTED = 3,
+  Accepted = 3,
 
   // The proposal was accepted and successfully executed.
-  PROPOSAL_STATUS_EXECUTED = 4,
+  Executed = 4,
 
   // The proposal was accepted, but execution failed.
-  PROPOSAL_STATUS_FAILED = 5,
+  Failed = 5,
 }
 
 export enum Vote {
-  UNSPECIFIED = 0,
-  YES = 1,
-  NO = 2,
+  Unspecified = 0,
+  Yes = 1,
+  No = 2,
+}
+
+export enum NnsFunction {
+  Unspecified = 0,
+  CreateSubnet = 1,
+  AddNodeToSubnet = 2,
+  NnsCanisterInstall = 3,
+  NnsCanisterUpgrade = 4,
+  BlessReplicaVersion = 5,
+  RecoverSubnet = 6,
+  UpdateConfigOfSubnet = 7,
+  AssignNoid = 8,
+  NnsRootUpgrade = 9,
+  IcpXdrConversionRate = 10,
+  UpdateSubnetReplicaVersion = 11,
+  ClearProvisionalWhitelist = 12,
+  RemoveNodesFromSubnet = 13,
+  SetAuthorizedSubnetworks = 14,
+  SetFirewallConfig = 15,
+  UpdateNodeOperatorConfig = 16,
+  StopOrStartNnsCanister = 17,
+  RemoveNodes = 18,
+  UninstallCode = 19,
+  UpdateNodeRewardsTable = 20,
+  AddOrRemoveDataCenters = 21,
+  UpdateUnassignedNodesConfig = 22,
+  RemoveNodeOperators = 23,
+  RerouteCanisterRanges = 24,
+  AddFirewallRules = 25,
+  RemoveFirewallRules = 26,
+  UpdateFirewallRules = 27,
+  PrepareCanisterMigration = 28,
+  CompleteCanisterMigration = 29,
+  AddSnsWasm = 30,
 }
