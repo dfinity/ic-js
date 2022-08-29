@@ -1,4 +1,4 @@
-// The Candid files are generated from Proto, that's why the enums are currently lost in the process.
+// The Candid files are generated from Proto. That's why the enums are currently lost in the conversion process.
 // These enums are used to map back numbers provided by the backend through the Candid declaration.
 // We use Pascal case for consistency reason.
 //
