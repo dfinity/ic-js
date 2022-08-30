@@ -46,6 +46,9 @@ export interface FailedUpdate {
   err: [] | [CanisterCallError];
   dapp_canister_id: [] | [Principal];
 }
+export interface GetSnsCanistersSummaryRequest {
+  update_canister_list: [] | [boolean];
+}
 export interface GetSnsCanistersSummaryResponse {
   root: [] | [CanisterSummary];
   swap: [] | [CanisterSummary];
@@ -82,7 +85,9 @@ export interface SnsRootCanister {
 export interface _SERVICE {
   canister_status: (arg_0: CanisterIdRecord) => Promise<CanisterStatusResult>;
   get_build_metadata: () => Promise<string>;
-  get_sns_canisters_summary: (arg_0: {}) => Promise<GetSnsCanistersSummaryResponse>;
+  get_sns_canisters_summary: (
+    arg_0: GetSnsCanistersSummaryRequest
+  ) => Promise<GetSnsCanistersSummaryResponse>;
   list_sns_canisters: (arg_0: {}) => Promise<ListSnsCanistersResponse>;
   register_dapp_canister: (arg_0: RegisterDappCanisterRequest) => Promise<{}>;
   set_dapp_controllers: (

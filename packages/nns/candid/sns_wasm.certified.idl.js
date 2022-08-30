@@ -75,6 +75,7 @@ export const idlFactory = ({ IDL }) => {
     'canisters' : IDL.Opt(SnsCanisterIds),
   });
   const SnsVersion = IDL.Record({
+    'archive_wasm_hash' : IDL.Vec(IDL.Nat8),
     'root_wasm_hash' : IDL.Vec(IDL.Nat8),
     'swap_wasm_hash' : IDL.Vec(IDL.Nat8),
     'ledger_wasm_hash' : IDL.Vec(IDL.Nat8),

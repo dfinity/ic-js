@@ -1,6 +1,6 @@
 import type { Principal } from "@dfinity/principal";
 export interface Account {
-  of: [] | [Principal];
+  owner: [] | [Principal];
   subaccount: [] | [Subaccount];
 }
 export type Action =
@@ -156,13 +156,19 @@ export interface GetProposal {
 export interface GetProposalResponse {
   result: [] | [Result_1];
 }
+export interface GetRunningSnsVersionResponse {
+  deployed_version: [] | [Version];
+  pending_version: [] | [UpgradeInProgress];
+}
 export interface Governance {
   root_canister_id: [] | [Principal];
   id_to_nervous_system_functions: Array<[bigint, NervousSystemFunction]>;
   metrics: [] | [GovernanceCachedMetrics];
   mode: number;
   parameters: [] | [NervousSystemParameters];
+  deployed_version: [] | [Version];
   latest_reward_event: [] | [RewardEvent];
+  pending_version: [] | [UpgradeInProgress];
   swap_canister_id: [] | [Principal];
   ledger_canister_id: [] | [Principal];
   proposals: Array<[bigint, ProposalData]>;
@@ -250,8 +256,8 @@ export interface NervousSystemParameters {
   max_followees_per_function: [] | [bigint];
   neuron_claimer_permissions: [] | [NeuronPermissionList];
   neuron_minimum_stake_e8s: [] | [bigint];
-  initial_voting_period: [] | [bigint];
   max_neuron_age_for_age_bonus: [] | [bigint];
+  initial_voting_period_seconds: [] | [bigint];
   neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
   reject_cost_e8s: [] | [bigint];
   max_proposals_to_keep_per_action: [] | [number];
@@ -259,8 +265,8 @@ export interface NervousSystemParameters {
   max_number_of_neurons: [] | [bigint];
   transaction_fee_e8s: [] | [bigint];
   max_number_of_proposals_with_ballots: [] | [bigint];
-  reward_distribution_period_seconds: [] | [bigint];
   neuron_grantable_permissions: [] | [NeuronPermissionList];
+  voting_rewards_parameters: [] | [VotingRewardsParameters];
   max_number_of_principals_per_neuron: [] | [bigint];
 }
 export interface Neuron {
@@ -271,6 +277,7 @@ export interface Neuron {
   created_timestamp_seconds: bigint;
   aging_since_timestamp_seconds: bigint;
   dissolve_state: [] | [DissolveState];
+  voting_power_percentage_multiplier: bigint;
   followees: Array<[bigint, Followees]>;
   neuron_fees_e8s: bigint;
 }
@@ -308,12 +315,15 @@ export interface ProposalData {
   reward_event_round: bigint;
   failed_timestamp_seconds: bigint;
   proposal_creation_timestamp_seconds: bigint;
+  initial_voting_period_seconds: bigint;
   reject_cost_e8s: bigint;
   latest_tally: [] | [Tally];
+  wait_for_quiet_deadline_increase_seconds: bigint;
   decided_timestamp_seconds: bigint;
   proposal: [] | [Proposal];
   proposer: [] | [NeuronId];
   wait_for_quiet_state: [] | [WaitForQuietState];
+  is_eligible_for_rewards: boolean;
   executed_timestamp_seconds: bigint;
 }
 export interface ProposalId {
@@ -331,8 +341,8 @@ export type Result = { Error: GovernanceError } | { Neuron: Neuron };
 export type Result_1 = { Error: GovernanceError } | { Proposal: ProposalData };
 export interface RewardEvent {
   actual_timestamp_seconds: bigint;
-  periods_since_genesis: bigint;
   distributed_e8s_equivalent: bigint;
+  round: bigint;
   settled_proposals: Array<ProposalId>;
 }
 export interface SetDissolveTimestamp {
@@ -357,9 +367,28 @@ export interface Tally {
   total: bigint;
   timestamp_seconds: bigint;
 }
+export interface UpgradeInProgress {
+  mark_failed_at_seconds: bigint;
+  checking_upgrade_lock: bigint;
+  target_version: [] | [Version];
+}
 export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Array<number>;
   canister_id: [] | [Principal];
+}
+export interface Version {
+  archive_wasm_hash: Array<number>;
+  root_wasm_hash: Array<number>;
+  swap_wasm_hash: Array<number>;
+  ledger_wasm_hash: Array<number>;
+  governance_wasm_hash: Array<number>;
+}
+export interface VotingRewardsParameters {
+  start_timestamp_seconds: [] | [bigint];
+  final_reward_rate_basis_points: [] | [bigint];
+  initial_reward_rate_basis_points: [] | [bigint];
+  reward_rate_transition_duration_seconds: [] | [bigint];
+  round_duration_seconds: [] | [bigint];
 }
 export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
@@ -373,6 +402,7 @@ export interface _SERVICE {
   get_neuron: (arg_0: GetNeuron) => Promise<GetNeuronResponse>;
   get_proposal: (arg_0: GetProposal) => Promise<GetProposalResponse>;
   get_root_canister_status: (arg_0: null) => Promise<CanisterStatusResultV2>;
+  get_running_sns_version: (arg_0: {}) => Promise<GetRunningSnsVersionResponse>;
   list_nervous_system_functions: () => Promise<ListNervousSystemFunctionsResponse>;
   list_neurons: (arg_0: ListNeurons) => Promise<ListNeuronsResponse>;
   list_proposals: (arg_0: ListProposals) => Promise<ListProposalsResponse>;

@@ -20,6 +20,9 @@ export const idlFactory = ({ IDL }) => {
     'memory_size' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
+  const GetSnsCanistersSummaryRequest = IDL.Record({
+    'update_canister_list' : IDL.Opt(IDL.Bool),
+  });
   const CanisterStatusType_1 = IDL.Variant({
     'stopped' : IDL.Null,
     'stopping' : IDL.Null,
@@ -88,7 +91,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'get_build_metadata' : IDL.Func([], [IDL.Text], []),
     'get_sns_canisters_summary' : IDL.Func(
-        [IDL.Record({})],
+        [GetSnsCanistersSummaryRequest],
         [GetSnsCanistersSummaryResponse],
         [],
       ),
