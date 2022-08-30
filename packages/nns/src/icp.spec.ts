@@ -22,7 +22,7 @@ describe("ICP", () => {
     expect(ICP.fromString("0.0001")).toEqual(ICP.fromE8s(BigInt(10000)));
     expect(ICP.fromString("0.00000001")).toEqual(ICP.fromE8s(BigInt(1)));
     expect(ICP.fromString("0.0000000001")).toEqual(
-      FromICPStringError.FRACTIONAL_MORE_THAN_8_DECIMALS
+      FromICPStringError.FractionalMoreThan8Decimals
     );
     expect(ICP.fromString(".01")).toEqual(ICP.fromE8s(BigInt(1000000)));
   });
@@ -42,15 +42,15 @@ describe("ICP", () => {
   });
 
   it("returns an error on invalid formats", () => {
-    expect(ICP.fromString("1.1.1")).toBe(FromICPStringError.INVALID_FORMAT);
-    expect(ICP.fromString("a")).toBe(FromICPStringError.INVALID_FORMAT);
-    expect(ICP.fromString("3.a")).toBe(FromICPStringError.INVALID_FORMAT);
+    expect(ICP.fromString("1.1.1")).toBe(FromICPStringError.InvalidFormat);
+    expect(ICP.fromString("a")).toBe(FromICPStringError.InvalidFormat);
+    expect(ICP.fromString("3.a")).toBe(FromICPStringError.InvalidFormat);
     expect(ICP.fromString("123asdf$#@~!")).toBe(
-      FromICPStringError.INVALID_FORMAT
+      FromICPStringError.InvalidFormat
     );
   });
 
   it("rejects negative numbers", () => {
-    expect(ICP.fromString("-1")).toBe(FromICPStringError.INVALID_FORMAT);
+    expect(ICP.fromString("-1")).toBe(FromICPStringError.InvalidFormat);
   });
 });

@@ -302,7 +302,7 @@ describe("GovernanceCanister", () => {
       });
       await governance.registerVote({
         neuronId: BigInt(1),
-        vote: Vote.YES,
+        vote: Vote.Yes,
         proposalId: BigInt(2),
       });
       expect(service.manage_neuron).toBeCalled();
@@ -327,7 +327,7 @@ describe("GovernanceCanister", () => {
       const call = async () =>
         await governance.registerVote({
           neuronId: BigInt(1),
-          vote: Vote.YES,
+          vote: Vote.Yes,
           proposalId: BigInt(2),
         });
 
@@ -348,7 +348,7 @@ describe("GovernanceCanister", () => {
       const call = async () =>
         await governance.registerVote({
           neuronId: BigInt(1),
-          vote: Vote.YES,
+          vote: Vote.Yes,
           proposalId: BigInt(2),
         });
 
