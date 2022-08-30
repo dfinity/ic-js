@@ -78,10 +78,10 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 
 #### Constructors
 
-`public`:
+`public`
 
 Parameters:
 
-- `message`:
+- `message`
 
 <!-- TSDOC_END -->

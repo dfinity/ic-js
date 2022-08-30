@@ -88,13 +88,13 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 
 #### Constructors
 
-`public`:
+`public`
 
 Parameters:
 
-- `id`:
-- `service`:
-- `certifiedService`:
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 
@@ -170,13 +170,13 @@ Remove permissions to a neuron for a specific principal
 
 #### Constructors
 
-`public`:
+`public`
 
 Parameters:
 
-- `id`:
-- `service`:
-- `certifiedService`:
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 
@@ -201,13 +201,13 @@ The token metadata (name, symbol, etc.).
 
 #### Constructors
 
-`public`:
+`public`
 
 Parameters:
 
-- `id`:
-- `service`:
-- `certifiedService`:
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 
@@ -234,13 +234,13 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 
 #### Constructors
 
-`public`:
+`public`
 
 Parameters:
 
-- `id`:
-- `service`:
-- `certifiedService`:
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 
@@ -291,7 +291,7 @@ A wrapper either performs query or update calls.
 
 Parameters:
 
-- `__0`:
+- `__0`
 
 #### Methods
 
