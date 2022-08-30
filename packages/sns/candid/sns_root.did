@@ -1,4 +1,4 @@
-// Generated from IC repo commit 518271451cf8901c77c986e007e2c4762d1fc948 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit 12ea1aa1db0a3427eeec8e4b132b0bffb0362380 'rs/sns/root/canister/root.did' by import-candid
 type CanisterCallError = record { code : opt int32; description : text };
 type CanisterIdRecord = record { canister_id : principal };
 type CanisterStatusResult = record {
@@ -35,6 +35,7 @@ type FailedUpdate = record {
   err : opt CanisterCallError;
   dapp_canister_id : opt principal;
 };
+type GetSnsCanistersSummaryRequest = record { update_canister_list : opt bool };
 type GetSnsCanistersSummaryResponse = record {
   root : opt CanisterSummary;
   swap : opt CanisterSummary;
@@ -67,7 +68,9 @@ type SnsRootCanister = record {
 service : (SnsRootCanister) -> {
   canister_status : (CanisterIdRecord) -> (CanisterStatusResult);
   get_build_metadata : () -> (text) query;
-  get_sns_canisters_summary : (record {}) -> (GetSnsCanistersSummaryResponse);
+  get_sns_canisters_summary : (GetSnsCanistersSummaryRequest) -> (
+      GetSnsCanistersSummaryResponse,
+    );
   list_sns_canisters : (record {}) -> (ListSnsCanistersResponse) query;
   register_dapp_canister : (RegisterDappCanisterRequest) -> (record {});
   set_dapp_controllers : (SetDappControllersRequest) -> (
