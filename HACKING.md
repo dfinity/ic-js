@@ -59,5 +59,5 @@ Saving peer dependencies in `package-lock.json` needs npm >= v7.
 
 ```bash
 npm rm @dfinity/principal @dfinity/agent @dfinity/candid
-npm i @dfinity/principal@0.12.0 @dfinity/agent@0.12.0 @dfinity/candid@0.12.0 --save-peer
+npm i @dfinity/principal@latest @dfinity/agent@latest @dfinity/candid@latest --save-peer
 ```
