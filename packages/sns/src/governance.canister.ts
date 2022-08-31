@@ -26,6 +26,11 @@ import type {
 import type { QueryParams } from "./types/query.params";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
+  /**
+   * Instantiate a canister to interact with the governance of a Sns project.
+   *
+   * @param {SnsCanisterOptions} options Miscellaneous options to initialize the canister. Its ID being the only mandatory parammeter.
+   */
   static create(options: SnsCanisterOptions<SnsGovernanceService>) {
     const { service, certifiedService, canisterId } =
       createServices<SnsGovernanceService>({
