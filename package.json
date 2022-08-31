@@ -13,7 +13,8 @@
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
     "protoc": "bash ./scripts/update_proto.sh",
-    "test": "jest"
+    "test": "jest",
+    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/utils/README.md"
   },
   "repository": {
     "type": "git",
