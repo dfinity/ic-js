@@ -77,6 +77,7 @@ export interface SnsInitPayload {
   min_icp_e8s: [] | [bigint];
 }
 export interface SnsVersion {
+  archive_wasm_hash: Array<number>;
   root_wasm_hash: Array<number>;
   swap_wasm_hash: Array<number>;
   ledger_wasm_hash: Array<number>;

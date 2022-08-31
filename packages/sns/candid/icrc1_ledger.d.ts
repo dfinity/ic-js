@@ -1,6 +1,6 @@
 import type { Principal } from "@dfinity/principal";
 export interface Account {
-  of: Principal;
+  owner: Principal;
   subaccount: [] | [Subaccount];
 }
 export type BlockIndex = bigint;
@@ -25,10 +25,9 @@ export type Subaccount = Array<number>;
 export type Timestamp = bigint;
 export type Tokens = bigint;
 export interface TransferArg {
+  to: Account;
   fee: [] | [Tokens];
-  to_principal: Principal;
-  to_subaccount: [] | [Subaccount];
-  memo: [] | [bigint];
+  memo: [] | [Array<number>];
   from_subaccount: [] | [Subaccount];
   created_at_time: [] | [Timestamp];
   amount: Tokens;
@@ -37,12 +36,12 @@ export type TransferError =
   | {
       GenericError: { message: string; error_code: bigint };
     }
+  | { TemporarilyUnavailable: null }
   | { BadBurn: { min_burn_amount: Tokens } }
   | { Duplicate: { duplicate_of: BlockIndex } }
-  | { Throttled: null }
   | { BadFee: { expected_fee: Tokens } }
-  | { CreatedInFuture: null }
-  | { TooOld: { allowed_window_nanos: Duration } }
+  | { CreatedInFuture: { ledger_time: bigint } }
+  | { TooOld: null }
   | { InsufficientFunds: { balance: Tokens } };
 export type TransferResult = { Ok: BlockIndex } | { Err: TransferError };
 export type Value =
@@ -53,7 +52,9 @@ export type Value =
 export interface _SERVICE {
   icrc1_balance_of: (arg_0: Account) => Promise<Tokens>;
   icrc1_decimals: () => Promise<number>;
+  icrc1_fee: () => Promise<Tokens>;
   icrc1_metadata: () => Promise<Array<[string, Value]>>;
+  icrc1_minting_account: () => Promise<[] | [Account]>;
   icrc1_name: () => Promise<string>;
   icrc1_supported_standards: () => Promise<
     Array<{ url: string; name: string }>

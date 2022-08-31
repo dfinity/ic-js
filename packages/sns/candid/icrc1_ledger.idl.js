@@ -8,7 +8,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Subaccount = IDL.Vec(IDL.Nat8);
   const Account = IDL.Record({
-    'of' : IDL.Principal,
+    'owner' : IDL.Principal,
     'subaccount' : IDL.Opt(Subaccount),
   });
   const InitArgs = IDL.Record({
@@ -30,27 +30,25 @@ export const idlFactory = ({ IDL }) => {
   const Tokens = IDL.Nat;
   const Timestamp = IDL.Nat64;
   const TransferArg = IDL.Record({
+    'to' : Account,
     'fee' : IDL.Opt(Tokens),
-    'to_principal' : IDL.Principal,
-    'to_subaccount' : IDL.Opt(Subaccount),
-    'memo' : IDL.Opt(IDL.Nat64),
+    'memo' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'from_subaccount' : IDL.Opt(Subaccount),
     'created_at_time' : IDL.Opt(Timestamp),
     'amount' : Tokens,
   });
   const BlockIndex = IDL.Nat;
-  const Duration = IDL.Nat64;
   const TransferError = IDL.Variant({
     'GenericError' : IDL.Record({
       'message' : IDL.Text,
       'error_code' : IDL.Nat,
     }),
+    'TemporarilyUnavailable' : IDL.Null,
     'BadBurn' : IDL.Record({ 'min_burn_amount' : Tokens }),
     'Duplicate' : IDL.Record({ 'duplicate_of' : BlockIndex }),
-    'Throttled' : IDL.Null,
     'BadFee' : IDL.Record({ 'expected_fee' : Tokens }),
-    'CreatedInFuture' : IDL.Null,
-    'TooOld' : IDL.Record({ 'allowed_window_nanos' : Duration }),
+    'CreatedInFuture' : IDL.Record({ 'ledger_time' : IDL.Nat64 }),
+    'TooOld' : IDL.Null,
     'InsufficientFunds' : IDL.Record({ 'balance' : Tokens }),
   });
   const TransferResult = IDL.Variant({
@@ -60,11 +58,13 @@ export const idlFactory = ({ IDL }) => {
   return IDL.Service({
     'icrc1_balance_of' : IDL.Func([Account], [Tokens], ['query']),
     'icrc1_decimals' : IDL.Func([], [IDL.Nat8], ['query']),
+    'icrc1_fee' : IDL.Func([], [Tokens], ['query']),
     'icrc1_metadata' : IDL.Func(
         [],
         [IDL.Vec(IDL.Tuple(IDL.Text, Value))],
         ['query'],
       ),
+    'icrc1_minting_account' : IDL.Func([], [IDL.Opt(Account)], ['query']),
     'icrc1_name' : IDL.Func([], [IDL.Text], ['query']),
     'icrc1_supported_standards' : IDL.Func(
         [],
@@ -85,7 +85,7 @@ export const init = ({ IDL }) => {
   });
   const Subaccount = IDL.Vec(IDL.Nat8);
   const Account = IDL.Record({
-    'of' : IDL.Principal,
+    'owner' : IDL.Principal,
     'subaccount' : IDL.Opt(Subaccount),
   });
   const InitArgs = IDL.Record({
