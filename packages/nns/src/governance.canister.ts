@@ -18,6 +18,7 @@ import {
 } from "../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
+  fromAccountIdentifier,
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
   fromListProposalsRequest,
@@ -33,6 +34,7 @@ import {
   toMergeRequest,
   toRegisterVoteRequest,
   toRemoveHotkeyRequest,
+  toSetDissolveDelayRequest,
   toSpawnNeuronRequest,
   toSplitRawRequest,
   toStartDissolvingRequest,
@@ -296,6 +298,29 @@ export class GovernanceCanister {
   };
 
   /**
+   * Sets dissolve delay of a neuron
+   *
+   * @throws {@link GovernanceError}
+   */
+  public setDissolveDelay = async ({
+    neuronId,
+    dissolveDelaySeconds,
+  }: {
+    neuronId: NeuronId;
+    dissolveDelaySeconds: number;
+  }): Promise<void> => {
+    const request = toSetDissolveDelayRequest({
+      neuronId,
+      dissolveDelaySeconds,
+    });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
    * Start dissolving process of a neuron
    *
    * @throws {@link GovernanceError}
@@ -355,6 +380,27 @@ export class GovernanceCanister {
       request,
       service: this.certifiedService,
     });
+  };
+
+  /**
+   * Sets node provider account
+   *
+   * @param {accountIdentifier}
+   * @throws {@link GovernanceError}
+   * @throws {@link InvalidAccountIDError}
+   */
+  public setNodeProviderAccount = async (
+    accountIdentifier: string
+  ): Promise<void> => {
+    // Might throw InvalidAccountIDError
+    checkAccountId(accountIdentifier);
+    const response = await this.certifiedService.update_node_provider({
+      reward_account: [fromAccountIdentifier(accountIdentifier)],
+    });
+
+    if ("Err" in response) {
+      throw new GovernanceError(response.Err);
+    }
   };
 
   /**

@@ -13,6 +13,7 @@ import type {
   ListKnownNeuronsResponse,
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
+  Result,
   _SERVICE as GovernanceService,
 } from "../candid/governance";
 import { NeuronId as PbNeuronId } from "../proto/base_types_pb";
@@ -528,6 +529,127 @@ describe("GovernanceCanister", () => {
       await expect(call).rejects.toThrow(
         new GovernanceError(unexpectedGovernanceError)
       );
+    });
+  });
+
+  describe("GovernanceCanister.setDissolveDelay", () => {
+    it("sets dissolve delay of the neuron successfully", async () => {
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Configure: {} }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      await governance.setDissolveDelay({
+        neuronId: BigInt(1),
+        dissolveDelaySeconds: 100000,
+      });
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("throw error when setDissolveDelay fails with error", async () => {
+      const error: GovernanceErrorDetail = {
+        error_message: "Some error",
+        error_type: 1,
+      };
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const call = async () =>
+        await governance.setDissolveDelay({
+          neuronId: BigInt(1),
+          dissolveDelaySeconds: 100000,
+        });
+
+      await expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+
+    it("throw error when setDissolveDelay fails unexpectedly", async () => {
+      const serviceResponse: ManageNeuronResponse = {
+        command: [],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const call = async () =>
+        await governance.setDissolveDelay({
+          neuronId: BigInt(1),
+          dissolveDelaySeconds: 100000,
+        });
+
+      await expect(call).rejects.toThrow(
+        new GovernanceError(unexpectedGovernanceError)
+      );
+    });
+  });
+
+  describe("GovernanceCanister.setNodeProviderAccount", () => {
+    const validAccount =
+      "cd70bfa0f092c38a0ff8643d4617219761eb61d199b15418c0b1114d59e30f8e";
+    it("sets node provider reward account successfully", async () => {
+      const serviceResponse: Result = {
+        Ok: null,
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.update_node_provider.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      await governance.setNodeProviderAccount(validAccount);
+      expect(service.update_node_provider).toBeCalled();
+    });
+
+    it("throw error when update_node_provider returns error", async () => {
+      const error: GovernanceErrorDetail = {
+        error_message: "Some error",
+        error_type: 1,
+      };
+      const serviceResponse: Result = {
+        Err: error,
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.update_node_provider.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const call = async () =>
+        await governance.setNodeProviderAccount(validAccount);
+
+      await expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+
+    it("throw error when account is not valid", async () => {
+      const serviceResponse: Result = {
+        Ok: null,
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.update_node_provider.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const call = async () =>
+        await governance.setNodeProviderAccount("invalid");
+
+      await expect(call).rejects.toThrow(InvalidAccountIDError);
     });
   });
 

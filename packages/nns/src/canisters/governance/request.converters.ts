@@ -441,7 +441,7 @@ const fromAmount = (amount: E8s): Amount => ({
   e8s: amount,
 });
 
-const fromAccountIdentifier = (
+export const fromAccountIdentifier = (
   accountIdentifier: AccountIdentifier
 ): RawAccountIdentifier => {
   const bytes: Uint8Array = accountIdentifierToBytes(accountIdentifier);
@@ -996,6 +996,22 @@ export const toIncreaseDissolveDelayRequest = ({
     operation: {
       IncreaseDissolveDelay: {
         additional_dissolve_delay_seconds: additionalDissolveDelaySeconds,
+      },
+    },
+  });
+
+export const toSetDissolveDelayRequest = ({
+  neuronId,
+  dissolveDelaySeconds,
+}: {
+  neuronId: NeuronId;
+  dissolveDelaySeconds: number;
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      SetDissolveTimestamp: {
+        dissolve_timestamp_seconds: BigInt(dissolveDelaySeconds),
       },
     },
   });
