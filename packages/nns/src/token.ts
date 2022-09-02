@@ -40,10 +40,10 @@ export const convertStringToE8s = (
   return e8s;
 };
 
-export type Token = {
+export interface Token {
   symbol: string;
   name: string;
-};
+}
 
 export const ICPToken: Token = {
   symbol: "ICP",
@@ -51,9 +51,15 @@ export const ICPToken: Token = {
 };
 
 export class TokenAmount {
-  protected constructor(protected e8s: bigint, public token: Token) {}
+  private constructor(protected e8s: bigint, public token: Token) {}
 
-  public static fromE8s(amount: bigint, token: Token = ICPToken): TokenAmount {
+  public static fromE8s({
+    amount,
+    token = ICPToken,
+  }: {
+    amount: bigint;
+    token?: Token;
+  }): TokenAmount {
     return new TokenAmount(amount, token);
   }
 
@@ -64,10 +70,13 @@ export class TokenAmount {
    * 1'234'567.8901
    * 1,234,567.8901
    */
-  public static fromString(
-    amount: string,
-    token: Token = ICPToken
-  ): TokenAmount | FromStringToTokenError {
+  public static fromString({
+    amount,
+    token = ICPToken,
+  }: {
+    amount: string;
+    token?: Token;
+  }): TokenAmount | FromStringToTokenError {
     const e8s = convertStringToE8s(amount);
 
     if (typeof e8s === "bigint") {
@@ -76,15 +85,18 @@ export class TokenAmount {
     return e8s;
   }
 
-  public static fromNumber(
-    amount: number,
-    token: Token = ICPToken
-  ): TokenAmount | FromStringToTokenError {
+  public static fromNumber({
+    amount,
+    token = ICPToken,
+  }: {
+    amount: number;
+    token?: Token;
+  }): TokenAmount | FromStringToTokenError {
     // If more than TOKEN_DECIMAL_ACCURACY, it returns 0, not the error.
-    return TokenAmount.fromString(
-      amount.toFixed(TOKEN_DECIMAL_ACCURACY),
-      token
-    );
+    return TokenAmount.fromString({
+      amount: amount.toFixed(TOKEN_DECIMAL_ACCURACY),
+      token,
+    });
   }
 
   public toE8s(): bigint {
