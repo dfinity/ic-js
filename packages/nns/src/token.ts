@@ -2,6 +2,12 @@ import { ICPTs } from "../proto/ledger_pb";
 import { E8S_PER_TOKEN, TOKEN_DECIMAL_ACCURACY } from "./constants/constants";
 import { FromStringToTokenError } from "./enums/token.enums";
 
+/**
+ * Receives a string representing a number and returns the big int or error.
+ *
+ * @param amount - in string format
+ * @returns bigint | FromStringToTokenError
+ */
 export const convertStringToE8s = (
   amount: string
 ): bigint | FromStringToTokenError => {
@@ -50,9 +56,21 @@ export const ICPToken: Token = {
   name: "ICP",
 };
 
+/**
+ * Represents an amount of tokens.
+ *
+ * @param e8s - The amount of tokens in bigint.
+ * @param token - The token type.
+ */
 export class TokenAmount {
   private constructor(protected e8s: bigint, public token: Token) {}
 
+  /**
+   * Initialize from a bigint. Bigint are considered e8s.
+   *
+   * @param amount - The amount in bigint format.
+   * @param token - The token type.
+   */
   public static fromE8s({
     amount,
     token = ICPToken,
@@ -69,6 +87,9 @@ export class TokenAmount {
    * 1234567.8901
    * 1'234'567.8901
    * 1,234,567.8901
+   *
+   * @param amount - The amount in string format.
+   * @param token - The token type.
    */
   public static fromString({
     amount,
@@ -85,6 +106,14 @@ export class TokenAmount {
     return e8s;
   }
 
+  /**
+   * Initialize from a number.
+   *
+   * 1 integer is considered E8S_PER_TOKEN
+   *
+   * @param amount - The amount in number format.
+   * @param token - The token type.
+   */
   public static fromNumber({
     amount,
     token = ICPToken,
@@ -99,11 +128,16 @@ export class TokenAmount {
     });
   }
 
+  /**
+   *
+   * @returns The amount of e8s.
+   */
   public toE8s(): bigint {
     return this.e8s;
   }
 
   // TODO: Remove this method when ICP class is not used anymore
+  // @deprecated
   public toProto(): ICPTs {
     const proto = new ICPTs();
     proto.setE8s(this.e8s.toString());
