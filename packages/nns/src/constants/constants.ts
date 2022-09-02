@@ -7,3 +7,4 @@ export const TRANSACTION_FEE = BigInt(10_000);
 // Note:  Canister IDs are not constant, so are not provided here.
 //        The same applies to HOST.
 export const E8S_PER_ICP = BigInt(100000000);
+export const ICP_DECIMAL_ACCURACY = 8;

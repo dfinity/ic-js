@@ -1,4 +1,4 @@
-export enum FromICPStringError {
+export enum FromStringToTokenError {
   FractionalMoreThan8Decimals,
   InvalidFormat,
 }
