@@ -53,7 +53,7 @@ export interface Token {
 
 export const ICPToken: Token = {
   symbol: "ICP",
-  name: "ICP",
+  name: "Internet Computer",
 };
 
 /**

@@ -7,7 +7,7 @@ import { convertStringToE8s, ICPToken, type Token } from "./token";
  * @deprecated
  */
 export class ICP {
-  private constructor(protected e8s: bigint, public token: Token) {}
+  private constructor(private e8s: bigint, public token: Token) {}
 
   public static fromE8s(amount: bigint): ICP {
     return new ICP(amount, ICPToken);
