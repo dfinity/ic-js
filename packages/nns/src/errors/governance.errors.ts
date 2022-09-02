@@ -1,12 +1,12 @@
 import type { GovernanceError as GovernanceErrorDetail } from "../../candid/governance";
-import type { ICP } from "../icp";
+import type { Token } from "../token";
 
 export abstract class StakeNeuronError extends Error {}
 
 export class CouldNotClaimNeuronError extends StakeNeuronError {}
 
 export class InsufficientAmountError extends StakeNeuronError {
-  constructor(public readonly minimumAmount: ICP) {
+  constructor(public readonly minimumAmount: Token) {
     super();
   }
 }
