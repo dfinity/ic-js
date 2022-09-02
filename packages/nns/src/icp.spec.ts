@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
-import { ICP } from ".";
-import { FromICPStringError } from "./enums/icp.enums";
+import { FromStringToTokenError } from "./enums/token.enums";
+import { ICP } from "./icp";
 
 describe("ICP", () => {
   it("can be initialized from a whole number string", () => {
@@ -22,7 +22,7 @@ describe("ICP", () => {
     expect(ICP.fromString("0.0001")).toEqual(ICP.fromE8s(BigInt(10000)));
     expect(ICP.fromString("0.00000001")).toEqual(ICP.fromE8s(BigInt(1)));
     expect(ICP.fromString("0.0000000001")).toEqual(
-      FromICPStringError.FractionalMoreThan8Decimals
+      FromStringToTokenError.FractionalMoreThan8Decimals
     );
     expect(ICP.fromString(".01")).toEqual(ICP.fromE8s(BigInt(1000000)));
   });
@@ -42,15 +42,15 @@ describe("ICP", () => {
   });
 
   it("returns an error on invalid formats", () => {
-    expect(ICP.fromString("1.1.1")).toBe(FromICPStringError.InvalidFormat);
-    expect(ICP.fromString("a")).toBe(FromICPStringError.InvalidFormat);
-    expect(ICP.fromString("3.a")).toBe(FromICPStringError.InvalidFormat);
+    expect(ICP.fromString("1.1.1")).toBe(FromStringToTokenError.InvalidFormat);
+    expect(ICP.fromString("a")).toBe(FromStringToTokenError.InvalidFormat);
+    expect(ICP.fromString("3.a")).toBe(FromStringToTokenError.InvalidFormat);
     expect(ICP.fromString("123asdf$#@~!")).toBe(
-      FromICPStringError.InvalidFormat
+      FromStringToTokenError.InvalidFormat
     );
   });
 
   it("rejects negative numbers", () => {
-    expect(ICP.fromString("-1")).toBe(FromICPStringError.InvalidFormat);
+    expect(ICP.fromString("-1")).toBe(FromStringToTokenError.InvalidFormat);
   });
 });

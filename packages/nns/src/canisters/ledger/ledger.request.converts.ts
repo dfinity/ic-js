@@ -32,7 +32,7 @@ export const toTransferRawRequest = ({
 }: TransferRequest): TransferRawRequest => ({
   to: to.toNumbers(),
   fee: e8sToTokens(fee ?? TRANSACTION_FEE),
-  amount: e8sToTokens(amount.toE8s()),
+  amount: e8sToTokens(amount),
   // Always explicitly set the memo for compatibility with ledger wallet - hardware wallet
   memo: memo ?? BigInt(0),
   created_at_time: [],

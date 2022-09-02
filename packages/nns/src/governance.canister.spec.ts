@@ -27,7 +27,6 @@ import {
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { GovernanceCanister } from "./governance.canister";
-import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger.canister";
 import {
   mockListNeuronsResponse,
@@ -170,7 +169,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const response = await governance.stakeNeuron({
-        stake: ICP.fromString("1") as ICP,
+        stake: BigInt(100_000_000),
         principal: new AnonymousIdentity().getPrincipal(),
         ledgerCanister: mockLedger,
       });
@@ -199,7 +198,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const response = await governance.stakeNeuron({
-        stake: ICP.fromString("1") as ICP,
+        stake: BigInt(100_000_000),
         principal: new AnonymousIdentity().getPrincipal(),
         ledgerCanister: mockLedger,
         fromSubAccount: [
@@ -232,7 +231,7 @@ describe("GovernanceCanister", () => {
 
       const call = async () =>
         await governance.stakeNeuron({
-          stake: ICP.fromString("0.1") as ICP,
+          stake: BigInt(10_000_000),
           principal: new AnonymousIdentity().getPrincipal(),
           ledgerCanister: mockLedger,
         });
@@ -241,7 +240,7 @@ describe("GovernanceCanister", () => {
       expect(service.claim_or_refresh_neuron_from_account).not.toBeCalled();
 
       await expect(call).rejects.toThrow(
-        new InsufficientAmountError(ICP.fromString("1") as ICP)
+        new InsufficientAmountError(BigInt(10_000_000))
       );
     });
 
@@ -1135,7 +1134,7 @@ describe("GovernanceCanister", () => {
   describe("GovernanceCanister.splitNeuron", () => {
     it("successfully splits neuron", async () => {
       const neuronId = BigInt(10);
-      const amount = ICP.fromString("6") as ICP;
+      const amount = BigInt(600_000_000);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Split: { created_neuron_id: [{ id: BigInt(11) }] } }],
       };
@@ -1158,7 +1157,7 @@ describe("GovernanceCanister", () => {
         error_type: 1,
       };
       const neuronId = BigInt(10);
-      const amount = ICP.fromString("6") as ICP;
+      const amount = BigInt(600_000_000);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };

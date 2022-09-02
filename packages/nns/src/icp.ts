@@ -1,12 +1,16 @@
 import { ICPTs } from "../proto/ledger_pb";
-import { E8S_PER_ICP } from "./constants/constants";
-import { FromICPStringError } from "./enums/icp.enums";
+import type { FromStringToTokenError } from "./enums/token.enums";
+import { convertStringToE8s, ICPToken, type Token } from "./token";
 
+/**
+ * We don't extend to keep `fromE8s` and `fromString` as backwards compatible.
+ * @deprecated
+ */
 export class ICP {
-  private constructor(private e8s: bigint) {}
+  private constructor(private e8s: bigint, public token: Token) {}
 
   public static fromE8s(amount: bigint): ICP {
-    return new ICP(amount);
+    return new ICP(amount, ICPToken);
   }
 
   /**
@@ -16,40 +20,12 @@ export class ICP {
    * 1'234'567.8901
    * 1,234,567.8901
    */
-  public static fromString(amount: string): ICP | FromICPStringError {
-    // Remove all instances of "," and "'".
-    amount = amount.trim().replace(/[,']/g, "");
-
-    // Verify that the string is of the format 1234.5678
-    const regexMatch = amount.match(/\d*(\.\d*)?/);
-    if (!regexMatch || regexMatch[0] !== amount) {
-      return FromICPStringError.InvalidFormat;
+  public static fromString(amount: string): ICP | FromStringToTokenError {
+    const e8s = convertStringToE8s(amount);
+    if (typeof e8s === "bigint") {
+      return new ICP(e8s, ICPToken);
     }
-
-    const [integral, fractional] = amount.split(".");
-
-    let e8s = BigInt(0);
-
-    if (integral) {
-      try {
-        e8s += BigInt(integral) * E8S_PER_ICP;
-      } catch {
-        return FromICPStringError.InvalidFormat;
-      }
-    }
-
-    if (fractional) {
-      if (fractional.length > 8) {
-        return FromICPStringError.FractionalMoreThan8Decimals;
-      }
-      try {
-        e8s += BigInt(fractional.padEnd(8, "0"));
-      } catch {
-        return FromICPStringError.InvalidFormat;
-      }
-    }
-
-    return new ICP(e8s);
+    return e8s;
   }
 
   public toE8s(): bigint {
