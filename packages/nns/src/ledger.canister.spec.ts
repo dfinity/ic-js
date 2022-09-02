@@ -14,7 +14,6 @@ import {
   TxTooOldError,
 } from "./errors/ledger.errors";
 import { LedgerCanister } from "./ledger.canister";
-import { Token } from "./token";
 import { E8s } from "./types/common";
 
 describe("LedgerCanister", () => {
@@ -37,7 +36,7 @@ describe("LedgerCanister", () => {
           accountIdentifier,
           certified: false,
         });
-        expect(balance.toE8s()).toEqual(tokens.e8s);
+        expect(balance).toEqual(tokens.e8s);
         expect(service.account_balance).toBeCalled();
       });
 
@@ -52,7 +51,7 @@ describe("LedgerCanister", () => {
           accountIdentifier,
           certified: true,
         });
-        expect(balance.toE8s()).toEqual(tokens.e8s);
+        expect(balance).toEqual(tokens.e8s);
         expect(service.account_balance).toBeCalled();
       });
     });
@@ -89,7 +88,7 @@ describe("LedgerCanister", () => {
           accountIdentifier,
           certified: false,
         });
-        expect(typeof balance.toE8s()).toEqual("bigint");
+        expect(typeof balance).toEqual("bigint");
         expect(queryFetcher).toBeCalled();
       });
 
@@ -105,7 +104,7 @@ describe("LedgerCanister", () => {
           accountIdentifier,
           certified: true,
         });
-        expect(typeof balance.toE8s()).toEqual("bigint");
+        expect(typeof balance).toEqual("bigint");
         expect(updateFetcher).toBeCalled();
       });
     });
@@ -114,7 +113,7 @@ describe("LedgerCanister", () => {
   describe("transfer", () => {
     describe("no hardware wallet", () => {
       const to = accountIdentifier;
-      const amount = Token.fromE8s(BigInt(100000));
+      const amount = BigInt(100000);
 
       it("fetches transaction fee if not present", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
@@ -159,7 +158,7 @@ describe("LedgerCanister", () => {
             e8s: fee,
           },
           amount: {
-            e8s: amount.toE8s(),
+            e8s: amount,
           },
           memo,
           created_at_time: [],
@@ -189,7 +188,7 @@ describe("LedgerCanister", () => {
             e8s: fee,
           },
           amount: {
-            e8s: amount.toE8s(),
+            e8s: amount,
           },
           memo: defaultMemo,
           created_at_time: [],
@@ -225,7 +224,7 @@ describe("LedgerCanister", () => {
             e8s: fee,
           },
           amount: {
-            e8s: amount.toE8s(),
+            e8s: amount,
           },
           memo,
           created_at_time: [],
@@ -353,7 +352,7 @@ describe("LedgerCanister", () => {
 
     describe("for hardware wallet", () => {
       const to = accountIdentifier;
-      const amount = Token.fromE8s(BigInt(100000));
+      const amount = BigInt(100000);
 
       it("handles invalid sender", async () => {
         const ledger = LedgerCanister.create({
@@ -409,7 +408,7 @@ describe("LedgerCanister", () => {
           });
 
         await expect(call).rejects.toThrow(
-          new InsufficientFundsError(Token.fromE8s(BigInt(12346789123)))
+          new InsufficientFundsError(BigInt(12346789123))
         );
       });
 
@@ -477,7 +476,7 @@ describe("LedgerCanister", () => {
         fee,
       }: {
         to: AccountIdentifier;
-        amount: Token;
+        amount: bigint;
         memo?: bigint;
         fee?: E8s;
       }): SendRequest => {
@@ -485,7 +484,7 @@ describe("LedgerCanister", () => {
         expectedRequest.setTo(to.toProto());
 
         const payment = new Payment();
-        payment.setReceiverGets(amount.toProto());
+        payment.setReceiverGets(toICPTs(amount));
         expectedRequest.setPayment(payment);
 
         const requestMemo: Memo = new Memo();

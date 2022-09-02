@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
-import { ICP } from ".";
 import { FromStringToTokenError } from "./enums/token.enums";
+import { ICP } from "./icp";
 
 describe("ICP", () => {
   it("can be initialized from a whole number string", () => {

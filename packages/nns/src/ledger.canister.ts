@@ -24,7 +24,6 @@ import {
   mapTransferError,
   mapTransferProtoError,
 } from "./errors/ledger.errors";
-import { Token } from "./token";
 import type { BlockHeight } from "./types/common";
 import type {
   LedgerCanisterCall,
@@ -82,7 +81,7 @@ export class LedgerCanister {
   }: {
     accountIdentifier: AccountIdentifier;
     certified?: boolean;
-  }): Promise<Token> => {
+  }): Promise<bigint> => {
     if (this.hardwareWallet) {
       return this.accountBalanceHardwareWallet({
         accountIdentifier,
@@ -93,7 +92,7 @@ export class LedgerCanister {
     const tokens = await service.account_balance({
       account: accountIdentifier.toNumbers(),
     });
-    return Token.fromE8s(tokens.e8s);
+    return tokens.e8s;
   };
 
   /**
@@ -138,7 +137,7 @@ export class LedgerCanister {
   }: {
     accountIdentifier: AccountIdentifier;
     certified?: boolean;
-  }): Promise<Token> => {
+  }): Promise<bigint> => {
     const callMethod = certified ? this.updateFetcher : this.queryFetcher;
 
     const request = new AccountBalanceRequest();
@@ -151,8 +150,8 @@ export class LedgerCanister {
       arg: request.serializeBinary(),
     });
 
-    return Token.fromE8s(
-      BigInt(ICPTs.deserializeBinary(new Uint8Array(responseBytes)).getE8s())
+    return BigInt(
+      ICPTs.deserializeBinary(new Uint8Array(responseBytes)).getE8s()
     );
   };
 
@@ -167,7 +166,7 @@ export class LedgerCanister {
     request.setTo(to.toProto());
 
     const payment = new Payment();
-    payment.setReceiverGets(amount.toProto());
+    payment.setReceiverGets(toICPTs(amount));
     request.setPayment(payment);
 
     request.setMaxFee(toICPTs(fee ?? TRANSACTION_FEE));

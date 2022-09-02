@@ -1,11 +1,11 @@
 import { ICPTs } from "../proto/ledger_pb";
 import type { FromStringToTokenError } from "./enums/token.enums";
-import { convertStringToE8s, Token } from "./token";
+import { convertStringToE8s, ICPToken, TokenAmount } from "./token";
 
 // @deprecated
-export class ICP extends Token {
+export class ICP extends TokenAmount {
   public static fromE8s(amount: bigint): ICP {
-    return new ICP(amount, "ICP", "ICP");
+    return new ICP(amount, ICPToken);
   }
 
   /**
@@ -18,7 +18,7 @@ export class ICP extends Token {
   public static fromString(amount: string): ICP | FromStringToTokenError {
     const e8s = convertStringToE8s(amount);
     if (typeof e8s === "bigint") {
-      return new ICP(e8s, "ICP", "ICP");
+      return new ICP(e8s, ICPToken);
     }
     return e8s;
   }

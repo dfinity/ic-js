@@ -61,7 +61,7 @@ import {
   manageNeuron,
 } from "./canisters/governance/services";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
-import { E8S_PER_ICP } from "./constants/constants";
+import { E8S_PER_TOKEN } from "./constants/constants";
 import type { Vote } from "./enums/governance.enums";
 import {
   CouldNotClaimNeuronError,
@@ -71,7 +71,6 @@ import {
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import type { LedgerCanister } from "./ledger.canister";
-import { Token } from "./token";
 import type { E8s, NeuronId } from "./types/common";
 import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
@@ -225,13 +224,13 @@ export class GovernanceCanister {
     fromSubAccount,
     ledgerCanister,
   }: {
-    stake: Token;
+    stake: bigint;
     principal: Principal;
     fromSubAccount?: number[];
     ledgerCanister: LedgerCanister;
   }): Promise<NeuronId> => {
-    if (stake.toE8s() < E8S_PER_ICP) {
-      throw new InsufficientAmountError(Token.fromString("1") as Token);
+    if (stake < E8S_PER_TOKEN) {
+      throw new InsufficientAmountError(stake);
     }
 
     const nonceBytes = new Uint8Array(randomBytes(8));
@@ -389,11 +388,11 @@ export class GovernanceCanister {
     amount,
   }: {
     neuronId: NeuronId;
-    amount: Token;
+    amount: bigint;
   }): Promise<NeuronId> => {
     const request = toSplitRawRequest({
       neuronId,
-      amount: amount.toE8s(),
+      amount,
     });
 
     const response = await this.certifiedService.manage_neuron(request);

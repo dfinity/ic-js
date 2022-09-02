@@ -1,5 +1,5 @@
 import { ICPTs } from "../proto/ledger_pb";
-import { E8S_PER_ICP, ICP_DECIMAL_ACCURACY } from "./constants/constants";
+import { E8S_PER_TOKEN, TOKEN_DECIMAL_ACCURACY } from "./constants/constants";
 import { FromStringToTokenError } from "./enums/token.enums";
 
 export const convertStringToE8s = (
@@ -20,7 +20,7 @@ export const convertStringToE8s = (
 
   if (integral) {
     try {
-      e8s += BigInt(integral) * E8S_PER_ICP;
+      e8s += BigInt(integral) * E8S_PER_TOKEN;
     } catch {
       return FromStringToTokenError.InvalidFormat;
     }
@@ -40,21 +40,21 @@ export const convertStringToE8s = (
   return e8s;
 };
 
-export class Token {
-  protected constructor(
-    protected e8s: bigint,
-    public symbol: string,
-    public name: string
-  ) {}
+export type Token = {
+  symbol: string;
+  name: string;
+};
 
-  public static fromE8s(
-    amount: bigint,
-    { symbol, name }: { symbol: string; name: string } = {
-      symbol: "ICP",
-      name: "ICP",
-    }
-  ): Token {
-    return new Token(amount, symbol, name);
+export const ICPToken: Token = {
+  symbol: "ICP",
+  name: "ICP",
+};
+
+export class TokenAmount {
+  protected constructor(protected e8s: bigint, public token: Token) {}
+
+  public static fromE8s(amount: bigint, token: Token = ICPToken): TokenAmount {
+    return new TokenAmount(amount, token);
   }
 
   /**
@@ -66,31 +66,25 @@ export class Token {
    */
   public static fromString(
     amount: string,
-    { symbol, name }: { symbol: string; name: string } = {
-      symbol: "ICP",
-      name: "ICP",
-    }
-  ): Token | FromStringToTokenError {
+    token: Token = ICPToken
+  ): TokenAmount | FromStringToTokenError {
     const e8s = convertStringToE8s(amount);
 
     if (typeof e8s === "bigint") {
-      return new Token(e8s, symbol, name);
+      return new TokenAmount(e8s, token);
     }
     return e8s;
   }
 
   public static fromNumber(
     amount: number,
-    { symbol, name }: { symbol: string; name: string } = {
-      symbol: "ICP",
-      name: "ICP",
-    }
-  ): Token | FromStringToTokenError {
-    // If more than ICP_DECIMAL_ACCURACY, it returns 0, not the error.
-    return Token.fromString(amount.toFixed(ICP_DECIMAL_ACCURACY), {
-      symbol,
-      name,
-    });
+    token: Token = ICPToken
+  ): TokenAmount | FromStringToTokenError {
+    // If more than TOKEN_DECIMAL_ACCURACY, it returns 0, not the error.
+    return TokenAmount.fromString(
+      amount.toFixed(TOKEN_DECIMAL_ACCURACY),
+      token
+    );
   }
 
   public toE8s(): bigint {

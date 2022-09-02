@@ -9,7 +9,7 @@ export { GovernanceCanister } from "./governance.canister";
 export { ICP } from "./icp";
 export { LedgerCanister } from "./ledger.canister";
 export { SnsWasmCanister } from "./sns_wasm.canister";
-export { Token } from "./token";
+export * from "./token";
 export * from "./types/common";
 export * from "./types/governance.options";
 export * from "./types/governance_converters";
