@@ -24,7 +24,7 @@ import {
   mapTransferError,
   mapTransferProtoError,
 } from "./errors/ledger.errors";
-import { ICP } from "./icp";
+import { Token } from "./token";
 import type { BlockHeight } from "./types/common";
 import type {
   LedgerCanisterCall,
@@ -82,7 +82,7 @@ export class LedgerCanister {
   }: {
     accountIdentifier: AccountIdentifier;
     certified?: boolean;
-  }): Promise<ICP> => {
+  }): Promise<Token> => {
     if (this.hardwareWallet) {
       return this.accountBalanceHardwareWallet({
         accountIdentifier,
@@ -93,7 +93,7 @@ export class LedgerCanister {
     const tokens = await service.account_balance({
       account: accountIdentifier.toNumbers(),
     });
-    return ICP.fromE8s(tokens.e8s);
+    return Token.fromE8s(tokens.e8s);
   };
 
   /**
@@ -138,7 +138,7 @@ export class LedgerCanister {
   }: {
     accountIdentifier: AccountIdentifier;
     certified?: boolean;
-  }): Promise<ICP> => {
+  }): Promise<Token> => {
     const callMethod = certified ? this.updateFetcher : this.queryFetcher;
 
     const request = new AccountBalanceRequest();
@@ -151,7 +151,7 @@ export class LedgerCanister {
       arg: request.serializeBinary(),
     });
 
-    return ICP.fromE8s(
+    return Token.fromE8s(
       BigInt(ICPTs.deserializeBinary(new Uint8Array(responseBytes)).getE8s())
     );
   };

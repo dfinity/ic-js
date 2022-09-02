@@ -1,5 +1,5 @@
 import type { TransferError as RawTransferError } from "../../candid/ledger";
-import { ICP } from "../icp";
+import { Token } from "../token";
 import type { BlockHeight } from "../types/common";
 
 export class TransferError extends Error {}
@@ -7,7 +7,7 @@ export class TransferError extends Error {}
 export class InvalidSenderError extends TransferError {}
 
 export class InsufficientFundsError extends TransferError {
-  constructor(public readonly balance: ICP) {
+  constructor(public readonly balance: Token) {
     super();
   }
 }
@@ -39,7 +39,7 @@ export const mapTransferError = (
     return new TxDuplicateError(rawTransferError.TxDuplicate.duplicate_of);
   }
   if ("InsufficientFunds" in rawTransferError) {
-    const icp = ICP.fromE8s(rawTransferError.InsufficientFunds.balance.e8s);
+    const icp = Token.fromE8s(rawTransferError.InsufficientFunds.balance.e8s);
     return new InsufficientFundsError(icp);
   }
   if ("TxCreatedInFuture" in rawTransferError) {
@@ -83,8 +83,8 @@ export const mapTransferProtoError = (responseBytes: Error): TransferError => {
         /debit account.*, current balance: (\d*(\.\d*)?)/
       );
       if (m && m.length > 1) {
-        const balance = ICP.fromString(m[1]);
-        if (balance instanceof ICP) {
+        const balance = Token.fromString(m[1]);
+        if (balance instanceof Token) {
           return new InsufficientFundsError(balance);
         }
       }

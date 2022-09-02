@@ -70,8 +70,8 @@ import {
   InsufficientAmountError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
-import { ICP } from "./icp";
 import type { LedgerCanister } from "./ledger.canister";
+import { Token } from "./token";
 import type { E8s, NeuronId } from "./types/common";
 import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
@@ -225,13 +225,13 @@ export class GovernanceCanister {
     fromSubAccount,
     ledgerCanister,
   }: {
-    stake: ICP;
+    stake: Token;
     principal: Principal;
     fromSubAccount?: number[];
     ledgerCanister: LedgerCanister;
   }): Promise<NeuronId> => {
     if (stake.toE8s() < E8S_PER_ICP) {
-      throw new InsufficientAmountError(ICP.fromString("1") as ICP);
+      throw new InsufficientAmountError(Token.fromString("1") as Token);
     }
 
     const nonceBytes = new Uint8Array(randomBytes(8));
@@ -389,7 +389,7 @@ export class GovernanceCanister {
     amount,
   }: {
     neuronId: NeuronId;
-    amount: ICP;
+    amount: Token;
   }): Promise<NeuronId> => {
     const request = toSplitRawRequest({
       neuronId,

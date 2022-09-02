@@ -2,6 +2,7 @@ import { ICPTs } from "../proto/ledger_pb";
 import type { FromStringToTokenError } from "./enums/token.enums";
 import { convertStringToE8s, Token } from "./token";
 
+// @deprecated
 export class ICP extends Token {
   public static fromE8s(amount: bigint): ICP {
     return new ICP(amount, "ICP", "ICP");

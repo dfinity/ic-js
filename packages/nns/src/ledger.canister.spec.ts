@@ -13,8 +13,8 @@ import {
   TxDuplicateError,
   TxTooOldError,
 } from "./errors/ledger.errors";
-import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger.canister";
+import { Token } from "./token";
 import { E8s } from "./types/common";
 
 describe("LedgerCanister", () => {
@@ -114,7 +114,7 @@ describe("LedgerCanister", () => {
   describe("transfer", () => {
     describe("no hardware wallet", () => {
       const to = accountIdentifier;
-      const amount = ICP.fromE8s(BigInt(100000));
+      const amount = Token.fromE8s(BigInt(100000));
 
       it("fetches transaction fee if not present", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
@@ -353,7 +353,7 @@ describe("LedgerCanister", () => {
 
     describe("for hardware wallet", () => {
       const to = accountIdentifier;
-      const amount = ICP.fromE8s(BigInt(100000));
+      const amount = Token.fromE8s(BigInt(100000));
 
       it("handles invalid sender", async () => {
         const ledger = LedgerCanister.create({
@@ -409,7 +409,7 @@ describe("LedgerCanister", () => {
           });
 
         await expect(call).rejects.toThrow(
-          new InsufficientFundsError(ICP.fromE8s(BigInt(12346789123)))
+          new InsufficientFundsError(Token.fromE8s(BigInt(12346789123)))
         );
       });
 
@@ -477,7 +477,7 @@ describe("LedgerCanister", () => {
         fee,
       }: {
         to: AccountIdentifier;
-        amount: ICP;
+        amount: Token;
         memo?: bigint;
         fee?: E8s;
       }): SendRequest => {

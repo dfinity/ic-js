@@ -96,10 +96,11 @@ export class Token {
   public toE8s(): bigint {
     return this.e8s;
   }
-}
 
-export const tokensToProto = (tokens: Token): ICPTs => {
-  const proto = new ICPTs();
-  proto.setE8s(tokens.toE8s().toString());
-  return proto;
-};
+  // TODO: Remove this method when ICP class is not used anymore
+  public toProto(): ICPTs {
+    const proto = new ICPTs();
+    proto.setE8s(this.e8s.toString());
+    return proto;
+  }
+}

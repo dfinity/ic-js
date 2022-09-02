@@ -27,13 +27,13 @@ import {
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { GovernanceCanister } from "./governance.canister";
-import { ICP } from "./icp";
 import { LedgerCanister } from "./ledger.canister";
 import {
   mockListNeuronsResponse,
   mockNeuronId,
   mockNeuronInfo,
 } from "./mocks/governance.mock";
+import { Token } from "./token";
 import { MakeProposalRequest } from "./types/governance_converters";
 
 const unexpectedGovernanceError: GovernanceErrorDetail = {
@@ -170,7 +170,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const response = await governance.stakeNeuron({
-        stake: ICP.fromString("1") as ICP,
+        stake: Token.fromString("1") as Token,
         principal: new AnonymousIdentity().getPrincipal(),
         ledgerCanister: mockLedger,
       });
@@ -199,7 +199,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const response = await governance.stakeNeuron({
-        stake: ICP.fromString("1") as ICP,
+        stake: Token.fromString("1") as Token,
         principal: new AnonymousIdentity().getPrincipal(),
         ledgerCanister: mockLedger,
         fromSubAccount: [
@@ -232,7 +232,7 @@ describe("GovernanceCanister", () => {
 
       const call = async () =>
         await governance.stakeNeuron({
-          stake: ICP.fromString("0.1") as ICP,
+          stake: Token.fromString("0.1") as Token,
           principal: new AnonymousIdentity().getPrincipal(),
           ledgerCanister: mockLedger,
         });
@@ -241,7 +241,7 @@ describe("GovernanceCanister", () => {
       expect(service.claim_or_refresh_neuron_from_account).not.toBeCalled();
 
       await expect(call).rejects.toThrow(
-        new InsufficientAmountError(ICP.fromString("1") as ICP)
+        new InsufficientAmountError(Token.fromString("1") as Token)
       );
     });
 
@@ -1135,7 +1135,7 @@ describe("GovernanceCanister", () => {
   describe("GovernanceCanister.splitNeuron", () => {
     it("successfully splits neuron", async () => {
       const neuronId = BigInt(10);
-      const amount = ICP.fromString("6") as ICP;
+      const amount = Token.fromString("6") as Token;
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Split: { created_neuron_id: [{ id: BigInt(11) }] } }],
       };
@@ -1158,7 +1158,7 @@ describe("GovernanceCanister", () => {
         error_type: 1,
       };
       const neuronId = BigInt(10);
-      const amount = ICP.fromString("6") as ICP;
+      const amount = Token.fromString("6") as Token;
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
