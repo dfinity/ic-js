@@ -7,6 +7,7 @@ export * from "./errors/ledger.errors";
 export { GenesisTokenCanister } from "./genesis_token.canister";
 export { GovernanceCanister } from "./governance.canister";
 export { ICP } from "./icp";
+export { Token } from "./token";
 export { LedgerCanister } from "./ledger.canister";
 export { SnsWasmCanister } from "./sns_wasm.canister";
 export * from "./types/common";
