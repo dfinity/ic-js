@@ -1,4 +1,5 @@
 import { Principal } from "@dfinity/principal";
+import { AccountIdentifier as AccountIdentifierClass } from "../../account_identifier":
 import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -899,7 +900,7 @@ export const toDisburseNeuronRequest = ({
   amount,
 }: {
   neuronId: NeuronId;
-  toAccountId?: string;
+  toAccountId?: AccountIdentifierClass;
   amount?: E8s;
 }): RawManageNeuron =>
   toCommand({
@@ -907,7 +908,7 @@ export const toDisburseNeuronRequest = ({
     command: {
       Disburse: {
         to_account:
-          toAccountId !== undefined ? [fromAccountIdentifier(toAccountId)] : [],
+          toAccountId !== undefined ? [toAccountId.toCandid()] : [],
         amount: amount !== undefined ? [fromAmount(amount)] : [],
       },
     },

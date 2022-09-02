@@ -1,5 +1,6 @@
 import type { Principal } from "@dfinity/principal";
 import { sha224 } from "js-sha256";
+import type { AccountIdentifier as AccountIdentifierCandid } from "../candid/governance";
 import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
 import {
   asciiStringToByteArray,
@@ -57,6 +58,12 @@ export class AccountIdentifier {
 
   public toNumbers(): number[] {
     return Array.from(this.bytes);
+  }
+
+  public toCandid(): AccountIdentifierCandid {
+    return {
+      hash: this.toNumbers(),
+    };
   }
 }
 

@@ -18,7 +18,6 @@ import {
 } from "../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
-  fromAccountIdentifier,
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
   fromListProposalsRequest,
@@ -394,8 +393,9 @@ export class GovernanceCanister {
   ): Promise<void> => {
     // Might throw InvalidAccountIDError
     checkAccountId(accountIdentifier);
+    const account = AccountIdentifier.fromHex(accountIdentifier);
     const response = await this.certifiedService.update_node_provider({
-      reward_account: [fromAccountIdentifier(accountIdentifier)],
+      reward_account: [account.toCandid()],
     });
 
     if ("Err" in response) {
@@ -554,7 +554,16 @@ export class GovernanceCanister {
     if (this.hardwareWallet) {
       return this.disburseHardwareWallet({ neuronId, toAccountId, amount });
     }
-    const request = toDisburseNeuronRequest({ neuronId, toAccountId, amount });
+    // TODO: Test that the new way also works for disbursements.
+    const account =
+      toAccountId !== undefined
+        ? AccountIdentifier.fromHex(toAccountId)
+        : undefined;
+    const request = toDisburseNeuronRequest({
+      neuronId,
+      toAccountId: account,
+      amount,
+    });
 
     return manageNeuron({
       request,
