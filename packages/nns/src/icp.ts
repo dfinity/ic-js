@@ -2,8 +2,10 @@ import { ICPTs } from "../proto/ledger_pb";
 import type { FromStringToTokenError } from "./enums/token.enums";
 import { convertStringToE8s, ICPToken, type Token } from "./token";
 
-// We don't extend to keep `fromE8s` and `fromString` as backwards compatible.
-// @deprecated
+/**
+ * We don't extend to keep `fromE8s` and `fromString` as backwards compatible.
+ * @deprecated
+ */
 export class ICP {
   private constructor(protected e8s: bigint, public token: Token) {}
 

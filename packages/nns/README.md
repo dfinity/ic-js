@@ -63,6 +63,32 @@ await main();
 
 <!-- TSDOC_START -->
 
+### :toolbox: Functions
+
+- [convertStringToE8s](#gear-convertstringtoe8s)
+
+#### :gear: convertStringToE8s
+
+Receives a string representing a number and returns the big int or error.
+
+| Function             | Type                                                   |
+| -------------------- | ------------------------------------------------------ |
+| `convertStringToE8s` | `(amount: string) => bigint or FromStringToTokenError` |
+
+Parameters:
+
+- `amount`: - in string format
+
+### :wrench: Constants
+
+- [ICPToken](#gear-icptoken)
+
+#### :gear: ICPToken
+
+| Constant   | Type    |
+| ---------- | ------- |
+| `ICPToken` | `Token` |
+
 ### :factory: AccountIdentifier
 
 #### Methods
@@ -162,20 +188,30 @@ await main();
 | -------------- | --------------------------------------------------------------- |
 | `claimNeurons` | `({ hexPubKey, }: { hexPubKey: string; }) => Promise<bigint[]>` |
 
-### :factory: ICP
+### :factory: TokenAmount
+
+Represents an amount of tokens.
 
 #### Methods
 
 - [fromE8s](#gear-frome8s)
 - [fromString](#gear-fromstring)
+- [fromNumber](#gear-fromnumber)
 - [toE8s](#gear-toe8s)
 - [toProto](#gear-toproto)
 
 ##### :gear: fromE8s
 
-| Method    | Type                      |
-| --------- | ------------------------- |
-| `fromE8s` | `(amount: bigint) => ICP` |
+Initialize from a bigint. Bigint are considered e8s.
+
+| Method    | Type                                                                      |
+| --------- | ------------------------------------------------------------------------- |
+| `fromE8s` | `({ amount, token, }: { amount: bigint; token?: Token; }) => TokenAmount` |
+
+Parameters:
+
+- `params.amount`: The amount in bigint format.
+- `params.token`: The token type.
 
 ##### :gear: fromString
 
@@ -185,9 +221,29 @@ Initialize from a string. Accepted formats:
 1'234'567.8901
 1,234,567.8901
 
-| Method       | Type                                            |
-| ------------ | ----------------------------------------------- |
-| `fromString` | `(amount: string) => ICP or FromICPStringError` |
+| Method       | Type                                                                                                |
+| ------------ | --------------------------------------------------------------------------------------------------- |
+| `fromString` | `({ amount, token, }: { amount: string; token?: Token; }) => FromStringToTokenError or TokenAmount` |
+
+Parameters:
+
+- `params.amount`: The amount in string format.
+- `params.token`: The token type.
+
+##### :gear: fromNumber
+
+Initialize from a number.
+
+1 integer is considered E8S_PER_TOKEN
+
+| Method       | Type                                                                                                |
+| ------------ | --------------------------------------------------------------------------------------------------- |
+| `fromNumber` | `({ amount, token, }: { amount: number; token?: Token; }) => FromStringToTokenError or TokenAmount` |
+
+Parameters:
+
+- `params.amount`: The amount in number format.
+- `params.token`: The token type.
 
 ##### :gear: toE8s
 
@@ -196,6 +252,8 @@ Initialize from a string. Accepted formats:
 | `toE8s` | `() => bigint` |
 
 ##### :gear: toProto
+
+TODO: Remove this method when ICP class is not used anymore
 
 | Method    | Type          |
 | --------- | ------------- |
@@ -223,9 +281,9 @@ Returns the balance of the specified account identifier.
 If `certified` is true, the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method           | Type                                                                                                                  |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `accountBalance` | `({ accountIdentifier, certified, }: { accountIdentifier: AccountIdentifier; certified?: boolean; }) => Promise<ICP>` |
+| Method           | Type                                                                                                                     |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `accountBalance` | `({ accountIdentifier, certified, }: { accountIdentifier: AccountIdentifier; certified?: boolean; }) => Promise<bigint>` |
 
 ##### :gear: transactionFee
 
@@ -323,9 +381,9 @@ Parameters:
 
 ##### :gear: stakeNeuron
 
-| Method        | Type                                                                                                                                                                           |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `stakeNeuron` | `({ stake, principal, fromSubAccount, ledgerCanister, }: { stake: ICP; principal: Principal; fromSubAccount?: number[]; ledgerCanister: LedgerCanister; }) => Promise<bigint>` |
+| Method        | Type                                                                                                                                                                              |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stakeNeuron` | `({ stake, principal, fromSubAccount, ledgerCanister, }: { stake: bigint; principal: Principal; fromSubAccount?: number[]; ledgerCanister: LedgerCanister; }) => Promise<bigint>` |
 
 ##### :gear: increaseDissolveDelay
 
@@ -379,9 +437,9 @@ Merge two neurons
 
 Splits a neuron creating a new one
 
-| Method        | Type                                                                             |
-| ------------- | -------------------------------------------------------------------------------- |
-| `splitNeuron` | `({ neuronId, amount, }: { neuronId: bigint; amount: ICP; }) => Promise<bigint>` |
+| Method        | Type                                                                                |
+| ------------- | ----------------------------------------------------------------------------------- |
+| `splitNeuron` | `({ neuronId, amount, }: { neuronId: bigint; amount: bigint; }) => Promise<bigint>` |
 
 ##### :gear: getProposal
 
@@ -482,6 +540,47 @@ Return the data of the neuron provided as id.
 | Method      | Type                                                                                           |
 | ----------- | ---------------------------------------------------------------------------------------------- |
 | `getNeuron` | `({ certified, neuronId, }: { certified: boolean; neuronId: bigint; }) => Promise<NeuronInfo>` |
+
+### :factory: ICP
+
+We don't extend to keep `fromE8s` and `fromString` as backwards compatible.
+
+#### Methods
+
+- [fromE8s](#gear-frome8s)
+- [fromString](#gear-fromstring)
+- [toE8s](#gear-toe8s)
+- [toProto](#gear-toproto)
+
+##### :gear: fromE8s
+
+| Method    | Type                      |
+| --------- | ------------------------- |
+| `fromE8s` | `(amount: bigint) => ICP` |
+
+##### :gear: fromString
+
+Initialize from a string. Accepted formats:
+
+1234567.8901
+1'234'567.8901
+1,234,567.8901
+
+| Method       | Type                                                |
+| ------------ | --------------------------------------------------- |
+| `fromString` | `(amount: string) => FromStringToTokenError or ICP` |
+
+##### :gear: toE8s
+
+| Method  | Type           |
+| ------- | -------------- |
+| `toE8s` | `() => bigint` |
+
+##### :gear: toProto
+
+| Method    | Type          |
+| --------- | ------------- |
+| `toProto` | `() => ICPTs` |
 
 ### :factory: SnsWasmCanister
 

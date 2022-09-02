@@ -68,8 +68,9 @@ export class TokenAmount {
   /**
    * Initialize from a bigint. Bigint are considered e8s.
    *
-   * @param amount - The amount in bigint format.
-   * @param token - The token type.
+   * @param {amount: bigint; token?: Token;} params
+   * @param {bigint} params.amount The amount in bigint format.
+   * @param {Token} params.token The token type.
    */
   public static fromE8s({
     amount,
@@ -88,8 +89,9 @@ export class TokenAmount {
    * 1'234'567.8901
    * 1,234,567.8901
    *
-   * @param amount - The amount in string format.
-   * @param token - The token type.
+   * @param {amount: string; token?: Token;} params
+   * @param {string} params.amount The amount in string format.
+   * @param {Token} params.token The token type.
    */
   public static fromString({
     amount,
@@ -111,8 +113,9 @@ export class TokenAmount {
    *
    * 1 integer is considered E8S_PER_TOKEN
    *
-   * @param amount - The amount in number format.
-   * @param token - The token type.
+   * @param {amount: number; token?: Token;} params
+   * @param {string} params.amount The amount in number format.
+   * @param {Token} params.token The token type.
    */
   public static fromNumber({
     amount,
@@ -136,8 +139,10 @@ export class TokenAmount {
     return this.e8s;
   }
 
-  // TODO: Remove this method when ICP class is not used anymore
-  // @deprecated
+  /**
+   * TODO: Remove this method when ICP class is not used anymore
+   * @deprecated
+   */
   public toProto(): ICPTs {
     const proto = new ICPTs();
     proto.setE8s(this.e8s.toString());
