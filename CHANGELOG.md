@@ -16,7 +16,8 @@
 
 - new library `@dfinity/utils`
 - more Sns related features: `notifyParticipation`, `getUserCommitment`, some Sns neurons related features and governance `metadata`
-- new interface Token and class TokenAmount. They are the generic of ICP for other projects on IC.
+- new generic interface `Token` and class `TokenAmount`
+- class `ICP` set as deprecated
 
 ### Build
 
