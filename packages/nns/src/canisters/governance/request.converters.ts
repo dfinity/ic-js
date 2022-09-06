@@ -442,7 +442,7 @@ const fromAmount = (amount: E8s): Amount => ({
   e8s: amount,
 });
 
-export const fromAccountIdentifier = (
+const fromAccountIdentifier = (
   accountIdentifier: AccountIdentifier
 ): RawAccountIdentifier => {
   const bytes: Uint8Array = accountIdentifierToBytes(accountIdentifier);
