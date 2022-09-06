@@ -1,5 +1,4 @@
 import { Principal } from "@dfinity/principal";
-import { AccountIdentifier as AccountIdentifierClass } from "../../account_identifier":
 import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -17,6 +16,7 @@ import type {
   Operation as RawOperation,
   RewardMode as RawRewardMode,
 } from "../../../candid/governance";
+import type { AccountIdentifier as AccountIdentifierClass } from "../../account_identifier";
 import type { Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
@@ -907,8 +907,7 @@ export const toDisburseNeuronRequest = ({
     neuronId,
     command: {
       Disburse: {
-        to_account:
-          toAccountId !== undefined ? [toAccountId.toCandid()] : [],
+        to_account: toAccountId !== undefined ? [toAccountId.toCandid()] : [],
         amount: amount !== undefined ? [fromAmount(amount)] : [],
       },
     },
