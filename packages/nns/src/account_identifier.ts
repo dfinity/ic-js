@@ -60,7 +60,7 @@ export class AccountIdentifier {
     return Array.from(this.bytes);
   }
 
-  public toCandid(): AccountIdentifierCandid {
+  public toAccountIdentifierHash(): AccountIdentifierCandid {
     return {
       hash: this.toNumbers(),
     };

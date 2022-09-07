@@ -896,18 +896,21 @@ export const toManageNeuronsFollowRequest = ({
 
 export const toDisburseNeuronRequest = ({
   neuronId,
-  toAccountId,
+  toAccountIdentifier,
   amount,
 }: {
   neuronId: NeuronId;
-  toAccountId?: AccountIdentifierClass;
+  toAccountIdentifier?: AccountIdentifierClass;
   amount?: E8s;
 }): RawManageNeuron =>
   toCommand({
     neuronId,
     command: {
       Disburse: {
-        to_account: toAccountId !== undefined ? [toAccountId.toCandid()] : [],
+        to_account:
+          toAccountIdentifier !== undefined
+            ? [toAccountIdentifier.toAccountIdentifierHash()]
+            : [],
         amount: amount !== undefined ? [fromAmount(amount)] : [],
       },
     },

@@ -297,8 +297,11 @@ export class GovernanceCanister {
   };
 
   /**
-   * Sets dissolve delay of a neuron
+   * Sets dissolve delay of a neuron.
+   * The new date is now + dissolveDelaySeconds.
    *
+   * @param {NeuronId} neuronId
+   * @param {number} dissolveDelaySeconds
    * @throws {@link GovernanceError}
    */
   public setDissolveDelay = async ({
@@ -382,9 +385,10 @@ export class GovernanceCanister {
   };
 
   /**
-   * Sets node provider account
+   * Sets node provider reward account.
+   * Where the reward is paid to.
    *
-   * @param {accountIdentifier}
+   * @param {string} accountIdentifier
    * @throws {@link GovernanceError}
    * @throws {@link InvalidAccountIDError}
    */
@@ -395,7 +399,7 @@ export class GovernanceCanister {
     checkAccountId(accountIdentifier);
     const account = AccountIdentifier.fromHex(accountIdentifier);
     const response = await this.certifiedService.update_node_provider({
-      reward_account: [account.toCandid()],
+      reward_account: [account.toAccountIdentifierHash()],
     });
 
     if ("Err" in response) {
@@ -555,13 +559,13 @@ export class GovernanceCanister {
       return this.disburseHardwareWallet({ neuronId, toAccountId, amount });
     }
     // TODO: Test that the new way also works for disbursements.
-    const account =
+    const toAccountIdentifier =
       toAccountId !== undefined
         ? AccountIdentifier.fromHex(toAccountId)
         : undefined;
     const request = toDisburseNeuronRequest({
       neuronId,
-      toAccountId: account,
+      toAccountIdentifier,
       amount,
     });
 
