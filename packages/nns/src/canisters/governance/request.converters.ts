@@ -16,6 +16,7 @@ import type {
   Operation as RawOperation,
   RewardMode as RawRewardMode,
 } from "../../../candid/governance";
+import type { AccountIdentifier as AccountIdentifierClass } from "../../account_identifier";
 import type { Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
@@ -895,11 +896,11 @@ export const toManageNeuronsFollowRequest = ({
 
 export const toDisburseNeuronRequest = ({
   neuronId,
-  toAccountId,
+  toAccountIdentifier,
   amount,
 }: {
   neuronId: NeuronId;
-  toAccountId?: string;
+  toAccountIdentifier?: AccountIdentifierClass;
   amount?: E8s;
 }): RawManageNeuron =>
   toCommand({
@@ -907,7 +908,9 @@ export const toDisburseNeuronRequest = ({
     command: {
       Disburse: {
         to_account:
-          toAccountId !== undefined ? [fromAccountIdentifier(toAccountId)] : [],
+          toAccountIdentifier !== undefined
+            ? [toAccountIdentifier.toAccountIdentifierHash()]
+            : [],
         amount: amount !== undefined ? [fromAmount(amount)] : [],
       },
     },
@@ -996,6 +999,22 @@ export const toIncreaseDissolveDelayRequest = ({
     operation: {
       IncreaseDissolveDelay: {
         additional_dissolve_delay_seconds: additionalDissolveDelaySeconds,
+      },
+    },
+  });
+
+export const toSetDissolveDelayRequest = ({
+  neuronId,
+  dissolveDelaySeconds,
+}: {
+  neuronId: NeuronId;
+  dissolveDelaySeconds: number;
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      SetDissolveTimestamp: {
+        dissolve_timestamp_seconds: BigInt(dissolveDelaySeconds),
       },
     },
   });

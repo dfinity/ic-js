@@ -33,6 +33,7 @@ import {
   toMergeRequest,
   toRegisterVoteRequest,
   toRemoveHotkeyRequest,
+  toSetDissolveDelayRequest,
   toSpawnNeuronRequest,
   toSplitRawRequest,
   toStartDissolvingRequest,
@@ -296,6 +297,32 @@ export class GovernanceCanister {
   };
 
   /**
+   * Sets dissolve delay of a neuron.
+   * The new date is now + dissolveDelaySeconds.
+   *
+   * @param {NeuronId} neuronId
+   * @param {number} dissolveDelaySeconds
+   * @throws {@link GovernanceError}
+   */
+  public setDissolveDelay = async ({
+    neuronId,
+    dissolveDelaySeconds,
+  }: {
+    neuronId: NeuronId;
+    dissolveDelaySeconds: number;
+  }): Promise<void> => {
+    const request = toSetDissolveDelayRequest({
+      neuronId,
+      dissolveDelaySeconds,
+    });
+
+    return manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
    * Start dissolving process of a neuron
    *
    * @throws {@link GovernanceError}
@@ -355,6 +382,29 @@ export class GovernanceCanister {
       request,
       service: this.certifiedService,
     });
+  };
+
+  /**
+   * Sets node provider reward account.
+   * Where the reward is paid to.
+   *
+   * @param {string} accountIdentifier
+   * @throws {@link GovernanceError}
+   * @throws {@link InvalidAccountIDError}
+   */
+  public setNodeProviderAccount = async (
+    accountIdentifier: string
+  ): Promise<void> => {
+    // Might throw InvalidAccountIDError
+    checkAccountId(accountIdentifier);
+    const account = AccountIdentifier.fromHex(accountIdentifier);
+    const response = await this.certifiedService.update_node_provider({
+      reward_account: [account.toAccountIdentifierHash()],
+    });
+
+    if ("Err" in response) {
+      throw new GovernanceError(response.Err);
+    }
   };
 
   /**
@@ -508,7 +558,16 @@ export class GovernanceCanister {
     if (this.hardwareWallet) {
       return this.disburseHardwareWallet({ neuronId, toAccountId, amount });
     }
-    const request = toDisburseNeuronRequest({ neuronId, toAccountId, amount });
+    // TODO: Test that the new way also works for disbursements.
+    const toAccountIdentifier =
+      toAccountId !== undefined
+        ? AccountIdentifier.fromHex(toAccountId)
+        : undefined;
+    const request = toDisburseNeuronRequest({
+      neuronId,
+      toAccountIdentifier,
+      amount,
+    });
 
     return manageNeuron({
       request,
