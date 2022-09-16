@@ -1,5 +1,8 @@
 import type { ManageNeuron } from "../../candid/sns_governance";
-import type { SnsNeuronPermissionsParams } from "../types/governance.params";
+import type {
+  SnsDisburseNeuronParams,
+  SnsNeuronPermissionsParams,
+} from "../types/governance.params";
 
 export const toAddPermissionsRequest = ({
   neuronId,
@@ -28,6 +31,29 @@ export const toRemovePermissionsRequest = ({
       RemoveNeuronPermissions: {
         permissions_to_remove: [{ permissions }],
         principal_id: [principal],
+      },
+    },
+  ],
+});
+
+export const toDisburseNeuronRequest = ({
+  neuronId: { id },
+  amount,
+}: SnsDisburseNeuronParams): ManageNeuron => ({
+  subaccount: id,
+  command: [
+    {
+      Disburse: {
+        // currently there is a main account only support
+        to_account: [],
+        amount:
+          amount === undefined
+            ? []
+            : [
+                {
+                  e8s: amount,
+                },
+              ],
       },
     },
   ],

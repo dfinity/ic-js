@@ -11,6 +11,7 @@ import type { SnsLedgerCanister } from "./ledger.canister";
 import type { SnsRootCanister } from "./root.canister";
 import type { SnsSwapCanister } from "./swap.canister";
 import type {
+  SnsDisburseNeuronParams,
   SnsGetNeuronParams,
   SnsListNeuronsParams,
   SnsNeuronPermissionsParams,
@@ -102,6 +103,10 @@ export class SnsWrapper {
   removeNeuronPermissions = (
     params: SnsNeuronPermissionsParams
   ): Promise<void> => this.governance.removeNeuronPermissions(params);
+
+  // Always certified
+  disburse = (params: SnsDisburseNeuronParams): Promise<void> =>
+    this.governance.disburse(params);
 
   swapState = (
     params: Omit<QueryParams, "certified">
