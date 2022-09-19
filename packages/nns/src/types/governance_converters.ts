@@ -15,6 +15,7 @@ import type {
   Option,
   PrincipalString,
 } from "./common";
+import {Params} from "../../candid/governance";
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
@@ -29,7 +30,8 @@ export type Action =
   | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
   | { SetDefaultFollowees: SetDefaultFollowees }
   | { Motion: Motion }
-  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow };
+  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
+  | { OpenSnsTokenSwap: OpenSnsTokenSwap };
 export interface AddHotKey {
   newHotKey: Option<PrincipalString>;
 }
@@ -196,7 +198,19 @@ export interface MethodAuthzInfo {
 export interface Motion {
   motionText: string;
 }
-
+export interface OpenSnsTokenSwap {
+  communityFundInvestmentE8s?: bigint;
+  targetSwapCanisterId?: Principal;
+  params?: {
+    minParticipantIcpE8s: bigint;
+    maxIcpE8s: bigint;
+    swapDueTimestampSeconds: bigint;
+    minParticipants: number;
+    snsTokenE8s: bigint;
+    maxParticipantIcpE8s: bigint;
+    minIcpE8s: bigint;
+  }
+}
 export interface SetSnsTokenSwapOpenTimeWindow {
   request?: {
     openTimeWindow?: {

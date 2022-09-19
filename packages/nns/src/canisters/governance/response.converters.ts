@@ -26,6 +26,7 @@ import type {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governance";
+import { Params } from "../../../candid/governance";
 import type { PrincipalId } from "../../../proto/base_types_pb";
 import type {
   BallotInfo as PbBallotInfo,
@@ -353,6 +354,33 @@ const toAction = (action: RawAction): Action => {
       SetSnsTokenSwapOpenTimeWindow: {
         request,
         swapCanisterId,
+      },
+    };
+  }
+
+  if ("OpenSnsTokenSwap" in action) {
+    const OpenSnsTokenSwap = action.OpenSnsTokenSwap;
+    const params: Params | undefined = fromNullable(OpenSnsTokenSwap.params);
+
+    return {
+      OpenSnsTokenSwap: {
+        communityFundInvestmentE8s: fromNullable(
+          OpenSnsTokenSwap.community_fund_investment_e8s
+        ),
+        targetSwapCanisterId: fromNullable(
+          OpenSnsTokenSwap.target_swap_canister_id
+        ),
+        ...(params !== undefined && {
+          params: {
+            minParticipantIcpE8s: params.min_participant_icp_e8s,
+            maxIcpE8s: params.max_icp_e8s,
+            swapDueTimestampSeconds: params.swap_due_timestamp_seconds,
+            minParticipants: params.min_participants,
+            snsTokenE8s: params.sns_token_e8s,
+            maxParticipantIcpE8s: params.max_participant_icp_e8s,
+            minIcpE8s: params.min_icp_e8s,
+          },
+        }),
       },
     };
   }
