@@ -283,7 +283,7 @@ export type Operation =
   | { JoinCommunityFund: Record<string, never> }
   | { LeaveCommunityFund: Record<string, never> }
   | { SetDissolveTimestamp: SetDissolveTimestamp }
-    | { ChangeAutoStakeMaturity: ChangeAutoStakeMaturity};
+  | { ChangeAutoStakeMaturity: ChangeAutoStakeMaturity };
 export interface Proposal {
   title: Option<string>;
   url: string;
