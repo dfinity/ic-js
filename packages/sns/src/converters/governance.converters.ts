@@ -10,7 +10,7 @@ export const toAddPermissionsRequest = ({
   command: [
     {
       AddNeuronPermissions: {
-        permissions_to_add: [{ permissions }],
+        permissions_to_add: [{ permissions: Int32Array.from(permissions) }],
         principal_id: [principal],
       },
     },
@@ -26,7 +26,7 @@ export const toRemovePermissionsRequest = ({
   command: [
     {
       RemoveNeuronPermissions: {
-        permissions_to_remove: [{ permissions }],
+        permissions_to_remove: [{ permissions: Int32Array.from(permissions) }],
         principal_id: [principal],
       },
     },
