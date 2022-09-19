@@ -135,6 +135,61 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call leger balance with query or update", async () => {
+    const owner = Principal.fromText("aaaaa-aa");
+    await snsWrapper.balance({
+      owner,
+    });
+    await certifiedSnsWrapper.balance({
+      owner,
+    });
+
+    expect(mockLedgerCanister.balance).toHaveBeenCalledWith({
+      certified: false,
+      owner,
+    });
+    expect(mockCertifiedLedgerCanister.balance).toHaveBeenCalledWith({
+      certified: true,
+      owner,
+    });
+  });
+
+  it("should call leger balance of subaccount with query or update", async () => {
+    const owner = Principal.fromText("aaaaa-aa");
+    const subaccount = [0, 0, 1];
+    await snsWrapper.balance({
+      owner,
+      subaccount,
+    });
+    await certifiedSnsWrapper.balance({
+      owner,
+      subaccount,
+    });
+
+    expect(mockLedgerCanister.balance).toHaveBeenCalledWith({
+      certified: false,
+      owner,
+      subaccount,
+    });
+    expect(mockCertifiedLedgerCanister.balance).toHaveBeenCalledWith({
+      certified: true,
+      owner,
+      subaccount,
+    });
+  });
+
+  it("should call leger metadata with query or update", async () => {
+    await snsWrapper.ledgerMetadata({});
+    await certifiedSnsWrapper.ledgerMetadata({});
+
+    expect(mockLedgerCanister.metadata).toHaveBeenCalledWith({
+      certified: false,
+    });
+    expect(mockCertifiedLedgerCanister.metadata).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
   it("should call swapState with query and update", async () => {
     await snsWrapper.swapState({});
     expect(mockSwapCanister.state).toHaveBeenCalledWith({ certified: false });
