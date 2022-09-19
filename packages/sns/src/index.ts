@@ -12,9 +12,7 @@ export type {
   GetBuyerStateRequest as SnsGetBuyerStateRequest,
   GetBuyerStateResponse as SnsGetBuyerStateResponse,
   Init as SnsSwapInit,
-  State as SnsSwapState,
   Swap as SnsSwap,
-  TimeWindow as SnsSwapTimeWindow,
 } from "../candid/sns_swap";
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
