@@ -1,12 +1,9 @@
 import type { Principal } from "@dfinity/principal";
+import { asciiStringToByteArray } from "@dfinity/utils";
 import { Buffer } from "buffer";
 import { sha224 } from "js-sha256";
 import type { AccountIdentifier } from "../types/common";
-import {
-  asciiStringToByteArray,
-  calculateCrc32,
-  toHexString,
-} from "./converter.utils";
+import { calculateCrc32, toHexString } from "./converter.utils";
 
 export const accountIdentifierToBytes = (
   accountIdentifier: AccountIdentifier

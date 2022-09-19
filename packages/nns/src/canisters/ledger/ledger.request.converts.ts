@@ -1,3 +1,4 @@
+import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import type {
   Tokens,
   TransferArgs as TransferRawRequest,
@@ -5,7 +6,6 @@ import type {
 import { ICPTs, Subaccount } from "../../../proto/ledger_pb";
 import { TRANSACTION_FEE } from "../../constants/constants";
 import type { TransferRequest } from "../../types/ledger_converters";
-import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
 
 export const subAccountNumbersToSubaccount = (
   subAccountNumbers: number[]

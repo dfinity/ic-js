@@ -1,5 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   ManageNeuron,
@@ -190,11 +191,13 @@ describe("Governance canister", () => {
       const principal = Principal.fromText("aaaaa-aa");
       const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
       const request: ManageNeuron = {
-        subaccount: [1, 2, 3],
+        subaccount: arrayOfNumberToUint8Array([1, 2, 3]),
         command: [
           {
             AddNeuronPermissions: {
-              permissions_to_add: [{ permissions }],
+              permissions_to_add: [
+                { permissions: Int32Array.from(permissions) },
+              ],
               principal_id: [principal],
             },
           },
@@ -217,11 +220,13 @@ describe("Governance canister", () => {
       const principal = Principal.fromText("aaaaa-aa");
       const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
       const request: ManageNeuron = {
-        subaccount: [1, 2, 3],
+        subaccount: arrayOfNumberToUint8Array([1, 2, 3]),
         command: [
           {
             AddNeuronPermissions: {
-              permissions_to_add: [{ permissions }],
+              permissions_to_add: [
+                { permissions: Int32Array.from(permissions) },
+              ],
               principal_id: [principal],
             },
           },

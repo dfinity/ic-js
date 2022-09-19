@@ -1,6 +1,10 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
-import { createServices } from "@dfinity/utils";
+import {
+  asciiStringToByteArray,
+  createServices,
+  uint8ArrayToBigInt,
+} from "@dfinity/utils";
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
 import type {
@@ -90,10 +94,6 @@ import type {
   SpawnRequest,
 } from "./types/governance_converters";
 import { checkAccountId } from "./utils/accounts.utils";
-import {
-  asciiStringToByteArray,
-  uint8ArrayToBigInt,
-} from "./utils/converter.utils";
 import { assertPercentageNumber } from "./utils/number.utils";
 import { updateCall } from "./utils/proto.utils";
 

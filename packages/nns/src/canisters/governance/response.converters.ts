@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { fromNullable } from "@dfinity/utils";
+import { fromNullable, uint8ArrayToArrayOfNumber } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
 import type {
   AccountIdentifier as RawAccountIdentifier,
@@ -26,7 +26,7 @@ import type {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governance";
-import { Params } from "../../../candid/governance";
+import type { Params } from "../../../candid/governance";
 import type { PrincipalId } from "../../../proto/base_types_pb";
 import type {
   BallotInfo as PbBallotInfo,
@@ -67,7 +67,6 @@ import {
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
-import { uint8ArrayToArrayOfNumber } from "../../utils/converter.utils";
 
 const toNeuronInfo = ({
   neuronId,

@@ -1,4 +1,5 @@
 import { Principal } from "@dfinity/principal";
+import { arrayBufferToUint8Array } from "@dfinity/utils";
 import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -38,7 +39,6 @@ import type {
   RewardMode,
 } from "../../types/governance_converters";
 import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
-import { arrayBufferToUint8Array } from "../../utils/converter.utils";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
