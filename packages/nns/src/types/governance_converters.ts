@@ -15,7 +15,6 @@ import type {
   Option,
   PrincipalString,
 } from "./common";
-import {Params} from "../../candid/governance";
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
@@ -209,7 +208,7 @@ export interface OpenSnsTokenSwap {
     snsTokenE8s: bigint;
     maxParticipantIcpE8s: bigint;
     minIcpE8s: bigint;
-  }
+  };
 }
 export interface SetSnsTokenSwapOpenTimeWindow {
   request?: {
