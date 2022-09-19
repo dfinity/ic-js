@@ -5,7 +5,7 @@ import type {
 import { ICPTs, Subaccount } from "../../../proto/ledger_pb";
 import { TRANSACTION_FEE } from "../../constants/constants";
 import type { TransferRequest } from "../../types/ledger_converters";
-import {arrayOfNumberToUint8Array} from "../../utils/converter.utils";
+import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
 
 export const subAccountNumbersToSubaccount = (
   subAccountNumbers: number[]
@@ -37,5 +37,8 @@ export const toTransferRawRequest = ({
   // Always explicitly set the memo for compatibility with ledger wallet - hardware wallet
   memo: memo ?? BigInt(0),
   created_at_time: [],
-  from_subaccount: fromSubAccount === undefined ? [] : [arrayOfNumberToUint8Array(fromSubAccount)],
+  from_subaccount:
+    fromSubAccount === undefined
+      ? []
+      : [arrayOfNumberToUint8Array(fromSubAccount)],
 });
