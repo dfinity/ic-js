@@ -126,6 +126,9 @@ export interface KnownNeuron {
 export interface SetDissolveTimestamp {
   dissolveTimestampSeconds: bigint;
 }
+export interface ChangeAutoStakeMaturity {
+  requestedSettingForAutoStakeMaturity: boolean;
+}
 export interface ListProposalsRequest {
   // Limit on the number of [ProposalInfo] to return. If no value is
   // specified, or if a value greater than 100 is specified, 100
@@ -279,7 +282,8 @@ export type Operation =
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { JoinCommunityFund: Record<string, never> }
   | { LeaveCommunityFund: Record<string, never> }
-  | { SetDissolveTimestamp: SetDissolveTimestamp };
+  | { SetDissolveTimestamp: SetDissolveTimestamp }
+    | { ChangeAutoStakeMaturity: ChangeAutoStakeMaturity};
 export interface Proposal {
   title: Option<string>;
   url: string;

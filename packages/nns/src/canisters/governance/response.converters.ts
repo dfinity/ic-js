@@ -583,6 +583,17 @@ const toOperation = (operation: RawOperation): Operation => {
       },
     };
   }
+  if ("ChangeAutoStakeMaturity" in operation) {
+    const {
+      requested_setting_for_auto_stake_maturity:
+        requestedSettingForAutoStakeMaturity,
+    } = operation.ChangeAutoStakeMaturity;
+    return {
+      ChangeAutoStakeMaturity: {
+        requestedSettingForAutoStakeMaturity,
+      },
+    };
+  }
   throw new UnsupportedValueError(operation);
 };
 
