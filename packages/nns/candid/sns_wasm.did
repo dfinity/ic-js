@@ -1,4 +1,4 @@
-// Generated from IC repo commit 50c53c8e996e7b00b88c2f43120c46534cc499f6 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
+// Generated from IC repo commit 12ea1aa1db0a3427eeec8e4b132b0bffb0362380 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
 type AddWasmRequest = record { hash : vec nat8; wasm : opt SnsWasm };
 type AddWasmResponse = record { result : opt Result };
 type AirdropDistribution = record { airdrop_neurons : vec NeuronDistribution };
@@ -28,8 +28,6 @@ type InitialTokenDistribution = variant {
 type ListDeployedSnsesResponse = record { instances : vec DeployedSns };
 type NeuronDistribution = record {
   controller : opt principal;
-  dissolve_delay_seconds : nat64;
-  memo : nat64;
   stake_e8s : nat64;
 };
 type Result = variant { Error : SnsWasmError; Hash : vec nat8 };
@@ -41,17 +39,21 @@ type SnsCanisterIds = record {
 };
 type SnsInitPayload = record {
   url : opt text;
+  min_participant_icp_e8s : opt nat64;
   fallback_controller_principal_ids : vec text;
   token_symbol : opt text;
+  max_icp_e8s : opt nat64;
   neuron_minimum_stake_e8s : opt nat64;
   logo : opt text;
   name : opt text;
-  neuron_minimum_dissolve_delay_to_vote_seconds : opt nat64;
   description : opt text;
+  min_participants : opt nat32;
   transaction_fee_e8s : opt nat64;
   initial_token_distribution : opt InitialTokenDistribution;
   token_name : opt text;
+  max_participant_icp_e8s : opt nat64;
   proposal_reject_cost_e8s : opt nat64;
+  min_icp_e8s : opt nat64;
 };
 type SnsVersion = record {
   archive_wasm_hash : vec nat8;
@@ -74,7 +76,6 @@ type TreasuryDistribution = record { total_e8s : nat64 };
 service : (SnsWasmCanisterInitPayload) -> {
   add_wasm : (AddWasmRequest) -> (AddWasmResponse);
   deploy_new_sns : (DeployNewSnsRequest) -> (DeployNewSnsResponse);
-  get_latest_sns_version_pretty : (null) -> (vec record { text; text }) query;
   get_next_sns_version : (GetNextSnsVersionRequest) -> (
       GetNextSnsVersionResponse,
     ) query;
