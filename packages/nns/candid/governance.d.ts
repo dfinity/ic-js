@@ -1,6 +1,8 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface AccountIdentifier {
-  hash: Array<number>;
+  hash: Uint8Array;
 }
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
@@ -108,7 +110,7 @@ export type DissolveState =
   | { WhenDissolvedTimestampSeconds: bigint };
 export interface ExecuteNnsFunction {
   nns_function: number;
-  payload: Array<number>;
+  payload: Uint8Array;
 }
 export interface Follow {
   topic: number;
@@ -174,7 +176,7 @@ export interface ListKnownNeuronsResponse {
   known_neurons: Array<KnownNeuron>;
 }
 export interface ListNeurons {
-  neuron_ids: Array<bigint>;
+  neuron_ids: BigUint64Array;
   include_neurons_readable_by_caller: boolean;
 }
 export interface ListNeuronsResponse {
@@ -185,11 +187,11 @@ export interface ListNodeProvidersResponse {
   node_providers: Array<NodeProvider>;
 }
 export interface ListProposalInfo {
-  include_reward_status: Array<number>;
+  include_reward_status: Int32Array;
   before_proposal: [] | [NeuronId];
   limit: number;
-  exclude_topic: Array<number>;
-  include_status: Array<number>;
+  exclude_topic: Int32Array;
+  include_status: Int32Array;
 }
 export interface ListProposalInfoResponse {
   proposal_info: Array<ProposalInfo>;
@@ -243,7 +245,7 @@ export interface Neuron {
   created_timestamp_seconds: bigint;
   aging_since_timestamp_seconds: bigint;
   hot_keys: Array<Principal>;
-  account: Array<number>;
+  account: Uint8Array;
   joined_community_fund_timestamp_seconds: [] | [bigint];
   dissolve_state: [] | [DissolveState];
   followees: Array<[number, Followees]>;
@@ -256,7 +258,7 @@ export interface NeuronId {
   id: bigint;
 }
 export type NeuronIdOrSubaccount =
-  | { Subaccount: Array<number> }
+  | { Subaccount: Uint8Array }
   | { NeuronId: NeuronId };
 export interface NeuronInFlightCommand {
   command: [] | [Command_2];
@@ -275,11 +277,11 @@ export interface NeuronInfo {
   age_seconds: bigint;
 }
 export interface NeuronStakeTransfer {
-  to_subaccount: Array<number>;
+  to_subaccount: Uint8Array;
   neuron_stake_e8s: bigint;
   from: [] | [Principal];
   memo: bigint;
-  from_subaccount: Array<number>;
+  from_subaccount: Uint8Array;
   transfer_timestamp: bigint;
   block_height: bigint;
 }
@@ -413,38 +415,37 @@ export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
-  claim_gtc_neurons: (
-    arg_0: Principal,
-    arg_1: Array<NeuronId>
-  ) => Promise<Result>;
-  claim_or_refresh_neuron_from_account: (
-    arg_0: ClaimOrRefreshNeuronFromAccount
-  ) => Promise<ClaimOrRefreshNeuronFromAccountResponse>;
-  get_build_metadata: () => Promise<string>;
-  get_full_neuron: (arg_0: bigint) => Promise<Result_2>;
-  get_full_neuron_by_id_or_subaccount: (
-    arg_0: NeuronIdOrSubaccount
-  ) => Promise<Result_2>;
-  get_monthly_node_provider_rewards: () => Promise<Result_3>;
-  get_most_recent_monthly_node_provider_rewards: () => Promise<
+  claim_gtc_neurons: ActorMethod<[Principal, Array<NeuronId>], Result>;
+  claim_or_refresh_neuron_from_account: ActorMethod<
+    [ClaimOrRefreshNeuronFromAccount],
+    ClaimOrRefreshNeuronFromAccountResponse
+  >;
+  get_build_metadata: ActorMethod<[], string>;
+  get_full_neuron: ActorMethod<[bigint], Result_2>;
+  get_full_neuron_by_id_or_subaccount: ActorMethod<
+    [NeuronIdOrSubaccount],
+    Result_2
+  >;
+  get_monthly_node_provider_rewards: ActorMethod<[], Result_3>;
+  get_most_recent_monthly_node_provider_rewards: ActorMethod<
+    [],
     [] | [MostRecentMonthlyNodeProviderRewards]
   >;
-  get_network_economics_parameters: () => Promise<NetworkEconomics>;
-  get_neuron_ids: () => Promise<Array<bigint>>;
-  get_neuron_info: (arg_0: bigint) => Promise<Result_4>;
-  get_neuron_info_by_id_or_subaccount: (
-    arg_0: NeuronIdOrSubaccount
-  ) => Promise<Result_4>;
-  get_node_provider_by_caller: (arg_0: null) => Promise<Result_5>;
-  get_pending_proposals: () => Promise<Array<ProposalInfo>>;
-  get_proposal_info: (arg_0: bigint) => Promise<[] | [ProposalInfo]>;
-  list_known_neurons: () => Promise<ListKnownNeuronsResponse>;
-  list_neurons: (arg_0: ListNeurons) => Promise<ListNeuronsResponse>;
-  list_node_providers: () => Promise<ListNodeProvidersResponse>;
-  list_proposals: (
-    arg_0: ListProposalInfo
-  ) => Promise<ListProposalInfoResponse>;
-  manage_neuron: (arg_0: ManageNeuron) => Promise<ManageNeuronResponse>;
-  transfer_gtc_neuron: (arg_0: NeuronId, arg_1: NeuronId) => Promise<Result>;
-  update_node_provider: (arg_0: UpdateNodeProvider) => Promise<Result>;
+  get_network_economics_parameters: ActorMethod<[], NetworkEconomics>;
+  get_neuron_ids: ActorMethod<[], BigUint64Array>;
+  get_neuron_info: ActorMethod<[bigint], Result_4>;
+  get_neuron_info_by_id_or_subaccount: ActorMethod<
+    [NeuronIdOrSubaccount],
+    Result_4
+  >;
+  get_node_provider_by_caller: ActorMethod<[null], Result_5>;
+  get_pending_proposals: ActorMethod<[], Array<ProposalInfo>>;
+  get_proposal_info: ActorMethod<[bigint], [] | [ProposalInfo]>;
+  list_known_neurons: ActorMethod<[], ListKnownNeuronsResponse>;
+  list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
+  list_node_providers: ActorMethod<[], ListNodeProvidersResponse>;
+  list_proposals: ActorMethod<[ListProposalInfo], ListProposalInfoResponse>;
+  manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
+  transfer_gtc_neuron: ActorMethod<[NeuronId, NeuronId], Result>;
+  update_node_provider: ActorMethod<[UpdateNodeProvider], Result>;
 }

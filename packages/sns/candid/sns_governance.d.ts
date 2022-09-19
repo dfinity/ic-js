@@ -1,4 +1,6 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface Account {
   owner: [] | [Principal];
   subaccount: [] | [Subaccount];
@@ -12,6 +14,7 @@ export type Action =
   | { UpgradeSnsToNextVersion: {} }
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { Unspecified: {} }
+  | { ManageSnsMetadata: ManageSnsMetadata }
   | {
       ExecuteGenericNervousSystemFunction: ExecuteGenericNervousSystemFunction;
     }
@@ -33,12 +36,12 @@ export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType;
   freezing_threshold: bigint;
-  balance: Array<[Array<number>, bigint]>;
+  balance: Array<[Uint8Array, bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Array<number>];
+  module_hash: [] | [Uint8Array];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -120,7 +123,7 @@ export type DissolveState =
   | { WhenDissolvedTimestampSeconds: bigint };
 export interface ExecuteGenericNervousSystemFunction {
   function_id: bigint;
-  payload: Array<number>;
+  payload: Uint8Array;
 }
 export interface Follow {
   function_id: bigint;
@@ -173,7 +176,7 @@ export interface Governance {
   ledger_canister_id: [] | [Principal];
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[string, NeuronInFlightCommand]>;
-  sns_metadata: [] | [GetMetadataResponse];
+  sns_metadata: [] | [ManageSnsMetadata];
   neurons: Array<[string, Neuron]>;
   genesis_timestamp_seconds: bigint;
 }
@@ -202,7 +205,7 @@ export interface IncreaseDissolveDelay {
   additional_dissolve_delay_seconds: number;
 }
 export interface ListNervousSystemFunctionsResponse {
-  reserved_ids: Array<bigint>;
+  reserved_ids: BigUint64Array;
   functions: Array<NervousSystemFunction>;
 }
 export interface ListNeurons {
@@ -214,21 +217,27 @@ export interface ListNeuronsResponse {
   neurons: Array<Neuron>;
 }
 export interface ListProposals {
-  include_reward_status: Array<number>;
+  include_reward_status: Int32Array;
   before_proposal: [] | [ProposalId];
   limit: number;
-  exclude_type: Array<bigint>;
-  include_status: Array<number>;
+  exclude_type: BigUint64Array;
+  include_status: Int32Array;
 }
 export interface ListProposalsResponse {
   proposals: Array<ProposalData>;
 }
 export interface ManageNeuron {
-  subaccount: Array<number>;
+  subaccount: Uint8Array;
   command: [] | [Command];
 }
 export interface ManageNeuronResponse {
   command: [] | [Command_1];
+}
+export interface ManageSnsMetadata {
+  url: [] | [string];
+  logo: [] | [string];
+  name: [] | [string];
+  description: [] | [string];
 }
 export interface MemoAndController {
   controller: [] | [Principal];
@@ -282,7 +291,7 @@ export interface Neuron {
   neuron_fees_e8s: bigint;
 }
 export interface NeuronId {
-  id: Array<number>;
+  id: Uint8Array;
 }
 export interface NeuronInFlightCommand {
   command: [] | [Command_2];
@@ -290,10 +299,10 @@ export interface NeuronInFlightCommand {
 }
 export interface NeuronPermission {
   principal: [] | [Principal];
-  permission_type: Array<number>;
+  permission_type: Int32Array;
 }
 export interface NeuronPermissionList {
-  permissions: Array<number>;
+  permissions: Int32Array;
 }
 export type Operation =
   | { StopDissolving: {} }
@@ -359,7 +368,7 @@ export interface SplitResponse {
   created_neuron_id: [] | [NeuronId];
 }
 export interface Subaccount {
-  subaccount: Array<number>;
+  subaccount: Uint8Array;
 }
 export interface Tally {
   no: bigint;
@@ -373,15 +382,15 @@ export interface UpgradeInProgress {
   target_version: [] | [Version];
 }
 export interface UpgradeSnsControlledCanister {
-  new_canister_wasm: Array<number>;
+  new_canister_wasm: Uint8Array;
   canister_id: [] | [Principal];
 }
 export interface Version {
-  archive_wasm_hash: Array<number>;
-  root_wasm_hash: Array<number>;
-  swap_wasm_hash: Array<number>;
-  ledger_wasm_hash: Array<number>;
-  governance_wasm_hash: Array<number>;
+  archive_wasm_hash: Uint8Array;
+  root_wasm_hash: Uint8Array;
+  swap_wasm_hash: Uint8Array;
+  ledger_wasm_hash: Uint8Array;
+  governance_wasm_hash: Uint8Array;
 }
 export interface VotingRewardsParameters {
   start_timestamp_seconds: [] | [bigint];
@@ -394,18 +403,19 @@ export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
-  get_build_metadata: () => Promise<string>;
-  get_metadata: (arg_0: {}) => Promise<GetMetadataResponse>;
-  get_nervous_system_parameters: (
-    arg_0: null
-  ) => Promise<NervousSystemParameters>;
-  get_neuron: (arg_0: GetNeuron) => Promise<GetNeuronResponse>;
-  get_proposal: (arg_0: GetProposal) => Promise<GetProposalResponse>;
-  get_root_canister_status: (arg_0: null) => Promise<CanisterStatusResultV2>;
-  get_running_sns_version: (arg_0: {}) => Promise<GetRunningSnsVersionResponse>;
-  list_nervous_system_functions: () => Promise<ListNervousSystemFunctionsResponse>;
-  list_neurons: (arg_0: ListNeurons) => Promise<ListNeuronsResponse>;
-  list_proposals: (arg_0: ListProposals) => Promise<ListProposalsResponse>;
-  manage_neuron: (arg_0: ManageNeuron) => Promise<ManageNeuronResponse>;
-  set_mode: (arg_0: SetMode) => Promise<{}>;
+  get_build_metadata: ActorMethod<[], string>;
+  get_metadata: ActorMethod<[{}], GetMetadataResponse>;
+  get_nervous_system_parameters: ActorMethod<[null], NervousSystemParameters>;
+  get_neuron: ActorMethod<[GetNeuron], GetNeuronResponse>;
+  get_proposal: ActorMethod<[GetProposal], GetProposalResponse>;
+  get_root_canister_status: ActorMethod<[null], CanisterStatusResultV2>;
+  get_running_sns_version: ActorMethod<[{}], GetRunningSnsVersionResponse>;
+  list_nervous_system_functions: ActorMethod<
+    [],
+    ListNervousSystemFunctionsResponse
+  >;
+  list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
+  list_proposals: ActorMethod<[ListProposals], ListProposalsResponse>;
+  manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
+  set_mode: ActorMethod<[SetMode], {}>;
 }

@@ -1,8 +1,10 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface AccountBalanceArgs {
   account: AccountIdentifier;
 }
-export type AccountIdentifier = Array<number>;
+export type AccountIdentifier = Uint8Array;
 export interface Archive {
   canister_id: Principal;
 }
@@ -12,7 +14,7 @@ export interface Archives {
 export interface Block {
   transaction: Transaction;
   timestamp: TimeStamp;
-  parent_hash: [] | [Array<number>];
+  parent_hash: [] | [Uint8Array];
 }
 export type BlockIndex = bigint;
 export interface BlockRange {
@@ -44,14 +46,12 @@ export type QueryArchiveError =
       };
     }
   | { Other: { error_message: string; error_code: bigint } };
-export type QueryArchiveFn = (
-  arg_0: GetBlocksArgs
-) => Promise<QueryArchiveResult>;
+export type QueryArchiveFn = ActorMethod<[GetBlocksArgs], QueryArchiveResult>;
 export type QueryArchiveResult =
   | { Ok: BlockRange }
   | { Err: QueryArchiveError };
 export interface QueryBlocksResponse {
-  certificate: [] | [Array<number>];
+  certificate: [] | [Uint8Array];
   blocks: Array<Block>;
   chain_length: bigint;
   first_block_index: BlockIndex;
@@ -61,7 +61,7 @@ export interface QueryBlocksResponse {
     length: bigint;
   }>;
 }
-export type SubAccount = Array<number>;
+export type SubAccount = Uint8Array;
 export interface TimeStamp {
   timestamp_nanos: bigint;
 }
@@ -95,12 +95,12 @@ export interface TransferFee {
 export type TransferFeeArg = {};
 export type TransferResult = { Ok: BlockIndex } | { Err: TransferError };
 export interface _SERVICE {
-  account_balance: (arg_0: AccountBalanceArgs) => Promise<Tokens>;
-  archives: () => Promise<Archives>;
-  decimals: () => Promise<{ decimals: number }>;
-  name: () => Promise<{ name: string }>;
-  query_blocks: (arg_0: GetBlocksArgs) => Promise<QueryBlocksResponse>;
-  symbol: () => Promise<{ symbol: string }>;
-  transfer: (arg_0: TransferArgs) => Promise<TransferResult>;
-  transfer_fee: (arg_0: TransferFeeArg) => Promise<TransferFee>;
+  account_balance: ActorMethod<[AccountBalanceArgs], Tokens>;
+  archives: ActorMethod<[], Archives>;
+  decimals: ActorMethod<[], { decimals: number }>;
+  name: ActorMethod<[], { name: string }>;
+  query_blocks: ActorMethod<[GetBlocksArgs], QueryBlocksResponse>;
+  symbol: ActorMethod<[], { symbol: string }>;
+  transfer: ActorMethod<[TransferArgs], TransferResult>;
+  transfer_fee: ActorMethod<[TransferFeeArg], TransferFee>;
 }
