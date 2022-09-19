@@ -15,24 +15,14 @@ export const uint8ArrayToBigInt = (array: Uint8Array): bigint => {
   }
 };
 
-export const arrayBufferToArrayOfNumber = (
-  buffer: ArrayBuffer
-): Array<number> => {
-  const typedArray = new Uint8Array(buffer);
-  return Array.from(typedArray);
-};
+export const arrayBufferToUint8Array = (buffer: ArrayBuffer): Uint8Array =>
+  new Uint8Array(buffer);
 
-export const arrayOfNumberToUint8Array = (
-  numbers: Array<number>
-): Uint8Array => {
-  return new Uint8Array(numbers);
-};
+export const uint8ArrayToArrayOfNumber = (array: Uint8Array): Array<number> =>
+  Array.from(array);
 
-export const arrayOfNumberToArrayBuffer = (
-  numbers: Array<number>
-): ArrayBuffer => {
-  return arrayOfNumberToUint8Array(numbers).buffer;
-};
+export const arrayOfNumberToUint8Array = (numbers: Array<number>): Uint8Array =>
+  new Uint8Array(numbers);
 
 export const asciiStringToByteArray = (text: string): Array<number> => {
   return Array.from(text).map((c) => c.charCodeAt(0));

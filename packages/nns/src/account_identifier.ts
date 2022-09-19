@@ -62,7 +62,7 @@ export class AccountIdentifier {
 
   public toAccountIdentifierHash(): AccountIdentifierCandid {
     return {
-      hash: this.toNumbers(),
+      hash: this.toUint8Array(),
     };
   }
 }

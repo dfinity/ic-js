@@ -1,4 +1,6 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface BuyerState {
   icp_disbursing: boolean;
   amount_sns_e8s: bigint;
@@ -13,12 +15,12 @@ export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType;
   freezing_threshold: bigint;
-  balance: Array<[Array<number>, bigint]>;
+  balance: Array<[Uint8Array, bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Array<number>];
+  module_hash: [] | [Uint8Array];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -115,15 +117,13 @@ export interface TimeWindow {
   end_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
-  error_refund_icp: (arg_0: ErrorRefundIcpRequest) => Promise<{}>;
-  finalize_swap: (arg_0: {}) => Promise<FinalizeSwapResponse>;
-  get_buyer_state: (
-    arg_0: GetBuyerStateRequest
-  ) => Promise<GetBuyerStateResponse>;
-  get_buyers_total: (arg_0: {}) => Promise<GetBuyersTotalResponse>;
-  get_canister_status: (arg_0: {}) => Promise<CanisterStatusResultV2>;
-  get_state: (arg_0: {}) => Promise<GetStateResponse>;
-  refresh_buyer_tokens: (arg_0: RefreshBuyerTokensRequest) => Promise<{}>;
-  refresh_sns_tokens: (arg_0: {}) => Promise<{}>;
-  set_open_time_window: (arg_0: SetOpenTimeWindowRequest) => Promise<{}>;
+  error_refund_icp: ActorMethod<[ErrorRefundIcpRequest], {}>;
+  finalize_swap: ActorMethod<[{}], FinalizeSwapResponse>;
+  get_buyer_state: ActorMethod<[GetBuyerStateRequest], GetBuyerStateResponse>;
+  get_buyers_total: ActorMethod<[{}], GetBuyersTotalResponse>;
+  get_canister_status: ActorMethod<[{}], CanisterStatusResultV2>;
+  get_state: ActorMethod<[{}], GetStateResponse>;
+  refresh_buyer_tokens: ActorMethod<[RefreshBuyerTokensRequest], {}>;
+  refresh_sns_tokens: ActorMethod<[{}], {}>;
+  set_open_time_window: ActorMethod<[SetOpenTimeWindowRequest], {}>;
 }

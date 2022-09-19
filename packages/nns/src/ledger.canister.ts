@@ -90,7 +90,7 @@ export class LedgerCanister {
     }
     const service = certified ? this.certifiedService : this.service;
     const tokens = await service.account_balance({
-      account: accountIdentifier.toNumbers(),
+      account: accountIdentifier.toUint8Array(),
     });
     return tokens.e8s;
   };

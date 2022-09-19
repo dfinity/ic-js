@@ -39,7 +39,7 @@ import type {
   RewardMode,
 } from "../../types/governance_converters";
 import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
-import { arrayBufferToArrayOfNumber } from "../../utils/converter.utils";
+import {arrayBufferToUint8Array} from "../../utils/converter.utils";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
@@ -60,7 +60,7 @@ const fromNeuronIdOrSubaccount = (
     return { NeuronId: { id: neuronIdOrSubaccount.NeuronId } };
   }
   if ("Subaccount" in neuronIdOrSubaccount) {
-    return { Subaccount: neuronIdOrSubaccount.Subaccount };
+    return { Subaccount: Uint8Array.from(neuronIdOrSubaccount.Subaccount) };
   }
   throw new UnsupportedValueError(neuronIdOrSubaccount);
 };
@@ -76,7 +76,7 @@ const fromAction = (action: Action): RawAction => {
     return {
       ExecuteNnsFunction: {
         nns_function: executeNnsFunction.nnsFunctionId,
-        payload: arrayBufferToArrayOfNumber(executeNnsFunction.payloadBytes),
+        payload: arrayBufferToUint8Array(executeNnsFunction.payloadBytes),
       },
     };
   }
@@ -444,12 +444,9 @@ const fromAmount = (amount: E8s): Amount => ({
 
 const fromAccountIdentifier = (
   accountIdentifier: AccountIdentifier
-): RawAccountIdentifier => {
-  const bytes: Uint8Array = accountIdentifierToBytes(accountIdentifier);
-  return {
-    hash: arrayBufferToArrayOfNumber(bytes),
-  };
-};
+): RawAccountIdentifier => ({
+  hash: accountIdentifierToBytes(accountIdentifier),
+});
 
 const fromRewardMode = (rewardMode: RewardMode): RawRewardMode => {
   if ("RewardToNeuron" in rewardMode) {
@@ -498,7 +495,7 @@ const fromClaimOrRefreshBy = (by: By): RawBy => {
 };
 
 export const fromListNeurons = (neuronIds?: NeuronId[]): RawListNeurons => ({
-  neuron_ids: neuronIds ?? [],
+  neuron_ids: BigUint64Array.from(neuronIds ?? []),
   include_neurons_readable_by_caller: neuronIds ? false : true,
 });
 
@@ -514,16 +511,6 @@ export const fromManageNeuron = ({
     : [],
 });
 
-export const fromClaimNeuronRequest = ({
-  publicKey,
-  nonce,
-  dissolveDelayInSecs,
-}: ClaimNeuronRequest): [Array<number>, bigint, bigint] => [
-  arrayBufferToArrayOfNumber(publicKey),
-  nonce,
-  dissolveDelayInSecs,
-];
-
 export const fromListProposalsRequest = ({
   includeRewardStatus,
   beforeProposal,
@@ -532,11 +519,11 @@ export const fromListProposalsRequest = ({
   limit,
 }: ListProposalsRequest): ListProposalInfo => {
   return {
-    include_reward_status: includeRewardStatus,
+    include_reward_status: Int32Array.from(includeRewardStatus),
     before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
     limit: limit,
-    exclude_topic: excludeTopic,
-    include_status: includeStatus,
+    exclude_topic: Int32Array.from(excludeTopic),
+    include_status: Int32Array.from(includeStatus),
   };
 };
 

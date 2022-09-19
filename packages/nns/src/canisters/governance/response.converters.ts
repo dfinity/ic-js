@@ -66,7 +66,7 @@ import {
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
-import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
+import { uint8ArrayToArrayOfNumber } from "../../utils/converter.utils";
 
 const toNeuronInfo = ({
   neuronId,
@@ -119,10 +119,7 @@ const toNeuron = ({
   agingSinceTimestampSeconds: neuron.aging_since_timestamp_seconds,
   neuronFees: neuron.neuron_fees_e8s,
   hotKeys: neuron.hot_keys.map((p) => p.toString()),
-  accountIdentifier: principalToAccountIdentifier(
-    canisterId,
-    arrayOfNumberToUint8Array(neuron.account)
-  ),
+  accountIdentifier: principalToAccountIdentifier(canisterId, neuron.account),
   joinedCommunityFundTimestampSeconds: neuron
     .joined_community_fund_timestamp_seconds.length
     ? neuron.joined_community_fund_timestamp_seconds[0]
@@ -174,7 +171,9 @@ const toNeuronIdOrSubaccount = (
     return { NeuronId: neuronIdOrSubaccount.NeuronId.id };
   }
   if ("Subaccount" in neuronIdOrSubaccount) {
-    return { Subaccount: neuronIdOrSubaccount.Subaccount };
+    return {
+      Subaccount: uint8ArrayToArrayOfNumber(neuronIdOrSubaccount.Subaccount),
+    };
   }
   throw new UnsupportedValueError(neuronIdOrSubaccount);
 };
