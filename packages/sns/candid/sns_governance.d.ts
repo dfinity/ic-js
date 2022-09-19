@@ -14,6 +14,7 @@ export type Action =
   | { UpgradeSnsToNextVersion: {} }
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { Unspecified: {} }
+  | { ManageSnsMetadata: ManageSnsMetadata }
   | {
       ExecuteGenericNervousSystemFunction: ExecuteGenericNervousSystemFunction;
     }
@@ -175,7 +176,7 @@ export interface Governance {
   ledger_canister_id: [] | [Principal];
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[string, NeuronInFlightCommand]>;
-  sns_metadata: [] | [GetMetadataResponse];
+  sns_metadata: [] | [ManageSnsMetadata];
   neurons: Array<[string, Neuron]>;
   genesis_timestamp_seconds: bigint;
 }
@@ -231,6 +232,12 @@ export interface ManageNeuron {
 }
 export interface ManageNeuronResponse {
   command: [] | [Command_1];
+}
+export interface ManageSnsMetadata {
+  url: [] | [string];
+  logo: [] | [string];
+  name: [] | [string];
+  description: [] | [string];
 }
 export interface MemoAndController {
   controller: [] | [Principal];
