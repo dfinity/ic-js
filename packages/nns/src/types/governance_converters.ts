@@ -79,6 +79,7 @@ export type Command =
   | { Merge: Merge }
   | { DisburseToNeuron: DisburseToNeuron }
   | { MergeMaturity: MergeMaturity }
+  | { StakeMaturity: StakeMaturity }
   | { MakeProposal: Proposal }
   | { Disburse: Disburse };
 export interface Configure {
@@ -172,6 +173,9 @@ export interface Merge {
 export interface MergeRequest {
   sourceNeuronId: NeuronId;
   targetNeuronId: NeuronId;
+}
+export interface StakeMaturity {
+  percentageToStake?: number;
 }
 export interface MergeMaturity {
   percentageToMerge: number;

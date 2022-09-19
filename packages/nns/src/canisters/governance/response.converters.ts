@@ -21,12 +21,12 @@ import type {
   NeuronInfo as RawNeuronInfo,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
+  Params,
   Proposal as RawProposal,
   ProposalInfo as RawProposalInfo,
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governance";
-import type { Params } from "../../../candid/governance";
 import type { PrincipalId } from "../../../proto/base_types_pb";
 import type {
   BallotInfo as PbBallotInfo,
@@ -480,6 +480,14 @@ const toCommand = (command: RawCommand): Command => {
       },
     };
   }
+  if ("StakeMaturity" in command) {
+    const { percentage_to_stake } = command.StakeMaturity;
+    return {
+      StakeMaturity: {
+        percentageToStake: fromNullable(percentage_to_stake),
+      },
+    };
+  }
   if ("MakeProposal" in command) {
     const makeProposal = command.MakeProposal;
     return {
@@ -516,6 +524,7 @@ const toCommand = (command: RawCommand): Command => {
       },
     };
   }
+
   throw new UnsupportedValueError(command);
 };
 
