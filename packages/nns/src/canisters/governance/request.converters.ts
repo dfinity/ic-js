@@ -1,5 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array } from "@dfinity/utils";
+import { toNullable } from "@dfinity/utils/src";
 import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -227,6 +228,32 @@ const fromAction = (action: Action): RawAction => {
     };
   }
 
+  if ("OpenSnsTokenSwap" in action) {
+    const { communityFundInvestmentE8s, targetSwapCanisterId, params } =
+      action.OpenSnsTokenSwap;
+
+    return {
+      OpenSnsTokenSwap: {
+        community_fund_investment_e8s: toNullable(communityFundInvestmentE8s),
+        target_swap_canister_id: toNullable(targetSwapCanisterId),
+        params:
+          params === undefined
+            ? []
+            : [
+                {
+                  min_participant_icp_e8s: params.minParticipantIcpE8s,
+                  max_icp_e8s: params.maxIcpE8s,
+                  swap_due_timestamp_seconds: params.swapDueTimestampSeconds,
+                  min_participants: params.minParticipants,
+                  sns_token_e8s: params.snsTokenE8s,
+                  max_participant_icp_e8s: params.maxParticipantIcpE8s,
+                  min_icp_e8s: params.minIcpE8s,
+                },
+              ],
+      },
+    };
+  }
+
   // If there's a missing action, this line will cause a compiler error.
   throw new UnsupportedValueError(action);
 };
@@ -297,6 +324,14 @@ const fromCommand = (command: Command): RawCommand => {
     return {
       MergeMaturity: {
         percentage_to_merge: mergeMaturity.percentageToMerge,
+      },
+    };
+  }
+  if ("StakeMaturity" in command) {
+    const { percentageToStake } = command.StakeMaturity;
+    return {
+      StakeMaturity: {
+        percentage_to_stake: toNullable(percentageToStake),
       },
     };
   }
@@ -405,6 +440,16 @@ const fromOperation = (operation: Operation): RawOperation => {
       SetDissolveTimestamp: {
         dissolve_timestamp_seconds:
           setDissolveTimestamp.dissolveTimestampSeconds,
+      },
+    };
+  }
+  if ("ChangeAutoStakeMaturity" in operation) {
+    const { requestedSettingForAutoStakeMaturity } =
+      operation.ChangeAutoStakeMaturity;
+    return {
+      ChangeAutoStakeMaturity: {
+        requested_setting_for_auto_stake_maturity:
+          requestedSettingForAutoStakeMaturity,
       },
     };
   }
