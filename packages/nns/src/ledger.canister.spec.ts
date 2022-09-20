@@ -1,4 +1,5 @@
 import { ActorSubclass } from "@dfinity/agent";
+import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as LedgerService } from "../candid/ledger";
 import { Memo, Payment, SendRequest } from "../proto/ledger_pb";
@@ -15,7 +16,6 @@ import {
 } from "./errors/ledger.errors";
 import { LedgerCanister } from "./ledger.canister";
 import { E8s } from "./types/common";
-import {arrayOfNumberToUint8Array} from "@dfinity/utils";
 
 describe("LedgerCanister", () => {
   const accountIdentifier = AccountIdentifier.fromHex(
