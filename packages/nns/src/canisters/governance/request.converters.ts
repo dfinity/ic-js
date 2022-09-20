@@ -1,6 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array } from "@dfinity/utils";
-import { toNullable } from "@dfinity/utils/src";
+import { toNullable } from "@dfinity/utils";
 import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
