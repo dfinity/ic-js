@@ -1,3 +1,21 @@
+# 0.8.0 (wip)
+
+## Release
+
+- nns `v0.8.0`
+- sns `v0.0.4`
+- utils `v0.0.3`
+
+### Breaking changes
+
+- the development dependency `didc` has been bumped which leads to some types being converted from `number[]` to `Uint8Array`
+- new fields `stakedMaturityE8sEquivalent` and `autoStakeMaturity` in `Neuron`
+
+### Features
+
+- new nns governance commands and actions: `ChangeAutoStakeMaturity`, `SetSnsTokenSwapOpenTimeWindow` and `OpenSnsTokenSwap`
+- some new utilities added to transform arrays from various format to `Uint8Array` 
+
 # 0.7.0 (2022-09-19)
 
 ## Release
