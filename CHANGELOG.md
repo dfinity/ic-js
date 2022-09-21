@@ -4,7 +4,7 @@
 
 - nns `v0.7.0`
 - sns `v0.0.3`
-- utils `v0.0.1`
+- utils `v0.0.2`
 
 ### Breaking changes
 
