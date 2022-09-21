@@ -107,6 +107,9 @@ const toNeuron = ({
   canisterId: Principal;
 }): Neuron => ({
   id: neuron.id.length ? toNeuronId(neuron.id[0]) : undefined,
+  stakedMaturityE8sEquivalent: fromNullable(
+    neuron.staked_maturity_e8s_equivalent
+  ),
   controller: neuron.controller.length
     ? neuron.controller[0].toString()
     : undefined,
@@ -115,6 +118,7 @@ const toNeuron = ({
   notForProfit: neuron.not_for_profit,
   cachedNeuronStake: neuron.cached_neuron_stake_e8s,
   createdTimestampSeconds: neuron.created_timestamp_seconds,
+  autoStakeMaturity: fromNullable(neuron.auto_stake_maturity),
   maturityE8sEquivalent: neuron.maturity_e8s_equivalent,
   agingSinceTimestampSeconds: neuron.aging_since_timestamp_seconds,
   neuronFees: neuron.neuron_fees_e8s,
@@ -830,12 +834,16 @@ const convertPbNeuronToFullNeuron = ({
   }
   return {
     id: idObj === undefined ? undefined : BigInt(idObj.getId()),
+    // TODO: Data not available in Neuron type
+    stakedMaturityE8sEquivalent: undefined,
     controller,
     recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
     kycVerified: pbNeuron.getKycVerified(),
     notForProfit: pbNeuron.getNotForProfit(),
     cachedNeuronStake: BigInt(pbNeuron.getCachedNeuronStakeE8s()),
     createdTimestampSeconds: BigInt(pbNeuron.getCreatedTimestampSeconds()),
+    // TODO: Data not available in Neuron type
+    autoStakeMaturity: undefined,
     maturityE8sEquivalent: BigInt(pbNeuron.getMaturityE8sEquivalent()),
     agingSinceTimestampSeconds: BigInt(
       pbNeuron.getAgingSinceTimestampSeconds()

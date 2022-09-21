@@ -238,12 +238,14 @@ export interface NetworkEconomics {
 }
 export interface Neuron {
   id: Option<NeuronId>;
+  stakedMaturityE8sEquivalent: Option<bigint>;
   controller: Option<PrincipalString>;
   recentBallots: Array<BallotInfo>;
   kycVerified: boolean;
   notForProfit: boolean;
   cachedNeuronStake: E8s;
   createdTimestampSeconds: bigint;
+  autoStakeMaturity: Option<boolean>
   maturityE8sEquivalent: bigint;
   agingSinceTimestampSeconds: bigint;
   spawnAtTimesSeconds: Option<bigint>;
