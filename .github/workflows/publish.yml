@@ -1,0 +1,27 @@
+name: Publish
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  publish:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up npm
+        run: printf '%s\n' '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}' registry=https://registry.npmjs.org/ always-auth=true >> .npmrc
+      - name: Publish utils
+        run: npm publish --tag next --workspace=packages/utils
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish NNS
+        run: npm publish --tag next --workspace=packages/nns
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish SNS
+        run: npm publish --tag next --workspace=packages/sns
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
