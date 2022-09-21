@@ -245,7 +245,7 @@ export interface Neuron {
   notForProfit: boolean;
   cachedNeuronStake: E8s;
   createdTimestampSeconds: bigint;
-  autoStakeMaturity: Option<boolean>
+  autoStakeMaturity: Option<boolean>;
   maturityE8sEquivalent: bigint;
   agingSinceTimestampSeconds: bigint;
   spawnAtTimesSeconds: Option<bigint>;
