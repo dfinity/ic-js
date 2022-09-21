@@ -358,6 +358,7 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
+  // @ts-ignore DO NOT MERGE - Test purpose only
   throw new UnsupportedValueError(action);
 };
 
@@ -490,6 +491,7 @@ const toCommand = (command: RawCommand): Command => {
       },
     };
   }
+  // @ts-ignore DO NOT MERGE - Test purpose only
   throw new UnsupportedValueError(command);
 };
 
@@ -548,6 +550,7 @@ const toOperation = (operation: RawOperation): Operation => {
       },
     };
   }
+  // @ts-ignore DO NOT MERGE - Test purpose only
   throw new UnsupportedValueError(operation);
 };
 

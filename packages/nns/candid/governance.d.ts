@@ -7,6 +7,7 @@ export type Action =
   | { ManageNeuron: ManageNeuron }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
   | { RewardNodeProvider: RewardNodeProvider }
+  | { OpenSnsTokenSwap: OpenSnsTokenSwap }
   | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
   | { SetDefaultFollowees: SetDefaultFollowees }
   | { RewardNodeProviders: RewardNodeProviders }
@@ -38,7 +39,18 @@ export type By =
   | { NeuronIdOrSubaccount: {} }
   | { MemoAndController: ClaimOrRefreshNeuronFromAccount }
   | { Memo: bigint };
+export interface CfNeuron {
+  nns_neuron_id: bigint;
+  amount_icp_e8s: bigint;
+}
+export interface CfParticipant {
+  hotkey_principal: string;
+  cf_neurons: Array<CfNeuron>;
+}
 export type Change = { ToRemove: NodeProvider } | { ToAdd: NodeProvider };
+export interface ChangeAutoStakeMaturity {
+  requested_setting_for_auto_stake_maturity: boolean;
+}
 export interface ClaimOrRefresh {
   by: [] | [By];
 }
@@ -62,6 +74,7 @@ export type Command =
   | { Merge: Merge }
   | { DisburseToNeuron: DisburseToNeuron }
   | { MakeProposal: Proposal }
+  | { StakeMaturity: StakeMaturity }
   | { MergeMaturity: MergeMaturity }
   | { Disburse: Disburse };
 export type Command_1 =
@@ -75,6 +88,7 @@ export type Command_1 =
   | { Merge: {} }
   | { DisburseToNeuron: SpawnResponse }
   | { MakeProposal: MakeProposalResponse }
+  | { StakeMaturity: StakeMaturityResponse }
   | { MergeMaturity: MergeMaturityResponse }
   | { Disburse: DisburseResponse };
 export type Command_2 =
@@ -83,9 +97,13 @@ export type Command_2 =
   | { Configure: Configure }
   | { Merge: Merge }
   | { DisburseToNeuron: DisburseToNeuron }
+  | { SyncCommand: {} }
   | { ClaimOrRefreshNeuron: ClaimOrRefresh }
   | { MergeMaturity: MergeMaturity }
   | { Disburse: Disburse };
+export interface Committed {
+  sns_governance_canister_id: [] | [Principal];
+}
 export interface Configure {
   operation: [] | [Operation];
 }
@@ -122,10 +140,11 @@ export interface Governance {
   most_recent_monthly_node_provider_rewards:
     | []
     | [MostRecentMonthlyNodeProviderRewards];
+  maturity_modulation_last_updated_at_timestamp_seconds: [] | [bigint];
   wait_for_quiet_threshold_seconds: bigint;
   metrics: [] | [GovernanceCachedMetrics];
-  cached_daily_maturity_modulation: [] | [number];
   node_providers: Array<NodeProvider>;
+  cached_daily_maturity_modulation_basis_points: [] | [number];
   economics: [] | [NetworkEconomics];
   spawning_neurons: [] | [boolean];
   latest_reward_event: [] | [RewardEvent];
@@ -134,7 +153,6 @@ export interface Governance {
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
   neurons: Array<[bigint, Neuron]>;
-  last_updated_maturity_modulation_cache: [] | [bigint];
   genesis_timestamp_seconds: bigint;
 }
 export interface GovernanceCachedMetrics {
@@ -234,6 +252,7 @@ export interface NetworkEconomics {
 }
 export interface Neuron {
   id: [] | [NeuronId];
+  staked_maturity_e8s_equivalent: [] | [bigint];
   controller: [] | [Principal];
   recent_ballots: Array<BallotInfo>;
   kyc_verified: boolean;
@@ -241,6 +260,7 @@ export interface Neuron {
   maturity_e8s_equivalent: bigint;
   cached_neuron_stake_e8s: bigint;
   created_timestamp_seconds: bigint;
+  auto_stake_maturity: [] | [boolean];
   aging_since_timestamp_seconds: bigint;
   hot_keys: Array<Principal>;
   account: Array<number>;
@@ -287,15 +307,30 @@ export interface NodeProvider {
   id: [] | [Principal];
   reward_account: [] | [AccountIdentifier];
 }
+export interface OpenSnsTokenSwap {
+  community_fund_investment_e8s: [] | [bigint];
+  target_swap_canister_id: [] | [Principal];
+  params: [] | [Params];
+}
 export type Operation =
   | { RemoveHotKey: RemoveHotKey }
   | { AddHotKey: AddHotKey }
+  | { ChangeAutoStakeMaturity: ChangeAutoStakeMaturity }
   | { StopDissolving: {} }
   | { StartDissolving: {} }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { JoinCommunityFund: {} }
   | { LeaveCommunityFund: {} }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
+export interface Params {
+  min_participant_icp_e8s: bigint;
+  max_icp_e8s: bigint;
+  swap_due_timestamp_seconds: bigint;
+  min_participants: number;
+  sns_token_e8s: bigint;
+  max_participant_icp_e8s: bigint;
+  min_icp_e8s: bigint;
+}
 export interface Proposal {
   url: string;
   title: [] | [string];
@@ -305,17 +340,20 @@ export interface Proposal {
 export interface ProposalData {
   id: [] | [NeuronId];
   failure_reason: [] | [GovernanceError];
+  cf_participants: Array<CfParticipant>;
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
   reward_event_round: bigint;
   failed_timestamp_seconds: bigint;
   reject_cost_e8s: bigint;
   latest_tally: [] | [Tally];
+  sns_token_swap_lifecycle: [] | [number];
   decided_timestamp_seconds: bigint;
   proposal: [] | [Proposal];
   proposer: [] | [NeuronId];
   wait_for_quiet_state: [] | [WaitForQuietState];
   executed_timestamp_seconds: bigint;
+  original_total_community_fund_maturity_e8s_equivalent: [] | [bigint];
 }
 export interface ProposalInfo {
   id: [] | [NeuronId];
@@ -348,6 +386,7 @@ export type Result_2 = { Ok: Neuron } | { Err: GovernanceError };
 export type Result_3 = { Ok: RewardNodeProviders } | { Err: GovernanceError };
 export type Result_4 = { Ok: NeuronInfo } | { Err: GovernanceError };
 export type Result_5 = { Ok: NodeProvider } | { Err: GovernanceError };
+export type Result_6 = { Committed: Committed } | { Aborted: {} };
 export interface RewardEvent {
   day_after_genesis: bigint;
   actual_timestamp_seconds: bigint;
@@ -385,6 +424,10 @@ export interface SetSnsTokenSwapOpenTimeWindow {
   request: [] | [SetOpenTimeWindowRequest];
   swap_canister_id: [] | [Principal];
 }
+export interface SettleCommunityFundParticipation {
+  result: [] | [Result_6];
+  open_sns_token_swap_proposal_id: [] | [bigint];
+}
 export interface Spawn {
   percentage_to_spawn: [] | [number];
   new_controller: [] | [Principal];
@@ -395,6 +438,13 @@ export interface SpawnResponse {
 }
 export interface Split {
   amount_e8s: bigint;
+}
+export interface StakeMaturity {
+  percentage_to_stake: [] | [number];
+}
+export interface StakeMaturityResponse {
+  maturity_e8s: bigint;
+  staked_maturity_e8s: bigint;
 }
 export interface Tally {
   no: bigint;
@@ -445,6 +495,9 @@ export interface _SERVICE {
     arg_0: ListProposalInfo
   ) => Promise<ListProposalInfoResponse>;
   manage_neuron: (arg_0: ManageNeuron) => Promise<ManageNeuronResponse>;
+  settle_community_fund_participation: (
+    arg_0: SettleCommunityFundParticipation
+  ) => Promise<Result>;
   transfer_gtc_neuron: (arg_0: NeuronId, arg_1: NeuronId) => Promise<Result>;
   update_node_provider: (arg_0: UpdateNodeProvider) => Promise<Result>;
 }

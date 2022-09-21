@@ -49,6 +49,8 @@ export interface ListDeployedSnsesResponse {
 }
 export interface NeuronDistribution {
   controller: [] | [Principal];
+  dissolve_delay_seconds: bigint;
+  memo: bigint;
   stake_e8s: bigint;
 }
 export type Result = { Error: SnsWasmError } | { Hash: Array<number> };
@@ -60,21 +62,18 @@ export interface SnsCanisterIds {
 }
 export interface SnsInitPayload {
   url: [] | [string];
-  min_participant_icp_e8s: [] | [bigint];
   fallback_controller_principal_ids: Array<string>;
   token_symbol: [] | [string];
-  max_icp_e8s: [] | [bigint];
   neuron_minimum_stake_e8s: [] | [bigint];
   logo: [] | [string];
   name: [] | [string];
+  neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
   description: [] | [string];
-  min_participants: [] | [number];
   transaction_fee_e8s: [] | [bigint];
+  sns_initialization_parameters: [] | [string];
   initial_token_distribution: [] | [InitialTokenDistribution];
   token_name: [] | [string];
-  max_participant_icp_e8s: [] | [bigint];
   proposal_reject_cost_e8s: [] | [bigint];
-  min_icp_e8s: [] | [bigint];
 }
 export interface SnsVersion {
   archive_wasm_hash: Array<number>;
@@ -104,6 +103,9 @@ export interface TreasuryDistribution {
 export interface _SERVICE {
   add_wasm: (arg_0: AddWasmRequest) => Promise<AddWasmResponse>;
   deploy_new_sns: (arg_0: DeployNewSnsRequest) => Promise<DeployNewSnsResponse>;
+  get_latest_sns_version_pretty: (
+    arg_0: null
+  ) => Promise<Array<[string, string]>>;
   get_next_sns_version: (
     arg_0: GetNextSnsVersionRequest
   ) => Promise<GetNextSnsVersionResponse>;
