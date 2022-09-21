@@ -1,4 +1,4 @@
-// Generated from IC repo commit 50c53c8e996e7b00b88c2f43120c46534cc499f6 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit fb28a950f1799dec4a67cc21abd3888686ab50d9 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -132,6 +132,9 @@ type GetRunningSnsVersionResponse = record {
   deployed_version : opt Version;
   pending_version : opt UpgradeInProgress;
 };
+type GetSnsInitializationParametersResponse = record {
+  sns_initialization_parameters : text;
+};
 type Governance = record {
   root_canister_id : opt principal;
   id_to_nervous_system_functions : vec record { nat64; NervousSystemFunction };
@@ -139,6 +142,7 @@ type Governance = record {
   mode : int32;
   parameters : opt NervousSystemParameters;
   deployed_version : opt Version;
+  sns_initialization_parameters : text;
   latest_reward_event : opt RewardEvent;
   pending_version : opt UpgradeInProgress;
   swap_canister_id : opt principal;
@@ -310,6 +314,7 @@ type Tally = record {
 type UpgradeInProgress = record {
   mark_failed_at_seconds : nat64;
   checking_upgrade_lock : nat64;
+  proposal_id : nat64;
   target_version : opt Version;
 };
 type UpgradeSnsControlledCanister = record {
@@ -339,6 +344,9 @@ service : (Governance) -> {
   get_proposal : (GetProposal) -> (GetProposalResponse) query;
   get_root_canister_status : (null) -> (CanisterStatusResultV2);
   get_running_sns_version : (record {}) -> (GetRunningSnsVersionResponse) query;
+  get_sns_initialization_parameters : (record {}) -> (
+      GetSnsInitializationParametersResponse,
+    ) query;
   list_nervous_system_functions : () -> (
       ListNervousSystemFunctionsResponse,
     ) query;

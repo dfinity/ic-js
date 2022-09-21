@@ -1,8 +1,12 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
-import type { Swap, _SERVICE as SnsSwapService } from "../candid/sns_swap";
-import type { BuyerState, GetStateResponse } from "../candid/sns_swap";
+import type {
+  BuyerState,
+  GetStateResponse,
+  Swap,
+  _SERVICE as SnsSwapService,
+} from "../candid/sns_swap";
 import { swapCanisterIdMock } from "./mocks/sns.mock";
 import { SnsSwapCanister } from "./swap.canister";
 
@@ -39,8 +43,8 @@ describe("Swap canister", () => {
   it("should call to notify the buyer tokens", async () => {
     const service = mock<ActorSubclass<SnsSwapService>>();
     service.refresh_buyer_tokens.mockResolvedValue({
+      icp_accepted_participation_e8s: BigInt(0),
       icp_ledger_account_balance_e8s: BigInt(0),
-      icp_accepted_partipation_e8s: BigInt(0),
     });
 
     const canister = SnsSwapCanister.create({

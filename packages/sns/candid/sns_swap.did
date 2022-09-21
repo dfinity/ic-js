@@ -1,4 +1,4 @@
-// Generated from IC repo commit 50c53c8e996e7b00b88c2f43120c46534cc499f6 'rs/sns/swap/canister/swap.did' by import-candid
+// Generated from IC repo commit fb28a950f1799dec4a67cc21abd3888686ab50d9 'rs/sns/swap/canister/swap.did' by import-candid
 type BuyerState = record { icp : opt TransferableAmount };
 type CanisterCallError = record { code : opt int32; description : text };
 type CanisterStatusResultV2 = record {
@@ -86,8 +86,8 @@ type Possibility_1 = variant {
 type Possibility_2 = variant { Err : CanisterCallError };
 type RefreshBuyerTokensRequest = record { buyer : text };
 type RefreshBuyerTokensResponse = record {
+  icp_accepted_participation_e8s : nat64;
   icp_ledger_account_balance_e8s : nat64;
-  icp_accepted_partipation_e8s : nat64;
 };
 type Response = record { governance_error : opt GovernanceError };
 type SetDappControllersCallResult = record { possibility : opt Possibility_1 };

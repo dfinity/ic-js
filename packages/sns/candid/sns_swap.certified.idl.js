@@ -153,8 +153,8 @@ export const idlFactory = ({ IDL }) => {
   });
   const RefreshBuyerTokensRequest = IDL.Record({ 'buyer' : IDL.Text });
   const RefreshBuyerTokensResponse = IDL.Record({
+    'icp_accepted_participation_e8s' : IDL.Nat64,
     'icp_ledger_account_balance_e8s' : IDL.Nat64,
-    'icp_accepted_partipation_e8s' : IDL.Nat64,
   });
   return IDL.Service({
     'error_refund_icp' : IDL.Func(

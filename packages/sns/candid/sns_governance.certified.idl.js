@@ -92,6 +92,7 @@ export const idlFactory = ({ IDL }) => {
   const UpgradeInProgress = IDL.Record({
     'mark_failed_at_seconds' : IDL.Nat64,
     'checking_upgrade_lock' : IDL.Nat64,
+    'proposal_id' : IDL.Nat64,
     'target_version' : IDL.Opt(Version),
   });
   const GovernanceError = IDL.Record({
@@ -264,6 +265,7 @@ export const idlFactory = ({ IDL }) => {
     'mode' : IDL.Int32,
     'parameters' : IDL.Opt(NervousSystemParameters),
     'deployed_version' : IDL.Opt(Version),
+    'sns_initialization_parameters' : IDL.Text,
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'pending_version' : IDL.Opt(UpgradeInProgress),
     'swap_canister_id' : IDL.Opt(IDL.Principal),
@@ -315,6 +317,9 @@ export const idlFactory = ({ IDL }) => {
   const GetRunningSnsVersionResponse = IDL.Record({
     'deployed_version' : IDL.Opt(Version),
     'pending_version' : IDL.Opt(UpgradeInProgress),
+  });
+  const GetSnsInitializationParametersResponse = IDL.Record({
+    'sns_initialization_parameters' : IDL.Text,
   });
   const ListNervousSystemFunctionsResponse = IDL.Record({
     'reserved_ids' : IDL.Vec(IDL.Nat64),
@@ -400,6 +405,11 @@ export const idlFactory = ({ IDL }) => {
     'get_running_sns_version' : IDL.Func(
         [IDL.Record({})],
         [GetRunningSnsVersionResponse],
+        [],
+      ),
+    'get_sns_initialization_parameters' : IDL.Func(
+        [IDL.Record({})],
+        [GetSnsInitializationParametersResponse],
         [],
       ),
     'list_nervous_system_functions' : IDL.Func(
@@ -506,6 +516,7 @@ export const init = ({ IDL }) => {
   const UpgradeInProgress = IDL.Record({
     'mark_failed_at_seconds' : IDL.Nat64,
     'checking_upgrade_lock' : IDL.Nat64,
+    'proposal_id' : IDL.Nat64,
     'target_version' : IDL.Opt(Version),
   });
   const GovernanceError = IDL.Record({
@@ -678,6 +689,7 @@ export const init = ({ IDL }) => {
     'mode' : IDL.Int32,
     'parameters' : IDL.Opt(NervousSystemParameters),
     'deployed_version' : IDL.Opt(Version),
+    'sns_initialization_parameters' : IDL.Text,
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'pending_version' : IDL.Opt(UpgradeInProgress),
     'swap_canister_id' : IDL.Opt(IDL.Principal),

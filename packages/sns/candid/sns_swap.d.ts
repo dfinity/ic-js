@@ -117,8 +117,8 @@ export interface RefreshBuyerTokensRequest {
   buyer: string;
 }
 export interface RefreshBuyerTokensResponse {
+  icp_accepted_participation_e8s: bigint;
   icp_ledger_account_balance_e8s: bigint;
-  icp_accepted_partipation_e8s: bigint;
 }
 export interface Response {
   governance_error: [] | [GovernanceError];
