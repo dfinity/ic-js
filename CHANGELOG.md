@@ -14,7 +14,7 @@
 ### Features
 
 - new nns governance commands and actions: `ChangeAutoStakeMaturity`, `SetSnsTokenSwapOpenTimeWindow` and `OpenSnsTokenSwap`
-- some new utilities added to transform arrays from various format to `Uint8Array` 
+- some new utilities added to transform arrays from various format to `Uint8Array`
 
 # 0.7.0 (2022-09-19)
 
