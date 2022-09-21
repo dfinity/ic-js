@@ -1,4 +1,5 @@
 import type { Principal } from "@dfinity/principal";
+import type { Tokens } from "../candid/icrc1_ledger";
 import type { GetMetadataResponse, Neuron } from "../candid/sns_governance";
 import type {
   BuyerState,
@@ -16,6 +17,7 @@ import type {
   SnsListNeuronsParams,
   SnsNeuronPermissionsParams,
 } from "./types/governance.params";
+import type { BalanceParams } from "./types/ledger.params";
 import type { SnsTokenMetadataResponse } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 
@@ -90,6 +92,14 @@ export class SnsWrapper {
       this.governance.metadata(this.mergeParams(params)),
       this.ledger.metadata(this.mergeParams(params)),
     ]);
+
+  ledgerMetadata = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<SnsTokenMetadataResponse> =>
+    this.ledger.metadata(this.mergeParams(params));
+
+  balance = (params: Omit<BalanceParams, "certified">): Promise<Tokens> =>
+    this.ledger.balance(this.mergeParams(params));
 
   getNeuron = (
     params: Omit<SnsGetNeuronParams, "certified">

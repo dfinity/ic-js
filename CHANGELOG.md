@@ -1,10 +1,10 @@
-# 0.x.y (2022-aa-bb)
+# 0.7.0 (2022-09-19)
 
 ## Release
 
-- nns `v0.x.y`
-- sns `v0.x.y`
-- utils `v0.x.y`
+- nns `v0.7.0`
+- sns `v0.0.3`
+- utils `v0.0.2`
 
 ### Breaking changes
 
@@ -16,6 +16,7 @@
 
 - new library `@dfinity/utils`
 - more Sns related features: `notifyParticipation`, `getUserCommitment`, some Sns neurons related features and governance `metadata`
+- new nns governance features: `setDissolveDelay` and `setNodeProviderAccount`
 - new generic interface `Token` and class `TokenAmount`
 - class `ICP` set as deprecated
 
