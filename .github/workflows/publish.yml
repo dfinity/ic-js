@@ -14,14 +14,14 @@ jobs:
       - name: Set up npm
         run: printf '%s\n' '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}' registry=https://registry.npmjs.org/ always-auth=true >> .npmrc
       - name: Publish utils
-        run: npm publish --workspace=packages/utils
+        run: npm publish --workspace=packages/utils --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish NNS
-        run: npm publish --workspace=packages/nns
+        run: npm publish --workspace=packages/nns --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish SNS
-        run: npm publish --workspace=packages/sns
+        run: npm publish --workspace=packages/sns --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
