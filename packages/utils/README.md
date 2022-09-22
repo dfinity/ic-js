@@ -33,6 +33,11 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 
 - [defaultAgent](#gear-defaultagent)
 - [createServices](#gear-createservices)
+- [uint8ArrayToBigInt](#gear-uint8arraytobigint)
+- [arrayBufferToUint8Array](#gear-arraybuffertouint8array)
+- [uint8ArrayToArrayOfNumber](#gear-uint8arraytoarrayofnumber)
+- [arrayOfNumberToUint8Array](#gear-arrayofnumbertouint8array)
+- [asciiStringToByteArray](#gear-asciistringtobytearray)
 - [assertNonNullish](#gear-assertnonnullish)
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
@@ -49,6 +54,36 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 | Function         | Type                                                                                                                                                                                                                                                            |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, }, idlFactory, certifiedIdlFactory, }: { options: RequiredCanisterOptions<T>; idlFactory: InterfaceFactory; certifiedIdlFactory: InterfaceFactory; }) => { ...; }` |
+
+#### :gear: uint8ArrayToBigInt
+
+| Function             | Type                            |
+| -------------------- | ------------------------------- |
+| `uint8ArrayToBigInt` | `(array: Uint8Array) => bigint` |
+
+#### :gear: arrayBufferToUint8Array
+
+| Function                  | Type                                  |
+| ------------------------- | ------------------------------------- |
+| `arrayBufferToUint8Array` | `(buffer: ArrayBuffer) => Uint8Array` |
+
+#### :gear: uint8ArrayToArrayOfNumber
+
+| Function                    | Type                              |
+| --------------------------- | --------------------------------- |
+| `uint8ArrayToArrayOfNumber` | `(array: Uint8Array) => number[]` |
+
+#### :gear: arrayOfNumberToUint8Array
+
+| Function                    | Type                                |
+| --------------------------- | ----------------------------------- |
+| `arrayOfNumberToUint8Array` | `(numbers: number[]) => Uint8Array` |
+
+#### :gear: asciiStringToByteArray
+
+| Function                 | Type                         |
+| ------------------------ | ---------------------------- |
+| `asciiStringToByteArray` | `(text: string) => number[]` |
 
 #### :gear: assertNonNullish
 

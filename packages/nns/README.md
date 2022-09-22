@@ -99,6 +99,7 @@ Parameters:
 - [toHex](#gear-tohex)
 - [toUint8Array](#gear-touint8array)
 - [toNumbers](#gear-tonumbers)
+- [toAccountIdentifierHash](#gear-toaccountidentifierhash)
 
 ##### :gear: fromHex
 
@@ -135,6 +136,12 @@ Parameters:
 | Method      | Type             |
 | ----------- | ---------------- |
 | `toNumbers` | `() => number[]` |
+
+##### :gear: toAccountIdentifierHash
+
+| Method                    | Type                      |
+| ------------------------- | ------------------------- |
+| `toAccountIdentifierHash` | `() => AccountIdentifier` |
 
 ### :factory: SubAccount
 
@@ -312,10 +319,12 @@ Returns the index of the block containing the tx if it was successful.
 - [listProposals](#gear-listproposals)
 - [stakeNeuron](#gear-stakeneuron)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
+- [setDissolveDelay](#gear-setdissolvedelay)
 - [startDissolving](#gear-startdissolving)
 - [stopDissolving](#gear-stopdissolving)
 - [joinCommunityFund](#gear-joincommunityfund)
 - [leaveCommunityFund](#gear-leavecommunityfund)
+- [setNodeProviderAccount](#gear-setnodeprovideraccount)
 - [mergeNeurons](#gear-mergeneurons)
 - [splitNeuron](#gear-splitneuron)
 - [getProposal](#gear-getproposal)
@@ -393,6 +402,15 @@ Increases dissolve delay of a neuron
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | `increaseDissolveDelay` | `({ neuronId, additionalDissolveDelaySeconds, }: { neuronId: bigint; additionalDissolveDelaySeconds: number; }) => Promise<void>` |
 
+##### :gear: setDissolveDelay
+
+Sets dissolve delay of a neuron.
+The new date is now + dissolveDelaySeconds.
+
+| Method             | Type                                                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `setDissolveDelay` | `({ neuronId, dissolveDelaySeconds, }: { neuronId: bigint; dissolveDelaySeconds: number; }) => Promise<void>` |
+
 ##### :gear: startDissolving
 
 Start dissolving process of a neuron
@@ -424,6 +442,15 @@ Neuron leaves the community fund
 | Method               | Type                                  |
 | -------------------- | ------------------------------------- |
 | `leaveCommunityFund` | `(neuronId: bigint) => Promise<void>` |
+
+##### :gear: setNodeProviderAccount
+
+Sets node provider reward account.
+Where the reward is paid to.
+
+| Method                   | Type                                           |
+| ------------------------ | ---------------------------------------------- |
+| `setNodeProviderAccount` | `(accountIdentifier: string) => Promise<void>` |
 
 ##### :gear: mergeNeurons
 

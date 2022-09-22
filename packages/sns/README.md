@@ -182,6 +182,7 @@ Parameters:
 
 - [create](#gear-create)
 - [metadata](#gear-metadata)
+- [balance](#gear-balance)
 
 ##### :gear: create
 
@@ -196,6 +197,18 @@ The token metadata (name, symbol, etc.).
 | Method     | Type                                                         |
 | ---------- | ------------------------------------------------------------ |
 | `metadata` | `(params: QueryParams) => Promise<SnsTokenMetadataResponse>` |
+
+##### :gear: balance
+
+Returns the balance of the given account.
+
+| Method    | Type                                         |
+| --------- | -------------------------------------------- |
+| `balance` | `(params: BalanceParams) => Promise<bigint>` |
+
+Parameters:
+
+- `params`: The parameters to get the balance of an account.
 
 ### :factory: SnsRootCanister
 
@@ -297,6 +310,8 @@ Parameters:
 
 - [listNeurons](#gear-listneurons)
 - [metadata](#gear-metadata)
+- [ledgerMetadata](#gear-ledgermetadata)
+- [balance](#gear-balance)
 - [getNeuron](#gear-getneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
@@ -315,6 +330,18 @@ Parameters:
 | Method     | Type                                                                                                   |
 | ---------- | ------------------------------------------------------------------------------------------------------ |
 | `metadata` | `(params: Omit<QueryParams, "certified">) => Promise<[GetMetadataResponse, SnsTokenMetadataResponse]>` |
+
+##### :gear: ledgerMetadata
+
+| Method           | Type                                                                            |
+| ---------------- | ------------------------------------------------------------------------------- |
+| `ledgerMetadata` | `(params: Omit<QueryParams, "certified">) => Promise<SnsTokenMetadataResponse>` |
+
+##### :gear: balance
+
+| Method    | Type                                                            |
+| --------- | --------------------------------------------------------------- |
+| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
 
 ##### :gear: getNeuron
 
