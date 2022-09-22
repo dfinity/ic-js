@@ -1,4 +1,6 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface Account {
   owner: Principal;
   subaccount: [] | [Subaccount];
@@ -21,13 +23,13 @@ export interface InitArgs {
   };
   token_name: string;
 }
-export type Subaccount = Array<number>;
+export type Subaccount = Uint8Array;
 export type Timestamp = bigint;
 export type Tokens = bigint;
 export interface TransferArg {
   to: Account;
   fee: [] | [Tokens];
-  memo: [] | [Array<number>];
+  memo: [] | [Uint8Array];
   from_subaccount: [] | [Subaccount];
   created_at_time: [] | [Timestamp];
   amount: Tokens;
@@ -47,19 +49,20 @@ export type TransferResult = { Ok: BlockIndex } | { Err: TransferError };
 export type Value =
   | { Int: bigint }
   | { Nat: bigint }
-  | { Blob: Array<number> }
+  | { Blob: Uint8Array }
   | { Text: string };
 export interface _SERVICE {
-  icrc1_balance_of: (arg_0: Account) => Promise<Tokens>;
-  icrc1_decimals: () => Promise<number>;
-  icrc1_fee: () => Promise<Tokens>;
-  icrc1_metadata: () => Promise<Array<[string, Value]>>;
-  icrc1_minting_account: () => Promise<[] | [Account]>;
-  icrc1_name: () => Promise<string>;
-  icrc1_supported_standards: () => Promise<
+  icrc1_balance_of: ActorMethod<[Account], Tokens>;
+  icrc1_decimals: ActorMethod<[], number>;
+  icrc1_fee: ActorMethod<[], Tokens>;
+  icrc1_metadata: ActorMethod<[], Array<[string, Value]>>;
+  icrc1_minting_account: ActorMethod<[], [] | [Account]>;
+  icrc1_name: ActorMethod<[], string>;
+  icrc1_supported_standards: ActorMethod<
+    [],
     Array<{ url: string; name: string }>
   >;
-  icrc1_symbol: () => Promise<string>;
-  icrc1_total_supply: () => Promise<Tokens>;
-  icrc1_transfer: (arg_0: TransferArg) => Promise<TransferResult>;
+  icrc1_symbol: ActorMethod<[], string>;
+  icrc1_total_supply: ActorMethod<[], Tokens>;
+  icrc1_transfer: ActorMethod<[TransferArg], TransferResult>;
 }

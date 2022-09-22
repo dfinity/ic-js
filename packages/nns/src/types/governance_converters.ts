@@ -29,7 +29,8 @@ export type Action =
   | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
   | { SetDefaultFollowees: SetDefaultFollowees }
   | { Motion: Motion }
-  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow };
+  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
+  | { OpenSnsTokenSwap: OpenSnsTokenSwap };
 export interface AddHotKey {
   newHotKey: Option<PrincipalString>;
 }
@@ -78,6 +79,7 @@ export type Command =
   | { Merge: Merge }
   | { DisburseToNeuron: DisburseToNeuron }
   | { MergeMaturity: MergeMaturity }
+  | { StakeMaturity: StakeMaturity }
   | { MakeProposal: Proposal }
   | { Disburse: Disburse };
 export interface Configure {
@@ -123,6 +125,9 @@ export interface KnownNeuron {
 }
 export interface SetDissolveTimestamp {
   dissolveTimestampSeconds: bigint;
+}
+export interface ChangeAutoStakeMaturity {
+  requestedSettingForAutoStakeMaturity: boolean;
 }
 export interface ListProposalsRequest {
   // Limit on the number of [ProposalInfo] to return. If no value is
@@ -172,6 +177,9 @@ export interface MergeRequest {
   sourceNeuronId: NeuronId;
   targetNeuronId: NeuronId;
 }
+export interface StakeMaturity {
+  percentageToStake?: number;
+}
 export interface MergeMaturity {
   percentageToMerge: number;
 }
@@ -196,7 +204,19 @@ export interface MethodAuthzInfo {
 export interface Motion {
   motionText: string;
 }
-
+export interface OpenSnsTokenSwap {
+  communityFundInvestmentE8s?: bigint;
+  targetSwapCanisterId?: Principal;
+  params?: {
+    minParticipantIcpE8s: bigint;
+    maxIcpE8s: bigint;
+    swapDueTimestampSeconds: bigint;
+    minParticipants: number;
+    snsTokenE8s: bigint;
+    maxParticipantIcpE8s: bigint;
+    minIcpE8s: bigint;
+  };
+}
 export interface SetSnsTokenSwapOpenTimeWindow {
   request?: {
     openTimeWindow?: {
@@ -218,12 +238,14 @@ export interface NetworkEconomics {
 }
 export interface Neuron {
   id: Option<NeuronId>;
+  stakedMaturityE8sEquivalent: Option<bigint>;
   controller: Option<PrincipalString>;
   recentBallots: Array<BallotInfo>;
   kycVerified: boolean;
   notForProfit: boolean;
   cachedNeuronStake: E8s;
   createdTimestampSeconds: bigint;
+  autoStakeMaturity: Option<boolean>;
   maturityE8sEquivalent: bigint;
   agingSinceTimestampSeconds: bigint;
   spawnAtTimesSeconds: Option<bigint>;
@@ -262,7 +284,8 @@ export type Operation =
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { JoinCommunityFund: Record<string, never> }
   | { LeaveCommunityFund: Record<string, never> }
-  | { SetDissolveTimestamp: SetDissolveTimestamp };
+  | { SetDissolveTimestamp: SetDissolveTimestamp }
+  | { ChangeAutoStakeMaturity: ChangeAutoStakeMaturity };
 export interface Proposal {
   title: Option<string>;
   url: string;

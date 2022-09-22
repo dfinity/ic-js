@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { fromNullable } from "@dfinity/utils";
+import { fromNullable, uint8ArrayToArrayOfNumber } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
 import type {
   AccountIdentifier as RawAccountIdentifier,
@@ -21,6 +21,7 @@ import type {
   NeuronInfo as RawNeuronInfo,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
+  Params,
   Proposal as RawProposal,
   ProposalInfo as RawProposalInfo,
   RewardMode as RawRewardMode,
@@ -66,7 +67,6 @@ import {
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
-import { arrayOfNumberToUint8Array } from "../../utils/converter.utils";
 
 const toNeuronInfo = ({
   neuronId,
@@ -107,6 +107,9 @@ const toNeuron = ({
   canisterId: Principal;
 }): Neuron => ({
   id: neuron.id.length ? toNeuronId(neuron.id[0]) : undefined,
+  stakedMaturityE8sEquivalent: fromNullable(
+    neuron.staked_maturity_e8s_equivalent
+  ),
   controller: neuron.controller.length
     ? neuron.controller[0].toString()
     : undefined,
@@ -115,14 +118,12 @@ const toNeuron = ({
   notForProfit: neuron.not_for_profit,
   cachedNeuronStake: neuron.cached_neuron_stake_e8s,
   createdTimestampSeconds: neuron.created_timestamp_seconds,
+  autoStakeMaturity: fromNullable(neuron.auto_stake_maturity),
   maturityE8sEquivalent: neuron.maturity_e8s_equivalent,
   agingSinceTimestampSeconds: neuron.aging_since_timestamp_seconds,
   neuronFees: neuron.neuron_fees_e8s,
   hotKeys: neuron.hot_keys.map((p) => p.toString()),
-  accountIdentifier: principalToAccountIdentifier(
-    canisterId,
-    arrayOfNumberToUint8Array(neuron.account)
-  ),
+  accountIdentifier: principalToAccountIdentifier(canisterId, neuron.account),
   joinedCommunityFundTimestampSeconds: neuron
     .joined_community_fund_timestamp_seconds.length
     ? neuron.joined_community_fund_timestamp_seconds[0]
@@ -174,7 +175,9 @@ const toNeuronIdOrSubaccount = (
     return { NeuronId: neuronIdOrSubaccount.NeuronId.id };
   }
   if ("Subaccount" in neuronIdOrSubaccount) {
-    return { Subaccount: neuronIdOrSubaccount.Subaccount };
+    return {
+      Subaccount: uint8ArrayToArrayOfNumber(neuronIdOrSubaccount.Subaccount),
+    };
   }
   throw new UnsupportedValueError(neuronIdOrSubaccount);
 };
@@ -358,6 +361,33 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
+  if ("OpenSnsTokenSwap" in action) {
+    const OpenSnsTokenSwap = action.OpenSnsTokenSwap;
+    const params: Params | undefined = fromNullable(OpenSnsTokenSwap.params);
+
+    return {
+      OpenSnsTokenSwap: {
+        communityFundInvestmentE8s: fromNullable(
+          OpenSnsTokenSwap.community_fund_investment_e8s
+        ),
+        targetSwapCanisterId: fromNullable(
+          OpenSnsTokenSwap.target_swap_canister_id
+        ),
+        ...(params !== undefined && {
+          params: {
+            minParticipantIcpE8s: params.min_participant_icp_e8s,
+            maxIcpE8s: params.max_icp_e8s,
+            swapDueTimestampSeconds: params.swap_due_timestamp_seconds,
+            minParticipants: params.min_participants,
+            snsTokenE8s: params.sns_token_e8s,
+            maxParticipantIcpE8s: params.max_participant_icp_e8s,
+            minIcpE8s: params.min_icp_e8s,
+          },
+        }),
+      },
+    };
+  }
+
   throw new UnsupportedValueError(action);
 };
 
@@ -454,6 +484,14 @@ const toCommand = (command: RawCommand): Command => {
       },
     };
   }
+  if ("StakeMaturity" in command) {
+    const { percentage_to_stake } = command.StakeMaturity;
+    return {
+      StakeMaturity: {
+        percentageToStake: fromNullable(percentage_to_stake),
+      },
+    };
+  }
   if ("MakeProposal" in command) {
     const makeProposal = command.MakeProposal;
     return {
@@ -490,6 +528,7 @@ const toCommand = (command: RawCommand): Command => {
       },
     };
   }
+
   throw new UnsupportedValueError(command);
 };
 
@@ -545,6 +584,17 @@ const toOperation = (operation: RawOperation): Operation => {
       SetDissolveTimestamp: {
         dissolveTimestampSeconds:
           setDissolveTimestamp.dissolve_timestamp_seconds,
+      },
+    };
+  }
+  if ("ChangeAutoStakeMaturity" in operation) {
+    const {
+      requested_setting_for_auto_stake_maturity:
+        requestedSettingForAutoStakeMaturity,
+    } = operation.ChangeAutoStakeMaturity;
+    return {
+      ChangeAutoStakeMaturity: {
+        requestedSettingForAutoStakeMaturity,
       },
     };
   }
@@ -784,12 +834,16 @@ const convertPbNeuronToFullNeuron = ({
   }
   return {
     id: idObj === undefined ? undefined : BigInt(idObj.getId()),
+    // TODO: Data not available in Neuron type
+    stakedMaturityE8sEquivalent: undefined,
     controller,
     recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
     kycVerified: pbNeuron.getKycVerified(),
     notForProfit: pbNeuron.getNotForProfit(),
     cachedNeuronStake: BigInt(pbNeuron.getCachedNeuronStakeE8s()),
     createdTimestampSeconds: BigInt(pbNeuron.getCreatedTimestampSeconds()),
+    // TODO: Data not available in Neuron type
+    autoStakeMaturity: undefined,
     maturityE8sEquivalent: BigInt(pbNeuron.getMaturityE8sEquivalent()),
     agingSinceTimestampSeconds: BigInt(
       pbNeuron.getAgingSinceTimestampSeconds()

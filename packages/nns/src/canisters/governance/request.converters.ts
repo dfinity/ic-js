@@ -1,4 +1,5 @@
 import { Principal } from "@dfinity/principal";
+import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
 import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -24,7 +25,6 @@ import type {
   Action,
   By,
   Change,
-  ClaimNeuronRequest,
   ClaimOrRefreshNeuronRequest,
   Command,
   DisburseToNeuronRequest,
@@ -39,7 +39,6 @@ import type {
   RewardMode,
 } from "../../types/governance_converters";
 import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
-import { arrayBufferToArrayOfNumber } from "../../utils/converter.utils";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
@@ -60,7 +59,7 @@ const fromNeuronIdOrSubaccount = (
     return { NeuronId: { id: neuronIdOrSubaccount.NeuronId } };
   }
   if ("Subaccount" in neuronIdOrSubaccount) {
-    return { Subaccount: neuronIdOrSubaccount.Subaccount };
+    return { Subaccount: Uint8Array.from(neuronIdOrSubaccount.Subaccount) };
   }
   throw new UnsupportedValueError(neuronIdOrSubaccount);
 };
@@ -76,7 +75,7 @@ const fromAction = (action: Action): RawAction => {
     return {
       ExecuteNnsFunction: {
         nns_function: executeNnsFunction.nnsFunctionId,
-        payload: arrayBufferToArrayOfNumber(executeNnsFunction.payloadBytes),
+        payload: arrayBufferToUint8Array(executeNnsFunction.payloadBytes),
       },
     };
   }
@@ -228,6 +227,32 @@ const fromAction = (action: Action): RawAction => {
     };
   }
 
+  if ("OpenSnsTokenSwap" in action) {
+    const { communityFundInvestmentE8s, targetSwapCanisterId, params } =
+      action.OpenSnsTokenSwap;
+
+    return {
+      OpenSnsTokenSwap: {
+        community_fund_investment_e8s: toNullable(communityFundInvestmentE8s),
+        target_swap_canister_id: toNullable(targetSwapCanisterId),
+        params:
+          params === undefined
+            ? []
+            : [
+                {
+                  min_participant_icp_e8s: params.minParticipantIcpE8s,
+                  max_icp_e8s: params.maxIcpE8s,
+                  swap_due_timestamp_seconds: params.swapDueTimestampSeconds,
+                  min_participants: params.minParticipants,
+                  sns_token_e8s: params.snsTokenE8s,
+                  max_participant_icp_e8s: params.maxParticipantIcpE8s,
+                  min_icp_e8s: params.minIcpE8s,
+                },
+              ],
+      },
+    };
+  }
+
   // If there's a missing action, this line will cause a compiler error.
   throw new UnsupportedValueError(action);
 };
@@ -298,6 +323,14 @@ const fromCommand = (command: Command): RawCommand => {
     return {
       MergeMaturity: {
         percentage_to_merge: mergeMaturity.percentageToMerge,
+      },
+    };
+  }
+  if ("StakeMaturity" in command) {
+    const { percentageToStake } = command.StakeMaturity;
+    return {
+      StakeMaturity: {
+        percentage_to_stake: toNullable(percentageToStake),
       },
     };
   }
@@ -409,6 +442,16 @@ const fromOperation = (operation: Operation): RawOperation => {
       },
     };
   }
+  if ("ChangeAutoStakeMaturity" in operation) {
+    const { requestedSettingForAutoStakeMaturity } =
+      operation.ChangeAutoStakeMaturity;
+    return {
+      ChangeAutoStakeMaturity: {
+        requested_setting_for_auto_stake_maturity:
+          requestedSettingForAutoStakeMaturity,
+      },
+    };
+  }
   // If there's a missing operation above, this line will cause a compiler error.
   throw new UnsupportedValueError(operation);
 };
@@ -444,12 +487,9 @@ const fromAmount = (amount: E8s): Amount => ({
 
 const fromAccountIdentifier = (
   accountIdentifier: AccountIdentifier
-): RawAccountIdentifier => {
-  const bytes: Uint8Array = accountIdentifierToBytes(accountIdentifier);
-  return {
-    hash: arrayBufferToArrayOfNumber(bytes),
-  };
-};
+): RawAccountIdentifier => ({
+  hash: accountIdentifierToBytes(accountIdentifier),
+});
 
 const fromRewardMode = (rewardMode: RewardMode): RawRewardMode => {
   if ("RewardToNeuron" in rewardMode) {
@@ -498,7 +538,7 @@ const fromClaimOrRefreshBy = (by: By): RawBy => {
 };
 
 export const fromListNeurons = (neuronIds?: NeuronId[]): RawListNeurons => ({
-  neuron_ids: neuronIds ?? [],
+  neuron_ids: BigUint64Array.from(neuronIds ?? []),
   include_neurons_readable_by_caller: neuronIds ? false : true,
 });
 
@@ -514,16 +554,6 @@ export const fromManageNeuron = ({
     : [],
 });
 
-export const fromClaimNeuronRequest = ({
-  publicKey,
-  nonce,
-  dissolveDelayInSecs,
-}: ClaimNeuronRequest): [Array<number>, bigint, bigint] => [
-  arrayBufferToArrayOfNumber(publicKey),
-  nonce,
-  dissolveDelayInSecs,
-];
-
 export const fromListProposalsRequest = ({
   includeRewardStatus,
   beforeProposal,
@@ -532,11 +562,11 @@ export const fromListProposalsRequest = ({
   limit,
 }: ListProposalsRequest): ListProposalInfo => {
   return {
-    include_reward_status: includeRewardStatus,
+    include_reward_status: Int32Array.from(includeRewardStatus),
     before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
     limit: limit,
-    exclude_topic: excludeTopic,
-    include_status: includeStatus,
+    exclude_topic: Int32Array.from(excludeTopic),
+    include_status: Int32Array.from(includeStatus),
   };
 };
 

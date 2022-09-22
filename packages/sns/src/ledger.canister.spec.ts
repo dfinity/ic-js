@@ -1,5 +1,6 @@
 import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as SnsLedgerService } from "../candid/icrc1_ledger";
 import { SnsLedgerCanister } from "./ledger.canister";
@@ -49,7 +50,7 @@ describe("Ledger canister", () => {
       });
 
       const owner = Principal.fromText("aaaaa-aa");
-      const subaccount = [0, 0, 1];
+      const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
       const res = await canister.balance({
         owner,
         subaccount,

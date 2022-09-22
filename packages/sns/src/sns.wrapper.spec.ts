@@ -1,4 +1,5 @@
 import { Principal } from "@dfinity/principal";
+import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceCanister } from "./governance.canister";
@@ -68,7 +69,7 @@ describe("SnsWrapper", () => {
 
   it("should call get neuron with query or update", async () => {
     const neuronId = {
-      id: [1, 2, 3],
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
     };
     await snsWrapper.getNeuron({ neuronId });
     expect(mockGovernanceCanister.getNeuron).toHaveBeenCalledWith({
@@ -84,7 +85,7 @@ describe("SnsWrapper", () => {
 
   it("should call addNeuronPermissions with query or update", async () => {
     const neuronId = {
-      id: [1, 2, 3],
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
     };
     const principal = Principal.fromText("aaaaa-aa");
     const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
@@ -98,7 +99,7 @@ describe("SnsWrapper", () => {
 
   it("should call removeNeuronPermissions with query or update", async () => {
     const neuronId = {
-      id: [1, 2, 3],
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
     };
     const principal = Principal.fromText("aaaaa-aa");
     const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
@@ -156,7 +157,7 @@ describe("SnsWrapper", () => {
 
   it("should call leger balance of subaccount with query or update", async () => {
     const owner = Principal.fromText("aaaaa-aa");
-    const subaccount = [0, 0, 1];
+    const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
     await snsWrapper.balance({
       owner,
       subaccount,

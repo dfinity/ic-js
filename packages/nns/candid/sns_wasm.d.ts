@@ -1,6 +1,8 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface AddWasmRequest {
-  hash: Array<number>;
+  hash: Uint8Array;
   wasm: [] | [SnsWasm];
 }
 export interface AddWasmResponse {
@@ -36,7 +38,7 @@ export interface GetNextSnsVersionResponse {
   next_version: [] | [SnsVersion];
 }
 export interface GetWasmRequest {
-  hash: Array<number>;
+  hash: Uint8Array;
 }
 export interface GetWasmResponse {
   wasm: [] | [SnsWasm];
@@ -51,7 +53,7 @@ export interface NeuronDistribution {
   controller: [] | [Principal];
   stake_e8s: bigint;
 }
-export type Result = { Error: SnsWasmError } | { Hash: Array<number> };
+export type Result = { Error: SnsWasmError } | { Hash: Uint8Array };
 export interface SnsCanisterIds {
   root: [] | [Principal];
   swap: [] | [Principal];
@@ -77,14 +79,14 @@ export interface SnsInitPayload {
   min_icp_e8s: [] | [bigint];
 }
 export interface SnsVersion {
-  archive_wasm_hash: Array<number>;
-  root_wasm_hash: Array<number>;
-  swap_wasm_hash: Array<number>;
-  ledger_wasm_hash: Array<number>;
-  governance_wasm_hash: Array<number>;
+  archive_wasm_hash: Uint8Array;
+  root_wasm_hash: Uint8Array;
+  swap_wasm_hash: Uint8Array;
+  ledger_wasm_hash: Uint8Array;
+  governance_wasm_hash: Uint8Array;
 }
 export interface SnsWasm {
-  wasm: Array<number>;
+  wasm: Uint8Array;
   canister_type: number;
 }
 export interface SnsWasmCanisterInitPayload {
@@ -102,11 +104,12 @@ export interface TreasuryDistribution {
   total_e8s: bigint;
 }
 export interface _SERVICE {
-  add_wasm: (arg_0: AddWasmRequest) => Promise<AddWasmResponse>;
-  deploy_new_sns: (arg_0: DeployNewSnsRequest) => Promise<DeployNewSnsResponse>;
-  get_next_sns_version: (
-    arg_0: GetNextSnsVersionRequest
-  ) => Promise<GetNextSnsVersionResponse>;
-  get_wasm: (arg_0: GetWasmRequest) => Promise<GetWasmResponse>;
-  list_deployed_snses: (arg_0: {}) => Promise<ListDeployedSnsesResponse>;
+  add_wasm: ActorMethod<[AddWasmRequest], AddWasmResponse>;
+  deploy_new_sns: ActorMethod<[DeployNewSnsRequest], DeployNewSnsResponse>;
+  get_next_sns_version: ActorMethod<
+    [GetNextSnsVersionRequest],
+    GetNextSnsVersionResponse
+  >;
+  get_wasm: ActorMethod<[GetWasmRequest], GetWasmResponse>;
+  list_deployed_snses: ActorMethod<[{}], ListDeployedSnsesResponse>;
 }
