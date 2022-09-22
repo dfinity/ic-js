@@ -21,7 +21,7 @@ jobs:
 
       - name: Commit docs
         uses: EndBug/add-and-commit@v9
-        # We don't want to commit formatting changes to main
+        # We don't want to commit documentation changes to main
         if: ${{ github.ref != 'refs/heads/main' }}
         with:
           add: .
