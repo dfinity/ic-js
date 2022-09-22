@@ -8,7 +8,7 @@
 
 ### Breaking changes
 
-- the development dependency `didc` has been bumped which leads to some types being converted from `number[]` to `Uint8Array`
+- the development dependency `didc` has been bumped which leads to some types having to be converted from `number[]` to `Uint8Array`
 - new fields `stakedMaturityE8sEquivalent` and `autoStakeMaturity` in `Neuron`
 
 ### Features
