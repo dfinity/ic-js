@@ -1,4 +1,4 @@
-// Generated from IC repo commit 12ea1aa1db0a3427eeec8e4b132b0bffb0362380 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit fb28a950f1799dec4a67cc21abd3888686ab50d9 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -7,6 +7,7 @@ type Action = variant {
   UpgradeSnsToNextVersion : record {};
   UpgradeSnsControlledCanister : UpgradeSnsControlledCanister;
   Unspecified : record {};
+  ManageSnsMetadata : ManageSnsMetadata;
   ExecuteGenericNervousSystemFunction : ExecuteGenericNervousSystemFunction;
   Motion : Motion;
 };
@@ -131,6 +132,9 @@ type GetRunningSnsVersionResponse = record {
   deployed_version : opt Version;
   pending_version : opt UpgradeInProgress;
 };
+type GetSnsInitializationParametersResponse = record {
+  sns_initialization_parameters : text;
+};
 type Governance = record {
   root_canister_id : opt principal;
   id_to_nervous_system_functions : vec record { nat64; NervousSystemFunction };
@@ -138,13 +142,14 @@ type Governance = record {
   mode : int32;
   parameters : opt NervousSystemParameters;
   deployed_version : opt Version;
+  sns_initialization_parameters : text;
   latest_reward_event : opt RewardEvent;
   pending_version : opt UpgradeInProgress;
   swap_canister_id : opt principal;
   ledger_canister_id : opt principal;
   proposals : vec record { nat64; ProposalData };
   in_flight_commands : vec record { text; NeuronInFlightCommand };
-  sns_metadata : opt GetMetadataResponse;
+  sns_metadata : opt ManageSnsMetadata;
   neurons : vec record { text; Neuron };
   genesis_timestamp_seconds : nat64;
 };
@@ -189,6 +194,12 @@ type ListProposals = record {
 type ListProposalsResponse = record { proposals : vec ProposalData };
 type ManageNeuron = record { subaccount : vec nat8; command : opt Command };
 type ManageNeuronResponse = record { command : opt Command_1 };
+type ManageSnsMetadata = record {
+  url : opt text;
+  logo : opt text;
+  name : opt text;
+  description : opt text;
+};
 type MemoAndController = record { controller : opt principal; memo : nat64 };
 type MergeMaturity = record { percentage_to_merge : nat32 };
 type MergeMaturityResponse = record {
@@ -303,6 +314,7 @@ type Tally = record {
 type UpgradeInProgress = record {
   mark_failed_at_seconds : nat64;
   checking_upgrade_lock : nat64;
+  proposal_id : nat64;
   target_version : opt Version;
 };
 type UpgradeSnsControlledCanister = record {
@@ -332,6 +344,9 @@ service : (Governance) -> {
   get_proposal : (GetProposal) -> (GetProposalResponse) query;
   get_root_canister_status : (null) -> (CanisterStatusResultV2);
   get_running_sns_version : (record {}) -> (GetRunningSnsVersionResponse) query;
+  get_sns_initialization_parameters : (record {}) -> (
+      GetSnsInitializationParametersResponse,
+    ) query;
   list_nervous_system_functions : () -> (
       ListNervousSystemFunctionsResponse,
     ) query;

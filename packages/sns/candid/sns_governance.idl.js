@@ -92,6 +92,7 @@ export const idlFactory = ({ IDL }) => {
   const UpgradeInProgress = IDL.Record({
     'mark_failed_at_seconds' : IDL.Nat64,
     'checking_upgrade_lock' : IDL.Nat64,
+    'proposal_id' : IDL.Nat64,
     'target_version' : IDL.Opt(Version),
   });
   const GovernanceError = IDL.Record({
@@ -113,6 +114,12 @@ export const idlFactory = ({ IDL }) => {
     'new_canister_wasm' : IDL.Vec(IDL.Nat8),
     'canister_id' : IDL.Opt(IDL.Principal),
   });
+  const ManageSnsMetadata = IDL.Record({
+    'url' : IDL.Opt(IDL.Text),
+    'logo' : IDL.Opt(IDL.Text),
+    'name' : IDL.Opt(IDL.Text),
+    'description' : IDL.Opt(IDL.Text),
+  });
   const ExecuteGenericNervousSystemFunction = IDL.Record({
     'function_id' : IDL.Nat64,
     'payload' : IDL.Vec(IDL.Nat8),
@@ -125,6 +132,7 @@ export const idlFactory = ({ IDL }) => {
     'UpgradeSnsToNextVersion' : IDL.Record({}),
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'Unspecified' : IDL.Record({}),
+    'ManageSnsMetadata' : ManageSnsMetadata,
     'ExecuteGenericNervousSystemFunction' : ExecuteGenericNervousSystemFunction,
     'Motion' : Motion,
   });
@@ -228,12 +236,6 @@ export const idlFactory = ({ IDL }) => {
     'command' : IDL.Opt(Command_2),
     'timestamp' : IDL.Nat64,
   });
-  const GetMetadataResponse = IDL.Record({
-    'url' : IDL.Opt(IDL.Text),
-    'logo' : IDL.Opt(IDL.Text),
-    'name' : IDL.Opt(IDL.Text),
-    'description' : IDL.Opt(IDL.Text),
-  });
   const NeuronPermission = IDL.Record({
     'principal' : IDL.Opt(IDL.Principal),
     'permission_type' : IDL.Vec(IDL.Int32),
@@ -263,15 +265,22 @@ export const idlFactory = ({ IDL }) => {
     'mode' : IDL.Int32,
     'parameters' : IDL.Opt(NervousSystemParameters),
     'deployed_version' : IDL.Opt(Version),
+    'sns_initialization_parameters' : IDL.Text,
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'pending_version' : IDL.Opt(UpgradeInProgress),
     'swap_canister_id' : IDL.Opt(IDL.Principal),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Text, NeuronInFlightCommand)),
-    'sns_metadata' : IDL.Opt(GetMetadataResponse),
+    'sns_metadata' : IDL.Opt(ManageSnsMetadata),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Text, Neuron)),
     'genesis_timestamp_seconds' : IDL.Nat64,
+  });
+  const GetMetadataResponse = IDL.Record({
+    'url' : IDL.Opt(IDL.Text),
+    'logo' : IDL.Opt(IDL.Text),
+    'name' : IDL.Opt(IDL.Text),
+    'description' : IDL.Opt(IDL.Text),
   });
   const GetNeuron = IDL.Record({ 'neuron_id' : IDL.Opt(NeuronId) });
   const Result = IDL.Variant({ 'Error' : GovernanceError, 'Neuron' : Neuron });
@@ -308,6 +317,9 @@ export const idlFactory = ({ IDL }) => {
   const GetRunningSnsVersionResponse = IDL.Record({
     'deployed_version' : IDL.Opt(Version),
     'pending_version' : IDL.Opt(UpgradeInProgress),
+  });
+  const GetSnsInitializationParametersResponse = IDL.Record({
+    'sns_initialization_parameters' : IDL.Text,
   });
   const ListNervousSystemFunctionsResponse = IDL.Record({
     'reserved_ids' : IDL.Vec(IDL.Nat64),
@@ -397,6 +409,11 @@ export const idlFactory = ({ IDL }) => {
     'get_running_sns_version' : IDL.Func(
         [IDL.Record({})],
         [GetRunningSnsVersionResponse],
+        ['query'],
+      ),
+    'get_sns_initialization_parameters' : IDL.Func(
+        [IDL.Record({})],
+        [GetSnsInitializationParametersResponse],
         ['query'],
       ),
     'list_nervous_system_functions' : IDL.Func(
@@ -507,6 +524,7 @@ export const init = ({ IDL }) => {
   const UpgradeInProgress = IDL.Record({
     'mark_failed_at_seconds' : IDL.Nat64,
     'checking_upgrade_lock' : IDL.Nat64,
+    'proposal_id' : IDL.Nat64,
     'target_version' : IDL.Opt(Version),
   });
   const GovernanceError = IDL.Record({
@@ -528,6 +546,12 @@ export const init = ({ IDL }) => {
     'new_canister_wasm' : IDL.Vec(IDL.Nat8),
     'canister_id' : IDL.Opt(IDL.Principal),
   });
+  const ManageSnsMetadata = IDL.Record({
+    'url' : IDL.Opt(IDL.Text),
+    'logo' : IDL.Opt(IDL.Text),
+    'name' : IDL.Opt(IDL.Text),
+    'description' : IDL.Opt(IDL.Text),
+  });
   const ExecuteGenericNervousSystemFunction = IDL.Record({
     'function_id' : IDL.Nat64,
     'payload' : IDL.Vec(IDL.Nat8),
@@ -540,6 +564,7 @@ export const init = ({ IDL }) => {
     'UpgradeSnsToNextVersion' : IDL.Record({}),
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'Unspecified' : IDL.Record({}),
+    'ManageSnsMetadata' : ManageSnsMetadata,
     'ExecuteGenericNervousSystemFunction' : ExecuteGenericNervousSystemFunction,
     'Motion' : Motion,
   });
@@ -643,12 +668,6 @@ export const init = ({ IDL }) => {
     'command' : IDL.Opt(Command_2),
     'timestamp' : IDL.Nat64,
   });
-  const GetMetadataResponse = IDL.Record({
-    'url' : IDL.Opt(IDL.Text),
-    'logo' : IDL.Opt(IDL.Text),
-    'name' : IDL.Opt(IDL.Text),
-    'description' : IDL.Opt(IDL.Text),
-  });
   const NeuronPermission = IDL.Record({
     'principal' : IDL.Opt(IDL.Principal),
     'permission_type' : IDL.Vec(IDL.Int32),
@@ -678,13 +697,14 @@ export const init = ({ IDL }) => {
     'mode' : IDL.Int32,
     'parameters' : IDL.Opt(NervousSystemParameters),
     'deployed_version' : IDL.Opt(Version),
+    'sns_initialization_parameters' : IDL.Text,
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'pending_version' : IDL.Opt(UpgradeInProgress),
     'swap_canister_id' : IDL.Opt(IDL.Principal),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Text, NeuronInFlightCommand)),
-    'sns_metadata' : IDL.Opt(GetMetadataResponse),
+    'sns_metadata' : IDL.Opt(ManageSnsMetadata),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Text, Neuron)),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });

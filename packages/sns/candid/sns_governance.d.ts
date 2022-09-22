@@ -14,6 +14,7 @@ export type Action =
   | { UpgradeSnsToNextVersion: {} }
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { Unspecified: {} }
+  | { ManageSnsMetadata: ManageSnsMetadata }
   | {
       ExecuteGenericNervousSystemFunction: ExecuteGenericNervousSystemFunction;
     }
@@ -162,6 +163,9 @@ export interface GetRunningSnsVersionResponse {
   deployed_version: [] | [Version];
   pending_version: [] | [UpgradeInProgress];
 }
+export interface GetSnsInitializationParametersResponse {
+  sns_initialization_parameters: string;
+}
 export interface Governance {
   root_canister_id: [] | [Principal];
   id_to_nervous_system_functions: Array<[bigint, NervousSystemFunction]>;
@@ -169,13 +173,14 @@ export interface Governance {
   mode: number;
   parameters: [] | [NervousSystemParameters];
   deployed_version: [] | [Version];
+  sns_initialization_parameters: string;
   latest_reward_event: [] | [RewardEvent];
   pending_version: [] | [UpgradeInProgress];
   swap_canister_id: [] | [Principal];
   ledger_canister_id: [] | [Principal];
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[string, NeuronInFlightCommand]>;
-  sns_metadata: [] | [GetMetadataResponse];
+  sns_metadata: [] | [ManageSnsMetadata];
   neurons: Array<[string, Neuron]>;
   genesis_timestamp_seconds: bigint;
 }
@@ -231,6 +236,12 @@ export interface ManageNeuron {
 }
 export interface ManageNeuronResponse {
   command: [] | [Command_1];
+}
+export interface ManageSnsMetadata {
+  url: [] | [string];
+  logo: [] | [string];
+  name: [] | [string];
+  description: [] | [string];
 }
 export interface MemoAndController {
   controller: [] | [Principal];
@@ -372,6 +383,7 @@ export interface Tally {
 export interface UpgradeInProgress {
   mark_failed_at_seconds: bigint;
   checking_upgrade_lock: bigint;
+  proposal_id: bigint;
   target_version: [] | [Version];
 }
 export interface UpgradeSnsControlledCanister {
@@ -403,6 +415,10 @@ export interface _SERVICE {
   get_proposal: ActorMethod<[GetProposal], GetProposalResponse>;
   get_root_canister_status: ActorMethod<[null], CanisterStatusResultV2>;
   get_running_sns_version: ActorMethod<[{}], GetRunningSnsVersionResponse>;
+  get_sns_initialization_parameters: ActorMethod<
+    [{}],
+    GetSnsInitializationParametersResponse
+  >;
   list_nervous_system_functions: ActorMethod<
     [],
     ListNervousSystemFunctionsResponse

@@ -8,13 +8,15 @@ export type {
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
 export type {
   BuyerState as SnsSwapBuyerState,
+  CfParticipant,
   DerivedState as SnsSwapDerivedState,
   GetBuyerStateRequest as SnsGetBuyerStateRequest,
   GetBuyerStateResponse as SnsGetBuyerStateResponse,
   Init as SnsSwapInit,
-  State as SnsSwapState,
+  Params as SnsParams,
+  SnsNeuronRecipe,
   Swap as SnsSwap,
-  TimeWindow as SnsSwapTimeWindow,
+  TransferableAmount as SnsTransferableAmount,
 } from "../candid/sns_swap";
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";

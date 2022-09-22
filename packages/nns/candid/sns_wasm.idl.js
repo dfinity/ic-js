@@ -21,6 +21,8 @@ export const idlFactory = ({ IDL }) => {
   const TreasuryDistribution = IDL.Record({ 'total_e8s' : IDL.Nat64 });
   const NeuronDistribution = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
+    'dissolve_delay_seconds' : IDL.Nat64,
+    'memo' : IDL.Nat64,
     'stake_e8s' : IDL.Nat64,
   });
   const DeveloperDistribution = IDL.Record({
@@ -44,21 +46,18 @@ export const idlFactory = ({ IDL }) => {
   });
   const SnsInitPayload = IDL.Record({
     'url' : IDL.Opt(IDL.Text),
-    'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
     'token_symbol' : IDL.Opt(IDL.Text),
-    'max_icp_e8s' : IDL.Opt(IDL.Nat64),
     'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
     'logo' : IDL.Opt(IDL.Text),
     'name' : IDL.Opt(IDL.Text),
+    'neuron_minimum_dissolve_delay_to_vote_seconds' : IDL.Opt(IDL.Nat64),
     'description' : IDL.Opt(IDL.Text),
-    'min_participants' : IDL.Opt(IDL.Nat32),
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
+    'sns_initialization_parameters' : IDL.Opt(IDL.Text),
     'initial_token_distribution' : IDL.Opt(InitialTokenDistribution),
     'token_name' : IDL.Opt(IDL.Text),
-    'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'proposal_reject_cost_e8s' : IDL.Opt(IDL.Nat64),
-    'min_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const DeployNewSnsRequest = IDL.Record({
     'sns_init_payload' : IDL.Opt(SnsInitPayload),
@@ -101,6 +100,11 @@ export const idlFactory = ({ IDL }) => {
         [DeployNewSnsRequest],
         [DeployNewSnsResponse],
         [],
+      ),
+    'get_latest_sns_version_pretty' : IDL.Func(
+        [IDL.Null],
+        [IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text))],
+        ['query'],
       ),
     'get_next_sns_version' : IDL.Func(
         [GetNextSnsVersionRequest],
