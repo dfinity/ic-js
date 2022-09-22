@@ -407,19 +407,23 @@ export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
-  get_build_metadata: () => Promise<string>;
-  get_metadata: (arg_0: {}) => Promise<GetMetadataResponse>;
-  get_nervous_system_parameters: (
-    arg_0: null
-  ) => Promise<NervousSystemParameters>;
-  get_neuron: (arg_0: GetNeuron) => Promise<GetNeuronResponse>;
-  get_proposal: (arg_0: GetProposal) => Promise<GetProposalResponse>;
-  get_root_canister_status: (arg_0: null) => Promise<CanisterStatusResultV2>;
-  get_running_sns_version: (arg_0: {}) => Promise<GetRunningSnsVersionResponse>;
-  get_sns_initialization_parameters: (arg_0: {}) => Promise<GetSnsInitializationParametersResponse>;
-  list_nervous_system_functions: () => Promise<ListNervousSystemFunctionsResponse>;
-  list_neurons: (arg_0: ListNeurons) => Promise<ListNeuronsResponse>;
-  list_proposals: (arg_0: ListProposals) => Promise<ListProposalsResponse>;
-  manage_neuron: (arg_0: ManageNeuron) => Promise<ManageNeuronResponse>;
-  set_mode: (arg_0: SetMode) => Promise<{}>;
+  get_build_metadata: ActorMethod<[], string>;
+  get_metadata: ActorMethod<[{}], GetMetadataResponse>;
+  get_nervous_system_parameters: ActorMethod<[null], NervousSystemParameters>;
+  get_neuron: ActorMethod<[GetNeuron], GetNeuronResponse>;
+  get_proposal: ActorMethod<[GetProposal], GetProposalResponse>;
+  get_root_canister_status: ActorMethod<[null], CanisterStatusResultV2>;
+  get_running_sns_version: ActorMethod<[{}], GetRunningSnsVersionResponse>;
+  get_sns_initialization_parameters: ActorMethod<
+    [{}],
+    GetSnsInitializationParametersResponse
+  >;
+  list_nervous_system_functions: ActorMethod<
+    [],
+    ListNervousSystemFunctionsResponse
+  >;
+  list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
+  list_proposals: ActorMethod<[ListProposals], ListProposalsResponse>;
+  manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
+  set_mode: ActorMethod<[SetMode], {}>;
 }

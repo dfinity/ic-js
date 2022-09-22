@@ -159,16 +159,15 @@ export interface TransferableAmount {
   transfer_success_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
-  error_refund_icp: (arg_0: ErrorRefundIcpRequest) => Promise<{}>;
-  finalize_swap: (arg_0: {}) => Promise<FinalizeSwapResponse>;
-  get_buyer_state: (
-    arg_0: GetBuyerStateRequest
-  ) => Promise<GetBuyerStateResponse>;
-  get_buyers_total: (arg_0: {}) => Promise<GetBuyersTotalResponse>;
-  get_canister_status: (arg_0: {}) => Promise<CanisterStatusResultV2>;
-  get_state: (arg_0: {}) => Promise<GetStateResponse>;
-  open: (arg_0: OpenRequest) => Promise<{}>;
-  refresh_buyer_tokens: (
-    arg_0: RefreshBuyerTokensRequest
-  ) => Promise<RefreshBuyerTokensResponse>;
+  error_refund_icp: ActorMethod<[ErrorRefundIcpRequest], {}>;
+  finalize_swap: ActorMethod<[{}], FinalizeSwapResponse>;
+  get_buyer_state: ActorMethod<[GetBuyerStateRequest], GetBuyerStateResponse>;
+  get_buyers_total: ActorMethod<[{}], GetBuyersTotalResponse>;
+  get_canister_status: ActorMethod<[{}], CanisterStatusResultV2>;
+  get_state: ActorMethod<[{}], GetStateResponse>;
+  open: ActorMethod<[OpenRequest], {}>;
+  refresh_buyer_tokens: ActorMethod<
+    [RefreshBuyerTokensRequest],
+    RefreshBuyerTokensResponse
+  >;
 }
