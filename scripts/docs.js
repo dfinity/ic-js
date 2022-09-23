@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { generateDocumentation } = require("tsdoc-to-markdown");
+const { generateDocumentation } = require("tsdoc-markdown");
 
 const nnsInputFiles = [
   "./packages/nns/src/account_identifier.ts",

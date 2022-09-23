@@ -1,8 +1,12 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
-import type { Swap, _SERVICE as SnsSwapService } from "../candid/sns_swap";
-import { GetStateResponse } from "../candid/sns_swap";
+import type {
+  BuyerState,
+  GetStateResponse,
+  Swap,
+  _SERVICE as SnsSwapService,
+} from "../candid/sns_swap";
 import { swapCanisterIdMock } from "./mocks/sns.mock";
 import { SnsSwapCanister } from "./swap.canister";
 
@@ -38,7 +42,10 @@ describe("Swap canister", () => {
 
   it("should call to notify the buyer tokens", async () => {
     const service = mock<ActorSubclass<SnsSwapService>>();
-    service.refresh_buyer_tokens.mockResolvedValue({});
+    service.refresh_buyer_tokens.mockResolvedValue({
+      icp_accepted_participation_e8s: BigInt(0),
+      icp_ledger_account_balance_e8s: BigInt(0),
+    });
 
     const canister = SnsSwapCanister.create({
       canisterId: swapCanisterIdMock,
@@ -51,11 +58,14 @@ describe("Swap canister", () => {
   });
 
   it("should return the user commitment", async () => {
-    const buyerState = {
-      icp_disbursing: false,
-      amount_sns_e8s: BigInt(100000000),
-      amount_icp_e8s: BigInt(0),
-      sns_disbursing: false,
+    const buyerState: BuyerState = {
+      icp: [
+        {
+          amount_e8s: BigInt(100000000),
+          transfer_start_timestamp_seconds: BigInt(0),
+          transfer_success_timestamp_seconds: BigInt(0),
+        },
+      ],
     };
     const service = mock<ActorSubclass<SnsSwapService>>();
     service.get_buyer_state.mockResolvedValue({

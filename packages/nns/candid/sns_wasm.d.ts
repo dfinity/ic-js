@@ -1,6 +1,8 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface AddWasmRequest {
-  hash: Array<number>;
+  hash: Uint8Array;
   wasm: [] | [SnsWasm];
 }
 export interface AddWasmResponse {
@@ -36,7 +38,7 @@ export interface GetNextSnsVersionResponse {
   next_version: [] | [SnsVersion];
 }
 export interface GetWasmRequest {
-  hash: Array<number>;
+  hash: Uint8Array;
 }
 export interface GetWasmResponse {
   wasm: [] | [SnsWasm];
@@ -49,9 +51,11 @@ export interface ListDeployedSnsesResponse {
 }
 export interface NeuronDistribution {
   controller: [] | [Principal];
+  dissolve_delay_seconds: bigint;
+  memo: bigint;
   stake_e8s: bigint;
 }
-export type Result = { Error: SnsWasmError } | { Hash: Array<number> };
+export type Result = { Error: SnsWasmError } | { Hash: Uint8Array };
 export interface SnsCanisterIds {
   root: [] | [Principal];
   swap: [] | [Principal];
@@ -60,31 +64,28 @@ export interface SnsCanisterIds {
 }
 export interface SnsInitPayload {
   url: [] | [string];
-  min_participant_icp_e8s: [] | [bigint];
   fallback_controller_principal_ids: Array<string>;
   token_symbol: [] | [string];
-  max_icp_e8s: [] | [bigint];
   neuron_minimum_stake_e8s: [] | [bigint];
   logo: [] | [string];
   name: [] | [string];
+  neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
   description: [] | [string];
-  min_participants: [] | [number];
   transaction_fee_e8s: [] | [bigint];
+  sns_initialization_parameters: [] | [string];
   initial_token_distribution: [] | [InitialTokenDistribution];
   token_name: [] | [string];
-  max_participant_icp_e8s: [] | [bigint];
   proposal_reject_cost_e8s: [] | [bigint];
-  min_icp_e8s: [] | [bigint];
 }
 export interface SnsVersion {
-  archive_wasm_hash: Array<number>;
-  root_wasm_hash: Array<number>;
-  swap_wasm_hash: Array<number>;
-  ledger_wasm_hash: Array<number>;
-  governance_wasm_hash: Array<number>;
+  archive_wasm_hash: Uint8Array;
+  root_wasm_hash: Uint8Array;
+  swap_wasm_hash: Uint8Array;
+  ledger_wasm_hash: Uint8Array;
+  governance_wasm_hash: Uint8Array;
 }
 export interface SnsWasm {
-  wasm: Array<number>;
+  wasm: Uint8Array;
   canister_type: number;
 }
 export interface SnsWasmCanisterInitPayload {
@@ -102,11 +103,13 @@ export interface TreasuryDistribution {
   total_e8s: bigint;
 }
 export interface _SERVICE {
-  add_wasm: (arg_0: AddWasmRequest) => Promise<AddWasmResponse>;
-  deploy_new_sns: (arg_0: DeployNewSnsRequest) => Promise<DeployNewSnsResponse>;
-  get_next_sns_version: (
-    arg_0: GetNextSnsVersionRequest
-  ) => Promise<GetNextSnsVersionResponse>;
-  get_wasm: (arg_0: GetWasmRequest) => Promise<GetWasmResponse>;
-  list_deployed_snses: (arg_0: {}) => Promise<ListDeployedSnsesResponse>;
+  add_wasm: ActorMethod<[AddWasmRequest], AddWasmResponse>;
+  deploy_new_sns: ActorMethod<[DeployNewSnsRequest], DeployNewSnsResponse>;
+  get_latest_sns_version_pretty: ActorMethod<[null], Array<[string, string]>>;
+  get_next_sns_version: ActorMethod<
+    [GetNextSnsVersionRequest],
+    GetNextSnsVersionResponse
+  >;
+  get_wasm: ActorMethod<[GetWasmRequest], GetWasmResponse>;
+  list_deployed_snses: ActorMethod<[{}], ListDeployedSnsesResponse>;
 }

@@ -1,4 +1,5 @@
 import { ActorSubclass } from "@dfinity/agent";
+import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as LedgerService } from "../candid/ledger";
 import { Memo, Payment, SendRequest } from "../proto/ledger_pb";
@@ -153,7 +154,7 @@ describe("LedgerCanister", () => {
         });
 
         expect(service.transfer).toBeCalledWith({
-          to: to.toNumbers(),
+          to: to.toUint8Array(),
           fee: {
             e8s: fee,
           },
@@ -183,7 +184,7 @@ describe("LedgerCanister", () => {
         });
 
         expect(service.transfer).toBeCalledWith({
-          to: to.toNumbers(),
+          to: to.toUint8Array(),
           fee: {
             e8s: fee,
           },
@@ -219,7 +220,7 @@ describe("LedgerCanister", () => {
         });
 
         expect(service.transfer).toBeCalledWith({
-          to: to.toNumbers(),
+          to: to.toUint8Array(),
           fee: {
             e8s: fee,
           },
@@ -228,7 +229,7 @@ describe("LedgerCanister", () => {
           },
           memo,
           created_at_time: [],
-          from_subaccount: [fromSubAccount],
+          from_subaccount: [arrayOfNumberToUint8Array(fromSubAccount)],
         });
       });
 
@@ -448,7 +449,7 @@ describe("LedgerCanister", () => {
         await expect(call).rejects.toThrow(new TxTooOldError(123));
       });
 
-      it("handles subaccount", async () => {
+      it("handles subaccount for hw", async () => {
         const ledger = LedgerCanister.create({
           updateCallOverride: jest
             .fn()

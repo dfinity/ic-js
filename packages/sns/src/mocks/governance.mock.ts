@@ -1,10 +1,11 @@
+import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   Neuron,
   NeuronId,
 } from "../../candid/sns_governance";
 
-export const neuronIdMock: NeuronId = { id: [1] };
+export const neuronIdMock: NeuronId = { id: arrayOfNumberToUint8Array([1]) };
 
 export const neuronMock = {
   id: [neuronIdMock],

@@ -1,4 +1,6 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface AccountState {
   authenticated_principal_id: [] | [Principal];
   successfully_transferred_neurons: Array<TransferredNeuron>;
@@ -22,12 +24,12 @@ export interface TransferredNeuron {
   neuron_id: [] | [NeuronId];
 }
 export interface _SERVICE {
-  balance: (arg_0: string) => Promise<number>;
-  claim_neurons: (arg_0: string) => Promise<Result>;
-  donate_account: (arg_0: string) => Promise<Result_1>;
-  forward_whitelisted_unclaimed_accounts: (arg_0: null) => Promise<Result_1>;
-  get_account: (arg_0: string) => Promise<Result_2>;
-  get_build_metadata: () => Promise<string>;
-  len: () => Promise<number>;
-  total: () => Promise<number>;
+  balance: ActorMethod<[string], number>;
+  claim_neurons: ActorMethod<[string], Result>;
+  donate_account: ActorMethod<[string], Result_1>;
+  forward_whitelisted_unclaimed_accounts: ActorMethod<[null], Result_1>;
+  get_account: ActorMethod<[string], Result_2>;
+  get_build_metadata: ActorMethod<[], string>;
+  len: ActorMethod<[], number>;
+  total: ActorMethod<[], number>;
 }

@@ -1,12 +1,9 @@
 import type { Principal } from "@dfinity/principal";
+import { asciiStringToByteArray } from "@dfinity/utils";
 import { sha224 } from "js-sha256";
 import type { AccountIdentifier as AccountIdentifierCandid } from "../candid/governance";
 import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
-import {
-  asciiStringToByteArray,
-  calculateCrc32,
-  toHexString,
-} from "./utils/converter.utils";
+import { calculateCrc32, toHexString } from "./utils/converter.utils";
 
 export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}
@@ -62,7 +59,7 @@ export class AccountIdentifier {
 
   public toAccountIdentifierHash(): AccountIdentifierCandid {
     return {
-      hash: this.toNumbers(),
+      hash: this.toUint8Array(),
     };
   }
 }

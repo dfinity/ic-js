@@ -1,4 +1,6 @@
+import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+
 export interface CanisterCallError {
   code: [] | [number];
   description: string;
@@ -10,18 +12,18 @@ export interface CanisterStatusResult {
   controller: Principal;
   status: CanisterStatusType;
   memory_size: bigint;
-  module_hash: [] | [Array<number>];
+  module_hash: [] | [Uint8Array];
 }
 export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType_1;
   freezing_threshold: bigint;
-  balance: Array<[Array<number>, bigint]>;
+  balance: Array<[Uint8Array, bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Array<number>];
+  module_hash: [] | [Uint8Array];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -83,14 +85,16 @@ export interface SnsRootCanister {
   ledger_canister_id: [] | [Principal];
 }
 export interface _SERVICE {
-  canister_status: (arg_0: CanisterIdRecord) => Promise<CanisterStatusResult>;
-  get_build_metadata: () => Promise<string>;
-  get_sns_canisters_summary: (
-    arg_0: GetSnsCanistersSummaryRequest
-  ) => Promise<GetSnsCanistersSummaryResponse>;
-  list_sns_canisters: (arg_0: {}) => Promise<ListSnsCanistersResponse>;
-  register_dapp_canister: (arg_0: RegisterDappCanisterRequest) => Promise<{}>;
-  set_dapp_controllers: (
-    arg_0: SetDappControllersRequest
-  ) => Promise<SetDappControllersResponse>;
+  canister_status: ActorMethod<[CanisterIdRecord], CanisterStatusResult>;
+  get_build_metadata: ActorMethod<[], string>;
+  get_sns_canisters_summary: ActorMethod<
+    [GetSnsCanistersSummaryRequest],
+    GetSnsCanistersSummaryResponse
+  >;
+  list_sns_canisters: ActorMethod<[{}], ListSnsCanistersResponse>;
+  register_dapp_canister: ActorMethod<[RegisterDappCanisterRequest], {}>;
+  set_dapp_controllers: ActorMethod<
+    [SetDappControllersRequest],
+    SetDappControllersResponse
+  >;
 }
