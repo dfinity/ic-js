@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { principalToSubAccount } from "./cmc.utils";
+import { principalToSubAccount } from "./principal.utils";
 
 describe("Cycles Minting Canister utils", () => {
   describe("principalToSubAccount", () => {
