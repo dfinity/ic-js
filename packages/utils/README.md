@@ -43,6 +43,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
+- [principalToSubAccount](#gear-principaltosubaccount)
 
 #### :gear: defaultAgent
 
@@ -125,6 +126,19 @@ Parameters:
 | Function              | Type                         |
 | --------------------- | ---------------------------- |
 | `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
+
+#### :gear: principalToSubAccount
+
+Convert a principal to a Uint8Array 32 length.
+e.g. Useful to convert a canister ID when topping up cycles with the Cmc canister
+
+| Function                | Type                                   |
+| ----------------------- | -------------------------------------- |
+| `principalToSubAccount` | `(principal: Principal) => Uint8Array` |
+
+Parameters:
+
+- `principal`: The principal that needs to be converted to Subaccount
 
 ### :factory: NullishError
 
