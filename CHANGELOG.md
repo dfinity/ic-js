@@ -4,6 +4,7 @@
 
 - nns `v0.8.0`
 - sns `v0.0.4`
+- cmc `v0.0.1`
 - utils `v0.0.3`
 
 ### Breaking changes
@@ -13,6 +14,7 @@
 
 ### Features
 
+- new library `@dfinity/cmc`
 - new nns governance commands and actions: `ChangeAutoStakeMaturity`, `SetSnsTokenSwapOpenTimeWindow` and `OpenSnsTokenSwap`
 - some new utilities added to transform arrays from various format to `Uint8Array`
 

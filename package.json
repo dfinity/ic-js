@@ -6,7 +6,8 @@
   "workspaces": [
     "packages/utils",
     "packages/nns",
-    "packages/sns"
+    "packages/sns",
+    "packages/cmc"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
