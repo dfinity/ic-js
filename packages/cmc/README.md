@@ -29,4 +29,48 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 <!-- TSDOC_START -->
 
+### :factory: CMCCanister
+
+
+
+#### Methods
+
+- [create](#gear-create)
+- [getIcpToCyclesConversionRate](#gear-geticptocyclesconversionrate)
+- [notifyCreateCanister](#gear-notifycreatecanister)
+- [notifyTopUp](#gear-notifytopup)
+
+##### :gear: create
+
+| Method | Type |
+| ---------- | ---------- |
+| `create` | `(options: CMCCanisterOptions) => CMCCanister` |
+
+##### :gear: getIcpToCyclesConversionRate
+
+Returns conversion rate of ICP to Cycles
+
+| Method | Type |
+| ---------- | ---------- |
+| `getIcpToCyclesConversionRate` | `() => Promise<bigint>` |
+
+##### :gear: notifyCreateCanister
+
+Notifies Cycles Minting Canister of the creation of a new canister.
+It returns the new canister principal.
+
+| Method | Type |
+| ---------- | ---------- |
+| `notifyCreateCanister` | `(request: NotifyCreateCanisterArg) => Promise<Principal>` |
+
+##### :gear: notifyTopUp
+
+Notifies Cycles Minting Canister of new cycles being added to canister.
+It returns the new Cycles of the canister.
+
+| Method | Type |
+| ---------- | ---------- |
+| `notifyTopUp` | `(request: NotifyTopUpArg) => Promise<bigint>` |
+
+
 <!-- TSDOC_END -->
