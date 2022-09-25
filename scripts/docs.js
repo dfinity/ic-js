@@ -24,6 +24,8 @@ const snsInputFiles = [
 
 const utilsInputFiles = ["./packages/utils/src/index.ts"];
 
+const cmcInputFiles = ["./packages/cmc/src/cmc.canister.ts"];
+
 generateDocumentation({
   inputFiles: nnsInputFiles,
   outputFile: "./packages/nns/README.md",
@@ -33,6 +35,12 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: snsInputFiles,
   outputFile: "./packages/sns/README.md",
+  markdownOptions: { headingLevel: "###" },
+});
+
+generateDocumentation({
+  inputFiles: cmcInputFiles,
+  outputFile: "./packages/cmc/README.md",
   markdownOptions: { headingLevel: "###" },
 });
 
