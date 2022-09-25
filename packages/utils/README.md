@@ -32,6 +32,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 ### :toolbox: Functions
 
 - [defaultAgent](#gear-defaultagent)
+- [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
 - [uint8ArrayToBigInt](#gear-uint8arraytobigint)
 - [arrayBufferToUint8Array](#gear-arraybuffertouint8array)
@@ -45,9 +46,25 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 
 #### :gear: defaultAgent
 
+Get a default agent that connects to mainnet with the anonymous identity.
+
 | Function       | Type          |
 | -------------- | ------------- |
 | `defaultAgent` | `() => Agent` |
+
+#### :gear: createAgent
+
+Create an agent for a given identity
+
+| Function      | Type                                                                                                                        |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `createAgent` | `({ identity, host, fetchRootKey, }: { identity: Identity; host?: string; fetchRootKey?: boolean; }) => Promise<HttpAgent>` |
+
+Parameters:
+
+- `identity`: A mandatory identity to use for the agent
+- `host`: An optional host to connect to
+- `fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
 
 #### :gear: createServices
 
