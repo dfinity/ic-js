@@ -1,4 +1,4 @@
-import type { ManageNeuron } from "../../candid/sns_governance";
+import type { ManageNeuron, NeuronId } from "../../candid/sns_governance";
 import type {
   SnsDisburseNeuronParams,
   SnsNeuronPermissionsParams,
@@ -54,6 +54,32 @@ export const toDisburseNeuronRequest = ({
                   e8s: amount,
                 },
               ],
+      },
+    },
+  ],
+});
+
+export const toStartDissolvingNeuronRequest = ({
+  id,
+}: NeuronId): ManageNeuron => ({
+  subaccount: id,
+  command: [
+    {
+      Configure: {
+        operation: [{ StartDissolving: {} }],
+      },
+    },
+  ],
+});
+
+export const toStopDissolvingNeuronRequest = ({
+  id,
+}: NeuronId): ManageNeuron => ({
+  subaccount: id,
+  command: [
+    {
+      Configure: {
+        operation: [{ StopDissolving: {} }],
       },
     },
   ],
