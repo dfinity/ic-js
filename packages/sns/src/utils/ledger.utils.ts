@@ -5,6 +5,10 @@ interface SnsAccount {
   subaccount?: Uint8Array;
 }
 
+// https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
+const EXTRA_BYTES = parseInt("FF", 16);
+const MAX_ACCOUNT_BYTES_LENGTH = 32;
+
 /**
  * Removes leading zeros from a Uint8Array
  *
@@ -37,8 +41,6 @@ export const encodeSnsAccount = ({ owner, subaccount }: SnsAccount): string => {
     return owner.toText();
   }
 
-  // https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
-  const EXTRA_BYTES = parseInt("FF", 16);
   const bytes = Uint8Array.from([
     ...owner.toUint8Array(),
     ...subaccountBytes,
@@ -64,14 +66,14 @@ export const decodeSnsAccount = (accountString: string): SnsAccount => {
     .toUint8Array()
     .reverse();
 
-  if (ff !== parseInt("FF", 16)) {
+  if (ff !== EXTRA_BYTES) {
     return {
       owner: Principal.fromText(accountString),
     };
   }
 
   if (
-    nonZeroLength > 32 ||
+    nonZeroLength > MAX_ACCOUNT_BYTES_LENGTH ||
     nonZeroLength === 0 ||
     nonZeroLength === undefined
   ) {
@@ -85,7 +87,7 @@ export const decodeSnsAccount = (accountString: string): SnsAccount => {
   ) {
     throw new Error("Invalid account string");
   }
-  while (subaccountBytesReversed.length < 32) {
+  while (subaccountBytesReversed.length < MAX_ACCOUNT_BYTES_LENGTH) {
     subaccountBytesReversed.push(0);
   }
   const subaccount = Uint8Array.from(subaccountBytesReversed.reverse());

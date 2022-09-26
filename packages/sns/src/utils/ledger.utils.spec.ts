@@ -1,6 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { mockPrincipal } from "../mocks/ledger.mock";
-import { decodeSnsAccount, encodeSnsAccount } from "./ledger";
+import { decodeSnsAccount, encodeSnsAccount } from "./ledger.utils";
 
 describe("sns-accounts utils", () => {
   describe("encodeSnsAccount", () => {
