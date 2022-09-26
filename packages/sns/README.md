@@ -134,6 +134,8 @@ Parameters:
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
 - [disburse](#gear-disburse)
+- [startDissolving](#gear-startdissolving)
+- [stopDissolving](#gear-stopdissolving)
 
 ##### :gear: create
 
@@ -202,6 +204,22 @@ Disburse neuron on Account
 | Method     | Type                                                 |
 | ---------- | ---------------------------------------------------- |
 | `disburse` | `(params: SnsDisburseNeuronParams) => Promise<void>` |
+
+##### :gear: startDissolving
+
+Start dissolving process of a neuron
+
+| Method            | Type                                    |
+| ----------------- | --------------------------------------- |
+| `startDissolving` | `(neuronId: NeuronId) => Promise<void>` |
+
+##### :gear: stopDissolving
+
+Stop dissolving process of a neuron
+
+| Method           | Type                                    |
+| ---------------- | --------------------------------------- |
+| `stopDissolving` | `(neuronId: NeuronId) => Promise<void>` |
 
 ### :factory: SnsLedgerCanister
 
@@ -353,6 +371,8 @@ Parameters:
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
 - [disburse](#gear-disburse)
+- [startDissolving](#gear-startdissolving)
+- [stopDissolving](#gear-stopdissolving)
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
@@ -404,6 +424,18 @@ Parameters:
 | Method     | Type                                                 |
 | ---------- | ---------------------------------------------------- |
 | `disburse` | `(params: SnsDisburseNeuronParams) => Promise<void>` |
+
+##### :gear: startDissolving
+
+| Method            | Type                                    |
+| ----------------- | --------------------------------------- |
+| `startDissolving` | `(neuronId: NeuronId) => Promise<void>` |
+
+##### :gear: stopDissolving
+
+| Method           | Type                                    |
+| ---------------- | --------------------------------------- |
+| `stopDissolving` | `(neuronId: NeuronId) => Promise<void>` |
 
 ##### :gear: swapState
 
