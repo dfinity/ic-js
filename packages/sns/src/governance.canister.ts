@@ -13,12 +13,14 @@ import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import {
   toAddPermissionsRequest,
+  toDisburseNeuronRequest,
   toRemovePermissionsRequest,
 } from "./converters/governance.converters";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type {
+  SnsDisburseNeuronParams,
   SnsGetNeuronParams,
   SnsListNeuronsParams,
   SnsNeuronPermissionsParams,
@@ -112,6 +114,14 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     params: SnsNeuronPermissionsParams
   ): Promise<void> => {
     const request: ManageNeuron = toRemovePermissionsRequest(params);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Disburse neuron on Account
+   */
+  public disburse = async (params: SnsDisburseNeuronParams): Promise<void> => {
+    const request: ManageNeuron = toDisburseNeuronRequest(params);
     await this.manageNeuron(request);
   };
 

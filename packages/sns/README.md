@@ -133,6 +133,7 @@ Parameters:
 - [manageNeuron](#gear-manageneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
+- [disburse](#gear-disburse)
 
 ##### :gear: create
 
@@ -193,6 +194,14 @@ Remove permissions to a neuron for a specific principal
 | Method                    | Type                                                    |
 | ------------------------- | ------------------------------------------------------- |
 | `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: disburse
+
+Disburse neuron on Account
+
+| Method     | Type                                                 |
+| ---------- | ---------------------------------------------------- |
+| `disburse` | `(params: SnsDisburseNeuronParams) => Promise<void>` |
 
 ### :factory: SnsLedgerCanister
 
@@ -343,6 +352,7 @@ Parameters:
 - [getNeuron](#gear-getneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
+- [disburse](#gear-disburse)
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
@@ -388,6 +398,12 @@ Parameters:
 | Method                    | Type                                                    |
 | ------------------------- | ------------------------------------------------------- |
 | `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: disburse
+
+| Method     | Type                                                 |
+| ---------- | ---------------------------------------------------- |
+| `disburse` | `(params: SnsDisburseNeuronParams) => Promise<void>` |
 
 ##### :gear: swapState
 
