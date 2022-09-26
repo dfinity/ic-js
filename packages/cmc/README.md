@@ -55,8 +55,6 @@ const rate = await getIcpToCyclesConversionRate();
 
 ### :factory: CMCCanister
 
-
-
 #### Methods
 
 - [create](#gear-create)
@@ -66,16 +64,16 @@ const rate = await getIcpToCyclesConversionRate();
 
 ##### :gear: create
 
-| Method | Type |
-| ---------- | ---------- |
+| Method   | Type                                           |
+| -------- | ---------------------------------------------- |
 | `create` | `(options: CMCCanisterOptions) => CMCCanister` |
 
 ##### :gear: getIcpToCyclesConversionRate
 
 Returns conversion rate of ICP to Cycles
 
-| Method | Type |
-| ---------- | ---------- |
+| Method                         | Type                    |
+| ------------------------------ | ----------------------- |
 | `getIcpToCyclesConversionRate` | `() => Promise<bigint>` |
 
 ##### :gear: notifyCreateCanister
@@ -83,8 +81,8 @@ Returns conversion rate of ICP to Cycles
 Notifies Cycles Minting Canister of the creation of a new canister.
 It returns the new canister principal.
 
-| Method | Type |
-| ---------- | ---------- |
+| Method                 | Type                                                       |
+| ---------------------- | ---------------------------------------------------------- |
 | `notifyCreateCanister` | `(request: NotifyCreateCanisterArg) => Promise<Principal>` |
 
 ##### :gear: notifyTopUp
@@ -92,9 +90,8 @@ It returns the new canister principal.
 Notifies Cycles Minting Canister of new cycles being added to canister.
 It returns the new Cycles of the canister.
 
-| Method | Type |
-| ---------- | ---------- |
+| Method        | Type                                           |
+| ------------- | ---------------------------------------------- |
 | `notifyTopUp` | `(request: NotifyTopUpArg) => Promise<bigint>` |
-
 
 <!-- TSDOC_END -->
