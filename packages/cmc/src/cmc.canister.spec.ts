@@ -47,9 +47,9 @@ describe("CyclesMintingCanister", () => {
 
       const cmc = await createCMC(service);
 
-      // const res = await cmc.getIcpToCyclesConversionRate();
-      //
-      // expect(res).toEqual(exchangeRate);
+      const res = await cmc.getIcpToCyclesConversionRate();
+
+      expect(res).toEqual(exchangeRate);
     });
   });
 
