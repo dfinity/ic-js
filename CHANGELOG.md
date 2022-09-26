@@ -1,4 +1,4 @@
-# 0.8.0 (wip)
+# 0.8.0 (2022-09-26)
 
 ## Release
 
@@ -17,7 +17,8 @@
 - new library `@dfinity/cmc`
 - new nns governance commands and actions: `ChangeAutoStakeMaturity`, `SetSnsTokenSwapOpenTimeWindow` and `OpenSnsTokenSwap`
 - some new utilities added to transform arrays from various format to `Uint8Array`
-- new sns utilities to encode and decode accounts to and from strings
+- new Sns utilities to encode and decode accounts to and from strings
+- `disburse` Sns neurons
 
 # 0.7.0 (2022-09-19)
 
