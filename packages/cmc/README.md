@@ -26,7 +26,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 ## Usage
 
-The features are provided through the use of a class `CMCCanister` that needs to be instantiated with the canister ID of the cycles minting canister. On `mainnet`, its ID is `rkp4c-7iaaa-aaaaa-aaaca-cai`.
+The features are available through the class `CMCCanister`. It has to be instantiated with the canister ID of the cycles minting canister. On `mainnet`, its ID is `rkp4c-7iaaa-aaaaa-aaaca-cai`.
 
 e.g. querying the current Icp to cycles conversion rate.
 
