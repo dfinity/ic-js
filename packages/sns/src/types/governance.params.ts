@@ -1,7 +1,7 @@
 import type { Principal } from "@dfinity/principal";
 import type { NeuronId } from "../../candid/sns_governance";
 import type { SnsNeuronPermissionType } from "../enums/governance.enums";
-import { E8s } from "./common";
+import type { E8s } from "./common";
 import type { QueryParams } from "./query.params";
 
 /**
