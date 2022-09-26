@@ -1,9 +1,5 @@
 import { Principal } from "@dfinity/principal";
-
-interface SnsAccount {
-  owner: Principal;
-  subaccount?: Uint8Array;
-}
+import type { SnsAccount } from "../types/ledger.responses";
 
 // https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
 const EXTRA_BYTES = parseInt("FF", 16);

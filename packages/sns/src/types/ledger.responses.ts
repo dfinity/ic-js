@@ -1,4 +1,5 @@
-import type { Value } from "../../candid/icrc1_ledger";
+import type { Principal } from "@dfinity/principal";
+import type { Subaccount, Value } from "../../candid/icrc1_ledger";
 
 // Source: https://github.com/dfinity/icrc-1#standard-metadata-entries
 export enum SnsMetadataResponseEntries {
@@ -12,3 +13,8 @@ export type SnsTokenMetadataResponse = [
   string | SnsMetadataResponseEntries,
   Value
 ][];
+
+export interface SnsAccount {
+  owner: Principal;
+  subaccount?: Subaccount;
+}
