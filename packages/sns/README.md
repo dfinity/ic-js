@@ -75,6 +75,8 @@ console.log("Summary data:", metadata, token);
 ### :toolbox: Functions
 
 - [initSnsWrapper](#gear-initsnswrapper)
+- [encodeSnsAccount](#gear-encodesnsaccount)
+- [decodeSnsAccount](#gear-decodesnsaccount)
 
 #### :gear: initSnsWrapper
 
@@ -83,6 +85,32 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 | Function         | Type             |
 | ---------------- | ---------------- |
 | `initSnsWrapper` | `InitSnsWrapper` |
+
+#### :gear: encodeSnsAccount
+
+Encodes an SNS account into a string.
+Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R238
+
+| Function           | Type                                            |
+| ------------------ | ----------------------------------------------- |
+| `encodeSnsAccount` | `({ owner, subaccount }: SnsAccount) => string` |
+
+Parameters:
+
+- `snsAccount`: : Principal, subaccount?: Uint8Array }
+
+#### :gear: decodeSnsAccount
+
+Decodes a string into an SNS account.
+Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R268
+
+| Function           | Type                                    |
+| ------------------ | --------------------------------------- |
+| `decodeSnsAccount` | `(accountString: string) => SnsAccount` |
+
+Parameters:
+
+- `snsAccountString`: string
 
 ### :factory: SnsGovernanceCanister
 
@@ -105,6 +133,7 @@ Parameters:
 - [manageNeuron](#gear-manageneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
+- [disburse](#gear-disburse)
 
 ##### :gear: create
 
@@ -165,6 +194,14 @@ Remove permissions to a neuron for a specific principal
 | Method                    | Type                                                    |
 | ------------------------- | ------------------------------------------------------- |
 | `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: disburse
+
+Disburse neuron on Account
+
+| Method     | Type                                                 |
+| ---------- | ---------------------------------------------------- |
+| `disburse` | `(params: SnsDisburseNeuronParams) => Promise<void>` |
 
 ### :factory: SnsLedgerCanister
 
@@ -315,6 +352,7 @@ Parameters:
 - [getNeuron](#gear-getneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
+- [disburse](#gear-disburse)
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
@@ -360,6 +398,12 @@ Parameters:
 | Method                    | Type                                                    |
 | ------------------------- | ------------------------------------------------------- |
 | `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: disburse
+
+| Method     | Type                                                 |
+| ---------- | ---------------------------------------------------- |
+| `disburse` | `(params: SnsDisburseNeuronParams) => Promise<void>` |
 
 ##### :gear: swapState
 

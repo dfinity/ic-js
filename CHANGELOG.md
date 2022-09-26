@@ -17,6 +17,7 @@
 - new library `@dfinity/cmc`
 - new nns governance commands and actions: `ChangeAutoStakeMaturity`, `SetSnsTokenSwapOpenTimeWindow` and `OpenSnsTokenSwap`
 - some new utilities added to transform arrays from various format to `Uint8Array`
+- new sns utilities to encode and decode accounts to and from strings
 
 # 0.7.0 (2022-09-19)
 

@@ -1,6 +1,7 @@
 import type { Principal } from "@dfinity/principal";
 import type { NeuronId } from "../../candid/sns_governance";
 import type { SnsNeuronPermissionType } from "../enums/governance.enums";
+import type { E8s } from "./common";
 import type { QueryParams } from "./query.params";
 
 /**
@@ -23,10 +24,18 @@ export interface SnsGetNeuronParams extends QueryParams {
 }
 
 /**
- * Parametes to add permissions to a neuron
+ * The parameters to add permissions to a neuron
  */
 export interface SnsNeuronPermissionsParams {
   principal: Principal;
   neuronId: NeuronId;
   permissions: SnsNeuronPermissionType[];
+}
+
+/**
+ * The parameters to disburse a neuron
+ */
+export interface SnsDisburseNeuronParams {
+  neuronId: NeuronId;
+  amount?: E8s;
 }

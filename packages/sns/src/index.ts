@@ -34,3 +34,4 @@ export type {
 } from "./types/governance.params";
 export * from "./types/ledger.responses";
 export type { QueryParams } from "./types/query.params";
+export * from "./utils/ledger.utils";

@@ -20,6 +20,7 @@ const snsInputFiles = [
   "./packages/sns/src/sns.ts",
   "./packages/sns/src/sns.wrapper.ts",
   "./packages/sns/src/swap.canister.ts",
+  "./packages/sns/src/utils/ledger.utils.ts",
 ];
 
 const utilsInputFiles = ["./packages/utils/src/index.ts"];
