@@ -1,12 +1,13 @@
 {
   "name": "@dfinity/ic-js",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
   "workspaces": [
     "packages/utils",
     "packages/nns",
-    "packages/sns"
+    "packages/sns",
+    "packages/cmc"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -14,7 +15,7 @@
     "format": "prettier --write .",
     "protoc": "bash ./scripts/update_proto.sh",
     "test": "jest",
-    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/utils/README.md"
+    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md"
   },
   "repository": {
     "type": "git",

@@ -8,19 +8,20 @@ The libraries are still in active development, and new features will incremental
 
 - [nns](/packages/nns): interfacing with the **ledger** and **governance** canisters of the IC
 - [sns](/packages/sns): interacting with a Service Nervous System (SNS) project
-- cmc: querying the Cmc canister (_coming soon_)
+- [cmc](/packages/cmc): interfacing with the **cmc** canister of the IC
 - [utils](/packages/utils): a collection of utilities and constants for NNS/SNS projects.
 
 ## Installation
 
-Install [nns](/packages/nns) and/or [sns](/packages/sns) in your project from [npm](https://www.npmjs.com):
+Install any library of this repo in your project from [npm](https://www.npmjs.com):
 
 ```bash
 npm i @dfinity/nns
 npm i @dfinity/sns
+npm i @dfinity/cmc
 ```
 
-You may be using both [nns](/packages/nns) and [sns](/packages/sns) in your project - as we do in [NNS-dapp](https://github.com/dfinity/nns-dapp/).
+You may be using all libraries in your project - as we do in [NNS-dapp](https://github.com/dfinity/nns-dapp/).
 That is s why, to help tree-shaking and avoid duplication of code, the libraries of this project are referencing [agent-js](https://github.com/dfinity/agent-js) and [utils](/packages/utils) as peer dependencies.
 
 Therefore, be sure that the needed `agent-js` and [utils](/packages/utils) dependencies are available in your project or install these as following:
