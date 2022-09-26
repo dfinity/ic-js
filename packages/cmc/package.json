@@ -36,7 +36,7 @@
     "cycle minting canister"
   ],
   "peerDependencies": {
-    "@dfinity/utils": "^0.0.3"
+    "@dfinity/utils": "^0.0.4"
   },
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "author": ""

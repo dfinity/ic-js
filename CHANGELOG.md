@@ -2,10 +2,10 @@
 
 ## Release
 
-- nns `v0.8.0`
-- sns `v0.0.4`
+- nns `v0.8.1`
+- sns `v0.0.5`
 - cmc `v0.0.1`
-- utils `v0.0.3`
+- utils `v0.0.4`
 
 ### Breaking changes
 

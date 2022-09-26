@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/sns",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A library for interfacing with a Service Nervous System (SNS) project.",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.cjs.js",
@@ -37,6 +37,6 @@
     "sns"
   ],
   "peerDependencies": {
-    "@dfinity/utils": "^0.0.3"
+    "@dfinity/utils": "^0.0.4"
   }
 }
