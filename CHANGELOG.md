@@ -19,6 +19,7 @@
 - some new utilities added to transform arrays from various format to `Uint8Array`
 - new Sns utilities to encode and decode accounts to and from strings
 - `disburse` Sns neurons
+- `createAgent` and `principalToSubAccount` added to utils
 
 # 0.7.0 (2022-09-19)
 
