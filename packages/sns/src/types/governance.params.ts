@@ -33,7 +33,7 @@ export interface SnsNeuronPermissionsParams {
 }
 
 /**
- * Parametes to disburse a neuron
+ * The parameters to disburse a neuron
  */
 export interface SnsDisburseNeuronParams {
   neuronId: NeuronId;
