@@ -7,6 +7,11 @@
 - cmc `v0.0.2`
 - utils `v0.0.5`
 
+### Breaking changes
+
+- `token` param in `TokenAmount` factory methods is mandatory instead of using ICPToken as default.
+- `TokenAmount.fromNumber` does not return `FromStringToTokenError`, only `TokenAmount`.
+
 # 0.8.0 (2022-09-26)
 
 ## Release
