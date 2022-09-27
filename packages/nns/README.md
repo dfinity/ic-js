@@ -211,9 +211,9 @@ Represents an amount of tokens.
 
 Initialize from a bigint. Bigint are considered e8s.
 
-| Method    | Type                                                                      |
-| --------- | ------------------------------------------------------------------------- |
-| `fromE8s` | `({ amount, token, }: { amount: bigint; token?: Token; }) => TokenAmount` |
+| Method    | Type                                                                     |
+| --------- | ------------------------------------------------------------------------ |
+| `fromE8s` | `({ amount, token, }: { amount: bigint; token: Token; }) => TokenAmount` |
 
 Parameters:
 
@@ -228,9 +228,9 @@ Initialize from a string. Accepted formats:
 1'234'567.8901
 1,234,567.8901
 
-| Method       | Type                                                                                                |
-| ------------ | --------------------------------------------------------------------------------------------------- |
-| `fromString` | `({ amount, token, }: { amount: string; token?: Token; }) => FromStringToTokenError or TokenAmount` |
+| Method       | Type                                                                                               |
+| ------------ | -------------------------------------------------------------------------------------------------- |
+| `fromString` | `({ amount, token, }: { amount: string; token: Token; }) => FromStringToTokenError or TokenAmount` |
 
 Parameters:
 
@@ -243,9 +243,9 @@ Initialize from a number.
 
 1 integer is considered E8S_PER_TOKEN
 
-| Method       | Type                                                                                                |
-| ------------ | --------------------------------------------------------------------------------------------------- |
-| `fromNumber` | `({ amount, token, }: { amount: number; token?: Token; }) => FromStringToTokenError or TokenAmount` |
+| Method       | Type                                                                     |
+| ------------ | ------------------------------------------------------------------------ |
+| `fromNumber` | `({ amount, token, }: { amount: number; token: Token; }) => TokenAmount` |
 
 Parameters:
 
