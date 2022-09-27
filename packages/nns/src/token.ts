@@ -1,5 +1,5 @@
 import { ICPTs } from "../proto/ledger_pb";
-import { E8S_PER_TOKEN, TOKEN_DECIMAL_ACCURACY } from "./constants/constants";
+import { E8S_PER_TOKEN } from "./constants/constants";
 import { FromStringToTokenError } from "./enums/token.enums";
 
 /**
@@ -74,10 +74,10 @@ export class TokenAmount {
    */
   public static fromE8s({
     amount,
-    token = ICPToken,
+    token,
   }: {
     amount: bigint;
-    token?: Token;
+    token: Token;
   }): TokenAmount {
     return new TokenAmount(amount, token);
   }
@@ -95,10 +95,10 @@ export class TokenAmount {
    */
   public static fromString({
     amount,
-    token = ICPToken,
+    token,
   }: {
     amount: string;
-    token?: Token;
+    token: Token;
   }): TokenAmount | FromStringToTokenError {
     const e8s = convertStringToE8s(amount);
 
@@ -119,14 +119,14 @@ export class TokenAmount {
    */
   public static fromNumber({
     amount,
-    token = ICPToken,
+    token,
   }: {
     amount: number;
-    token?: Token;
-  }): TokenAmount | FromStringToTokenError {
-    // If more than TOKEN_DECIMAL_ACCURACY, it returns 0, not the error.
-    return TokenAmount.fromString({
-      amount: amount.toFixed(TOKEN_DECIMAL_ACCURACY),
+    token: Token;
+  }): TokenAmount {
+    const e8s = BigInt(Math.floor(amount * Number(E8S_PER_TOKEN)));
+    return TokenAmount.fromE8s({
+      amount: e8s,
       token,
     });
   }
