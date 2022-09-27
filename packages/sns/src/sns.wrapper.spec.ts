@@ -1,6 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
+import { NeuronId } from "../candid/sns_governance";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsLedgerCanister } from "./ledger.canister";
@@ -9,6 +10,7 @@ import { tokeMetadataResponseMock } from "./mocks/ledger.mock";
 import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
+import type { SnsDisburseNeuronParams } from "./types/governance.params";
 
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<SnsGovernanceCanister>();
@@ -217,5 +219,42 @@ describe("SnsWrapper", () => {
       principal_id: [Principal.fromText("aaaaa-aa")],
     });
     expect(mockCertifiedSwapCanister.getUserCommitment).toBeCalled();
+  });
+
+  it("should call disburse", async () => {
+    const params: SnsDisburseNeuronParams = {
+      neuronId: {
+        id: arrayOfNumberToUint8Array([1, 2, 3]),
+      },
+      amount: BigInt(321),
+    };
+
+    await snsWrapper.disburse(params);
+
+    expect(mockGovernanceCanister.disburse).toHaveBeenCalledWith(params);
+  });
+
+  it("should call startDissolving", async () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+
+    await snsWrapper.startDissolving(neuronId);
+
+    expect(mockGovernanceCanister.startDissolving).toHaveBeenCalledWith(
+      neuronId
+    );
+  });
+
+  it("should call stopDissolving", async () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+
+    await snsWrapper.stopDissolving(neuronId);
+
+    expect(mockGovernanceCanister.stopDissolving).toHaveBeenCalledWith(
+      neuronId
+    );
   });
 });
