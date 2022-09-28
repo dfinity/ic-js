@@ -530,7 +530,7 @@ Stake Maturity of a neuron
 
 Parameters:
 
-- `params.neuronId`: The id of the neuron for which to stake the maturity
+- `neuronId`: The id of the neuron for which to stake the maturity
 - `percentageToStake`: How much percentage to stake? Optional.
 
 ##### :gear: spawnNeuron
