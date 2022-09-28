@@ -4,6 +4,7 @@ import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   ManageNeuron,
+  NeuronId,
   _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
@@ -17,6 +18,7 @@ import {
   neuronsMock,
 } from "./mocks/governance.mock";
 import { rootCanisterIdMock } from "./mocks/sns.mock";
+import { SnsDisburseNeuronParams } from "./types/governance.params";
 
 describe("Governance canister", () => {
   it("should return the list of neurons of the sns", async () => {
@@ -259,6 +261,164 @@ describe("Governance canister", () => {
 
       const res = await canister.metadata({});
       expect(res).toEqual(metadataMock);
+    });
+  });
+
+  describe("disburse", () => {
+    const params: SnsDisburseNeuronParams = {
+      neuronId: {
+        id: arrayOfNumberToUint8Array([1, 2, 3]),
+      },
+      amount: BigInt(321),
+    };
+
+    it("should disburse the neuron", async () => {
+      const request: ManageNeuron = {
+        subaccount: params.neuronId.id,
+        command: [
+          {
+            Disburse: {
+              to_account: [],
+              amount: [
+                {
+                  e8s: params.amount as bigint,
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Disburse: { transfer_block_height: BigInt(0) } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.disburse(params);
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Error: { error_message: "test", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.disburse(params);
+
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("startDissolving", () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+
+    it("should call manageNeuron", async () => {
+      const request: ManageNeuron = {
+        subaccount: neuronId.id,
+        command: [
+          {
+            Configure: {
+              operation: [{ StartDissolving: {} }],
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Configure: {} }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.startDissolving(neuronId);
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Error: { error_message: "test", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.startDissolving(neuronId);
+
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("stopDissolving", () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+
+    it("should call manageNeuron", async () => {
+      const request: ManageNeuron = {
+        subaccount: neuronId.id,
+        command: [
+          {
+            Configure: {
+              operation: [{ StopDissolving: {} }],
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Configure: {} }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.stopDissolving(neuronId);
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Error: { error_message: "test", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.stopDissolving(neuronId);
+
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
     });
   });
 });
