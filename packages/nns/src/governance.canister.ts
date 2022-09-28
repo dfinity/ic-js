@@ -609,7 +609,7 @@ export class GovernanceCanister {
    * Stake Maturity of a neuron
    *
    * @param {neuronId: NeuronId; percentageToStake: number;} params
-   * @param {NeuronId} params.neuronId The id of the neuron for which to stake the maturity
+   * @param {NeuronId} neuronId The id of the neuron for which to stake the maturity
    * @param {number} percentageToStake How much percentage to stake? Optional.
    *
    * @throws {@link GovernanceError}
