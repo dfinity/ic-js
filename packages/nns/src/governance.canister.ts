@@ -26,7 +26,7 @@ import {
   fromListNeurons,
   fromListProposalsRequest,
   toAddHotkeyRequest,
-  toAutStakeMaturityRequest,
+  toAutoStakeMaturityRequest,
   toClaimOrRefreshRequest,
   toDisburseNeuronRequest,
   toIncreaseDissolveDelayRequest,
@@ -386,7 +386,7 @@ export class GovernanceCanister {
     autoStake: boolean;
   }): Promise<void> =>
     manageNeuron({
-      request: toAutStakeMaturityRequest(params),
+      request: toAutoStakeMaturityRequest(params),
       service: this.certifiedService,
     });
 

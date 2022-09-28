@@ -1075,7 +1075,7 @@ export const toJoinCommunityFundRequest = (
     },
   });
 
-export const toAutStakeMaturityRequest = ({
+export const toAutoStakeMaturityRequest = ({
   neuronId,
   autoStake,
 }: {
