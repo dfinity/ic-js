@@ -629,7 +629,7 @@ export class GovernanceCanister {
       request: toStakeMaturityRequest({ neuronId, percentageToStake }),
       service: this.certifiedService,
     });
-  }
+  };
 
   /**
    * Merge Maturity of a neuron
