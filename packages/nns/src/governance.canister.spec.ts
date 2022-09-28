@@ -1099,6 +1099,23 @@ describe("GovernanceCanister", () => {
       });
     });
 
+    it("throws error if percentage not valid", () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+
+      const { stakeMaturity } = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const call = () =>
+        stakeMaturity({
+          neuronId: BigInt(10),
+          percentageToStake: 300,
+        });
+
+      expect(call).rejects.toThrow(InvalidPercentageError);
+      expect(service.manage_neuron).not.toBeCalled();
+    });
+
     it("throws error if response is error", async () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],

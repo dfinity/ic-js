@@ -606,11 +606,11 @@ export class GovernanceCanister {
   };
 
   /**
-   * Stake Maturity of a neuron
+   * Stake the maturity of a neuron.
    *
    * @param {neuronId: NeuronId; percentageToStake: number;} params
    * @param {NeuronId} neuronId The id of the neuron for which to stake the maturity
-   * @param {number} percentageToStake How much percentage to stake? Optional.
+   * @param {number} percentageToStake Optional. Percentage of the current maturity to stake. If not provided, all of the neuron's current maturity will be staked.
    *
    * @throws {@link GovernanceError}
    * @throws {@link InvalidPercentageError}
@@ -622,11 +622,14 @@ export class GovernanceCanister {
   }: {
     neuronId: NeuronId;
     percentageToStake?: number;
-  }): Promise<void> =>
-    manageNeuron({
+  }): Promise<void> => {
+    assertPercentageNumber(percentageToStake ?? 100);
+
+    await manageNeuron({
       request: toStakeMaturityRequest({ neuronId, percentageToStake }),
       service: this.certifiedService,
     });
+  }
 
   /**
    * Merge Maturity of a neuron
