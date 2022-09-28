@@ -522,7 +522,7 @@ Merge Maturity of a neuron
 
 ##### :gear: stakeMaturity
 
-Stake Maturity of a neuron
+Stake the maturity of a neuron.
 
 | Method          | Type                                                                                                     |
 | --------------- | -------------------------------------------------------------------------------------------------------- |
@@ -531,7 +531,7 @@ Stake Maturity of a neuron
 Parameters:
 
 - `neuronId`: The id of the neuron for which to stake the maturity
-- `percentageToStake`: How much percentage to stake? Optional.
+- `percentageToStake`: Optional. Percentage of the current maturity to stake. If not provided, all of the neuron's current maturity will be staked.
 
 ##### :gear: spawnNeuron
 
