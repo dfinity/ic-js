@@ -784,7 +784,7 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const response = await governance.leaveCommunityFund(neuronId);
+      await governance.leaveCommunityFund(neuronId);
       expect(service.manage_neuron).toBeCalled();
     });
 
@@ -800,6 +800,75 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => governance.leaveCommunityFund(neuronId);
+      expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
+
+  describe("GovernanceCanister.autoStakeMaturity", () => {
+    it("successfully auto stake maturity", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Configure: {} }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const { autoStakeMaturity } = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      await autoStakeMaturity({ neuronId, autoStake: true });
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("should convert auto stake parameter", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Configure: {} }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const { autoStakeMaturity } = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const command = (requested_setting_for_auto_stake_maturity: boolean) => ({
+        command: [
+          {
+            Configure: {
+              operation: [
+                {
+                  ChangeAutoStakeMaturity: {
+                    requested_setting_for_auto_stake_maturity,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        id: [{ id: neuronId }],
+        neuron_id_or_subaccount: [],
+      });
+
+      await autoStakeMaturity({ neuronId, autoStake: true });
+      expect(service.manage_neuron).toBeCalledWith(command(true));
+
+      await autoStakeMaturity({ neuronId, autoStake: false });
+      expect(service.manage_neuron).toBeCalledWith(command(false));
+    });
+
+    it("throws error if response is error", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const { autoStakeMaturity } = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const call = () => autoStakeMaturity({ neuronId, autoStake: true });
       expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });

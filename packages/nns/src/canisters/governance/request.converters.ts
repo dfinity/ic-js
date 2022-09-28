@@ -1075,6 +1075,18 @@ export const toJoinCommunityFundRequest = (
     },
   });
 
+export const toAutStakeMaturityRequest = (
+    {neuronId, autoStake}: {neuronId: NeuronId, autoStake: boolean}
+): RawManageNeuron =>
+    toConfigureOperation({
+      neuronId,
+      operation: {
+        ChangeAutoStakeMaturity: {
+          requested_setting_for_auto_stake_maturity: autoStake
+        },
+      },
+    });
+
 export const toLeaveCommunityFundRequest = (
   neuronId: NeuronId
 ): RawManageNeuron =>
