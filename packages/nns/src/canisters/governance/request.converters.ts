@@ -962,6 +962,22 @@ export const toMergeMaturityRequest = ({
     },
   });
 
+export const toStakeMaturityRequest = ({
+  neuronId,
+  percentageToStake,
+}: {
+  neuronId: NeuronId;
+  percentageToStake?: number;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      StakeMaturity: {
+        percentage_to_stake: toNullable(percentageToStake),
+      },
+    },
+  });
+
 export const toSpawnNeuronRequest = ({
   neuronId,
   percentageToSpawn,

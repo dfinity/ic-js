@@ -40,6 +40,7 @@ import {
   toSetDissolveDelayRequest,
   toSpawnNeuronRequest,
   toSplitRawRequest,
+  toStakeMaturityRequest,
   toStartDissolvingRequest,
   toStopDissolvingRequest,
 } from "./canisters/governance/request.converters";
@@ -589,7 +590,7 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     percentageToMerge: number;
   }): Promise<void> => {
-    // Migth throw InvalidPercentageError
+    // Might throw InvalidPercentageError
     assertPercentageNumber(percentageToMerge);
 
     if (this.hardwareWallet) {
@@ -603,6 +604,29 @@ export class GovernanceCanister {
       service: this.certifiedService,
     });
   };
+
+  /**
+   * Stake Maturity of a neuron
+   *
+   * @param {neuronId: NeuronId; percentageToStake: number;} params
+   * @param {NeuronId} params.neuronId The id of the neuron for which to stake the maturity
+   * @param {number} percentageToStake How much percentage to stake? Optional.
+   *
+   * @throws {@link GovernanceError}
+   * @throws {@link InvalidPercentageError}
+   *
+   */
+  public stakeMaturity = async ({
+    neuronId,
+    percentageToStake,
+  }: {
+    neuronId: NeuronId;
+    percentageToStake?: number;
+  }): Promise<void> =>
+    manageNeuron({
+      request: toStakeMaturityRequest({ neuronId, percentageToStake }),
+      service: this.certifiedService,
+    });
 
   /**
    * Merge Maturity of a neuron
