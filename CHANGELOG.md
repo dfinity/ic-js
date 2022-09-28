@@ -12,6 +12,10 @@
 - `token` param in `TokenAmount` factory methods is mandatory instead of using ICPToken as default.
 - `TokenAmount.fromNumber` does not return `FromStringToTokenError`, only `TokenAmount`.
 
+### Features
+
+- new NNS governance features: `stakeMaturity` and `autoStakeMaturity`
+
 # 0.8.0 (2022-09-26)
 
 ## Release
