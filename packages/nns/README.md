@@ -333,6 +333,7 @@ Returns the index of the block containing the tx if it was successful.
 - [setFollowees](#gear-setfollowees)
 - [disburse](#gear-disburse)
 - [mergeMaturity](#gear-mergematurity)
+- [stakeMaturity](#gear-stakematurity)
 - [spawnNeuron](#gear-spawnneuron)
 - [addHotkey](#gear-addhotkey)
 - [removeHotkey](#gear-removehotkey)
@@ -518,6 +519,19 @@ Merge Maturity of a neuron
 | Method          | Type                                                                                                    |
 | --------------- | ------------------------------------------------------------------------------------------------------- |
 | `mergeMaturity` | `({ neuronId, percentageToMerge, }: { neuronId: bigint; percentageToMerge: number; }) => Promise<void>` |
+
+##### :gear: stakeMaturity
+
+Stake Maturity of a neuron
+
+| Method          | Type                                                                                                     |
+| --------------- | -------------------------------------------------------------------------------------------------------- |
+| `stakeMaturity` | `({ neuronId, percentageToStake, }: { neuronId: bigint; percentageToStake?: number; }) => Promise<void>` |
+
+Parameters:
+
+- `params.neuronId`: The id of the neuron for which to stake the maturity
+- `percentageToStake`: How much percentage to stake? Optional.
 
 ##### :gear: spawnNeuron
 
