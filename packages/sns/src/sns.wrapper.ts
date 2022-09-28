@@ -1,6 +1,10 @@
 import type { Principal } from "@dfinity/principal";
 import type { Tokens } from "../candid/icrc1_ledger";
-import type { GetMetadataResponse, Neuron } from "../candid/sns_governance";
+import type {
+  GetMetadataResponse,
+  Neuron,
+  NeuronId,
+} from "../candid/sns_governance";
 import type {
   BuyerState,
   GetBuyerStateRequest,
@@ -117,6 +121,14 @@ export class SnsWrapper {
   // Always certified
   disburse = (params: SnsDisburseNeuronParams): Promise<void> =>
     this.governance.disburse(params);
+
+  // Always certified
+  startDissolving = (neuronId: NeuronId): Promise<void> =>
+    this.governance.startDissolving(neuronId);
+
+  // Always certified
+  stopDissolving = (neuronId: NeuronId): Promise<void> =>
+    this.governance.stopDissolving(neuronId);
 
   swapState = (
     params: Omit<QueryParams, "certified">
