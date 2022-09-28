@@ -962,6 +962,22 @@ export const toMergeMaturityRequest = ({
     },
   });
 
+export const toStakeMaturityRequest = ({
+  neuronId,
+  percentageToStake,
+}: {
+  neuronId: NeuronId;
+  percentageToStake?: number;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      StakeMaturity: {
+        percentage_to_stake: toNullable(percentageToStake),
+      },
+    },
+  });
+
 export const toSpawnNeuronRequest = ({
   neuronId,
   percentageToSpawn,
@@ -1056,6 +1072,22 @@ export const toJoinCommunityFundRequest = (
     neuronId,
     operation: {
       JoinCommunityFund: {},
+    },
+  });
+
+export const toAutoStakeMaturityRequest = ({
+  neuronId,
+  autoStake,
+}: {
+  neuronId: NeuronId;
+  autoStake: boolean;
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      ChangeAutoStakeMaturity: {
+        requested_setting_for_auto_stake_maturity: autoStake,
+      },
     },
   });
 
