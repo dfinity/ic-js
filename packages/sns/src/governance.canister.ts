@@ -15,6 +15,8 @@ import {
   toAddPermissionsRequest,
   toDisburseNeuronRequest,
   toRemovePermissionsRequest,
+  toStartDissolvingNeuronRequest,
+  toStopDissolvingNeuronRequest,
 } from "./converters/governance.converters";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import { Canister } from "./services/canister";
@@ -122,6 +124,22 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    */
   public disburse = async (params: SnsDisburseNeuronParams): Promise<void> => {
     const request: ManageNeuron = toDisburseNeuronRequest(params);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Start dissolving process of a neuron
+   */
+  public startDissolving = async (neuronId: NeuronId): Promise<void> => {
+    const request: ManageNeuron = toStartDissolvingNeuronRequest(neuronId);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Stop dissolving process of a neuron
+   */
+  public stopDissolving = async (neuronId: NeuronId): Promise<void> => {
+    const request: ManageNeuron = toStopDissolvingNeuronRequest(neuronId);
     await this.manageNeuron(request);
   };
 
