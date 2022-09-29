@@ -1,13 +1,17 @@
 import { createServices, toNullable } from "@dfinity/utils";
 import type {
+  BlockIndex,
   Tokens,
+  TransferArg,
   _SERVICE as SnsLedgerService,
 } from "../candid/icrc1_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc1_ledger.idl";
+import { toTransferArg } from "./converters/ledger.converteres";
+import { SnsTransferError } from "./errors/ledger.errors";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
-import type { BalanceParams } from "./types/ledger.params";
+import type { BalanceParams, TransferParams } from "./types/ledger.params";
 import type { SnsTokenMetadataResponse } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 
@@ -40,4 +44,28 @@ export class SnsLedgerCanister extends Canister<SnsLedgerService> {
       owner: params.owner,
       subaccount: toNullable(params.subaccount),
     });
+
+  /**
+   * Transfers tokens from the sender to the given account.
+   *
+   * @param {TransferArg} params The parameters to transfer tokens.
+   *
+   * @throws {SnsTransferError} If the transfer fails.
+   */
+  transfer = async (params: TransferParams): Promise<BlockIndex> => {
+    const response = await this.caller({ certified: true }).icrc1_transfer(
+      toTransferArg(params)
+    );
+    if ("Err" in response) {
+      throw new SnsTransferError({
+        type: response.Err,
+        msg: "Failed to transfer",
+      });
+    }
+    if ("Ok" in response) {
+      return response.Ok;
+    }
+    // Edger case, should never happen.
+    throw new Error("Unexpected response from transfer");
+  };
 }

@@ -1,5 +1,5 @@
 import type { Principal } from "@dfinity/principal";
-import type { Tokens } from "../candid/icrc1_ledger";
+import type { BlockIndex, Tokens } from "../candid/icrc1_ledger";
 import type {
   GetMetadataResponse,
   Neuron,
@@ -21,7 +21,7 @@ import type {
   SnsListNeuronsParams,
   SnsNeuronPermissionsParams,
 } from "./types/governance.params";
-import type { BalanceParams } from "./types/ledger.params";
+import type { BalanceParams, TransferParams } from "./types/ledger.params";
 import type { SnsTokenMetadataResponse } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 
@@ -104,6 +104,10 @@ export class SnsWrapper {
 
   balance = (params: Omit<BalanceParams, "certified">): Promise<Tokens> =>
     this.ledger.balance(this.mergeParams(params));
+
+  // Always certified
+  transfer = (params: TransferParams): Promise<BlockIndex> =>
+    this.ledger.transfer(params);
 
   getNeuron = (
     params: Omit<SnsGetNeuronParams, "certified">

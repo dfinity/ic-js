@@ -1,4 +1,8 @@
 export type {
+  TransferArg as SnsTransferArg,
+  TransferError as SnsTransferVariatError,
+} from "../candid/icrc1_ledger";
+export type {
   GetMetadataResponse as SnsGetMetadataResponse,
   ManageNeuron as SnsManageNeuron,
   ManageNeuronResponse as SnsManageNeuronResponse,
@@ -21,6 +25,7 @@ export type {
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
 export * from "./errors/governance.errors";
+export * from "./errors/ledger.errors";
 export { SnsGovernanceCanister } from "./governance.canister";
 export { SnsLedgerCanister } from "./ledger.canister";
 export { SnsRootCanister } from "./root.canister";
