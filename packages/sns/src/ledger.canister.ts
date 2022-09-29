@@ -2,7 +2,6 @@ import { createServices, toNullable } from "@dfinity/utils";
 import type {
   BlockIndex,
   Tokens,
-  TransferArg,
   _SERVICE as SnsLedgerService,
 } from "../candid/icrc1_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
