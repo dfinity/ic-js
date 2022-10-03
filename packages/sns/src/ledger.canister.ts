@@ -61,10 +61,6 @@ export class SnsLedgerCanister extends Canister<SnsLedgerService> {
         msg: "Failed to transfer",
       });
     }
-    if ("Ok" in response) {
-      return response.Ok;
-    }
-    // Edger case, should never happen.
-    throw new Error("Unexpected response from transfer");
+    return response.Ok;
   };
 }
