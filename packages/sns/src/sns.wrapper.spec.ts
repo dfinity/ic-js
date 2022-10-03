@@ -11,6 +11,7 @@ import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsDisburseNeuronParams } from "./types/governance.params";
+import { TransferParams } from "./types/ledger.params";
 
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<SnsGovernanceCanister>();
@@ -179,6 +180,21 @@ describe("SnsWrapper", () => {
       owner,
       subaccount,
     });
+  });
+
+  it("should call leger transfer", async () => {
+    const transferParams: TransferParams = {
+      to: {
+        owner: Principal.fromText("aaaaa-aa"),
+        subaccount: [],
+      },
+      amount: BigInt(100_000_000),
+    };
+    await certifiedSnsWrapper.transfer(transferParams);
+
+    expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalledWith(
+      transferParams
+    );
   });
 
   it("should call leger metadata with query or update", async () => {

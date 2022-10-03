@@ -15,6 +15,7 @@
 ### Features
 
 - new NNS governance features: `stakeMaturity` and `autoStakeMaturity`
+- new SNS ledger and wrapper feature: `transfer`
 
 # 0.8.0 (2022-09-26)
 

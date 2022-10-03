@@ -238,6 +238,7 @@ Parameters:
 - [create](#gear-create)
 - [metadata](#gear-metadata)
 - [balance](#gear-balance)
+- [transfer](#gear-transfer)
 
 ##### :gear: create
 
@@ -264,6 +265,18 @@ Returns the balance of the given account.
 Parameters:
 
 - `params`: The parameters to get the balance of an account.
+
+##### :gear: transfer
+
+Transfers tokens from the sender to the given account.
+
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
+| `transfer` | `(params: TransferParams) => Promise<bigint>` |
+
+Parameters:
+
+- `params`: The parameters to transfer tokens.
 
 ### :factory: SnsRootCanister
 
@@ -367,6 +380,7 @@ Parameters:
 - [metadata](#gear-metadata)
 - [ledgerMetadata](#gear-ledgermetadata)
 - [balance](#gear-balance)
+- [transfer](#gear-transfer)
 - [getNeuron](#gear-getneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
@@ -400,6 +414,12 @@ Parameters:
 | Method    | Type                                                            |
 | --------- | --------------------------------------------------------------- |
 | `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
+
+##### :gear: transfer
+
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
+| `transfer` | `(params: TransferParams) => Promise<bigint>` |
 
 ##### :gear: getNeuron
 
