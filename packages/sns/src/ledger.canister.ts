@@ -6,7 +6,7 @@ import type {
 } from "../candid/icrc1_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc1_ledger.idl";
-import { toTransferArg } from "./converters/ledger.converteres";
+import { toTransferArg } from "./converters/ledger.converters";
 import { SnsTransferError } from "./errors/ledger.errors";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
@@ -57,7 +57,7 @@ export class SnsLedgerCanister extends Canister<SnsLedgerService> {
     );
     if ("Err" in response) {
       throw new SnsTransferError({
-        type: response.Err,
+        errorType: response.Err,
         msg: "Failed to transfer",
       });
     }

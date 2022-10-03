@@ -1,9 +1,9 @@
 import type { TransferError } from "../../candid/icrc1_ledger";
 
 export class SnsTransferError extends Error {
-  public type: TransferError;
-  constructor({ msg, type }: { msg?: string; type: TransferError }) {
+  public errorType: TransferError;
+  constructor({ msg, errorType }: { msg?: string; errorType: TransferError }) {
     super(msg);
-    this.type = type;
+    this.errorType = errorType;
   }
 }
