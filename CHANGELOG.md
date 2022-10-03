@@ -16,6 +16,7 @@
 
 - new NNS governance features: `stakeMaturity` and `autoStakeMaturity`
 - new SNS ledger and wrapper feature: `transfer`
+- support join community fund for neurons controlled by Hardware Wallet.
 
 # 0.8.0 (2022-09-26)
 
