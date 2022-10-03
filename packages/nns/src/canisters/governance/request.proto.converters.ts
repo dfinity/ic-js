@@ -122,6 +122,22 @@ export const fromStopDissolvingRequest = (
   return result;
 };
 
+export const fromCommunityFundRequest = (
+  neuronId: NeuronId
+): PbManageNeuron => {
+  const configure = new PbManageNeuron.Configure();
+  configure.setJoinCommunityFund(new PbManageNeuron.JoinCommunityFund());
+
+  const result = new PbManageNeuron();
+  result.setConfigure(configure);
+
+  const pbNeuronId = new PbNeuronId();
+  pbNeuronId.setId(neuronId.toString());
+  result.setNeuronId(pbNeuronId);
+
+  return result;
+};
+
 export const fromDisburseRequest = (
   request: DisburseRequest
 ): PbManageNeuron => {
