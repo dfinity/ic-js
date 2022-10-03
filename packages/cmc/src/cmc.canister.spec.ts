@@ -32,7 +32,7 @@ describe("CyclesMintingCanister", () => {
   };
 
   describe("CMCCanister.getIcpToCyclesConversionRate", () => {
-    it("returns the conversion rate from ICP to cycles", async () => {
+    it("should returns the conversion rate from ICP to cycles", async () => {
       const exchangeRate = BigInt(10_000);
       const response: IcpXdrConversionRateResponse = {
         certificate: arrayOfNumberToUint8Array([]),
