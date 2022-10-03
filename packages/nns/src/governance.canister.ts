@@ -47,6 +47,7 @@ import {
 } from "./canisters/governance/request.converters";
 import {
   fromAddHotKeyRequest,
+  fromCommunityFundRequest,
   fromDisburseRequest,
   fromIncreaseDissolveDelayRequest,
   fromMergeMaturityRequest,
@@ -364,6 +365,10 @@ export class GovernanceCanister {
    * @throws {@link GovernanceError}
    */
   public joinCommunityFund = async (neuronId: NeuronId): Promise<void> => {
+    if (this.hardwareWallet) {
+      return this.joinCommunityFundHardwareWallet(neuronId);
+    }
+
     const request = toJoinCommunityFundRequest(neuronId);
 
     return manageNeuron({
@@ -919,6 +924,13 @@ export class GovernanceCanister {
     neuronId: NeuronId
   ): Promise<void> => {
     const rawRequest = fromStopDissolvingRequest(neuronId);
+    await this.manageNeuronUpdateCall(rawRequest);
+  };
+
+  private joinCommunityFundHardwareWallet = async (
+    neuronId: NeuronId
+  ): Promise<void> => {
+    const rawRequest = fromCommunityFundRequest(neuronId);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
