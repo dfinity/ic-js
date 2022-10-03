@@ -756,6 +756,20 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
+    it("successfully joins CF from Hardware Wallet", async () => {
+      const agent = mock<Agent>();
+      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
+
+      const governance = GovernanceCanister.create({
+        agent,
+        hardwareWallet: true,
+      });
+
+      await governance.joinCommunityFund(BigInt(10));
+      expect(agent.call).toBeCalled();
+      expect(spyPollForResponse).toBeCalled();
+    });
+
     it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
