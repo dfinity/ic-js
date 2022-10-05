@@ -237,6 +237,7 @@ Parameters:
 
 - [create](#gear-create)
 - [metadata](#gear-metadata)
+- [transactionFee](#gear-transactionfee)
 - [balance](#gear-balance)
 - [transfer](#gear-transfer)
 
@@ -253,6 +254,14 @@ The token metadata (name, symbol, etc.).
 | Method     | Type                                                         |
 | ---------- | ------------------------------------------------------------ |
 | `metadata` | `(params: QueryParams) => Promise<SnsTokenMetadataResponse>` |
+
+##### :gear: transactionFee
+
+The ledger transaction fees.
+
+| Method           | Type                                       |
+| ---------------- | ------------------------------------------ |
+| `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
 
 ##### :gear: balance
 
@@ -379,6 +388,7 @@ Parameters:
 - [listNeurons](#gear-listneurons)
 - [metadata](#gear-metadata)
 - [ledgerMetadata](#gear-ledgermetadata)
+- [transactionFee](#gear-transactionfee)
 - [balance](#gear-balance)
 - [transfer](#gear-transfer)
 - [getNeuron](#gear-getneuron)
@@ -408,6 +418,12 @@ Parameters:
 | Method           | Type                                                                            |
 | ---------------- | ------------------------------------------------------------------------------- |
 | `ledgerMetadata` | `(params: Omit<QueryParams, "certified">) => Promise<SnsTokenMetadataResponse>` |
+
+##### :gear: transactionFee
+
+| Method           | Type                                                          |
+| ---------------- | ------------------------------------------------------------- |
+| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
 
 ##### :gear: balance
 
