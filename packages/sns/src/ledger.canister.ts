@@ -33,6 +33,14 @@ export class SnsLedgerCanister extends Canister<SnsLedgerService> {
     this.caller(params).icrc1_metadata();
 
   /**
+   * The ledger transaction fees.
+   *
+   * @returns {Tokens} The ledger transaction fees in Tokens
+   */
+  transactionFee = (params: QueryParams): Promise<Tokens> =>
+    this.caller(params).icrc1_fee();
+
+  /**
    * Returns the balance of the given account.
    *
    * @param {BalanceParams} params The parameters to get the balance of an account.
