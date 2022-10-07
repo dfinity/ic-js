@@ -26,6 +26,20 @@ describe("Ledger canister", () => {
     expect(res).toEqual(tokeMetadataResponseMock);
   });
 
+  it("should return the transaction fee", async () => {
+    const service = mock<ActorSubclass<SnsLedgerService>>();
+    const fee = BigInt(10_000);
+    service.icrc1_fee.mockResolvedValue(fee);
+
+    const canister = SnsLedgerCanister.create({
+      canisterId: rootCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+
+    const res = await canister.transactionFee({});
+    expect(res).toEqual(fee);
+  });
+
   describe("balance", () => {
     it("should return the balance of main account", async () => {
       const service = mock<ActorSubclass<SnsLedgerService>>();

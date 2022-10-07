@@ -139,6 +139,14 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call leger transaction fee with query or update", async () => {
+    await snsWrapper.transactionFee({});
+    await certifiedSnsWrapper.transactionFee({});
+
+    expect(mockLedgerCanister.transactionFee).toHaveBeenCalled();
+    expect(mockCertifiedLedgerCanister.transactionFee).toHaveBeenCalled();
+  });
+
   it("should call leger balance with query or update", async () => {
     const owner = Principal.fromText("aaaaa-aa");
     await snsWrapper.balance({

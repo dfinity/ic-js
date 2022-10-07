@@ -102,6 +102,9 @@ export class SnsWrapper {
   ): Promise<SnsTokenMetadataResponse> =>
     this.ledger.metadata(this.mergeParams(params));
 
+  transactionFee = (params: Omit<QueryParams, "certified">): Promise<Tokens> =>
+    this.ledger.transactionFee(this.mergeParams(params));
+
   balance = (params: Omit<BalanceParams, "certified">): Promise<Tokens> =>
     this.ledger.balance(this.mergeParams(params));
 
