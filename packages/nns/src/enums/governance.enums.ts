@@ -25,6 +25,8 @@ export enum Topic {
   Kyc = 9,
   NodeProviderRewards = 10,
   SnsDecentralizationSale = 11,
+  ReplicaVersionManagement = 12,
+  SubnetReplicaVersionManagement = 13,
 }
 
 // The proposal status, with respect to reward distribution.
@@ -107,4 +109,8 @@ export enum NnsFunction {
   PrepareCanisterMigration = 28,
   CompleteCanisterMigration = 29,
   AddSnsWasm = 30,
+  ChangeSubnetMembership = 31,
+  UpdateSubnetType = 32,
+  ChangeSubnetTypeAssignment = 33,
+  RetireReplicaVersion = 34,
 }
