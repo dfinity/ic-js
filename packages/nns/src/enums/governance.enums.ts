@@ -25,8 +25,6 @@ export enum Topic {
   Kyc = 9,
   NodeProviderRewards = 10,
   SnsDecentralizationSale = 11,
-  ReplicaVersionManagement = 12,
-  SubnetReplicaVersionManagement = 13,
 }
 
 // The proposal status, with respect to reward distribution.
