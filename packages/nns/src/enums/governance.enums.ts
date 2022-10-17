@@ -110,5 +110,5 @@ export enum NnsFunction {
   ChangeSubnetMembership = 31,
   UpdateSubnetType = 32,
   ChangeSubnetTypeAssignment = 33,
-  RetireReplicaVersion = 34,
+  UpdateSnsWasmSnsSubnetIds = 34,
 }
