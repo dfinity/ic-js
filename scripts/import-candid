@@ -65,6 +65,7 @@ import_did "rs/rosetta-api/icrc1/ledger/icrc1.did" "icrc1_ledger.did" "sns"
 import_did "rs/sns/swap/canister/swap.did" "sns_swap.did" "sns"
 import_did "rs/sns/root/canister/root.did" "sns_root.did" "sns"
 import_did "rs/sns/governance/canister/governance.did" "sns_governance.did" "sns"
+import_did "rs/rosetta-api/icrc1/index/index.did" "sns_index.did" "sns"
 
 mkdir -p packages/cmc/candid
 import_did "rs/nns/cmc/cmc.did" "cmc.did" "cmc"

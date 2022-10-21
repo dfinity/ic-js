@@ -196,8 +196,15 @@ export const idlFactory = ({ IDL }) => {
     'nns_function' : IDL.Int32,
     'payload' : IDL.Vec(IDL.Nat8),
   });
+  const NeuronBasketConstructionParameters = IDL.Record({
+    'dissolve_delay_interval_seconds' : IDL.Nat64,
+    'count' : IDL.Nat64,
+  });
   const Params = IDL.Record({
     'min_participant_icp_e8s' : IDL.Nat64,
+    'neuron_basket_construction_parameters' : IDL.Opt(
+      NeuronBasketConstructionParameters
+    ),
     'max_icp_e8s' : IDL.Nat64,
     'swap_due_timestamp_seconds' : IDL.Nat64,
     'min_participants' : IDL.Nat32,
@@ -717,8 +724,15 @@ export const init = ({ IDL }) => {
     'nns_function' : IDL.Int32,
     'payload' : IDL.Vec(IDL.Nat8),
   });
+  const NeuronBasketConstructionParameters = IDL.Record({
+    'dissolve_delay_interval_seconds' : IDL.Nat64,
+    'count' : IDL.Nat64,
+  });
   const Params = IDL.Record({
     'min_participant_icp_e8s' : IDL.Nat64,
+    'neuron_basket_construction_parameters' : IDL.Opt(
+      NeuronBasketConstructionParameters
+    ),
     'max_icp_e8s' : IDL.Nat64,
     'swap_due_timestamp_seconds' : IDL.Nat64,
     'min_participants' : IDL.Nat32,

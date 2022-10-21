@@ -99,6 +99,10 @@ export const idlFactory = ({ IDL }) => {
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
+  const NeuronAttributes = IDL.Record({
+    'dissolve_delay_seconds' : IDL.Nat64,
+    'memo' : IDL.Nat64,
+  });
   const CfInvestment = IDL.Record({
     'hotkey_principal' : IDL.Text,
     'nns_neuron_id' : IDL.Nat64,
@@ -110,6 +114,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const SnsNeuronRecipe = IDL.Record({
     'sns' : IDL.Opt(TransferableAmount),
+    'neuron_attributes' : IDL.Opt(NeuronAttributes),
     'investor' : IDL.Opt(Investor),
   });
   const CfNeuron = IDL.Record({
@@ -120,8 +125,15 @@ export const idlFactory = ({ IDL }) => {
     'hotkey_principal' : IDL.Text,
     'cf_neurons' : IDL.Vec(CfNeuron),
   });
+  const NeuronBasketConstructionParameters = IDL.Record({
+    'dissolve_delay_interval_seconds' : IDL.Nat64,
+    'count' : IDL.Nat64,
+  });
   const Params = IDL.Record({
     'min_participant_icp_e8s' : IDL.Nat64,
+    'neuron_basket_construction_parameters' : IDL.Opt(
+      NeuronBasketConstructionParameters
+    ),
     'max_icp_e8s' : IDL.Nat64,
     'swap_due_timestamp_seconds' : IDL.Nat64,
     'min_participants' : IDL.Nat32,
@@ -183,6 +195,11 @@ export const idlFactory = ({ IDL }) => {
     'refresh_buyer_tokens' : IDL.Func(
         [RefreshBuyerTokensRequest],
         [RefreshBuyerTokensResponse],
+        [],
+      ),
+    'restore_dapp_controllers' : IDL.Func(
+        [IDL.Record({})],
+        [SetDappControllersCallResult],
         [],
       ),
   });

@@ -1,6 +1,7 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns/candid/sns_wasm.did */
 export const idlFactory = ({ IDL }) => {
   const SnsWasmCanisterInitPayload = IDL.Record({
+    'allowed_principals' : IDL.Vec(IDL.Principal),
     'access_controls_enabled' : IDL.Bool,
     'sns_subnet_ids' : IDL.Vec(IDL.Principal),
   });
@@ -66,6 +67,7 @@ export const idlFactory = ({ IDL }) => {
     'root' : IDL.Opt(IDL.Principal),
     'swap' : IDL.Opt(IDL.Principal),
     'ledger' : IDL.Opt(IDL.Principal),
+    'index' : IDL.Opt(IDL.Principal),
     'governance' : IDL.Opt(IDL.Principal),
   });
   const DeployNewSnsResponse = IDL.Record({
@@ -73,18 +75,25 @@ export const idlFactory = ({ IDL }) => {
     'error' : IDL.Opt(SnsWasmError),
     'canisters' : IDL.Opt(SnsCanisterIds),
   });
+  const GetAllowedPrincipalsResponse = IDL.Record({
+    'allowed_principals' : IDL.Vec(IDL.Principal),
+  });
   const SnsVersion = IDL.Record({
     'archive_wasm_hash' : IDL.Vec(IDL.Nat8),
     'root_wasm_hash' : IDL.Vec(IDL.Nat8),
     'swap_wasm_hash' : IDL.Vec(IDL.Nat8),
     'ledger_wasm_hash' : IDL.Vec(IDL.Nat8),
     'governance_wasm_hash' : IDL.Vec(IDL.Nat8),
+    'index_wasm_hash' : IDL.Vec(IDL.Nat8),
   });
   const GetNextSnsVersionRequest = IDL.Record({
     'current_version' : IDL.Opt(SnsVersion),
   });
   const GetNextSnsVersionResponse = IDL.Record({
     'next_version' : IDL.Opt(SnsVersion),
+  });
+  const GetSnsSubnetIdsResponse = IDL.Record({
+    'sns_subnet_ids' : IDL.Vec(IDL.Principal),
   });
   const GetWasmRequest = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const GetWasmResponse = IDL.Record({ 'wasm' : IDL.Opt(SnsWasm) });
@@ -94,12 +103,35 @@ export const idlFactory = ({ IDL }) => {
   const ListDeployedSnsesResponse = IDL.Record({
     'instances' : IDL.Vec(DeployedSns),
   });
+  const UpdateAllowedPrincipalsRequest = IDL.Record({
+    'added_principals' : IDL.Vec(IDL.Principal),
+    'removed_principals' : IDL.Vec(IDL.Principal),
+  });
+  const UpdateAllowedPrincipalsResult = IDL.Variant({
+    'Error' : SnsWasmError,
+    'AllowedPrincipals' : GetAllowedPrincipalsResponse,
+  });
+  const UpdateAllowedPrincipalsResponse = IDL.Record({
+    'update_allowed_principals_result' : IDL.Opt(UpdateAllowedPrincipalsResult),
+  });
+  const UpdateSnsSubnetListRequest = IDL.Record({
+    'sns_subnet_ids_to_add' : IDL.Vec(IDL.Principal),
+    'sns_subnet_ids_to_remove' : IDL.Vec(IDL.Principal),
+  });
+  const UpdateSnsSubnetListResponse = IDL.Record({
+    'error' : IDL.Opt(SnsWasmError),
+  });
   return IDL.Service({
     'add_wasm' : IDL.Func([AddWasmRequest], [AddWasmResponse], []),
     'deploy_new_sns' : IDL.Func(
         [DeployNewSnsRequest],
         [DeployNewSnsResponse],
         [],
+      ),
+    'get_allowed_principals' : IDL.Func(
+        [IDL.Record({})],
+        [GetAllowedPrincipalsResponse],
+        ['query'],
       ),
     'get_latest_sns_version_pretty' : IDL.Func(
         [IDL.Null],
@@ -111,16 +143,32 @@ export const idlFactory = ({ IDL }) => {
         [GetNextSnsVersionResponse],
         ['query'],
       ),
+    'get_sns_subnet_ids' : IDL.Func(
+        [IDL.Record({})],
+        [GetSnsSubnetIdsResponse],
+        ['query'],
+      ),
     'get_wasm' : IDL.Func([GetWasmRequest], [GetWasmResponse], ['query']),
     'list_deployed_snses' : IDL.Func(
         [IDL.Record({})],
         [ListDeployedSnsesResponse],
         ['query'],
       ),
+    'update_allowed_principals' : IDL.Func(
+        [UpdateAllowedPrincipalsRequest],
+        [UpdateAllowedPrincipalsResponse],
+        [],
+      ),
+    'update_sns_subnet_list' : IDL.Func(
+        [UpdateSnsSubnetListRequest],
+        [UpdateSnsSubnetListResponse],
+        [],
+      ),
   });
 };
 export const init = ({ IDL }) => {
   const SnsWasmCanisterInitPayload = IDL.Record({
+    'allowed_principals' : IDL.Vec(IDL.Principal),
     'access_controls_enabled' : IDL.Bool,
     'sns_subnet_ids' : IDL.Vec(IDL.Principal),
   });

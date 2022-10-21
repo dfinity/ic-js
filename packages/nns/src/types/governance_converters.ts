@@ -215,6 +215,10 @@ export interface OpenSnsTokenSwap {
     snsTokenE8s: bigint;
     maxParticipantIcpE8s: bigint;
     minIcpE8s: bigint;
+    neuron_basket_construction_parameters?: {
+      dissolve_delay_interval_seconds: bigint;
+      count: bigint;
+    };
   };
 }
 export interface SetSnsTokenSwapOpenTimeWindow {
