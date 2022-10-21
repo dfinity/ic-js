@@ -1,4 +1,4 @@
-// Generated from IC repo commit 12ea1aa1db0a3427eeec8e4b132b0bffb0362380 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit f818cf1eb89bcbc9aecb1fb73de8c8de6c258c42 'rs/sns/root/canister/root.did' by import-candid
 type CanisterCallError = record { code : opt int32; description : text };
 type CanisterIdRecord = record { canister_id : principal };
 type CanisterStatusResult = record {
@@ -40,6 +40,7 @@ type GetSnsCanistersSummaryResponse = record {
   root : opt CanisterSummary;
   swap : opt CanisterSummary;
   ledger : opt CanisterSummary;
+  index : opt CanisterSummary;
   governance : opt CanisterSummary;
   dapps : vec CanisterSummary;
   archives : vec CanisterSummary;
@@ -48,6 +49,7 @@ type ListSnsCanistersResponse = record {
   root : opt principal;
   swap : opt principal;
   ledger : opt principal;
+  index : opt principal;
   governance : opt principal;
   dapps : vec principal;
   archives : vec principal;
@@ -62,6 +64,7 @@ type SnsRootCanister = record {
   latest_ledger_archive_poll_timestamp_seconds : opt nat64;
   archive_canister_ids : vec principal;
   governance_canister_id : opt principal;
+  index_canister_id : opt principal;
   swap_canister_id : opt principal;
   ledger_canister_id : opt principal;
 };

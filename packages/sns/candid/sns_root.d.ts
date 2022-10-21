@@ -55,6 +55,7 @@ export interface GetSnsCanistersSummaryResponse {
   root: [] | [CanisterSummary];
   swap: [] | [CanisterSummary];
   ledger: [] | [CanisterSummary];
+  index: [] | [CanisterSummary];
   governance: [] | [CanisterSummary];
   dapps: Array<CanisterSummary>;
   archives: Array<CanisterSummary>;
@@ -63,6 +64,7 @@ export interface ListSnsCanistersResponse {
   root: [] | [Principal];
   swap: [] | [Principal];
   ledger: [] | [Principal];
+  index: [] | [Principal];
   governance: [] | [Principal];
   dapps: Array<Principal>;
   archives: Array<Principal>;
@@ -81,6 +83,7 @@ export interface SnsRootCanister {
   latest_ledger_archive_poll_timestamp_seconds: [] | [bigint];
   archive_canister_ids: Array<Principal>;
   governance_canister_id: [] | [Principal];
+  index_canister_id: [] | [Principal];
   swap_canister_id: [] | [Principal];
   ledger_canister_id: [] | [Principal];
 }

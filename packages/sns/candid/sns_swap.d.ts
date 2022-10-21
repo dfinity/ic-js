@@ -95,6 +95,14 @@ export interface Init {
 export type Investor =
   | { CommunityFund: CfInvestment }
   | { Direct: DirectInvestment };
+export interface NeuronAttributes {
+  dissolve_delay_seconds: bigint;
+  memo: bigint;
+}
+export interface NeuronBasketConstructionParameters {
+  dissolve_delay_interval_seconds: bigint;
+  count: bigint;
+}
 export interface OpenRequest {
   cf_participants: Array<CfParticipant>;
   params: [] | [Params];
@@ -102,6 +110,9 @@ export interface OpenRequest {
 }
 export interface Params {
   min_participant_icp_e8s: bigint;
+  neuron_basket_construction_parameters:
+    | []
+    | [NeuronBasketConstructionParameters];
   max_icp_e8s: bigint;
   swap_due_timestamp_seconds: bigint;
   min_participants: number;
@@ -138,6 +149,7 @@ export interface SettleCommunityFundParticipationResult {
 }
 export interface SnsNeuronRecipe {
   sns: [] | [TransferableAmount];
+  neuron_attributes: [] | [NeuronAttributes];
   investor: [] | [Investor];
 }
 export interface Swap {
@@ -171,4 +183,5 @@ export interface _SERVICE {
     [RefreshBuyerTokensRequest],
     RefreshBuyerTokensResponse
   >;
+  restore_dapp_controllers: ActorMethod<[{}], SetDappControllersCallResult>;
 }

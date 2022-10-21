@@ -215,6 +215,11 @@ export interface OpenSnsTokenSwap {
     snsTokenE8s: bigint;
     maxParticipantIcpE8s: bigint;
     minIcpE8s: bigint;
+    neuronBasketConstructionParameters?: {
+      // Keep snake case to avoid having to convert back and forth.
+      dissolve_delay_interval_seconds: bigint;
+      count: bigint;
+    };
   };
 }
 export interface SetSnsTokenSwapOpenTimeWindow {

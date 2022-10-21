@@ -53,6 +53,14 @@ export interface ClaimOrRefresh {
 export interface ClaimOrRefreshResponse {
   refreshed_neuron_id: [] | [NeuronId];
 }
+export interface ClaimSwapNeuronsRequest {
+  neuron_parameters: Array<NeuronParameters>;
+}
+export interface ClaimSwapNeuronsResponse {
+  skipped_claims: number;
+  successful_claims: number;
+  failed_claims: number;
+}
 export type Command =
   | { Split: Split }
   | { Follow: Follow }
@@ -266,6 +274,7 @@ export interface NervousSystemFunction {
 export interface NervousSystemParameters {
   default_followees: [] | [DefaultFollowees];
   max_dissolve_delay_seconds: [] | [bigint];
+  max_dissolve_delay_bonus_percentage: [] | [bigint];
   max_followees_per_function: [] | [bigint];
   neuron_claimer_permissions: [] | [NeuronPermissionList];
   neuron_minimum_stake_e8s: [] | [bigint];
@@ -278,6 +287,7 @@ export interface NervousSystemParameters {
   max_number_of_neurons: [] | [bigint];
   transaction_fee_e8s: [] | [bigint];
   max_number_of_proposals_with_ballots: [] | [bigint];
+  max_age_bonus_percentage: [] | [bigint];
   neuron_grantable_permissions: [] | [NeuronPermissionList];
   voting_rewards_parameters: [] | [VotingRewardsParameters];
   max_number_of_principals_per_neuron: [] | [bigint];
@@ -300,6 +310,13 @@ export interface NeuronId {
 export interface NeuronInFlightCommand {
   command: [] | [Command_2];
   timestamp: bigint;
+}
+export interface NeuronParameters {
+  controller: [] | [Principal];
+  dissolve_delay_seconds: [] | [bigint];
+  memo: [] | [bigint];
+  stake_e8s: [] | [bigint];
+  hotkey: [] | [Principal];
 }
 export interface NeuronPermission {
   principal: [] | [Principal];
@@ -396,9 +413,9 @@ export interface Version {
   swap_wasm_hash: Uint8Array;
   ledger_wasm_hash: Uint8Array;
   governance_wasm_hash: Uint8Array;
+  index_wasm_hash: Uint8Array;
 }
 export interface VotingRewardsParameters {
-  start_timestamp_seconds: [] | [bigint];
   final_reward_rate_basis_points: [] | [bigint];
   initial_reward_rate_basis_points: [] | [bigint];
   reward_rate_transition_duration_seconds: [] | [bigint];
@@ -408,6 +425,10 @@ export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
+  claim_swap_neurons: ActorMethod<
+    [ClaimSwapNeuronsRequest],
+    ClaimSwapNeuronsResponse
+  >;
   get_build_metadata: ActorMethod<[], string>;
   get_metadata: ActorMethod<[{}], GetMetadataResponse>;
   get_nervous_system_parameters: ActorMethod<[null], NervousSystemParameters>;

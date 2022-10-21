@@ -274,6 +274,10 @@ export interface Neuron {
   known_neuron_data: [] | [KnownNeuronData];
   spawn_at_timestamp_seconds: [] | [bigint];
 }
+export interface NeuronBasketConstructionParameters {
+  dissolve_delay_interval_seconds: bigint;
+  count: bigint;
+}
 export interface NeuronId {
   id: bigint;
 }
@@ -326,6 +330,9 @@ export type Operation =
   | { SetDissolveTimestamp: SetDissolveTimestamp };
 export interface Params {
   min_participant_icp_e8s: bigint;
+  neuron_basket_construction_parameters:
+    | []
+    | [NeuronBasketConstructionParameters];
   max_icp_e8s: bigint;
   swap_due_timestamp_seconds: bigint;
   min_participants: number;

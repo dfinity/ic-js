@@ -31,11 +31,17 @@ export interface FractionalDeveloperVotingPower {
   airdrop_distribution: [] | [AirdropDistribution];
   swap_distribution: [] | [SwapDistribution];
 }
+export interface GetAllowedPrincipalsResponse {
+  allowed_principals: Array<Principal>;
+}
 export interface GetNextSnsVersionRequest {
   current_version: [] | [SnsVersion];
 }
 export interface GetNextSnsVersionResponse {
   next_version: [] | [SnsVersion];
+}
+export interface GetSnsSubnetIdsResponse {
+  sns_subnet_ids: Array<Principal>;
 }
 export interface GetWasmRequest {
   hash: Uint8Array;
@@ -60,6 +66,7 @@ export interface SnsCanisterIds {
   root: [] | [Principal];
   swap: [] | [Principal];
   ledger: [] | [Principal];
+  index: [] | [Principal];
   governance: [] | [Principal];
 }
 export interface SnsInitPayload {
@@ -83,12 +90,14 @@ export interface SnsVersion {
   swap_wasm_hash: Uint8Array;
   ledger_wasm_hash: Uint8Array;
   governance_wasm_hash: Uint8Array;
+  index_wasm_hash: Uint8Array;
 }
 export interface SnsWasm {
   wasm: Uint8Array;
   canister_type: number;
 }
 export interface SnsWasmCanisterInitPayload {
+  allowed_principals: Array<Principal>;
   access_controls_enabled: boolean;
   sns_subnet_ids: Array<Principal>;
 }
@@ -102,14 +111,41 @@ export interface SwapDistribution {
 export interface TreasuryDistribution {
   total_e8s: bigint;
 }
+export interface UpdateAllowedPrincipalsRequest {
+  added_principals: Array<Principal>;
+  removed_principals: Array<Principal>;
+}
+export interface UpdateAllowedPrincipalsResponse {
+  update_allowed_principals_result: [] | [UpdateAllowedPrincipalsResult];
+}
+export type UpdateAllowedPrincipalsResult =
+  | { Error: SnsWasmError }
+  | { AllowedPrincipals: GetAllowedPrincipalsResponse };
+export interface UpdateSnsSubnetListRequest {
+  sns_subnet_ids_to_add: Array<Principal>;
+  sns_subnet_ids_to_remove: Array<Principal>;
+}
+export interface UpdateSnsSubnetListResponse {
+  error: [] | [SnsWasmError];
+}
 export interface _SERVICE {
   add_wasm: ActorMethod<[AddWasmRequest], AddWasmResponse>;
   deploy_new_sns: ActorMethod<[DeployNewSnsRequest], DeployNewSnsResponse>;
+  get_allowed_principals: ActorMethod<[{}], GetAllowedPrincipalsResponse>;
   get_latest_sns_version_pretty: ActorMethod<[null], Array<[string, string]>>;
   get_next_sns_version: ActorMethod<
     [GetNextSnsVersionRequest],
     GetNextSnsVersionResponse
   >;
+  get_sns_subnet_ids: ActorMethod<[{}], GetSnsSubnetIdsResponse>;
   get_wasm: ActorMethod<[GetWasmRequest], GetWasmResponse>;
   list_deployed_snses: ActorMethod<[{}], ListDeployedSnsesResponse>;
+  update_allowed_principals: ActorMethod<
+    [UpdateAllowedPrincipalsRequest],
+    UpdateAllowedPrincipalsResponse
+  >;
+  update_sns_subnet_list: ActorMethod<
+    [UpdateSnsSubnetListRequest],
+    UpdateSnsSubnetListResponse
+  >;
 }

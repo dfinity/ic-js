@@ -17,11 +17,16 @@ export const swapCanisterIdMock: Principal = Principal.fromText(
   "kuwf5-5qaaa-aaaaa-aacqq-cai"
 );
 
+export const indexCanisterIdMock: Principal = Principal.fromText(
+  "qjdve-lqaaa-aaaaa-aaaeq-cai"
+);
+
 export const snsMock: ListSnsCanistersResponse = {
   root: [rootCanisterIdMock],
   ledger: [ledgerCanisterIdMock],
   governance: [governanceCanisterIdMock],
   swap: [swapCanisterIdMock],
+  index: [indexCanisterIdMock],
   dapps: [],
   archives: [],
 };

@@ -1,4 +1,4 @@
-// Generated from IC repo commit 6e2d9e9a3ff2a3ae4854d9eea8c9337fd1f77415 'rs/nns/cmc/cmc.did' by import-candid
+// Generated from IC repo commit f818cf1eb89bcbc9aecb1fb73de8c8de6c258c42 'rs/nns/cmc/cmc.did' by import-candid
 type Cycles = nat;
 type BlockIndex = nat64;
 

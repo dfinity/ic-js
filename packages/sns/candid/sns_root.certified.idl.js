@@ -5,6 +5,7 @@ export const idlFactory = ({ IDL }) => {
     'latest_ledger_archive_poll_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'archive_canister_ids' : IDL.Vec(IDL.Principal),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
+    'index_canister_id' : IDL.Opt(IDL.Principal),
     'swap_canister_id' : IDL.Opt(IDL.Principal),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
   });
@@ -54,6 +55,7 @@ export const idlFactory = ({ IDL }) => {
     'root' : IDL.Opt(CanisterSummary),
     'swap' : IDL.Opt(CanisterSummary),
     'ledger' : IDL.Opt(CanisterSummary),
+    'index' : IDL.Opt(CanisterSummary),
     'governance' : IDL.Opt(CanisterSummary),
     'dapps' : IDL.Vec(CanisterSummary),
     'archives' : IDL.Vec(CanisterSummary),
@@ -62,6 +64,7 @@ export const idlFactory = ({ IDL }) => {
     'root' : IDL.Opt(IDL.Principal),
     'swap' : IDL.Opt(IDL.Principal),
     'ledger' : IDL.Opt(IDL.Principal),
+    'index' : IDL.Opt(IDL.Principal),
     'governance' : IDL.Opt(IDL.Principal),
     'dapps' : IDL.Vec(IDL.Principal),
     'archives' : IDL.Vec(IDL.Principal),
@@ -118,6 +121,7 @@ export const init = ({ IDL }) => {
     'latest_ledger_archive_poll_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'archive_canister_ids' : IDL.Vec(IDL.Principal),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
+    'index_canister_id' : IDL.Opt(IDL.Principal),
     'swap_canister_id' : IDL.Opt(IDL.Principal),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
   });
