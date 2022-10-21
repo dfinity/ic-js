@@ -248,7 +248,7 @@ const fromAction = (action: Action): RawAction => {
                   max_participant_icp_e8s: params.maxParticipantIcpE8s,
                   min_icp_e8s: params.minIcpE8s,
                   neuron_basket_construction_parameters: toNullable(
-                    params.neuron_basket_construction_parameters
+                    params.neuronBasketConstructionParameters
                   ),
                 },
               ],
