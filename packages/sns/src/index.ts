@@ -9,6 +9,11 @@ export type {
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
 } from "../candid/sns_governance";
+export type {
+  Transaction as SnsTransaction,
+  TransactionWithId as SnsTransactionWithId,
+  TxId as SnsTxId,
+} from "../candid/sns_index";
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
 export type {
   BuyerState as SnsSwapBuyerState,
@@ -30,6 +35,7 @@ export { SnsGovernanceCanister } from "./governance.canister";
 export { SnsLedgerCanister } from "./ledger.canister";
 export { SnsRootCanister } from "./root.canister";
 export * from "./sns";
+export { SnsIndexCanister } from "./sns-index.canister";
 export * from "./sns.wrapper";
 export { SnsSwapCanister } from "./swap.canister";
 export type { SnsCanisterOptions } from "./types/canister.options";
