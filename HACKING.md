@@ -24,16 +24,32 @@ npm run build/test --workspace=packages/sns
 
 ## nns-js: How-to test local changes with nns-dapp
 
-The [nns](/packages/nns) is used in [NNS-dapp](https://github.com/dfinity/nns-dapp/). To test changes with `proto` files in the dapp, proceed as following:
+### In this directory
 
-**requirements**: protobuf
+Build the libraries you want to test:
 
-## using npm pack
+```bash
+npm run build --workspace=packages/the-library-you-want-to-test
+```
 
-1. Prepare the tar file (from nns)
-   `npm run protoc && npm run build --workspace=packages/nns && npm pack --workspace=packages/nns`
-2. Install the tar in the target project (nns-dapp)
-   - `npm i {ic-js-directory}/dfinity-nns-{PACKED_VERSION}.tgz`
+**Note: Try building all the workspaces at once if you get any problem.**
+
+### In NNS-Dapp
+
+```bash
+# navigate to frontend directory
+cd frontend
+# remove node modules
+rm -r node_modules
+# reinstall modules
+npm ci
+# remove the library you want to test
+npm rm @dfinity/the-library-you-want-to-test
+# install the library pointing to local ic-js
+npm i /User/path/to/packages/the-library-you-want-to-test
+```
+
+**Note: Don't commit the changes in package.json nor in package-lock.json**
 
 ## Candid files
 
