@@ -17,6 +17,7 @@ const snsInputFiles = [
   "./packages/sns/src/ledger.canister.ts",
   "./packages/sns/src/governance.canister.ts",
   "./packages/sns/src/root.canister.ts",
+  "./packages/sns/src/sns-index.canister.ts",
   "./packages/sns/src/sns.ts",
   "./packages/sns/src/sns.wrapper.ts",
   "./packages/sns/src/swap.canister.ts",
