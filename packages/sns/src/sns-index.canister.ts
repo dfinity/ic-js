@@ -6,6 +6,7 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_index.certified.idl";
 import { idlFactory } from "../candid/sns_index.idl";
 import { toGetTransactionsArgs } from "./converters/sns-index.converters";
+import { SnsIndexError } from "./errors/sns-index.errors";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { GetAccountTransactionsParams } from "./types/sns-index.params";
@@ -23,10 +24,12 @@ export class SnsIndexCanister extends Canister<SnsIndexService> {
   }
 
   /**
-   * Get the state of the swap
+   * Get the transactions of an account
    *
    * Always certified.
-   * `get_account_transactions` needs to be called with an update to get the transactios from the ledger canister.
+   * `get_account_transactions` needs to be called with an update
+   * because the index canisters makes a call to the ledger canister to get the transaction data.
+   * Index Canister only holds the transactions ids in state, not the whole transaction data.
    */
   getTransactions = async (
     params: GetAccountTransactionsParams
@@ -36,7 +39,7 @@ export class SnsIndexCanister extends Canister<SnsIndexService> {
     }).get_account_transactions(toGetTransactionsArgs(params));
 
     if ("Err" in response) {
-      throw new Error(response.Err.message);
+      throw new SnsIndexError(response.Err.message);
     }
 
     return response.Ok;

@@ -6,6 +6,7 @@ import type {
   Transaction,
   _SERVICE as SnsIndexService,
 } from "../candid/sns_index";
+import { SnsIndexError } from "./errors/sns-index.errors";
 import { swapCanisterIdMock } from "./mocks/sns.mock";
 import { SnsIndexCanister } from "./sns-index.canister";
 
@@ -77,7 +78,7 @@ describe("Index canister", () => {
           account: fakeAccount,
           max_results: BigInt(10),
         });
-      expect(call).rejects.toThrow();
+      expect(call).rejects.toThrowError(SnsIndexError);
     });
   });
 });
