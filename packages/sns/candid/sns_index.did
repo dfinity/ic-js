@@ -47,7 +47,7 @@ type TransactionWithId = record {
 type GetTransactions = record {
   transactions : vec TransactionWithId;
   // The txid of the oldest transaction the account has
-  oldest_tx_id : opt TxId;
+  oldest_tx_id : opt nat64;
 };
 
 type GetTransactionsErr = record {
