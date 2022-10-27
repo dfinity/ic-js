@@ -24,7 +24,13 @@ export enum Topic {
   NetworkCanisterManagement = 8,
   Kyc = 9,
   NodeProviderRewards = 10,
+  /**
+   * @deprecated
+   */
   SnsDecentralizationSale = 11,
+  SubnetReplicaVersionManagement = 12,
+  ReplicaVersionManagement = 13,
+  SnsAndCommunityFund = 14,
 }
 
 // The proposal status, with respect to reward distribution.
