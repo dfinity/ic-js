@@ -62,7 +62,7 @@ export const initSnsWrapper: InitSnsWrapper = async ({
     }),
     ledger: SnsLedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
     swap: SnsSwapCanister.create({ canisterId: swapCanisterId, agent }),
-    snsIndex: SnsIndexCanister.create({ canisterId: indexCanisterId, agent }),
+    index: SnsIndexCanister.create({ canisterId: indexCanisterId, agent }),
     certified,
   });
 };

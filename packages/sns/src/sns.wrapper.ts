@@ -38,7 +38,7 @@ interface SnsWrapperOptions {
   /** The wrapper for the "swap" canister of the particular Sns */
   swap: SnsSwapCanister;
   /** The wrapper for the "index" canister of the particular Sns */
-  snsIndex: SnsIndexCanister;
+  index: SnsIndexCanister;
 
   /** The wrapper has been instantiated and should perform query or update calls */
   certified: boolean;
@@ -54,7 +54,7 @@ export class SnsWrapper {
   private readonly governance: SnsGovernanceCanister;
   private readonly ledger: SnsLedgerCanister;
   private readonly swap: SnsSwapCanister;
-  private readonly snsIndex: SnsIndexCanister;
+  private readonly index: SnsIndexCanister;
   private readonly certified: boolean;
 
   /**
@@ -65,14 +65,14 @@ export class SnsWrapper {
     governance,
     ledger,
     swap,
-    snsIndex,
+    index: index,
     certified,
   }: SnsWrapperOptions) {
     this.root = root;
     this.governance = governance;
     this.ledger = ledger;
     this.swap = swap;
-    this.snsIndex = snsIndex;
+    this.index = index;
     this.certified = certified;
   }
 
@@ -161,7 +161,7 @@ export class SnsWrapper {
   // Always certified
   getTransactions = (
     params: GetAccountTransactionsParams
-  ): Promise<GetTransactions> => this.snsIndex.getTransactions(params);
+  ): Promise<GetTransactions> => this.index.getTransactions(params);
 
   private mergeParams<T>(params: T): QueryParams & T {
     return {

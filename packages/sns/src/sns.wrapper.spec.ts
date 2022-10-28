@@ -53,7 +53,7 @@ describe("SnsWrapper", () => {
     ledger: mockLedgerCanister,
     governance: mockGovernanceCanister,
     swap: mockSwapCanister,
-    snsIndex: mockIndexCanister,
+    index: mockIndexCanister,
     certified: false,
   });
 
@@ -62,7 +62,7 @@ describe("SnsWrapper", () => {
     ledger: mockCertifiedLedgerCanister,
     governance: mockCertifiedGovernanceCanister,
     swap: mockCertifiedSwapCanister,
-    snsIndex: mockIndexCanister,
+    index: mockIndexCanister,
     certified: true,
   });
 
