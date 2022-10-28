@@ -8,6 +8,7 @@ import { SnsLedgerCanister } from "./ledger.canister";
 import { metadataMock, neuronsMock } from "./mocks/governance.mock";
 import { tokeMetadataResponseMock } from "./mocks/ledger.mock";
 import { SnsRootCanister } from "./root.canister";
+import { SnsIndexCanister } from "./sns-index.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsDisburseNeuronParams } from "./types/governance.params";
@@ -41,11 +42,18 @@ describe("SnsWrapper", () => {
     tokeMetadataResponseMock
   );
 
+  const mockIndexCanister = mock<SnsIndexCanister>();
+  mockIndexCanister.getTransactions.mockResolvedValue({
+    transactions: [],
+    oldest_tx_id: [BigInt(2)],
+  });
+
   const snsWrapper: SnsWrapper = new SnsWrapper({
     root: {} as SnsRootCanister,
     ledger: mockLedgerCanister,
     governance: mockGovernanceCanister,
     swap: mockSwapCanister,
+    index: mockIndexCanister,
     certified: false,
   });
 
@@ -54,6 +62,7 @@ describe("SnsWrapper", () => {
     ledger: mockCertifiedLedgerCanister,
     governance: mockCertifiedGovernanceCanister,
     swap: mockCertifiedSwapCanister,
+    index: mockIndexCanister,
     certified: true,
   });
 
@@ -280,5 +289,23 @@ describe("SnsWrapper", () => {
     expect(mockGovernanceCanister.stopDissolving).toHaveBeenCalledWith(
       neuronId
     );
+  });
+
+  it("should call getTransactions in index canister", async () => {
+    const owner = Principal.fromText("aaaaa-aa");
+    const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
+    const account = {
+      owner,
+      subaccount,
+    };
+    const params = {
+      account,
+      start: BigInt(10),
+      max_results: BigInt(100),
+    };
+
+    await snsWrapper.getTransactions(params);
+
+    expect(mockIndexCanister.getTransactions).toHaveBeenCalledWith(params);
   });
 });
