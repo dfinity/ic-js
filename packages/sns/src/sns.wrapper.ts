@@ -5,6 +5,7 @@ import type {
   Neuron,
   NeuronId,
 } from "../candid/sns_governance";
+import type { GetTransactions } from "../candid/sns_index";
 import type {
   BuyerState,
   GetBuyerStateRequest,
@@ -14,6 +15,7 @@ import type {
 import type { SnsGovernanceCanister } from "./governance.canister";
 import type { SnsLedgerCanister } from "./ledger.canister";
 import type { SnsRootCanister } from "./root.canister";
+import type { SnsIndexCanister } from "./sns-index.canister";
 import type { SnsSwapCanister } from "./swap.canister";
 import type {
   SnsDisburseNeuronParams,
@@ -24,6 +26,7 @@ import type {
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
 import type { SnsTokenMetadataResponse } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
+import type { GetAccountTransactionsParams } from "./types/sns-index.params";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
@@ -34,6 +37,8 @@ interface SnsWrapperOptions {
   ledger: SnsLedgerCanister;
   /** The wrapper for the "swap" canister of the particular Sns */
   swap: SnsSwapCanister;
+  /** The wrapper for the "index" canister of the particular Sns */
+  snsIndex: SnsIndexCanister;
 
   /** The wrapper has been instantiated and should perform query or update calls */
   certified: boolean;
@@ -49,6 +54,7 @@ export class SnsWrapper {
   private readonly governance: SnsGovernanceCanister;
   private readonly ledger: SnsLedgerCanister;
   private readonly swap: SnsSwapCanister;
+  private readonly snsIndex: SnsIndexCanister;
   private readonly certified: boolean;
 
   /**
@@ -59,12 +65,14 @@ export class SnsWrapper {
     governance,
     ledger,
     swap,
+    snsIndex,
     certified,
   }: SnsWrapperOptions) {
     this.root = root;
     this.governance = governance;
     this.ledger = ledger;
     this.swap = swap;
+    this.snsIndex = snsIndex;
     this.certified = certified;
   }
 
@@ -149,6 +157,11 @@ export class SnsWrapper {
     params: GetBuyerStateRequest
   ): Promise<BuyerState | undefined> =>
     this.swap.getUserCommitment(this.mergeParams(params));
+
+  // Always certified
+  getTransactions = (
+    params: GetAccountTransactionsParams
+  ): Promise<GetTransactions> => this.snsIndex.getTransactions(params);
 
   private mergeParams<T>(params: T): QueryParams & T {
     return {

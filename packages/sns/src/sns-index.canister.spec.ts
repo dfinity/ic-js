@@ -9,16 +9,22 @@ import type {
 import { SnsIndexError } from "./errors/sns-index.errors";
 import { swapCanisterIdMock } from "./mocks/sns.mock";
 import { SnsIndexCanister } from "./sns-index.canister";
+import { SnsAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
   afterEach(() => jest.clearAllMocks());
 
+  const fakeSnsAccount: SnsAccount = {
+    owner: Principal.fromText("aaaaa-aa"),
+  };
+
+  const fakeCandidAccount: Account = {
+    owner: Principal.fromText("aaaaa-aa"),
+    subaccount: [],
+  };
+
   describe("getTransactions", () => {
     it("returns transactions", async () => {
-      const fakeAccount: Account = {
-        owner: Principal.fromText("aaaaa-aa"),
-        subaccount: [],
-      };
       const transaction: Transaction = {
         kind: "transfer",
         timestamp: BigInt(12354),
@@ -26,8 +32,8 @@ describe("Index canister", () => {
         mint: [],
         transfer: [
           {
-            to: fakeAccount,
-            from: fakeAccount,
+            to: fakeCandidAccount,
+            from: fakeCandidAccount,
             memo: [],
             created_at_time: [BigInt(123)],
             amount: BigInt(33),
@@ -51,17 +57,13 @@ describe("Index canister", () => {
         certifiedServiceOverride: service,
       });
       const res = await canister.getTransactions({
-        account: fakeAccount,
+        account: fakeSnsAccount,
         max_results: BigInt(10),
       });
       expect(res.transactions).toEqual([transactionWithId]);
     });
 
     it("raises error when Err in response", async () => {
-      const fakeAccount: Account = {
-        owner: Principal.fromText("aaaaa-aa"),
-        subaccount: [],
-      };
       const service = mock<ActorSubclass<SnsIndexService>>();
       service.get_account_transactions.mockResolvedValue({
         Err: {
@@ -75,7 +77,7 @@ describe("Index canister", () => {
       });
       const call = () =>
         canister.getTransactions({
-          account: fakeAccount,
+          account: fakeSnsAccount,
           max_results: BigInt(10),
         });
       expect(call).rejects.toThrowError(SnsIndexError);

@@ -1,4 +1,6 @@
 import { Principal } from "@dfinity/principal";
+import { toNullable } from "@dfinity/utils";
+import type { Account } from "../../candid/icrc1_ledger";
 import type { SnsAccount } from "../types/ledger.responses";
 
 // https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
@@ -97,3 +99,11 @@ export const decodeSnsAccount = (accountString: string): SnsAccount => {
     subaccount,
   };
 };
+
+export const toCandidAccount = ({
+  owner,
+  subaccount,
+}: SnsAccount): Account => ({
+  owner,
+  subaccount: toNullable(subaccount),
+});

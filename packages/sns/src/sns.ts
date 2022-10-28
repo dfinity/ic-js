@@ -8,6 +8,7 @@ import type {
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsLedgerCanister } from "./ledger.canister";
 import { SnsRootCanister } from "./root.canister";
+import { SnsIndexCanister } from "./sns-index.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
@@ -40,16 +41,18 @@ export const initSnsWrapper: InitSnsWrapper = async ({
     agent,
   });
 
-  const { ledger, swap, governance }: ListSnsCanistersResponse =
+  const { ledger, swap, governance, index }: ListSnsCanistersResponse =
     await rootCanister.listSnsCanisters({ certified });
 
   const governanceCanisterId: Principal | undefined = fromNullable(governance);
   const ledgerCanisterId: Principal | undefined = fromNullable(ledger);
   const swapCanisterId: Principal | undefined = fromNullable(swap);
+  const indexCanisterId: Principal | undefined = fromNullable(index);
 
   assertNonNullish(governanceCanisterId);
   assertNonNullish(ledgerCanisterId);
   assertNonNullish(swapCanisterId);
+  assertNonNullish(indexCanisterId);
 
   return new SnsWrapper({
     root: rootCanister,
@@ -59,6 +62,7 @@ export const initSnsWrapper: InitSnsWrapper = async ({
     }),
     ledger: SnsLedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
     swap: SnsSwapCanister.create({ canisterId: swapCanisterId, agent }),
+    snsIndex: SnsIndexCanister.create({ canisterId: indexCanisterId, agent }),
     certified,
   });
 };
