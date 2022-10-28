@@ -1,5 +1,6 @@
 import type { Principal } from "@dfinity/principal";
-import type { Subaccount, Value } from "../../candid/icrc1_ledger";
+import { toNullable } from "@dfinity/utils";
+import type { Account, Subaccount, Value } from "../../candid/icrc1_ledger";
 
 // Source: https://github.com/dfinity/icrc-1#standard-metadata-entries
 export enum SnsMetadataResponseEntries {
@@ -18,3 +19,11 @@ export interface SnsAccount {
   owner: Principal;
   subaccount?: Subaccount;
 }
+
+export const toCandidAccount = ({
+  owner,
+  subaccount,
+}: SnsAccount): Account => ({
+  owner,
+  subaccount: toNullable(subaccount),
+});
