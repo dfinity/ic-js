@@ -24,7 +24,13 @@ export enum Topic {
   NetworkCanisterManagement = 8,
   Kyc = 9,
   NodeProviderRewards = 10,
+  /**
+   * @deprecated
+   */
   SnsDecentralizationSale = 11,
+  SubnetReplicaVersionManagement = 12,
+  ReplicaVersionManagement = 13,
+  SnsAndCommunityFund = 14,
 }
 
 // The proposal status, with respect to reward distribution.
@@ -111,4 +117,6 @@ export enum NnsFunction {
   UpdateSubnetType = 32,
   ChangeSubnetTypeAssignment = 33,
   UpdateSnsWasmSnsSubnetIds = 34,
+  UpdateAllowedPrincipals = 35,
+  RetireReplicaVersion = 36,
 }

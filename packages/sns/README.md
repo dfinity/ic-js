@@ -436,6 +436,7 @@ Parameters:
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+- [getTransactions](#gear-gettransactions)
 
 ##### :gear: listNeurons
 
@@ -526,5 +527,11 @@ Parameters:
 | Method              | Type                                                    |
 | ------------------- | ------------------------------------------------------- |
 | `getUserCommitment` | `(params: GetBuyerStateRequest) => Promise<BuyerState>` |
+
+##### :gear: getTransactions
+
+| Method            | Type                                                                 |
+| ----------------- | -------------------------------------------------------------------- |
+| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
 
 <!-- TSDOC_END -->
