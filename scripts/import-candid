@@ -56,7 +56,7 @@ THIS_SCRIPT_NAME="$(basename "$0")"
 : Import canisters
 mkdir -p packages/nns/candid
 import_did "rs/nns/governance/canister/governance.did" "governance.did" "nns"
-import_did "rs/rosetta-api/ledger_canister/ledger.did" "ledger.did" "nns"
+import_did "rs/rosetta-api/icp_ledger/ledger.did" "ledger.did" "nns"
 import_did "rs/nns/gtc/canister/gtc.did" "genesis_token.did" "nns"
 import_did "rs/nns/sns-wasm/canister/sns-wasm.did" "sns_wasm.did" "nns"
 
