@@ -1,4 +1,4 @@
-# 0.9.0 (wip)
+# 0.9.0 (2022-10-31)
 
 ## Release
 
@@ -15,8 +15,20 @@
 ### Features
 
 - new NNS governance features: `stakeMaturity` and `autoStakeMaturity`
-- new SNS ledger and wrapper feature: `transfer`
+- various additional new NNS functions and proposal types
+- new SNS `index` canister
+- new SNS ledger and wrapper feature: `transfer` and `transactionFee`
+- SNS did files updated with most recent commit in IC repo
 - support join community fund for neurons controlled by Hardware Wallet.
+
+### Build
+
+- bump dev dependencies
+- bump `agent-js` peer dependencies v0.14.0
+
+### Docs
+
+- refreshed [HACKING.md](/HACKING.md)
 
 # 0.8.0 (2022-09-26)
 
