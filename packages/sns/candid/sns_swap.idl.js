@@ -3,7 +3,9 @@ export const idlFactory = ({ IDL }) => {
   const Init = IDL.Record({
     'sns_root_canister_id' : IDL.Text,
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
+    'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
     'nns_governance_canister_id' : IDL.Text,
+    'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'icp_ledger_canister_id' : IDL.Text,
     'sns_ledger_canister_id' : IDL.Text,
     'sns_governance_canister_id' : IDL.Text,
@@ -208,7 +210,9 @@ export const init = ({ IDL }) => {
   const Init = IDL.Record({
     'sns_root_canister_id' : IDL.Text,
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
+    'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
     'nns_governance_canister_id' : IDL.Text,
+    'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'icp_ledger_canister_id' : IDL.Text,
     'sns_ledger_canister_id' : IDL.Text,
     'sns_governance_canister_id' : IDL.Text,

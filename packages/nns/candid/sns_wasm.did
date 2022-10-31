@@ -1,4 +1,4 @@
-// Generated from IC repo commit f818cf1eb89bcbc9aecb1fb73de8c8de6c258c42 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
+// Generated from IC repo commit 1fc0208b9aeed0554b1be2711605e5b54ace9d6a 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
 type AddWasmRequest = record { hash : vec nat8; wasm : opt SnsWasm };
 type AddWasmResponse = record { result : opt Result };
 type AirdropDistribution = record { airdrop_neurons : vec NeuronDistribution };
@@ -8,7 +8,13 @@ type DeployNewSnsResponse = record {
   error : opt SnsWasmError;
   canisters : opt SnsCanisterIds;
 };
-type DeployedSns = record { root_canister_id : opt principal };
+type DeployedSns = record {
+  root_canister_id : opt principal;
+  governance_canister_id : opt principal;
+  index_canister_id : opt principal;
+  swap_canister_id : opt principal;
+  ledger_canister_id : opt principal;
+};
 type DeveloperDistribution = record {
   developer_neurons : vec NeuronDistribution;
 };
@@ -46,16 +52,25 @@ type SnsCanisterIds = record {
 };
 type SnsInitPayload = record {
   url : opt text;
+  max_dissolve_delay_seconds : opt nat64;
+  max_dissolve_delay_bonus_percentage : opt nat64;
   fallback_controller_principal_ids : vec text;
   token_symbol : opt text;
+  final_reward_rate_basis_points : opt nat64;
   neuron_minimum_stake_e8s : opt nat64;
   logo : opt text;
   name : opt text;
+  initial_voting_period_seconds : opt nat64;
   neuron_minimum_dissolve_delay_to_vote_seconds : opt nat64;
   description : opt text;
+  max_neuron_age_seconds_for_age_bonus : opt nat64;
+  initial_reward_rate_basis_points : opt nat64;
+  wait_for_quiet_deadline_increase_seconds : opt nat64;
   transaction_fee_e8s : opt nat64;
   sns_initialization_parameters : opt text;
+  max_age_bonus_percentage : opt nat64;
   initial_token_distribution : opt InitialTokenDistribution;
+  reward_rate_transition_duration_seconds : opt nat64;
   token_name : opt text;
   proposal_reject_cost_e8s : opt nat64;
 };

@@ -12,7 +12,7 @@ export interface GetAccountTransactionsArgs {
 }
 export interface GetTransactions {
   transactions: Array<TransactionWithId>;
-  oldest_tx_id: [] | [bigint];
+  oldest_tx_id: [] | [TxId];
 }
 export interface GetTransactionsErr {
   message: string;

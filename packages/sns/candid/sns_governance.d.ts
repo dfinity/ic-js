@@ -298,6 +298,7 @@ export interface Neuron {
   maturity_e8s_equivalent: bigint;
   cached_neuron_stake_e8s: bigint;
   created_timestamp_seconds: bigint;
+  source_nns_neuron_id: [] | [bigint];
   aging_since_timestamp_seconds: bigint;
   dissolve_state: [] | [DissolveState];
   voting_power_percentage_multiplier: bigint;
@@ -315,6 +316,7 @@ export interface NeuronParameters {
   controller: [] | [Principal];
   dissolve_delay_seconds: [] | [bigint];
   memo: [] | [bigint];
+  source_nns_neuron_id: [] | [bigint];
   stake_e8s: [] | [bigint];
   hotkey: [] | [Principal];
 }

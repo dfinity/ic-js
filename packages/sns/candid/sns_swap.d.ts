@@ -87,7 +87,9 @@ export interface GovernanceError {
 export interface Init {
   sns_root_canister_id: string;
   fallback_controller_principal_ids: Array<string>;
+  neuron_minimum_stake_e8s: [] | [bigint];
   nns_governance_canister_id: string;
+  transaction_fee_e8s: [] | [bigint];
   icp_ledger_canister_id: string;
   sns_ledger_canister_id: string;
   sns_governance_canister_id: string;
