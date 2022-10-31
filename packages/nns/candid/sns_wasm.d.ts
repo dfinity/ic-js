@@ -21,6 +21,10 @@ export interface DeployNewSnsResponse {
 }
 export interface DeployedSns {
   root_canister_id: [] | [Principal];
+  governance_canister_id: [] | [Principal];
+  index_canister_id: [] | [Principal];
+  swap_canister_id: [] | [Principal];
+  ledger_canister_id: [] | [Principal];
 }
 export interface DeveloperDistribution {
   developer_neurons: Array<NeuronDistribution>;
@@ -71,16 +75,25 @@ export interface SnsCanisterIds {
 }
 export interface SnsInitPayload {
   url: [] | [string];
+  max_dissolve_delay_seconds: [] | [bigint];
+  max_dissolve_delay_bonus_percentage: [] | [bigint];
   fallback_controller_principal_ids: Array<string>;
   token_symbol: [] | [string];
+  final_reward_rate_basis_points: [] | [bigint];
   neuron_minimum_stake_e8s: [] | [bigint];
   logo: [] | [string];
   name: [] | [string];
+  initial_voting_period_seconds: [] | [bigint];
   neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
   description: [] | [string];
+  max_neuron_age_seconds_for_age_bonus: [] | [bigint];
+  initial_reward_rate_basis_points: [] | [bigint];
+  wait_for_quiet_deadline_increase_seconds: [] | [bigint];
   transaction_fee_e8s: [] | [bigint];
   sns_initialization_parameters: [] | [string];
+  max_age_bonus_percentage: [] | [bigint];
   initial_token_distribution: [] | [InitialTokenDistribution];
+  reward_rate_transition_duration_seconds: [] | [bigint];
   token_name: [] | [string];
   proposal_reject_cost_e8s: [] | [bigint];
 }

@@ -47,16 +47,25 @@ export const idlFactory = ({ IDL }) => {
   });
   const SnsInitPayload = IDL.Record({
     'url' : IDL.Opt(IDL.Text),
+    'max_dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
+    'max_dissolve_delay_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
     'token_symbol' : IDL.Opt(IDL.Text),
+    'final_reward_rate_basis_points' : IDL.Opt(IDL.Nat64),
     'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
     'logo' : IDL.Opt(IDL.Text),
     'name' : IDL.Opt(IDL.Text),
+    'initial_voting_period_seconds' : IDL.Opt(IDL.Nat64),
     'neuron_minimum_dissolve_delay_to_vote_seconds' : IDL.Opt(IDL.Nat64),
     'description' : IDL.Opt(IDL.Text),
+    'max_neuron_age_seconds_for_age_bonus' : IDL.Opt(IDL.Nat64),
+    'initial_reward_rate_basis_points' : IDL.Opt(IDL.Nat64),
+    'wait_for_quiet_deadline_increase_seconds' : IDL.Opt(IDL.Nat64),
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'sns_initialization_parameters' : IDL.Opt(IDL.Text),
+    'max_age_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'initial_token_distribution' : IDL.Opt(InitialTokenDistribution),
+    'reward_rate_transition_duration_seconds' : IDL.Opt(IDL.Nat64),
     'token_name' : IDL.Opt(IDL.Text),
     'proposal_reject_cost_e8s' : IDL.Opt(IDL.Nat64),
   });
@@ -99,6 +108,10 @@ export const idlFactory = ({ IDL }) => {
   const GetWasmResponse = IDL.Record({ 'wasm' : IDL.Opt(SnsWasm) });
   const DeployedSns = IDL.Record({
     'root_canister_id' : IDL.Opt(IDL.Principal),
+    'governance_canister_id' : IDL.Opt(IDL.Principal),
+    'index_canister_id' : IDL.Opt(IDL.Principal),
+    'swap_canister_id' : IDL.Opt(IDL.Principal),
+    'ledger_canister_id' : IDL.Opt(IDL.Principal),
   });
   const ListDeployedSnsesResponse = IDL.Record({
     'instances' : IDL.Vec(DeployedSns),

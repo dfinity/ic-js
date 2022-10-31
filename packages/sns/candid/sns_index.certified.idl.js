@@ -46,7 +46,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const GetTransactions = IDL.Record({
     'transactions' : IDL.Vec(TransactionWithId),
-    'oldest_tx_id' : IDL.Opt(IDL.Nat64),
+    'oldest_tx_id' : IDL.Opt(TxId),
   });
   const GetTransactionsErr = IDL.Record({ 'message' : IDL.Text });
   const GetTransactionsResult = IDL.Variant({

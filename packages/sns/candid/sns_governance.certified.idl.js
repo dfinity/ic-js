@@ -252,6 +252,7 @@ export const idlFactory = ({ IDL }) => {
     'maturity_e8s_equivalent' : IDL.Nat64,
     'cached_neuron_stake_e8s' : IDL.Nat64,
     'created_timestamp_seconds' : IDL.Nat64,
+    'source_nns_neuron_id' : IDL.Opt(IDL.Nat64),
     'aging_since_timestamp_seconds' : IDL.Nat64,
     'dissolve_state' : IDL.Opt(DissolveState),
     'voting_power_percentage_multiplier' : IDL.Nat64,
@@ -282,6 +283,7 @@ export const idlFactory = ({ IDL }) => {
     'controller' : IDL.Opt(IDL.Principal),
     'dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
     'memo' : IDL.Opt(IDL.Nat64),
+    'source_nns_neuron_id' : IDL.Opt(IDL.Nat64),
     'stake_e8s' : IDL.Opt(IDL.Nat64),
     'hotkey' : IDL.Opt(IDL.Principal),
   });
@@ -698,6 +700,7 @@ export const init = ({ IDL }) => {
     'maturity_e8s_equivalent' : IDL.Nat64,
     'cached_neuron_stake_e8s' : IDL.Nat64,
     'created_timestamp_seconds' : IDL.Nat64,
+    'source_nns_neuron_id' : IDL.Opt(IDL.Nat64),
     'aging_since_timestamp_seconds' : IDL.Nat64,
     'dissolve_state' : IDL.Opt(DissolveState),
     'voting_power_percentage_multiplier' : IDL.Nat64,
