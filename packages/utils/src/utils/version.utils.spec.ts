@@ -97,4 +97,43 @@ describe("smallerVersion", () => {
       })
     ).toBe(false);
   });
+
+  it.only("works with tagged versions", () => {
+    expect(
+      smallerVersion({
+        minVersion: "1.0.0-alpha",
+        currentVersion: "1.0.0",
+      })
+    ).toBe(false);
+    expect(
+      smallerVersion({
+        minVersion: "1.0.0",
+        currentVersion: "1.0.0-alpha",
+      })
+    ).toBe(false);
+    expect(
+      smallerVersion({
+        minVersion: "1.0.0",
+        currentVersion: "1.0.1-alpha",
+      })
+    ).toBe(false);
+    expect(
+      smallerVersion({
+        minVersion: "1.0.1",
+        currentVersion: "1.0.1-beta.1",
+      })
+    ).toBe(false);
+    expect(
+      smallerVersion({
+        minVersion: "1.1.1-alpha.1",
+        currentVersion: "1.0.1-beta.1",
+      })
+    ).toBe(true);
+    expect(
+      smallerVersion({
+        minVersion: "1.1.0",
+        currentVersion: "1.0.1-beta.1",
+      })
+    ).toBe(true);
+  });
 });
