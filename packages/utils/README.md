@@ -44,6 +44,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
 - [principalToSubAccount](#gear-principaltosubaccount)
+- [smallerVersion](#gear-smallerversion)
 
 #### :gear: defaultAgent
 
@@ -139,6 +140,14 @@ e.g. Useful to convert a canister ID when topping up cycles with the Cmc caniste
 Parameters:
 
 - `principal`: The principal that needs to be converted to Subaccount
+
+#### :gear: smallerVersion
+
+Returns true if the current version is smaller than the minVersion, false if equal or bigger.
+
+| Function         | Type                                                                                            |
+| ---------------- | ----------------------------------------------------------------------------------------------- |
+| `smallerVersion` | `({ minVersion, currentVersion, }: { minVersion: string; currentVersion: string; }) => boolean` |
 
 ### :factory: NullishError
 
