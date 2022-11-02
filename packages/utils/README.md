@@ -144,6 +144,7 @@ Parameters:
 #### :gear: smallerVersion
 
 Returns true if the current version is smaller than the minVersion, false if equal or bigger.
+Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1.0.0.
 
 | Function         | Type                                                                                            |
 | ---------------- | ----------------------------------------------------------------------------------------------- |
