@@ -1,7 +1,9 @@
 import type { ManageNeuron, NeuronId } from "../../candid/sns_governance";
 import type {
   SnsDisburseNeuronParams,
+  SnsIncreaseDissolveDelayParams,
   SnsNeuronPermissionsParams,
+  SnsSetDissolveTimestampParams,
 } from "../types/governance.params";
 
 export const toAddPermissionsRequest = ({
@@ -80,6 +82,46 @@ export const toStopDissolvingNeuronRequest = ({
     {
       Configure: {
         operation: [{ StopDissolving: {} }],
+      },
+    },
+  ],
+});
+
+export const toSetDissolveTimestampRequest = ({
+  neuronId: { id },
+  dissolveTimestampSeconds,
+}: SnsSetDissolveTimestampParams): ManageNeuron => ({
+  subaccount: id,
+  command: [
+    {
+      Configure: {
+        operation: [
+          {
+            SetDissolveTimestamp: {
+              dissolve_timestamp_seconds: dissolveTimestampSeconds,
+            },
+          },
+        ],
+      },
+    },
+  ],
+});
+
+export const toIncreaseDissolveDelayRequest = ({
+  neuronId: { id },
+  additionalDissolveDelaySeconds,
+}: SnsIncreaseDissolveDelayParams): ManageNeuron => ({
+  subaccount: id,
+  command: [
+    {
+      Configure: {
+        operation: [
+          {
+            IncreaseDissolveDelay: {
+              additional_dissolve_delay_seconds: additionalDissolveDelaySeconds,
+            },
+          },
+        ],
       },
     },
   ],

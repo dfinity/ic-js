@@ -20,8 +20,10 @@ import type { SnsSwapCanister } from "./swap.canister";
 import type {
   SnsDisburseNeuronParams,
   SnsGetNeuronParams,
+  SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
   SnsNeuronPermissionsParams,
+  SnsSetDissolveTimestampParams,
 } from "./types/governance.params";
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
 import type { SnsTokenMetadataResponse } from "./types/ledger.responses";
@@ -144,6 +146,16 @@ export class SnsWrapper {
   // Always certified
   stopDissolving = (neuronId: NeuronId): Promise<void> =>
     this.governance.stopDissolving(neuronId);
+
+  // Always certified
+  setDissolveTimestamp = (
+    params: SnsSetDissolveTimestampParams
+  ): Promise<void> => this.governance.setDissolveTimestamp(params);
+
+  // Always certified
+  increaseDissolveDelay = (
+    params: SnsIncreaseDissolveDelayParams
+  ): Promise<void> => this.governance.increaseDissolveDelay(params);
 
   swapState = (
     params: Omit<QueryParams, "certified">

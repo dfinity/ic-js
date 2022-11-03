@@ -291,6 +291,38 @@ describe("SnsWrapper", () => {
     );
   });
 
+  it("should call setDissolveTimestamp", async () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+
+    await snsWrapper.setDissolveTimestamp({
+      neuronId,
+      dissolveTimestampSeconds: BigInt(123),
+    });
+
+    expect(mockGovernanceCanister.setDissolveTimestamp).toHaveBeenCalledWith({
+      neuronId,
+      dissolveTimestampSeconds: BigInt(123),
+    });
+  });
+
+  it("should call increaseDissolveDelay", async () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+
+    await snsWrapper.increaseDissolveDelay({
+      neuronId,
+      additionalDissolveDelaySeconds: 123,
+    });
+
+    expect(mockGovernanceCanister.increaseDissolveDelay).toHaveBeenCalledWith({
+      neuronId,
+      additionalDissolveDelaySeconds: 123,
+    });
+  });
+
   it("should call getTransactions in index canister", async () => {
     const owner = Principal.fromText("aaaaa-aa");
     const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);

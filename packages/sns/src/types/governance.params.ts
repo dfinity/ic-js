@@ -39,3 +39,19 @@ export interface SnsDisburseNeuronParams {
   neuronId: NeuronId;
   amount?: E8s;
 }
+
+/**
+ * The parameters to set dissolve timestamp
+ */
+export interface SnsSetDissolveTimestampParams {
+  neuronId: NeuronId;
+  dissolveTimestampSeconds: bigint;
+}
+
+/**
+ * The parameters to increase dissolve delay
+ */
+export interface SnsIncreaseDissolveDelayParams {
+  neuronId: NeuronId;
+  additionalDissolveDelaySeconds: number;
+}
