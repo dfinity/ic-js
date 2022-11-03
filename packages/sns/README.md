@@ -136,6 +136,8 @@ Parameters:
 - [disburse](#gear-disburse)
 - [startDissolving](#gear-startdissolving)
 - [stopDissolving](#gear-stopdissolving)
+- [setDissolveTimestamp](#gear-setdissolvetimestamp)
+- [increaseDissolveDelay](#gear-increasedissolvedelay)
 
 ##### :gear: create
 
@@ -220,6 +222,22 @@ Stop dissolving process of a neuron
 | Method           | Type                                    |
 | ---------------- | --------------------------------------- |
 | `stopDissolving` | `(neuronId: NeuronId) => Promise<void>` |
+
+##### :gear: setDissolveTimestamp
+
+Increase dissolve delay of a neuron
+
+| Method                 | Type                                                       |
+| ---------------------- | ---------------------------------------------------------- |
+| `setDissolveTimestamp` | `(params: SnsSetDissolveTimestampParams) => Promise<void>` |
+
+##### :gear: increaseDissolveDelay
+
+Increase dissolve delay of a neuron
+
+| Method                  | Type                                                        |
+| ----------------------- | ----------------------------------------------------------- |
+| `increaseDissolveDelay` | `(params: SnsIncreaseDissolveDelayParams) => Promise<void>` |
 
 ### :factory: SnsLedgerCanister
 
@@ -433,6 +451,8 @@ Parameters:
 - [disburse](#gear-disburse)
 - [startDissolving](#gear-startdissolving)
 - [stopDissolving](#gear-stopdissolving)
+- [setDissolveTimestamp](#gear-setdissolvetimestamp)
+- [increaseDissolveDelay](#gear-increasedissolvedelay)
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
@@ -509,6 +529,18 @@ Parameters:
 | Method           | Type                                    |
 | ---------------- | --------------------------------------- |
 | `stopDissolving` | `(neuronId: NeuronId) => Promise<void>` |
+
+##### :gear: setDissolveTimestamp
+
+| Method                 | Type                                                       |
+| ---------------------- | ---------------------------------------------------------- |
+| `setDissolveTimestamp` | `(params: SnsSetDissolveTimestampParams) => Promise<void>` |
+
+##### :gear: increaseDissolveDelay
+
+| Method                  | Type                                                        |
+| ----------------------- | ----------------------------------------------------------- |
+| `increaseDissolveDelay` | `(params: SnsIncreaseDissolveDelayParams) => Promise<void>` |
 
 ##### :gear: swapState
 
