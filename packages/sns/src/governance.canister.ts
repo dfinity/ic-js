@@ -14,7 +14,9 @@ import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import {
   toAddPermissionsRequest,
   toDisburseNeuronRequest,
+  toIncreaseDissolveDelayRequest,
   toRemovePermissionsRequest,
+  toSetDissolveTimestampRequest,
   toStartDissolvingNeuronRequest,
   toStopDissolvingNeuronRequest,
 } from "./converters/governance.converters";
@@ -24,8 +26,10 @@ import type { SnsCanisterOptions } from "./types/canister.options";
 import type {
   SnsDisburseNeuronParams,
   SnsGetNeuronParams,
+  SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
   SnsNeuronPermissionsParams,
+  SnsSetDissolveTimestampParams,
 } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
@@ -140,6 +144,26 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    */
   public stopDissolving = async (neuronId: NeuronId): Promise<void> => {
     const request: ManageNeuron = toStopDissolvingNeuronRequest(neuronId);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Increase dissolve delay of a neuron
+   */
+  public setDissolveTimestamp = async (
+    params: SnsSetDissolveTimestampParams
+  ): Promise<void> => {
+    const request: ManageNeuron = toSetDissolveTimestampRequest(params);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Increase dissolve delay of a neuron
+   */
+  public increaseDissolveDelay = async (
+    params: SnsIncreaseDissolveDelayParams
+  ): Promise<void> => {
+    const request: ManageNeuron = toIncreaseDissolveDelayRequest(params);
     await this.manageNeuron(request);
   };
 
