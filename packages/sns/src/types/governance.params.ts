@@ -48,13 +48,15 @@ export interface SnsDisburseNeuronParams extends SnsNeuronManagementParams {
 /**
  * The parameters to set dissolve timestamp
  */
-export interface SnsSetDissolveTimestampParams extends SnsNeuronManagementParams {
+export interface SnsSetDissolveTimestampParams
+  extends SnsNeuronManagementParams {
   dissolveTimestampSeconds: bigint;
 }
 
 /**
  * The parameters to increase dissolve delay
  */
-export interface SnsIncreaseDissolveDelayParams extends SnsNeuronManagementParams {
+export interface SnsIncreaseDissolveDelayParams
+  extends SnsNeuronManagementParams {
   additionalDissolveDelaySeconds: number;
 }
