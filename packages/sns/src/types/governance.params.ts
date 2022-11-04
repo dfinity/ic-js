@@ -24,34 +24,39 @@ export interface SnsGetNeuronParams extends QueryParams {
 }
 
 /**
+ * General neuron management request parameter interface
+ */
+interface SnsNeuronManagementParams extends Omit<QueryParams, "certified"> {
+  neuronId: NeuronId;
+}
+
+/**
  * The parameters to add permissions to a neuron
  */
-export interface SnsNeuronPermissionsParams {
+export interface SnsNeuronPermissionsParams extends SnsNeuronManagementParams {
   principal: Principal;
-  neuronId: NeuronId;
   permissions: SnsNeuronPermissionType[];
 }
 
 /**
  * The parameters to disburse a neuron
  */
-export interface SnsDisburseNeuronParams {
-  neuronId: NeuronId;
+export interface SnsDisburseNeuronParams extends SnsNeuronManagementParams {
   amount?: E8s;
 }
 
 /**
  * The parameters to set dissolve timestamp
  */
-export interface SnsSetDissolveTimestampParams {
-  neuronId: NeuronId;
+export interface SnsSetDissolveTimestampParams
+  extends SnsNeuronManagementParams {
   dissolveTimestampSeconds: bigint;
 }
 
 /**
  * The parameters to increase dissolve delay
  */
-export interface SnsIncreaseDissolveDelayParams {
-  neuronId: NeuronId;
+export interface SnsIncreaseDissolveDelayParams
+  extends SnsNeuronManagementParams {
   additionalDissolveDelaySeconds: number;
 }
