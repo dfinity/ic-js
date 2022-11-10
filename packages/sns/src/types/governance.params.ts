@@ -1,7 +1,9 @@
 import type { Principal } from "@dfinity/principal";
+import { Tokens } from "../../candid/icrc1_ledger";
 import type { NeuronId } from "../../candid/sns_governance";
 import type { SnsNeuronPermissionType } from "../enums/governance.enums";
 import type { E8s } from "./common";
+import type { SnsAccount } from "./ledger.responses";
 import type { QueryParams } from "./query.params";
 
 /**
@@ -21,6 +23,20 @@ export interface SnsListNeuronsParams extends QueryParams {
  */
 export interface SnsGetNeuronParams extends QueryParams {
   neuronId: NeuronId;
+}
+
+export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
+  stakeE8s: Tokens;
+  source: SnsAccount;
+  controller: Principal;
+}
+
+export interface SnsClaimOrRefreshParams
+  extends Omit<QueryParams, "certified"> {
+  subaccount: Uint8Array;
+  memo: bigint;
+  controller?: Principal;
+  byNeuronId: boolean;
 }
 
 /**
