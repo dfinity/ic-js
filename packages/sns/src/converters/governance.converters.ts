@@ -1,3 +1,4 @@
+import { toNullable } from "@dfinity/utils";
 import type {
   Command,
   ManageNeuron,
@@ -5,6 +6,7 @@ import type {
   Operation,
 } from "../../candid/sns_governance";
 import type {
+  SnsClaimOrRefreshParams,
   SnsDisburseNeuronParams,
   SnsIncreaseDissolveDelayParams,
   SnsNeuronPermissionsParams,
@@ -133,3 +135,25 @@ export const toIncreaseDissolveDelayRequest = ({
       },
     },
   });
+
+export const toClaimOrRefreshRequest = ({
+  subaccount,
+  byNeuronId,
+  memo,
+  controller,
+}: SnsClaimOrRefreshParams): ManageNeuron => ({
+  subaccount,
+  command: [
+    {
+      ClaimOrRefresh: {
+        by: [
+          byNeuronId
+            ? { NeuronId: {} }
+            : {
+                MemoAndController: { memo, controller: toNullable(controller) },
+              },
+        ],
+      },
+    },
+  ],
+});

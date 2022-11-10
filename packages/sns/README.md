@@ -446,6 +446,8 @@ Parameters:
 - [balance](#gear-balance)
 - [transfer](#gear-transfer)
 - [getNeuron](#gear-getneuron)
+- [getNextNeuronAccount](#gear-getnextneuronaccount)
+- [stakeNeuron](#gear-stakeneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
 - [disburse](#gear-disburse)
@@ -499,6 +501,29 @@ Parameters:
 | Method      | Type                                                                 |
 | ----------- | -------------------------------------------------------------------- |
 | `getNeuron` | `(params: Omit<SnsGetNeuronParams, "certified">) => Promise<Neuron>` |
+
+##### :gear: getNextNeuronAccount
+
+Returns the subaccount of the next neuron to be created.
+
+The neuron account is a subaccount of the governance canister.
+The subaccount is derived from the controller and an ascending index.
+The index is used in the memo of the transfer and when claiming the neuron.
+This is how the backend can identify which neuron is being claimed.
+
+| Method                 | Type                                                                          |
+| ---------------------- | ----------------------------------------------------------------------------- |
+| `getNextNeuronAccount` | `(controller: Principal) => Promise<{ account: SnsAccount; index: bigint; }>` |
+
+##### :gear: stakeNeuron
+
+Stakes a neuron.
+
+This is a convenient method that transfers the stake to the neuron subaccount and then claims the neuron.
+
+| Method        | Type                                                                             |
+| ------------- | -------------------------------------------------------------------------------- |
+| `stakeNeuron` | `({ stakeE8s, source, controller, }: SnsStakeNeuronParams) => Promise<NeuronId>` |
 
 ##### :gear: addNeuronPermissions
 

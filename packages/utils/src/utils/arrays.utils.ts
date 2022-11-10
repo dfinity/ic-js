@@ -10,6 +10,31 @@ export const uint8ArrayToBigInt = (array: Uint8Array): bigint => {
   }
 };
 
+export const bigIntToUint8Array = (value: bigint): Uint8Array => {
+  const buffer = new ArrayBuffer(8);
+  const view = new DataView(buffer);
+  if (typeof view.setBigUint64 === "function") {
+    view.setBigUint64(0, value);
+  } else {
+    const high = Number(value >> BigInt(32));
+    const low = Number(value & BigInt(0xffffffff));
+
+    view.setUint32(0, high);
+    view.setUint32(4, low);
+  }
+
+  return new Uint8Array(buffer);
+};
+
+export const numberToUint8Array = (value: number): Uint8Array => {
+  const view = new DataView(new ArrayBuffer(8));
+  for (let index = 7; index >= 0; --index) {
+    view.setUint8(index, value % 256);
+    value = value >> 8;
+  }
+  return new Uint8Array(view.buffer);
+};
+
 export const arrayBufferToUint8Array = (buffer: ArrayBuffer): Uint8Array =>
   new Uint8Array(buffer);
 
