@@ -146,6 +146,8 @@ export class SnsWrapper {
    *
    * The neuron account is a subaccount of the governance canister.
    * The subaccount is derived from the controller and an ascending index.
+   * The index is used in the memo of the transfer and when claiming the neuron.
+   * This is how the backend can identify which neuron is being claimed.
    *
    * @param controller
    * @returns
