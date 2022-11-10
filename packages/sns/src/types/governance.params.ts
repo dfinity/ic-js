@@ -1,5 +1,5 @@
 import type { Principal } from "@dfinity/principal";
-import { Tokens } from "../../candid/icrc1_ledger";
+import type { Tokens } from "../../candid/icrc1_ledger";
 import type { NeuronId } from "../../candid/sns_governance";
 import type { SnsNeuronPermissionType } from "../enums/governance.enums";
 import type { E8s } from "./common";
