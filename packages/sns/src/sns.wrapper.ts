@@ -149,6 +149,7 @@ export class SnsWrapper {
   getNextNeuronAccount = async (
     controller: Principal
   ): Promise<{ account: SnsAccount; index: bigint }> => {
+    // TODO: try parallilizing requests to improve performance
     for (let index = 0; index < MAX_NEURONS_SUBACCOUNTS; index++) {
       const subaccount = await getNeuronSubaccount({ index, controller });
       const account = {
