@@ -459,7 +459,6 @@ Parameters:
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
 - [getTransactions](#gear-gettransactions)
-- [getNeuronSubaccount](#gear-getneuronsubaccount)
 
 ##### :gear: listNeurons
 
@@ -509,6 +508,8 @@ Returns the subaccount of the next neuron to be created.
 
 The neuron account is a subaccount of the governance canister.
 The subaccount is derived from the controller and an ascending index.
+The index is used in the memo of the transfer and when claiming the neuron.
+This is how the backend can identify which neuron is being claimed.
 
 | Method                 | Type                                                                          |
 | ---------------------- | ----------------------------------------------------------------------------- |
@@ -589,13 +590,5 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method            | Type                                                                 |
 | ----------------- | -------------------------------------------------------------------- |
 | `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
-
-##### :gear: getNeuronSubaccount
-
-Neuron subaccount is calculated as "sha256(0x0c . “neuron-stake” . controller . i)"
-
-| Method                | Type                                                                                         |
-| --------------------- | -------------------------------------------------------------------------------------------- |
-| `getNeuronSubaccount` | `({ index, controller, }: { index: number; controller: Principal; }) => Promise<Uint8Array>` |
 
 <!-- TSDOC_END -->
