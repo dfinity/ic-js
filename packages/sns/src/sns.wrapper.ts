@@ -1,12 +1,12 @@
 import type { Principal } from "@dfinity/principal";
 import {
+  arrayBufferToUint8Array,
   asciiStringToByteArray,
   bigIntToUint8Array,
   fromNullable,
   numberToUint8Array,
   toNullable,
 } from "@dfinity/utils";
-import { sha256 } from "js-sha256";
 import type { BlockIndex, Subaccount, Tokens } from "../candid/icrc1_ledger";
 import type {
   GetMetadataResponse,
@@ -154,7 +154,7 @@ export class SnsWrapper {
     controller: Principal
   ): Promise<{ account: SnsAccount; index: bigint }> => {
     for (let index = 0; index < MAX_NEURONS_SUBACCOUNTS; index++) {
-      const subaccount = this.getNeuronSubaccount({ index, controller });
+      const subaccount = await this.getNeuronSubaccount({ index, controller });
       const account = {
         owner: this.canisterIds.governanceCanisterId,
         subaccount,
@@ -293,22 +293,22 @@ export class SnsWrapper {
    * @param {number} params.index
    * @returns
    */
-  private getNeuronSubaccount = ({
+  public getNeuronSubaccount = async ({
     index,
     controller,
   }: {
     index: number;
     controller: Principal;
-  }): Subaccount => {
+  }): Promise<Subaccount> => {
     const padding = asciiStringToByteArray("neuron-stake");
-    const shaObj = sha256.create();
-    shaObj.update([
+    const data = Uint8Array.from([
       0x0c,
       ...padding,
       ...controller.toUint8Array(),
       ...numberToUint8Array(index),
     ]);
-    return new Uint8Array(shaObj.array());
+    const hash = await crypto.subtle.digest("SHA-256", data);
+    return arrayBufferToUint8Array(hash);
   };
 
   private mergeParams<T>(params: T): QueryParams & T {
