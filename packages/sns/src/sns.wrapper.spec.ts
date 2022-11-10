@@ -1,11 +1,5 @@
-/**
- * @jest-environment jsdom
- *
- * Needed to mock crypto.subtle.digest
- */
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
-import { createHash } from "crypto";
 import { mock } from "jest-mock-extended";
 import { NeuronId } from "../candid/sns_governance";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
@@ -24,24 +18,6 @@ import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsDisburseNeuronParams } from "./types/governance.params";
 import { TransferParams } from "./types/ledger.params";
-
-// Mock crypto.subtle.digest
-// We don't mock it in the global scope to not require jsdom for other tests
-Object.defineProperty(global.self, "crypto", {
-  value: {
-    subtle: {
-      digest: (algorithm: any, data: any) => {
-        return new Promise((resolve, reject) =>
-          resolve(
-            createHash(algorithm.toLowerCase().replace("-", ""))
-              .update(data)
-              .digest()
-          )
-        );
-      },
-    },
-  },
-});
 
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<SnsGovernanceCanister>();
@@ -528,22 +504,6 @@ describe("SnsWrapper", () => {
       await expect(call).rejects.toThrowError(
         "No more neuron accounts available"
       );
-    });
-  });
-
-  describe("getNeuronSubaccount", () => {
-    // Test it to make sure that if there are changes, the test will fail.
-    it("calculates the neuron subaccount based on controller and index", async () => {
-      const neuronSubaccount = await certifiedSnsWrapper.getNeuronSubaccount({
-        controller: mockPrincipal,
-        index: 4,
-      });
-      const expected = new Uint8Array([
-        198, 112, 210, 99, 31, 205, 63, 124, 217, 206, 133, 104, 105, 140, 83,
-        167, 139, 60, 94, 58, 107, 169, 215, 12, 177, 219, 237, 24, 75, 149,
-        241, 128,
-      ]);
-      expect(neuronSubaccount).toEqual(expected);
     });
   });
 });

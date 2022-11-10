@@ -1,13 +1,6 @@
 import type { Principal } from "@dfinity/principal";
-import {
-  arrayBufferToUint8Array,
-  asciiStringToByteArray,
-  bigIntToUint8Array,
-  fromNullable,
-  numberToUint8Array,
-  toNullable,
-} from "@dfinity/utils";
-import type { BlockIndex, Subaccount, Tokens } from "../candid/icrc1_ledger";
+import { bigIntToUint8Array, fromNullable, toNullable } from "@dfinity/utils";
+import type { BlockIndex, Tokens } from "../candid/icrc1_ledger";
 import type {
   GetMetadataResponse,
   Neuron,
@@ -44,6 +37,7 @@ import type {
 } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 import type { GetAccountTransactionsParams } from "./types/sns-index.params";
+import { getNeuronSubaccount } from "./utils/governance.utils";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
@@ -156,7 +150,7 @@ export class SnsWrapper {
     controller: Principal
   ): Promise<{ account: SnsAccount; index: bigint }> => {
     for (let index = 0; index < MAX_NEURONS_SUBACCOUNTS; index++) {
-      const subaccount = await this.getNeuronSubaccount({ index, controller });
+      const subaccount = await getNeuronSubaccount({ index, controller });
       const account = {
         owner: this.canisterIds.governanceCanisterId,
         subaccount,
@@ -286,32 +280,6 @@ export class SnsWrapper {
   getTransactions = (
     params: GetAccountTransactionsParams
   ): Promise<GetTransactions> => this.index.getTransactions(params);
-
-  /**
-   * Neuron subaccount is calculated as "sha256(0x0c . “neuron-stake” . controller . i)"
-   *
-   * @param params
-   * @param {Principal} params.newController
-   * @param {number} params.index
-   * @returns
-   */
-  public getNeuronSubaccount = async ({
-    index,
-    controller,
-  }: {
-    index: number;
-    controller: Principal;
-  }): Promise<Subaccount> => {
-    const padding = asciiStringToByteArray("neuron-stake");
-    const data = Uint8Array.from([
-      0x0c,
-      ...padding,
-      ...controller.toUint8Array(),
-      ...numberToUint8Array(index),
-    ]);
-    const hash = await crypto.subtle.digest("SHA-256", data);
-    return arrayBufferToUint8Array(hash);
-  };
 
   private mergeParams<T>(params: T): QueryParams & T {
     return {
