@@ -459,6 +459,7 @@ Parameters:
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
 - [getTransactions](#gear-gettransactions)
+- [getNeuronSubaccount](#gear-getneuronsubaccount)
 
 ##### :gear: listNeurons
 
@@ -588,5 +589,13 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method            | Type                                                                 |
 | ----------------- | -------------------------------------------------------------------- |
 | `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
+
+##### :gear: getNeuronSubaccount
+
+Neuron subaccount is calculated as "sha256(0x0c . “neuron-stake” . controller . i)"
+
+| Method                | Type                                                                                         |
+| --------------------- | -------------------------------------------------------------------------------------------- |
+| `getNeuronSubaccount` | `({ index, controller, }: { index: number; controller: Principal; }) => Promise<Uint8Array>` |
 
 <!-- TSDOC_END -->
