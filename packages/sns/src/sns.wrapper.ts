@@ -181,16 +181,17 @@ export class SnsWrapper {
    * This is a convenient method that transfers the stake to the neuron subaccount and then claims the neuron.
    *
    * @param {SnsStakeNeuronParams} params
-   * @returns
+   * @param {Principal} params.controller
+   * @param {bigint} params.stakeE8s
+   * @param {source} param.source
+   * @returns {NeuronId}
    */
   stakeNeuron = async ({
     stakeE8s,
     source,
     controller,
   }: SnsStakeNeuronParams): Promise<NeuronId> => {
-    if (!this.certified) {
-      throw new SnsGovernanceError("Staking a neuron requires an update call");
-    }
+    this.assertCertified("stakeNeuron");
     const { account: neuronAccount, index } = await this.getNextNeuronAccount(
       controller
     );
@@ -316,4 +317,10 @@ export class SnsWrapper {
       certified: this.certified,
     };
   }
+
+  private assertCertified = (name: string): void => {
+    if (!this.certified) {
+      throw new SnsGovernanceError(`Call to ${name} needs to be certified`);
+    }
+  };
 }
