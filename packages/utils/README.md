@@ -35,6 +35,8 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
 - [uint8ArrayToBigInt](#gear-uint8arraytobigint)
+- [bigIntToUint8Array](#gear-biginttouint8array)
+- [numberToUint8Array](#gear-numbertouint8array)
 - [arrayBufferToUint8Array](#gear-arraybuffertouint8array)
 - [uint8ArrayToArrayOfNumber](#gear-uint8arraytoarrayofnumber)
 - [arrayOfNumberToUint8Array](#gear-arrayofnumbertouint8array)
@@ -79,6 +81,18 @@ Parameters:
 | Function             | Type                            |
 | -------------------- | ------------------------------- |
 | `uint8ArrayToBigInt` | `(array: Uint8Array) => bigint` |
+
+#### :gear: bigIntToUint8Array
+
+| Function             | Type                            |
+| -------------------- | ------------------------------- |
+| `bigIntToUint8Array` | `(value: bigint) => Uint8Array` |
+
+#### :gear: numberToUint8Array
+
+| Function             | Type                            |
+| -------------------- | ------------------------------- |
+| `numberToUint8Array` | `(value: number) => Uint8Array` |
 
 #### :gear: arrayBufferToUint8Array
 
