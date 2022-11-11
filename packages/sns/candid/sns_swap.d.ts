@@ -49,9 +49,15 @@ export interface DerivedState {
 export interface DirectInvestment {
   buyer_principal: string;
 }
+export interface Err {
+  description: [] | [string];
+  error_type: [] | [number];
+}
 export interface ErrorRefundIcpRequest {
-  icp_e8s: bigint;
-  fee_override_e8s: bigint;
+  source_principal_id: [] | [Principal];
+}
+export interface ErrorRefundIcpResponse {
+  result: [] | [Result];
 }
 export interface FailedUpdate {
   err: [] | [CanisterCallError];
@@ -105,6 +111,9 @@ export interface NeuronBasketConstructionParameters {
   dissolve_delay_interval_seconds: bigint;
   count: bigint;
 }
+export interface Ok {
+  block_height: [] | [bigint];
+}
 export interface OpenRequest {
   cf_participants: Array<CfParticipant>;
   params: [] | [Params];
@@ -137,6 +146,7 @@ export interface RefreshBuyerTokensResponse {
 export interface Response {
   governance_error: [] | [GovernanceError];
 }
+export type Result = { Ok: Ok } | { Err: Err };
 export interface SetDappControllersCallResult {
   possibility: [] | [Possibility_1];
 }
@@ -174,7 +184,10 @@ export interface TransferableAmount {
   transfer_success_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
-  error_refund_icp: ActorMethod<[ErrorRefundIcpRequest], {}>;
+  error_refund_icp: ActorMethod<
+    [ErrorRefundIcpRequest],
+    ErrorRefundIcpResponse
+  >;
   finalize_swap: ActorMethod<[{}], FinalizeSwapResponse>;
   get_buyer_state: ActorMethod<[GetBuyerStateRequest], GetBuyerStateResponse>;
   get_buyers_total: ActorMethod<[{}], GetBuyersTotalResponse>;

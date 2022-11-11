@@ -165,6 +165,7 @@ export interface GovernanceCachedMetrics {
   total_supply_icp: bigint;
   neurons_with_less_than_6_months_dissolve_delay_count: bigint;
   dissolved_neurons_count: bigint;
+  community_fund_total_maturity_e8s_equivalent: bigint;
   total_staked_e8s: bigint;
   not_dissolving_neurons_count: bigint;
   dissolved_neurons_e8s: bigint;

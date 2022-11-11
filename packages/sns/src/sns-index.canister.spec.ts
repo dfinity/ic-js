@@ -37,6 +37,7 @@ describe("Index canister", () => {
             memo: [],
             created_at_time: [BigInt(123)],
             amount: BigInt(33),
+            fee: [BigInt(10)],
           },
         ],
       };

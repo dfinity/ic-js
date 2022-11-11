@@ -11,9 +11,15 @@ export const idlFactory = ({ IDL }) => {
     'sns_governance_canister_id' : IDL.Text,
   });
   const ErrorRefundIcpRequest = IDL.Record({
-    'icp_e8s' : IDL.Nat64,
-    'fee_override_e8s' : IDL.Nat64,
+    'source_principal_id' : IDL.Opt(IDL.Principal),
   });
+  const Ok = IDL.Record({ 'block_height' : IDL.Opt(IDL.Nat64) });
+  const Err = IDL.Record({
+    'description' : IDL.Opt(IDL.Text),
+    'error_type' : IDL.Opt(IDL.Int32),
+  });
+  const Result = IDL.Variant({ 'Ok' : Ok, 'Err' : Err });
+  const ErrorRefundIcpResponse = IDL.Record({ 'result' : IDL.Opt(Result) });
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
@@ -173,7 +179,7 @@ export const idlFactory = ({ IDL }) => {
   return IDL.Service({
     'error_refund_icp' : IDL.Func(
         [ErrorRefundIcpRequest],
-        [IDL.Record({})],
+        [ErrorRefundIcpResponse],
         [],
       ),
     'finalize_swap' : IDL.Func([IDL.Record({})], [FinalizeSwapResponse], []),

@@ -1,4 +1,4 @@
-// Generated from IC repo commit 1fc0208b9aeed0554b1be2711605e5b54ace9d6a 'rs/rosetta-api/icrc1/index/index.did' by import-candid
+// Generated from IC repo commit cb3cd7d4c6420c529ce9c20e9bdbe12a0e380170 'rs/rosetta-api/icrc1/index/index.did' by import-candid
 type TxId = nat;
 
 type Account = record { owner : principal; subaccount : opt blob };
@@ -25,6 +25,7 @@ type Transaction = record {
          to : Account;
          memo : opt blob;
          created_at_time : opt nat64;
+         fee : opt nat;
      };
      timestamp : nat64;
 };
