@@ -1,4 +1,4 @@
-// Generated from IC repo commit 1fc0208b9aeed0554b1be2711605e5b54ace9d6a 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit cb3cd7d4c6420c529ce9c20e9bdbe12a0e380170 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -128,6 +128,7 @@ type GovernanceCachedMetrics = record {
   total_supply_icp : nat64;
   neurons_with_less_than_6_months_dissolve_delay_count : nat64;
   dissolved_neurons_count : nat64;
+  community_fund_total_maturity_e8s_equivalent : nat64;
   total_staked_e8s : nat64;
   not_dissolving_neurons_count : nat64;
   dissolved_neurons_e8s : nat64;

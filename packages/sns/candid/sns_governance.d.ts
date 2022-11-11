@@ -47,6 +47,9 @@ export type CanisterStatusType =
   | { stopped: null }
   | { stopping: null }
   | { running: null };
+export interface ChangeAutoStakeMaturity {
+  requested_setting_for_auto_stake_maturity: boolean;
+}
 export interface ClaimOrRefresh {
   by: [] | [By];
 }
@@ -69,6 +72,7 @@ export type Command =
   | { Configure: Configure }
   | { RegisterVote: RegisterVote }
   | { MakeProposal: Proposal }
+  | { StakeMaturity: StakeMaturity }
   | { RemoveNeuronPermissions: RemoveNeuronPermissions }
   | { AddNeuronPermissions: AddNeuronPermissions }
   | { MergeMaturity: MergeMaturity }
@@ -83,6 +87,7 @@ export type Command_1 =
   | { RegisterVote: {} }
   | { MakeProposal: GetProposal }
   | { RemoveNeuronPermission: {} }
+  | { StakeMaturity: StakeMaturityResponse }
   | { MergeMaturity: MergeMaturityResponse }
   | { Disburse: DisburseResponse }
   | { AddNeuronPermission: {} };
@@ -92,6 +97,7 @@ export type Command_2 =
   | { DisburseMaturity: DisburseMaturity }
   | { Configure: Configure }
   | { RegisterVote: RegisterVote }
+  | { SyncCommand: {} }
   | { MakeProposal: Proposal }
   | { ClaimOrRefreshNeuron: ClaimOrRefresh }
   | { RemoveNeuronPermissions: RemoveNeuronPermissions }
@@ -294,11 +300,13 @@ export interface NervousSystemParameters {
 }
 export interface Neuron {
   id: [] | [NeuronId];
+  staked_maturity_e8s_equivalent: [] | [bigint];
   permissions: Array<NeuronPermission>;
   maturity_e8s_equivalent: bigint;
   cached_neuron_stake_e8s: bigint;
   created_timestamp_seconds: bigint;
   source_nns_neuron_id: [] | [bigint];
+  auto_stake_maturity: [] | [boolean];
   aging_since_timestamp_seconds: bigint;
   dissolve_state: [] | [DissolveState];
   voting_power_percentage_multiplier: bigint;
@@ -328,6 +336,9 @@ export interface NeuronPermissionList {
   permissions: Int32Array;
 }
 export type Operation =
+  | {
+      ChangeAutoStakeMaturity: ChangeAutoStakeMaturity;
+    }
   | { StopDissolving: {} }
   | { StartDissolving: {} }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
@@ -389,6 +400,13 @@ export interface Split {
 }
 export interface SplitResponse {
   created_neuron_id: [] | [NeuronId];
+}
+export interface StakeMaturity {
+  percentage_to_stake: [] | [number];
+}
+export interface StakeMaturityResponse {
+  maturity_e8s: bigint;
+  staked_maturity_e8s: bigint;
 }
 export interface Subaccount {
   subaccount: Uint8Array;

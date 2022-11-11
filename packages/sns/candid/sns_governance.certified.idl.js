@@ -181,6 +181,9 @@ export const idlFactory = ({ IDL }) => {
     'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
+  const ChangeAutoStakeMaturity = IDL.Record({
+    'requested_setting_for_auto_stake_maturity' : IDL.Bool,
+  });
   const IncreaseDissolveDelay = IDL.Record({
     'additional_dissolve_delay_seconds' : IDL.Nat32,
   });
@@ -188,6 +191,7 @@ export const idlFactory = ({ IDL }) => {
     'dissolve_timestamp_seconds' : IDL.Nat64,
   });
   const Operation = IDL.Variant({
+    'ChangeAutoStakeMaturity' : ChangeAutoStakeMaturity,
     'StopDissolving' : IDL.Record({}),
     'StartDissolving' : IDL.Record({}),
     'IncreaseDissolveDelay' : IncreaseDissolveDelay,
@@ -227,6 +231,7 @@ export const idlFactory = ({ IDL }) => {
     'DisburseMaturity' : DisburseMaturity,
     'Configure' : Configure,
     'RegisterVote' : RegisterVote,
+    'SyncCommand' : IDL.Record({}),
     'MakeProposal' : Proposal,
     'ClaimOrRefreshNeuron' : ClaimOrRefresh,
     'RemoveNeuronPermissions' : RemoveNeuronPermissions,
@@ -248,11 +253,13 @@ export const idlFactory = ({ IDL }) => {
   });
   const Neuron = IDL.Record({
     'id' : IDL.Opt(NeuronId),
+    'staked_maturity_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'permissions' : IDL.Vec(NeuronPermission),
     'maturity_e8s_equivalent' : IDL.Nat64,
     'cached_neuron_stake_e8s' : IDL.Nat64,
     'created_timestamp_seconds' : IDL.Nat64,
     'source_nns_neuron_id' : IDL.Opt(IDL.Nat64),
+    'auto_stake_maturity' : IDL.Opt(IDL.Bool),
     'aging_since_timestamp_seconds' : IDL.Nat64,
     'dissolve_state' : IDL.Opt(DissolveState),
     'voting_power_percentage_multiplier' : IDL.Nat64,
@@ -360,6 +367,9 @@ export const idlFactory = ({ IDL }) => {
   const ListProposalsResponse = IDL.Record({
     'proposals' : IDL.Vec(ProposalData),
   });
+  const StakeMaturity = IDL.Record({
+    'percentage_to_stake' : IDL.Opt(IDL.Nat32),
+  });
   const Command = IDL.Variant({
     'Split' : Split,
     'Follow' : Follow,
@@ -368,6 +378,7 @@ export const idlFactory = ({ IDL }) => {
     'Configure' : Configure,
     'RegisterVote' : RegisterVote,
     'MakeProposal' : Proposal,
+    'StakeMaturity' : StakeMaturity,
     'RemoveNeuronPermissions' : RemoveNeuronPermissions,
     'AddNeuronPermissions' : AddNeuronPermissions,
     'MergeMaturity' : MergeMaturity,
@@ -385,6 +396,10 @@ export const idlFactory = ({ IDL }) => {
   const ClaimOrRefreshResponse = IDL.Record({
     'refreshed_neuron_id' : IDL.Opt(NeuronId),
   });
+  const StakeMaturityResponse = IDL.Record({
+    'maturity_e8s' : IDL.Nat64,
+    'staked_maturity_e8s' : IDL.Nat64,
+  });
   const MergeMaturityResponse = IDL.Record({
     'merged_maturity_e8s' : IDL.Nat64,
     'new_stake_e8s' : IDL.Nat64,
@@ -400,6 +415,7 @@ export const idlFactory = ({ IDL }) => {
     'RegisterVote' : IDL.Record({}),
     'MakeProposal' : GetProposal,
     'RemoveNeuronPermission' : IDL.Record({}),
+    'StakeMaturity' : StakeMaturityResponse,
     'MergeMaturity' : MergeMaturityResponse,
     'Disburse' : DisburseResponse,
     'AddNeuronPermission' : IDL.Record({}),
@@ -629,6 +645,9 @@ export const init = ({ IDL }) => {
     'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
+  const ChangeAutoStakeMaturity = IDL.Record({
+    'requested_setting_for_auto_stake_maturity' : IDL.Bool,
+  });
   const IncreaseDissolveDelay = IDL.Record({
     'additional_dissolve_delay_seconds' : IDL.Nat32,
   });
@@ -636,6 +655,7 @@ export const init = ({ IDL }) => {
     'dissolve_timestamp_seconds' : IDL.Nat64,
   });
   const Operation = IDL.Variant({
+    'ChangeAutoStakeMaturity' : ChangeAutoStakeMaturity,
     'StopDissolving' : IDL.Record({}),
     'StartDissolving' : IDL.Record({}),
     'IncreaseDissolveDelay' : IncreaseDissolveDelay,
@@ -675,6 +695,7 @@ export const init = ({ IDL }) => {
     'DisburseMaturity' : DisburseMaturity,
     'Configure' : Configure,
     'RegisterVote' : RegisterVote,
+    'SyncCommand' : IDL.Record({}),
     'MakeProposal' : Proposal,
     'ClaimOrRefreshNeuron' : ClaimOrRefresh,
     'RemoveNeuronPermissions' : RemoveNeuronPermissions,
@@ -696,11 +717,13 @@ export const init = ({ IDL }) => {
   });
   const Neuron = IDL.Record({
     'id' : IDL.Opt(NeuronId),
+    'staked_maturity_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'permissions' : IDL.Vec(NeuronPermission),
     'maturity_e8s_equivalent' : IDL.Nat64,
     'cached_neuron_stake_e8s' : IDL.Nat64,
     'created_timestamp_seconds' : IDL.Nat64,
     'source_nns_neuron_id' : IDL.Opt(IDL.Nat64),
+    'auto_stake_maturity' : IDL.Opt(IDL.Bool),
     'aging_since_timestamp_seconds' : IDL.Nat64,
     'dissolve_state' : IDL.Opt(DissolveState),
     'voting_power_percentage_multiplier' : IDL.Nat64,

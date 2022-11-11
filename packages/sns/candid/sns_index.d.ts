@@ -56,6 +56,7 @@ export interface Transaction {
     | [
         {
           to: Account;
+          fee: [] | [bigint];
           from: Account;
           memo: [] | [Uint8Array];
           created_at_time: [] | [bigint];

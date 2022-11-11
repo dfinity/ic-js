@@ -33,6 +33,7 @@ export const idlFactory = ({ IDL }) => {
     'transfer' : IDL.Opt(
       IDL.Record({
         'to' : Account,
+        'fee' : IDL.Opt(IDL.Nat),
         'from' : Account,
         'memo' : IDL.Opt(IDL.Vec(IDL.Nat8)),
         'created_at_time' : IDL.Opt(IDL.Nat64),
