@@ -1,5 +1,5 @@
 import type { Principal } from "@dfinity/principal";
-import type { Tokens } from "../../candid/icrc1_ledger";
+import type { Subaccount, Tokens } from "../../candid/icrc1_ledger";
 import type { NeuronId } from "../../candid/sns_governance";
 import type { SnsNeuronPermissionType } from "../enums/governance.enums";
 import type { E8s } from "./common";
@@ -31,12 +31,11 @@ export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
   controller: Principal;
 }
 
-export interface SnsClaimOrRefreshParams
-  extends Omit<QueryParams, "certified"> {
+// Type to transform to a ClaimOrRefresh command
+export interface SnsClaimOrRefreshArgs extends Omit<QueryParams, "certified"> {
   subaccount: Uint8Array;
-  memo: bigint;
+  memo?: bigint;
   controller?: Principal;
-  byNeuronId: boolean;
 }
 
 /**
@@ -75,4 +74,10 @@ export interface SnsSetDissolveTimestampParams
 export interface SnsIncreaseDissolveDelayParams
   extends SnsNeuronManagementParams {
   additionalDissolveDelaySeconds: number;
+}
+
+export interface SnsClaimNeuronParams {
+  memo: bigint;
+  controller: Principal;
+  subaccount: Subaccount;
 }

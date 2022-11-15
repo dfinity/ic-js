@@ -535,4 +535,141 @@ describe("Governance canister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
   });
+
+  describe("queryNeuron", () => {
+    it("should return the neuron", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.get_neuron.mockResolvedValue({
+        result: [{ Neuron: neuronMock }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const res = await canister.queryNeuron({
+        neuronId: neuronIdMock,
+        certified: true,
+      });
+      expect(res).toEqual(neuronMock);
+    });
+
+    it("should return undefined if neuron not found", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.get_neuron.mockResolvedValue({
+        result: [
+          {
+            Error: {
+              error_message: "No neuron for given NeuronId.",
+              error_type: 2,
+            },
+          },
+        ],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const res = await canister.queryNeuron({
+        neuronId: neuronIdMock,
+        certified: true,
+      });
+      expect(res).toBeUndefined();
+    });
+
+    it("should raise error on governance error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.get_neuron.mockResolvedValue({
+        result: [{ Error: { error_message: "error", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        canister.queryNeuron({
+          neuronId: neuronIdMock,
+          certified: true,
+        });
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+    });
+  });
+
+  describe("refershNeuron", () => {
+    it("should manage the neuron", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const neuronId = { id: new Uint8Array() };
+      service.manage_neuron.mockResolvedValue({
+        command: [{ ClaimOrRefresh: { refreshed_neuron_id: [neuronId] } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      await canister.refreshNeuron(neuronId);
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("should raise error", async () => {
+      const neuronId = { id: new Uint8Array() };
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Error: { error_message: "test", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.refreshNeuron(neuronId);
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("claimNeuron", () => {
+    it("should manage the neuron and return new neuron id", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const neuronId = { id: new Uint8Array() };
+      service.manage_neuron.mockResolvedValue({
+        command: [{ ClaimOrRefresh: { refreshed_neuron_id: [neuronId] } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const res = await canister.claimNeuron({
+        memo: BigInt(1),
+        controller: Principal.fromText("aaaaa-aa"),
+        subaccount: new Uint8Array(),
+      });
+      expect(res).toEqual(neuronId);
+      expect(service.manage_neuron).toBeCalled();
+    });
+
+    it("should raise error", async () => {
+      const neuronId = { id: new Uint8Array() };
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Error: { error_message: "test", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        canister.claimNeuron({
+          memo: BigInt(1),
+          controller: Principal.fromText("aaaaa-aa"),
+          subaccount: new Uint8Array(),
+        });
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
 });

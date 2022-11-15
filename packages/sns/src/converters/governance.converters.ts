@@ -6,7 +6,7 @@ import type {
   Operation,
 } from "../../candid/sns_governance";
 import type {
-  SnsClaimOrRefreshParams,
+  SnsClaimOrRefreshArgs,
   SnsDisburseNeuronParams,
   SnsIncreaseDissolveDelayParams,
   SnsNeuronPermissionsParams,
@@ -138,16 +138,16 @@ export const toIncreaseDissolveDelayRequest = ({
 
 export const toClaimOrRefreshRequest = ({
   subaccount,
-  byNeuronId,
   memo,
   controller,
-}: SnsClaimOrRefreshParams): ManageNeuron => ({
+}: SnsClaimOrRefreshArgs): ManageNeuron => ({
   subaccount,
   command: [
     {
       ClaimOrRefresh: {
         by: [
-          byNeuronId
+          // If memo is not passed, we consider it a neuronId request because the memo is mandatory for MemoAndController
+          memo === undefined
             ? { NeuronId: {} }
             : {
                 MemoAndController: { memo, controller: toNullable(controller) },

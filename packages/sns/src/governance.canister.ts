@@ -13,6 +13,7 @@ import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import {
   toAddPermissionsRequest,
+  toClaimOrRefreshRequest,
   toDisburseNeuronRequest,
   toIncreaseDissolveDelayRequest,
   toRemovePermissionsRequest,
@@ -24,6 +25,7 @@ import { SnsGovernanceError } from "./errors/governance.errors";
 import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type {
+  SnsClaimNeuronParams,
   SnsDisburseNeuronParams,
   SnsGetNeuronParams,
   SnsIncreaseDissolveDelayParams,
@@ -91,6 +93,26 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   };
 
   /**
+   * Same as `getNeuron` but returns undefined instead of raising error when not found.
+   */
+  queryNeuron = async (
+    params: SnsGetNeuronParams & QueryParams
+  ): Promise<Neuron | undefined> => {
+    try {
+      return await this.getNeuron(params);
+    } catch (error: unknown) {
+      // Source: https://github.com/dfinity/ic/blob/master/rs/sns/governance/src/governance.rs#L914
+      if (
+        error instanceof Error &&
+        error.message.includes("No neuron for given NeuronId")
+      ) {
+        return undefined;
+      }
+      throw error;
+    }
+  };
+
+  /**
    * Manage neuron. For advanced users.
    */
   manageNeuron = async (
@@ -126,7 +148,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Disburse neuron on Account
    */
-  public disburse = async (params: SnsDisburseNeuronParams): Promise<void> => {
+  disburse = async (params: SnsDisburseNeuronParams): Promise<void> => {
     const request: ManageNeuron = toDisburseNeuronRequest(params);
     await this.manageNeuron(request);
   };
@@ -134,7 +156,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Start dissolving process of a neuron
    */
-  public startDissolving = async (neuronId: NeuronId): Promise<void> => {
+  startDissolving = async (neuronId: NeuronId): Promise<void> => {
     const request: ManageNeuron = toStartDissolvingNeuronRequest(neuronId);
     await this.manageNeuron(request);
   };
@@ -142,7 +164,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Stop dissolving process of a neuron
    */
-  public stopDissolving = async (neuronId: NeuronId): Promise<void> => {
+  stopDissolving = async (neuronId: NeuronId): Promise<void> => {
     const request: ManageNeuron = toStopDissolvingNeuronRequest(neuronId);
     await this.manageNeuron(request);
   };
@@ -150,7 +172,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Increase dissolve delay of a neuron
    */
-  public setDissolveTimestamp = async (
+  setDissolveTimestamp = async (
     params: SnsSetDissolveTimestampParams
   ): Promise<void> => {
     const request: ManageNeuron = toSetDissolveTimestampRequest(params);
@@ -160,11 +182,54 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Increase dissolve delay of a neuron
    */
-  public increaseDissolveDelay = async (
+  increaseDissolveDelay = async (
     params: SnsIncreaseDissolveDelayParams
   ): Promise<void> => {
     const request: ManageNeuron = toIncreaseDissolveDelayRequest(params);
     await this.manageNeuron(request);
+  };
+
+  /**
+   * Refresh neuron
+   */
+  refreshNeuron = async (neuronId: NeuronId): Promise<void> => {
+    const request: ManageNeuron = toClaimOrRefreshRequest({
+      subaccount: neuronId.id,
+    });
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Claim neuron
+   */
+  claimNeuron = async ({
+    memo,
+    controller,
+    subaccount,
+  }: SnsClaimNeuronParams): Promise<NeuronId> => {
+    const request: ManageNeuron = toClaimOrRefreshRequest({
+      subaccount,
+      memo,
+      controller,
+    });
+    const { command } = await this.manageNeuron(request);
+    const response = fromNullable(command);
+    // Edge case. This should not happen
+    if (response === undefined) {
+      throw new SnsGovernanceError("Claim neuron failed");
+    }
+    if ("ClaimOrRefresh" in response) {
+      const neuronId = fromNullable(
+        response.ClaimOrRefresh.refreshed_neuron_id
+      );
+      // This might happen.
+      if (neuronId === undefined) {
+        throw new SnsGovernanceError("Claim neuron failed");
+      }
+      return neuronId;
+    }
+    // Edge case. manage_neuron for ClaimOrRefresh returns only ClaimOrRefresh response.
+    throw new SnsGovernanceError("Claim neuron failed");
   };
 
   /**

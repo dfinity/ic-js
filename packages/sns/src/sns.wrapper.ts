@@ -1,5 +1,6 @@
 import type { Principal } from "@dfinity/principal";
-import { bigIntToUint8Array, fromNullable, toNullable } from "@dfinity/utils";
+import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
+import { SnsNeuronId } from ".";
 import type { BlockIndex, Tokens } from "../candid/icrc1_ledger";
 import type {
   GetMetadataResponse,
@@ -14,7 +15,6 @@ import type {
   RefreshBuyerTokensRequest,
 } from "../candid/sns_swap";
 import { MAX_NEURONS_SUBACCOUNTS } from "./constants/governance.constants";
-import { toClaimOrRefreshRequest } from "./converters/governance.converters";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import type { SnsGovernanceCanister } from "./governance.canister";
 import type { SnsLedgerCanister } from "./ledger.canister";
@@ -22,6 +22,7 @@ import type { SnsRootCanister } from "./root.canister";
 import type { SnsIndexCanister } from "./sns-index.canister";
 import type { SnsSwapCanister } from "./swap.canister";
 import type {
+  SnsClaimNeuronParams,
   SnsDisburseNeuronParams,
   SnsGetNeuronParams,
   SnsIncreaseDissolveDelayParams,
@@ -135,11 +136,19 @@ export class SnsWrapper {
     params: Omit<SnsGetNeuronParams, "certified">
   ): Promise<Neuron> => this.governance.getNeuron(this.mergeParams(params));
 
+  queryNeuron = (
+    params: Omit<SnsGetNeuronParams, "certified">
+  ): Promise<Neuron | undefined> =>
+    this.governance.queryNeuron(this.mergeParams(params));
+
   /**
    * Returns the subaccount of the next neuron to be created.
    *
    * The neuron account is a subaccount of the governance canister.
    * The subaccount is derived from the controller and an ascending index.
+   * The id of the neuron is the subaccount.
+   * If the neuron does not exist for that subaccount, then we use it for the next neuron.
+   *
    * The index is used in the memo of the transfer and when claiming the neuron.
    * This is how the backend can identify which neuron is being claimed.
    *
@@ -156,12 +165,19 @@ export class SnsWrapper {
         owner: this.canisterIds.governanceCanisterId,
         subaccount,
       };
-      let balance = await this.ledger.balance({ ...account, certified: false });
-      if (balance === BigInt(0)) {
-        // Recheck the balance with an update call
-        balance = await this.ledger.balance({ ...account, certified: true });
-        // If the balance is still 0, we can use this subaccount
-        if (balance === BigInt(0)) {
+      const neuronId: SnsNeuronId = { id: subaccount };
+      let neuron = await this.governance.queryNeuron({
+        neuronId,
+        certified: false,
+      });
+      if (neuron === undefined) {
+        // Recheck with update call whether the neuron does not exist
+        neuron = await this.governance.queryNeuron({
+          neuronId,
+          certified: true,
+        });
+        // If the neuron does not exist, we can use this subaccount
+        if (neuron === undefined) {
           return {
             account,
             index: BigInt(index),
@@ -207,35 +223,32 @@ export class SnsWrapper {
       from_subaccount: source.subaccount,
       memo: bigIntToUint8Array(index),
     });
-    const claimNeuronRequest = toClaimOrRefreshRequest({
-      subaccount: neuronAccount.subaccount,
-      memo: index,
-      byNeuronId: false,
+    return this.governance.claimNeuron({
+      memo: BigInt(index),
       controller,
+      subaccount: neuronAccount.subaccount,
     });
-    const { command } = await this.governance.manageNeuron(claimNeuronRequest);
-    const response = fromNullable(command);
-    // Edge case. This should not happen
-    if (response === undefined) {
-      throw new SnsGovernanceError("Claim neuron failed");
-    }
-    if ("ClaimOrRefresh" in response) {
-      const neuronId = fromNullable(
-        response.ClaimOrRefresh.refreshed_neuron_id
-      );
-      // This might happen.
-      if (neuronId === undefined) {
-        throw new SnsGovernanceError("Claim neuron failed");
-      }
-      return neuronId;
-    }
-    // Edge case. manage_neuron for ClaimOrRefresh returns only ClaimOrRefresh response.
-    throw new SnsGovernanceError("Claim neuron failed");
+  };
+
+  getNeuronBalance = async (neuronId: SnsNeuronId): Promise<Tokens> => {
+    const account = {
+      owner: this.canisterIds.governanceCanisterId,
+      subaccount: neuronId.id,
+    };
+    return this.ledger.balance({ ...account, certified: this.certified });
   };
 
   // Always certified
   addNeuronPermissions = (params: SnsNeuronPermissionsParams): Promise<void> =>
     this.governance.addNeuronPermissions(params);
+
+  // Always certified
+  refreshNeuron = (neuronId: NeuronId): Promise<void> =>
+    this.governance.refreshNeuron(neuronId);
+
+  // Always certified
+  claimNeuron = (params: SnsClaimNeuronParams): Promise<NeuronId> =>
+    this.governance.claimNeuron(params);
 
   // Always certified
   removeNeuronPermissions = (
