@@ -74,17 +74,9 @@ console.log("Summary data:", metadata, token);
 
 ### :toolbox: Functions
 
-- [initSnsWrapper](#gear-initsnswrapper)
 - [encodeSnsAccount](#gear-encodesnsaccount)
 - [decodeSnsAccount](#gear-decodesnsaccount)
-
-#### :gear: initSnsWrapper
-
-Lookup for the canister ids of a Sns and initialize the wrapper to access its features.
-
-| Function         | Type             |
-| ---------------- | ---------------- |
-| `initSnsWrapper` | `InitSnsWrapper` |
+- [initSnsWrapper](#gear-initsnswrapper)
 
 #### :gear: encodeSnsAccount
 
@@ -112,6 +104,14 @@ Parameters:
 
 - `snsAccountString`: string
 
+#### :gear: initSnsWrapper
+
+Lookup for the canister ids of a Sns and initialize the wrapper to access its features.
+
+| Function         | Type             |
+| ---------------- | ---------------- |
+| `initSnsWrapper` | `InitSnsWrapper` |
+
 ### :factory: SnsGovernanceCanister
 
 #### Constructors
@@ -130,6 +130,7 @@ Parameters:
 - [listNeurons](#gear-listneurons)
 - [metadata](#gear-metadata)
 - [getNeuron](#gear-getneuron)
+- [queryNeuron](#gear-queryneuron)
 - [manageNeuron](#gear-manageneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
@@ -138,6 +139,8 @@ Parameters:
 - [stopDissolving](#gear-stopdissolving)
 - [setDissolveTimestamp](#gear-setdissolvetimestamp)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
+- [refreshNeuron](#gear-refreshneuron)
+- [claimNeuron](#gear-claimneuron)
 
 ##### :gear: create
 
@@ -174,6 +177,14 @@ Get the neuron of the Sns
 | Method      | Type                                                              |
 | ----------- | ----------------------------------------------------------------- |
 | `getNeuron` | `(params: SnsGetNeuronParams and QueryParams) => Promise<Neuron>` |
+
+##### :gear: queryNeuron
+
+Same as `getNeuron` but returns undefined instead of raising error when not found.
+
+| Method        | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| `queryNeuron` | `(params: SnsGetNeuronParams and QueryParams) => Promise<Neuron>` |
 
 ##### :gear: manageNeuron
 
@@ -238,6 +249,22 @@ Increase dissolve delay of a neuron
 | Method                  | Type                                                        |
 | ----------------------- | ----------------------------------------------------------- |
 | `increaseDissolveDelay` | `(params: SnsIncreaseDissolveDelayParams) => Promise<void>` |
+
+##### :gear: refreshNeuron
+
+Refresh neuron
+
+| Method          | Type                                    |
+| --------------- | --------------------------------------- |
+| `refreshNeuron` | `(neuronId: NeuronId) => Promise<void>` |
+
+##### :gear: claimNeuron
+
+Claim neuron
+
+| Method        | Type                                                                             |
+| ------------- | -------------------------------------------------------------------------------- |
+| `claimNeuron` | `({ memo, controller, subaccount, }: SnsClaimNeuronParams) => Promise<NeuronId>` |
 
 ### :factory: SnsLedgerCanister
 
@@ -446,9 +473,13 @@ Parameters:
 - [balance](#gear-balance)
 - [transfer](#gear-transfer)
 - [getNeuron](#gear-getneuron)
+- [queryNeuron](#gear-queryneuron)
 - [getNextNeuronAccount](#gear-getnextneuronaccount)
 - [stakeNeuron](#gear-stakeneuron)
+- [getNeuronBalance](#gear-getneuronbalance)
 - [addNeuronPermissions](#gear-addneuronpermissions)
+- [refreshNeuron](#gear-refreshneuron)
+- [claimNeuron](#gear-claimneuron)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
 - [disburse](#gear-disburse)
 - [startDissolving](#gear-startdissolving)
@@ -502,12 +533,21 @@ Parameters:
 | ----------- | -------------------------------------------------------------------- |
 | `getNeuron` | `(params: Omit<SnsGetNeuronParams, "certified">) => Promise<Neuron>` |
 
+##### :gear: queryNeuron
+
+| Method        | Type                                                                 |
+| ------------- | -------------------------------------------------------------------- |
+| `queryNeuron` | `(params: Omit<SnsGetNeuronParams, "certified">) => Promise<Neuron>` |
+
 ##### :gear: getNextNeuronAccount
 
 Returns the subaccount of the next neuron to be created.
 
 The neuron account is a subaccount of the governance canister.
 The subaccount is derived from the controller and an ascending index.
+The id of the neuron is the subaccount.
+If the neuron does not exist for that subaccount, then we use it for the next neuron.
+
 The index is used in the memo of the transfer and when claiming the neuron.
 This is how the backend can identify which neuron is being claimed.
 
@@ -525,11 +565,29 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | ------------- | -------------------------------------------------------------------------------- |
 | `stakeNeuron` | `({ stakeE8s, source, controller, }: SnsStakeNeuronParams) => Promise<NeuronId>` |
 
+##### :gear: getNeuronBalance
+
+| Method             | Type                                      |
+| ------------------ | ----------------------------------------- |
+| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<bigint>` |
+
 ##### :gear: addNeuronPermissions
 
 | Method                 | Type                                                    |
 | ---------------------- | ------------------------------------------------------- |
 | `addNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: refreshNeuron
+
+| Method          | Type                                    |
+| --------------- | --------------------------------------- |
+| `refreshNeuron` | `(neuronId: NeuronId) => Promise<void>` |
+
+##### :gear: claimNeuron
+
+| Method        | Type                                                  |
+| ------------- | ----------------------------------------------------- |
+| `claimNeuron` | `(params: SnsClaimNeuronParams) => Promise<NeuronId>` |
 
 ##### :gear: removeNeuronPermissions
 
