@@ -1,6 +1,5 @@
 import type { Principal } from "@dfinity/principal";
 import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
-import { SnsNeuronId } from ".";
 import type { BlockIndex, Tokens } from "../candid/icrc1_ledger";
 import type {
   GetMetadataResponse,
@@ -165,7 +164,7 @@ export class SnsWrapper {
         owner: this.canisterIds.governanceCanisterId,
         subaccount,
       };
-      const neuronId: SnsNeuronId = { id: subaccount };
+      const neuronId: NeuronId = { id: subaccount };
       let neuron = await this.governance.queryNeuron({
         neuronId,
         certified: false,
@@ -230,7 +229,7 @@ export class SnsWrapper {
     });
   };
 
-  getNeuronBalance = async (neuronId: SnsNeuronId): Promise<Tokens> => {
+  getNeuronBalance = async (neuronId: NeuronId): Promise<Tokens> => {
     const account = {
       owner: this.canisterIds.governanceCanisterId,
       subaccount: neuronId.id,
