@@ -74,9 +74,17 @@ console.log("Summary data:", metadata, token);
 
 ### :toolbox: Functions
 
+- [initSnsWrapper](#gear-initsnswrapper)
 - [encodeSnsAccount](#gear-encodesnsaccount)
 - [decodeSnsAccount](#gear-decodesnsaccount)
-- [initSnsWrapper](#gear-initsnswrapper)
+
+#### :gear: initSnsWrapper
+
+Lookup for the canister ids of a Sns and initialize the wrapper to access its features.
+
+| Function         | Type             |
+| ---------------- | ---------------- |
+| `initSnsWrapper` | `InitSnsWrapper` |
 
 #### :gear: encodeSnsAccount
 
@@ -103,14 +111,6 @@ Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b3356
 Parameters:
 
 - `snsAccountString`: string
-
-#### :gear: initSnsWrapper
-
-Lookup for the canister ids of a Sns and initialize the wrapper to access its features.
-
-| Function         | Type             |
-| ---------------- | ---------------- |
-| `initSnsWrapper` | `InitSnsWrapper` |
 
 ### :factory: SnsGovernanceCanister
 
