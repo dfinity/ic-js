@@ -11,13 +11,13 @@ import type { Subaccount } from "../../candid/icrc1_ledger";
  * @param {number} params.index
  * @returns
  */
-export const getNeuronSubaccount = async ({
+export const getNeuronSubaccount = ({
   index,
   controller,
 }: {
   index: number;
   controller: Principal;
-}): Promise<Subaccount> => {
+}): Subaccount => {
   const padding = asciiStringToByteArray("neuron-stake");
   const data = [
     0x0c,
