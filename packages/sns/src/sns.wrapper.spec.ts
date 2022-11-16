@@ -545,14 +545,14 @@ describe("SnsWrapper", () => {
     });
   });
 
-  describe("getNextNeuronAccount", () => {
+  describe("nextNeuronAccount", () => {
     it("should return the next account with balance 0 and the index", async () => {
       mockCertifiedGovernanceCanister.queryNeuron
         .mockResolvedValueOnce(neuronMock)
         .mockResolvedValueOnce(neuronMock)
         .mockResolvedValue(undefined);
 
-      const { account, index } = await certifiedSnsWrapper.getNextNeuronAccount(
+      const { account, index } = await certifiedSnsWrapper.nextNeuronAccount(
         mockPrincipal
       );
 
@@ -568,8 +568,7 @@ describe("SnsWrapper", () => {
     it("should raise error if max is reached", async () => {
       mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(neuronMock);
 
-      const call = () =>
-        certifiedSnsWrapper.getNextNeuronAccount(mockPrincipal);
+      const call = () => certifiedSnsWrapper.nextNeuronAccount(mockPrincipal);
 
       await expect(call).rejects.toThrowError(
         "No more neuron accounts available"
