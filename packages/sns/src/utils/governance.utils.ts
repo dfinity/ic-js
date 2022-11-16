@@ -11,7 +11,7 @@ import type { Subaccount } from "../../candid/icrc1_ledger";
  * @param {number} params.index
  * @returns
  */
-export const getNeuronSubaccount = ({
+export const neuronSubaccount = ({
   index,
   controller,
 }: {

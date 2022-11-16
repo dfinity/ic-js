@@ -37,7 +37,7 @@ import type {
 } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 import type { GetAccountTransactionsParams } from "./types/sns-index.params";
-import { getNeuronSubaccount } from "./utils/governance.utils";
+import { neuronSubaccount } from "./utils/governance.utils";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
@@ -159,7 +159,7 @@ export class SnsWrapper {
   ): Promise<{ account: SnsAccount; index: bigint }> => {
     // TODO: try parallilizing requests to improve performance
     for (let index = 0; index < MAX_NEURONS_SUBACCOUNTS; index++) {
-      const subaccount = await getNeuronSubaccount({ index, controller });
+      const subaccount = neuronSubaccount({ index, controller });
       const account = {
         owner: this.canisterIds.governanceCanisterId,
         subaccount,
