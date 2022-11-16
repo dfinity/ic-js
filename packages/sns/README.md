@@ -474,7 +474,7 @@ Parameters:
 - [transfer](#gear-transfer)
 - [getNeuron](#gear-getneuron)
 - [queryNeuron](#gear-queryneuron)
-- [getNextNeuronAccount](#gear-getnextneuronaccount)
+- [nextNeuronAccount](#gear-nextneuronaccount)
 - [stakeNeuron](#gear-stakeneuron)
 - [getNeuronBalance](#gear-getneuronbalance)
 - [addNeuronPermissions](#gear-addneuronpermissions)
@@ -539,7 +539,7 @@ Parameters:
 | ------------- | -------------------------------------------------------------------- |
 | `queryNeuron` | `(params: Omit<SnsGetNeuronParams, "certified">) => Promise<Neuron>` |
 
-##### :gear: getNextNeuronAccount
+##### :gear: nextNeuronAccount
 
 Returns the subaccount of the next neuron to be created.
 
@@ -551,9 +551,9 @@ If the neuron does not exist for that subaccount, then we use it for the next ne
 The index is used in the memo of the transfer and when claiming the neuron.
 This is how the backend can identify which neuron is being claimed.
 
-| Method                 | Type                                                                          |
-| ---------------------- | ----------------------------------------------------------------------------- |
-| `getNextNeuronAccount` | `(controller: Principal) => Promise<{ account: SnsAccount; index: bigint; }>` |
+| Method              | Type                                                                          |
+| ------------------- | ----------------------------------------------------------------------------- |
+| `nextNeuronAccount` | `(controller: Principal) => Promise<{ account: SnsAccount; index: bigint; }>` |
 
 ##### :gear: stakeNeuron
 

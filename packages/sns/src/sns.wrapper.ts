@@ -154,7 +154,7 @@ export class SnsWrapper {
    * @param controller
    * @returns
    */
-  getNextNeuronAccount = async (
+  nextNeuronAccount = async (
     controller: Principal
   ): Promise<{ account: SnsAccount; index: bigint }> => {
     // TODO: try parallilizing requests to improve performance
@@ -204,7 +204,7 @@ export class SnsWrapper {
     controller,
   }: SnsStakeNeuronParams): Promise<NeuronId> => {
     this.assertCertified("stakeNeuron");
-    const { account: neuronAccount, index } = await this.getNextNeuronAccount(
+    const { account: neuronAccount, index } = await this.nextNeuronAccount(
       controller
     );
     // This should not happen. The neuron account is always a subaccount of the SNS governance canister.
