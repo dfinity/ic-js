@@ -37,7 +37,7 @@ import type {
 } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 import type { GetAccountTransactionsParams } from "./types/sns-index.params";
-import { getNeuronSubaccount } from "./utils/governance.utils";
+import { neuronSubaccount } from "./utils/governance.utils";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
@@ -154,12 +154,12 @@ export class SnsWrapper {
    * @param controller
    * @returns
    */
-  getNextNeuronAccount = async (
+  nextNeuronAccount = async (
     controller: Principal
   ): Promise<{ account: SnsAccount; index: bigint }> => {
     // TODO: try parallilizing requests to improve performance
     for (let index = 0; index < MAX_NEURONS_SUBACCOUNTS; index++) {
-      const subaccount = await getNeuronSubaccount({ index, controller });
+      const subaccount = neuronSubaccount({ index, controller });
       const account = {
         owner: this.canisterIds.governanceCanisterId,
         subaccount,
@@ -204,7 +204,7 @@ export class SnsWrapper {
     controller,
   }: SnsStakeNeuronParams): Promise<NeuronId> => {
     this.assertCertified("stakeNeuron");
-    const { account: neuronAccount, index } = await this.getNextNeuronAccount(
+    const { account: neuronAccount, index } = await this.nextNeuronAccount(
       controller
     );
     // This should not happen. The neuron account is always a subaccount of the SNS governance canister.

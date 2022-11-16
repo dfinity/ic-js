@@ -1,11 +1,11 @@
 import { mockPrincipal } from "../mocks/ledger.mock";
-import { getNeuronSubaccount } from "./governance.utils";
+import { neuronSubaccount } from "./governance.utils";
 
 describe("governance utils", () => {
-  describe("getNeuronSubaccount", () => {
+  describe("neuronSubaccount", () => {
     // Test it to make sure that if there are changes, the test will fail.
-    it("calculates the neuron subaccount based on controller and index", async () => {
-      const neuronSubaccount = await getNeuronSubaccount({
+    it("calculates the neuron subaccount based on controller and index", () => {
+      const subaccount = neuronSubaccount({
         controller: mockPrincipal,
         index: 4,
       });
@@ -14,7 +14,7 @@ describe("governance utils", () => {
         167, 139, 60, 94, 58, 107, 169, 215, 12, 177, 219, 237, 24, 75, 149,
         241, 128,
       ]);
-      expect(neuronSubaccount).toEqual(expected);
+      expect(subaccount).toEqual(expected);
     });
   });
 });
