@@ -112,6 +112,14 @@ export const idlFactory = ({ IDL }) => {
     'total' : IDL.Nat64,
     'timestamp_seconds' : IDL.Nat64,
   });
+  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
+  const TransferSnsTreasuryFunds = IDL.Record({
+    'from_treasury' : IDL.Int32,
+    'to_principal' : IDL.Opt(IDL.Principal),
+    'to_subaccount' : IDL.Opt(Subaccount),
+    'memo' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Nat64,
+  });
   const UpgradeSnsControlledCanister = IDL.Record({
     'new_canister_wasm' : IDL.Vec(IDL.Nat8),
     'canister_id' : IDL.Opt(IDL.Principal),
@@ -132,6 +140,7 @@ export const idlFactory = ({ IDL }) => {
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'UpgradeSnsToNextVersion' : IDL.Record({}),
+    'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'Unspecified' : IDL.Record({}),
     'ManageSnsMetadata' : ManageSnsMetadata,
@@ -172,7 +181,6 @@ export const idlFactory = ({ IDL }) => {
     'function_id' : IDL.Nat64,
     'followees' : IDL.Vec(NeuronId),
   });
-  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
   const Account = IDL.Record({
     'owner' : IDL.Opt(IDL.Principal),
     'subaccount' : IDL.Opt(Subaccount),
@@ -584,6 +592,14 @@ export const init = ({ IDL }) => {
     'total' : IDL.Nat64,
     'timestamp_seconds' : IDL.Nat64,
   });
+  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
+  const TransferSnsTreasuryFunds = IDL.Record({
+    'from_treasury' : IDL.Int32,
+    'to_principal' : IDL.Opt(IDL.Principal),
+    'to_subaccount' : IDL.Opt(Subaccount),
+    'memo' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Nat64,
+  });
   const UpgradeSnsControlledCanister = IDL.Record({
     'new_canister_wasm' : IDL.Vec(IDL.Nat8),
     'canister_id' : IDL.Opt(IDL.Principal),
@@ -604,6 +620,7 @@ export const init = ({ IDL }) => {
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'UpgradeSnsToNextVersion' : IDL.Record({}),
+    'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'Unspecified' : IDL.Record({}),
     'ManageSnsMetadata' : ManageSnsMetadata,
@@ -644,7 +661,6 @@ export const init = ({ IDL }) => {
     'function_id' : IDL.Nat64,
     'followees' : IDL.Vec(NeuronId),
   });
-  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
   const Account = IDL.Record({
     'owner' : IDL.Opt(IDL.Principal),
     'subaccount' : IDL.Opt(Subaccount),

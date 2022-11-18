@@ -12,6 +12,7 @@ export type Action =
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { UpgradeSnsToNextVersion: {} }
+  | { TransferSnsTreasuryFunds: TransferSnsTreasuryFunds }
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { Unspecified: {} }
   | { ManageSnsMetadata: ManageSnsMetadata }
@@ -416,6 +417,13 @@ export interface Tally {
   yes: bigint;
   total: bigint;
   timestamp_seconds: bigint;
+}
+export interface TransferSnsTreasuryFunds {
+  from_treasury: number;
+  to_principal: [] | [Principal];
+  to_subaccount: [] | [Subaccount];
+  memo: [] | [bigint];
+  amount_e8s: bigint;
 }
 export interface UpgradeInProgress {
   mark_failed_at_seconds: bigint;
