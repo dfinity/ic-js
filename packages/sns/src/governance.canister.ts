@@ -2,6 +2,7 @@ import type { Principal } from "@dfinity/principal";
 import { createServices, fromNullable, toNullable } from "@dfinity/utils";
 import type {
   GetMetadataResponse,
+  ListNervousSystemFunctionsResponse,
   ManageNeuron,
   ManageNeuronResponse,
   Neuron,
@@ -65,6 +66,15 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     });
     return neurons;
   };
+
+  /**
+   * List Nervous System Functions
+   * Neurons can follow other neurons in specific Nervous System Functions.
+   */
+  listNervousSystemFunctions = async (
+    params: QueryParams
+  ): Promise<ListNervousSystemFunctionsResponse> =>
+    this.caller(params).list_nervous_system_functions();
 
   /**
    * Get the Sns metadata (title, description, etc.)

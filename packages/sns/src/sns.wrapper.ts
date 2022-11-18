@@ -108,6 +108,9 @@ export class SnsWrapper {
     params: Omit<SnsListNeuronsParams, "certified">
   ): Promise<Neuron[]> => this.governance.listNeurons(this.mergeParams(params));
 
+  listNervousSystemFunctions = () =>
+    this.governance.listNervousSystemFunctions(this.mergeParams({}));
+
   metadata = (
     params: Omit<QueryParams, "certified">
   ): Promise<[GetMetadataResponse, SnsTokenMetadataResponse]> =>
