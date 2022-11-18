@@ -1,10 +1,11 @@
-// Generated from IC repo commit cb3cd7d4c6420c529ce9c20e9bdbe12a0e380170 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit c9b2f9653afc2da47e5bd527c192090b860acbf0 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
   AddGenericNervousSystemFunction : NervousSystemFunction;
   RemoveGenericNervousSystemFunction : nat64;
   UpgradeSnsToNextVersion : record {};
+  TransferSnsTreasuryFunds : TransferSnsTreasuryFunds;
   UpgradeSnsControlledCanister : UpgradeSnsControlledCanister;
   Unspecified : record {};
   ManageSnsMetadata : ManageSnsMetadata;
@@ -343,6 +344,13 @@ type Tally = record {
   yes : nat64;
   total : nat64;
   timestamp_seconds : nat64;
+};
+type TransferSnsTreasuryFunds = record {
+  from_treasury : int32;
+  to_principal : opt principal;
+  to_subaccount : opt Subaccount;
+  memo : opt nat64;
+  amount_e8s : nat64;
 };
 type UpgradeInProgress = record {
   mark_failed_at_seconds : nat64;

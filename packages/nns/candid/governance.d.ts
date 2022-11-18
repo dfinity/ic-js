@@ -359,6 +359,7 @@ export interface ProposalData {
   latest_tally: [] | [Tally];
   sns_token_swap_lifecycle: [] | [number];
   decided_timestamp_seconds: bigint;
+  swap_background_information: [] | [SwapBackgroundInformation];
   proposal: [] | [Proposal];
   proposer: [] | [NeuronId];
   wait_for_quiet_state: [] | [WaitForQuietState];
@@ -455,6 +456,15 @@ export interface StakeMaturity {
 export interface StakeMaturityResponse {
   maturity_e8s: bigint;
   staked_maturity_e8s: bigint;
+}
+export interface SwapBackgroundInformation {
+  sns_root_canister_id: [] | [Principal];
+  dapp_canister_ids: Array<Principal>;
+  fallback_controller_principal_ids: Array<Principal>;
+  sns_ledger_archive_canister_ids: Array<Principal>;
+  sns_ledger_index_canister_id: [] | [Principal];
+  sns_ledger_canister_id: [] | [Principal];
+  sns_governance_canister_id: [] | [Principal];
 }
 export interface Tally {
   no: bigint;

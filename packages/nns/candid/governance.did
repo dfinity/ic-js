@@ -1,4 +1,4 @@
-// Generated from IC repo commit cb3cd7d4c6420c529ce9c20e9bdbe12a0e380170 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit c9b2f9653afc2da47e5bd527c192090b860acbf0 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -298,6 +298,7 @@ type ProposalData = record {
   latest_tally : opt Tally;
   sns_token_swap_lifecycle : opt int32;
   decided_timestamp_seconds : nat64;
+  swap_background_information : opt SwapBackgroundInformation;
   proposal : opt Proposal;
   proposer : opt NeuronId;
   wait_for_quiet_state : opt WaitForQuietState;
@@ -376,6 +377,15 @@ type StakeMaturity = record { percentage_to_stake : opt nat32 };
 type StakeMaturityResponse = record {
   maturity_e8s : nat64;
   staked_maturity_e8s : nat64;
+};
+type SwapBackgroundInformation = record {
+  sns_root_canister_id : opt principal;
+  dapp_canister_ids : vec principal;
+  fallback_controller_principal_ids : vec principal;
+  sns_ledger_archive_canister_ids : vec principal;
+  sns_ledger_index_canister_id : opt principal;
+  sns_ledger_canister_id : opt principal;
+  sns_governance_canister_id : opt principal;
 };
 type Tally = record {
   no : nat64;

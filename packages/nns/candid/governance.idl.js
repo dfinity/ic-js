@@ -96,6 +96,15 @@ export const idlFactory = ({ IDL }) => {
     'total' : IDL.Nat64,
     'timestamp_seconds' : IDL.Nat64,
   });
+  const SwapBackgroundInformation = IDL.Record({
+    'sns_root_canister_id' : IDL.Opt(IDL.Principal),
+    'dapp_canister_ids' : IDL.Vec(IDL.Principal),
+    'fallback_controller_principal_ids' : IDL.Vec(IDL.Principal),
+    'sns_ledger_archive_canister_ids' : IDL.Vec(IDL.Principal),
+    'sns_ledger_index_canister_id' : IDL.Opt(IDL.Principal),
+    'sns_ledger_canister_id' : IDL.Opt(IDL.Principal),
+    'sns_governance_canister_id' : IDL.Opt(IDL.Principal),
+  });
   const KnownNeuronData = IDL.Record({
     'name' : IDL.Text,
     'description' : IDL.Opt(IDL.Text),
@@ -282,6 +291,7 @@ export const idlFactory = ({ IDL }) => {
     'latest_tally' : IDL.Opt(Tally),
     'sns_token_swap_lifecycle' : IDL.Opt(IDL.Int32),
     'decided_timestamp_seconds' : IDL.Nat64,
+    'swap_background_information' : IDL.Opt(SwapBackgroundInformation),
     'proposal' : IDL.Opt(Proposal),
     'proposer' : IDL.Opt(NeuronId),
     'wait_for_quiet_state' : IDL.Opt(WaitForQuietState),
@@ -637,6 +647,15 @@ export const init = ({ IDL }) => {
     'total' : IDL.Nat64,
     'timestamp_seconds' : IDL.Nat64,
   });
+  const SwapBackgroundInformation = IDL.Record({
+    'sns_root_canister_id' : IDL.Opt(IDL.Principal),
+    'dapp_canister_ids' : IDL.Vec(IDL.Principal),
+    'fallback_controller_principal_ids' : IDL.Vec(IDL.Principal),
+    'sns_ledger_archive_canister_ids' : IDL.Vec(IDL.Principal),
+    'sns_ledger_index_canister_id' : IDL.Opt(IDL.Principal),
+    'sns_ledger_canister_id' : IDL.Opt(IDL.Principal),
+    'sns_governance_canister_id' : IDL.Opt(IDL.Principal),
+  });
   const KnownNeuronData = IDL.Record({
     'name' : IDL.Text,
     'description' : IDL.Opt(IDL.Text),
@@ -823,6 +842,7 @@ export const init = ({ IDL }) => {
     'latest_tally' : IDL.Opt(Tally),
     'sns_token_swap_lifecycle' : IDL.Opt(IDL.Int32),
     'decided_timestamp_seconds' : IDL.Nat64,
+    'swap_background_information' : IDL.Opt(SwapBackgroundInformation),
     'proposal' : IDL.Opt(Proposal),
     'proposer' : IDL.Opt(NeuronId),
     'wait_for_quiet_state' : IDL.Opt(WaitForQuietState),
