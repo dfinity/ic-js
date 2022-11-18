@@ -128,6 +128,7 @@ Parameters:
 
 - [create](#gear-create)
 - [listNeurons](#gear-listneurons)
+- [listNervousSystemFunctions](#gear-listnervoussystemfunctions)
 - [metadata](#gear-metadata)
 - [getNeuron](#gear-getneuron)
 - [queryNeuron](#gear-queryneuron)
@@ -161,6 +162,15 @@ List the neurons of the Sns
 | Method        | Type                                                  |
 | ------------- | ----------------------------------------------------- |
 | `listNeurons` | `(params: SnsListNeuronsParams) => Promise<Neuron[]>` |
+
+##### :gear: listNervousSystemFunctions
+
+List Nervous System Functions
+Neurons can follow other neurons in specific Nervous System Functions.
+
+| Method                       | Type                                                                   |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| `listNervousSystemFunctions` | `(params: QueryParams) => Promise<ListNervousSystemFunctionsResponse>` |
 
 ##### :gear: metadata
 
@@ -467,6 +477,7 @@ Parameters:
 #### Methods
 
 - [listNeurons](#gear-listneurons)
+- [listNervousSystemFunctions](#gear-listnervoussystemfunctions)
 - [metadata](#gear-metadata)
 - [ledgerMetadata](#gear-ledgermetadata)
 - [transactionFee](#gear-transactionfee)
@@ -496,6 +507,12 @@ Parameters:
 | Method        | Type                                                                     |
 | ------------- | ------------------------------------------------------------------------ |
 | `listNeurons` | `(params: Omit<SnsListNeuronsParams, "certified">) => Promise<Neuron[]>` |
+
+##### :gear: listNervousSystemFunctions
+
+| Method                       | Type                                                                                      |
+| ---------------------------- | ----------------------------------------------------------------------------------------- |
+| `listNervousSystemFunctions` | `(params: Omit<QueryParams, "certified">) => Promise<ListNervousSystemFunctionsResponse>` |
 
 ##### :gear: metadata
 
