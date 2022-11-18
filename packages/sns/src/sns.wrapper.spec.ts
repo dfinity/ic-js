@@ -86,13 +86,13 @@ describe("SnsWrapper", () => {
   });
 
   it("should call list of nervous system functions with query or update", async () => {
-    await snsWrapper.listNervousSystemFunctions();
+    await snsWrapper.listNervousSystemFunctions({});
     expect(
       mockGovernanceCanister.listNervousSystemFunctions
     ).toHaveBeenCalledWith({
       certified: false,
     });
-    await certifiedSnsWrapper.listNervousSystemFunctions();
+    await certifiedSnsWrapper.listNervousSystemFunctions({});
     expect(
       mockCertifiedGovernanceCanister.listNervousSystemFunctions
     ).toHaveBeenCalledWith({

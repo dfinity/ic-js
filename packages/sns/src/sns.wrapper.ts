@@ -3,6 +3,7 @@ import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
 import type { BlockIndex, Tokens } from "../candid/icrc1_ledger";
 import type {
   GetMetadataResponse,
+  ListNervousSystemFunctionsResponse,
   Neuron,
   NeuronId,
 } from "../candid/sns_governance";
@@ -108,8 +109,10 @@ export class SnsWrapper {
     params: Omit<SnsListNeuronsParams, "certified">
   ): Promise<Neuron[]> => this.governance.listNeurons(this.mergeParams(params));
 
-  listNervousSystemFunctions = () =>
-    this.governance.listNervousSystemFunctions(this.mergeParams({}));
+  listNervousSystemFunctions = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<ListNervousSystemFunctionsResponse> =>
+    this.governance.listNervousSystemFunctions(this.mergeParams(params));
 
   metadata = (
     params: Omit<QueryParams, "certified">
