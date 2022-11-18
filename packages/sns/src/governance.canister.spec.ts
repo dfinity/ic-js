@@ -3,7 +3,9 @@ import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
+  ListNervousSystemFunctionsResponse,
   ManageNeuron,
+  NervousSystemFunction,
   NeuronId,
   _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
@@ -31,6 +33,30 @@ describe("Governance canister", () => {
     });
     const res = await canister.listNeurons({});
     expect(res).toEqual(neuronsMock);
+  });
+
+  it("should return the list of nervous system functionsof the sns", async () => {
+    const service = mock<ActorSubclass<SnsGovernanceService>>();
+    const nervousSysttemFunctionMock: NervousSystemFunction = {
+      id: BigInt(30),
+      name: "Governance",
+      description: ["This is a description"],
+      function_type: [{ NativeNervousSystemFunction: {} }],
+    };
+    const nervousSystemFunctionsMock: ListNervousSystemFunctionsResponse = {
+      reserved_ids: new BigUint64Array(),
+      functions: [nervousSysttemFunctionMock],
+    };
+    service.list_nervous_system_functions.mockResolvedValue(
+      nervousSystemFunctionsMock
+    );
+
+    const canister = SnsGovernanceCanister.create({
+      canisterId: rootCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const res = await canister.listNervousSystemFunctions({});
+    expect(res).toEqual(nervousSystemFunctionsMock);
   });
 
   it("should call list of neurons with default param", async () => {

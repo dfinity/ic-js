@@ -85,6 +85,21 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call list of nervous system functions with query or update", async () => {
+    await snsWrapper.listNervousSystemFunctions({});
+    expect(
+      mockGovernanceCanister.listNervousSystemFunctions
+    ).toHaveBeenCalledWith({
+      certified: false,
+    });
+    await certifiedSnsWrapper.listNervousSystemFunctions({});
+    expect(
+      mockCertifiedGovernanceCanister.listNervousSystemFunctions
+    ).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
   it("should call get neuron with query or update", async () => {
     const neuronId = {
       id: arrayOfNumberToUint8Array([1, 2, 3]),

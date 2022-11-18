@@ -4,8 +4,10 @@ export type {
 } from "../candid/icrc1_ledger";
 export type {
   GetMetadataResponse as SnsGetMetadataResponse,
+  ListNervousSystemFunctionsResponse as SnsListNervousSystemFunctionsResponse,
   ManageNeuron as SnsManageNeuron,
   ManageNeuronResponse as SnsManageNeuronResponse,
+  NervousSystemFunction as SnsNervousSystemFunction,
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
 } from "../candid/sns_governance";
