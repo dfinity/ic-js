@@ -26,30 +26,73 @@ npm run build/test --workspace=packages/sns
 
 ### In this directory
 
-Build the libraries you want to test:
+Build the libraries:
 
 ```bash
-npm run build --workspace=packages/the-library-you-want-to-test
+npm pack --workspaces
 ```
 
-**Note: Try building all the workspaces at once if you get any problem.**
+Because nns-js and sns-js have dependency on util, you better build them all at once.
 
-### In NNS-Dapp
+This will create some tarballs you'll use to link in your application:
+
+```
+dfinity-<library>-<version>.tgz
+```
+
+For example:
+
+```
+dfinity-cmc-0.0.3.tgz
+dfinity-nns-0.10.0.tgz
+dfinity-sns-0.0.7.tgz
+dfinity-utils-0.0.6.tgz
+```
+
+### In You App
 
 ```bash
-# navigate to frontend directory
-cd frontend
+# OPTIONAL
 # remove node modules
 rm -r node_modules
 # reinstall modules
 npm ci
+
 # remove the library you want to test
 npm rm @dfinity/the-library-you-want-to-test
-# install the library pointing to local ic-js
-npm i /User/path/to/packages/the-library-you-want-to-test
+# and dependencies
+npm rm @dfinity/the-library-dependencies
+# install the dependency library pointing to the tarball
+npm i /User/path/to/ic-js/dfinity-<library-dependecy>-<version>.tgz
+# install the library pointing to the tarball
+npm i /User/path/to/ic-js/dfinity-<library>-<version>.tgz
 ```
 
+It's important to install first the dependencies and then the library you want to test.
+
 **Note: Don't commit the changes in package.json nor in package-lock.json**
+
+### Example flow
+
+For example, to test changes in sns-js the flow would be the following:
+
+In ic-js:
+
+```bash
+npm pack --workspaces
+```
+
+In the app directory:
+
+```bash
+# Remove libraries
+npm rm @dfinity/sns
+npm rm @dfinity/utils
+
+# Install libraries
+npm i /User/path/to/ic-js/dfinity-utils-0.0.6.tgz
+npm i /User/path/to/ic-js/dfinity-sns-0.0.7.tgz
+```
 
 ## Candid files
 
