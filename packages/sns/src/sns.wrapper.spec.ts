@@ -173,10 +173,14 @@ describe("SnsWrapper", () => {
     await snsWrapper.nervousSystemParameters({});
     await certifiedSnsWrapper.nervousSystemParameters({});
 
-    expect(mockGovernanceCanister.nervousSystemParameters).toHaveBeenCalledWith({
-      certified: false,
-    });
-    expect(mockCertifiedGovernanceCanister.nervousSystemParameters).toHaveBeenCalledWith({
+    expect(mockGovernanceCanister.nervousSystemParameters).toHaveBeenCalledWith(
+      {
+        certified: false,
+      }
+    );
+    expect(
+      mockCertifiedGovernanceCanister.nervousSystemParameters
+    ).toHaveBeenCalledWith({
       certified: true,
     });
   });
