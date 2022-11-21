@@ -11,6 +11,7 @@ import type {
   SnsIncreaseDissolveDelayParams,
   SnsNeuronPermissionsParams,
   SnsSetDissolveTimestampParams,
+  SnsSetTopicFollowees,
 } from "../types/governance.params";
 
 // Helper for building `ManageNeuron` structure
@@ -135,6 +136,22 @@ export const toIncreaseDissolveDelayRequest = ({
       },
     },
   });
+
+export const toFollowRequest = ({
+  neuronId,
+  functionId,
+  followees,
+}: SnsSetTopicFollowees): ManageNeuron => ({
+  subaccount: neuronId.id,
+  command: [
+    {
+      Follow: {
+        function_id: functionId,
+        followees,
+      },
+    },
+  ],
+});
 
 export const toClaimOrRefreshRequest = ({
   subaccount,

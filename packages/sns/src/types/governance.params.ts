@@ -1,4 +1,5 @@
 import type { Principal } from "@dfinity/principal";
+import { SnsNeuronId } from "..";
 import type { Subaccount, Tokens } from "../../candid/icrc1_ledger";
 import type { NeuronId } from "../../candid/sns_governance";
 import type { SnsNeuronPermissionType } from "../enums/governance.enums";
@@ -76,6 +77,17 @@ export interface SnsIncreaseDissolveDelayParams
   additionalDissolveDelaySeconds: number;
 }
 
+/**
+ * The parameters to increase dissolve delay
+ */
+export interface SnsSetTopicFollowees extends SnsNeuronManagementParams {
+  functionId: bigint;
+  followees: SnsNeuronId[];
+}
+
+/**
+ * The parameters to claim a neuron
+ */
 export interface SnsClaimNeuronParams {
   memo: bigint;
   controller: Principal;

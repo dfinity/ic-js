@@ -16,6 +16,7 @@ import {
   toAddPermissionsRequest,
   toClaimOrRefreshRequest,
   toDisburseNeuronRequest,
+  toFollowRequest,
   toIncreaseDissolveDelayRequest,
   toRemovePermissionsRequest,
   toSetDissolveTimestampRequest,
@@ -33,6 +34,7 @@ import type {
   SnsListNeuronsParams,
   SnsNeuronPermissionsParams,
   SnsSetDissolveTimestampParams,
+  SnsSetTopicFollowees,
 } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
@@ -196,6 +198,14 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     params: SnsIncreaseDissolveDelayParams
   ): Promise<void> => {
     const request: ManageNeuron = toIncreaseDissolveDelayRequest(params);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Sets followees of a neuron for a specific Nervous System Function (topic)
+   */
+  setTopicFollowees = async (params: SnsSetTopicFollowees): Promise<void> => {
+    const request: ManageNeuron = toFollowRequest(params);
     await this.manageNeuron(request);
   };
 

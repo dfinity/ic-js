@@ -29,6 +29,7 @@ import type {
   SnsListNeuronsParams,
   SnsNeuronPermissionsParams,
   SnsSetDissolveTimestampParams,
+  SnsSetTopicFollowees,
   SnsStakeNeuronParams,
 } from "./types/governance.params";
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
@@ -281,6 +282,10 @@ export class SnsWrapper {
   increaseDissolveDelay = (
     params: SnsIncreaseDissolveDelayParams
   ): Promise<void> => this.governance.increaseDissolveDelay(params);
+
+  // Always certified
+  setTopicFollowees = (params: SnsSetTopicFollowees): Promise<void> =>
+    this.governance.setTopicFollowees(params);
 
   swapState = (
     params: Omit<QueryParams, "certified">
