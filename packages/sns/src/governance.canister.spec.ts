@@ -7,7 +7,7 @@ import type {
   ManageNeuron,
   NervousSystemFunction,
   NeuronId,
-  _SERVICE as SnsGovernanceService,
+  _SERVICE as SnsGovernanceService, NervousSystemParameters,
 } from "../candid/sns_governance";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
@@ -275,6 +275,22 @@ describe("Governance canister", () => {
 
       const res = await canister.metadata({});
       expect(res).toEqual(metadataMock);
+    });
+  });
+
+  describe("nervousSystemParameters", () => {
+    it("should return the parameters of the sns", async () => {
+      const mockParams = {test: true};
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.get_nervous_system_parameters.mockResolvedValue(mockParams as unknown as NervousSystemParameters);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.nervousSystemParameters({});
+      expect(res).toEqual(mockParams);
     });
   });
 

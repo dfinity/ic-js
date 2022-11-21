@@ -4,6 +4,7 @@ import type { BlockIndex, Tokens } from "../candid/icrc1_ledger";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
+  NervousSystemParameters,
   Neuron,
   NeuronId,
 } from "../candid/sns_governance";
@@ -121,6 +122,11 @@ export class SnsWrapper {
       this.governance.metadata(this.mergeParams(params)),
       this.ledger.metadata(this.mergeParams(params)),
     ]);
+
+  nervousSystemParameters = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<NervousSystemParameters> =>
+    this.governance.nervousSystemParameters(this.mergeParams(params));
 
   ledgerMetadata = (
     params: Omit<QueryParams, "certified">

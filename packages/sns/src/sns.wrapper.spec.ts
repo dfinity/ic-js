@@ -169,6 +169,18 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should collect metadata with query or update", async () => {
+    await snsWrapper.nervousSystemParameters({});
+    await certifiedSnsWrapper.nervousSystemParameters({});
+
+    expect(mockGovernanceCanister.nervousSystemParameters).toHaveBeenCalledWith({
+      certified: false,
+    });
+    expect(mockCertifiedGovernanceCanister.nervousSystemParameters).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
   it("should call leger transaction fee with query or update", async () => {
     await snsWrapper.transactionFee({});
     await certifiedSnsWrapper.transactionFee({});
