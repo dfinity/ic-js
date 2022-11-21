@@ -140,6 +140,7 @@ Parameters:
 - [stopDissolving](#gear-stopdissolving)
 - [setDissolveTimestamp](#gear-setdissolvetimestamp)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
+- [setTopicFollowees](#gear-settopicfollowees)
 - [refreshNeuron](#gear-refreshneuron)
 - [claimNeuron](#gear-claimneuron)
 
@@ -259,6 +260,14 @@ Increase dissolve delay of a neuron
 | Method                  | Type                                                        |
 | ----------------------- | ----------------------------------------------------------- |
 | `increaseDissolveDelay` | `(params: SnsIncreaseDissolveDelayParams) => Promise<void>` |
+
+##### :gear: setTopicFollowees
+
+Sets followees of a neuron for a specific Nervous System Function (topic)
+
+| Method              | Type                                              |
+| ------------------- | ------------------------------------------------- |
+| `setTopicFollowees` | `(params: SnsSetTopicFollowees) => Promise<void>` |
 
 ##### :gear: refreshNeuron
 
@@ -497,6 +506,7 @@ Parameters:
 - [stopDissolving](#gear-stopdissolving)
 - [setDissolveTimestamp](#gear-setdissolvetimestamp)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
+- [setTopicFollowees](#gear-settopicfollowees)
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
@@ -641,6 +651,12 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method                  | Type                                                        |
 | ----------------------- | ----------------------------------------------------------- |
 | `increaseDissolveDelay` | `(params: SnsIncreaseDissolveDelayParams) => Promise<void>` |
+
+##### :gear: setTopicFollowees
+
+| Method              | Type                                              |
+| ------------------- | ------------------------------------------------- |
+| `setTopicFollowees` | `(params: SnsSetTopicFollowees) => Promise<void>` |
 
 ##### :gear: swapState
 
