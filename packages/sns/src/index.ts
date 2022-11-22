@@ -41,10 +41,7 @@ export { SnsIndexCanister } from "./sns-index.canister";
 export * from "./sns.wrapper";
 export { SnsSwapCanister } from "./swap.canister";
 export type { SnsCanisterOptions } from "./types/canister.options";
-export type {
-  SnsGetNeuronParams,
-  SnsListNeuronsParams,
-} from "./types/governance.params";
+export * from "./types/governance.params";
 export * from "./types/ledger.responses";
 export type { QueryParams } from "./types/query.params";
 export * from "./utils/governance.utils";

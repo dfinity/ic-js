@@ -76,6 +76,17 @@ export interface SnsIncreaseDissolveDelayParams
   additionalDissolveDelaySeconds: number;
 }
 
+/**
+ * The parameters to increase dissolve delay
+ */
+export interface SnsSetTopicFollowees extends SnsNeuronManagementParams {
+  functionId: bigint;
+  followees: NeuronId[];
+}
+
+/**
+ * The parameters to claim a neuron
+ */
 export interface SnsClaimNeuronParams {
   memo: bigint;
   controller: Principal;
