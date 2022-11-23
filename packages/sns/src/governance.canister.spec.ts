@@ -581,6 +581,71 @@ describe("Governance canister", () => {
     });
   });
 
+  describe("setTopicFollowees", () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+    const functionId = BigInt(222);
+    const followees = [
+      { id: arrayOfNumberToUint8Array([1, 2, 3, 4]) },
+      { id: arrayOfNumberToUint8Array([1, 2, 3, 5]) },
+    ];
+
+    it("should call manageNeuron", async () => {
+      const request: ManageNeuron = {
+        subaccount: neuronId.id,
+        command: [
+          {
+            Follow: {
+              function_id: functionId,
+              followees,
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Follow: {} }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.setTopicFollowees({
+        neuronId,
+        functionId,
+        followees,
+      });
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Error: { error_message: "test", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        canister.setTopicFollowees({
+          neuronId,
+          functionId,
+          followees,
+        });
+
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
   describe("queryNeuron", () => {
     it("should return the neuron", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();

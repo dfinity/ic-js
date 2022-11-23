@@ -360,6 +360,29 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call setTopicFollowees", async () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+    const functionId = BigInt(222);
+    const followees = [
+      { id: arrayOfNumberToUint8Array([1, 2, 3, 4]) },
+      { id: arrayOfNumberToUint8Array([1, 2, 3, 5]) },
+    ];
+
+    await snsWrapper.setTopicFollowees({
+      neuronId,
+      functionId,
+      followees,
+    });
+
+    expect(mockGovernanceCanister.setTopicFollowees).toHaveBeenCalledWith({
+      neuronId,
+      functionId,
+      followees,
+    });
+  });
+
   it("should call getTransactions in index canister", async () => {
     const owner = Principal.fromText("aaaaa-aa");
     const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
