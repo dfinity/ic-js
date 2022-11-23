@@ -130,6 +130,7 @@ Parameters:
 - [listNeurons](#gear-listneurons)
 - [listNervousSystemFunctions](#gear-listnervoussystemfunctions)
 - [metadata](#gear-metadata)
+- [nervousSystemParameters](#gear-nervoussystemparameters)
 - [getNeuron](#gear-getneuron)
 - [queryNeuron](#gear-queryneuron)
 - [manageNeuron](#gear-manageneuron)
@@ -180,6 +181,14 @@ Get the Sns metadata (title, description, etc.)
 | Method     | Type                                                    |
 | ---------- | ------------------------------------------------------- |
 | `metadata` | `(params: QueryParams) => Promise<GetMetadataResponse>` |
+
+##### :gear: nervousSystemParameters
+
+Get the Sns nervous system parameters (default followees, max dissolve delay, max number of neurons, etc.)
+
+| Method                    | Type                                                        |
+| ------------------------- | ----------------------------------------------------------- |
+| `nervousSystemParameters` | `(params: QueryParams) => Promise<NervousSystemParameters>` |
 
 ##### :gear: getNeuron
 
@@ -488,6 +497,7 @@ Parameters:
 - [listNeurons](#gear-listneurons)
 - [listNervousSystemFunctions](#gear-listnervoussystemfunctions)
 - [metadata](#gear-metadata)
+- [nervousSystemParameters](#gear-nervoussystemparameters)
 - [ledgerMetadata](#gear-ledgermetadata)
 - [transactionFee](#gear-transactionfee)
 - [balance](#gear-balance)
@@ -529,6 +539,12 @@ Parameters:
 | Method     | Type                                                                                                   |
 | ---------- | ------------------------------------------------------------------------------------------------------ |
 | `metadata` | `(params: Omit<QueryParams, "certified">) => Promise<[GetMetadataResponse, SnsTokenMetadataResponse]>` |
+
+##### :gear: nervousSystemParameters
+
+| Method                    | Type                                                                           |
+| ------------------------- | ------------------------------------------------------------------------------ |
+| `nervousSystemParameters` | `(params: Omit<QueryParams, "certified">) => Promise<NervousSystemParameters>` |
 
 ##### :gear: ledgerMetadata
 

@@ -5,6 +5,7 @@ import type {
   ListNervousSystemFunctionsResponse,
   ManageNeuron,
   ManageNeuronResponse,
+  NervousSystemParameters,
   Neuron,
   NeuronId,
   _SERVICE as SnsGovernanceService,
@@ -83,6 +84,14 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    */
   metadata = (params: QueryParams): Promise<GetMetadataResponse> =>
     this.caller(params).get_metadata({});
+
+  /**
+   * Get the Sns nervous system parameters (default followees, max dissolve delay, max number of neurons, etc.)
+   */
+  nervousSystemParameters = (
+    params: QueryParams
+  ): Promise<NervousSystemParameters> =>
+    this.caller(params).get_nervous_system_parameters(null);
 
   /**
    * Get the neuron of the Sns
