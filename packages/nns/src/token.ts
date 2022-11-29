@@ -124,11 +124,19 @@ export class TokenAmount {
     amount: number;
     token: Token;
   }): TokenAmount {
-    const e8s = BigInt(Math.floor(amount * Number(E8S_PER_TOKEN)));
-    return TokenAmount.fromE8s({
-      amount: e8s,
+    const tokenAmount = TokenAmount.fromString({
+      amount: amount.toString(),
       token,
     });
+    if (tokenAmount instanceof TokenAmount) {
+      return tokenAmount;
+    }
+    if (tokenAmount === FromStringToTokenError.FractionalMoreThan8Decimals) {
+      throw new Error(`Number ${amount} has more than 8 decimals`);
+    }
+
+    // This should never happen
+    throw new Error(`Invalid number ${amount}`);
   }
 
   /**
