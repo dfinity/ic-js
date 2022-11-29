@@ -57,6 +57,9 @@ describe("ICP", () => {
       TokenAmount.fromString({ token: ICPToken, amount: "45.1231" })
     ).toEqual(TokenAmount.fromNumber({ token: ICPToken, amount: 45.1231 }));
     expect(
+      TokenAmount.fromString({ token: ICPToken, amount: "0.3319" })
+    ).toEqual(TokenAmount.fromNumber({ token: ICPToken, amount: 0.3319 }));
+    expect(
       TokenAmount.fromString({ token: ICPToken, amount: "0.0001" })
     ).toEqual(TokenAmount.fromE8s({ token: ICPToken, amount: BigInt(10000) }));
     expect(
@@ -65,9 +68,6 @@ describe("ICP", () => {
     expect(
       TokenAmount.fromString({ token: ICPToken, amount: "0.0000000001" })
     ).toEqual(FromStringToTokenError.FractionalMoreThan8Decimals);
-    expect(
-      TokenAmount.fromNumber({ token: ICPToken, amount: 0.0000000001 })
-    ).toEqual(TokenAmount.fromNumber({ token: ICPToken, amount: 0 }));
     expect(TokenAmount.fromString({ token: ICPToken, amount: ".01" })).toEqual(
       TokenAmount.fromE8s({ token: ICPToken, amount: BigInt(1000000) })
     );
@@ -110,6 +110,10 @@ describe("ICP", () => {
     expect(
       TokenAmount.fromString({ token: ICPToken, amount: "123asdf$#@~!" })
     ).toBe(FromStringToTokenError.InvalidFormat);
+
+    const callToNumber = () =>
+      TokenAmount.fromNumber({ token: ICPToken, amount: 0.0000000001 });
+    expect(callToNumber).toThrow();
   });
 
   it("rejects negative numbers", () => {
