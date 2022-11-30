@@ -450,6 +450,21 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call stakeMaturity", async () => {
+    const neuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+    const percentageToStake = 75;
+    await snsWrapper.stakeMaturity({
+      neuronId,
+      percentageToStake,
+    });
+    expect(mockGovernanceCanister.stakeMaturity).toHaveBeenCalledWith({
+      neuronId,
+      percentageToStake,
+    });
+  });
+
   describe("stakeNeuron", () => {
     const mockSnsAccount = {
       owner: mockPrincipal,

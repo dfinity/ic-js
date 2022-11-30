@@ -92,3 +92,11 @@ export interface SnsClaimNeuronParams {
   controller: Principal;
   subaccount: Subaccount;
 }
+
+/**
+ * The parameters to stake maturity of a neuron
+ */
+export interface SnsNeuronStakeMaturityParams
+  extends SnsNeuronManagementParams {
+  percentageToStake?: number;
+}

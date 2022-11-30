@@ -1,3 +1,4 @@
+import { assertPercentageNumber } from "@dfinity/nns/src/utils/number.utils";
 import type { Principal } from "@dfinity/principal";
 import { createServices, fromNullable, toNullable } from "@dfinity/utils";
 import type {
@@ -21,6 +22,7 @@ import {
   toIncreaseDissolveDelayRequest,
   toRemovePermissionsRequest,
   toSetDissolveTimestampRequest,
+  toStakeMaturityRequest,
   toStartDissolvingNeuronRequest,
   toStopDissolvingNeuronRequest,
 } from "./converters/governance.converters";
@@ -37,6 +39,7 @@ import type {
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
 } from "./types/governance.params";
+import { SnsNeuronStakeMaturityParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
@@ -187,6 +190,26 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    */
   stopDissolving = async (neuronId: NeuronId): Promise<void> => {
     const request: ManageNeuron = toStopDissolvingNeuronRequest(neuronId);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Stake the maturity of a neuron.
+   *
+   * @param {neuronId: NeuronId; percentageToStake: number;} params
+   * @param {NeuronId} neuronId The id of the neuron for which to stake the maturity
+   * @param {number} percentageToStake Optional. Percentage of the current maturity to stake. If not provided, all of the neuron's current maturity will be staked.
+   */
+  stakeMaturity = async ({
+    neuronId,
+    percentageToStake,
+  }: SnsNeuronStakeMaturityParams): Promise<void> => {
+    assertPercentageNumber(percentageToStake ?? 100);
+
+    const request: ManageNeuron = toStakeMaturityRequest({
+      neuronId,
+      percentageToStake,
+    });
     await this.manageNeuron(request);
   };
 
