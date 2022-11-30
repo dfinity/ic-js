@@ -9,6 +9,7 @@ import type {
   SnsClaimOrRefreshArgs,
   SnsDisburseNeuronParams,
   SnsIncreaseDissolveDelayParams,
+  SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
   SnsNeuronStakeMaturityParams,
   SnsSetDissolveTimestampParams,
@@ -121,6 +122,19 @@ export const toStakeMaturityRequest = ({
     command: {
       StakeMaturity: {
         percentage_to_stake: toNullable(percentageToStake),
+      },
+    },
+  });
+
+export const toAutoStakeMaturityNeuronRequest = ({
+  neuronId,
+  autoStake: requested_setting_for_auto_stake_maturity,
+}: SnsNeuronAutoStakeMaturityParams): ManageNeuron =>
+  toManageNeuronConfigureCommand({
+    neuronId,
+    operation: {
+      ChangeAutoStakeMaturity: {
+        requested_setting_for_auto_stake_maturity,
       },
     },
   });

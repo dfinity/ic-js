@@ -28,6 +28,7 @@ import type {
   SnsGetNeuronParams,
   SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
+  SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
@@ -315,6 +316,11 @@ export class SnsWrapper {
   // Always certified
   stakeMaturity = (params: SnsNeuronStakeMaturityParams): Promise<void> =>
     this.governance.stakeMaturity(params);
+
+  // Always certified
+  autoStakeMaturity = (
+    params: SnsNeuronAutoStakeMaturityParams
+  ): Promise<void> => this.governance.autoStakeMaturity(params);
 
   private mergeParams<T>(params: T): QueryParams & T {
     return {

@@ -100,3 +100,11 @@ export interface SnsNeuronStakeMaturityParams
   extends SnsNeuronManagementParams {
   percentageToStake?: number;
 }
+
+/**
+ * The parameters to toggle auto stake maturity of a neuron
+ */
+export interface SnsNeuronAutoStakeMaturityParams
+  extends SnsNeuronManagementParams {
+  autoStake: boolean;
+}

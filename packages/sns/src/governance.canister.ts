@@ -16,6 +16,7 @@ import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import {
   toAddPermissionsRequest,
+  toAutoStakeMaturityNeuronRequest,
   toClaimOrRefreshRequest,
   toDisburseNeuronRequest,
   toFollowRequest,
@@ -35,6 +36,7 @@ import type {
   SnsGetNeuronParams,
   SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
+  SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
@@ -210,6 +212,20 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
       neuronId,
       percentageToStake,
     });
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Changes auto-stake maturity for a Neuron.
+   *
+   * @param {neuronId: NeuronId; autoStake: boolean;} params
+   * @param {NeuronId} neuronId The id of the neuron for which to request a change of the auto stake feature
+   * @param {number} autoStake `true` to enable the auto-stake maturity for this neuron, `false` to turn it off
+   */
+  autoStakeMaturity = async (
+    params: SnsNeuronAutoStakeMaturityParams
+  ): Promise<void> => {
+    const request: ManageNeuron = toAutoStakeMaturityNeuronRequest(params);
     await this.manageNeuron(request);
   };
 

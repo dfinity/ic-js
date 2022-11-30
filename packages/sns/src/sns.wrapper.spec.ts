@@ -465,6 +465,21 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call autoStakeMaturity", async () => {
+    const neuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+    const autoStake = true;
+    await snsWrapper.autoStakeMaturity({
+      neuronId,
+      autoStake,
+    });
+    expect(mockGovernanceCanister.autoStakeMaturity).toHaveBeenCalledWith({
+      neuronId,
+      autoStake,
+    });
+  });
+
   describe("stakeNeuron", () => {
     const mockSnsAccount = {
       owner: mockPrincipal,
