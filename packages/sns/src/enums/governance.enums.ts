@@ -1,4 +1,4 @@
-// Source: https://github.com/dfinity/ic/blob/1998263b426df0a22f0d0706695c0826f0ab4d7d/rs/sns/governance/proto/ic_sns_governance/pb/v1/governance.proto#L10
+// Source: https://github.com/dfinity/ic/blob/master/rs/sns/governance/proto/ic_sns_governance/pb/v1/governance.proto
 export enum SnsNeuronPermissionType {
   NEURON_PERMISSION_TYPE_UNSPECIFIED = 0,
 
@@ -28,9 +28,15 @@ export enum SnsNeuronPermissionType {
 
   // The principal has permission to merge the neuron's maturity into
   // the neuron's stake.
+  /**
+   * @deprecated
+   */
   NEURON_PERMISSION_TYPE_MERGE_MATURITY = 7,
 
   // The principal has permission to disburse the neuron's maturity to a
   // given ledger account.
   NEURON_PERMISSION_TYPE_DISBURSE_MATURITY = 8,
+
+  // The principal has permission to stake the neuron's maturity.
+  NEURON_PERMISSION_TYPE_STAKE_MATURITY = 9,
 }
