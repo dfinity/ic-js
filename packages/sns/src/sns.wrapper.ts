@@ -30,11 +30,11 @@ import type {
   SnsListNeuronsParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
+  SnsNeuronStakeMaturityParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
   SnsStakeNeuronParams,
 } from "./types/governance.params";
-import { SnsNeuronStakeMaturityParams } from "./types/governance.params";
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
 import type {
   SnsAccount,
