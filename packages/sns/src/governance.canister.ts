@@ -38,10 +38,10 @@ import type {
   SnsListNeuronsParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
+  SnsNeuronStakeMaturityParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
 } from "./types/governance.params";
-import type { SnsNeuronStakeMaturityParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
