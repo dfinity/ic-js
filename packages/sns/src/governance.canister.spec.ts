@@ -1,10 +1,12 @@
 import type { ActorSubclass } from "@dfinity/agent";
+import { InvalidPercentageError } from "@dfinity/nns/src";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   ListNervousSystemFunctionsResponse,
   ManageNeuron,
+  ManageNeuronResponse,
   NervousSystemFunction,
   NervousSystemParameters,
   NeuronId,
@@ -24,6 +26,10 @@ import { rootCanisterIdMock } from "./mocks/sns.mock";
 import { SnsDisburseNeuronParams } from "./types/governance.params";
 
 describe("Governance canister", () => {
+  const mockErrorCommand: ManageNeuronResponse = {
+    command: [{ Error: { error_message: "test", error_type: 2 } }],
+  };
+
   it("should return the list of neurons of the sns", async () => {
     const service = mock<ActorSubclass<SnsGovernanceService>>();
     service.list_neurons.mockResolvedValue({ neurons: neuronsMock });
@@ -140,9 +146,7 @@ describe("Governance canister", () => {
       const principal = Principal.fromText("aaaaa-aa");
       const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -184,9 +188,7 @@ describe("Governance canister", () => {
       const principal = Principal.fromText("aaaaa-aa");
       const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -250,9 +252,7 @@ describe("Governance canister", () => {
         ],
       };
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -340,9 +340,7 @@ describe("Governance canister", () => {
 
     it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -390,9 +388,7 @@ describe("Governance canister", () => {
 
     it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -440,9 +436,7 @@ describe("Governance canister", () => {
 
     it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -499,9 +493,7 @@ describe("Governance canister", () => {
 
     it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -562,9 +554,7 @@ describe("Governance canister", () => {
 
     it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -626,9 +616,7 @@ describe("Governance canister", () => {
 
     it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -726,9 +714,7 @@ describe("Governance canister", () => {
     it("should raise error", async () => {
       const neuronId = { id: new Uint8Array() };
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -764,9 +750,7 @@ describe("Governance canister", () => {
     it("should raise error", async () => {
       const neuronId = { id: new Uint8Array() };
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Error: { error_message: "test", error_type: 2 } }],
-      });
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -778,6 +762,164 @@ describe("Governance canister", () => {
           controller: Principal.fromText("aaaaa-aa"),
           subaccount: new Uint8Array(),
         });
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("stakeMaturity", () => {
+    const testStakeMaturitySuccess = async (
+      percentageToStake: number | undefined
+    ) => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [
+          {
+            StakeMaturity: {
+              maturity_e8s: 1n,
+              staked_maturity_e8s: 2n,
+            },
+          },
+        ],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      await canister.stakeMaturity({
+        neuronId: neuronIdMock,
+        percentageToStake,
+      });
+      expect(service.manage_neuron).toBeCalledWith({
+        command: [
+          {
+            StakeMaturity: {
+              percentage_to_stake: [percentageToStake],
+            },
+          },
+        ],
+        subaccount: neuronIdMock.id,
+      });
+    };
+
+    it("should stake maturity of the neuron", async () =>
+      await testStakeMaturitySuccess(50));
+
+    it("should stake maturity of the neuron with no percentage", async () =>
+      await testStakeMaturitySuccess(undefined));
+
+    it("throws error if percentage not valid", () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const call = () =>
+        canister.stakeMaturity({
+          neuronId: neuronIdMock,
+          percentageToStake: 500,
+        });
+
+      expect(call).rejects.toThrow(InvalidPercentageError);
+      expect(service.manage_neuron).not.toBeCalled();
+    });
+
+    it("should raise error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        canister.stakeMaturity({
+          neuronId: neuronIdMock,
+          percentageToStake: 75,
+        });
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("autoStakeMaturity", () => {
+    const testAutoStakeMaturitySuccess = async (
+      requested_setting_for_auto_stake_maturity: boolean
+    ) => {
+      const request: ManageNeuron = {
+        subaccount: neuronIdMock.id,
+        command: [
+          {
+            Configure: {
+              operation: [
+                {
+                  ChangeAutoStakeMaturity: {
+                    requested_setting_for_auto_stake_maturity,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Configure: {} }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.manageNeuron(request);
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    };
+
+    it("should turn auto stake maturity of the neuron to true", async () =>
+      await testAutoStakeMaturitySuccess(true));
+
+    it("should turn auto stake maturity of the neuron to false", async () =>
+      await testAutoStakeMaturitySuccess(false));
+
+    it("throws error if percentage not valid", () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const call = () =>
+        canister.stakeMaturity({
+          neuronId: neuronIdMock,
+          percentageToStake: 500,
+        });
+
+      expect(call).rejects.toThrow(InvalidPercentageError);
+      expect(service.manage_neuron).not.toBeCalled();
+    });
+
+    it("should raise error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        canister.autoStakeMaturity({
+          neuronId: neuronIdMock,
+          autoStake: true,
+        });
+
       expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });

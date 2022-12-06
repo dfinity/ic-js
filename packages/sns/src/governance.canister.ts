@@ -1,3 +1,4 @@
+import { assertPercentageNumber } from "@dfinity/nns/src/utils/number.utils";
 import type { Principal } from "@dfinity/principal";
 import { createServices, fromNullable, toNullable } from "@dfinity/utils";
 import type {
@@ -15,12 +16,14 @@ import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import {
   toAddPermissionsRequest,
+  toAutoStakeMaturityNeuronRequest,
   toClaimOrRefreshRequest,
   toDisburseNeuronRequest,
   toFollowRequest,
   toIncreaseDissolveDelayRequest,
   toRemovePermissionsRequest,
   toSetDissolveTimestampRequest,
+  toStakeMaturityRequest,
   toStartDissolvingNeuronRequest,
   toStopDissolvingNeuronRequest,
 } from "./converters/governance.converters";
@@ -33,7 +36,9 @@ import type {
   SnsGetNeuronParams,
   SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
+  SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
+  SnsNeuronStakeMaturityParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
 } from "./types/governance.params";
@@ -187,6 +192,40 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    */
   stopDissolving = async (neuronId: NeuronId): Promise<void> => {
     const request: ManageNeuron = toStopDissolvingNeuronRequest(neuronId);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Stake the maturity of a neuron.
+   *
+   * @param {neuronId: NeuronId; percentageToStake: number;} params
+   * @param {NeuronId} neuronId The id of the neuron for which to stake the maturity
+   * @param {number} percentageToStake Optional. Percentage of the current maturity to stake. If not provided, all of the neuron's current maturity will be staked.
+   */
+  stakeMaturity = async ({
+    neuronId,
+    percentageToStake,
+  }: SnsNeuronStakeMaturityParams): Promise<void> => {
+    assertPercentageNumber(percentageToStake ?? 100);
+
+    const request: ManageNeuron = toStakeMaturityRequest({
+      neuronId,
+      percentageToStake,
+    });
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Changes auto-stake maturity for a Neuron.
+   *
+   * @param {neuronId: NeuronId; autoStake: boolean;} params
+   * @param {NeuronId} neuronId The id of the neuron for which to request a change of the auto stake feature
+   * @param {number} autoStake `true` to enable the auto-stake maturity for this neuron, `false` to turn it off
+   */
+  autoStakeMaturity = async (
+    params: SnsNeuronAutoStakeMaturityParams
+  ): Promise<void> => {
+    const request: ManageNeuron = toAutoStakeMaturityNeuronRequest(params);
     await this.manageNeuron(request);
   };
 

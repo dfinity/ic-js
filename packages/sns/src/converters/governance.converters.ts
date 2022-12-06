@@ -9,7 +9,9 @@ import type {
   SnsClaimOrRefreshArgs,
   SnsDisburseNeuronParams,
   SnsIncreaseDissolveDelayParams,
+  SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
+  SnsNeuronStakeMaturityParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
 } from "../types/governance.params";
@@ -109,6 +111,32 @@ export const toStopDissolvingNeuronRequest = (
   toManageNeuronConfigureCommand({
     neuronId,
     operation: { StopDissolving: {} },
+  });
+
+export const toStakeMaturityRequest = ({
+  neuronId,
+  percentageToStake,
+}: SnsNeuronStakeMaturityParams): ManageNeuron =>
+  toManageNeuronCommand({
+    neuronId,
+    command: {
+      StakeMaturity: {
+        percentage_to_stake: toNullable(percentageToStake),
+      },
+    },
+  });
+
+export const toAutoStakeMaturityNeuronRequest = ({
+  neuronId,
+  autoStake: requested_setting_for_auto_stake_maturity,
+}: SnsNeuronAutoStakeMaturityParams): ManageNeuron =>
+  toManageNeuronConfigureCommand({
+    neuronId,
+    operation: {
+      ChangeAutoStakeMaturity: {
+        requested_setting_for_auto_stake_maturity,
+      },
+    },
   });
 
 export const toSetDissolveTimestampRequest = ({

@@ -139,6 +139,8 @@ Parameters:
 - [disburse](#gear-disburse)
 - [startDissolving](#gear-startdissolving)
 - [stopDissolving](#gear-stopdissolving)
+- [stakeMaturity](#gear-stakematurity)
+- [autoStakeMaturity](#gear-autostakematurity)
 - [setDissolveTimestamp](#gear-setdissolvetimestamp)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
 - [setTopicFollowees](#gear-settopicfollowees)
@@ -253,6 +255,32 @@ Stop dissolving process of a neuron
 | Method           | Type                                    |
 | ---------------- | --------------------------------------- |
 | `stopDissolving` | `(neuronId: NeuronId) => Promise<void>` |
+
+##### :gear: stakeMaturity
+
+Stake the maturity of a neuron.
+
+| Method          | Type                                                                                |
+| --------------- | ----------------------------------------------------------------------------------- |
+| `stakeMaturity` | `({ neuronId, percentageToStake, }: SnsNeuronStakeMaturityParams) => Promise<void>` |
+
+Parameters:
+
+- `neuronId`: The id of the neuron for which to stake the maturity
+- `percentageToStake`: Optional. Percentage of the current maturity to stake. If not provided, all of the neuron's current maturity will be staked.
+
+##### :gear: autoStakeMaturity
+
+Changes auto-stake maturity for a Neuron.
+
+| Method              | Type                                                          |
+| ------------------- | ------------------------------------------------------------- |
+| `autoStakeMaturity` | `(params: SnsNeuronAutoStakeMaturityParams) => Promise<void>` |
+
+Parameters:
+
+- `neuronId`: The id of the neuron for which to request a change of the auto stake feature
+- `autoStake`: `true` to enable the auto-stake maturity for this neuron, `false` to turn it off
 
 ##### :gear: setDissolveTimestamp
 
@@ -521,6 +549,8 @@ Parameters:
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
 - [getTransactions](#gear-gettransactions)
+- [stakeMaturity](#gear-stakematurity)
+- [autoStakeMaturity](#gear-autostakematurity)
 
 ##### :gear: listNeurons
 
@@ -697,5 +727,17 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method            | Type                                                                 |
 | ----------------- | -------------------------------------------------------------------- |
 | `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
+
+##### :gear: stakeMaturity
+
+| Method          | Type                                                      |
+| --------------- | --------------------------------------------------------- |
+| `stakeMaturity` | `(params: SnsNeuronStakeMaturityParams) => Promise<void>` |
+
+##### :gear: autoStakeMaturity
+
+| Method              | Type                                                          |
+| ------------------- | ------------------------------------------------------------- |
+| `autoStakeMaturity` | `(params: SnsNeuronAutoStakeMaturityParams) => Promise<void>` |
 
 <!-- TSDOC_END -->
