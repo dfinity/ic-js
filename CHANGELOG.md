@@ -1,4 +1,4 @@
-# 0.10.0 (wip)
+# 0.10.0 (2022-12-06)
 
 ## Release
 
@@ -6,6 +6,16 @@
 - sns `v0.0.7`
 - cmc `v0.0.3`
 - utils `v0.0.6`
+
+### Features
+
+- various neuron features for Sns - e.g. stake neuron, list and set followees, set dissolve delay, stake maturity etc.
+- array utilities `bigIntToUint8Array` and `numberToUint8Array`
+- semantic version comparator `smallerVersion`
+
+### Fix
+
+- rounding conversion from `number` to `Token`
 
 # 0.9.0 (2022-10-31)
 
