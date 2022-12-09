@@ -1,7 +1,9 @@
+import { describe } from "@jest/globals";
 import { Vote } from "../enums/governance.enums";
 import { NeuronInfo, ProposalInfo } from "../types/governance_converters";
 import {
   ineligibleNeurons,
+  notVotedNeurons,
   votableNeurons,
   votedNeurons,
 } from "./neurons.utils";
@@ -157,52 +159,105 @@ describe("neurons-utils", () => {
     expect(votable.length).toEqual(3);
   });
 
-  it("should not have voted neurons because votable", () => {
-    const voted = votedNeurons({
-      proposal,
-      neurons: [
-        {
-          ...eligibleNeuronsDate[0],
-          recentBallots: [
-            {
-              proposalId: BigInt(4),
-              vote: Vote.No,
-            },
-          ],
-        },
-      ],
+  describe("voted", () => {
+    it("should not have voted neurons because votable", () => {
+      const voted = votedNeurons({
+        proposal,
+        neurons: [
+          {
+            ...eligibleNeuronsDate[0],
+            recentBallots: [
+              {
+                proposalId: BigInt(4),
+                vote: Vote.No,
+              },
+            ],
+          },
+        ],
+      });
+      expect(voted.length).toEqual(0);
     });
-    expect(voted.length).toEqual(0);
+
+    it("should not have voted neurons because never voted", () => {
+      const voted = votedNeurons({
+        proposal,
+        neurons: [
+          {
+            ...eligibleNeuronsDate[0],
+            recentBallots: [],
+          },
+        ],
+      });
+      expect(voted.length).toEqual(0);
+    });
+
+    it("should have voted neurons because has voted", () => {
+      const voted = votedNeurons({
+        proposal,
+        neurons: [
+          {
+            ...eligibleNeuronsDate[0],
+            recentBallots: [
+              {
+                proposalId,
+                vote: Vote.No,
+              },
+            ],
+          },
+        ],
+      });
+      expect(voted.length).toEqual(1);
+    });
   });
 
-  it("should not have voted neurons because never voted", () => {
-    const voted = votedNeurons({
-      proposal,
-      neurons: [
-        {
-          ...eligibleNeuronsDate[0],
-          recentBallots: [],
-        },
-      ],
+  describe("not voted", () => {
+    it("should not have voted neurons because votable", () => {
+      const voted = notVotedNeurons({
+        proposal,
+        neurons: [
+          {
+            ...eligibleNeuronsDate[0],
+            recentBallots: [
+              {
+                proposalId: BigInt(4),
+                vote: Vote.No,
+              },
+            ],
+          },
+        ],
+      });
+      expect(voted.length).toEqual(1);
     });
-    expect(voted.length).toEqual(0);
-  });
 
-  it("should have voted neurons because has voted", () => {
-    const voted = votedNeurons({
-      proposal,
-      neurons: [
-        {
-          ...eligibleNeuronsDate[0],
-          recentBallots: [
-            {
-              proposalId,
-              vote: Vote.No,
-            },
-          ],
-        },
-      ],
+    it("should not have voted neurons because never voted", () => {
+      const voted = notVotedNeurons({
+        proposal,
+        neurons: [
+          {
+            ...eligibleNeuronsDate[0],
+            recentBallots: [],
+          },
+        ],
+      });
+      expect(voted.length).toEqual(1);
     });
-    expect(voted.length).toEqual(1);
+
+    it("should have voted neurons because has voted", () => {
+      const voted = notVotedNeurons({
+        proposal,
+        neurons: [
+          {
+            ...eligibleNeuronsDate[0],
+            recentBallots: [
+              {
+                proposalId,
+                vote: Vote.No,
+              },
+            ],
+          },
+        ],
+      });
+      expect(voted.length).toEqual(0);
+    });
   });
 });
