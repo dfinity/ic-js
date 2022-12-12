@@ -24,6 +24,18 @@ const voteForProposal = ({
   return ballot?.vote;
 };
 
+/**
+ * Filter the neurons that are ineligible to vote to a proposal.
+ *
+ * This feature needs the ballots of the proposal to contains accurate data.
+ * If the proposal has settled, as the ballots of the proposal are emptied for archive purpose, the function might return a list of ineligible neurons that are actually neurons that have not voted but would have been eligible.
+ *
+ * Long story short, check the status of the proposal before using this function.
+ *
+ * @param {neurons; proposal;} params
+ * @param params.neurons The neurons to filter.
+ * @param params.proposal The proposal to match against the selected neurons.
+ */
 export const ineligibleNeurons = ({
   neurons,
   proposal,
@@ -47,7 +59,11 @@ export const ineligibleNeurons = ({
 };
 
 /**
- * Neurons that can vote for the proposal (not voted, with voting power)
+ * Filter the neurons that can vote for a proposal - i.e. the neurons that have not voted yet and are eligible
+ *
+ * @param {neurons; proposal;} params
+ * @param params.neurons The neurons to filter.
+ * @param params.proposal The proposal to match against the selected neurons.
  */
 export const votableNeurons = ({
   neurons,
@@ -68,6 +84,13 @@ export const votableNeurons = ({
   );
 };
 
+/**
+ * Filter the neurons that have voted for a proposal.
+ *
+ * @param {neurons; proposal;} params
+ * @param params.neurons The neurons to filter.
+ * @param params.proposal The proposal for which some neurons might have already voted.
+ */
 export const votedNeurons = ({
   neurons,
   proposal: { id: proposalId },
@@ -80,6 +103,15 @@ export const votedNeurons = ({
       voteForProposal({ recentBallots, proposalId }) !== undefined
   );
 
+/**
+ * Filter the neurons that have not voted for a proposal.
+ *
+ * Note: This function returns no hints on the reason why neurons are not voted nor if some were or are ineligible.
+ *
+ * @param {neurons; proposal;} params
+ * @param params.neurons The neurons to filter.
+ * @param params.proposal The proposal for which some neurons might have not voted.
+ */
 export const notVotedNeurons = ({
   neurons,
   proposal: { id: proposalId },

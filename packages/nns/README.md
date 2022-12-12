@@ -66,6 +66,10 @@ await main();
 ### :toolbox: Functions
 
 - [convertStringToE8s](#gear-convertstringtoe8s)
+- [ineligibleNeurons](#gear-ineligibleneurons)
+- [votableNeurons](#gear-votableneurons)
+- [votedNeurons](#gear-votedneurons)
+- [notVotedNeurons](#gear-notvotedneurons)
 
 #### :gear: convertStringToE8s
 
@@ -78,6 +82,65 @@ Receives a string representing a number and returns the big int or error.
 Parameters:
 
 - `amount`: - in string format
+
+#### :gear: ineligibleNeurons
+
+Filter the neurons that are ineligible to vote to a proposal.
+
+This feature needs the ballots of the proposal to contains accurate data.
+If the proposal has settled, as the ballots of the proposal are emptied for archive purpose, the function might return a list of ineligible neurons that are actually neurons that have not voted but would have been eligible.
+
+Long story short, check the status of the proposal before using this function.
+
+| Function            | Type                                                                                           |
+| ------------------- | ---------------------------------------------------------------------------------------------- |
+| `ineligibleNeurons` | `({ neurons, proposal, }: { neurons: NeuronInfo[]; proposal: ProposalInfo; }) => NeuronInfo[]` |
+
+Parameters:
+
+- `params.neurons`: The neurons to filter.
+- `params.proposal`: The proposal to match against the selected neurons.
+
+#### :gear: votableNeurons
+
+Filter the neurons that can vote for a proposal - i.e. the neurons that have not voted yet and are eligible
+
+| Function         | Type                                                                                           |
+| ---------------- | ---------------------------------------------------------------------------------------------- |
+| `votableNeurons` | `({ neurons, proposal, }: { neurons: NeuronInfo[]; proposal: ProposalInfo; }) => NeuronInfo[]` |
+
+Parameters:
+
+- `params.neurons`: The neurons to filter.
+- `params.proposal`: The proposal to match against the selected neurons.
+
+#### :gear: votedNeurons
+
+Filter the neurons that have voted for a proposal.
+
+| Function       | Type                                                                                                               |
+| -------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `votedNeurons` | `({ neurons, proposal: { id: proposalId }, }: { neurons: NeuronInfo[]; proposal: ProposalInfo; }) => NeuronInfo[]` |
+
+Parameters:
+
+- `params.neurons`: The neurons to filter.
+- `params.proposal`: The proposal for which some neurons might have already voted.
+
+#### :gear: notVotedNeurons
+
+Filter the neurons that have not voted for a proposal.
+
+Note: This function returns no hints on the reason why neurons are not voted nor if some were or are ineligible.
+
+| Function          | Type                                                                                                               |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `notVotedNeurons` | `({ neurons, proposal: { id: proposalId }, }: { neurons: NeuronInfo[]; proposal: ProposalInfo; }) => NeuronInfo[]` |
+
+Parameters:
+
+- `params.neurons`: The neurons to filter.
+- `params.proposal`: The proposal for which some neurons might have not voted.
 
 ### :wrench: Constants
 
