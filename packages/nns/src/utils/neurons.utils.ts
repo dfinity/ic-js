@@ -24,6 +24,18 @@ const voteForProposal = ({
   return ballot?.vote;
 };
 
+/**
+ * Filter the neurons that are ineligible to vote to a proposal.
+ *
+ * This feature needs the ballots of the proposal to contains accurate data.
+ * If the proposal has settled, as the ballots of the proposal are emptied for archive purpose, the function might return a list of ineligible neurons that are actually neurons that have not voted but would have been eligible.
+ *
+ * Long story short, check the status of the proposal before using this function.
+ *
+ * @param {neurons; proposal;} params
+ * @param params.neurons The neurons to filter.
+ * @param params.proposal The proposal to match against the selected neurons.
+ */
 export const ineligibleNeurons = ({
   neurons,
   proposal,
@@ -47,7 +59,11 @@ export const ineligibleNeurons = ({
 };
 
 /**
- * Neurons that can vote for the proposal (not voted, with voting power)
+ * Filter the neurons that can vote for a proposal - i.e. the neurons that have not voted yet and are eligible
+ *
+ * @param {neurons; proposal;} params
+ * @param params.neurons The neurons to filter.
+ * @param params.proposal The proposal to match against the selected neurons.
  */
 export const votableNeurons = ({
   neurons,
@@ -68,17 +84,21 @@ export const votableNeurons = ({
   );
 };
 
+/**
+ * Filter the neurons that have voted for a proposal.
+ *
+ * @param {neurons; proposal;} params
+ * @param params.neurons The neurons to filter.
+ * @param params.proposal The proposal for which some neurons might have already voted.
+ */
 export const votedNeurons = ({
   neurons,
-  proposal,
+  proposal: { id: proposalId },
 }: {
   neurons: NeuronInfo[];
   proposal: ProposalInfo;
-}): NeuronInfo[] => {
-  const { id: proposalId } = proposal;
-
-  return neurons.filter(
+}): NeuronInfo[] =>
+  neurons.filter(
     ({ recentBallots }: NeuronInfo) =>
       voteForProposal({ recentBallots, proposalId }) !== undefined
   );
-};
