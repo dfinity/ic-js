@@ -618,7 +618,9 @@ Returns the subaccount of the next neuron to be created.
 
 The neuron account is a subaccount of the governance canister.
 The subaccount is derived from the controller and an ascending index.
-The id of the neuron is the subaccount.
+
+‼️ The id of the neuron is the subaccount (neuron ID = subaccount) ‼️.
+
 If the neuron does not exist for that subaccount, then we use it for the next neuron.
 
 The index is used in the memo of the transfer and when claiming the neuron.
