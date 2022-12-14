@@ -160,7 +160,9 @@ export class SnsWrapper {
    *
    * The neuron account is a subaccount of the governance canister.
    * The subaccount is derived from the controller and an ascending index.
-   * The id of the neuron is the subaccount.
+   *
+   * ‼️ The id of the neuron is the subaccount (neuron ID = subaccount) ‼️.
+   *
    * If the neuron does not exist for that subaccount, then we use it for the next neuron.
    *
    * The index is used in the memo of the transfer and when claiming the neuron.
@@ -175,10 +177,7 @@ export class SnsWrapper {
     // TODO: try parallilizing requests to improve performance
     for (let index = 0; index < MAX_NEURONS_SUBACCOUNTS; index++) {
       const subaccount = neuronSubaccount({ index, controller });
-      const account = {
-        owner: this.canisterIds.governanceCanisterId,
-        subaccount,
-      };
+
       const neuronId: NeuronId = { id: subaccount };
       let neuron = await this.governance.queryNeuron({
         neuronId,
@@ -193,7 +192,10 @@ export class SnsWrapper {
         // If the neuron does not exist, we can use this subaccount
         if (neuron === undefined) {
           return {
-            account,
+            account: {
+              owner: this.canisterIds.governanceCanisterId,
+              subaccount,
+            },
             index: BigInt(index),
           };
         }
