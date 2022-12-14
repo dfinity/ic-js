@@ -25,7 +25,7 @@ export const neuronSubaccount = ({
     ...controller.toUint8Array(),
     ...numberToUint8Array(index),
   ];
-  // TODO: Implement without library and make it compatible with NodeJS and browser
+  // TODO(#238): Implement without library and make it compatible with NodeJS and browser
   const shaObj = sha256.create();
   shaObj.update(data);
   return new Uint8Array(shaObj.array());
