@@ -136,6 +136,7 @@ Parameters:
 - [manageNeuron](#gear-manageneuron)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
+- [splitNeuron](#gear-splitneuron)
 - [disburse](#gear-disburse)
 - [startDissolving](#gear-startdissolving)
 - [stopDissolving](#gear-stopdissolving)
@@ -231,6 +232,14 @@ Remove permissions to a neuron for a specific principal
 | Method                    | Type                                                    |
 | ------------------------- | ------------------------------------------------------- |
 | `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: splitNeuron
+
+Split neuron
+
+| Method        | Type                                              |
+| ------------- | ------------------------------------------------- |
+| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<void>` |
 
 ##### :gear: disburse
 
@@ -539,6 +548,7 @@ Parameters:
 - [refreshNeuron](#gear-refreshneuron)
 - [claimNeuron](#gear-claimneuron)
 - [removeNeuronPermissions](#gear-removeneuronpermissions)
+- [splitNeuron](#gear-splitneuron)
 - [disburse](#gear-disburse)
 - [startDissolving](#gear-startdissolving)
 - [stopDissolving](#gear-stopdissolving)
@@ -667,6 +677,12 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method                    | Type                                                    |
 | ------------------------- | ------------------------------------------------------- |
 | `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+##### :gear: splitNeuron
+
+| Method        | Type                                              |
+| ------------- | ------------------------------------------------- |
+| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<void>` |
 
 ##### :gear: disburse
 
