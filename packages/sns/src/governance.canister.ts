@@ -23,6 +23,7 @@ import {
   toIncreaseDissolveDelayRequest,
   toRemovePermissionsRequest,
   toSetDissolveTimestampRequest,
+  toSplitNeuronRequest,
   toStakeMaturityRequest,
   toStartDissolvingNeuronRequest,
   toStopDissolvingNeuronRequest,
@@ -41,6 +42,7 @@ import type {
   SnsNeuronStakeMaturityParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
+  SnsSplitNeuronParams,
 } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
@@ -168,6 +170,14 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     params: SnsNeuronPermissionsParams
   ): Promise<void> => {
     const request: ManageNeuron = toRemovePermissionsRequest(params);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Split neuron
+   */
+  public splitNeuron = async (params: SnsSplitNeuronParams): Promise<void> => {
+    const request: ManageNeuron = toSplitNeuronRequest(params);
     await this.manageNeuron(request);
   };
 

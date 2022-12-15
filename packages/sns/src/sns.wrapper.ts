@@ -33,6 +33,7 @@ import type {
   SnsNeuronStakeMaturityParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
+  SnsSplitNeuronParams,
   SnsStakeNeuronParams,
 } from "./types/governance.params";
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
@@ -268,6 +269,10 @@ export class SnsWrapper {
   removeNeuronPermissions = (
     params: SnsNeuronPermissionsParams
   ): Promise<void> => this.governance.removeNeuronPermissions(params);
+
+  // Always certified
+  splitNeuron = (params: SnsSplitNeuronParams): Promise<void> =>
+    this.governance.splitNeuron(params);
 
   // Always certified
   disburse = (params: SnsDisburseNeuronParams): Promise<void> =>

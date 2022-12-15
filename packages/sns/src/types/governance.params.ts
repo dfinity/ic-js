@@ -54,6 +54,14 @@ export interface SnsNeuronPermissionsParams extends SnsNeuronManagementParams {
 }
 
 /**
+ * The parameters to split a neuron
+ */
+export interface SnsSplitNeuronParams extends SnsNeuronManagementParams {
+  amount: E8s;
+  memo: bigint;
+}
+
+/**
  * The parameters to disburse a neuron
  */
 export interface SnsDisburseNeuronParams extends SnsNeuronManagementParams {
