@@ -271,7 +271,7 @@ export class SnsWrapper {
   ): Promise<void> => this.governance.removeNeuronPermissions(params);
 
   // Always certified
-  splitNeuron = (params: SnsSplitNeuronParams): Promise<void> =>
+  splitNeuron = (params: SnsSplitNeuronParams): Promise<NeuronId | undefined> =>
     this.governance.splitNeuron(params);
 
   // Always certified

@@ -9,6 +9,7 @@ import type {
   NervousSystemParameters,
   Neuron,
   NeuronId,
+  SplitResponse,
   _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
@@ -176,9 +177,33 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Split neuron
    */
-  public splitNeuron = async (params: SnsSplitNeuronParams): Promise<void> => {
+  public splitNeuron = async (
+    params: SnsSplitNeuronParams
+  ): Promise<NeuronId | undefined> => {
     const request: ManageNeuron = toSplitNeuronRequest(params);
-    await this.manageNeuron(request);
+    const { command } = await this.manageNeuron(request);
+    const response: ManageNeuronResponse = fromNullable(command);
+    const throwSplitError = (details: string) => {
+      throw new SnsGovernanceError(`Split neuron failed (${details})`);
+    };
+
+    // Validate response
+    if (response === undefined) {
+      throwSplitError("no response");
+    }
+
+    if ("Split" in response) {
+      const split = response.Split as SplitResponse;
+      const neuronId = fromNullable(split.created_neuron_id) as NeuronId;
+
+      if (neuronId !== undefined) {
+        return neuronId;
+      }
+
+      throwSplitError("no id");
+    }
+
+    throwSplitError("unknown");
   };
 
   /**
