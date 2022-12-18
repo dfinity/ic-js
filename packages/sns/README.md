@@ -237,9 +237,9 @@ Remove permissions to a neuron for a specific principal
 
 Split neuron
 
-| Method        | Type                                              |
-| ------------- | ------------------------------------------------- |
-| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<void>` |
+| Method        | Type                                                  |
+| ------------- | ----------------------------------------------------- |
+| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<NeuronId>` |
 
 ##### :gear: disburse
 
@@ -680,9 +680,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: splitNeuron
 
-| Method        | Type                                              |
-| ------------- | ------------------------------------------------- |
-| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<void>` |
+| Method        | Type                                                  |
+| ------------- | ----------------------------------------------------- |
+| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<NeuronId>` |
 
 ##### :gear: disburse
 
