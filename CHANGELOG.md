@@ -9,6 +9,7 @@
 
 ### Build
 
+- build Nns (`crc` and `google-protobuf`) dependencies
 - bump dev dependencies
 
 # 0.10.0 (2022-12-06)
