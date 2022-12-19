@@ -9,7 +9,8 @@
 
 ### Build
 
-- build Nns (`crc` and `google-protobuf`) dependencies
+- bump `agent-js` peer dependencies to `v0.15.1`
+- bump Nns (`crc` and `google-protobuf`) dependencies
 - bump dev dependencies
 
 # 0.10.0 (2022-12-06)
