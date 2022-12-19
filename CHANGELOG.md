@@ -7,6 +7,10 @@
 - cmc `v0.0.4`
 - utils `v0.0.7`
 
+### Build
+
+- bump dev dependencies
+
 # 0.10.0 (2022-12-06)
 
 ## Release
