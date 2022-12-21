@@ -10,6 +10,7 @@ const nnsInputFiles = [
   "./packages/nns/src/token.ts",
   "./packages/nns/src/ledger.canister.ts",
   "./packages/nns/src/sns_wasm.canister.ts",
+  "./packages/nns/src/utils/neurons.utils.ts",
 ];
 
 const snsInputFiles = [

@@ -1,7 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import { NeuronId } from "../candid/sns_governance";
+import { ManageNeuronResponse, NeuronId } from "../candid/sns_governance";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import { SnsGovernanceCanister } from "./governance.canister";
@@ -480,151 +480,246 @@ describe("SnsWrapper", () => {
     });
   });
 
-  describe("stakeNeuron", () => {
+  describe("stake", () => {
     const mockSnsAccount = {
       owner: mockPrincipal,
     };
-    afterEach(() => jest.clearAllMocks());
-    describe("when transfer and claim work", () => {
-      mockCertifiedGovernanceCanister.manageNeuron.mockResolvedValue({
-        command: [
-          {
-            ClaimOrRefresh: {
-              refreshed_neuron_id: [neuronIdMock],
-            },
+
+    const mockCommandResult = {
+      command: [
+        {
+          ClaimOrRefresh: {
+            refreshed_neuron_id: [neuronIdMock],
           },
-        ],
-      });
-      mockCertifiedLedgerCanister.transfer.mockResolvedValue(BigInt(10));
+        },
+      ],
+    } as ManageNeuronResponse;
 
-      afterEach(() => jest.clearAllMocks());
-      it("should check balances with query call until one with 0 is found", async () => {
-        mockCertifiedGovernanceCanister.queryNeuron
-          .mockResolvedValueOnce(neuronMock)
-          .mockResolvedValueOnce(neuronMock)
-          .mockResolvedValue(undefined);
-        await certifiedSnsWrapper.stakeNeuron({
-          stakeE8s: BigInt(10),
-          source: mockSnsAccount,
-          controller: mockPrincipal,
-        });
+    const stakeE8s = BigInt(10);
 
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron
-        ).toHaveBeenCalledTimes(4);
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron.mock.calls[0][0].certified
-        ).toBe(false);
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron.mock.calls[1][0].certified
-        ).toBe(false);
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron.mock.calls[2][0].certified
-        ).toBe(false);
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron.mock.calls[3][0].certified
-        ).toBe(true);
-      });
+    afterEach(() => jest.clearAllMocks());
 
-      it("should check with update when 0 si found and continue if that is not 0", async () => {
-        mockCertifiedGovernanceCanister.queryNeuron
-          .mockResolvedValueOnce(neuronMock)
-          .mockResolvedValueOnce(neuronMock)
-          .mockResolvedValueOnce(undefined)
-          .mockResolvedValueOnce(neuronMock)
-          .mockResolvedValueOnce(undefined)
-          .mockResolvedValue(undefined);
-
-        await certifiedSnsWrapper.stakeNeuron({
-          stakeE8s: BigInt(10),
-          source: mockSnsAccount,
-          controller: mockPrincipal,
-        });
-
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron
-        ).toHaveBeenCalledTimes(6);
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron.mock.calls[2][0].certified
-        ).toBe(false);
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron.mock.calls[3][0].certified
-        ).toBe(true);
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron.mock.calls[4][0].certified
-        ).toBe(false);
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron.mock.calls[5][0].certified
-        ).toBe(true);
-      });
-      it("should make a transfer and claim the neuron", async () => {
-        mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(
-          undefined
+    describe("stakeNeuron", () => {
+      describe("when transfer and claim work", () => {
+        mockCertifiedGovernanceCanister.manageNeuron.mockResolvedValue(
+          mockCommandResult
         );
+        mockCertifiedLedgerCanister.transfer.mockResolvedValue(stakeE8s);
 
-        await certifiedSnsWrapper.stakeNeuron({
-          stakeE8s: BigInt(10),
-          source: mockSnsAccount,
-          controller: mockPrincipal,
+        afterEach(() => jest.clearAllMocks());
+
+        it("should check balances with query call until one with 0 is found", async () => {
+          mockCertifiedGovernanceCanister.queryNeuron
+            .mockResolvedValueOnce(neuronMock)
+            .mockResolvedValueOnce(neuronMock)
+            .mockResolvedValue(undefined);
+
+          await certifiedSnsWrapper.stakeNeuron({
+            stakeE8s,
+            source: mockSnsAccount,
+            controller: mockPrincipal,
+          });
+
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron
+          ).toHaveBeenCalledTimes(4);
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron.mock.calls[0][0]
+              .certified
+          ).toBe(false);
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron.mock.calls[1][0]
+              .certified
+          ).toBe(false);
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron.mock.calls[2][0]
+              .certified
+          ).toBe(false);
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron.mock.calls[3][0]
+              .certified
+          ).toBe(true);
         });
 
-        expect(
+        it("should check with update when 0 is found and continue if that is not 0", async () => {
           mockCertifiedGovernanceCanister.queryNeuron
-        ).toHaveBeenCalledTimes(2);
-        expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
-        expect(mockCertifiedGovernanceCanister.claimNeuron).toHaveBeenCalled();
+            .mockResolvedValueOnce(neuronMock)
+            .mockResolvedValueOnce(neuronMock)
+            .mockResolvedValueOnce(undefined)
+            .mockResolvedValueOnce(neuronMock)
+            .mockResolvedValueOnce(undefined)
+            .mockResolvedValue(undefined);
+
+          await certifiedSnsWrapper.stakeNeuron({
+            stakeE8s,
+            source: mockSnsAccount,
+            controller: mockPrincipal,
+          });
+
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron
+          ).toHaveBeenCalledTimes(6);
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron.mock.calls[2][0]
+              .certified
+          ).toBe(false);
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron.mock.calls[3][0]
+              .certified
+          ).toBe(true);
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron.mock.calls[4][0]
+              .certified
+          ).toBe(false);
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron.mock.calls[5][0]
+              .certified
+          ).toBe(true);
+        });
+
+        it("should make a transfer and claim the neuron", async () => {
+          mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(
+            undefined
+          );
+
+          await certifiedSnsWrapper.stakeNeuron({
+            stakeE8s,
+            source: mockSnsAccount,
+            controller: mockPrincipal,
+          });
+
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron
+          ).toHaveBeenCalledTimes(2);
+          expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
+          expect(
+            mockCertifiedGovernanceCanister.claimNeuron
+          ).toHaveBeenCalled();
+        });
+      });
+
+      describe("when it fails", () => {
+        it("should not claim the neuron if the transfer fails", async () => {
+          mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(
+            undefined
+          );
+          mockCertifiedLedgerCanister.transfer.mockRejectedValue(
+            new Error("error")
+          );
+
+          const call = () =>
+            certifiedSnsWrapper.stakeNeuron({
+              stakeE8s,
+              source: mockSnsAccount,
+              controller: mockPrincipal,
+            });
+
+          await expect(call).rejects.toThrowError("error");
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron
+          ).toHaveBeenCalledTimes(2);
+          expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
+          expect(
+            mockCertifiedGovernanceCanister.claimNeuron
+          ).not.toHaveBeenCalled();
+        });
+
+        it("should fail if claim fails", async () => {
+          mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(
+            undefined
+          );
+          mockCertifiedLedgerCanister.transfer.mockResolvedValue(BigInt(10));
+
+          mockCertifiedGovernanceCanister.claimNeuron.mockRejectedValue(
+            new SnsGovernanceError("error")
+          );
+
+          const call = () =>
+            certifiedSnsWrapper.stakeNeuron({
+              stakeE8s,
+              source: mockSnsAccount,
+              controller: mockPrincipal,
+            });
+
+          await expect(call).rejects.toThrow(SnsGovernanceError);
+          expect(
+            mockCertifiedGovernanceCanister.queryNeuron
+          ).toHaveBeenCalledTimes(2);
+          expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
+          expect(
+            mockCertifiedGovernanceCanister.claimNeuron
+          ).toHaveBeenCalled();
+        });
       });
     });
 
-    describe("when it fails", () => {
-      it("should not claim the neuron if the transfer fails", async () => {
-        mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(
-          undefined
+    describe("increaseStakeNeuron", () => {
+      describe("on success", () => {
+        mockCertifiedGovernanceCanister.manageNeuron.mockResolvedValue(
+          mockCommandResult
         );
-        mockCertifiedLedgerCanister.transfer.mockRejectedValue(
-          new Error("error")
-        );
+        mockCertifiedLedgerCanister.transfer.mockResolvedValue(stakeE8s);
 
-        const call = () =>
-          certifiedSnsWrapper.stakeNeuron({
-            stakeE8s: BigInt(10),
+        afterEach(() => jest.clearAllMocks());
+
+        it("should make a transfer and refresh the neuron", async () => {
+          await certifiedSnsWrapper.increaseStakeNeuron({
+            stakeE8s,
             source: mockSnsAccount,
-            controller: mockPrincipal,
+            neuronId: neuronIdMock,
           });
 
-        await expect(call).rejects.toThrowError("error");
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron
-        ).toHaveBeenCalledTimes(2);
-        expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
-        expect(
-          mockCertifiedGovernanceCanister.claimNeuron
-        ).not.toHaveBeenCalled();
+          expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
+          expect(
+            mockCertifiedGovernanceCanister.refreshNeuron
+          ).toHaveBeenCalled();
+        });
       });
 
-      it("should fail if claim fails", async () => {
-        mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(
-          undefined
-        );
-        mockCertifiedLedgerCanister.transfer.mockResolvedValue(BigInt(10));
+      describe("when it fails", () => {
+        it("should not refresh the neuron if the transfer fails", async () => {
+          mockCertifiedLedgerCanister.transfer.mockRejectedValue(
+            new Error("error")
+          );
 
-        mockCertifiedGovernanceCanister.claimNeuron.mockRejectedValue(
-          new SnsGovernanceError("error")
-        );
+          const call = () =>
+            certifiedSnsWrapper.increaseStakeNeuron({
+              stakeE8s,
+              source: mockSnsAccount,
+              neuronId: neuronIdMock,
+            });
 
-        const call = () =>
-          certifiedSnsWrapper.stakeNeuron({
-            stakeE8s: BigInt(10),
-            source: mockSnsAccount,
-            controller: mockPrincipal,
-          });
+          await expect(call).rejects.toThrowError("error");
 
-        await expect(call).rejects.toThrow(SnsGovernanceError);
-        expect(
-          mockCertifiedGovernanceCanister.queryNeuron
-        ).toHaveBeenCalledTimes(2);
-        expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
-        expect(mockCertifiedGovernanceCanister.claimNeuron).toHaveBeenCalled();
+          expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
+
+          expect(
+            mockCertifiedGovernanceCanister.refreshNeuron
+          ).not.toHaveBeenCalled();
+        });
+
+        it("should fail if refresh fails", async () => {
+          mockCertifiedLedgerCanister.transfer.mockResolvedValue(BigInt(10));
+
+          mockCertifiedGovernanceCanister.refreshNeuron.mockRejectedValue(
+            new SnsGovernanceError("error")
+          );
+
+          const call = () =>
+            certifiedSnsWrapper.increaseStakeNeuron({
+              stakeE8s,
+              source: mockSnsAccount,
+              neuronId: neuronIdMock,
+            });
+
+          await expect(call).rejects.toThrow(SnsGovernanceError);
+
+          expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
+
+          expect(
+            mockCertifiedGovernanceCanister.refreshNeuron
+          ).toHaveBeenCalled();
+        });
       });
     });
   });

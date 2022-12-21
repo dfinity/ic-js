@@ -543,6 +543,7 @@ Parameters:
 - [queryNeuron](#gear-queryneuron)
 - [nextNeuronAccount](#gear-nextneuronaccount)
 - [stakeNeuron](#gear-stakeneuron)
+- [increaseStakeNeuron](#gear-increasestakeneuron)
 - [getNeuronBalance](#gear-getneuronbalance)
 - [addNeuronPermissions](#gear-addneuronpermissions)
 - [refreshNeuron](#gear-refreshneuron)
@@ -628,7 +629,9 @@ Returns the subaccount of the next neuron to be created.
 
 The neuron account is a subaccount of the governance canister.
 The subaccount is derived from the controller and an ascending index.
-The id of the neuron is the subaccount.
+
+‼️ The id of the neuron is the subaccount (neuron ID = subaccount) ‼️.
+
 If the neuron does not exist for that subaccount, then we use it for the next neuron.
 
 The index is used in the memo of the transfer and when claiming the neuron.
@@ -644,9 +647,23 @@ Stakes a neuron.
 
 This is a convenient method that transfers the stake to the neuron subaccount and then claims the neuron.
 
+⚠️ This feature is provided as it without warranty. It does not implement any additional checks of the validity of the payment flow - e.g. it does not handle refund nor retries claiming the neuron in case of errors.
+
 | Method        | Type                                                                             |
 | ------------- | -------------------------------------------------------------------------------- |
 | `stakeNeuron` | `({ stakeE8s, source, controller, }: SnsStakeNeuronParams) => Promise<NeuronId>` |
+
+##### :gear: increaseStakeNeuron
+
+Increase the stake of a neuron.
+
+This is a convenient method that transfers the stake to the neuron subaccount and then refresh the neuron.
+
+⚠️ This feature is provided as it without warranty. It does not implement any additional checks of the validity of the payment flow - e.g. it does not handle refund nor calls refresh again in case of errors.
+
+| Method                | Type                                                                               |
+| --------------------- | ---------------------------------------------------------------------------------- |
+| `increaseStakeNeuron` | `({ stakeE8s, source, neuronId, }: SnsIncreaseStakeNeuronParams) => Promise<void>` |
 
 ##### :gear: getNeuronBalance
 

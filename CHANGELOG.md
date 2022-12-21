@@ -7,6 +7,16 @@
 - cmc `v0.0.4`
 - utils `v0.0.7`
 
+### Features
+
+- new Sns features: increase stake neuron
+
+### Build
+
+- bump `agent-js` peer dependencies to `v0.15.1`
+- bump Nns (`crc` and `google-protobuf`) dependencies
+- bump dev dependencies
+
 # 0.10.0 (2022-12-06)
 
 ## Release
