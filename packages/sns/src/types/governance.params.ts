@@ -31,6 +31,13 @@ export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
   controller: Principal;
 }
 
+export interface SnsIncreaseStakeNeuronParams
+  extends Omit<QueryParams, "certified"> {
+  stakeE8s: Tokens;
+  source: SnsAccount;
+  neuronId: NeuronId;
+}
+
 // Type to transform to a ClaimOrRefresh command
 export interface SnsClaimOrRefreshArgs extends Omit<QueryParams, "certified"> {
   subaccount: Uint8Array;

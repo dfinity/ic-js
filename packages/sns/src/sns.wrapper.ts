@@ -27,6 +27,7 @@ import type {
   SnsDisburseNeuronParams,
   SnsGetNeuronParams,
   SnsIncreaseDissolveDelayParams,
+  SnsIncreaseStakeNeuronParams,
   SnsListNeuronsParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
@@ -160,7 +161,9 @@ export class SnsWrapper {
    *
    * The neuron account is a subaccount of the governance canister.
    * The subaccount is derived from the controller and an ascending index.
-   * The id of the neuron is the subaccount.
+   *
+   * ‼️ The id of the neuron is the subaccount (neuron ID = subaccount) ‼️.
+   *
    * If the neuron does not exist for that subaccount, then we use it for the next neuron.
    *
    * The index is used in the memo of the transfer and when claiming the neuron.
@@ -175,10 +178,7 @@ export class SnsWrapper {
     // TODO: try parallilizing requests to improve performance
     for (let index = 0; index < MAX_NEURONS_SUBACCOUNTS; index++) {
       const subaccount = neuronSubaccount({ index, controller });
-      const account = {
-        owner: this.canisterIds.governanceCanisterId,
-        subaccount,
-      };
+
       const neuronId: NeuronId = { id: subaccount };
       let neuron = await this.governance.queryNeuron({
         neuronId,
@@ -193,7 +193,10 @@ export class SnsWrapper {
         // If the neuron does not exist, we can use this subaccount
         if (neuron === undefined) {
           return {
-            account,
+            account: {
+              ...this.owner,
+              subaccount,
+            },
             index: BigInt(index),
           };
         }
@@ -207,10 +210,12 @@ export class SnsWrapper {
    *
    * This is a convenient method that transfers the stake to the neuron subaccount and then claims the neuron.
    *
+   * ⚠️ This feature is provided as it without warranty. It does not implement any additional checks of the validity of the payment flow - e.g. it does not handle refund nor retries claiming the neuron in case of errors.
+   *
    * @param {SnsStakeNeuronParams} params
    * @param {Principal} params.controller
    * @param {bigint} params.stakeE8s
-   * @param {source} param.source
+   * @param {source} params.source
    * @returns {NeuronId}
    */
   stakeNeuron = async ({
@@ -244,9 +249,41 @@ export class SnsWrapper {
     });
   };
 
+  /**
+   * Increase the stake of a neuron.
+   *
+   * This is a convenient method that transfers the stake to the neuron subaccount and then refresh the neuron.
+   *
+   * ⚠️ This feature is provided as it without warranty. It does not implement any additional checks of the validity of the payment flow - e.g. it does not handle refund nor calls refresh again in case of errors.
+   *
+   * @param {SnsStakeNeuronParams} params
+   * @param {Principal} params.controller
+   * @param {bigint} params.stakeE8s
+   * @param {source} params.source
+   * @returns {NeuronId}
+   */
+  increaseStakeNeuron = async ({
+    stakeE8s,
+    source,
+    neuronId,
+  }: SnsIncreaseStakeNeuronParams): Promise<void> => {
+    this.assertCertified("stakeNeuron");
+
+    await this.ledger.transfer({
+      amount: stakeE8s,
+      to: {
+        ...this.owner,
+        subaccount: toNullable(neuronId.id),
+      },
+      from_subaccount: source.subaccount,
+    });
+
+    return this.governance.refreshNeuron(neuronId);
+  };
+
   getNeuronBalance = async (neuronId: NeuronId): Promise<Tokens> => {
     const account = {
-      owner: this.canisterIds.governanceCanisterId,
+      ...this.owner,
       subaccount: neuronId.id,
     };
     return this.ledger.balance({ ...account, certified: this.certified });
@@ -334,4 +371,17 @@ export class SnsWrapper {
       throw new SnsGovernanceError(`Call to ${name} needs to be certified`);
     }
   };
+
+  /**
+   * Each Sns neuron id is a subaccount of the related Sns ledger account of the Sns governance canister.
+   *
+   * In other words, the Sns governance canister is the owner. It has an account in the related Sns ledger and each neuron is both a child of the Sns governance canister and a subaccount in the Sns ledger.
+   *
+   * @private
+   */
+  private get owner(): SnsAccount {
+    return {
+      owner: this.canisterIds.governanceCanisterId,
+    };
+  }
 }
