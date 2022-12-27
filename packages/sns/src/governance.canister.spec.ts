@@ -633,62 +633,6 @@ describe("Governance canister", () => {
     });
   });
 
-  describe("disburse", () => {
-    const params: SnsDisburseNeuronParams = {
-      neuronId: {
-        id: arrayOfNumberToUint8Array([1, 2, 3]),
-      },
-      amount: BigInt(321),
-    };
-
-    it("should disburse the neuron", async () => {
-      const request: ManageNeuron = {
-        subaccount: params.neuronId.id,
-        command: [
-          {
-            Disburse: {
-              to_account: [],
-              amount: [
-                {
-                  e8s: params.amount as bigint,
-                },
-              ],
-            },
-          },
-        ],
-      };
-
-      const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue({
-        command: [{ Disburse: { transfer_block_height: BigInt(0) } }],
-      });
-
-      const canister = SnsGovernanceCanister.create({
-        canisterId: rootCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
-
-      await canister.disburse(params);
-
-      expect(service.manage_neuron).toBeCalled();
-      expect(service.manage_neuron).toBeCalledWith(request);
-    });
-
-    it("should raise an error", async () => {
-      const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.manage_neuron.mockResolvedValue(mockErrorCommand);
-
-      const canister = SnsGovernanceCanister.create({
-        canisterId: rootCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
-      const call = () => canister.disburse(params);
-
-      expect(call).rejects.toThrowError(SnsGovernanceError);
-      expect(service.manage_neuron).toBeCalled();
-    });
-  });
-
   describe("setTopicFollowees", () => {
     const neuronId: NeuronId = {
       id: arrayOfNumberToUint8Array([1, 2, 3]),
