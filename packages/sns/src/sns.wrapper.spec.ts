@@ -150,6 +150,24 @@ describe("SnsWrapper", () => {
     );
   });
 
+  it("should call splitNeuron", async () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+
+    await snsWrapper.splitNeuron({
+      neuronId,
+      amount: 123n,
+      memo: 321n,
+    });
+
+    expect(mockGovernanceCanister.splitNeuron).toHaveBeenCalledWith({
+      neuronId,
+      amount: 123n,
+      memo: 321n,
+    });
+  });
+
   it("should collect metadata with query or update", async () => {
     await snsWrapper.metadata({});
     await certifiedSnsWrapper.metadata({});

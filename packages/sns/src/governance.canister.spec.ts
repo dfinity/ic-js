@@ -23,7 +23,10 @@ import {
   neuronsMock,
 } from "./mocks/governance.mock";
 import { rootCanisterIdMock } from "./mocks/sns.mock";
-import { SnsDisburseNeuronParams } from "./types/governance.params";
+import {
+  SnsDisburseNeuronParams,
+  SnsSplitNeuronParams,
+} from "./types/governance.params";
 
 describe("Governance canister", () => {
   const mockErrorCommand: ManageNeuronResponse = {
@@ -200,6 +203,65 @@ describe("Governance canister", () => {
           permissions,
           principal,
         });
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("splitNeuron", () => {
+    const params: SnsSplitNeuronParams = {
+      neuronId: {
+        id: arrayOfNumberToUint8Array([1, 2, 3]),
+      },
+      amount: 123n,
+      memo: 321n,
+    };
+
+    it("should splitNeuron the neuron", async () => {
+      const request: ManageNeuron = {
+        subaccount: params.neuronId.id,
+        command: [
+          {
+            Split: {
+              amount_e8s: params.amount,
+              memo: params.memo,
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [
+          {
+            Split: {
+              created_neuron_id: [{ id: arrayOfNumberToUint8Array([4, 5, 6]) }],
+            },
+          },
+        ],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.splitNeuron(params);
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.splitNeuron(params);
+
       expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
@@ -567,6 +629,62 @@ describe("Governance canister", () => {
         });
 
       await expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("disburse", () => {
+    const params: SnsDisburseNeuronParams = {
+      neuronId: {
+        id: arrayOfNumberToUint8Array([1, 2, 3]),
+      },
+      amount: BigInt(321),
+    };
+
+    it("should disburse the neuron", async () => {
+      const request: ManageNeuron = {
+        subaccount: params.neuronId.id,
+        command: [
+          {
+            Disburse: {
+              to_account: [],
+              amount: [
+                {
+                  e8s: params.amount as bigint,
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ Disburse: { transfer_block_height: BigInt(0) } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.disburse(params);
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.disburse(params);
+
+      expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
