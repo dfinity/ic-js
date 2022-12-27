@@ -8,6 +8,7 @@ export type {
   ManageNeuron as SnsManageNeuron,
   ManageNeuronResponse as SnsManageNeuronResponse,
   NervousSystemFunction as SnsNervousSystemFunction,
+  NervousSystemParameters,
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
 } from "../candid/sns_governance";
