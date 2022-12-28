@@ -9,6 +9,7 @@ import type {
   NervousSystemParameters,
   Neuron,
   NeuronId,
+  SplitResponse,
   _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
@@ -23,6 +24,7 @@ import {
   toIncreaseDissolveDelayRequest,
   toRemovePermissionsRequest,
   toSetDissolveTimestampRequest,
+  toSplitNeuronRequest,
   toStakeMaturityRequest,
   toStartDissolvingNeuronRequest,
   toStopDissolvingNeuronRequest,
@@ -41,6 +43,7 @@ import type {
   SnsNeuronStakeMaturityParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
+  SnsSplitNeuronParams,
 } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
@@ -169,6 +172,37 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   ): Promise<void> => {
     const request: ManageNeuron = toRemovePermissionsRequest(params);
     await this.manageNeuron(request);
+  };
+
+  /**
+   * Split neuron
+   */
+  public splitNeuron = async (
+    params: SnsSplitNeuronParams
+  ): Promise<NeuronId | undefined> => {
+    const request: ManageNeuron = toSplitNeuronRequest(params);
+    const { command } = await this.manageNeuron(request);
+    const response = fromNullable(command);
+    const errorMessate = (details: string) =>
+      `Split neuron failed (${details})`;
+
+    // Validate response
+    if (response === undefined) {
+      throw new SnsGovernanceError(errorMessate("no response"));
+    }
+
+    if ("Split" in response) {
+      const split = response.Split as SplitResponse;
+      const neuronId = fromNullable(split.created_neuron_id) as NeuronId;
+
+      if (neuronId !== undefined) {
+        return neuronId;
+      }
+
+      throw new SnsGovernanceError(errorMessate("no id"));
+    }
+
+    throw new SnsGovernanceError(errorMessate("unknown"));
   };
 
   /**

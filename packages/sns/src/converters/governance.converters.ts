@@ -14,6 +14,7 @@ import type {
   SnsNeuronStakeMaturityParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
+  SnsSplitNeuronParams,
 } from "../types/governance.params";
 
 // Helper for building `ManageNeuron` structure
@@ -71,6 +72,21 @@ export const toRemovePermissionsRequest = ({
       RemoveNeuronPermissions: {
         permissions_to_remove: [{ permissions: Int32Array.from(permissions) }],
         principal_id: [principal],
+      },
+    },
+  });
+
+export const toSplitNeuronRequest = ({
+  neuronId,
+  memo,
+  amount: amount_e8s,
+}: SnsSplitNeuronParams): ManageNeuron =>
+  toManageNeuronCommand({
+    neuronId,
+    command: {
+      Split: {
+        memo,
+        amount_e8s,
       },
     },
   });
