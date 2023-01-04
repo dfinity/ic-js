@@ -177,6 +177,7 @@ export class SnsWrapper {
     controller: Principal
   ): Promise<{ account: SnsAccount; index: bigint }> => {
     // TODO: try parallilizing requests to improve performance
+    // OR use binary search https://dfinity.atlassian.net/browse/FOLLOW-825
     for (let index = 0; index < MAX_NEURONS_SUBACCOUNTS; index++) {
       const subaccount = neuronSubaccount({ index, controller });
 
