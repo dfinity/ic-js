@@ -39,4 +39,8 @@ export enum SnsNeuronPermissionType {
 
   // The principal has permission to stake the neuron's maturity.
   NEURON_PERMISSION_TYPE_STAKE_MATURITY = 9,
+
+  // The principal has permission to grant/revoke permission to vote and submit
+  // proposals on behalf of the neuron to other principals.
+  NEURON_PERMISSION_TYPE_MANAGE_VOTING_PERMISSION = 10,
 }
