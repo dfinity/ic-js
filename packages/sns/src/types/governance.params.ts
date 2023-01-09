@@ -2,9 +2,9 @@ import type { Principal } from "@dfinity/principal";
 import type { Subaccount, Tokens } from "../../candid/icrc1_ledger";
 import type { NeuronId, ProposalId } from "../../candid/sns_governance";
 import type {
-  ProposalDecisionStatus,
-  ProposalRewardStatus,
   SnsNeuronPermissionType,
+  SnsProposalDecisionStatus,
+  SnsProposalRewardStatus,
 } from "../enums/governance.enums";
 import type { E8s } from "./common";
 import type { SnsAccount } from "./ledger.responses";
@@ -30,7 +30,7 @@ export interface SnsListProposalsParams extends QueryParams {
   // that have one of the define reward statuses should be included
   // in the list.
   // If this list is empty, no restriction is applied.
-  includeRewardStatus?: ProposalRewardStatus[];
+  includeRewardStatus?: SnsProposalRewardStatus[];
   // The proposal ID specifying which proposals to return.
   // This should be set to the last proposal of the previously returned page and
   // will not be included in the current page.
@@ -45,7 +45,7 @@ export interface SnsListProposalsParams extends QueryParams {
   // that have one of the define decision statuses should be included
   // in the list.
   // If this list is empty, no restriction is applied.
-  includeStatus?: ProposalDecisionStatus[];
+  includeStatus?: SnsProposalDecisionStatus[];
 }
 
 /**
