@@ -1,14 +1,17 @@
 import { toNullable } from "@dfinity/utils";
 import type {
   Command,
+  ListProposals,
   ManageNeuron,
   NeuronId,
   Operation,
 } from "../../candid/sns_governance";
+import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
 import type {
   SnsClaimOrRefreshArgs,
   SnsDisburseNeuronParams,
   SnsIncreaseDissolveDelayParams,
+  SnsListProposalsParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
   SnsNeuronStakeMaturityParams,
@@ -217,4 +220,18 @@ export const toClaimOrRefreshRequest = ({
       },
     },
   ],
+});
+
+export const toListProposalRequest = ({
+  excludeType,
+  beforeProposal,
+  includeRewardStatus,
+  includeStatus,
+  limit,
+}: SnsListProposalsParams): ListProposals => ({
+  exclude_type: BigUint64Array.from(excludeType ?? []),
+  before_proposal: toNullable(beforeProposal),
+  include_reward_status: Int32Array.from(includeRewardStatus ?? []),
+  include_status: Int32Array.from(includeStatus ?? []),
+  limit: limit ?? DEFAULT_PROPOSALS_LIMIT,
 });

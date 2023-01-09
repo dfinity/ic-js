@@ -85,6 +85,17 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call list of proposals with query or update", async () => {
+    await snsWrapper.listProposals({});
+    expect(mockGovernanceCanister.listProposals).toHaveBeenCalledWith({
+      certified: false,
+    });
+    await certifiedSnsWrapper.listProposals({});
+    expect(mockCertifiedGovernanceCanister.listProposals).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
   it("should call list of nervous system functions with query or update", async () => {
     await snsWrapper.listNervousSystemFunctions({});
     expect(

@@ -12,8 +12,15 @@ import type {
   NeuronId,
   _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
-import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
-import { SnsNeuronPermissionType } from "./enums/governance.enums";
+import {
+  DEFAULT_PROPOSALS_LIMIT,
+  MAX_LIST_NEURONS_RESULTS,
+} from "./constants/governance.constants";
+import {
+  SnsNeuronPermissionType,
+  SnsProposalDecisionStatus,
+  SnsProposalRewardStatus,
+} from "./enums/governance.enums";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import { SnsGovernanceCanister } from "./governance.canister";
 import {
@@ -21,6 +28,7 @@ import {
   neuronIdMock,
   neuronMock,
   neuronsMock,
+  proposalsMock,
 } from "./mocks/governance.mock";
 import { rootCanisterIdMock } from "./mocks/sns.mock";
 import {
@@ -84,6 +92,115 @@ describe("Governance canister", () => {
       limit: MAX_LIST_NEURONS_RESULTS,
       of_principal: [],
       start_page_at: [],
+    });
+  });
+
+  describe("listProposals", () => {
+    it("should return the list of proposals", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const expectedProposals = await canister.listProposals({});
+      expect(mockListProposals).toBeCalled();
+      expect(expectedProposals).toEqual(proposalsMock);
+    });
+
+    it("should add default limit", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.listProposals({});
+      expect(mockListProposals).toBeCalledWith({
+        exclude_type: BigUint64Array.from([]),
+        before_proposal: [],
+        include_reward_status: Int32Array.from([]),
+        include_status: Int32Array.from([]),
+        limit: DEFAULT_PROPOSALS_LIMIT,
+      });
+    });
+
+    it("should add convert list of enums", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const params = {
+        includeStatus: [
+          SnsProposalDecisionStatus.PROPOSAL_DECISION_STATUS_OPEN,
+        ],
+        excludeType: [BigInt(2)],
+        includeRewardStatus: [
+          SnsProposalRewardStatus.PROPOSAL_REWARD_STATUS_ACCEPT_VOTES,
+        ],
+      };
+      await canister.listProposals(params);
+      expect(mockListProposals).toBeCalledWith({
+        exclude_type: BigUint64Array.from(params.excludeType),
+        before_proposal: [],
+        include_reward_status: Int32Array.from(params.includeRewardStatus),
+        include_status: Int32Array.from(params.includeStatus),
+        limit: DEFAULT_PROPOSALS_LIMIT,
+      });
+    });
+
+    it("should use pagination params", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const params = {
+        limit: 100,
+        beforeProposal: { id: BigInt(2) },
+      };
+      await canister.listProposals(params);
+      expect(mockListProposals).toBeCalledWith({
+        exclude_type: BigUint64Array.from([]),
+        before_proposal: [params.beforeProposal],
+        include_reward_status: Int32Array.from([]),
+        include_status: Int32Array.from([]),
+        limit: params.limit,
+      });
+    });
+
+    it("should raise an error if call fails", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockRejectedValue(
+        new Error("error")
+      );
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const call = () => canister.listProposals({});
+      expect(call).rejects.toThrowError("error");
     });
   });
 

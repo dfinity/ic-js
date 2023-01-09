@@ -44,3 +44,42 @@ export enum SnsNeuronPermissionType {
   // proposals on behalf of the neuron to other principals.
   NEURON_PERMISSION_TYPE_MANAGE_VOTING_PERMISSION = 10,
 }
+
+export enum SnsProposalRewardStatus {
+  PROPOSAL_REWARD_STATUS_UNSPECIFIED = 0,
+
+  // The proposal still accepts votes, for the purpose of
+  // voting rewards. This implies nothing on the
+  // ProposalDecisionStatus, i.e., a proposal can be decided
+  // due to an absolute majority being in favor or against it,
+  // but other neuron holders can still cast their vote to get rewards.
+  PROPOSAL_REWARD_STATUS_ACCEPT_VOTES = 1,
+
+  // The proposal no longer accepts votes. It is due to settle
+  // rewards at the next reward event.
+  PROPOSAL_REWARD_STATUS_READY_TO_SETTLE = 2,
+
+  // The proposal has been taken into account in a reward event, i.e.,
+  // the associated rewards have been settled.
+  PROPOSAL_REWARD_STATUS_SETTLED = 3,
+}
+
+export enum SnsProposalDecisionStatus {
+  PROPOSAL_DECISION_STATUS_UNSPECIFIED = 0,
+
+  // The proposal is open for voting and a decision (adopt/reject) has yet to be made.
+  PROPOSAL_DECISION_STATUS_OPEN = 1,
+
+  // The proposal has been rejected.
+  PROPOSAL_DECISION_STATUS_REJECTED = 2,
+
+  // The proposal has been adopted but either execution has not yet started
+  // or it has started but its outcome is not yet known.
+  PROPOSAL_DECISION_STATUS_ADOPTED = 3,
+
+  // The proposal was adopted and successfully executed.
+  PROPOSAL_DECISION_STATUS_EXECUTED = 4,
+
+  // The proposal was adopted, but execution failed.
+  PROPOSAL_DECISION_STATUS_FAILED = 5,
+}

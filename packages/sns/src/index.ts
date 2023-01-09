@@ -11,6 +11,7 @@ export type {
   NervousSystemParameters,
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
+  ProposalData as SnsProposalData,
 } from "../candid/sns_governance";
 export type {
   Transaction as SnsTransaction,
