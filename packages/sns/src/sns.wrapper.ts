@@ -7,6 +7,7 @@ import type {
   NervousSystemParameters,
   Neuron,
   NeuronId,
+  ProposalData,
 } from "../candid/sns_governance";
 import type { GetTransactions } from "../candid/sns_index";
 import type {
@@ -29,6 +30,7 @@ import type {
   SnsIncreaseDissolveDelayParams,
   SnsIncreaseStakeNeuronParams,
   SnsListNeuronsParams,
+  SnsListProposalsParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
   SnsNeuronStakeMaturityParams,
@@ -114,6 +116,11 @@ export class SnsWrapper {
   listNeurons = (
     params: Omit<SnsListNeuronsParams, "certified">
   ): Promise<Neuron[]> => this.governance.listNeurons(this.mergeParams(params));
+
+  listProposals = (
+    params: Omit<SnsListProposalsParams, "certified">
+  ): Promise<ProposalData[]> =>
+    this.governance.listProposals(this.mergeParams(params));
 
   listNervousSystemFunctions = (
     params: Omit<QueryParams, "certified">

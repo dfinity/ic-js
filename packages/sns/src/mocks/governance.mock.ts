@@ -3,6 +3,7 @@ import type {
   GetMetadataResponse,
   Neuron,
   NeuronId,
+  ProposalData,
 } from "../../candid/sns_governance";
 
 export const neuronIdMock: NeuronId = { id: arrayOfNumberToUint8Array([1]) };
@@ -19,3 +20,9 @@ export const metadataMock: GetMetadataResponse = {
   name: ["My project"],
   description: ["Web3 for the win"],
 };
+
+export const proposalMock = {
+  id: [{ id: BigInt(12) }],
+} as ProposalData;
+
+export const proposalsMock: ProposalData[] = [proposalMock];

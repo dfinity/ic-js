@@ -128,6 +128,7 @@ Parameters:
 
 - [create](#gear-create)
 - [listNeurons](#gear-listneurons)
+- [listProposals](#gear-listproposals)
 - [listNervousSystemFunctions](#gear-listnervoussystemfunctions)
 - [metadata](#gear-metadata)
 - [nervousSystemParameters](#gear-nervoussystemparameters)
@@ -167,6 +168,14 @@ List the neurons of the Sns
 | Method        | Type                                                  |
 | ------------- | ----------------------------------------------------- |
 | `listNeurons` | `(params: SnsListNeuronsParams) => Promise<Neuron[]>` |
+
+##### :gear: listProposals
+
+List the proposals of the Sns
+
+| Method          | Type                                                          |
+| --------------- | ------------------------------------------------------------- |
+| `listProposals` | `(params: SnsListProposalsParams) => Promise<ProposalData[]>` |
 
 ##### :gear: listNervousSystemFunctions
 
@@ -532,6 +541,7 @@ Parameters:
 #### Methods
 
 - [listNeurons](#gear-listneurons)
+- [listProposals](#gear-listproposals)
 - [listNervousSystemFunctions](#gear-listnervoussystemfunctions)
 - [metadata](#gear-metadata)
 - [nervousSystemParameters](#gear-nervoussystemparameters)
@@ -568,6 +578,12 @@ Parameters:
 | Method        | Type                                                                     |
 | ------------- | ------------------------------------------------------------------------ |
 | `listNeurons` | `(params: Omit<SnsListNeuronsParams, "certified">) => Promise<Neuron[]>` |
+
+##### :gear: listProposals
+
+| Method          | Type                                                                             |
+| --------------- | -------------------------------------------------------------------------------- |
+| `listProposals` | `(params: Omit<SnsListProposalsParams, "certified">) => Promise<ProposalData[]>` |
 
 ##### :gear: listNervousSystemFunctions
 

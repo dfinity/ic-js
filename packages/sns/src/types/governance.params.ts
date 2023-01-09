@@ -1,7 +1,11 @@
 import type { Principal } from "@dfinity/principal";
 import type { Subaccount, Tokens } from "../../candid/icrc1_ledger";
-import type { NeuronId } from "../../candid/sns_governance";
-import type { SnsNeuronPermissionType } from "../enums/governance.enums";
+import type { NeuronId, ProposalId } from "../../candid/sns_governance";
+import type {
+  SnsNeuronPermissionType,
+  SnsProposalDecisionStatus,
+  SnsProposalRewardStatus,
+} from "../enums/governance.enums";
 import type { E8s } from "./common";
 import type { SnsAccount } from "./ledger.responses";
 import type { QueryParams } from "./query.params";
@@ -16,6 +20,32 @@ export interface SnsListNeuronsParams extends QueryParams {
   limit?: number;
   /** Index the search to returns a list that starts after specified neuron id */
   beforeNeuronId?: NeuronId;
+}
+
+/**
+ * The parameters available to list Sns proposals
+ */
+export interface SnsListProposalsParams extends QueryParams {
+  // A list of proposal reward statuses, specifying that only proposals that
+  // that have one of the define reward statuses should be included
+  // in the list.
+  // If this list is empty, no restriction is applied.
+  includeRewardStatus?: SnsProposalRewardStatus[];
+  // The proposal ID specifying which proposals to return.
+  // This should be set to the last proposal of the previously returned page and
+  // will not be included in the current page.
+  beforeProposal?: ProposalId;
+  // Limit the number of Proposals returned in each page, from 1 to 100.
+  // If a value outside of this range is provided, 100 will be used.
+  limit?: number;
+  // A list of proposal types, specifying that proposals of the given
+  // types should be excluded in this list.
+  excludeType?: bigint[];
+  // A list of proposal decision statuses, specifying that only proposals that
+  // that have one of the define decision statuses should be included
+  // in the list.
+  // If this list is empty, no restriction is applied.
+  includeStatus?: SnsProposalDecisionStatus[];
 }
 
 /**

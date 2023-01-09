@@ -3,6 +3,8 @@ export type {
   TransferError as SnsTransferVariatError,
 } from "../candid/icrc1_ledger";
 export type {
+  Action as SnsAction,
+  Ballot as SnsBallot,
   GetMetadataResponse as SnsGetMetadataResponse,
   ListNervousSystemFunctionsResponse as SnsListNervousSystemFunctionsResponse,
   ManageNeuron as SnsManageNeuron,
@@ -11,6 +13,9 @@ export type {
   NervousSystemParameters,
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
+  ProposalData as SnsProposalData,
+  ProposalId as SnsProposalId,
+  Tally as SnsTally,
 } from "../candid/sns_governance";
 export type {
   Transaction as SnsTransaction,

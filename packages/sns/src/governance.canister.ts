@@ -9,6 +9,7 @@ import type {
   NervousSystemParameters,
   Neuron,
   NeuronId,
+  ProposalData,
   SplitResponse,
   _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
@@ -22,6 +23,7 @@ import {
   toDisburseNeuronRequest,
   toFollowRequest,
   toIncreaseDissolveDelayRequest,
+  toListProposalRequest,
   toRemovePermissionsRequest,
   toSetDissolveTimestampRequest,
   toSplitNeuronRequest,
@@ -38,6 +40,7 @@ import type {
   SnsGetNeuronParams,
   SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
+  SnsListProposalsParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
   SnsNeuronStakeMaturityParams,
@@ -76,6 +79,20 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
       start_page_at: toNullable<NeuronId>(beforeNeuronId),
     });
     return neurons;
+  };
+
+  /**
+   * List the proposals of the Sns
+   */
+  listProposals = async (
+    params: SnsListProposalsParams
+  ): Promise<ProposalData[]> => {
+    const { certified } = params;
+
+    const { proposals } = await this.caller({ certified }).list_proposals(
+      toListProposalRequest(params)
+    );
+    return proposals;
   };
 
   /**
