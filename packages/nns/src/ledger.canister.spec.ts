@@ -197,6 +197,39 @@ describe("LedgerCanister", () => {
         });
       });
 
+      it("handles createdAt parameter", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const fee = BigInt(10_000);
+        const memo = BigInt(3456);
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+        const createdAt = BigInt(123132223);
+        await ledger.transfer({
+          to,
+          amount,
+          fee,
+          memo,
+          createdAt,
+        });
+
+        expect(service.transfer).toBeCalledWith({
+          to: to.toUint8Array(),
+          fee: {
+            e8s: fee,
+          },
+          amount: {
+            e8s: amount,
+          },
+          memo,
+          created_at_time: [{ timestamp_nanos: createdAt }],
+          from_subaccount: [],
+        });
+      });
+
       it("handles subaccount", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({

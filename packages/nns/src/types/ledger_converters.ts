@@ -8,4 +8,6 @@ export type TransferRequest = {
   fee?: E8s;
   // TODO: If didc is updated in nns-dapp as well, this array of number will become a Uint8Array
   fromSubAccount?: number[];
+  // In nanoseconds
+  createdAt?: bigint;
 };
