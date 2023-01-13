@@ -23,7 +23,8 @@ export interface BalanceParams extends QueryParams {
  * @param {Subaccount?} from_subaccount The subaccount to transfer tokens to.
  * @param {Uint8Array?} memo Transfer memo.
  * @param {Timestamp?} created_at_time nanoseconds since unix epoc to trigger deduplication and avoid other issues
- * See the link for more details on deduplication: https://github.com/dfinity/ICRC-1#transaction-deduplication-
+ * See the link for more details on deduplication
+ * https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#transaction_deduplication
  * @param {Tokens?} fee The fee of the transfer when it's not the default fee.
  */
 export interface TransferParams {

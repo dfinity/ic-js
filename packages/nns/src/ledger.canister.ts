@@ -11,6 +11,7 @@ import {
   Memo,
   Payment,
   SendRequest,
+  TimeStamp,
 } from "../proto/ledger_pb";
 import type { AccountIdentifier } from "./account_identifier";
 import {
@@ -161,6 +162,7 @@ export class LedgerCanister {
     memo,
     fee,
     fromSubAccount,
+    createdAt,
   }: TransferRequest): Promise<BlockHeight> => {
     const request = new SendRequest();
     request.setTo(to.toProto());
@@ -175,6 +177,12 @@ export class LedgerCanister {
     const requestMemo: Memo = new Memo();
     requestMemo.setMemo((memo ?? BigInt(0)).toString());
     request.setMemo(requestMemo);
+
+    if (createdAt !== undefined) {
+      const timestamp = new TimeStamp();
+      timestamp.setTimestampNanos(createdAt.toString());
+      request.setCreatedAtTime(timestamp);
+    }
 
     if (fromSubAccount !== undefined) {
       request.setFromSubaccount(subAccountNumbersToSubaccount(fromSubAccount));
