@@ -209,7 +209,7 @@ describe("Governance canister", () => {
   describe("getProposal", () => {
     it("should return the proposal", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      service.get_proposal.mockResolvedValue({
+      const mockGetProposal = service.get_proposal.mockResolvedValue({
         result: [{ Proposal: proposalMock }],
       });
 
@@ -222,6 +222,10 @@ describe("Governance canister", () => {
         certified: true,
       });
       expect(res).toEqual(proposalMock);
+
+      expect(mockGetProposal).toBeCalledWith({
+        proposal_id: [proposalIdMock],
+      });
     });
 
     it("should raise error on governance error", async () => {
