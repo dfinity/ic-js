@@ -27,6 +27,7 @@ import type {
   SnsClaimNeuronParams,
   SnsDisburseNeuronParams,
   SnsGetNeuronParams,
+  SnsGetProposalParams,
   SnsIncreaseDissolveDelayParams,
   SnsIncreaseStakeNeuronParams,
   SnsListNeuronsParams,
@@ -121,6 +122,11 @@ export class SnsWrapper {
     params: Omit<SnsListProposalsParams, "certified">
   ): Promise<ProposalData[]> =>
     this.governance.listProposals(this.mergeParams(params));
+
+  getProposal = (
+    params: Omit<SnsGetProposalParams, "certified">
+  ): Promise<ProposalData> =>
+    this.governance.getProposal(this.mergeParams(params));
 
   listNervousSystemFunctions = (
     params: Omit<QueryParams, "certified">

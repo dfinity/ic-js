@@ -11,6 +11,7 @@ import {
   neuronIdMock,
   neuronMock,
   neuronsMock,
+  proposalIdMock,
 } from "./mocks/governance.mock";
 import { mockPrincipal, tokeMetadataResponseMock } from "./mocks/ledger.mock";
 import { SnsRootCanister } from "./root.canister";
@@ -92,6 +93,22 @@ describe("SnsWrapper", () => {
     });
     await certifiedSnsWrapper.listProposals({});
     expect(mockCertifiedGovernanceCanister.listProposals).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
+  it("should call get proposal with query or update", async () => {
+    const proposalId = {
+      ...proposalIdMock,
+    };
+    await snsWrapper.getProposal({ proposalId });
+    expect(mockGovernanceCanister.getProposal).toHaveBeenCalledWith({
+      proposalId,
+      certified: false,
+    });
+    await certifiedSnsWrapper.getProposal({ proposalId });
+    expect(mockCertifiedGovernanceCanister.getProposal).toHaveBeenCalledWith({
+      proposalId,
       certified: true,
     });
   });
