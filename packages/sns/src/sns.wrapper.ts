@@ -39,7 +39,7 @@ import type {
   SnsSplitNeuronParams,
   SnsStakeNeuronParams,
 } from "./types/governance.params";
-import { SnsGetProposalParams } from "./types/governance.params";
+import type { SnsGetProposalParams } from "./types/governance.params";
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
 import type {
   SnsAccount,
