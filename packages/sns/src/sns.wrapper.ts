@@ -47,6 +47,7 @@ import type {
 import type { QueryParams } from "./types/query.params";
 import type { GetAccountTransactionsParams } from "./types/sns-index.params";
 import { neuronSubaccount } from "./utils/governance.utils";
+import {SnsGetProposalParams} from "./types/governance.params";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
@@ -121,6 +122,11 @@ export class SnsWrapper {
     params: Omit<SnsListProposalsParams, "certified">
   ): Promise<ProposalData[]> =>
     this.governance.listProposals(this.mergeParams(params));
+
+  getProposal = (
+    params: Omit<SnsGetProposalParams, "certified">
+  ): Promise<ProposalData> =>
+    this.governance.getProposal(this.mergeParams(params));
 
   listNervousSystemFunctions = (
     params: Omit<QueryParams, "certified">

@@ -49,6 +49,7 @@ import type {
   SnsSplitNeuronParams,
 } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
+import {SnsGetProposalParams} from "./types/governance.params";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
@@ -93,6 +94,26 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
       toListProposalRequest(params)
     );
     return proposals;
+  };
+
+  /**
+   * Get the proposal of the Sns
+   */
+  getProposal = async (
+    params: SnsGetProposalParams
+  ): Promise<ProposalData> => {
+    const { proposalId } = params;
+
+    const { result } = await this.caller(params).get_proposal({
+      proposal_id: toNullable(proposalId),
+    });
+    const data = fromNullable(result);
+    if (data === undefined || "Error" in data) {
+      throw new SnsGovernanceError(
+        data?.Error.error_message ?? "Response type not supported"
+      );
+    }
+    return data.Proposal;
   };
 
   /**
