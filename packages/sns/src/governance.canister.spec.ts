@@ -28,6 +28,8 @@ import {
   neuronIdMock,
   neuronMock,
   neuronsMock,
+  proposalIdMock,
+  proposalMock,
   proposalsMock,
 } from "./mocks/governance.mock";
 import { rootCanisterIdMock } from "./mocks/sns.mock";
@@ -201,6 +203,43 @@ describe("Governance canister", () => {
 
       const call = () => canister.listProposals({});
       expect(call).rejects.toThrowError("error");
+    });
+  });
+
+  describe("getProposal", () => {
+    it("should return the proposal", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.get_proposal.mockResolvedValue({
+        result: [{ Proposal: proposalMock }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const res = await canister.getProposal({
+        proposalId: proposalIdMock,
+        certified: true,
+      });
+      expect(res).toEqual(proposalMock);
+    });
+
+    it("should raise error on governance error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.get_proposal.mockResolvedValue({
+        result: [{ Error: { error_message: "error", error_type: 2 } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        canister.getProposal({
+          proposalId: proposalIdMock,
+          certified: true,
+        });
+      expect(call).rejects.toThrowError(SnsGovernanceError);
     });
   });
 

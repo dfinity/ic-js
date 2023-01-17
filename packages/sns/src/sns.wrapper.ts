@@ -39,6 +39,7 @@ import type {
   SnsSplitNeuronParams,
   SnsStakeNeuronParams,
 } from "./types/governance.params";
+import { SnsGetProposalParams } from "./types/governance.params";
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
 import type {
   SnsAccount,
@@ -47,7 +48,6 @@ import type {
 import type { QueryParams } from "./types/query.params";
 import type { GetAccountTransactionsParams } from "./types/sns-index.params";
 import { neuronSubaccount } from "./utils/governance.utils";
-import {SnsGetProposalParams} from "./types/governance.params";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */

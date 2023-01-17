@@ -48,8 +48,8 @@ import type {
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
+import { SnsGetProposalParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
-import {SnsGetProposalParams} from "./types/governance.params";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
@@ -99,9 +99,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Get the proposal of the Sns
    */
-  getProposal = async (
-    params: SnsGetProposalParams
-  ): Promise<ProposalData> => {
+  getProposal = async (params: SnsGetProposalParams): Promise<ProposalData> => {
     const { proposalId } = params;
 
     const { result } = await this.caller(params).get_proposal({

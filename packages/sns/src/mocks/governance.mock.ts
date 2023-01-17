@@ -21,8 +21,10 @@ export const metadataMock: GetMetadataResponse = {
   description: ["Web3 for the win"],
 };
 
+export const proposalIdMock = { id: BigInt(12) };
+
 export const proposalMock = {
-  id: [{ id: BigInt(12) }],
+  id: [proposalIdMock],
 } as ProposalData;
 
 export const proposalsMock: ProposalData[] = [proposalMock];
