@@ -38,6 +38,7 @@ import type {
   SnsClaimNeuronParams,
   SnsDisburseNeuronParams,
   SnsGetNeuronParams,
+  SnsGetProposalParams,
   SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
   SnsListProposalsParams,
@@ -48,7 +49,6 @@ import type {
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
-import type { SnsGetProposalParams } from "./types/governance.params";
 import type { QueryParams } from "./types/query.params";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
