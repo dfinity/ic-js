@@ -112,6 +112,7 @@ export interface SnsSplitNeuronParams extends SnsNeuronManagementParams {
  */
 export interface SnsDisburseNeuronParams extends SnsNeuronManagementParams {
   amount?: E8s;
+  toAccount?: SnsAccount;
 }
 
 /**

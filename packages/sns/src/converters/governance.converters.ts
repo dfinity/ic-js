@@ -1,5 +1,6 @@
 import { toNullable } from "@dfinity/utils";
 import type {
+  Account,
   Command,
   ListProposals,
   ManageNeuron,
@@ -19,6 +20,7 @@ import type {
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "../types/governance.params";
+import type { SnsAccount } from "../types/ledger.responses";
 
 // Helper for building `ManageNeuron` structure
 const toManageNeuronCommand = ({
@@ -48,6 +50,14 @@ const toManageNeuronConfigureCommand = ({
       },
     },
   });
+
+export const toCandidAccount = ({
+  owner,
+  subaccount,
+}: SnsAccount): Account => ({
+  owner: toNullable(owner),
+  subaccount: subaccount === undefined ? [] : toNullable({ subaccount }),
+});
 
 export const toAddPermissionsRequest = ({
   neuronId,
@@ -97,13 +107,15 @@ export const toSplitNeuronRequest = ({
 export const toDisburseNeuronRequest = ({
   neuronId,
   amount,
+  toAccount,
 }: SnsDisburseNeuronParams): ManageNeuron =>
   toManageNeuronCommand({
     neuronId,
     command: {
       Disburse: {
         // currently there is a main account only support
-        to_account: [],
+        to_account:
+          toAccount === undefined ? [] : toNullable(toCandidAccount(toAccount)),
         amount:
           amount === undefined
             ? []
