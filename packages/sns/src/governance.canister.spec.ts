@@ -16,6 +16,7 @@ import {
   DEFAULT_PROPOSALS_LIMIT,
   MAX_LIST_NEURONS_RESULTS,
 } from "./constants/governance.constants";
+import { toCandidAccount } from "./converters/governance.converters";
 import {
   SnsNeuronPermissionType,
   SnsProposalDecisionStatus,
@@ -520,11 +521,16 @@ describe("Governance canister", () => {
   });
 
   describe("disburse", () => {
+    const toAccount = {
+      owner: Principal.fromText("aaaaa-aa"),
+      subaccount: arrayOfNumberToUint8Array([0, 0, 1]),
+    };
     const params: SnsDisburseNeuronParams = {
       neuronId: {
         id: arrayOfNumberToUint8Array([1, 2, 3]),
       },
       amount: BigInt(321),
+      toAccount,
     };
 
     it("should disburse the neuron", async () => {
@@ -533,7 +539,7 @@ describe("Governance canister", () => {
         command: [
           {
             Disburse: {
-              to_account: [],
+              to_account: [toCandidAccount(toAccount)],
               amount: [
                 {
                   e8s: params.amount as bigint,
