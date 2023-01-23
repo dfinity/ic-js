@@ -51,7 +51,6 @@ import {
   fromDisburseRequest,
   fromIncreaseDissolveDelayRequest,
   fromMergeMaturityRequest,
-  fromMergeRequest,
   fromRemoveHotKeyRequest,
   fromSpawnRequest,
   fromStartDissolvingRequest,
@@ -90,7 +89,6 @@ import type {
   ListProposalsResponse,
   MakeProposalRequest,
   MergeMaturityRequest,
-  MergeRequest,
   NeuronInfo,
   ProposalId,
   ProposalInfo,
@@ -976,12 +974,5 @@ export class GovernanceCanister {
     throw new UnrecognizedTypeError(
       `Unrecognized Spawn error in ${JSON.stringify(response)}`
     );
-  };
-
-  private mergeNeuronsHardwareWallet = async (
-    request: MergeRequest
-  ): Promise<void> => {
-    const rawRequest = fromMergeRequest(request);
-    await this.manageNeuronUpdateCall(rawRequest);
   };
 }
