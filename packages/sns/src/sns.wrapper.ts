@@ -1,10 +1,10 @@
 import type {
   BalanceParams,
-  Icrc1Account,
-  Icrc1BlockIndex,
-  Icrc1LedgerCanister,
-  Icrc1TokenMetadataResponse,
-  Icrc1Tokens,
+  IcrcAccount,
+  IcrcBlockIndex,
+  IcrcLedgerCanister,
+  IcrcTokenMetadataResponse,
+  IcrcTokens,
   TransferParams,
 } from "@dfinity/ledger";
 import type { Principal } from "@dfinity/principal";
@@ -57,7 +57,7 @@ interface SnsWrapperOptions {
   /** The wrapper for the "governance" canister of the particular Sns */
   governance: SnsGovernanceCanister;
   /** The wrapper for the "ledger" canister of the particular Sns */
-  ledger: Icrc1LedgerCanister;
+  ledger: IcrcLedgerCanister;
   /** The wrapper for the "swap" canister of the particular Sns */
   swap: SnsSwapCanister;
   /** The wrapper for the "index" canister of the particular Sns */
@@ -75,7 +75,7 @@ interface SnsWrapperOptions {
 export class SnsWrapper {
   private readonly root: SnsRootCanister;
   private readonly governance: SnsGovernanceCanister;
-  private readonly ledger: Icrc1LedgerCanister;
+  private readonly ledger: IcrcLedgerCanister;
   private readonly swap: SnsSwapCanister;
   private readonly index: SnsIndexCanister;
   private readonly certified: boolean;
@@ -137,7 +137,7 @@ export class SnsWrapper {
 
   metadata = (
     params: Omit<QueryParams, "certified">
-  ): Promise<[GetMetadataResponse, Icrc1TokenMetadataResponse]> =>
+  ): Promise<[GetMetadataResponse, IcrcTokenMetadataResponse]> =>
     Promise.all([
       this.governance.metadata(this.mergeParams(params)),
       this.ledger.metadata(this.mergeParams(params)),
@@ -150,19 +150,19 @@ export class SnsWrapper {
 
   ledgerMetadata = (
     params: Omit<QueryParams, "certified">
-  ): Promise<Icrc1TokenMetadataResponse> =>
+  ): Promise<IcrcTokenMetadataResponse> =>
     this.ledger.metadata(this.mergeParams(params));
 
   transactionFee = (
     params: Omit<QueryParams, "certified">
-  ): Promise<Icrc1Tokens> =>
+  ): Promise<IcrcTokens> =>
     this.ledger.transactionFee(this.mergeParams(params));
 
-  balance = (params: Omit<BalanceParams, "certified">): Promise<Icrc1Tokens> =>
+  balance = (params: Omit<BalanceParams, "certified">): Promise<IcrcTokens> =>
     this.ledger.balance(this.mergeParams(params));
 
   // Always certified
-  transfer = (params: TransferParams): Promise<Icrc1BlockIndex> =>
+  transfer = (params: TransferParams): Promise<IcrcBlockIndex> =>
     this.ledger.transfer(params);
 
   getNeuron = (
@@ -192,7 +192,7 @@ export class SnsWrapper {
    */
   nextNeuronAccount = async (
     controller: Principal
-  ): Promise<{ account: Icrc1Account; index: bigint }> => {
+  ): Promise<{ account: IcrcAccount; index: bigint }> => {
     // TODO: try parallilizing requests to improve performance
     // OR use binary search https://dfinity.atlassian.net/browse/FOLLOW-825
     for (let index = 0; index < MAX_NEURONS_SUBACCOUNTS; index++) {
@@ -302,7 +302,7 @@ export class SnsWrapper {
     return this.governance.refreshNeuron(neuronId);
   };
 
-  getNeuronBalance = async (neuronId: NeuronId): Promise<Icrc1Tokens> => {
+  getNeuronBalance = async (neuronId: NeuronId): Promise<IcrcTokens> => {
     const account = {
       ...this.owner,
       subaccount: neuronId.id,
@@ -404,7 +404,7 @@ export class SnsWrapper {
    *
    * @private
    */
-  private get owner(): Icrc1Account {
+  private get owner(): IcrcAccount {
     return {
       owner: this.canisterIds.governanceCanisterId,
     };

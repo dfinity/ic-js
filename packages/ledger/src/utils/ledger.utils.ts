@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import type { Icrc1Account } from "../types/ledger.responses";
+import type { IcrcAccount } from "../types/ledger.responses";
 
 // https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
 const EXTRA_BYTES = parseInt("FF", 16);
@@ -20,16 +20,16 @@ const shrink = (bytes: Uint8Array): Uint8Array => {
 };
 
 /**
- * Encodes an Icrc1 account into a string.
+ * Encodes an Icrc-1 account compatible into a string.
  * Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R238
  *
  * @param account { owner: Principal, subaccount?: Uint8Array }
  * @returns string
  */
-export const encodeIcrc1Account = ({
+export const encodeIcrcAccount = ({
   owner,
   subaccount,
-}: Icrc1Account): string => {
+}: IcrcAccount): string => {
   if (subaccount === undefined) {
     return owner.toText();
   }
@@ -51,14 +51,14 @@ export const encodeIcrc1Account = ({
 };
 
 /**
- * Decodes a string into an Icrc1 account.
+ * Decodes a string into an Icrc-1 compatible account.
  * Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R268
  *
  * @param accountString string
- * @throws Error if the string is not a valid Icrc1 account
- * @returns Icrc1Account { owner: Principal, subaccount?: Uint8Array }
+ * @throws Error if the string is not a valid Icrc-1 account
+ * @returns IcrcAccount { owner: Principal, subaccount?: Uint8Array }
  */
-export const decodeIcrc1Account = (accountString: string): Icrc1Account => {
+export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
   const principal = Principal.fromText(accountString);
 
   const [ff, nonZeroLength, ...restReversed] = principal

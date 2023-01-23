@@ -1,15 +1,15 @@
 import { Principal } from "@dfinity/principal";
 import type { Value } from "../../candid/icrc1_ledger";
-import { Icrc1MetadataResponseEntries } from "../types/ledger.responses";
+import { IcrcMetadataResponseEntries } from "../types/ledger.responses";
 
 export const tokeMetadataResponseMock: [
-  string | Icrc1MetadataResponseEntries,
+  string | IcrcMetadataResponseEntries,
   Value
 ][] = [
-  [Icrc1MetadataResponseEntries.DECIMALS, { Nat: BigInt(8) }],
-  [Icrc1MetadataResponseEntries.NAME, { Text: "Beta Test" }],
-  [Icrc1MetadataResponseEntries.SYMBOL, { Text: "BTA" }],
-  [Icrc1MetadataResponseEntries.FEE, { Nat: BigInt(1000) }],
+  [IcrcMetadataResponseEntries.DECIMALS, { Nat: BigInt(8) }],
+  [IcrcMetadataResponseEntries.NAME, { Text: "Beta Test" }],
+  [IcrcMetadataResponseEntries.SYMBOL, { Text: "BTA" }],
+  [IcrcMetadataResponseEntries.FEE, { Nat: BigInt(1000) }],
 ];
 
 export const mockPrincipalText =

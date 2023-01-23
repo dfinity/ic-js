@@ -3,32 +3,32 @@ import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
   BlockIndex,
   Tokens,
-  _SERVICE as Icrc1LedgerService,
+  _SERVICE as IcrcLedgerService,
 } from "../candid/icrc1_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc1_ledger.idl";
 import { toTransferArg } from "./converters/ledger.converters";
-import { Icrc1TransferError } from "./errors/ledger.errors";
-import type { Icrc1LedgerCanisterOptions } from "./types/canister.options";
+import { IcrcTransferError } from "./errors/ledger.errors";
+import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
-import type { Icrc1TokenMetadataResponse } from "./types/ledger.responses";
+import type { IcrcTokenMetadataResponse } from "./types/ledger.responses";
 
-export class Icrc1LedgerCanister extends Canister<Icrc1LedgerService> {
-  static create(options: Icrc1LedgerCanisterOptions<Icrc1LedgerService>) {
+export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
+  static create(options: IcrcLedgerCanisterOptions<IcrcLedgerService>) {
     const { service, certifiedService, canisterId } =
-      createServices<Icrc1LedgerService>({
+      createServices<IcrcLedgerService>({
         options,
         idlFactory,
         certifiedIdlFactory,
       });
 
-    return new Icrc1LedgerCanister(canisterId, service, certifiedService);
+    return new IcrcLedgerCanister(canisterId, service, certifiedService);
   }
 
   /**
    * The token metadata (name, symbol, etc.).
    */
-  metadata = (params: QueryParams): Promise<Icrc1TokenMetadataResponse> =>
+  metadata = (params: QueryParams): Promise<IcrcTokenMetadataResponse> =>
     this.caller(params).icrc1_metadata();
 
   /**
@@ -56,14 +56,14 @@ export class Icrc1LedgerCanister extends Canister<Icrc1LedgerService> {
    *
    * @param {TransferArg} params The parameters to transfer tokens.
    *
-   * @throws {Icrc1TransferError} If the transfer fails.
+   * @throws {IcrcTransferError} If the transfer fails.
    */
   transfer = async (params: TransferParams): Promise<BlockIndex> => {
     const response = await this.caller({ certified: true }).icrc1_transfer(
       toTransferArg(params)
     );
     if ("Err" in response) {
-      throw new Icrc1TransferError({
+      throw new IcrcTransferError({
         errorType: response.Err,
         msg: "Failed to transfer",
       });

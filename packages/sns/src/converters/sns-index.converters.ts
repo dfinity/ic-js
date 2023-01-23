@@ -1,4 +1,4 @@
-import type { Icrc1Account } from "@dfinity/ledger/src";
+import type { IcrcAccount } from "@dfinity/ledger/src";
 import { toNullable } from "@dfinity/utils";
 import type {
   Account,
@@ -6,7 +6,7 @@ import type {
 } from "../../candid/sns_index";
 import type { GetAccountTransactionsParams } from "../types/sns-index.params";
 
-const toCandidAccount = ({ owner, subaccount }: Icrc1Account): Account => ({
+const toCandidAccount = ({ owner, subaccount }: IcrcAccount): Account => ({
   owner,
   subaccount: toNullable(subaccount),
 });

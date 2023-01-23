@@ -55,47 +55,46 @@ const data = await metadata();
 
 ### :toolbox: Functions
 
-- [encodeIcrc1Account](#gear-encodeicrc1account)
-- [decodeIcrc1Account](#gear-decodeicrc1account)
+- [encodeIcrcAccount](#gear-encodeicrcaccount)
+- [decodeIcrcAccount](#gear-decodeicrcaccount)
 
-#### :gear: encodeIcrc1Account
+#### :gear: encodeIcrcAccount
 
-Encodes an Icrc1 account into a string.
+Encodes an Icrc-1 account compatible into a string.
 Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R238
 
-| Function | Type |
-| ---------- | ---------- |
-| `encodeIcrc1Account` | `({ owner, subaccount, }: Icrc1Account) => string` |
+| Function            | Type                                              |
+| ------------------- | ------------------------------------------------- |
+| `encodeIcrcAccount` | `({ owner, subaccount, }: IcrcAccount) => string` |
 
 Parameters:
 
-* `account`: : Principal, subaccount?: Uint8Array }
+- `account`: : Principal, subaccount?: Uint8Array }
 
+#### :gear: decodeIcrcAccount
 
-#### :gear: decodeIcrc1Account
-
-Decodes a string into an Icrc1 account.
+Decodes a string into an Icrc-1 compatible account.
 Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R268
 
-| Function | Type |
-| ---------- | ---------- |
-| `decodeIcrc1Account` | `(accountString: string) => Icrc1Account` |
+| Function            | Type                                     |
+| ------------------- | ---------------------------------------- |
+| `decodeIcrcAccount` | `(accountString: string) => IcrcAccount` |
 
 Parameters:
 
-* `accountString`: string
+- `accountString`: string
 
-
-
-### :factory: Icrc1LedgerCanister
-
-
+### :factory: IcrcLedgerCanister
 
 #### Constructors
 
 `public`
 
+Parameters:
 
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 
@@ -107,51 +106,48 @@ Parameters:
 
 ##### :gear: create
 
-| Method | Type |
-| ---------- | ---------- |
-| `create` | `(options: Icrc1LedgerCanisterOptions<_SERVICE>) => Icrc1LedgerCanister` |
+| Method   | Type                                                                   |
+| -------- | ---------------------------------------------------------------------- |
+| `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
 
 ##### :gear: metadata
 
 The token metadata (name, symbol, etc.).
 
-| Method | Type |
-| ---------- | ---------- |
-| `metadata` | `(params: QueryParams) => Promise<Icrc1TokenMetadataResponse>` |
+| Method     | Type                                                          |
+| ---------- | ------------------------------------------------------------- |
+| `metadata` | `(params: QueryParams) => Promise<IcrcTokenMetadataResponse>` |
 
 ##### :gear: transactionFee
 
 The ledger transaction fees.
 
-| Method | Type |
-| ---------- | ---------- |
+| Method           | Type                                       |
+| ---------------- | ------------------------------------------ |
 | `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
 
 ##### :gear: balance
 
 Returns the balance of the given account.
 
-| Method | Type |
-| ---------- | ---------- |
+| Method    | Type                                         |
+| --------- | -------------------------------------------- |
 | `balance` | `(params: BalanceParams) => Promise<bigint>` |
 
 Parameters:
 
-* `params`: The parameters to get the balance of an account.
-
+- `params`: The parameters to get the balance of an account.
 
 ##### :gear: transfer
 
 Transfers tokens from the sender to the given account.
 
-| Method | Type |
-| ---------- | ---------- |
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
 | `transfer` | `(params: TransferParams) => Promise<bigint>` |
 
 Parameters:
 
-* `params`: The parameters to transfer tokens.
-
-
+- `params`: The parameters to transfer tokens.
 
 <!-- TSDOC_END -->

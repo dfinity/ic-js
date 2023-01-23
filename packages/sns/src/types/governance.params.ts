@@ -1,8 +1,4 @@
-import type {
-  Icrc1Account,
-  Icrc1Subaccount,
-  Icrc1Tokens,
-} from "@dfinity/ledger";
+import type { IcrcAccount, IcrcSubaccount, IcrcTokens } from "@dfinity/ledger";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import type { NeuronId, ProposalId } from "../../candid/sns_governance";
@@ -66,8 +62,8 @@ export interface SnsGetNeuronParams extends QueryParams {
 }
 
 export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
-  stakeE8s: Icrc1Tokens;
-  source: Icrc1Account;
+  stakeE8s: IcrcTokens;
+  source: IcrcAccount;
   controller: Principal;
   // Same as createdAt from ledger's TransferParams
   createdAt?: bigint;
@@ -75,8 +71,8 @@ export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
 
 export interface SnsIncreaseStakeNeuronParams
   extends Omit<QueryParams, "certified"> {
-  stakeE8s: Icrc1Tokens;
-  source: Icrc1Account;
+  stakeE8s: IcrcTokens;
+  source: IcrcAccount;
   neuronId: NeuronId;
 }
 
@@ -115,7 +111,7 @@ export interface SnsSplitNeuronParams extends SnsNeuronManagementParams {
  */
 export interface SnsDisburseNeuronParams extends SnsNeuronManagementParams {
   amount?: E8s;
-  toAccount?: Icrc1Account;
+  toAccount?: IcrcAccount;
 }
 
 /**
@@ -148,7 +144,7 @@ export interface SnsSetTopicFollowees extends SnsNeuronManagementParams {
 export interface SnsClaimNeuronParams {
   memo: bigint;
   controller: Principal;
-  subaccount: Icrc1Subaccount;
+  subaccount: IcrcSubaccount;
 }
 
 /**

@@ -1,4 +1,4 @@
-import type { Icrc1Account } from "@dfinity/ledger";
+import type { IcrcAccount } from "@dfinity/ledger";
 import { toNullable } from "@dfinity/utils";
 import type {
   Account,
@@ -54,7 +54,7 @@ const toManageNeuronConfigureCommand = ({
 export const toCandidAccount = ({
   owner,
   subaccount,
-}: Icrc1Account): Account => ({
+}: IcrcAccount): Account => ({
   owner: toNullable(owner),
   subaccount: subaccount === undefined ? [] : toNullable({ subaccount }),
 });

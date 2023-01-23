@@ -85,6 +85,12 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 
 `public`
 
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 #### Methods
 
 - [create](#gear-create)
@@ -316,6 +322,12 @@ Claim neuron
 
 `public`
 
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 #### Methods
 
 - [create](#gear-create)
@@ -342,6 +354,12 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 #### Constructors
 
 `public`
+
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 
@@ -372,6 +390,12 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 #### Constructors
 
 `public`
+
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 
@@ -406,9 +430,9 @@ Notify of the user participating in the swap
 
 Get user commitment
 
-| Method              | Type                                   |
-| ------------------- | -------------------------------------- |
-| `getUserCommitment` | `(params: any) => Promise<BuyerState>` |
+| Method              | Type                                                                    |
+| ------------------- | ----------------------------------------------------------------------- |
+| `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
 
 ### :factory: SnsWrapper
 
@@ -486,9 +510,9 @@ Parameters:
 
 ##### :gear: metadata
 
-| Method     | Type                                                                                                     |
-| ---------- | -------------------------------------------------------------------------------------------------------- |
-| `metadata` | `(params: Omit<QueryParams, "certified">) => Promise<[GetMetadataResponse, Icrc1TokenMetadataResponse]>` |
+| Method     | Type                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------- |
+| `metadata` | `(params: Omit<QueryParams, "certified">) => Promise<[GetMetadataResponse, IcrcTokenMetadataResponse]>` |
 
 ##### :gear: nervousSystemParameters
 
@@ -498,27 +522,27 @@ Parameters:
 
 ##### :gear: ledgerMetadata
 
-| Method           | Type                                                                              |
-| ---------------- | --------------------------------------------------------------------------------- |
-| `ledgerMetadata` | `(params: Omit<QueryParams, "certified">) => Promise<Icrc1TokenMetadataResponse>` |
+| Method           | Type                                                                             |
+| ---------------- | -------------------------------------------------------------------------------- |
+| `ledgerMetadata` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokenMetadataResponse>` |
 
 ##### :gear: transactionFee
 
-| Method           | Type                                                               |
-| ---------------- | ------------------------------------------------------------------ |
-| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<Icrc1Tokens>` |
+| Method           | Type                                                          |
+| ---------------- | ------------------------------------------------------------- |
+| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
 
 ##### :gear: balance
 
-| Method    | Type                                                                 |
-| --------- | -------------------------------------------------------------------- |
-| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<Icrc1Tokens>` |
+| Method    | Type                                                            |
+| --------- | --------------------------------------------------------------- |
+| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
 
 ##### :gear: transfer
 
-| Method     | Type                                                   |
-| ---------- | ------------------------------------------------------ |
-| `transfer` | `(params: TransferParams) => Promise<Icrc1BlockIndex>` |
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
+| `transfer` | `(params: TransferParams) => Promise<bigint>` |
 
 ##### :gear: getNeuron
 
@@ -546,9 +570,9 @@ If the neuron does not exist for that subaccount, then we use it for the next ne
 The index is used in the memo of the transfer and when claiming the neuron.
 This is how the backend can identify which neuron is being claimed.
 
-| Method              | Type                                                                            |
-| ------------------- | ------------------------------------------------------------------------------- |
-| `nextNeuronAccount` | `(controller: Principal) => Promise<{ account: Icrc1Account; index: bigint; }>` |
+| Method              | Type                                                                           |
+| ------------------- | ------------------------------------------------------------------------------ |
+| `nextNeuronAccount` | `(controller: Principal) => Promise<{ account: IcrcAccount; index: bigint; }>` |
 
 ##### :gear: stakeNeuron
 
@@ -576,9 +600,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getNeuronBalance
 
-| Method             | Type                                           |
-| ------------------ | ---------------------------------------------- |
-| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<Icrc1Tokens>` |
+| Method             | Type                                      |
+| ------------------ | ----------------------------------------- |
+| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<bigint>` |
 
 ##### :gear: addNeuronPermissions
 

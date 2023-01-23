@@ -1,4 +1,4 @@
-import { Icrc1LedgerCanister } from "@dfinity/ledger";
+import { IcrcLedgerCanister } from "@dfinity/ledger";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
@@ -44,10 +44,10 @@ describe("SnsWrapper", () => {
     swap: [],
     derived: [],
   });
-  const mockLedgerCanister = mock<Icrc1LedgerCanister>();
+  const mockLedgerCanister = mock<IcrcLedgerCanister>();
   mockLedgerCanister.metadata.mockResolvedValue(tokeMetadataResponseMock);
 
-  const mockCertifiedLedgerCanister = mock<Icrc1LedgerCanister>();
+  const mockCertifiedLedgerCanister = mock<IcrcLedgerCanister>();
   mockCertifiedLedgerCanister.metadata.mockResolvedValue(
     tokeMetadataResponseMock
   );
