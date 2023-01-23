@@ -1,4 +1,4 @@
-import type { Icrc1Account } from "../../../ledger/src/types/ledger.responses";
+import type { Icrc1Account } from "@dfinity/ledger";
 import type { TxId } from "../../candid/sns_index";
 
 export interface GetAccountTransactionsParams {

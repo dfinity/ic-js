@@ -1,7 +1,7 @@
+import { Icrc1LedgerCanister } from "@dfinity/ledger";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import { Icrc1LedgerCanister } from "../../ledger/src/ledger.canister";
 import {
   mockPrincipal,
   tokeMetadataResponseMock,

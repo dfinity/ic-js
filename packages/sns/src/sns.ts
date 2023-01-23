@@ -1,7 +1,7 @@
 import type { Agent } from "@dfinity/agent";
+import { Icrc1LedgerCanister } from "@dfinity/ledger";
 import type { Principal } from "@dfinity/principal";
 import { assertNonNullish, fromNullable } from "@dfinity/utils";
-import { Icrc1LedgerCanister } from "../../ledger/src/ledger.canister";
 import type {
   ListSnsCanistersResponse,
   _SERVICE as SnsRootService,

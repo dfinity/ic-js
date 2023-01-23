@@ -1,15 +1,14 @@
-import type { Principal } from "@dfinity/principal";
-import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
-import type { Icrc1LedgerCanister } from "../../ledger/src/ledger.canister";
 import type {
   BalanceParams,
-  TransferParams,
-} from "../../ledger/src/types/ledger.params";
-import type {
   Icrc1Account,
+  Icrc1BlockIndex,
+  Icrc1LedgerCanister,
   Icrc1TokenMetadataResponse,
-} from "../../ledger/src/types/ledger.responses";
-import type { BlockIndex, Tokens } from "../candid/icrc1_ledger";
+  Icrc1Tokens,
+  TransferParams,
+} from "@dfinity/ledger";
+import type { Principal } from "@dfinity/principal";
+import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
@@ -154,14 +153,16 @@ export class SnsWrapper {
   ): Promise<Icrc1TokenMetadataResponse> =>
     this.ledger.metadata(this.mergeParams(params));
 
-  transactionFee = (params: Omit<QueryParams, "certified">): Promise<Tokens> =>
+  transactionFee = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<Icrc1Tokens> =>
     this.ledger.transactionFee(this.mergeParams(params));
 
-  balance = (params: Omit<BalanceParams, "certified">): Promise<Tokens> =>
+  balance = (params: Omit<BalanceParams, "certified">): Promise<Icrc1Tokens> =>
     this.ledger.balance(this.mergeParams(params));
 
   // Always certified
-  transfer = (params: TransferParams): Promise<BlockIndex> =>
+  transfer = (params: TransferParams): Promise<Icrc1BlockIndex> =>
     this.ledger.transfer(params);
 
   getNeuron = (
@@ -301,7 +302,7 @@ export class SnsWrapper {
     return this.governance.refreshNeuron(neuronId);
   };
 
-  getNeuronBalance = async (neuronId: NeuronId): Promise<Tokens> => {
+  getNeuronBalance = async (neuronId: NeuronId): Promise<Icrc1Tokens> => {
     const account = {
       ...this.owner,
       subaccount: neuronId.id,

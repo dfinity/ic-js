@@ -1,6 +1,9 @@
+import type {
+  Icrc1Account,
+  Icrc1Subaccount,
+  Icrc1Tokens,
+} from "@dfinity/ledger";
 import type { Principal } from "@dfinity/principal";
-import type { Icrc1Account } from "../../../ledger/src/types/ledger.responses";
-import type { Subaccount, Tokens } from "../../candid/icrc1_ledger";
 import type { NeuronId, ProposalId } from "../../candid/sns_governance";
 import type {
   SnsNeuronPermissionType,
@@ -63,7 +66,7 @@ export interface SnsGetNeuronParams extends QueryParams {
 }
 
 export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
-  stakeE8s: Tokens;
+  stakeE8s: Icrc1Tokens;
   source: Icrc1Account;
   controller: Principal;
   // Same as createdAt from ledger's TransferParams
@@ -72,7 +75,7 @@ export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
 
 export interface SnsIncreaseStakeNeuronParams
   extends Omit<QueryParams, "certified"> {
-  stakeE8s: Tokens;
+  stakeE8s: Icrc1Tokens;
   source: Icrc1Account;
   neuronId: NeuronId;
 }
@@ -145,7 +148,7 @@ export interface SnsSetTopicFollowees extends SnsNeuronManagementParams {
 export interface SnsClaimNeuronParams {
   memo: bigint;
   controller: Principal;
-  subaccount: Subaccount;
+  subaccount: Icrc1Subaccount;
 }
 
 /**

@@ -36,6 +36,7 @@
     "sns"
   ],
   "peerDependencies": {
+    "@dfinity/ledger": "^0.0.1",
     "@dfinity/utils": "^0.0.7"
   },
   "dependencies": {

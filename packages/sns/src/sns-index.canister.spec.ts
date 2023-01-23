@@ -1,7 +1,7 @@
 import type { ActorSubclass } from "@dfinity/agent";
+import { Icrc1Account } from "@dfinity/ledger";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
-import { Icrc1Account } from "../../ledger/src/types/ledger.responses";
 import type {
   Account,
   Transaction,

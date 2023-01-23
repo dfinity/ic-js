@@ -1,5 +1,5 @@
+import type { Icrc1Account } from "@dfinity/ledger";
 import { toNullable } from "@dfinity/utils";
-import type { Icrc1Account } from "../../../ledger/src/types/ledger.responses";
 import type {
   Account,
   Command,
