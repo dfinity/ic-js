@@ -1,7 +1,7 @@
 import { toNullable } from "@dfinity/utils";
 import type { Account, TransferArg } from "../../candid/icrc1_ledger";
 import type { TransferParams } from "../types/ledger.params";
-import type { SnsAccount } from "../types/ledger.responses";
+import type { Icrc1Account } from "../types/ledger.responses";
 
 export const toTransferArg = ({
   to,
@@ -22,7 +22,7 @@ export const toTransferArg = ({
 export const toCandidAccount = ({
   owner,
   subaccount,
-}: SnsAccount): Account => ({
+}: Icrc1Account): Account => ({
   owner,
   subaccount: toNullable(subaccount),
 });

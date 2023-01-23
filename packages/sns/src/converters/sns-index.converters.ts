@@ -1,7 +1,7 @@
 import { toNullable } from "@dfinity/utils";
+import { toCandidAccount } from "../../../ledger/src/converters/ledger.converters";
 import type { GetAccountTransactionsArgs } from "../../candid/sns_index";
 import type { GetAccountTransactionsParams } from "../types/sns-index.params";
-import { toCandidAccount } from "./ledger.converters";
 
 export const toGetTransactionsArgs = ({
   account,

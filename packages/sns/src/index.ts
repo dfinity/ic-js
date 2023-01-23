@@ -1,8 +1,4 @@
 export type {
-  TransferArg as SnsTransferArg,
-  TransferError as SnsTransferVariatError,
-} from "../candid/icrc1_ledger";
-export type {
   Action as SnsAction,
   Ballot as SnsBallot,
   GetMetadataResponse as SnsGetMetadataResponse,
@@ -38,9 +34,7 @@ export type {
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
 export * from "./errors/governance.errors";
-export * from "./errors/ledger.errors";
 export { SnsGovernanceCanister } from "./governance.canister";
-export { SnsLedgerCanister } from "./ledger.canister";
 export { SnsRootCanister } from "./root.canister";
 export * from "./sns";
 export { SnsIndexCanister } from "./sns-index.canister";
@@ -48,7 +42,5 @@ export * from "./sns.wrapper";
 export { SnsSwapCanister } from "./swap.canister";
 export type { SnsCanisterOptions } from "./types/canister.options";
 export * from "./types/governance.params";
-export * from "./types/ledger.responses";
 export type { QueryParams } from "./types/query.params";
 export * from "./utils/governance.utils";
-export * from "./utils/ledger.utils";

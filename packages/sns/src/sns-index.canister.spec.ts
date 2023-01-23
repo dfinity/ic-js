@@ -1,6 +1,7 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
+import { Icrc1Account } from "../../ledger/src/types/ledger.responses";
 import type {
   Account,
   Transaction,
@@ -9,12 +10,11 @@ import type {
 import { SnsIndexError } from "./errors/sns-index.errors";
 import { swapCanisterIdMock } from "./mocks/sns.mock";
 import { SnsIndexCanister } from "./sns-index.canister";
-import { SnsAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
   afterEach(() => jest.clearAllMocks());
 
-  const fakeSnsAccount: SnsAccount = {
+  const fakeSnsAccount: Icrc1Account = {
     owner: Principal.fromText("aaaaa-aa"),
   };
 

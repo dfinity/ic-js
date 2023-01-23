@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import type { SnsAccount } from "../types/ledger.responses";
+import type { Icrc1Account } from "../types/ledger.responses";
 
 // https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
 const EXTRA_BYTES = parseInt("FF", 16);
@@ -20,13 +20,16 @@ const shrink = (bytes: Uint8Array): Uint8Array => {
 };
 
 /**
- * Encodes an SNS account into a string.
+ * Encodes an Icrc1 account into a string.
  * Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R238
  *
- * @param snsAccount { owner: Principal, subaccount?: Uint8Array }
+ * @param account { owner: Principal, subaccount?: Uint8Array }
  * @returns string
  */
-export const encodeSnsAccount = ({ owner, subaccount }: SnsAccount): string => {
+export const encodeIcrc1Account = ({
+  owner,
+  subaccount,
+}: Icrc1Account): string => {
   if (subaccount === undefined) {
     return owner.toText();
   }
@@ -48,14 +51,14 @@ export const encodeSnsAccount = ({ owner, subaccount }: SnsAccount): string => {
 };
 
 /**
- * Decodes a string into an SNS account.
+ * Decodes a string into an Icrc1 account.
  * Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R268
  *
- * @param snsAccountString string
- * @throws Error if the string is not a valid SNS account
- * @returns snsAccount { owner: Principal, subaccount?: Uint8Array }
+ * @param accountString string
+ * @throws Error if the string is not a valid Icrc1 account
+ * @returns Icrc1Account { owner: Principal, subaccount?: Uint8Array }
  */
-export const decodeSnsAccount = (accountString: string): SnsAccount => {
+export const decodeIcrc1Account = (accountString: string): Icrc1Account => {
   const principal = Principal.fromText(accountString);
 
   const [ff, nonZeroLength, ...restReversed] = principal

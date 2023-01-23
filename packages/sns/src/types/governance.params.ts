@@ -1,4 +1,5 @@
 import type { Principal } from "@dfinity/principal";
+import type { Icrc1Account } from "../../../ledger/src/types/ledger.responses";
 import type { Subaccount, Tokens } from "../../candid/icrc1_ledger";
 import type { NeuronId, ProposalId } from "../../candid/sns_governance";
 import type {
@@ -7,7 +8,6 @@ import type {
   SnsProposalRewardStatus,
 } from "../enums/governance.enums";
 import type { E8s } from "./common";
-import type { SnsAccount } from "./ledger.responses";
 import type { QueryParams } from "./query.params";
 
 /**
@@ -64,7 +64,7 @@ export interface SnsGetNeuronParams extends QueryParams {
 
 export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
   stakeE8s: Tokens;
-  source: SnsAccount;
+  source: Icrc1Account;
   controller: Principal;
   // Same as createdAt from ledger's TransferParams
   createdAt?: bigint;
@@ -73,7 +73,7 @@ export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
 export interface SnsIncreaseStakeNeuronParams
   extends Omit<QueryParams, "certified"> {
   stakeE8s: Tokens;
-  source: SnsAccount;
+  source: Icrc1Account;
   neuronId: NeuronId;
 }
 
@@ -112,7 +112,7 @@ export interface SnsSplitNeuronParams extends SnsNeuronManagementParams {
  */
 export interface SnsDisburseNeuronParams extends SnsNeuronManagementParams {
   amount?: E8s;
-  toAccount?: SnsAccount;
+  toAccount?: Icrc1Account;
 }
 
 /**

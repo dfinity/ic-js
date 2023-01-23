@@ -1,4 +1,4 @@
-import { mockPrincipal } from "../mocks/ledger.mock";
+import { mockPrincipal } from "../../../ledger/src/mocks/ledger.mock";
 import { neuronSubaccount } from "./governance.utils";
 
 describe("governance utils", () => {
