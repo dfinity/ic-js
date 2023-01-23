@@ -11,7 +11,6 @@ import type {
   DisburseRequest,
   FollowRequest,
   MergeMaturityRequest,
-  MergeRequest,
   RemoveHotKeyRequest,
   SpawnRequest,
 } from "../../types/governance_converters";
@@ -200,19 +199,6 @@ export const fromSpawnRequest = (request: SpawnRequest): PbManageNeuron => {
   const neuronId = new PbNeuronId();
   neuronId.setId(request.neuronId.toString());
   manageNeuron.setNeuronId(neuronId);
-  return manageNeuron;
-};
-
-export const fromMergeRequest = (request: MergeRequest): PbManageNeuron => {
-  const merge = new PbManageNeuron.Merge();
-  const sourceNeuronId = new PbNeuronId();
-  sourceNeuronId.setId(request.sourceNeuronId.toString());
-  merge.setSourceNeuronId(sourceNeuronId);
-  const manageNeuron = new PbManageNeuron();
-  const neuronId = new PbNeuronId();
-  neuronId.setId(request.targetNeuronId.toString());
-  manageNeuron.setNeuronId(neuronId);
-  manageNeuron.setMerge(merge);
   return manageNeuron;
 };
 
