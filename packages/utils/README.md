@@ -164,6 +164,18 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 | ---------------- | ----------------------------------------------------------------------------------------------- |
 | `smallerVersion` | `({ minVersion, currentVersion, }: { minVersion: string; currentVersion: string; }) => boolean` |
 
+### :factory: Canister
+
+#### Constructors
+
+`public`
+
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 ### :factory: NullishError
 
 #### Constructors
