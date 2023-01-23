@@ -119,4 +119,5 @@ export enum NnsFunction {
   UpdateSnsWasmSnsSubnetIds = 34,
   UpdateAllowedPrincipals = 35,
   RetireReplicaVersion = 36,
+  InsertSnsWasmUpgradePathEntries = 37,
 }
