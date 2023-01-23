@@ -8,7 +8,7 @@ import type {
 } from "../../candid/icrc1_ledger";
 
 /**
- * Params to get the balance of an ICRC1 account.
+ * Params to get the balance of an ICRC-1 account.
  */
 export interface BalanceParams extends QueryParams {
   owner: Principal;
@@ -16,7 +16,7 @@ export interface BalanceParams extends QueryParams {
 }
 
 /**
- * Params to make a transfer in an ICRC1 ledger
+ * Params to make a transfer in an ICRC-1 ledger
  *
  * @param {Account} to The account to transfer tokens to.
  * @param {Tokens} amount The Amount of tokens to transfer.
