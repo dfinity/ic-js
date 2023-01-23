@@ -7,7 +7,7 @@
 - cmc `v0.0.5`
 - utils `v0.0.8`
 
-# 0.11.0 (wip)
+# 0.11.0 (2023-01-23)
 
 ## Release
 
@@ -18,7 +18,10 @@
 
 ### Features
 
-- new Sns features: increase stake neuron
+- new Sns features: increase stake neuron, split neuron, list and get proposals
+- add support for the param `to_account` when disbursing Sns neuron
+- add `createAt` param for Nns ledger transfers
+- more Sns voting permissions
 
 ### Build
 
