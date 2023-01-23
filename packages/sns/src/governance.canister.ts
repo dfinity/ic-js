@@ -144,9 +144,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Get the neuron of the Sns
    */
-  getNeuron = async (
-    params: SnsGetNeuronParams
-  ): Promise<Neuron> => {
+  getNeuron = async (params: SnsGetNeuronParams): Promise<Neuron> => {
     const { neuronId } = params;
 
     const { result } = await this.caller(params).get_neuron({
