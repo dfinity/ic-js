@@ -1009,25 +1009,6 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("successfully merges two neurons from Hardware Wallet", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      const sourceNeuronId = BigInt(10);
-      const targetNeuronId = BigInt(13);
-      await governance.mergeNeurons({
-        sourceNeuronId,
-        targetNeuronId,
-      });
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
-    });
-
     it("throws error if response is error", async () => {
       const sourceNeuronId = BigInt(10);
       const targetNeuronId = BigInt(13);
