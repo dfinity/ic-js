@@ -9,6 +9,7 @@ A library for interfacing with an [ICRC-1 ledger](https://github.com/dfinity/ic/
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
+- [Resources](#resources)
 
 ## Installation
 
@@ -155,3 +156,7 @@ Parameters:
 
 
 <!-- TSDOC_END -->
+
+## Resources
+
+- [Ledger & Tokenization Working Group Standards](https://github.com/dfinity/ICRC-1/)
