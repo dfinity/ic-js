@@ -21,7 +21,7 @@ npm i @dfinity/sns
 The bundle needs peer dependencies, be sure that following resources are available in your project as well.
 
 ```bash
-npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
+npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils @dfinity/ledger
 ```
 
 ## Usage
@@ -56,14 +56,9 @@ const { metadata: governanceMetadata } = SnsGovernanceCanister.create({
   agent,
   canisterId: rootCanisterId,
 });
-const { metadata: ledgerMetadata } = SnsLedgerCanister.create({
-  agent,
-  canisterId: rootCanisterId,
-});
 const metadata = await governanceMetadata({ certified: true });
-const token = await ledgerMetadata({ certified: true });
 
-console.log("Summary data:", metadata, token);
+console.log("Summary data:", metadata);
 ```
 
 ## Features

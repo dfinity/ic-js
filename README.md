@@ -6,10 +6,11 @@ The libraries are still in active development, and new features will incremental
 
 ## Libraries
 
-- [nns](/packages/nns): interfacing with the **ledger** and **governance** canisters of the IC
+- [nns](/packages/nns): interfacing with the **ledger** and **governance** canisters of the Network Nervous System (NNS)
 - [sns](/packages/sns): interacting with a Service Nervous System (SNS) project
+- [ledger](/packages/ledger): interacting with an ICRC-1 ledger
 - [cmc](/packages/cmc): interfacing with the **cmc** canister of the IC
-- [utils](/packages/utils): a collection of utilities and constants for NNS/SNS projects.
+- [utils](/packages/utils): a collection of utilities and constants
 
 ## Installation
 
@@ -18,6 +19,7 @@ Install any library of this repo in your project from [npm](https://www.npmjs.co
 ```bash
 npm i @dfinity/nns
 npm i @dfinity/sns
+npm i @dfinity/ledger
 npm i @dfinity/cmc
 ```
 
