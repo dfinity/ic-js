@@ -5,10 +5,10 @@
   "license": "Apache-2.0",
   "workspaces": [
     "packages/utils",
+    "packages/ledger",
     "packages/nns",
     "packages/sns",
-    "packages/cmc",
-    "packages/ledger"
+    "packages/cmc"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",

@@ -20,6 +20,10 @@ jobs:
         run: npm publish --tag next --workspace=packages/utils
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish Ledger
+        run: npm publish --tag next --workspace=packages/ledger
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish NNS
         run: npm publish --tag next --workspace=packages/nns
         env:
@@ -30,9 +34,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish CMC
         run: npm publish --tag next --workspace=packages/cmc
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - name: Publish Ledger
-        run: npm publish --tag next --workspace=packages/ledger
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
