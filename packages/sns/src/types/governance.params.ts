@@ -4,6 +4,7 @@ import type {
   Icrc1Tokens,
 } from "@dfinity/ledger";
 import type { Principal } from "@dfinity/principal";
+import type { QueryParams } from "@dfinity/utils";
 import type { NeuronId, ProposalId } from "../../candid/sns_governance";
 import type {
   SnsNeuronPermissionType,
@@ -11,7 +12,6 @@ import type {
   SnsProposalRewardStatus,
 } from "../enums/governance.enums";
 import type { E8s } from "./common";
-import type { QueryParams } from "./query.params";
 
 /**
  * The parameters available to list Sns neurons

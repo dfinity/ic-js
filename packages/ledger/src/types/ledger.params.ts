@@ -1,11 +1,11 @@
 import type { Principal } from "@dfinity/principal";
+import type { QueryParams } from "@dfinity/utils";
 import type {
   Account,
   Subaccount,
   Timestamp,
   Tokens,
 } from "../../candid/icrc1_ledger";
-import type { QueryParams } from "./query.params";
 
 /**
  * Params to get the balance of an ICRC1 account.

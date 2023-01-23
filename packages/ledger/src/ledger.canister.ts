@@ -1,4 +1,5 @@
-import { createServices, toNullable } from "@dfinity/utils";
+import type { QueryParams } from "@dfinity/utils";
+import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
   BlockIndex,
   Tokens,
@@ -8,11 +9,9 @@ import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certif
 import { idlFactory } from "../candid/icrc1_ledger.idl";
 import { toTransferArg } from "./converters/ledger.converters";
 import { Icrc1TransferError } from "./errors/ledger.errors";
-import { Canister } from "./services/canister";
 import type { Icrc1LedgerCanisterOptions } from "./types/canister.options";
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
 import type { Icrc1TokenMetadataResponse } from "./types/ledger.responses";
-import type { QueryParams } from "./types/query.params";
 
 export class Icrc1LedgerCanister extends Canister<Icrc1LedgerService> {
   static create(options: Icrc1LedgerCanisterOptions<Icrc1LedgerService>) {

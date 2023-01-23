@@ -1,6 +1,12 @@
 import { assertPercentageNumber } from "@dfinity/nns/src/utils/number.utils";
 import type { Principal } from "@dfinity/principal";
-import { createServices, fromNullable, toNullable } from "@dfinity/utils";
+import type { QueryParams } from "@dfinity/utils";
+import {
+  Canister,
+  createServices,
+  fromNullable,
+  toNullable,
+} from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
@@ -32,7 +38,6 @@ import {
   toStopDissolvingNeuronRequest,
 } from "./converters/governance.converters";
 import { SnsGovernanceError } from "./errors/governance.errors";
-import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type {
   SnsClaimNeuronParams,
@@ -49,7 +54,6 @@ import type {
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
-import type { QueryParams } from "./types/query.params";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**

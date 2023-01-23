@@ -1,11 +1,10 @@
-import { createServices } from "@dfinity/utils";
+import { Canister, createServices } from "@dfinity/utils";
 import type {
   ListSnsCanistersResponse,
   _SERVICE as SnsRootService,
 } from "../candid/sns_root";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_root.certified.idl";
 import { idlFactory } from "../candid/sns_root.idl";
-import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 
 export class SnsRootCanister extends Canister<SnsRootService> {

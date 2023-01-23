@@ -8,6 +8,7 @@ import type {
   TransferParams,
 } from "@dfinity/ledger";
 import type { Principal } from "@dfinity/principal";
+import type { QueryParams } from "@dfinity/utils";
 import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
 import type {
   GetMetadataResponse,
@@ -47,7 +48,6 @@ import type {
   SnsSplitNeuronParams,
   SnsStakeNeuronParams,
 } from "./types/governance.params";
-import type { QueryParams } from "./types/query.params";
 import type { GetAccountTransactionsParams } from "./types/sns-index.params";
 import { neuronSubaccount } from "./utils/governance.utils";
 

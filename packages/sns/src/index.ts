@@ -42,5 +42,4 @@ export * from "./sns.wrapper";
 export { SnsSwapCanister } from "./swap.canister";
 export type { SnsCanisterOptions } from "./types/canister.options";
 export * from "./types/governance.params";
-export type { QueryParams } from "./types/query.params";
 export * from "./utils/governance.utils";

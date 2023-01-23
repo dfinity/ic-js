@@ -1,6 +1,7 @@
 import type { Agent } from "@dfinity/agent";
 import { Icrc1LedgerCanister } from "@dfinity/ledger";
 import type { Principal } from "@dfinity/principal";
+import type { QueryParams } from "@dfinity/utils";
 import { assertNonNullish, fromNullable } from "@dfinity/utils";
 import type {
   ListSnsCanistersResponse,
@@ -12,7 +13,6 @@ import { SnsIndexCanister } from "./sns-index.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
-import type { QueryParams } from "./types/query.params";
 
 /**
  * Options to discover and initialize all canisters of a Sns.
