@@ -32,7 +32,7 @@ The features are available through the class `LedgerCanister`. It has to be inst
 e.g. fetching a token metadata.
 
 ```ts
-import { LedgerCanister } from "@dfinity/ledger";
+import { IcrcLedgerCanister } from "@dfinity/ledger";
 import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({
