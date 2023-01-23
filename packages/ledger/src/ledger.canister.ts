@@ -2,7 +2,7 @@ import { createServices, toNullable } from "@dfinity/utils";
 import type {
   BlockIndex,
   Tokens,
-  _SERVICE as Icrc1SnsLedgerService,
+  _SERVICE as Icrc1LedgerService,
 } from "../candid/icrc1_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc1_ledger.idl";
@@ -14,10 +14,10 @@ import type { BalanceParams, TransferParams } from "./types/ledger.params";
 import type { Icrc1TokenMetadataResponse } from "./types/ledger.responses";
 import type { QueryParams } from "./types/query.params";
 
-export class Icrc1LedgerCanister extends Canister<Icrc1SnsLedgerService> {
-  static create(options: Icrc1LedgerCanisterOptions<Icrc1SnsLedgerService>) {
+export class Icrc1LedgerCanister extends Canister<Icrc1LedgerService> {
+  static create(options: Icrc1LedgerCanisterOptions<Icrc1LedgerService>) {
     const { service, certifiedService, canisterId } =
-      createServices<Icrc1SnsLedgerService>({
+      createServices<Icrc1LedgerService>({
         options,
         idlFactory,
         certifiedIdlFactory,

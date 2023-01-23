@@ -2,8 +2,8 @@ export type {
   BlockIndex as Icrc1BlockIndex,
   Subaccount as Icrc1Subaccount,
   Tokens as Icrc1Tokens,
-  TransferArg as SnsTransferArg,
-  TransferError as SnsTransferVariatError,
+  TransferArg as Icrc1TransferArg,
+  TransferError as Icrc1TransferVariatError,
   Value as Icrc1Value,
 } from "../candid/icrc1_ledger";
 export * from "./errors/ledger.errors";

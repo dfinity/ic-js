@@ -4,7 +4,7 @@ import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   TransferArg,
-  _SERVICE as SnsLedgerService,
+  _SERVICE as Icrc1LedgerService,
 } from "../candid/icrc1_ledger";
 import { Icrc1TransferError } from "./errors/ledger.errors";
 import { Icrc1LedgerCanister } from "./ledger.canister";
@@ -16,7 +16,7 @@ import { TransferParams } from "./types/ledger.params";
 
 describe("Ledger canister", () => {
   it("should return the token metadata", async () => {
-    const service = mock<ActorSubclass<SnsLedgerService>>();
+    const service = mock<ActorSubclass<Icrc1LedgerService>>();
     service.icrc1_metadata.mockResolvedValue(tokeMetadataResponseMock);
 
     const canister = Icrc1LedgerCanister.create({
@@ -29,7 +29,7 @@ describe("Ledger canister", () => {
   });
 
   it("should return the transaction fee", async () => {
-    const service = mock<ActorSubclass<SnsLedgerService>>();
+    const service = mock<ActorSubclass<Icrc1LedgerService>>();
     const fee = BigInt(10_000);
     service.icrc1_fee.mockResolvedValue(fee);
 
@@ -44,7 +44,7 @@ describe("Ledger canister", () => {
 
   describe("balance", () => {
     it("should return the balance of main account", async () => {
-      const service = mock<ActorSubclass<SnsLedgerService>>();
+      const service = mock<ActorSubclass<Icrc1LedgerService>>();
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
@@ -62,7 +62,7 @@ describe("Ledger canister", () => {
     });
 
     it("should return the balance of subaccount", async () => {
-      const service = mock<ActorSubclass<SnsLedgerService>>();
+      const service = mock<ActorSubclass<Icrc1LedgerService>>();
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
@@ -101,7 +101,7 @@ describe("Ledger canister", () => {
       amount: BigInt(100_000_000),
     };
     it("should return the block height successfully", async () => {
-      const service = mock<ActorSubclass<SnsLedgerService>>();
+      const service = mock<ActorSubclass<Icrc1LedgerService>>();
       const blockHeight = BigInt(100);
       service.icrc1_transfer.mockResolvedValue({ Ok: blockHeight });
 
@@ -116,7 +116,7 @@ describe("Ledger canister", () => {
     });
 
     it("should raise Icrc1TransferError error", async () => {
-      const service = mock<ActorSubclass<SnsLedgerService>>();
+      const service = mock<ActorSubclass<Icrc1LedgerService>>();
       const errorResponse = {
         Err: {
           InsufficientFunds: {
