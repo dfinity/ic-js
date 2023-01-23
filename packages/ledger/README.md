@@ -95,6 +95,11 @@ Parameters:
 
 `public`
 
+Parameters:
+
+* `id`
+* `service`
+* `certifiedService`
 
 
 #### Methods

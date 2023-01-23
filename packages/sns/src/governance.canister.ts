@@ -145,7 +145,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    * Get the neuron of the Sns
    */
   getNeuron = async (
-    params: SnsGetNeuronParams & QueryParams
+    params: SnsGetNeuronParams
   ): Promise<Neuron> => {
     const { neuronId } = params;
 
@@ -165,7 +165,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    * Same as `getNeuron` but returns undefined instead of raising error when not found.
    */
   queryNeuron = async (
-    params: SnsGetNeuronParams & QueryParams
+    params: SnsGetNeuronParams
   ): Promise<Neuron | undefined> => {
     try {
       return await this.getNeuron(params);

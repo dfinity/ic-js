@@ -59,7 +59,7 @@ export interface SnsGetProposalParams extends QueryParams {
 }
 
 /**
- * The parameters to get an sns neuron
+ * The parameters to get a Sns neuron
  */
 export interface SnsGetNeuronParams extends QueryParams {
   neuronId: NeuronId;
