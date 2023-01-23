@@ -533,21 +533,21 @@ Parameters:
 
 ##### :gear: transactionFee
 
-| Method           | Type                                                          |
-| ---------------- | ------------------------------------------------------------- |
-| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
+| Method           | Type                                                               |
+| ---------------- | ------------------------------------------------------------------ |
+| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<Icrc1Tokens>` |
 
 ##### :gear: balance
 
-| Method    | Type                                                            |
-| --------- | --------------------------------------------------------------- |
-| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
+| Method    | Type                                                                 |
+| --------- | -------------------------------------------------------------------- |
+| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<Icrc1Tokens>` |
 
 ##### :gear: transfer
 
-| Method     | Type                                          |
-| ---------- | --------------------------------------------- |
-| `transfer` | `(params: TransferParams) => Promise<bigint>` |
+| Method     | Type                                                   |
+| ---------- | ------------------------------------------------------ |
+| `transfer` | `(params: TransferParams) => Promise<Icrc1BlockIndex>` |
 
 ##### :gear: getNeuron
 
@@ -605,9 +605,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getNeuronBalance
 
-| Method             | Type                                      |
-| ------------------ | ----------------------------------------- |
-| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<bigint>` |
+| Method             | Type                                           |
+| ------------------ | ---------------------------------------------- |
+| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<Icrc1Tokens>` |
 
 ##### :gear: addNeuronPermissions
 
