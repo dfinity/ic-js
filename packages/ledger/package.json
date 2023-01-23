@@ -37,6 +37,6 @@
   ],
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "peerDependencies": {
-    "@dfinity/utils": "^0.0.7"
+    "@dfinity/utils": "^0.0.8"
   }
 }
