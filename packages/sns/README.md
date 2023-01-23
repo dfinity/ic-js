@@ -85,12 +85,6 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 
 `public`
 
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
-
 #### Methods
 
 - [create](#gear-create)
@@ -182,17 +176,17 @@ Get the Sns nervous system parameters (default followees, max dissolve delay, ma
 
 Get the neuron of the Sns
 
-| Method      | Type                                                              |
-| ----------- | ----------------------------------------------------------------- |
-| `getNeuron` | `(params: SnsGetNeuronParams and QueryParams) => Promise<Neuron>` |
+| Method      | Type                               |
+| ----------- | ---------------------------------- |
+| `getNeuron` | `(params: any) => Promise<Neuron>` |
 
 ##### :gear: queryNeuron
 
 Same as `getNeuron` but returns undefined instead of raising error when not found.
 
-| Method        | Type                                                              |
-| ------------- | ----------------------------------------------------------------- |
-| `queryNeuron` | `(params: SnsGetNeuronParams and QueryParams) => Promise<Neuron>` |
+| Method        | Type                               |
+| ------------- | ---------------------------------- |
+| `queryNeuron` | `(params: any) => Promise<Neuron>` |
 
 ##### :gear: manageNeuron
 
@@ -322,12 +316,6 @@ Claim neuron
 
 `public`
 
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
-
 #### Methods
 
 - [create](#gear-create)
@@ -354,12 +342,6 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 #### Constructors
 
 `public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
 
 #### Methods
 
@@ -390,12 +372,6 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 #### Constructors
 
 `public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
 
 #### Methods
 
@@ -430,9 +406,9 @@ Notify of the user participating in the swap
 
 Get user commitment
 
-| Method              | Type                                                                    |
-| ------------------- | ----------------------------------------------------------------------- |
-| `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
+| Method              | Type                                   |
+| ------------------- | -------------------------------------- |
+| `getUserCommitment` | `(params: any) => Promise<BuyerState>` |
 
 ### :factory: SnsWrapper
 
