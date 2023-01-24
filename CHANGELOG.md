@@ -1,11 +1,26 @@
-# 0.12.0 (wip)
+# 0.12.0 (2023-01-24)
 
 ## Release
 
 - nns `v0.12.0`
 - sns `v0.0.9`
 - cmc `v0.0.5`
+- ledger `v0.0.1`
 - utils `v0.0.8`
+
+### Breaking Changes
+
+Introducing `@dfinity/ledger` - a library for interfacing with ICRC ledgers on the Internet Computer.
+
+An ICRC-1 ledger is not only used in Sns projects but, in ckBTC too. It can also be integrated in various other scenario need by developers on the IC.
+
+That's why we are launching this new library and why we refactored Sns ledger related features to create this new library.
+
+De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
+
+### Features
+
+- enable merge neurons for HW controlled neurons
 
 # 0.11.0 (2023-01-23)
 

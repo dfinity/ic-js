@@ -1,6 +1,6 @@
 # ledger-js
 
-A library for interfacing with an [ICRC-1 ledger](https://github.com/dfinity/ic/tree/master/rs/rosetta-api/icrc1).
+A library for interfacing with [ICRC ledgers](https://github.com/dfinity/ic/tree/master/rs/rosetta-api/icrc1) on the Internet Computer.
 
 [![npm version](https://img.shields.io/npm/v/@dfinity/ledger.svg?logo=npm)](https://www.npmjs.com/package/@dfinity/ledger) [![GitHub license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
