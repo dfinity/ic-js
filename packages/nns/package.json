@@ -55,6 +55,6 @@
     "network-nervous-system"
   ],
   "peerDependencies": {
-    "@dfinity/utils": "^0.0.9"
+    "@dfinity/utils": "^0.0.10"
   }
 }
