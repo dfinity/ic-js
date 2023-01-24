@@ -17,6 +17,7 @@ import type {
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronPermissionsParams,
   SnsNeuronStakeMaturityParams,
+  SnsRegisterVoteParams,
   SnsSetDissolveTimestampParams,
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
@@ -207,6 +208,22 @@ export const toFollowRequest = ({
       Follow: {
         function_id: functionId,
         followees,
+      },
+    },
+  ],
+});
+
+export const toRegisterVoteRequest = ({
+  neuronId,
+  proposalId,
+  vote,
+}: SnsRegisterVoteParams): ManageNeuron => ({
+  subaccount: neuronId.id,
+  command: [
+    {
+      RegisterVote: {
+        vote,
+        proposal: [proposalId],
       },
     },
   ],

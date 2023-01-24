@@ -108,6 +108,7 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 - [setDissolveTimestamp](#gear-setdissolvetimestamp)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
 - [setTopicFollowees](#gear-settopicfollowees)
+- [registerVote](#gear-registervote)
 - [refreshNeuron](#gear-refreshneuron)
 - [claimNeuron](#gear-claimneuron)
 
@@ -294,6 +295,14 @@ Sets followees of a neuron for a specific Nervous System Function (topic)
 | ------------------- | ------------------------------------------------- |
 | `setTopicFollowees` | `(params: SnsSetTopicFollowees) => Promise<void>` |
 
+##### :gear: registerVote
+
+Registers vote for a proposal from the neuron passed.
+
+| Method         | Type                                               |
+| -------------- | -------------------------------------------------- |
+| `registerVote` | `(params: SnsRegisterVoteParams) => Promise<void>` |
+
 ##### :gear: refreshNeuron
 
 Refresh neuron
@@ -453,6 +462,7 @@ Parameters:
 - [setDissolveTimestamp](#gear-setdissolvetimestamp)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
 - [setTopicFollowees](#gear-settopicfollowees)
+- [registerVote](#gear-registervote)
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
@@ -645,6 +655,12 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method              | Type                                              |
 | ------------------- | ------------------------------------------------- |
 | `setTopicFollowees` | `(params: SnsSetTopicFollowees) => Promise<void>` |
+
+##### :gear: registerVote
+
+| Method         | Type                                               |
+| -------------- | -------------------------------------------------- |
+| `registerVote` | `(params: SnsRegisterVoteParams) => Promise<void>` |
 
 ##### :gear: swapState
 
