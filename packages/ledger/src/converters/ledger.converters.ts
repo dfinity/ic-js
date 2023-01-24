@@ -1,7 +1,6 @@
 import { toNullable } from "@dfinity/utils";
-import type { Account, TransferArg } from "../../candid/icrc1_ledger";
+import type { TransferArg } from "../../candid/icrc1_ledger";
 import type { TransferParams } from "../types/ledger.params";
-import type { SnsAccount } from "../types/ledger.responses";
 
 export const toTransferArg = ({
   to,
@@ -17,12 +16,4 @@ export const toTransferArg = ({
   memo: toNullable(memo),
   from_subaccount: toNullable(from_subaccount),
   created_at_time: toNullable(created_at_time),
-});
-
-export const toCandidAccount = ({
-  owner,
-  subaccount,
-}: SnsAccount): Account => ({
-  owner,
-  subaccount: toNullable(subaccount),
 });

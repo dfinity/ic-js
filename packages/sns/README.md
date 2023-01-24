@@ -21,7 +21,7 @@ npm i @dfinity/sns
 The bundle needs peer dependencies, be sure that following resources are available in your project as well.
 
 ```bash
-npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
+npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils @dfinity/ledger
 ```
 
 ## Usage
@@ -56,14 +56,9 @@ const { metadata: governanceMetadata } = SnsGovernanceCanister.create({
   agent,
   canisterId: rootCanisterId,
 });
-const { metadata: ledgerMetadata } = SnsLedgerCanister.create({
-  agent,
-  canisterId: rootCanisterId,
-});
 const metadata = await governanceMetadata({ certified: true });
-const token = await ledgerMetadata({ certified: true });
 
-console.log("Summary data:", metadata, token);
+console.log("Summary data:", metadata);
 ```
 
 ## Features
@@ -75,8 +70,6 @@ console.log("Summary data:", metadata, token);
 ### :toolbox: Functions
 
 - [initSnsWrapper](#gear-initsnswrapper)
-- [encodeSnsAccount](#gear-encodesnsaccount)
-- [decodeSnsAccount](#gear-decodesnsaccount)
 
 #### :gear: initSnsWrapper
 
@@ -86,43 +79,11 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 | ---------------- | ---------------- |
 | `initSnsWrapper` | `InitSnsWrapper` |
 
-#### :gear: encodeSnsAccount
-
-Encodes an SNS account into a string.
-Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R238
-
-| Function           | Type                                            |
-| ------------------ | ----------------------------------------------- |
-| `encodeSnsAccount` | `({ owner, subaccount }: SnsAccount) => string` |
-
-Parameters:
-
-- `snsAccount`: : Principal, subaccount?: Uint8Array }
-
-#### :gear: decodeSnsAccount
-
-Decodes a string into an SNS account.
-Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R268
-
-| Function           | Type                                    |
-| ------------------ | --------------------------------------- |
-| `decodeSnsAccount` | `(accountString: string) => SnsAccount` |
-
-Parameters:
-
-- `snsAccountString`: string
-
 ### :factory: SnsGovernanceCanister
 
 #### Constructors
 
 `public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
 
 #### Methods
 
@@ -215,17 +176,17 @@ Get the Sns nervous system parameters (default followees, max dissolve delay, ma
 
 Get the neuron of the Sns
 
-| Method      | Type                                                              |
-| ----------- | ----------------------------------------------------------------- |
-| `getNeuron` | `(params: SnsGetNeuronParams and QueryParams) => Promise<Neuron>` |
+| Method      | Type                                              |
+| ----------- | ------------------------------------------------- |
+| `getNeuron` | `(params: SnsGetNeuronParams) => Promise<Neuron>` |
 
 ##### :gear: queryNeuron
 
 Same as `getNeuron` but returns undefined instead of raising error when not found.
 
-| Method        | Type                                                              |
-| ------------- | ----------------------------------------------------------------- |
-| `queryNeuron` | `(params: SnsGetNeuronParams and QueryParams) => Promise<Neuron>` |
+| Method        | Type                                              |
+| ------------- | ------------------------------------------------- |
+| `queryNeuron` | `(params: SnsGetNeuronParams) => Promise<Neuron>` |
 
 ##### :gear: manageNeuron
 
@@ -349,83 +310,11 @@ Claim neuron
 | ------------- | -------------------------------------------------------------------------------- |
 | `claimNeuron` | `({ memo, controller, subaccount, }: SnsClaimNeuronParams) => Promise<NeuronId>` |
 
-### :factory: SnsLedgerCanister
-
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
-
-#### Methods
-
-- [create](#gear-create)
-- [metadata](#gear-metadata)
-- [transactionFee](#gear-transactionfee)
-- [balance](#gear-balance)
-- [transfer](#gear-transfer)
-
-##### :gear: create
-
-| Method   | Type                                                           |
-| -------- | -------------------------------------------------------------- |
-| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsLedgerCanister` |
-
-##### :gear: metadata
-
-The token metadata (name, symbol, etc.).
-
-| Method     | Type                                                         |
-| ---------- | ------------------------------------------------------------ |
-| `metadata` | `(params: QueryParams) => Promise<SnsTokenMetadataResponse>` |
-
-##### :gear: transactionFee
-
-The ledger transaction fees.
-
-| Method           | Type                                       |
-| ---------------- | ------------------------------------------ |
-| `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
-
-##### :gear: balance
-
-Returns the balance of the given account.
-
-| Method    | Type                                         |
-| --------- | -------------------------------------------- |
-| `balance` | `(params: BalanceParams) => Promise<bigint>` |
-
-Parameters:
-
-- `params`: The parameters to get the balance of an account.
-
-##### :gear: transfer
-
-Transfers tokens from the sender to the given account.
-
-| Method     | Type                                          |
-| ---------- | --------------------------------------------- |
-| `transfer` | `(params: TransferParams) => Promise<bigint>` |
-
-Parameters:
-
-- `params`: The parameters to transfer tokens.
-
 ### :factory: SnsRootCanister
 
 #### Constructors
 
 `public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
 
 #### Methods
 
@@ -453,12 +342,6 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 #### Constructors
 
 `public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
 
 #### Methods
 
@@ -489,12 +372,6 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 #### Constructors
 
 `public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
 
 #### Methods
 
@@ -529,9 +406,9 @@ Notify of the user participating in the swap
 
 Get user commitment
 
-| Method              | Type                                                                    |
-| ------------------- | ----------------------------------------------------------------------- |
-| `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
+| Method              | Type                                   |
+| ------------------- | -------------------------------------- |
+| `getUserCommitment` | `(params: any) => Promise<BuyerState>` |
 
 ### :factory: SnsWrapper
 
@@ -609,9 +486,9 @@ Parameters:
 
 ##### :gear: metadata
 
-| Method     | Type                                                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------------------ |
-| `metadata` | `(params: Omit<QueryParams, "certified">) => Promise<[GetMetadataResponse, SnsTokenMetadataResponse]>` |
+| Method     | Type                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------- |
+| `metadata` | `(params: Omit<QueryParams, "certified">) => Promise<[GetMetadataResponse, IcrcTokenMetadataResponse]>` |
 
 ##### :gear: nervousSystemParameters
 
@@ -621,27 +498,27 @@ Parameters:
 
 ##### :gear: ledgerMetadata
 
-| Method           | Type                                                                            |
-| ---------------- | ------------------------------------------------------------------------------- |
-| `ledgerMetadata` | `(params: Omit<QueryParams, "certified">) => Promise<SnsTokenMetadataResponse>` |
+| Method           | Type                                                                             |
+| ---------------- | -------------------------------------------------------------------------------- |
+| `ledgerMetadata` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokenMetadataResponse>` |
 
 ##### :gear: transactionFee
 
-| Method           | Type                                                          |
-| ---------------- | ------------------------------------------------------------- |
-| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
+| Method           | Type                                                              |
+| ---------------- | ----------------------------------------------------------------- |
+| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokens>` |
 
 ##### :gear: balance
 
-| Method    | Type                                                            |
-| --------- | --------------------------------------------------------------- |
-| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
+| Method    | Type                                                                |
+| --------- | ------------------------------------------------------------------- |
+| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<IcrcTokens>` |
 
 ##### :gear: transfer
 
-| Method     | Type                                          |
-| ---------- | --------------------------------------------- |
-| `transfer` | `(params: TransferParams) => Promise<bigint>` |
+| Method     | Type                                                  |
+| ---------- | ----------------------------------------------------- |
+| `transfer` | `(params: TransferParams) => Promise<IcrcBlockIndex>` |
 
 ##### :gear: getNeuron
 
@@ -669,9 +546,9 @@ If the neuron does not exist for that subaccount, then we use it for the next ne
 The index is used in the memo of the transfer and when claiming the neuron.
 This is how the backend can identify which neuron is being claimed.
 
-| Method              | Type                                                                          |
-| ------------------- | ----------------------------------------------------------------------------- |
-| `nextNeuronAccount` | `(controller: Principal) => Promise<{ account: SnsAccount; index: bigint; }>` |
+| Method              | Type                                                                           |
+| ------------------- | ------------------------------------------------------------------------------ |
+| `nextNeuronAccount` | `(controller: Principal) => Promise<{ account: IcrcAccount; index: bigint; }>` |
 
 ##### :gear: stakeNeuron
 
@@ -699,9 +576,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getNeuronBalance
 
-| Method             | Type                                      |
-| ------------------ | ----------------------------------------- |
-| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<bigint>` |
+| Method             | Type                                          |
+| ------------------ | --------------------------------------------- |
+| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<IcrcTokens>` |
 
 ##### :gear: addNeuronPermissions
 

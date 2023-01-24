@@ -4,21 +4,23 @@ import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   TransferArg,
-  _SERVICE as SnsLedgerService,
+  _SERVICE as IcrcLedgerService,
 } from "../candid/icrc1_ledger";
-import { SnsTransferError } from "./errors/ledger.errors";
-import { SnsLedgerCanister } from "./ledger.canister";
-import { tokeMetadataResponseMock } from "./mocks/ledger.mock";
-import { rootCanisterIdMock } from "./mocks/sns.mock";
+import { IcrcTransferError } from "./errors/ledger.errors";
+import { IcrcLedgerCanister } from "./ledger.canister";
+import {
+  ledgerCanisterIdMock,
+  tokeMetadataResponseMock,
+} from "./mocks/ledger.mock";
 import { TransferParams } from "./types/ledger.params";
 
 describe("Ledger canister", () => {
   it("should return the token metadata", async () => {
-    const service = mock<ActorSubclass<SnsLedgerService>>();
+    const service = mock<ActorSubclass<IcrcLedgerService>>();
     service.icrc1_metadata.mockResolvedValue(tokeMetadataResponseMock);
 
-    const canister = SnsLedgerCanister.create({
-      canisterId: rootCanisterIdMock,
+    const canister = IcrcLedgerCanister.create({
+      canisterId: ledgerCanisterIdMock,
       certifiedServiceOverride: service,
     });
 
@@ -27,12 +29,12 @@ describe("Ledger canister", () => {
   });
 
   it("should return the transaction fee", async () => {
-    const service = mock<ActorSubclass<SnsLedgerService>>();
+    const service = mock<ActorSubclass<IcrcLedgerService>>();
     const fee = BigInt(10_000);
     service.icrc1_fee.mockResolvedValue(fee);
 
-    const canister = SnsLedgerCanister.create({
-      canisterId: rootCanisterIdMock,
+    const canister = IcrcLedgerCanister.create({
+      canisterId: ledgerCanisterIdMock,
       certifiedServiceOverride: service,
     });
 
@@ -42,12 +44,12 @@ describe("Ledger canister", () => {
 
   describe("balance", () => {
     it("should return the balance of main account", async () => {
-      const service = mock<ActorSubclass<SnsLedgerService>>();
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
-      const canister = SnsLedgerCanister.create({
-        canisterId: rootCanisterIdMock,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
@@ -60,12 +62,12 @@ describe("Ledger canister", () => {
     });
 
     it("should return the balance of subaccount", async () => {
-      const service = mock<ActorSubclass<SnsLedgerService>>();
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
-      const canister = SnsLedgerCanister.create({
-        canisterId: rootCanisterIdMock,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
@@ -99,12 +101,12 @@ describe("Ledger canister", () => {
       amount: BigInt(100_000_000),
     };
     it("should return the block height successfully", async () => {
-      const service = mock<ActorSubclass<SnsLedgerService>>();
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
       const blockHeight = BigInt(100);
       service.icrc1_transfer.mockResolvedValue({ Ok: blockHeight });
 
-      const canister = SnsLedgerCanister.create({
-        canisterId: rootCanisterIdMock,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
@@ -113,8 +115,8 @@ describe("Ledger canister", () => {
       expect(service.icrc1_transfer).toBeCalledWith(transferArg);
     });
 
-    it("should raise SnsTransferError error", async () => {
-      const service = mock<ActorSubclass<SnsLedgerService>>();
+    it("should raise IcrcTransferError error", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
       const errorResponse = {
         Err: {
           InsufficientFunds: {
@@ -124,13 +126,13 @@ describe("Ledger canister", () => {
       };
       service.icrc1_transfer.mockResolvedValue(errorResponse);
 
-      const canister = SnsLedgerCanister.create({
-        canisterId: rootCanisterIdMock,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
       const call = () => canister.transfer(transferParams);
-      expect(call).rejects.toThrow(SnsTransferError);
+      expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
 });

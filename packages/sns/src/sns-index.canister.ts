@@ -1,4 +1,4 @@
-import { createServices } from "@dfinity/utils";
+import { Canister, createServices } from "@dfinity/utils";
 import type {
   GetTransactions,
   _SERVICE as SnsIndexService,
@@ -7,7 +7,6 @@ import { idlFactory as certifiedIdlFactory } from "../candid/sns_index.certified
 import { idlFactory } from "../candid/sns_index.idl";
 import { toGetTransactionsArgs } from "./converters/sns-index.converters";
 import { SnsIndexError } from "./errors/sns-index.errors";
-import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { GetAccountTransactionsParams } from "./types/sns-index.params";
 

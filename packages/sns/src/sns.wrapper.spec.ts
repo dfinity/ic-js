@@ -1,11 +1,16 @@
+import { IcrcLedgerCanister } from "@dfinity/ledger";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
+import {
+  mockPrincipal,
+  tokeMetadataResponseMock,
+} from "../../ledger/src/mocks/ledger.mock";
+import { TransferParams } from "../../ledger/src/types/ledger.params";
 import { ManageNeuronResponse, NeuronId } from "../candid/sns_governance";
 import { SnsNeuronPermissionType } from "./enums/governance.enums";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import { SnsGovernanceCanister } from "./governance.canister";
-import { SnsLedgerCanister } from "./ledger.canister";
 import {
   metadataMock,
   neuronIdMock,
@@ -13,13 +18,11 @@ import {
   neuronsMock,
   proposalIdMock,
 } from "./mocks/governance.mock";
-import { mockPrincipal, tokeMetadataResponseMock } from "./mocks/ledger.mock";
 import { SnsRootCanister } from "./root.canister";
 import { SnsIndexCanister } from "./sns-index.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsDisburseNeuronParams } from "./types/governance.params";
-import { TransferParams } from "./types/ledger.params";
 
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<SnsGovernanceCanister>();
@@ -41,10 +44,10 @@ describe("SnsWrapper", () => {
     swap: [],
     derived: [],
   });
-  const mockLedgerCanister = mock<SnsLedgerCanister>();
+  const mockLedgerCanister = mock<IcrcLedgerCanister>();
   mockLedgerCanister.metadata.mockResolvedValue(tokeMetadataResponseMock);
 
-  const mockCertifiedLedgerCanister = mock<SnsLedgerCanister>();
+  const mockCertifiedLedgerCanister = mock<IcrcLedgerCanister>();
   mockCertifiedLedgerCanister.metadata.mockResolvedValue(
     tokeMetadataResponseMock
   );

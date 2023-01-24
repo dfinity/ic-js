@@ -1,4 +1,6 @@
+export * from "./services/canister";
 export type { CanisterOptions } from "./types/canister.options";
+export type { QueryParams } from "./types/query.params";
 export * from "./utils/actor.utils";
 export * from "./utils/agent.utils";
 export * from "./utils/arrays.utils";

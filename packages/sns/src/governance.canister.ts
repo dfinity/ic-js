@@ -1,6 +1,12 @@
 import { assertPercentageNumber } from "@dfinity/nns/src/utils/number.utils";
 import type { Principal } from "@dfinity/principal";
-import { createServices, fromNullable, toNullable } from "@dfinity/utils";
+import type { QueryParams } from "@dfinity/utils";
+import {
+  Canister,
+  createServices,
+  fromNullable,
+  toNullable,
+} from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
@@ -32,7 +38,6 @@ import {
   toStopDissolvingNeuronRequest,
 } from "./converters/governance.converters";
 import { SnsGovernanceError } from "./errors/governance.errors";
-import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type {
   SnsClaimNeuronParams,
@@ -49,7 +54,6 @@ import type {
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
-import type { QueryParams } from "./types/query.params";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
@@ -140,9 +144,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
    * Get the neuron of the Sns
    */
-  getNeuron = async (
-    params: SnsGetNeuronParams & QueryParams
-  ): Promise<Neuron> => {
+  getNeuron = async (params: SnsGetNeuronParams): Promise<Neuron> => {
     const { neuronId } = params;
 
     const { result } = await this.caller(params).get_neuron({
@@ -161,7 +163,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    * Same as `getNeuron` but returns undefined instead of raising error when not found.
    */
   queryNeuron = async (
-    params: SnsGetNeuronParams & QueryParams
+    params: SnsGetNeuronParams
   ): Promise<Neuron | undefined> => {
     try {
       return await this.getNeuron(params);

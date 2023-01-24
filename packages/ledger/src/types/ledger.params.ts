@@ -1,14 +1,14 @@
 import type { Principal } from "@dfinity/principal";
+import type { QueryParams } from "@dfinity/utils";
 import type {
   Account,
   Subaccount,
   Timestamp,
   Tokens,
 } from "../../candid/icrc1_ledger";
-import type { QueryParams } from "./query.params";
 
 /**
- * Params to get the balance of an SNS account.
+ * Params to get the balance of an ICRC-1 account.
  */
 export interface BalanceParams extends QueryParams {
   owner: Principal;
@@ -16,7 +16,7 @@ export interface BalanceParams extends QueryParams {
 }
 
 /**
- * Params to make a transfer in an SNS ledger
+ * Params to make a transfer in an ICRC-1 ledger
  *
  * @param {Account} to The account to transfer tokens to.
  * @param {Tokens} amount The Amount of tokens to transfer.
