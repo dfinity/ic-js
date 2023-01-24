@@ -1,3 +1,13 @@
+# 0.13.0 (wip)
+
+## Release
+
+- nns `v0.13.0`
+- sns `v0.0.11`
+- cmc `v0.0.7`
+- ledger `v0.0.3`
+- utils `v0.0.10`
+
 # 0.12.1 (2023-01-24)
 
 ## Release
@@ -7,6 +17,10 @@
 - cmc `v0.0.6`
 - ledger `v0.0.2`
 - utils `v0.0.9`
+
+## Fix
+
+- `utils` was wrongly referenced as a dependency instead of peer-dependency in last release of `cmc`
 
 # 0.12.0 (2023-01-24)
 
