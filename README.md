@@ -17,9 +17,10 @@ The libraries are still in active development, and new features will incremental
 Install any library of this repo in your project from [npm](https://www.npmjs.com):
 
 ```bash
+npm i @dfinity/utils
+npm i @dfinity/ledger
 npm i @dfinity/nns
 npm i @dfinity/sns
-npm i @dfinity/ledger
 npm i @dfinity/cmc
 ```
 
