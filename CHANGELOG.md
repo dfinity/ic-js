@@ -10,7 +10,7 @@
 
 ### Breaking Changes
 
-Introducing `@dfinity/ledger` - a library for interfacing with ICRC ledgers on the Internet Computer.
+Introducing `@dfinity/ledger` — A library for interfacing with ICRC ledgers on the Internet Computer.
 
 An ICRC-1 ledger is not only used in Sns projects but, in ckBTC too. It can also be integrated in various other scenario need by developers on the IC.
 
