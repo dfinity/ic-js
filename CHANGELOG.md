@@ -15,8 +15,8 @@
 - nns `v0.12.1`
 - sns `v0.0.10`
 - cmc `v0.0.6`
-- ledger `v0.0.2`
-- utils `v0.0.9`
+- ledger `v0.0.3`
+- utils `v0.0.10`
 
 ## Fix
 
