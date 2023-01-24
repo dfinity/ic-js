@@ -64,32 +64,39 @@ const data = await metadata();
 Encodes an Icrc-1 account compatible into a string.
 Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R238
 
-| Function            | Type                                              |
-| ------------------- | ------------------------------------------------- |
+| Function | Type |
+| ---------- | ---------- |
 | `encodeIcrcAccount` | `({ owner, subaccount, }: IcrcAccount) => string` |
 
 Parameters:
 
-- `account`: : Principal, subaccount?: Uint8Array }
+* `account`: : Principal, subaccount?: Uint8Array }
+
 
 #### :gear: decodeIcrcAccount
 
 Decodes a string into an Icrc-1 compatible account.
 Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R268
 
-| Function            | Type                                     |
-| ------------------- | ---------------------------------------- |
+| Function | Type |
+| ---------- | ---------- |
 | `decodeIcrcAccount` | `(accountString: string) => IcrcAccount` |
 
 Parameters:
 
-- `accountString`: string
+* `accountString`: string
+
+
 
 ### :factory: IcrcLedgerCanister
+
+
 
 #### Constructors
 
 `public`
+
+
 
 #### Methods
 
@@ -101,49 +108,52 @@ Parameters:
 
 ##### :gear: create
 
-| Method   | Type                                                                   |
-| -------- | ---------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
 
 ##### :gear: metadata
 
 The token metadata (name, symbol, etc.).
 
-| Method     | Type                                                          |
-| ---------- | ------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `metadata` | `(params: QueryParams) => Promise<IcrcTokenMetadataResponse>` |
 
 ##### :gear: transactionFee
 
 The ledger transaction fees.
 
-| Method           | Type                                       |
-| ---------------- | ------------------------------------------ |
+| Method | Type |
+| ---------- | ---------- |
 | `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
 
 ##### :gear: balance
 
 Returns the balance of the given account.
 
-| Method    | Type                                         |
-| --------- | -------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `balance` | `(params: BalanceParams) => Promise<bigint>` |
 
 Parameters:
 
-- `params`: The parameters to get the balance of an account.
+* `params`: The parameters to get the balance of an account.
+
 
 ##### :gear: transfer
 
 Transfers tokens from the sender to the given account.
 
-| Method     | Type                                          |
-| ---------- | --------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `transfer` | `(params: TransferParams) => Promise<bigint>` |
 
 Parameters:
 
-- `params`: The parameters to transfer tokens.
+* `params`: The parameters to transfer tokens.
+
+
 
 <!-- TSDOC_END -->
 
