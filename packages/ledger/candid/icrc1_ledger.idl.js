@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/icrc1_ledger.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/ledger/candid/icrc1_ledger.did */
 export const idlFactory = ({ IDL }) => {
   const Value = IDL.Variant({
     'Int' : IDL.Int,

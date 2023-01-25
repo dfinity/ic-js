@@ -1,3 +1,4 @@
+import type { IcrcAccount } from "@dfinity/ledger";
 import { toNullable } from "@dfinity/utils";
 import type {
   Account,
@@ -20,7 +21,6 @@ import type {
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "../types/governance.params";
-import type { SnsAccount } from "../types/ledger.responses";
 
 // Helper for building `ManageNeuron` structure
 const toManageNeuronCommand = ({
@@ -54,7 +54,7 @@ const toManageNeuronConfigureCommand = ({
 export const toCandidAccount = ({
   owner,
   subaccount,
-}: SnsAccount): Account => ({
+}: IcrcAccount): Account => ({
   owner: toNullable(owner),
   subaccount: subaccount === undefined ? [] : toNullable({ subaccount }),
 });

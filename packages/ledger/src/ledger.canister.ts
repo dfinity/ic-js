@@ -1,35 +1,34 @@
-import { createServices, toNullable } from "@dfinity/utils";
+import type { QueryParams } from "@dfinity/utils";
+import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
   BlockIndex,
   Tokens,
-  _SERVICE as SnsLedgerService,
+  _SERVICE as IcrcLedgerService,
 } from "../candid/icrc1_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc1_ledger.idl";
 import { toTransferArg } from "./converters/ledger.converters";
-import { SnsTransferError } from "./errors/ledger.errors";
-import { Canister } from "./services/canister";
-import type { SnsCanisterOptions } from "./types/canister.options";
+import { IcrcTransferError } from "./errors/ledger.errors";
+import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
 import type { BalanceParams, TransferParams } from "./types/ledger.params";
-import type { SnsTokenMetadataResponse } from "./types/ledger.responses";
-import type { QueryParams } from "./types/query.params";
+import type { IcrcTokenMetadataResponse } from "./types/ledger.responses";
 
-export class SnsLedgerCanister extends Canister<SnsLedgerService> {
-  static create(options: SnsCanisterOptions<SnsLedgerService>) {
+export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
+  static create(options: IcrcLedgerCanisterOptions<IcrcLedgerService>) {
     const { service, certifiedService, canisterId } =
-      createServices<SnsLedgerService>({
+      createServices<IcrcLedgerService>({
         options,
         idlFactory,
         certifiedIdlFactory,
       });
 
-    return new SnsLedgerCanister(canisterId, service, certifiedService);
+    return new IcrcLedgerCanister(canisterId, service, certifiedService);
   }
 
   /**
    * The token metadata (name, symbol, etc.).
    */
-  metadata = (params: QueryParams): Promise<SnsTokenMetadataResponse> =>
+  metadata = (params: QueryParams): Promise<IcrcTokenMetadataResponse> =>
     this.caller(params).icrc1_metadata();
 
   /**
@@ -57,14 +56,14 @@ export class SnsLedgerCanister extends Canister<SnsLedgerService> {
    *
    * @param {TransferArg} params The parameters to transfer tokens.
    *
-   * @throws {SnsTransferError} If the transfer fails.
+   * @throws {IcrcTransferError} If the transfer fails.
    */
   transfer = async (params: TransferParams): Promise<BlockIndex> => {
     const response = await this.caller({ certified: true }).icrc1_transfer(
       toTransferArg(params)
     );
     if ("Err" in response) {
-      throw new SnsTransferError({
+      throw new IcrcTransferError({
         errorType: response.Err,
         msg: "Failed to transfer",
       });

@@ -1,4 +1,5 @@
-import { createServices, fromNullable } from "@dfinity/utils";
+import type { QueryParams } from "@dfinity/utils";
+import { Canister, createServices, fromNullable } from "@dfinity/utils";
 import type {
   BuyerState,
   GetBuyerStateRequest,
@@ -8,9 +9,7 @@ import type {
 } from "../candid/sns_swap";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";
-import { Canister } from "./services/canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
-import type { QueryParams } from "./types/query.params";
 
 export class SnsSwapCanister extends Canister<SnsSwapService> {
   static create(options: SnsCanisterOptions<SnsSwapService>) {

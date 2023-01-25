@@ -15,19 +15,22 @@ const nnsInputFiles = [
 
 const snsInputFiles = [
   "./packages/sns/src/governance.canister.ts",
-  "./packages/sns/src/ledger.canister.ts",
   "./packages/sns/src/governance.canister.ts",
   "./packages/sns/src/root.canister.ts",
   "./packages/sns/src/sns-index.canister.ts",
   "./packages/sns/src/sns.ts",
   "./packages/sns/src/sns.wrapper.ts",
   "./packages/sns/src/swap.canister.ts",
-  "./packages/sns/src/utils/ledger.utils.ts",
 ];
 
 const utilsInputFiles = ["./packages/utils/src/index.ts"];
 
 const cmcInputFiles = ["./packages/cmc/src/cmc.canister.ts"];
+
+const ledgerInputFiles = [
+  "./packages/ledger/src/ledger.canister.ts",
+  "./packages/ledger/src/utils/ledger.utils.ts",
+];
 
 generateDocumentation({
   inputFiles: nnsInputFiles,
@@ -44,6 +47,12 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: cmcInputFiles,
   outputFile: "./packages/cmc/README.md",
+  markdownOptions: { headingLevel: "###" },
+});
+
+generateDocumentation({
+  inputFiles: ledgerInputFiles,
+  outputFile: "./packages/ledger/README.md",
   markdownOptions: { headingLevel: "###" },
 });
 
