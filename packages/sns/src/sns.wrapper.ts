@@ -242,6 +242,7 @@ export class SnsWrapper {
     source,
     controller,
     createdAt,
+    fee,
   }: SnsStakeNeuronParams): Promise<NeuronId> => {
     this.assertCertified("stakeNeuron");
     const { account: neuronAccount, index } = await this.nextNeuronAccount(
@@ -262,6 +263,7 @@ export class SnsWrapper {
       from_subaccount: source.subaccount,
       memo: bigIntToUint8Array(index),
       created_at_time: createdAt,
+      fee,
     });
     return this.governance.claimNeuron({
       memo: BigInt(index),
