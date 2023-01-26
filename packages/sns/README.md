@@ -558,9 +558,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ⚠️ This feature is provided as it without warranty. It does not implement any additional checks of the validity of the payment flow - e.g. it does not handle refund nor retries claiming the neuron in case of errors.
 
-| Method        | Type                                                                                        |
-| ------------- | ------------------------------------------------------------------------------------------- |
-| `stakeNeuron` | `({ stakeE8s, source, controller, createdAt, }: SnsStakeNeuronParams) => Promise<NeuronId>` |
+| Method        | Type                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------ |
+| `stakeNeuron` | `({ stakeE8s, source, controller, createdAt, fee, }: SnsStakeNeuronParams) => Promise<NeuronId>` |
 
 ##### :gear: increaseStakeNeuron
 
