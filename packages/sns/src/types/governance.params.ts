@@ -67,6 +67,7 @@ export interface SnsStakeNeuronParams extends Omit<QueryParams, "certified"> {
   controller: Principal;
   // Same as createdAt from ledger's TransferParams
   createdAt?: bigint;
+  fee?: bigint;
 }
 
 export interface SnsIncreaseStakeNeuronParams
