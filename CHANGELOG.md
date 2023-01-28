@@ -1,3 +1,13 @@
+# 0.14.0 (wip)
+
+## Release
+
+- nns `v0.14.0`
+- sns `v0.0.12`
+- cmc `v0.0.8`
+- ledger `v0.0.5`
+- utils `v0.0.12`
+
 # 0.13.0 (wip)
 
 ## Release
