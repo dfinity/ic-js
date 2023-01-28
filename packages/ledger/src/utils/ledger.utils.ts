@@ -2,7 +2,7 @@ import { Principal } from "@dfinity/principal";
 import type { IcrcAccount } from "../types/ledger.responses";
 
 // https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
-const EXTRA_BYTES = parseInt("FF", 16);
+const EXTRA_BYTES = parseInt("7F", 16);
 const MAX_ACCOUNT_BYTES_LENGTH = 32;
 
 /**
@@ -61,11 +61,11 @@ export const encodeIcrcAccount = ({
 export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
   const principal = Principal.fromText(accountString);
 
-  const [ff, nonZeroLength, ...restReversed] = principal
+  const [extraBytes, nonZeroLength, ...restReversed] = principal
     .toUint8Array()
     .reverse();
 
-  if (ff !== EXTRA_BYTES) {
+  if (extraBytes !== EXTRA_BYTES) {
     return {
       owner: Principal.fromText(accountString),
     };
