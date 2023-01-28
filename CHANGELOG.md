@@ -8,6 +8,10 @@
 - ledger `v0.0.5`
 - utils `v0.0.12`
 
+## Build
+
+- fix `utils` as peer dependency for `cmc`
+
 # 0.13.0 (2023-01-28)
 
 ## Release
