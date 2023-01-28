@@ -26,7 +26,7 @@ describe("ledger-utils", () => {
         subaccount: subaccount,
       };
       expect(encodeIcrcAccount(account)).toEqual(
-        Principal.fromHex("040101ff").toText()
+        Principal.fromText("ozcx7-eaeae-ax6").toText()
       );
     });
   });
@@ -48,18 +48,18 @@ describe("ledger-utils", () => {
     });
 
     it("should raise an error if incorrect subaccount", () => {
-      const call1 = () => decodeIcrcAccount(Principal.fromHex("ff").toText());
+      const call1 = () => decodeIcrcAccount(Principal.fromHex("7f").toText());
       expect(call1).toThrow();
 
       const call2 = () =>
-        decodeIcrcAccount(Principal.fromHex("040001ff").toText());
+        decodeIcrcAccount(Principal.fromHex("0400017f").toText());
       expect(call2).toThrow();
 
       const call3 = () =>
-        decodeIcrcAccount(Principal.fromHex("040103ff").toText());
+        decodeIcrcAccount(Principal.fromHex("0401037f").toText());
       expect(call3).toThrow();
 
-      const call4 = () => decodeIcrcAccount(Principal.fromHex("00ff").toText());
+      const call4 = () => decodeIcrcAccount(Principal.fromHex("007f").toText());
       expect(call4).toThrow();
     });
   });
