@@ -1,4 +1,5 @@
 import { IcrcLedgerCanister } from "@dfinity/ledger";
+import { Vote } from "@dfinity/nns";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
@@ -429,6 +430,24 @@ describe("SnsWrapper", () => {
       neuronId,
       functionId,
       followees,
+    });
+  });
+
+  it("should call registerVote", async () => {
+    const neuronId = neuronIdMock;
+    const proposalId = {
+      id: 123n,
+    };
+    const vote = Vote.Yes;
+    await snsWrapper.registerVote({
+      neuronId,
+      vote,
+      proposalId,
+    });
+    expect(mockGovernanceCanister.registerVote).toHaveBeenCalledWith({
+      neuronId,
+      vote,
+      proposalId,
     });
   });
 

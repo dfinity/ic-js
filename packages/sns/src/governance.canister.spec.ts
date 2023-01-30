@@ -1,4 +1,5 @@
 import type { ActorSubclass } from "@dfinity/agent";
+import { Vote } from "@dfinity/nns";
 import { InvalidPercentageError } from "@dfinity/nns/src";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
@@ -36,6 +37,7 @@ import {
 import { rootCanisterIdMock } from "./mocks/sns.mock";
 import {
   SnsDisburseNeuronParams,
+  SnsRegisterVoteParams,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
 
@@ -858,6 +860,65 @@ describe("Governance canister", () => {
         });
 
       await expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("registerVote", () => {
+    const proposalId = {
+      id: 123n,
+    };
+    const vote = Vote.Yes;
+    const params: SnsRegisterVoteParams = {
+      neuronId: neuronIdMock,
+      vote,
+      proposalId,
+    };
+
+    it("should register the vote", async () => {
+      const request: ManageNeuron = {
+        subaccount: neuronIdMock.id,
+        command: [
+          {
+            RegisterVote: {
+              vote,
+              proposal: [proposalId],
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [
+          {
+            RegisterVote: {},
+          },
+        ],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.registerVote(params);
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.registerVote(params);
+
+      expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });

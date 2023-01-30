@@ -1,4 +1,5 @@
 import type { IcrcAccount, IcrcSubaccount, IcrcTokens } from "@dfinity/ledger";
+import type { Vote } from "@dfinity/nns";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import type { NeuronId, ProposalId } from "../../candid/sns_governance";
@@ -137,6 +138,14 @@ export interface SnsIncreaseDissolveDelayParams
 export interface SnsSetTopicFollowees extends SnsNeuronManagementParams {
   functionId: bigint;
   followees: NeuronId[];
+}
+
+/**
+ * The parameters to register vote
+ */
+export interface SnsRegisterVoteParams extends SnsNeuronManagementParams {
+  vote: Vote;
+  proposalId: ProposalId;
 }
 
 /**
