@@ -8,7 +8,11 @@
 - ledger `v0.0.5`
 - utils `v0.0.12`
 
-## Build
+### Features
+
+- export a constant for the Icrc1 metadata logo
+
+### Build
 
 - fix `utils` as peer dependency for `cmc`
 
@@ -22,12 +26,12 @@
 - ledger `v0.0.4`
 - utils `v0.0.11`
 
-## Features
+### Features
 
 - add fee as param in SNS Stake neuron
 - extend `NnsFunction` enum with `InsertSnsWasmUpgradePathEntries`
 
-## Fix
+### Fix
 
 - encode ICRC-1 accounts
 
@@ -41,7 +45,7 @@
 - ledger `v0.0.3`
 - utils `v0.0.10`
 
-## Fix
+### Fix
 
 - `utils` was wrongly referenced as a dependency instead of peer-dependency in last release of `cmc`
 
