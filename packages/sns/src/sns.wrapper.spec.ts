@@ -576,7 +576,7 @@ describe("SnsWrapper", () => {
 
         afterEach(() => jest.clearAllMocks());
 
-        it("should check balances with query call until one with 0 is found", async () => {
+        it("should check whether neuron exists with that account until one with no neuron is found", async () => {
           mockCertifiedGovernanceCanister.queryNeuron
             .mockResolvedValueOnce(neuronMock)
             .mockResolvedValueOnce(neuronMock)
@@ -586,6 +586,7 @@ describe("SnsWrapper", () => {
             stakeE8s,
             source: mockSnsAccount,
             controller: mockPrincipal,
+            fee: BigInt(10_000),
           });
 
           expect(
@@ -609,7 +610,7 @@ describe("SnsWrapper", () => {
           ).toBe(true);
         });
 
-        it("should check with update when 0 is found and continue if that is not 0", async () => {
+        it("should check query neuron with update when one is found", async () => {
           mockCertifiedGovernanceCanister.queryNeuron
             .mockResolvedValueOnce(neuronMock)
             .mockResolvedValueOnce(neuronMock)

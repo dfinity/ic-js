@@ -1,4 +1,18 @@
-# 0.13.0 (wip)
+# 0.14.0 (wip)
+
+## Release
+
+- nns `v0.14.0`
+- sns `v0.0.12`
+- cmc `v0.0.8`
+- ledger `v0.0.5`
+- utils `v0.0.12`
+
+## Build
+
+- fix `utils` as peer dependency for `cmc`
+
+# 0.13.0 (2023-01-28)
 
 ## Release
 
@@ -7,6 +21,15 @@
 - cmc `v0.0.7`
 - ledger `v0.0.4`
 - utils `v0.0.11`
+
+## Features
+
+- add fee as param in SNS Stake neuron
+- extend `NnsFunction` enum with `InsertSnsWasmUpgradePathEntries`
+
+## Fix
+
+- encode ICRC-1 accounts
 
 # 0.12.1 (2023-01-24)
 
