@@ -1,5 +1,4 @@
 import type { ActorSubclass } from "@dfinity/agent";
-import { Vote } from "@dfinity/nns";
 import { Principal } from "@dfinity/principal";
 import {
   arrayOfNumberToUint8Array,
@@ -24,6 +23,7 @@ import {
   SnsNeuronPermissionType,
   SnsProposalDecisionStatus,
   SnsProposalRewardStatus,
+  SnsVote,
 } from "./enums/governance.enums";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import { SnsGovernanceCanister } from "./governance.canister";
@@ -870,7 +870,7 @@ describe("Governance canister", () => {
     const proposalId = {
       id: 123n,
     };
-    const vote = Vote.Yes;
+    const vote = SnsVote.Yes;
     const params: SnsRegisterVoteParams = {
       neuronId: neuronIdMock,
       vote,

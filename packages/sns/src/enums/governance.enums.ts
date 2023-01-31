@@ -83,3 +83,9 @@ export enum SnsProposalDecisionStatus {
   // The proposal was adopted, but execution failed.
   PROPOSAL_DECISION_STATUS_FAILED = 5,
 }
+
+export enum SnsVote {
+  Unspecified = 0,
+  Yes = 1,
+  No = 2,
+}
