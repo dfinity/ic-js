@@ -6,6 +6,7 @@ import {
   type RequestId,
 } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { InvalidPercentageError } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   ClaimOrRefreshNeuronFromAccountResponse,
@@ -24,7 +25,6 @@ import {
   GovernanceError,
   InsufficientAmountError,
   InvalidAccountIDError,
-  InvalidPercentageError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { GovernanceCanister } from "./governance.canister";

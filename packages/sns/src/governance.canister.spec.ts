@@ -1,8 +1,10 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Vote } from "@dfinity/nns";
-import { InvalidPercentageError } from "@dfinity/nns/src";
 import { Principal } from "@dfinity/principal";
-import { arrayOfNumberToUint8Array } from "@dfinity/utils";
+import {
+  arrayOfNumberToUint8Array,
+  InvalidPercentageError,
+} from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   ListNervousSystemFunctionsResponse,
