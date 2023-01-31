@@ -1,4 +1,4 @@
-// Generated from IC repo commit c9b2f9653afc2da47e5bd527c192090b860acbf0 'rs/rosetta-api/icrc1/index/index.did' by import-candid
+// Generated from IC repo commit 588a108b575e3b4152c8b0c69c38ba5b0f911bfe 'rs/rosetta-api/icrc1/index/index.did' by import-candid
 type TxId = nat;
 
 type Account = record { owner : principal; subaccount : opt blob };
@@ -74,4 +74,4 @@ service : (InitArgs) -> {
   get_account_transactions : (GetAccountTransactionsArgs) -> (GetTransactionsResult);
   ledger_id : () -> (principal) query;
   list_subaccounts : (ListSubaccountsArgs) -> (vec SubAccount) query;
-};
+}
