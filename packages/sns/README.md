@@ -359,9 +359,9 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 
 ##### :gear: create
 
-| Method   | Type                                                          |
-| -------- | ------------------------------------------------------------- |
-| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsIndexCanister` |
+| Method   | Type                                                                 |
+| -------- | -------------------------------------------------------------------- |
+| `create` | `(options: SnsCanisterOptions<SnsIndexService>) => SnsIndexCanister` |
 
 ##### :gear: getTransactions
 
