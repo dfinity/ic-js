@@ -17,7 +17,6 @@ const snsInputFiles = [
   "./packages/sns/src/governance.canister.ts",
   "./packages/sns/src/governance.canister.ts",
   "./packages/sns/src/root.canister.ts",
-  "./packages/sns/src/sns-index.canister.ts",
   "./packages/sns/src/sns.ts",
   "./packages/sns/src/sns.wrapper.ts",
   "./packages/sns/src/swap.canister.ts",
@@ -30,6 +29,7 @@ const cmcInputFiles = ["./packages/cmc/src/cmc.canister.ts"];
 const ledgerInputFiles = [
   "./packages/ledger/src/ledger.canister.ts",
   "./packages/ledger/src/utils/ledger.utils.ts",
+  "./packages/ledger/src/index.canister.ts",
 ];
 
 generateDocumentation({
