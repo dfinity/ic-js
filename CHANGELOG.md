@@ -15,6 +15,9 @@
 ### Build
 
 - fix `utils` as peer dependency for `cmc`
+- bump all dev dependencies
+- bump Nns dependencies
+- dependabot patch for json5 v1.0.2
 
 # 0.13.0 (2023-01-28)
 
