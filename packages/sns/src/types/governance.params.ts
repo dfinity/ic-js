@@ -7,7 +7,7 @@ import type {
   SnsProposalDecisionStatus,
   SnsProposalRewardStatus,
 } from "../enums/governance.enums";
-import { SnsVote } from "../enums/governance.enums";
+import type { SnsVote } from "../enums/governance.enums";
 import type { E8s } from "./common";
 
 /**
