@@ -8,6 +8,11 @@
 - ledger `v0.0.5`
 - utils `v0.0.12`
 
+### Breaking changes
+
+- `index` canister moved from `@dfinity/sns` to `@dfinity/ledger`
+- related classes and types renamed from `Sns...` to `Icrc...`
+
 ### Features
 
 - export a constant for the Icrc1 metadata logo
