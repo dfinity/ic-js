@@ -227,14 +227,19 @@ const fromAction = (action: Action): RawAction => {
     };
   }
 
-  if ("OpenSnsTokenSwap" in action) {
-    const { communityFundInvestmentE8s, targetSwapCanisterId, params } =
-      action.OpenSnsTokenSwap;
+  if ("OpenSnsDecentralizationSale" in action) {
+    const {
+      communityFundInvestmentE8s,
+      targetDecentralizationSaleCanisterId,
+      params,
+    } = action.OpenSnsDecentralizationSale;
 
     return {
-      OpenSnsTokenSwap: {
+      OpenSnsDecentralizationSale: {
         community_fund_investment_e8s: toNullable(communityFundInvestmentE8s),
-        target_swap_canister_id: toNullable(targetSwapCanisterId),
+        target_decentralization_sale_canister_id: toNullable(
+          targetDecentralizationSaleCanisterId
+        ),
         params:
           params === undefined
             ? []

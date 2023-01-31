@@ -30,7 +30,7 @@ export type Action =
   | { SetDefaultFollowees: SetDefaultFollowees }
   | { Motion: Motion }
   | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
-  | { OpenSnsTokenSwap: OpenSnsTokenSwap };
+  | { OpenSnsDecentralizationSale: OpenSnsDecentralizationSale };
 export interface AddHotKey {
   newHotKey: Option<PrincipalString>;
 }
@@ -204,9 +204,9 @@ export interface MethodAuthzInfo {
 export interface Motion {
   motionText: string;
 }
-export interface OpenSnsTokenSwap {
+export interface OpenSnsDecentralizationSale {
   communityFundInvestmentE8s?: bigint;
-  targetSwapCanisterId?: Principal;
+  targetDecentralizationSaleCanisterId?: Principal;
   params?: {
     minParticipantIcpE8s: bigint;
     maxIcpE8s: bigint;

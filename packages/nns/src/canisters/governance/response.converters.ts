@@ -361,17 +361,19 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
-  if ("OpenSnsTokenSwap" in action) {
-    const OpenSnsTokenSwap = action.OpenSnsTokenSwap;
-    const params: Params | undefined = fromNullable(OpenSnsTokenSwap.params);
+  if ("OpenSnsDecentralizationSale" in action) {
+    const OpenSnsDecentralizationSale = action.OpenSnsDecentralizationSale;
+    const params: Params | undefined = fromNullable(
+      OpenSnsDecentralizationSale.params
+    );
 
     return {
-      OpenSnsTokenSwap: {
+      OpenSnsDecentralizationSale: {
         communityFundInvestmentE8s: fromNullable(
-          OpenSnsTokenSwap.community_fund_investment_e8s
+          OpenSnsDecentralizationSale.community_fund_investment_e8s
         ),
-        targetSwapCanisterId: fromNullable(
-          OpenSnsTokenSwap.target_swap_canister_id
+        targetDecentralizationSaleCanisterId: fromNullable(
+          OpenSnsDecentralizationSale.target_decentralization_sale_canister_id
         ),
         ...(params !== undefined && {
           params: {

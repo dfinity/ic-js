@@ -9,7 +9,7 @@ export type Action =
   | { ManageNeuron: ManageNeuron }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
   | { RewardNodeProvider: RewardNodeProvider }
-  | { OpenSnsTokenSwap: OpenSnsTokenSwap }
+  | { OpenSnsDecentralizationSale: OpenSnsDecentralizationSale }
   | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
   | { SetDefaultFollowees: SetDefaultFollowees }
   | { RewardNodeProviders: RewardNodeProviders }
@@ -41,6 +41,19 @@ export type By =
   | { NeuronIdOrSubaccount: {} }
   | { MemoAndController: ClaimOrRefreshNeuronFromAccount }
   | { Memo: bigint };
+export interface CanisterStatusResultV2 {
+  status: [] | [number];
+  freezing_threshold: [] | [bigint];
+  controllers: Array<Principal>;
+  memory_size: [] | [bigint];
+  cycles: [] | [bigint];
+  idle_cycles_burned_per_day: [] | [bigint];
+  module_hash: Uint8Array;
+}
+export interface CanisterSummary {
+  status: [] | [CanisterStatusResultV2];
+  canister_id: [] | [Principal];
+}
 export interface CfNeuron {
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
@@ -109,6 +122,21 @@ export interface Committed {
 export interface Configure {
   operation: [] | [Operation];
 }
+export interface DecentralizationSaleBackgroundInformation {
+  ledger_index_canister_summary: [] | [CanisterSummary];
+  fallback_controller_principal_ids: Array<Principal>;
+  ledger_archive_canister_summaries: Array<CanisterSummary>;
+  ledger_canister_summary: [] | [CanisterSummary];
+  swap_canister_summary: [] | [CanisterSummary];
+  governance_canister_summary: [] | [CanisterSummary];
+  root_canister_summary: [] | [CanisterSummary];
+  dapp_canister_summaries: Array<CanisterSummary>;
+}
+export interface DerivedProposalInformation {
+  decentralization_sale_background_information:
+    | []
+    | [DecentralizationSaleBackgroundInformation];
+}
 export interface Disburse {
   to_account: [] | [AccountIdentifier];
   amount: [] | [Amount];
@@ -168,6 +196,7 @@ export interface GovernanceCachedMetrics {
   community_fund_total_maturity_e8s_equivalent: bigint;
   total_staked_e8s: bigint;
   not_dissolving_neurons_count: bigint;
+  total_locked_e8s: bigint;
   dissolved_neurons_e8s: bigint;
   neurons_with_less_than_6_months_dissolve_delay_e8s: bigint;
   dissolving_neurons_count_buckets: Array<[bigint, bigint]>;
@@ -314,9 +343,9 @@ export interface NodeProvider {
   id: [] | [Principal];
   reward_account: [] | [AccountIdentifier];
 }
-export interface OpenSnsTokenSwap {
+export interface OpenSnsDecentralizationSale {
+  target_decentralization_sale_canister_id: [] | [Principal];
   community_fund_investment_e8s: [] | [bigint];
-  target_swap_canister_id: [] | [Principal];
   params: [] | [Params];
 }
 export type Operation =
@@ -349,6 +378,7 @@ export interface Proposal {
 }
 export interface ProposalData {
   id: [] | [NeuronId];
+  sns_decentralization_sale_lifecycle: [] | [number];
   failure_reason: [] | [GovernanceError];
   cf_participants: Array<CfParticipant>;
   ballots: Array<[bigint, Ballot]>;
@@ -356,10 +386,9 @@ export interface ProposalData {
   reward_event_round: bigint;
   failed_timestamp_seconds: bigint;
   reject_cost_e8s: bigint;
+  derived_proposal_information: [] | [DerivedProposalInformation];
   latest_tally: [] | [Tally];
-  sns_token_swap_lifecycle: [] | [number];
   decided_timestamp_seconds: bigint;
-  swap_background_information: [] | [SwapBackgroundInformation];
   proposal: [] | [Proposal];
   proposer: [] | [NeuronId];
   wait_for_quiet_state: [] | [WaitForQuietState];
@@ -377,6 +406,7 @@ export interface ProposalInfo {
   deadline_timestamp_seconds: [] | [bigint];
   failed_timestamp_seconds: bigint;
   reject_cost_e8s: bigint;
+  derived_proposal_information: [] | [DerivedProposalInformation];
   latest_tally: [] | [Tally];
   reward_status: number;
   decided_timestamp_seconds: bigint;
@@ -394,10 +424,13 @@ export interface RemoveHotKey {
 export type Result = { Ok: null } | { Err: GovernanceError };
 export type Result_1 = { Error: GovernanceError } | { NeuronId: NeuronId };
 export type Result_2 = { Ok: Neuron } | { Err: GovernanceError };
-export type Result_3 = { Ok: RewardNodeProviders } | { Err: GovernanceError };
-export type Result_4 = { Ok: NeuronInfo } | { Err: GovernanceError };
-export type Result_5 = { Ok: NodeProvider } | { Err: GovernanceError };
-export type Result_6 = { Committed: Committed } | { Aborted: {} };
+export type Result_3 =
+  | { Ok: GovernanceCachedMetrics }
+  | { Err: GovernanceError };
+export type Result_4 = { Ok: RewardNodeProviders } | { Err: GovernanceError };
+export type Result_5 = { Ok: NeuronInfo } | { Err: GovernanceError };
+export type Result_6 = { Ok: NodeProvider } | { Err: GovernanceError };
+export type Result_7 = { Committed: Committed } | { Aborted: {} };
 export interface RewardEvent {
   day_after_genesis: bigint;
   actual_timestamp_seconds: bigint;
@@ -436,8 +469,8 @@ export interface SetSnsTokenSwapOpenTimeWindow {
   swap_canister_id: [] | [Principal];
 }
 export interface SettleCommunityFundParticipation {
-  result: [] | [Result_6];
-  open_sns_token_swap_proposal_id: [] | [bigint];
+  result: [] | [Result_7];
+  open_sns_decentralization_sale_proposal_id: [] | [bigint];
 }
 export interface Spawn {
   percentage_to_spawn: [] | [number];
@@ -456,15 +489,6 @@ export interface StakeMaturity {
 export interface StakeMaturityResponse {
   maturity_e8s: bigint;
   staked_maturity_e8s: bigint;
-}
-export interface SwapBackgroundInformation {
-  sns_root_canister_id: [] | [Principal];
-  dapp_canister_ids: Array<Principal>;
-  fallback_controller_principal_ids: Array<Principal>;
-  sns_ledger_archive_canister_ids: Array<Principal>;
-  sns_ledger_index_canister_id: [] | [Principal];
-  sns_ledger_canister_id: [] | [Principal];
-  sns_governance_canister_id: [] | [Principal];
 }
 export interface Tally {
   no: bigint;
@@ -494,19 +518,20 @@ export interface _SERVICE {
     [NeuronIdOrSubaccount],
     Result_2
   >;
-  get_monthly_node_provider_rewards: ActorMethod<[], Result_3>;
+  get_metrics: ActorMethod<[], Result_3>;
+  get_monthly_node_provider_rewards: ActorMethod<[], Result_4>;
   get_most_recent_monthly_node_provider_rewards: ActorMethod<
     [],
     [] | [MostRecentMonthlyNodeProviderRewards]
   >;
   get_network_economics_parameters: ActorMethod<[], NetworkEconomics>;
   get_neuron_ids: ActorMethod<[], BigUint64Array>;
-  get_neuron_info: ActorMethod<[bigint], Result_4>;
+  get_neuron_info: ActorMethod<[bigint], Result_5>;
   get_neuron_info_by_id_or_subaccount: ActorMethod<
     [NeuronIdOrSubaccount],
-    Result_4
+    Result_5
   >;
-  get_node_provider_by_caller: ActorMethod<[null], Result_5>;
+  get_node_provider_by_caller: ActorMethod<[null], Result_6>;
   get_pending_proposals: ActorMethod<[], Array<ProposalInfo>>;
   get_proposal_info: ActorMethod<[bigint], [] | [ProposalInfo]>;
   list_known_neurons: ActorMethod<[], ListKnownNeuronsResponse>;
