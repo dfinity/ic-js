@@ -7,6 +7,7 @@ export enum IcrcMetadataResponseEntries {
   NAME = "icrc1:name",
   DECIMALS = "icrc1:decimals",
   FEE = "icrc1:fee",
+  LOGO = "icrc1:logo",
 }
 
 export type IcrcTokenMetadataResponse = [

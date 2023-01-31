@@ -10,6 +10,10 @@ export const tokeMetadataResponseMock: [
   [IcrcMetadataResponseEntries.NAME, { Text: "Beta Test" }],
   [IcrcMetadataResponseEntries.SYMBOL, { Text: "BTA" }],
   [IcrcMetadataResponseEntries.FEE, { Nat: BigInt(1000) }],
+  [
+    IcrcMetadataResponseEntries.LOGO,
+    { Text: "data:image/svg+xml;base64,PHN2ZyB3aW..." },
+  ],
 ];
 
 export const mockPrincipalText =
