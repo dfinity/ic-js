@@ -42,6 +42,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [arrayOfNumberToUint8Array](#gear-arrayofnumbertouint8array)
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
 - [assertNonNullish](#gear-assertnonnullish)
+- [assertPercentageNumber](#gear-assertpercentagenumber)
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
@@ -124,6 +125,12 @@ Parameters:
 | ------------------ | -------------------------------------------------------------------- |
 | `assertNonNullish` | `<T>(value: T, message?: string) => asserts value is NonNullable<T>` |
 
+#### :gear: assertPercentageNumber
+
+| Function                 | Type                           |
+| ------------------------ | ------------------------------ |
+| `assertPercentageNumber` | `(percentage: number) => void` |
+
 #### :gear: toNullable
 
 | Function     | Type                          |
@@ -175,6 +182,16 @@ Parameters:
 - `id`
 - `service`
 - `certifiedService`
+
+### :factory: InvalidPercentageError
+
+#### Constructors
+
+`public`
+
+Parameters:
+
+- `message`
 
 ### :factory: NullishError
 
