@@ -16,7 +16,7 @@
 ### Features
 
 - export a constant for the Icrc1 metadata logo
-- move and expose `assertPercentageNumber` to `@dfinity/utils`
+- move and expose `assertPercentageNumber` to lib `@dfinity/utils`
 
 ### Build
 
