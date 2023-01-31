@@ -1,15 +1,15 @@
 import type { ActorSubclass } from "@dfinity/agent";
-import { IcrcAccount } from "@dfinity/ledger";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import type {
   Account,
   Transaction,
-  _SERVICE as SnsIndexService,
-} from "../candid/sns_index";
-import { SnsIndexError } from "./errors/sns-index.errors";
-import { swapCanisterIdMock } from "./mocks/sns.mock";
-import { SnsIndexCanister } from "./sns-index.canister";
+  _SERVICE as IcrcIndexService,
+} from "../candid/icrc1_index";
+import { IndexError } from "./errors/index.errors";
+import { IcrcIndexCanister } from "./index.canister";
+import { indexCanisterIdMock } from "./mocks/ledger.mock";
+import { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
   afterEach(() => jest.clearAllMocks());
@@ -45,7 +45,7 @@ describe("Index canister", () => {
         id: BigInt(1),
         transaction: transaction,
       };
-      const service = mock<ActorSubclass<SnsIndexService>>();
+      const service = mock<ActorSubclass<IcrcIndexService>>();
       service.get_account_transactions.mockResolvedValue({
         Ok: {
           transactions: [transactionWithId],
@@ -53,8 +53,8 @@ describe("Index canister", () => {
         },
       });
 
-      const canister = SnsIndexCanister.create({
-        canisterId: swapCanisterIdMock,
+      const canister = IcrcIndexCanister.create({
+        canisterId: indexCanisterIdMock,
         certifiedServiceOverride: service,
       });
       const res = await canister.getTransactions({
@@ -65,15 +65,15 @@ describe("Index canister", () => {
     });
 
     it("raises error when Err in response", async () => {
-      const service = mock<ActorSubclass<SnsIndexService>>();
+      const service = mock<ActorSubclass<IcrcIndexService>>();
       service.get_account_transactions.mockResolvedValue({
         Err: {
           message: "Test error",
         },
       });
 
-      const canister = SnsIndexCanister.create({
-        canisterId: swapCanisterIdMock,
+      const canister = IcrcIndexCanister.create({
+        canisterId: indexCanisterIdMock,
         certifiedServiceOverride: service,
       });
       const call = () =>
@@ -81,7 +81,7 @@ describe("Index canister", () => {
           account: fakeSnsAccount,
           max_results: BigInt(10),
         });
-      expect(call).rejects.toThrowError(SnsIndexError);
+      expect(call).rejects.toThrowError(IndexError);
     });
   });
 });

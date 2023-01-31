@@ -13,11 +13,6 @@ export type {
   ProposalId as SnsProposalId,
   Tally as SnsTally,
 } from "../candid/sns_governance";
-export type {
-  Transaction as SnsTransaction,
-  TransactionWithId as SnsTransactionWithId,
-  TxId as SnsTxId,
-} from "../candid/sns_index";
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
 export type {
   BuyerState as SnsSwapBuyerState,
@@ -37,7 +32,6 @@ export * from "./errors/governance.errors";
 export { SnsGovernanceCanister } from "./governance.canister";
 export { SnsRootCanister } from "./root.canister";
 export * from "./sns";
-export { SnsIndexCanister } from "./sns-index.canister";
 export * from "./sns.wrapper";
 export { SnsSwapCanister } from "./swap.canister";
 export type { SnsCanisterOptions } from "./types/canister.options";

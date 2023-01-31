@@ -1,5 +1,5 @@
-import type { IcrcAccount } from "@dfinity/ledger";
-import type { TxId } from "../../candid/sns_index";
+import type { TxId } from "../../candid/icrc1_index";
+import type { IcrcAccount } from "./ledger.responses";
 
 export interface GetAccountTransactionsParams {
   max_results: bigint;

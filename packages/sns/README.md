@@ -346,36 +346,6 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 | ------------------ | --------------------------------------------------------------------------------- |
 | `listSnsCanisters` | `({ certified, }: { certified?: boolean; }) => Promise<ListSnsCanistersResponse>` |
 
-### :factory: SnsIndexCanister
-
-#### Constructors
-
-`public`
-
-#### Methods
-
-- [create](#gear-create)
-- [getTransactions](#gear-gettransactions)
-
-##### :gear: create
-
-| Method   | Type                                                          |
-| -------- | ------------------------------------------------------------- |
-| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsIndexCanister` |
-
-##### :gear: getTransactions
-
-Get the transactions of an account
-
-Always certified.
-`get_account_transactions` needs to be called with an update
-because the index canisters makes a call to the ledger canister to get the transaction data.
-Index Canister only holds the transactions ids in state, not the whole transaction data.
-
-| Method            | Type                                                                 |
-| ----------------- | -------------------------------------------------------------------- |
-| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
-
 ### :factory: SnsSwapCanister
 
 #### Constructors
@@ -682,9 +652,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getTransactions
 
-| Method            | Type                                                                 |
-| ----------------- | -------------------------------------------------------------------- |
-| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
+| Method            | Type                                                                     |
+| ----------------- | ------------------------------------------------------------------------ |
+| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<IcrcGetTransactions>` |
 
 ##### :gear: stakeMaturity
 

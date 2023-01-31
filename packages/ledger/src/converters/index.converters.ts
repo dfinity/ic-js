@@ -1,10 +1,10 @@
-import type { IcrcAccount } from "@dfinity/ledger/src";
 import { toNullable } from "@dfinity/utils";
 import type {
   Account,
   GetAccountTransactionsArgs,
-} from "../../candid/sns_index";
-import type { GetAccountTransactionsParams } from "../types/sns-index.params";
+} from "../../candid/icrc1_index";
+import type { GetAccountTransactionsParams } from "../types/index.params";
+import type { IcrcAccount } from "../types/ledger.responses";
 
 const toCandidAccount = ({ owner, subaccount }: IcrcAccount): Account => ({
   owner,

@@ -24,3 +24,7 @@ export const mockPrincipal = Principal.fromText(mockPrincipalText);
 export const ledgerCanisterIdMock: Principal = Principal.fromText(
   "ktxdj-qiaaa-aaaaa-aacqa-cai"
 );
+
+export const indexCanisterIdMock: Principal = Principal.fromText(
+  "qjdve-lqaaa-aaaaa-aaaeq-cai"
+);

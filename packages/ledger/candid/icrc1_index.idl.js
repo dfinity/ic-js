@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_index.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/ledger/candid/icrc1_index.did */
 export const idlFactory = ({ IDL }) => {
   const InitArgs = IDL.Record({ 'ledger_id' : IDL.Principal });
   const TxId = IDL.Nat;
@@ -65,11 +65,11 @@ export const idlFactory = ({ IDL }) => {
         [GetTransactionsResult],
         [],
       ),
-    'ledger_id' : IDL.Func([], [IDL.Principal], []),
+    'ledger_id' : IDL.Func([], [IDL.Principal], ['query']),
     'list_subaccounts' : IDL.Func(
         [ListSubaccountsArgs],
         [IDL.Vec(SubAccount)],
-        [],
+        ['query'],
       ),
   });
 };

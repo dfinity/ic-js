@@ -1,5 +1,5 @@
 import type { Agent } from "@dfinity/agent";
-import { IcrcLedgerCanister } from "@dfinity/ledger";
+import { IcrcIndexCanister, IcrcLedgerCanister } from "@dfinity/ledger";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import { assertNonNullish, fromNullable } from "@dfinity/utils";
@@ -9,7 +9,6 @@ import type {
 } from "../candid/sns_root";
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsRootCanister } from "./root.canister";
-import { SnsIndexCanister } from "./sns-index.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsCanisterOptions } from "./types/canister.options";
@@ -62,7 +61,7 @@ export const initSnsWrapper: InitSnsWrapper = async ({
     }),
     ledger: IcrcLedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
     swap: SnsSwapCanister.create({ canisterId: swapCanisterId, agent }),
-    index: SnsIndexCanister.create({ canisterId: indexCanisterId, agent }),
+    index: IcrcIndexCanister.create({ canisterId: indexCanisterId, agent }),
     certified,
   });
 };

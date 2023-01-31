@@ -145,6 +145,36 @@ Parameters:
 
 - `params`: The parameters to transfer tokens.
 
+### :factory: IcrcIndexCanister
+
+#### Constructors
+
+`public`
+
+#### Methods
+
+- [create](#gear-create)
+- [getTransactions](#gear-gettransactions)
+
+##### :gear: create
+
+| Method   | Type                                                                  |
+| -------- | --------------------------------------------------------------------- |
+| `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexCanister` |
+
+##### :gear: getTransactions
+
+Get the transactions of an account
+
+Always certified.
+`get_account_transactions` needs to be called with an update
+because the index canisters makes a call to the ledger canister to get the transaction data.
+Index Canister only holds the transactions ids in state, not the whole transaction data.
+
+| Method            | Type                                                                 |
+| ----------------- | -------------------------------------------------------------------- |
+| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
+
 <!-- TSDOC_END -->
 
 ## Resources
