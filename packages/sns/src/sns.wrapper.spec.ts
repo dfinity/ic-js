@@ -20,7 +20,7 @@ import {
   proposalIdMock,
 } from "./mocks/governance.mock";
 import { SnsRootCanister } from "./root.canister";
-import { SnsIndexCanister } from "./sns-index.canister";
+import { IcrcIndexCanister } from "@dfinity/ledger";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsDisburseNeuronParams } from "./types/governance.params";
@@ -53,7 +53,7 @@ describe("SnsWrapper", () => {
     tokeMetadataResponseMock
   );
 
-  const mockIndexCanister = mock<SnsIndexCanister>();
+  const mockIndexCanister = mock<IcrcIndexCanister>();
   mockIndexCanister.getTransactions.mockResolvedValue({
     transactions: [],
     oldest_tx_id: [BigInt(2)],

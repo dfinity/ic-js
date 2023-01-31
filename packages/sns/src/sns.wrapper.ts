@@ -18,7 +18,6 @@ import type {
   NeuronId,
   ProposalData,
 } from "../candid/sns_governance";
-import type { GetTransactions } from "../candid/sns_index";
 import type {
   BuyerState,
   GetBuyerStateRequest,
@@ -29,7 +28,7 @@ import { MAX_NEURONS_SUBACCOUNTS } from "./constants/governance.constants";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import type { SnsGovernanceCanister } from "./governance.canister";
 import type { SnsRootCanister } from "./root.canister";
-import type { SnsIndexCanister } from "./sns-index.canister";
+import type { IcrcIndexCanister } from "@dfinity/ledger";
 import type { SnsSwapCanister } from "./swap.canister";
 import type {
   SnsClaimNeuronParams,
@@ -49,8 +48,9 @@ import type {
   SnsSplitNeuronParams,
   SnsStakeNeuronParams,
 } from "./types/governance.params";
-import type { GetAccountTransactionsParams } from "./types/sns-index.params";
+import type { GetAccountTransactionsParams } from "@dfinity/ledger";
 import { neuronSubaccount } from "./utils/governance.utils";
+import type {IcrcGetTransactions} from "@dfinity/ledger";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
@@ -62,7 +62,7 @@ interface SnsWrapperOptions {
   /** The wrapper for the "swap" canister of the particular Sns */
   swap: SnsSwapCanister;
   /** The wrapper for the "index" canister of the particular Sns */
-  index: SnsIndexCanister;
+  index: IcrcIndexCanister;
 
   /** The wrapper has been instantiated and should perform query or update calls */
   certified: boolean;
@@ -78,7 +78,7 @@ export class SnsWrapper {
   private readonly governance: SnsGovernanceCanister;
   private readonly ledger: IcrcLedgerCanister;
   private readonly swap: SnsSwapCanister;
-  private readonly index: SnsIndexCanister;
+  private readonly index: IcrcIndexCanister;
   private readonly certified: boolean;
 
   /**
@@ -380,7 +380,7 @@ export class SnsWrapper {
   // Always certified
   getTransactions = (
     params: GetAccountTransactionsParams
-  ): Promise<GetTransactions> => this.index.getTransactions(params);
+  ): Promise<IcrcGetTransactions> => this.index.getTransactions(params);
 
   // Always certified
   stakeMaturity = (params: SnsNeuronStakeMaturityParams): Promise<void> =>

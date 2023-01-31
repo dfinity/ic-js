@@ -1,25 +1,26 @@
+
 import { Canister, createServices } from "@dfinity/utils";
 import type {
   GetTransactions,
-  _SERVICE as SnsIndexService,
-} from "../candid/sns_index";
-import { idlFactory as certifiedIdlFactory } from "../candid/sns_index.certified.idl";
-import { idlFactory } from "../candid/sns_index.idl";
-import { toGetTransactionsArgs } from "./converters/sns-index.converters";
-import { SnsIndexError } from "./errors/sns-index.errors";
-import type { SnsCanisterOptions } from "./types/canister.options";
-import type { GetAccountTransactionsParams } from "./types/sns-index.params";
+  _SERVICE as IcrcIndexService,
+} from "../candid/icrc1_index";
+import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_index.certified.idl";
+import { idlFactory } from "../candid/icrc1_index.idl";
+import { toGetTransactionsArgs } from "./converters/index.converters";
+import { IndexError } from "./errors/index.errors";
+import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
+import {GetAccountTransactionsParams} from "./types/index.params";
 
-export class SnsIndexCanister extends Canister<SnsIndexService> {
-  static create(options: SnsCanisterOptions<SnsIndexService>) {
+export class IcrcIndexCanister extends Canister<IcrcIndexService> {
+  static create(options: IcrcLedgerCanisterOptions<IcrcIndexService>) {
     const { service, certifiedService, canisterId } =
-      createServices<SnsIndexService>({
+      createServices<IcrcIndexService>({
         options,
         idlFactory,
         certifiedIdlFactory,
       });
 
-    return new SnsIndexCanister(canisterId, service, certifiedService);
+    return new IcrcIndexCanister(canisterId, service, certifiedService);
   }
 
   /**
@@ -38,7 +39,7 @@ export class SnsIndexCanister extends Canister<SnsIndexService> {
     }).get_account_transactions(toGetTransactionsArgs(params));
 
     if ("Err" in response) {
-      throw new SnsIndexError(response.Err.message);
+      throw new IndexError(response.Err.message);
     }
 
     return response.Ok;
