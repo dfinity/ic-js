@@ -16,10 +16,12 @@
 ### Features
 
 - export a constant for the Icrc1 metadata logo
+- move and expose `assertPercentageNumber` to lib `@dfinity/utils`
 
 ### Build
 
 - fix `utils` as peer dependency for `cmc`
+- fix `sns` using `nns` dependencies
 - bump all dev dependencies
 - bump Nns dependencies
 - dependabot patch for json5 v1.0.2

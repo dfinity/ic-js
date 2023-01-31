@@ -17,7 +17,6 @@ export class GovernanceError extends Error {
   }
 }
 
-export class InvalidPercentageError extends Error {}
 export class InvalidAccountIDError extends Error {}
 
 /**

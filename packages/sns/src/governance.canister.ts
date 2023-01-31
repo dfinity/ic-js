@@ -1,7 +1,7 @@
-import { assertPercentageNumber } from "@dfinity/nns/src/utils/number.utils";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import {
+  assertPercentageNumber,
   Canister,
   createServices,
   fromNullable,

@@ -2,6 +2,7 @@ import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 import {
   asciiStringToByteArray,
+  assertPercentageNumber,
   createServices,
   uint8ArrayToBigInt,
 } from "@dfinity/utils";
@@ -95,7 +96,6 @@ import type {
   SpawnRequest,
 } from "./types/governance_converters";
 import { checkAccountId } from "./utils/accounts.utils";
-import { assertPercentageNumber } from "./utils/number.utils";
 import { updateCall } from "./utils/proto.utils";
 
 export class GovernanceCanister {

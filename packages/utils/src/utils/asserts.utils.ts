@@ -1,3 +1,4 @@
+export class InvalidPercentageError extends Error {}
 export class NullishError extends Error {}
 
 export const assertNonNullish: <T>(
@@ -9,5 +10,12 @@ export const assertNonNullish: <T>(
 ): void => {
   if (value === null || value === undefined) {
     throw new NullishError(message);
+  }
+};
+export const assertPercentageNumber = (percentage: number) => {
+  if (percentage < 0 || percentage > 100) {
+    throw new InvalidPercentageError(
+      `${percentage} is not a valid percentage number.`
+    );
   }
 };

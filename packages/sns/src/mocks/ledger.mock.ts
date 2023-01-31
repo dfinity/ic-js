@@ -2,7 +2,7 @@ import type { IcrcValue } from "@dfinity/ledger";
 import { IcrcMetadataResponseEntries } from "@dfinity/ledger";
 import { Principal } from "@dfinity/principal";
 
-export const tokeMetadataResponseMock: [
+export const tokenMetadataResponseMock: [
   string | IcrcMetadataResponseEntries,
   IcrcValue
 ][] = [
