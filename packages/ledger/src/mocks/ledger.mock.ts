@@ -26,5 +26,5 @@ export const ledgerCanisterIdMock: Principal = Principal.fromText(
 );
 
 export const indexCanisterIdMock: Principal = Principal.fromText(
-    "qjdve-lqaaa-aaaaa-aaaeq-cai"
+  "qjdve-lqaaa-aaaaa-aaaeq-cai"
 );

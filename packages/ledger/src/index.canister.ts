@@ -1,4 +1,3 @@
-
 import { Canister, createServices } from "@dfinity/utils";
 import type {
   GetTransactions,
@@ -9,7 +8,7 @@ import { idlFactory } from "../candid/icrc1_index.idl";
 import { toGetTransactionsArgs } from "./converters/index.converters";
 import { IndexError } from "./errors/index.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
-import {GetAccountTransactionsParams} from "./types/index.params";
+import { GetAccountTransactionsParams } from "./types/index.params";
 
 export class IcrcIndexCanister extends Canister<IcrcIndexService> {
   static create(options: IcrcLedgerCanisterOptions<IcrcIndexService>) {

@@ -6,10 +6,10 @@ import type {
   Transaction,
   _SERVICE as IcrcIndexService,
 } from "../candid/icrc1_index";
-import {IcrcAccount} from "./types/ledger.responses";
-import {IcrcIndexCanister} from "./index.canister";
-import {IndexError} from "./errors/index.errors";
-import {indexCanisterIdMock} from "./mocks/ledger.mock";
+import { IndexError } from "./errors/index.errors";
+import { IcrcIndexCanister } from "./index.canister";
+import { indexCanisterIdMock } from "./mocks/ledger.mock";
+import { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
   afterEach(() => jest.clearAllMocks());

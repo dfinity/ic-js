@@ -3,8 +3,8 @@ import type {
   Account,
   GetAccountTransactionsArgs,
 } from "../../candid/icrc1_index";
-import type {IcrcAccount} from "../types/ledger.responses";
-import type {GetAccountTransactionsParams} from "../types/index.params";
+import type { GetAccountTransactionsParams } from "../types/index.params";
+import type { IcrcAccount } from "../types/ledger.responses";
 
 const toCandidAccount = ({ owner, subaccount }: IcrcAccount): Account => ({
   owner,

@@ -1,7 +1,10 @@
 import type {
   BalanceParams,
+  GetAccountTransactionsParams,
   IcrcAccount,
   IcrcBlockIndex,
+  IcrcGetTransactions,
+  IcrcIndexCanister,
   IcrcLedgerCanister,
   IcrcTokenMetadataResponse,
   IcrcTokens,
@@ -28,7 +31,6 @@ import { MAX_NEURONS_SUBACCOUNTS } from "./constants/governance.constants";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import type { SnsGovernanceCanister } from "./governance.canister";
 import type { SnsRootCanister } from "./root.canister";
-import type { IcrcIndexCanister } from "@dfinity/ledger";
 import type { SnsSwapCanister } from "./swap.canister";
 import type {
   SnsClaimNeuronParams,
@@ -48,9 +50,7 @@ import type {
   SnsSplitNeuronParams,
   SnsStakeNeuronParams,
 } from "./types/governance.params";
-import type { GetAccountTransactionsParams } from "@dfinity/ledger";
 import { neuronSubaccount } from "./utils/governance.utils";
-import type {IcrcGetTransactions} from "@dfinity/ledger";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
