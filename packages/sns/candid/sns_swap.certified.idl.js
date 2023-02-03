@@ -20,23 +20,9 @@ export const idlFactory = ({ IDL }) => {
   });
   const Result = IDL.Variant({ 'Ok' : Ok, 'Err' : Err });
   const ErrorRefundIcpResponse = IDL.Record({ 'result' : IDL.Opt(Result) });
-  const GovernanceError = IDL.Record({
-    'error_message' : IDL.Text,
-    'error_type' : IDL.Int32,
-  });
-  const Response = IDL.Record({
-    'governance_error' : IDL.Opt(GovernanceError),
-  });
   const CanisterCallError = IDL.Record({
     'code' : IDL.Opt(IDL.Int32),
     'description' : IDL.Text,
-  });
-  const Possibility = IDL.Variant({
-    'Ok' : Response,
-    'Err' : CanisterCallError,
-  });
-  const SettleCommunityFundParticipationResult = IDL.Record({
-    'possibility' : IDL.Opt(Possibility),
   });
   const FailedUpdate = IDL.Record({
     'err' : IDL.Opt(CanisterCallError),
@@ -45,31 +31,51 @@ export const idlFactory = ({ IDL }) => {
   const SetDappControllersResponse = IDL.Record({
     'failed_updates' : IDL.Vec(FailedUpdate),
   });
-  const Possibility_1 = IDL.Variant({
+  const Possibility = IDL.Variant({
     'Ok' : SetDappControllersResponse,
     'Err' : CanisterCallError,
   });
   const SetDappControllersCallResult = IDL.Record({
+    'possibility' : IDL.Opt(Possibility),
+  });
+  const GovernanceError = IDL.Record({
+    'error_message' : IDL.Text,
+    'error_type' : IDL.Int32,
+  });
+  const Response = IDL.Record({
+    'governance_error' : IDL.Opt(GovernanceError),
+  });
+  const Possibility_1 = IDL.Variant({
+    'Ok' : Response,
+    'Err' : CanisterCallError,
+  });
+  const SettleCommunityFundParticipationResult = IDL.Record({
     'possibility' : IDL.Opt(Possibility_1),
   });
-  const Possibility_2 = IDL.Variant({ 'Err' : CanisterCallError });
+  const Possibility_2 = IDL.Variant({
+    'Ok' : IDL.Record({}),
+    'Err' : CanisterCallError,
+  });
   const SetModeCallResult = IDL.Record({
     'possibility' : IDL.Opt(Possibility_2),
   });
   const SweepResult = IDL.Record({
     'failure' : IDL.Nat32,
     'skipped' : IDL.Nat32,
+    'invalid' : IDL.Nat32,
     'success' : IDL.Nat32,
+    'global_failures' : IDL.Nat32,
   });
   const FinalizeSwapResponse = IDL.Record({
+    'set_dapp_controllers_call_result' : IDL.Opt(SetDappControllersCallResult),
     'settle_community_fund_participation_result' : IDL.Opt(
       SettleCommunityFundParticipationResult
     ),
-    'set_dapp_controllers_result' : IDL.Opt(SetDappControllersCallResult),
-    'sns_governance_normal_mode_enabled' : IDL.Opt(SetModeCallResult),
-    'sweep_icp' : IDL.Opt(SweepResult),
-    'sweep_sns' : IDL.Opt(SweepResult),
-    'create_neuron' : IDL.Opt(SweepResult),
+    'error_message' : IDL.Opt(IDL.Text),
+    'set_mode_call_result' : IDL.Opt(SetModeCallResult),
+    'sweep_icp_result' : IDL.Opt(SweepResult),
+    'claim_neuron_result' : IDL.Opt(SweepResult),
+    'sweep_sns_result' : IDL.Opt(SweepResult),
   });
   const GetBuyerStateRequest = IDL.Record({
     'principal_id' : IDL.Opt(IDL.Principal),
@@ -107,6 +113,26 @@ export const idlFactory = ({ IDL }) => {
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
+  const GetDerivedStateResponse = IDL.Record({
+    'sns_tokens_per_icp' : IDL.Opt(IDL.Float64),
+    'buyer_total_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const GetInitResponse = IDL.Record({ 'init' : IDL.Opt(Init) });
+  const GetLifecycleResponse = IDL.Record({ 'lifecycle' : IDL.Opt(IDL.Int32) });
+  const Icrc1Account = IDL.Record({
+    'owner' : IDL.Opt(IDL.Principal),
+    'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
+  const Ticket = IDL.Record({
+    'creation_time' : IDL.Nat64,
+    'ticket_id' : IDL.Nat64,
+    'account' : IDL.Opt(Icrc1Account),
+    'amount_icp_e8s' : IDL.Nat64,
+  });
+  const Ok_1 = IDL.Record({ 'ticket' : IDL.Opt(Ticket) });
+  const Err_1 = IDL.Record({ 'error_type' : IDL.Opt(IDL.Int32) });
+  const Result_1 = IDL.Variant({ 'Ok' : Ok_1, 'Err' : Err_1 });
+  const GetOpenTicketResponse = IDL.Record({ 'result' : IDL.Opt(Result_1) });
   const NeuronAttributes = IDL.Record({
     'dissolve_delay_seconds' : IDL.Nat64,
     'memo' : IDL.Nat64,
@@ -122,6 +148,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const SnsNeuronRecipe = IDL.Record({
     'sns' : IDL.Opt(TransferableAmount),
+    'claimed_status' : IDL.Opt(IDL.Int32),
     'neuron_attributes' : IDL.Opt(NeuronAttributes),
     'investor' : IDL.Opt(Investor),
   });
@@ -151,6 +178,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Swap = IDL.Record({
     'neuron_recipes' : IDL.Vec(SnsNeuronRecipe),
+    'finalize_swap_in_progress' : IDL.Opt(IDL.Bool),
     'cf_participants' : IDL.Vec(CfParticipant),
     'init' : IDL.Opt(Init),
     'lifecycle' : IDL.Int32,
@@ -166,6 +194,21 @@ export const idlFactory = ({ IDL }) => {
     'swap' : IDL.Opt(Swap),
     'derived' : IDL.Opt(DerivedState),
   });
+  const NewSaleTicketRequest = IDL.Record({
+    'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'amount_icp_e8s' : IDL.Nat64,
+  });
+  const InvalidUserAmount = IDL.Record({
+    'min_amount_icp_e8s_included' : IDL.Nat64,
+    'max_amount_icp_e8s_included' : IDL.Nat64,
+  });
+  const Err_2 = IDL.Record({
+    'invalid_user_amount' : IDL.Opt(InvalidUserAmount),
+    'existing_ticket' : IDL.Opt(Ticket),
+    'error_type' : IDL.Int32,
+  });
+  const Result_2 = IDL.Variant({ 'Ok' : Ok_1, 'Err' : Err_2 });
+  const NewSaleTicketResponse = IDL.Record({ 'result' : IDL.Opt(Result_2) });
   const OpenRequest = IDL.Record({
     'cf_participants' : IDL.Vec(CfParticipant),
     'params' : IDL.Opt(Params),
@@ -198,7 +241,20 @@ export const idlFactory = ({ IDL }) => {
         [CanisterStatusResultV2],
         [],
       ),
+    'get_derived_state' : IDL.Func(
+        [IDL.Record({})],
+        [GetDerivedStateResponse],
+        [],
+      ),
+    'get_init' : IDL.Func([IDL.Record({})], [GetInitResponse], []),
+    'get_lifecycle' : IDL.Func([IDL.Record({})], [GetLifecycleResponse], []),
+    'get_open_ticket' : IDL.Func([IDL.Record({})], [GetOpenTicketResponse], []),
     'get_state' : IDL.Func([IDL.Record({})], [GetStateResponse], []),
+    'new_sale_ticket' : IDL.Func(
+        [NewSaleTicketRequest],
+        [NewSaleTicketResponse],
+        [],
+      ),
     'open' : IDL.Func([OpenRequest], [IDL.Record({})], []),
     'refresh_buyer_tokens' : IDL.Func(
         [RefreshBuyerTokensRequest],

@@ -12,12 +12,12 @@ export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType;
   freezing_threshold: bigint;
-  balance: Array<[Uint8Array, bigint]>;
+  balance: Array<[Uint8Array | number[], bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array];
+  module_hash: [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -53,6 +53,14 @@ export interface Err {
   description: [] | [string];
   error_type: [] | [number];
 }
+export interface Err_1 {
+  error_type: [] | [number];
+}
+export interface Err_2 {
+  invalid_user_amount: [] | [InvalidUserAmount];
+  existing_ticket: [] | [Ticket];
+  error_type: number;
+}
 export interface ErrorRefundIcpRequest {
   source_principal_id: [] | [Principal];
 }
@@ -64,14 +72,15 @@ export interface FailedUpdate {
   dapp_canister_id: [] | [Principal];
 }
 export interface FinalizeSwapResponse {
+  set_dapp_controllers_call_result: [] | [SetDappControllersCallResult];
   settle_community_fund_participation_result:
     | []
     | [SettleCommunityFundParticipationResult];
-  set_dapp_controllers_result: [] | [SetDappControllersCallResult];
-  sns_governance_normal_mode_enabled: [] | [SetModeCallResult];
-  sweep_icp: [] | [SweepResult];
-  sweep_sns: [] | [SweepResult];
-  create_neuron: [] | [SweepResult];
+  error_message: [] | [string];
+  set_mode_call_result: [] | [SetModeCallResult];
+  sweep_icp_result: [] | [SweepResult];
+  claim_neuron_result: [] | [SweepResult];
+  sweep_sns_result: [] | [SweepResult];
 }
 export interface GetBuyerStateRequest {
   principal_id: [] | [Principal];
@@ -82,6 +91,19 @@ export interface GetBuyerStateResponse {
 export interface GetBuyersTotalResponse {
   buyers_total: bigint;
 }
+export interface GetDerivedStateResponse {
+  sns_tokens_per_icp: [] | [number];
+  buyer_total_icp_e8s: [] | [bigint];
+}
+export interface GetInitResponse {
+  init: [] | [Init];
+}
+export interface GetLifecycleResponse {
+  lifecycle: [] | [number];
+}
+export interface GetOpenTicketResponse {
+  result: [] | [Result_1];
+}
 export interface GetStateResponse {
   swap: [] | [Swap];
   derived: [] | [DerivedState];
@@ -89,6 +111,10 @@ export interface GetStateResponse {
 export interface GovernanceError {
   error_message: string;
   error_type: number;
+}
+export interface Icrc1Account {
+  owner: [] | [Principal];
+  subaccount: [] | [Uint8Array | number[]];
 }
 export interface Init {
   sns_root_canister_id: string;
@@ -99,6 +125,10 @@ export interface Init {
   icp_ledger_canister_id: string;
   sns_ledger_canister_id: string;
   sns_governance_canister_id: string;
+}
+export interface InvalidUserAmount {
+  min_amount_icp_e8s_included: bigint;
+  max_amount_icp_e8s_included: bigint;
 }
 export type Investor =
   | { CommunityFund: CfInvestment }
@@ -111,8 +141,18 @@ export interface NeuronBasketConstructionParameters {
   dissolve_delay_interval_seconds: bigint;
   count: bigint;
 }
+export interface NewSaleTicketRequest {
+  subaccount: [] | [Uint8Array | number[]];
+  amount_icp_e8s: bigint;
+}
+export interface NewSaleTicketResponse {
+  result: [] | [Result_2];
+}
 export interface Ok {
   block_height: [] | [bigint];
+}
+export interface Ok_1 {
+  ticket: [] | [Ticket];
 }
 export interface OpenRequest {
   cf_participants: Array<CfParticipant>;
@@ -131,11 +171,11 @@ export interface Params {
   max_participant_icp_e8s: bigint;
   min_icp_e8s: bigint;
 }
-export type Possibility = { Ok: Response } | { Err: CanisterCallError };
-export type Possibility_1 =
+export type Possibility =
   | { Ok: SetDappControllersResponse }
   | { Err: CanisterCallError };
-export type Possibility_2 = { Err: CanisterCallError };
+export type Possibility_1 = { Ok: Response } | { Err: CanisterCallError };
+export type Possibility_2 = { Ok: {} } | { Err: CanisterCallError };
 export interface RefreshBuyerTokensRequest {
   buyer: string;
 }
@@ -147,8 +187,10 @@ export interface Response {
   governance_error: [] | [GovernanceError];
 }
 export type Result = { Ok: Ok } | { Err: Err };
+export type Result_1 = { Ok: Ok_1 } | { Err: Err_1 };
+export type Result_2 = { Ok: Ok_1 } | { Err: Err_2 };
 export interface SetDappControllersCallResult {
-  possibility: [] | [Possibility_1];
+  possibility: [] | [Possibility];
 }
 export interface SetDappControllersResponse {
   failed_updates: Array<FailedUpdate>;
@@ -157,15 +199,17 @@ export interface SetModeCallResult {
   possibility: [] | [Possibility_2];
 }
 export interface SettleCommunityFundParticipationResult {
-  possibility: [] | [Possibility];
+  possibility: [] | [Possibility_1];
 }
 export interface SnsNeuronRecipe {
   sns: [] | [TransferableAmount];
+  claimed_status: [] | [number];
   neuron_attributes: [] | [NeuronAttributes];
   investor: [] | [Investor];
 }
 export interface Swap {
   neuron_recipes: Array<SnsNeuronRecipe>;
+  finalize_swap_in_progress: [] | [boolean];
   cf_participants: Array<CfParticipant>;
   init: [] | [Init];
   lifecycle: number;
@@ -176,7 +220,15 @@ export interface Swap {
 export interface SweepResult {
   failure: number;
   skipped: number;
+  invalid: number;
   success: number;
+  global_failures: number;
+}
+export interface Ticket {
+  creation_time: bigint;
+  ticket_id: bigint;
+  account: [] | [Icrc1Account];
+  amount_icp_e8s: bigint;
 }
 export interface TransferableAmount {
   transfer_start_timestamp_seconds: bigint;
@@ -192,7 +244,12 @@ export interface _SERVICE {
   get_buyer_state: ActorMethod<[GetBuyerStateRequest], GetBuyerStateResponse>;
   get_buyers_total: ActorMethod<[{}], GetBuyersTotalResponse>;
   get_canister_status: ActorMethod<[{}], CanisterStatusResultV2>;
+  get_derived_state: ActorMethod<[{}], GetDerivedStateResponse>;
+  get_init: ActorMethod<[{}], GetInitResponse>;
+  get_lifecycle: ActorMethod<[{}], GetLifecycleResponse>;
+  get_open_ticket: ActorMethod<[{}], GetOpenTicketResponse>;
   get_state: ActorMethod<[{}], GetStateResponse>;
+  new_sale_ticket: ActorMethod<[NewSaleTicketRequest], NewSaleTicketResponse>;
   open: ActorMethod<[OpenRequest], {}>;
   refresh_buyer_tokens: ActorMethod<
     [RefreshBuyerTokensRequest],
