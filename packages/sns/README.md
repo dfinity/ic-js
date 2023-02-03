@@ -358,6 +358,8 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 - [state](#gear-state)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+- [getOpenTicket](#gear-getopenticket)
+- [newSaleTicket](#gear-newsaleticket)
 
 ##### :gear: create
 
@@ -389,6 +391,22 @@ Get user commitment
 | ------------------- | -------------------------------------- |
 | `getUserCommitment` | `(params: any) => Promise<BuyerState>` |
 
+##### :gear: getOpenTicket
+
+Return a sale ticket if created and not yet removed (payment flow)
+
+| Method          | Type                                              |
+| --------------- | ------------------------------------------------- |
+| `getOpenTicket` | `(params: any) => Promise<GetOpenTicketResponse>` |
+
+##### :gear: newSaleTicket
+
+Create a sale ticket (payment flow)
+
+| Method          | Type                                                              |
+| --------------- | ----------------------------------------------------------------- |
+| `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<NewSaleTicketResponse>` |
+
 ### :factory: SnsWrapper
 
 Sns wrapper - notably used by NNS-dapp - ease the access to a particular Sns.
@@ -415,6 +433,7 @@ Parameters:
 - [transactionFee](#gear-transactionfee)
 - [balance](#gear-balance)
 - [transfer](#gear-transfer)
+- [approveSale](#gear-approvesale)
 - [getNeuron](#gear-getneuron)
 - [queryNeuron](#gear-queryneuron)
 - [nextNeuronAccount](#gear-nextneuronaccount)
@@ -436,6 +455,9 @@ Parameters:
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+- [getOpenTicket](#gear-getopenticket)
+- [newSaleTicket](#gear-newsaleticket)
+- [commitTokens](#gear-committokens)
 - [getTransactions](#gear-gettransactions)
 - [stakeMaturity](#gear-stakematurity)
 - [autoStakeMaturity](#gear-autostakematurity)
@@ -499,6 +521,12 @@ Parameters:
 | Method     | Type                                                  |
 | ---------- | ----------------------------------------------------- |
 | `transfer` | `(params: TransferParams) => Promise<IcrcBlockIndex>` |
+
+##### :gear: approveSale
+
+| Method        | Type                            |
+| ------------- | ------------------------------- |
+| `approveSale` | `() => Promise<IcrcBlockIndex>` |
 
 ##### :gear: getNeuron
 
@@ -649,6 +677,24 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method              | Type                                                    |
 | ------------------- | ------------------------------------------------------- |
 | `getUserCommitment` | `(params: GetBuyerStateRequest) => Promise<BuyerState>` |
+
+##### :gear: getOpenTicket
+
+| Method          | Type                                                                                                      |
+| --------------- | --------------------------------------------------------------------------------------------------------- |
+| `getOpenTicket` | `(params: { withTicket: boolean; } and Omit<QueryParams, "certified">) => Promise<GetOpenTicketResponse>` |
+
+##### :gear: newSaleTicket
+
+| Method          | Type                                                              |
+| --------------- | ----------------------------------------------------------------- |
+| `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<NewSaleTicketResponse>` |
+
+##### :gear: commitTokens
+
+| Method         | Type                                       |
+| -------------- | ------------------------------------------ |
+| `commitTokens` | `(ticketId: bigint) => Promise<undefined>` |
 
 ##### :gear: getTransactions
 
