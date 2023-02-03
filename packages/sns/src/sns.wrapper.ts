@@ -24,7 +24,9 @@ import type {
 import type {
   BuyerState,
   GetBuyerStateRequest,
+  GetOpenTicketResponse,
   GetStateResponse,
+  NewSaleTicketResponse,
   RefreshBuyerTokensRequest,
 } from "../candid/sns_swap";
 import { MAX_NEURONS_SUBACCOUNTS } from "./constants/governance.constants";
@@ -50,6 +52,7 @@ import type {
   SnsSplitNeuronParams,
   SnsStakeNeuronParams,
 } from "./types/governance.params";
+import type { NewSaleTicketParams } from "./types/swap.params";
 import { neuronSubaccount } from "./utils/governance.utils";
 
 interface SnsWrapperOptions {
@@ -165,6 +168,16 @@ export class SnsWrapper {
   // Always certified
   transfer = (params: TransferParams): Promise<IcrcBlockIndex> =>
     this.ledger.transfer(params);
+
+  // TODO: implement when did is available
+  // Always certified
+  approveSale = async (): Promise<IcrcBlockIndex> => {
+    // this.ledger.approve();
+    console.log("approveSale");
+    await new Promise((f) => setTimeout(f, 500));
+
+    return 123n;
+  };
 
   getNeuron = (
     params: Omit<SnsGetNeuronParams, "certified">
@@ -376,6 +389,23 @@ export class SnsWrapper {
     params: GetBuyerStateRequest
   ): Promise<BuyerState | undefined> =>
     this.swap.getUserCommitment(this.mergeParams(params));
+
+  getOpenTicket = (
+    params: { withTicket: boolean } & Omit<QueryParams, "certified">
+  ): Promise<GetOpenTicketResponse> =>
+    this.swap.getOpenTicket(this.mergeParams(params));
+
+  // Always certified
+  newSaleTicket = (
+    params: NewSaleTicketParams
+  ): Promise<NewSaleTicketResponse> => this.swap.newSaleTicket(params);
+
+  // TODO: implement when did is available
+  // Always certified
+  commitTokens = (ticketId: bigint): Promise<undefined> => {
+    console.log("commit_tokens", ticketId);
+    return new Promise((f) => setTimeout(f, 500));
+  };
 
   // Always certified
   getTransactions = (
