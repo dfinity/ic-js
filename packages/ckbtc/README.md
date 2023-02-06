@@ -74,6 +74,8 @@ const btcAddress = await getBtcAddress({});
 
 Returns a BTC address for a given account.
 
+Note: an update call is required by the Minter canister.
+
 | Method          | Type                                               |
 | --------------- | -------------------------------------------------- |
 | `getBtcAddress` | `(params: GetBTCAddressParams) => Promise<string>` |
