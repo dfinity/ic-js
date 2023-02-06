@@ -31,7 +31,7 @@ The features are available through the class `LedgerCanister`. It has to be inst
 e.g. fetching a token metadata.
 
 ```ts
-import { IcrcLedgerCanister } from "@dfinity/ledger";
+import { CkBTCCanister } from "@dfinity/ckbtc";
 import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({
@@ -39,12 +39,12 @@ const agent = await createAgent({
   host: HOST,
 });
 
-const { metadata } = LedgerCanister.create({
+const { getBtcAddress } = CkBTCCanister.create({
   agent,
-  canisterId: MY_LEDGER_CANISTER_ID,
+  canisterId: MY_CKBTC_MINTER_CANISTER_ID,
 });
 
-const data = await metadata();
+const btcAddress = await getBtcAddress({});
 ```
 
 ## Features
@@ -52,5 +52,42 @@ const data = await metadata();
 `ckbtc-js` implements following features:
 
 <!-- TSDOC_START -->
+
+### :factory: CkBTCMinterCanister
+
+#### Constructors
+
+`public`
+
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
+#### Methods
+
+- [create](#gear-create)
+- [getBtcAddress](#gear-getbtcaddress)
+
+##### :gear: create
+
+| Method   | Type                                                                     |
+| -------- | ------------------------------------------------------------------------ |
+| `create` | `(options: CkBTCMinterCanisterOptions<_SERVICE>) => CkBTCMinterCanister` |
+
+##### :gear: getBtcAddress
+
+Returns a BTC address for a given account.
+
+| Method          | Type                                               |
+| --------------- | -------------------------------------------------- |
+| `getBtcAddress` | `(params: GetBTCAddressParams) => Promise<string>` |
+
+Parameters:
+
+- `params`: The parameters for which a BTC address should be resolved.
+- `params.owner`: The owner for which the BTC address should be generated. If not provided, the `caller` will be use instead.
+- `params.subaccount`: An optional subaccount to compute the address.
 
 <!-- TSDOC_END -->

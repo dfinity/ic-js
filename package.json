@@ -17,7 +17,7 @@
     "format": "prettier --write .",
     "protoc": "bash ./scripts/update_proto.sh",
     "test": "jest",
-    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md"
+    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md packages/ckbtc/README.md"
   },
   "repository": {
     "type": "git",
