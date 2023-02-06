@@ -99,10 +99,14 @@ export interface GetInitResponse {
   init: [] | [Init];
 }
 export interface GetLifecycleResponse {
+  decentralization_sale_open_timestamp_seconds: [] | [bigint];
   lifecycle: [] | [number];
 }
 export interface GetOpenTicketResponse {
   result: [] | [Result_1];
+}
+export interface GetSaleParametersResponse {
+  params: [] | [Params];
 }
 export interface GetStateResponse {
   swap: [] | [Swap];
@@ -133,6 +137,27 @@ export interface InvalidUserAmount {
 export type Investor =
   | { CommunityFund: CfInvestment }
   | { Direct: DirectInvestment };
+export interface ListCommunityFundParticipantsRequest {
+  offset: [] | [bigint];
+  limit: [] | [number];
+}
+export interface ListCommunityFundParticipantsResponse {
+  cf_participants: Array<CfParticipant>;
+}
+export interface ListDirectParticipantsRequest {
+  offset: [] | [number];
+  limit: [] | [number];
+}
+export interface ListDirectParticipantsResponse {
+  participants: Array<Participant>;
+}
+export interface ListSnsNeuronRecipesRequest {
+  offset: [] | [bigint];
+  limit: [] | [number];
+}
+export interface ListSnsNeuronRecipesResponse {
+  sns_neuron_recipes: Array<SnsNeuronRecipe>;
+}
 export interface NeuronAttributes {
   dissolve_delay_seconds: bigint;
   memo: bigint;
@@ -168,8 +193,13 @@ export interface Params {
   swap_due_timestamp_seconds: bigint;
   min_participants: number;
   sns_token_e8s: bigint;
+  sale_delay_seconds: [] | [bigint];
   max_participant_icp_e8s: bigint;
   min_icp_e8s: bigint;
+}
+export interface Participant {
+  participation: [] | [BuyerState];
+  participant_id: [] | [Principal];
 }
 export type Possibility =
   | { Ok: SetDappControllersResponse }
@@ -209,6 +239,7 @@ export interface SnsNeuronRecipe {
 }
 export interface Swap {
   neuron_recipes: Array<SnsNeuronRecipe>;
+  decentralization_sale_open_timestamp_seconds: [] | [bigint];
   finalize_swap_in_progress: [] | [boolean];
   cf_participants: Array<CfParticipant>;
   init: [] | [Init];
@@ -248,7 +279,20 @@ export interface _SERVICE {
   get_init: ActorMethod<[{}], GetInitResponse>;
   get_lifecycle: ActorMethod<[{}], GetLifecycleResponse>;
   get_open_ticket: ActorMethod<[{}], GetOpenTicketResponse>;
+  get_sale_parameters: ActorMethod<[{}], GetSaleParametersResponse>;
   get_state: ActorMethod<[{}], GetStateResponse>;
+  list_community_fund_participants: ActorMethod<
+    [ListCommunityFundParticipantsRequest],
+    ListCommunityFundParticipantsResponse
+  >;
+  list_direct_participants: ActorMethod<
+    [ListDirectParticipantsRequest],
+    ListDirectParticipantsResponse
+  >;
+  list_sns_neuron_recipes: ActorMethod<
+    [ListSnsNeuronRecipesRequest],
+    ListSnsNeuronRecipesResponse
+  >;
   new_sale_ticket: ActorMethod<[NewSaleTicketRequest], NewSaleTicketResponse>;
   open: ActorMethod<[OpenRequest], {}>;
   refresh_buyer_tokens: ActorMethod<
