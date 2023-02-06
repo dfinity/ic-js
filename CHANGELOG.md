@@ -6,6 +6,7 @@
 - sns `v0.0.12`
 - cmc `v0.0.8`
 - ledger `v0.0.5`
+- ckBTC `v0.0.1`
 - utils `v0.0.12`
 
 ### Breaking changes
@@ -15,6 +16,7 @@
 
 ### Features
 
+- new `@dfinity/ckbtc` library for interfacing with ckBTC on the Internet Computer
 - export a constant for the Icrc1 metadata logo
 - move and expose `assertPercentageNumber` to lib `@dfinity/utils`
 
