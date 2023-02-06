@@ -1,5 +1,4 @@
-import { Canister, createServices } from "@dfinity/utils";
-import { toNullable } from "@dfinity/utils/src";
+import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type { _SERVICE as CkBTCMinterService } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
