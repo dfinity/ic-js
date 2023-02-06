@@ -9,6 +9,7 @@ node ./scripts/update-version.mjs ledger
 node ./scripts/update-version.mjs nns
 node ./scripts/update-version.mjs sns
 node ./scripts/update-version.mjs cmc
+node ./scripts/update-version.mjs ckbtc
 
 : Now we can build
 npm run build --workspaces
