@@ -8,7 +8,8 @@
     "packages/ledger",
     "packages/nns",
     "packages/sns",
-    "packages/cmc"
+    "packages/cmc",
+    "packages/ckbtc"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
