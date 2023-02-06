@@ -4,7 +4,7 @@ import type { _SERVICE as CkBTCMinterService } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
-import { GetBTCAddressParams } from "./types/minter.params";
+import type { GetBTCAddressParams } from "./types/minter.params";
 
 export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   static create(options: CkBTCMinterCanisterOptions<CkBTCMinterService>) {
