@@ -5,7 +5,7 @@ import type { QueryParams } from "@dfinity/utils";
 /**
  * Params to get a BTC address.
  */
-export interface GetBTCAddressParams extends QueryParams {
+export interface GetBTCAddressParams extends Omit<QueryParams, "certified"> {
   owner?: Principal;
   subaccount?: Subaccount;
 }

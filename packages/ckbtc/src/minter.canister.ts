@@ -21,13 +21,15 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   /**
    * Returns a BTC address for a given account.
    *
+   * Note: an update call is required by the Minter canister.
+   *
    * @param {GetBTCAddressParams} params The parameters for which a BTC address should be resolved.
    * @param {Principal} params.owner The owner for which the BTC address should be generated. If not provided, the `caller` will be use instead.
    * @param {Principal} params.subaccount An optional subaccount to compute the address.
    * @returns {Promise<string>} The BTC address of the given account.
    */
   getBtcAddress = (params: GetBTCAddressParams): Promise<string> =>
-    this.caller({ certified: params.certified }).get_btc_address({
+    this.caller({ certified: true }).get_btc_address({
       owner: toNullable(params.owner),
       subaccount: toNullable(params.subaccount),
     });
