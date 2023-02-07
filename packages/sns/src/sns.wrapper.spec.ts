@@ -317,6 +317,17 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call getLifecycle with query and update", async () => {
+    await snsWrapper.getLifecycle({});
+    expect(mockSwapCanister.getLifecycle).toHaveBeenCalledWith({
+      certified: false,
+    });
+    await certifiedSnsWrapper.getLifecycle({});
+    expect(mockCertifiedSwapCanister.getLifecycle).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
   it("should call notifyParticipation", async () => {
     await snsWrapper.notifyParticipation({ buyer: "aaaaa-aa" });
     expect(mockSwapCanister.notifyParticipation).toHaveBeenCalledWith({

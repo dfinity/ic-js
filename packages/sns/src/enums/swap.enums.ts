@@ -5,4 +5,5 @@ export enum SnsSwapLifecycle {
   Open = 2,
   Committed = 3,
   Aborted = 4,
+  Adopted = 5,
 }

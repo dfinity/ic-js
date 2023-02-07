@@ -24,6 +24,7 @@ import type {
 import type {
   BuyerState,
   GetBuyerStateRequest,
+  GetLifecycleResponse,
   GetStateResponse,
   RefreshBuyerTokensRequest,
 } from "../candid/sns_swap";
@@ -376,6 +377,11 @@ export class SnsWrapper {
     params: GetBuyerStateRequest
   ): Promise<BuyerState | undefined> =>
     this.swap.getUserCommitment(this.mergeParams(params));
+
+  getLifecycle = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<GetLifecycleResponse | undefined> =>
+    this.swap.getLifecycle(this.mergeParams(params));
 
   // Always certified
   getTransactions = (

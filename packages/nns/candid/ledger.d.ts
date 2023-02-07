@@ -70,6 +70,7 @@ export interface Tokens {
 }
 export interface Transaction {
   memo: Memo;
+  icrc1_memo: [] | [Uint8Array];
   operation: [] | [Operation];
   created_at_time: TimeStamp;
 }

@@ -1,4 +1,4 @@
-// Generated from IC repo commit c9b2f9653afc2da47e5bd527c192090b860acbf0 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit 5376a14c92f20b4bd285d7622ac5f2a8d21c0d02 'rs/sns/root/canister/root.did' by import-candid
 type CanisterCallError = record { code : opt int32; description : text };
 type CanisterIdRecord = record { canister_id : principal };
 type CanisterStatusResult = record {
@@ -55,12 +55,15 @@ type ListSnsCanistersResponse = record {
   archives : vec principal;
 };
 type RegisterDappCanisterRequest = record { canister_id : opt principal };
+type RegisterDappCanistersRequest = record { canister_ids : vec principal };
 type SetDappControllersRequest = record {
+  canister_ids : opt RegisterDappCanistersRequest;
   controller_principal_ids : vec principal;
 };
 type SetDappControllersResponse = record { failed_updates : vec FailedUpdate };
 type SnsRootCanister = record {
   dapp_canister_ids : vec principal;
+  testflight : bool;
   latest_ledger_archive_poll_timestamp_seconds : opt nat64;
   archive_canister_ids : vec principal;
   governance_canister_id : opt principal;
@@ -76,6 +79,7 @@ service : (SnsRootCanister) -> {
     );
   list_sns_canisters : (record {}) -> (ListSnsCanistersResponse) query;
   register_dapp_canister : (RegisterDappCanisterRequest) -> (record {});
+  register_dapp_canisters : (RegisterDappCanistersRequest) -> (record {});
   set_dapp_controllers : (SetDappControllersRequest) -> (
       SetDappControllersResponse,
     );
