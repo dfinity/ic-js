@@ -1,4 +1,4 @@
-// Generated from IC repo commit c9b2f9653afc2da47e5bd527c192090b860acbf0 'rs/rosetta-api/icp_ledger/ledger.did' by import-candid
+// Generated from IC repo commit 5376a14c92f20b4bd285d7622ac5f2a8d21c0d02 'rs/rosetta-api/icp_ledger/ledger.did' by import-candid
 // This is the official Ledger interface that is guaranteed to be backward compatible.
 
 // Amount of tokens, measured in 10^-8 of a token.
@@ -22,6 +22,13 @@ type SubAccount = blob;
 
 // Sequence number of a block produced by the ledger.
 type BlockIndex = nat64;
+
+type Transaction = record {
+    memo : Memo;
+    icrc1_memo: opt blob;
+    operation : opt Operation;
+    created_at_time : TimeStamp;
+};
 
 // An arbitrary number associated with a transaction.
 // The caller can set it in a `transfer` call as a correlation identifier.
@@ -108,11 +115,7 @@ type Operation = variant {
     };
 };
 
-type Transaction = record {
-    memo : Memo;
-    operation : opt Operation;
-    created_at_time : TimeStamp;
-};
+ 
 
 type Block = record {
     parent_hash : opt blob;

@@ -247,6 +247,7 @@ const fromAction = (action: Action): RawAction => {
                   sns_token_e8s: params.snsTokenE8s,
                   max_participant_icp_e8s: params.maxParticipantIcpE8s,
                   min_icp_e8s: params.minIcpE8s,
+                  sale_delay_seconds: toNullable(params.saleDelaySeconds),
                   neuron_basket_construction_parameters: toNullable(
                     params.neuronBasketConstructionParameters
                   ),

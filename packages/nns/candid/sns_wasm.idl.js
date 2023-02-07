@@ -25,6 +25,7 @@ export const idlFactory = ({ IDL }) => {
     'dissolve_delay_seconds' : IDL.Nat64,
     'memo' : IDL.Nat64,
     'stake_e8s' : IDL.Nat64,
+    'vesting_period_seconds' : IDL.Opt(IDL.Nat64),
   });
   const DeveloperDistribution = IDL.Record({
     'developer_neurons' : IDL.Vec(NeuronDistribution),
@@ -62,7 +63,6 @@ export const idlFactory = ({ IDL }) => {
     'initial_reward_rate_basis_points' : IDL.Opt(IDL.Nat64),
     'wait_for_quiet_deadline_increase_seconds' : IDL.Opt(IDL.Nat64),
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
-    'sns_initialization_parameters' : IDL.Opt(IDL.Text),
     'max_age_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'initial_token_distribution' : IDL.Opt(InitialTokenDistribution),
     'reward_rate_transition_duration_seconds' : IDL.Opt(IDL.Nat64),
@@ -96,6 +96,7 @@ export const idlFactory = ({ IDL }) => {
     'index_wasm_hash' : IDL.Vec(IDL.Nat8),
   });
   const GetNextSnsVersionRequest = IDL.Record({
+    'governance_canister_id' : IDL.Opt(IDL.Principal),
     'current_version' : IDL.Opt(SnsVersion),
   });
   const GetNextSnsVersionResponse = IDL.Record({
@@ -106,6 +107,17 @@ export const idlFactory = ({ IDL }) => {
   });
   const GetWasmRequest = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const GetWasmResponse = IDL.Record({ 'wasm' : IDL.Opt(SnsWasm) });
+  const SnsUpgrade = IDL.Record({
+    'next_version' : IDL.Opt(SnsVersion),
+    'current_version' : IDL.Opt(SnsVersion),
+  });
+  const InsertUpgradePathEntriesRequest = IDL.Record({
+    'upgrade_path' : IDL.Vec(SnsUpgrade),
+    'sns_governance_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const InsertUpgradePathEntriesResponse = IDL.Record({
+    'error' : IDL.Opt(SnsWasmError),
+  });
   const DeployedSns = IDL.Record({
     'root_canister_id' : IDL.Opt(IDL.Principal),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
@@ -115,6 +127,26 @@ export const idlFactory = ({ IDL }) => {
   });
   const ListDeployedSnsesResponse = IDL.Record({
     'instances' : IDL.Vec(DeployedSns),
+  });
+  const ListUpgradeStepsRequest = IDL.Record({
+    'limit' : IDL.Nat32,
+    'starting_at' : IDL.Opt(SnsVersion),
+    'sns_governance_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const PrettySnsVersion = IDL.Record({
+    'archive_wasm_hash' : IDL.Text,
+    'root_wasm_hash' : IDL.Text,
+    'swap_wasm_hash' : IDL.Text,
+    'ledger_wasm_hash' : IDL.Text,
+    'governance_wasm_hash' : IDL.Text,
+    'index_wasm_hash' : IDL.Text,
+  });
+  const ListUpgradeStep = IDL.Record({
+    'pretty_version' : IDL.Opt(PrettySnsVersion),
+    'version' : IDL.Opt(SnsVersion),
+  });
+  const ListUpgradeStepsResponse = IDL.Record({
+    'steps' : IDL.Vec(ListUpgradeStep),
   });
   const UpdateAllowedPrincipalsRequest = IDL.Record({
     'added_principals' : IDL.Vec(IDL.Principal),
@@ -162,9 +194,19 @@ export const idlFactory = ({ IDL }) => {
         ['query'],
       ),
     'get_wasm' : IDL.Func([GetWasmRequest], [GetWasmResponse], ['query']),
+    'insert_upgrade_path_entries' : IDL.Func(
+        [InsertUpgradePathEntriesRequest],
+        [InsertUpgradePathEntriesResponse],
+        [],
+      ),
     'list_deployed_snses' : IDL.Func(
         [IDL.Record({})],
         [ListDeployedSnsesResponse],
+        ['query'],
+      ),
+    'list_upgrade_steps' : IDL.Func(
+        [ListUpgradeStepsRequest],
+        [ListUpgradeStepsResponse],
         ['query'],
       ),
     'update_allowed_principals' : IDL.Func(

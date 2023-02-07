@@ -20,6 +20,7 @@ export type {
   DerivedState as SnsSwapDerivedState,
   GetBuyerStateRequest as SnsGetBuyerStateRequest,
   GetBuyerStateResponse as SnsGetBuyerStateResponse,
+  GetLifecycleResponse as SnsGetLifecycleResponse,
   Init as SnsSwapInit,
   Params as SnsParams,
   SnsNeuronRecipe,

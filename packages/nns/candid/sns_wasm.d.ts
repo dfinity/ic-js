@@ -39,6 +39,7 @@ export interface GetAllowedPrincipalsResponse {
   allowed_principals: Array<Principal>;
 }
 export interface GetNextSnsVersionRequest {
+  governance_canister_id: [] | [Principal];
   current_version: [] | [SnsVersion];
 }
 export interface GetNextSnsVersionResponse {
@@ -56,14 +57,42 @@ export interface GetWasmResponse {
 export type InitialTokenDistribution = {
   FractionalDeveloperVotingPower: FractionalDeveloperVotingPower;
 };
+export interface InsertUpgradePathEntriesRequest {
+  upgrade_path: Array<SnsUpgrade>;
+  sns_governance_canister_id: [] | [Principal];
+}
+export interface InsertUpgradePathEntriesResponse {
+  error: [] | [SnsWasmError];
+}
 export interface ListDeployedSnsesResponse {
   instances: Array<DeployedSns>;
+}
+export interface ListUpgradeStep {
+  pretty_version: [] | [PrettySnsVersion];
+  version: [] | [SnsVersion];
+}
+export interface ListUpgradeStepsRequest {
+  limit: number;
+  starting_at: [] | [SnsVersion];
+  sns_governance_canister_id: [] | [Principal];
+}
+export interface ListUpgradeStepsResponse {
+  steps: Array<ListUpgradeStep>;
 }
 export interface NeuronDistribution {
   controller: [] | [Principal];
   dissolve_delay_seconds: bigint;
   memo: bigint;
   stake_e8s: bigint;
+  vesting_period_seconds: [] | [bigint];
+}
+export interface PrettySnsVersion {
+  archive_wasm_hash: string;
+  root_wasm_hash: string;
+  swap_wasm_hash: string;
+  ledger_wasm_hash: string;
+  governance_wasm_hash: string;
+  index_wasm_hash: string;
 }
 export type Result = { Error: SnsWasmError } | { Hash: Uint8Array };
 export interface SnsCanisterIds {
@@ -90,12 +119,15 @@ export interface SnsInitPayload {
   initial_reward_rate_basis_points: [] | [bigint];
   wait_for_quiet_deadline_increase_seconds: [] | [bigint];
   transaction_fee_e8s: [] | [bigint];
-  sns_initialization_parameters: [] | [string];
   max_age_bonus_percentage: [] | [bigint];
   initial_token_distribution: [] | [InitialTokenDistribution];
   reward_rate_transition_duration_seconds: [] | [bigint];
   token_name: [] | [string];
   proposal_reject_cost_e8s: [] | [bigint];
+}
+export interface SnsUpgrade {
+  next_version: [] | [SnsVersion];
+  current_version: [] | [SnsVersion];
 }
 export interface SnsVersion {
   archive_wasm_hash: Uint8Array;
@@ -152,7 +184,15 @@ export interface _SERVICE {
   >;
   get_sns_subnet_ids: ActorMethod<[{}], GetSnsSubnetIdsResponse>;
   get_wasm: ActorMethod<[GetWasmRequest], GetWasmResponse>;
+  insert_upgrade_path_entries: ActorMethod<
+    [InsertUpgradePathEntriesRequest],
+    InsertUpgradePathEntriesResponse
+  >;
   list_deployed_snses: ActorMethod<[{}], ListDeployedSnsesResponse>;
+  list_upgrade_steps: ActorMethod<
+    [ListUpgradeStepsRequest],
+    ListUpgradeStepsResponse
+  >;
   update_allowed_principals: ActorMethod<
     [UpdateAllowedPrincipalsRequest],
     UpdateAllowedPrincipalsResponse

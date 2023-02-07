@@ -12,8 +12,10 @@ export type Action =
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { UpgradeSnsToNextVersion: {} }
+  | { RegisterDappCanisters: RegisterDappCanisters }
   | { TransferSnsTreasuryFunds: TransferSnsTreasuryFunds }
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
+  | { DeregisterDappCanisters: DeregisterDappCanisters }
   | { Unspecified: {} }
   | { ManageSnsMetadata: ManageSnsMetadata }
   | {
@@ -61,9 +63,13 @@ export interface ClaimSwapNeuronsRequest {
   neuron_parameters: Array<NeuronParameters>;
 }
 export interface ClaimSwapNeuronsResponse {
-  skipped_claims: number;
-  successful_claims: number;
-  failed_claims: number;
+  claim_swap_neurons_result: [] | [ClaimSwapNeuronsResult];
+}
+export type ClaimSwapNeuronsResult =
+  | { Ok: ClaimedSwapNeurons }
+  | { Err: number };
+export interface ClaimedSwapNeurons {
+  swap_neurons: Array<SwapNeuron>;
 }
 export type Command =
   | { Split: Split }
@@ -100,6 +106,7 @@ export type Command_2 =
   | { RegisterVote: RegisterVote }
   | { SyncCommand: {} }
   | { MakeProposal: Proposal }
+  | { FinalizeDisburseMaturity: FinalizeDisburseMaturity }
   | { ClaimOrRefreshNeuron: ClaimOrRefresh }
   | { RemoveNeuronPermissions: RemoveNeuronPermissions }
   | { AddNeuronPermissions: AddNeuronPermissions }
@@ -118,6 +125,10 @@ export interface DefiniteCanisterSettingsArgs {
   memory_allocation: bigint;
   compute_allocation: bigint;
 }
+export interface DeregisterDappCanisters {
+  canister_ids: Array<Principal>;
+  new_controllers: Array<Principal>;
+}
 export interface Disburse {
   to_account: [] | [Account];
   amount: [] | [Amount];
@@ -126,8 +137,12 @@ export interface DisburseMaturity {
   to_account: [] | [Account];
   percentage_to_disburse: number;
 }
+export interface DisburseMaturityInProgress {
+  timestamp_of_disbursement_seconds: bigint;
+  amount_e8s: bigint;
+  account_to_disburse_to: [] | [Account];
+}
 export interface DisburseMaturityResponse {
-  transfer_block_height: bigint;
   amount_disbursed_e8s: bigint;
 }
 export interface DisburseResponse {
@@ -139,6 +154,10 @@ export type DissolveState =
 export interface ExecuteGenericNervousSystemFunction {
   function_id: bigint;
   payload: Uint8Array;
+}
+export interface FinalizeDisburseMaturity {
+  amount_to_be_disbursed_e8s: bigint;
+  to_account: [] | [Account];
 }
 export interface Follow {
   function_id: bigint;
@@ -161,6 +180,9 @@ export interface GetMetadataResponse {
   logo: [] | [string];
   name: [] | [string];
   description: [] | [string];
+}
+export interface GetModeResponse {
+  mode: [] | [number];
 }
 export interface GetNeuron {
   neuron_id: [] | [NeuronId];
@@ -187,6 +209,7 @@ export interface Governance {
   metrics: [] | [GovernanceCachedMetrics];
   mode: number;
   parameters: [] | [NervousSystemParameters];
+  is_finalizing_disburse_maturity: [] | [boolean];
   deployed_version: [] | [Version];
   sns_initialization_parameters: string;
   latest_reward_event: [] | [RewardEvent];
@@ -311,6 +334,8 @@ export interface Neuron {
   aging_since_timestamp_seconds: bigint;
   dissolve_state: [] | [DissolveState];
   voting_power_percentage_multiplier: bigint;
+  vesting_period_seconds: [] | [bigint];
+  disburse_maturity_in_progress: Array<DisburseMaturityInProgress>;
   followees: Array<[bigint, Followees]>;
   neuron_fees_e8s: bigint;
 }
@@ -324,10 +349,11 @@ export interface NeuronInFlightCommand {
 export interface NeuronParameters {
   controller: [] | [Principal];
   dissolve_delay_seconds: [] | [bigint];
-  memo: [] | [bigint];
   source_nns_neuron_id: [] | [bigint];
   stake_e8s: [] | [bigint];
+  followees: Array<NeuronId>;
   hotkey: [] | [Principal];
+  neuron_id: [] | [NeuronId];
 }
 export interface NeuronPermission {
   principal: [] | [Principal];
@@ -358,6 +384,7 @@ export interface ProposalData {
   ballots: Array<[string, Ballot]>;
   reward_event_round: bigint;
   failed_timestamp_seconds: bigint;
+  reward_event_end_timestamp_seconds: [] | [bigint];
   proposal_creation_timestamp_seconds: bigint;
   initial_voting_period_seconds: bigint;
   reject_cost_e8s: bigint;
@@ -373,6 +400,9 @@ export interface ProposalData {
 export interface ProposalId {
   id: bigint;
 }
+export interface RegisterDappCanisters {
+  canister_ids: Array<Principal>;
+}
 export interface RegisterVote {
   vote: number;
   proposal: [] | [ProposalId];
@@ -385,6 +415,7 @@ export type Result = { Error: GovernanceError } | { Neuron: Neuron };
 export type Result_1 = { Error: GovernanceError } | { Proposal: ProposalData };
 export interface RewardEvent {
   actual_timestamp_seconds: bigint;
+  end_timestamp_seconds: [] | [bigint];
   distributed_e8s_equivalent: bigint;
   round: bigint;
   settled_proposals: Array<ProposalId>;
@@ -412,6 +443,10 @@ export interface StakeMaturityResponse {
 export interface Subaccount {
   subaccount: Uint8Array;
 }
+export interface SwapNeuron {
+  id: [] | [NeuronId];
+  status: number;
+}
 export interface Tally {
   no: bigint;
   yes: bigint;
@@ -434,6 +469,7 @@ export interface UpgradeInProgress {
 export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array;
   canister_id: [] | [Principal];
+  canister_upgrade_arg: [] | [Uint8Array];
 }
 export interface Version {
   archive_wasm_hash: Uint8Array;
@@ -459,6 +495,7 @@ export interface _SERVICE {
   >;
   get_build_metadata: ActorMethod<[], string>;
   get_metadata: ActorMethod<[{}], GetMetadataResponse>;
+  get_mode: ActorMethod<[{}], GetModeResponse>;
   get_nervous_system_parameters: ActorMethod<[null], NervousSystemParameters>;
   get_neuron: ActorMethod<[GetNeuron], GetNeuronResponse>;
   get_proposal: ActorMethod<[GetProposal], GetProposalResponse>;
