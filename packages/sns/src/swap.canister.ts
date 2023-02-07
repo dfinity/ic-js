@@ -16,6 +16,7 @@ import { idlFactory } from "../candid/sns_swap.idl";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { NewSaleTicketParams } from "./types/swap.params";
 
+// TODO: remove when real environment available
 const mockPrincipal = Principal.fromText(
   "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe"
 );
@@ -23,7 +24,7 @@ const mockSubaccount = Uint8Array.from([
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 1,
 ]);
-const createTicket = (): Ticket => ({
+const createMockTicket = (): Ticket => ({
   creation_time: BigInt(Date.now()),
   ticket_id: 123n,
   account: [
@@ -88,7 +89,7 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
       result: [
         {
           Ok: {
-            ticket: params.withTicket ? [createTicket()] : [],
+            ticket: params.withTicket ? [createMockTicket()] : [],
           },
         },
       ],
@@ -110,7 +111,7 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
       result: [
         {
           Ok: {
-            ticket: [createTicket()],
+            ticket: [createMockTicket()],
           },
         },
       ],
