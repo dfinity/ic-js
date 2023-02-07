@@ -91,6 +91,12 @@ Parameters:
 
 `public`
 
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 #### Methods
 
 - [create](#gear-create)
@@ -150,6 +156,12 @@ Parameters:
 #### Constructors
 
 `public`
+
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 

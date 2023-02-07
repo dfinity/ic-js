@@ -85,6 +85,12 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 
 `public`
 
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 #### Methods
 
 - [create](#gear-create)
@@ -325,6 +331,12 @@ Claim neuron
 
 `public`
 
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 #### Methods
 
 - [create](#gear-create)
@@ -352,12 +364,19 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 
 `public`
 
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 #### Methods
 
 - [create](#gear-create)
 - [state](#gear-state)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+- [getLifecycle](#gear-getlifecycle)
 
 ##### :gear: create
 
@@ -385,9 +404,17 @@ Notify of the user participating in the swap
 
 Get user commitment
 
-| Method              | Type                                   |
-| ------------------- | -------------------------------------- |
-| `getUserCommitment` | `(params: any) => Promise<BuyerState>` |
+| Method              | Type                                                                    |
+| ------------------- | ----------------------------------------------------------------------- |
+| `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
+
+##### :gear: getLifecycle
+
+Get sale lifecycle state
+
+| Method         | Type                                                     |
+| -------------- | -------------------------------------------------------- |
+| `getLifecycle` | `(params: QueryParams) => Promise<GetLifecycleResponse>` |
 
 ### :factory: SnsWrapper
 
@@ -436,6 +463,7 @@ Parameters:
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+- [getLifecycle](#gear-getlifecycle)
 - [getTransactions](#gear-gettransactions)
 - [stakeMaturity](#gear-stakematurity)
 - [autoStakeMaturity](#gear-autostakematurity)
@@ -484,21 +512,21 @@ Parameters:
 
 ##### :gear: transactionFee
 
-| Method           | Type                                                              |
-| ---------------- | ----------------------------------------------------------------- |
-| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokens>` |
+| Method           | Type                                                          |
+| ---------------- | ------------------------------------------------------------- |
+| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
 
 ##### :gear: balance
 
-| Method    | Type                                                                |
-| --------- | ------------------------------------------------------------------- |
-| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<IcrcTokens>` |
+| Method    | Type                                                            |
+| --------- | --------------------------------------------------------------- |
+| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
 
 ##### :gear: transfer
 
-| Method     | Type                                                  |
-| ---------- | ----------------------------------------------------- |
-| `transfer` | `(params: TransferParams) => Promise<IcrcBlockIndex>` |
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
+| `transfer` | `(params: TransferParams) => Promise<bigint>` |
 
 ##### :gear: getNeuron
 
@@ -556,9 +584,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getNeuronBalance
 
-| Method             | Type                                          |
-| ------------------ | --------------------------------------------- |
-| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<IcrcTokens>` |
+| Method             | Type                                      |
+| ------------------ | ----------------------------------------- |
+| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<bigint>` |
 
 ##### :gear: addNeuronPermissions
 
@@ -650,11 +678,17 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | ------------------- | ------------------------------------------------------- |
 | `getUserCommitment` | `(params: GetBuyerStateRequest) => Promise<BuyerState>` |
 
+##### :gear: getLifecycle
+
+| Method         | Type                                                                        |
+| -------------- | --------------------------------------------------------------------------- |
+| `getLifecycle` | `(params: Omit<QueryParams, "certified">) => Promise<GetLifecycleResponse>` |
+
 ##### :gear: getTransactions
 
-| Method            | Type                                                                     |
-| ----------------- | ------------------------------------------------------------------------ |
-| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<IcrcGetTransactions>` |
+| Method            | Type                                                                 |
+| ----------------- | -------------------------------------------------------------------- |
+| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
 
 ##### :gear: stakeMaturity
 
