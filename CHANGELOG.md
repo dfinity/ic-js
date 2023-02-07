@@ -9,6 +9,11 @@
 - ckBTC `v0.0.2`
 - utils `v0.0.13`
 
+## Build
+
+- bump agent-js `v0.15.3`
+- bump all dev dependencies
+
 # 0.14.0 (2023-02-07)
 
 ## Release
