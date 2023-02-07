@@ -10,7 +10,7 @@ describe("ckBTC minter canister", () => {
   describe("BTC address", () => {
     it("should return the BTC address of main account", async () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
-      const address = "a_btc_address";
+      const address = "bcrt1qu2aqme90t6hpac50x0xw8ljwqs250vn6tzlmsv";
       service.get_btc_address.mockResolvedValue(address);
 
       const canister = CkBTCMinterCanister.create({
