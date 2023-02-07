@@ -55,7 +55,7 @@ describe("Swap canister", () => {
       canisterId: swapCanisterIdMock,
       certifiedServiceOverride: service,
     });
-    const res = await canister.state({});
+    const res = await canister.getLifecycle({});
     expect(res).toEqual(mockResponse);
   });
 
