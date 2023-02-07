@@ -169,16 +169,6 @@ export class SnsWrapper {
   transfer = (params: TransferParams): Promise<IcrcBlockIndex> =>
     this.ledger.transfer(params);
 
-  // TODO: implement when did is available
-  // Always certified
-  approveSale = async (): Promise<IcrcBlockIndex> => {
-    // this.ledger.approve();
-    console.log("approveSale");
-    await new Promise((f) => setTimeout(f, 500));
-
-    return 123n;
-  };
-
   getNeuron = (
     params: Omit<SnsGetNeuronParams, "certified">
   ): Promise<Neuron> => this.governance.getNeuron(this.mergeParams(params));
@@ -399,13 +389,6 @@ export class SnsWrapper {
   newSaleTicket = (
     params: NewSaleTicketParams
   ): Promise<NewSaleTicketResponse> => this.swap.newSaleTicket(params);
-
-  // TODO: implement when did is available
-  // Always certified
-  commitTokens = (ticketId: bigint): Promise<undefined> => {
-    console.log("commit_tokens", ticketId);
-    return new Promise((f) => setTimeout(f, 500));
-  };
 
   // Always certified
   getTransactions = (
