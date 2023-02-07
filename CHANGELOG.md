@@ -1,4 +1,4 @@
-# 0.14.0 (wip)
+# 0.14.0 (2023-02-07)
 
 ## Release
 
@@ -19,6 +19,7 @@
 - new `@dfinity/ckbtc` library for interfacing with ckBTC on the Internet Computer
 - export a constant for the Icrc1 metadata logo
 - move and expose `assertPercentageNumber` to lib `@dfinity/utils`
+- register Sns vote
 
 ### Build
 
