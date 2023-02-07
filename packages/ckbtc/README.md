@@ -59,12 +59,6 @@ const btcAddress = await getBtcAddress({});
 
 `public`
 
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
-
 #### Methods
 
 - [create](#gear-create)
