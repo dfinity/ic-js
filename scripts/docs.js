@@ -32,6 +32,8 @@ const ledgerInputFiles = [
   "./packages/ledger/src/index.canister.ts",
 ];
 
+const ckBTCInputFiles = ["./packages/ckbtc/src/minter.canister.ts"];
+
 generateDocumentation({
   inputFiles: nnsInputFiles,
   outputFile: "./packages/nns/README.md",
@@ -53,6 +55,12 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: ledgerInputFiles,
   outputFile: "./packages/ledger/README.md",
+  markdownOptions: { headingLevel: "###" },
+});
+
+generateDocumentation({
+  inputFiles: ckBTCInputFiles,
+  outputFile: "./packages/ckbtc/README.md",
   markdownOptions: { headingLevel: "###" },
 });
 
