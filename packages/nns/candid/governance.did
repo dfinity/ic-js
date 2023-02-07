@@ -1,4 +1,4 @@
-// Generated from IC repo commit c9b2f9653afc2da47e5bd527c192090b860acbf0 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 5376a14c92f20b4bd285d7622ac5f2a8d21c0d02 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -24,6 +24,19 @@ type By = variant {
   NeuronIdOrSubaccount : record {};
   MemoAndController : ClaimOrRefreshNeuronFromAccount;
   Memo : nat64;
+};
+type CanisterStatusResultV2 = record {
+  status : opt int32;
+  freezing_threshold : opt nat64;
+  controllers : vec principal;
+  memory_size : opt nat64;
+  cycles : opt nat64;
+  idle_cycles_burned_per_day : opt nat64;
+  module_hash : vec nat8;
+};
+type CanisterSummary = record {
+  status : opt CanisterStatusResultV2;
+  canister_id : opt principal;
 };
 type CfNeuron = record { nns_neuron_id : nat64; amount_icp_e8s : nat64 };
 type CfParticipant = record {
@@ -83,6 +96,9 @@ type Command_2 = variant {
 };
 type Committed = record { sns_governance_canister_id : opt principal };
 type Configure = record { operation : opt Operation };
+type DerivedProposalInformation = record {
+  swap_background_information : opt SwapBackgroundInformation;
+};
 type Disburse = record {
   to_account : opt AccountIdentifier;
   amount : opt Amount;
@@ -131,6 +147,7 @@ type GovernanceCachedMetrics = record {
   community_fund_total_maturity_e8s_equivalent : nat64;
   total_staked_e8s : nat64;
   not_dissolving_neurons_count : nat64;
+  total_locked_e8s : nat64;
   dissolved_neurons_e8s : nat64;
   neurons_with_less_than_6_months_dissolve_delay_e8s : nat64;
   dissolving_neurons_count_buckets : vec record { nat64; nat64 };
@@ -277,6 +294,7 @@ type Params = record {
   swap_due_timestamp_seconds : nat64;
   min_participants : nat32;
   sns_token_e8s : nat64;
+  sale_delay_seconds : opt nat64;
   max_participant_icp_e8s : nat64;
   min_icp_e8s : nat64;
 };
@@ -295,10 +313,10 @@ type ProposalData = record {
   reward_event_round : nat64;
   failed_timestamp_seconds : nat64;
   reject_cost_e8s : nat64;
+  derived_proposal_information : opt DerivedProposalInformation;
   latest_tally : opt Tally;
   sns_token_swap_lifecycle : opt int32;
   decided_timestamp_seconds : nat64;
-  swap_background_information : opt SwapBackgroundInformation;
   proposal : opt Proposal;
   proposer : opt NeuronId;
   wait_for_quiet_state : opt WaitForQuietState;
@@ -316,6 +334,7 @@ type ProposalInfo = record {
   deadline_timestamp_seconds : opt nat64;
   failed_timestamp_seconds : nat64;
   reject_cost_e8s : nat64;
+  derived_proposal_information : opt DerivedProposalInformation;
   latest_tally : opt Tally;
   reward_status : int32;
   decided_timestamp_seconds : nat64;
@@ -328,10 +347,11 @@ type RemoveHotKey = record { hot_key_to_remove : opt principal };
 type Result = variant { Ok; Err : GovernanceError };
 type Result_1 = variant { Error : GovernanceError; NeuronId : NeuronId };
 type Result_2 = variant { Ok : Neuron; Err : GovernanceError };
-type Result_3 = variant { Ok : RewardNodeProviders; Err : GovernanceError };
-type Result_4 = variant { Ok : NeuronInfo; Err : GovernanceError };
-type Result_5 = variant { Ok : NodeProvider; Err : GovernanceError };
-type Result_6 = variant { Committed : Committed; Aborted : record {} };
+type Result_3 = variant { Ok : GovernanceCachedMetrics; Err : GovernanceError };
+type Result_4 = variant { Ok : RewardNodeProviders; Err : GovernanceError };
+type Result_5 = variant { Ok : NeuronInfo; Err : GovernanceError };
+type Result_6 = variant { Ok : NodeProvider; Err : GovernanceError };
+type Result_7 = variant { Committed : Committed; Aborted : record {} };
 type RewardEvent = record {
   day_after_genesis : nat64;
   actual_timestamp_seconds : nat64;
@@ -363,7 +383,7 @@ type SetSnsTokenSwapOpenTimeWindow = record {
   swap_canister_id : opt principal;
 };
 type SettleCommunityFundParticipation = record {
-  result : opt Result_6;
+  result : opt Result_7;
   open_sns_token_swap_proposal_id : opt nat64;
 };
 type Spawn = record {
@@ -379,13 +399,14 @@ type StakeMaturityResponse = record {
   staked_maturity_e8s : nat64;
 };
 type SwapBackgroundInformation = record {
-  sns_root_canister_id : opt principal;
-  dapp_canister_ids : vec principal;
+  ledger_index_canister_summary : opt CanisterSummary;
   fallback_controller_principal_ids : vec principal;
-  sns_ledger_archive_canister_ids : vec principal;
-  sns_ledger_index_canister_id : opt principal;
-  sns_ledger_canister_id : opt principal;
-  sns_governance_canister_id : opt principal;
+  ledger_archive_canister_summaries : vec CanisterSummary;
+  ledger_canister_summary : opt CanisterSummary;
+  swap_canister_summary : opt CanisterSummary;
+  governance_canister_summary : opt CanisterSummary;
+  root_canister_summary : opt CanisterSummary;
+  dapp_canister_summaries : vec CanisterSummary;
 };
 type Tally = record {
   no : nat64;
@@ -409,17 +430,18 @@ service : (Governance) -> {
   get_full_neuron_by_id_or_subaccount : (NeuronIdOrSubaccount) -> (
       Result_2,
     ) query;
-  get_monthly_node_provider_rewards : () -> (Result_3);
+  get_metrics : () -> (Result_3) query;
+  get_monthly_node_provider_rewards : () -> (Result_4);
   get_most_recent_monthly_node_provider_rewards : () -> (
       opt MostRecentMonthlyNodeProviderRewards,
     ) query;
   get_network_economics_parameters : () -> (NetworkEconomics) query;
   get_neuron_ids : () -> (vec nat64) query;
-  get_neuron_info : (nat64) -> (Result_4) query;
+  get_neuron_info : (nat64) -> (Result_5) query;
   get_neuron_info_by_id_or_subaccount : (NeuronIdOrSubaccount) -> (
-      Result_4,
+      Result_5,
     ) query;
-  get_node_provider_by_caller : (null) -> (Result_5) query;
+  get_node_provider_by_caller : (null) -> (Result_6) query;
   get_pending_proposals : () -> (vec ProposalInfo) query;
   get_proposal_info : (nat64) -> (opt ProposalInfo) query;
   list_known_neurons : () -> (ListKnownNeuronsResponse) query;

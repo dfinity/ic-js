@@ -72,7 +72,11 @@ export interface ListSnsCanistersResponse {
 export interface RegisterDappCanisterRequest {
   canister_id: [] | [Principal];
 }
+export interface RegisterDappCanistersRequest {
+  canister_ids: Array<Principal>;
+}
 export interface SetDappControllersRequest {
+  canister_ids: [] | [RegisterDappCanistersRequest];
   controller_principal_ids: Array<Principal>;
 }
 export interface SetDappControllersResponse {
@@ -80,6 +84,7 @@ export interface SetDappControllersResponse {
 }
 export interface SnsRootCanister {
   dapp_canister_ids: Array<Principal>;
+  testflight: boolean;
   latest_ledger_archive_poll_timestamp_seconds: [] | [bigint];
   archive_canister_ids: Array<Principal>;
   governance_canister_id: [] | [Principal];
@@ -96,6 +101,7 @@ export interface _SERVICE {
   >;
   list_sns_canisters: ActorMethod<[{}], ListSnsCanistersResponse>;
   register_dapp_canister: ActorMethod<[RegisterDappCanisterRequest], {}>;
+  register_dapp_canisters: ActorMethod<[RegisterDappCanistersRequest], {}>;
   set_dapp_controllers: ActorMethod<
     [SetDappControllersRequest],
     SetDappControllersResponse

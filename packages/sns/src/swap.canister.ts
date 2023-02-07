@@ -3,6 +3,7 @@ import { Canister, createServices, fromNullable } from "@dfinity/utils";
 import type {
   BuyerState,
   GetBuyerStateRequest,
+  GetLifecycleResponse,
   GetStateResponse,
   RefreshBuyerTokensRequest,
   _SERVICE as SnsSwapService,
@@ -48,5 +49,12 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
       certified: params.certified,
     }).get_buyer_state({ principal_id: params.principal_id });
     return fromNullable(buyer_state);
+  };
+
+  /**
+   * Get sale lifecycle state
+   */
+  getLifecycle = async (params: QueryParams): Promise<GetLifecycleResponse> => {
+    return this.caller(params).get_lifecycle({});
   };
 }
