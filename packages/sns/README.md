@@ -433,7 +433,6 @@ Parameters:
 - [transactionFee](#gear-transactionfee)
 - [balance](#gear-balance)
 - [transfer](#gear-transfer)
-- [approveSale](#gear-approvesale)
 - [getNeuron](#gear-getneuron)
 - [queryNeuron](#gear-queryneuron)
 - [nextNeuronAccount](#gear-nextneuronaccount)
@@ -457,7 +456,6 @@ Parameters:
 - [getUserCommitment](#gear-getusercommitment)
 - [getOpenTicket](#gear-getopenticket)
 - [newSaleTicket](#gear-newsaleticket)
-- [commitTokens](#gear-committokens)
 - [getTransactions](#gear-gettransactions)
 - [stakeMaturity](#gear-stakematurity)
 - [autoStakeMaturity](#gear-autostakematurity)
@@ -521,12 +519,6 @@ Parameters:
 | Method     | Type                                                  |
 | ---------- | ----------------------------------------------------- |
 | `transfer` | `(params: TransferParams) => Promise<IcrcBlockIndex>` |
-
-##### :gear: approveSale
-
-| Method        | Type                            |
-| ------------- | ------------------------------- |
-| `approveSale` | `() => Promise<IcrcBlockIndex>` |
 
 ##### :gear: getNeuron
 
@@ -689,12 +681,6 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method          | Type                                                              |
 | --------------- | ----------------------------------------------------------------- |
 | `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<NewSaleTicketResponse>` |
-
-##### :gear: commitTokens
-
-| Method         | Type                                       |
-| -------------- | ------------------------------------------ |
-| `commitTokens` | `(ticketId: bigint) => Promise<undefined>` |
 
 ##### :gear: getTransactions
 
