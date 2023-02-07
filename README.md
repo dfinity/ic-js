@@ -1,6 +1,6 @@
 # ic-js
 
-A collection of library for interfacing with the Internet Computer
+A collection of library for interfacing with the Internet Computer.
 
 The libraries are still in active development, and new features will incrementally be available.
 
