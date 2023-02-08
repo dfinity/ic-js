@@ -4,8 +4,8 @@ import { Canister, createServices, fromNullable } from "@dfinity/utils";
 import type {
   BuyerState,
   GetBuyerStateRequest,
-  GetOpenTicketResponse,
   GetLifecycleResponse,
+  GetOpenTicketResponse,
   GetStateResponse,
   NewSaleTicketResponse,
   RefreshBuyerTokensRequest,

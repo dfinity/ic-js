@@ -24,8 +24,8 @@ import type {
 import type {
   BuyerState,
   GetBuyerStateRequest,
-  GetOpenTicketResponse,
   GetLifecycleResponse,
+  GetOpenTicketResponse,
   GetStateResponse,
   NewSaleTicketResponse,
   RefreshBuyerTokensRequest,
