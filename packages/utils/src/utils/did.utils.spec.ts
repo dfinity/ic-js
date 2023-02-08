@@ -20,6 +20,21 @@ describe("did-utils", () => {
     expect(toNullable(test)).toEqual([test]);
   });
 
+  it("should convert boolean to array", () => {
+    const test = false;
+    expect(toNullable(test)).toEqual([test]);
+  });
+
+  it("should convert null to array", () => {
+    const test = null;
+    expect(toNullable(test)).toEqual([test]);
+  });
+
+  it("should convert 0 to array", () => {
+    const test = 0;
+    expect(toNullable(test)).toEqual([test]);
+  });
+
   describe("fromDefinedNullable", () => {
     it("should convert from array to object", () => {
       const test = { test: "1" };

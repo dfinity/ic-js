@@ -1,7 +1,7 @@
 import { assertNonNullish } from "./asserts.utils";
 
 export const toNullable = <T>(value?: T): [] | [T] => {
-  return value ? [value] : [];
+  return value !== undefined ? [value] : [];
 };
 
 export const fromNullable = <T>(value: [] | [T]): T | undefined => {
