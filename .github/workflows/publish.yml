@@ -37,3 +37,7 @@ jobs:
         run: npm publish --workspace=packages/cmc --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish ckBTC
+        run: npm publish --workspace=packages/ckbtc --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

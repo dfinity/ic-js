@@ -25,6 +25,7 @@ import type {
   BuyerState,
   GetBuyerStateRequest,
   GetOpenTicketResponse,
+  GetLifecycleResponse,
   GetStateResponse,
   NewSaleTicketResponse,
   RefreshBuyerTokensRequest,
@@ -389,6 +390,11 @@ export class SnsWrapper {
   newSaleTicket = (
     params: NewSaleTicketParams
   ): Promise<NewSaleTicketResponse> => this.swap.newSaleTicket(params);
+
+  getLifecycle = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<GetLifecycleResponse | undefined> =>
+    this.swap.getLifecycle(this.mergeParams(params));
 
   // Always certified
   getTransactions = (

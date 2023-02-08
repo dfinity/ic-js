@@ -360,6 +360,7 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 - [getUserCommitment](#gear-getusercommitment)
 - [getOpenTicket](#gear-getopenticket)
 - [newSaleTicket](#gear-newsaleticket)
+- [getLifecycle](#gear-getlifecycle)
 
 ##### :gear: create
 
@@ -406,6 +407,14 @@ Create a sale ticket (payment flow)
 | Method          | Type                                                              |
 | --------------- | ----------------------------------------------------------------- |
 | `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<NewSaleTicketResponse>` |
+
+##### :gear: getLifecycle
+
+Get sale lifecycle state
+
+| Method         | Type                                                     |
+| -------------- | -------------------------------------------------------- |
+| `getLifecycle` | `(params: QueryParams) => Promise<GetLifecycleResponse>` |
 
 ### :factory: SnsWrapper
 
@@ -456,6 +465,7 @@ Parameters:
 - [getUserCommitment](#gear-getusercommitment)
 - [getOpenTicket](#gear-getopenticket)
 - [newSaleTicket](#gear-newsaleticket)
+- [getLifecycle](#gear-getlifecycle)
 - [getTransactions](#gear-gettransactions)
 - [stakeMaturity](#gear-stakematurity)
 - [autoStakeMaturity](#gear-autostakematurity)
@@ -681,6 +691,12 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method          | Type                                                              |
 | --------------- | ----------------------------------------------------------------- |
 | `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<NewSaleTicketResponse>` |
+
+##### :gear: getLifecycle
+
+| Method         | Type                                                                        |
+| -------------- | --------------------------------------------------------------------------- |
+| `getLifecycle` | `(params: Omit<QueryParams, "certified">) => Promise<GetLifecycleResponse>` |
 
 ##### :gear: getTransactions
 

@@ -5,6 +5,7 @@ import type {
   BuyerState,
   GetBuyerStateRequest,
   GetOpenTicketResponse,
+  GetLifecycleResponse,
   GetStateResponse,
   NewSaleTicketResponse,
   RefreshBuyerTokensRequest,
@@ -16,7 +17,7 @@ import { idlFactory } from "../candid/sns_swap.idl";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { NewSaleTicketParams } from "./types/swap.params";
 
-// TODO: remove when real environment available
+// TODO(sale): remove when real environment available
 const mockPrincipal = Principal.fromText(
   "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe"
 );
@@ -116,5 +117,12 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
         },
       ],
     };
+  };
+
+  /**
+   * Get sale lifecycle state
+   */
+  getLifecycle = async (params: QueryParams): Promise<GetLifecycleResponse> => {
+    return this.caller(params).get_lifecycle({});
   };
 }

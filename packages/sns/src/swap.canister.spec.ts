@@ -3,10 +3,12 @@ import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import type {
   BuyerState,
+  GetLifecycleResponse,
   GetStateResponse,
   Swap,
   _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
+import { SnsSwapLifecycle } from "./enums/swap.enums";
 import { swapCanisterIdMock } from "./mocks/sns.mock";
 import { SnsSwapCanister } from "./swap.canister";
 
@@ -37,6 +39,23 @@ describe("Swap canister", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.state({});
+    expect(res).toEqual(mockResponse);
+  });
+
+  it("should return the lifecycle state of the swap canister", async () => {
+    const mockResponse: GetLifecycleResponse = {
+      decentralization_sale_open_timestamp_seconds: [BigInt(2)],
+      lifecycle: [SnsSwapLifecycle.Adopted],
+    };
+
+    const service = mock<ActorSubclass<SnsSwapService>>();
+    service.get_lifecycle.mockResolvedValue(mockResponse);
+
+    const canister = SnsSwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const res = await canister.getLifecycle({});
     expect(res).toEqual(mockResponse);
   });
 

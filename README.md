@@ -1,6 +1,6 @@
 # ic-js
 
-A collection of library for interfacing with the Internet Computer
+A collection of library for interfacing with the Internet Computer.
 
 The libraries are still in active development, and new features will incrementally be available.
 
@@ -10,6 +10,7 @@ The libraries are still in active development, and new features will incremental
 - [sns](/packages/sns): interacting with a Service Nervous System (SNS) project
 - [cmc](/packages/cmc): interfacing with the **cmc** canister of the IC
 - [ledger](/packages/ledger): interacting with ICRC compatible **ledgers**
+- [ckBTC](/packages/ckbtc): interfacing with **ckBTC**
 - [utils](/packages/utils): a collection of utilities and constants
 
 ## Installation
@@ -22,6 +23,7 @@ npm i @dfinity/ledger
 npm i @dfinity/nns
 npm i @dfinity/sns
 npm i @dfinity/cmc
+npm i @dfinity/ckbtc
 ```
 
 You may be using all libraries in your project - as we do in [NNS-dapp](https://github.com/dfinity/nns-dapp/).

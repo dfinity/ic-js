@@ -154,9 +154,11 @@ export const idlFactory = ({ IDL }) => {
     'min_icp_e8s' : IDL.Nat64,
   });
   const GetSaleParametersResponse = IDL.Record({ 'params' : IDL.Opt(Params) });
+  const NeuronId = IDL.Record({ 'id' : IDL.Vec(IDL.Nat8) });
   const NeuronAttributes = IDL.Record({
     'dissolve_delay_seconds' : IDL.Nat64,
     'memo' : IDL.Nat64,
+    'followees' : IDL.Vec(NeuronId),
   });
   const CfInvestment = IDL.Record({
     'hotkey_principal' : IDL.Text,

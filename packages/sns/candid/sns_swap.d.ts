@@ -12,12 +12,12 @@ export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType;
   freezing_threshold: bigint;
-  balance: Array<[Uint8Array | number[], bigint]>;
+  balance: Array<[Uint8Array, bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array | number[]];
+  module_hash: [] | [Uint8Array];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -118,7 +118,7 @@ export interface GovernanceError {
 }
 export interface Icrc1Account {
   owner: [] | [Principal];
-  subaccount: [] | [Uint8Array | number[]];
+  subaccount: [] | [Uint8Array];
 }
 export interface Init {
   sns_root_canister_id: string;
@@ -161,13 +161,17 @@ export interface ListSnsNeuronRecipesResponse {
 export interface NeuronAttributes {
   dissolve_delay_seconds: bigint;
   memo: bigint;
+  followees: Array<NeuronId>;
 }
 export interface NeuronBasketConstructionParameters {
   dissolve_delay_interval_seconds: bigint;
   count: bigint;
 }
+export interface NeuronId {
+  id: Uint8Array;
+}
 export interface NewSaleTicketRequest {
-  subaccount: [] | [Uint8Array | number[]];
+  subaccount: [] | [Uint8Array];
   amount_icp_e8s: bigint;
 }
 export interface NewSaleTicketResponse {

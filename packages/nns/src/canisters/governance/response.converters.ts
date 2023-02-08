@@ -382,6 +382,7 @@ const toAction = (action: RawAction): Action => {
             snsTokenE8s: params.sns_token_e8s,
             maxParticipantIcpE8s: params.max_participant_icp_e8s,
             minIcpE8s: params.min_icp_e8s,
+            saleDelaySeconds: fromNullable(params.sale_delay_seconds),
             neuronBasketConstructionParameters: fromNullable(
               params.neuron_basket_construction_parameters
             ),

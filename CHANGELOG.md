@@ -1,4 +1,20 @@
-# 0.14.0 (wip)
+# 0.15.0 (wip)
+
+## Release
+
+- nns `v0.15.0`
+- sns `v0.0.13`
+- cmc `v0.0.9`
+- ledger `v0.0.6`
+- ckBTC `v0.0.2`
+- utils `v0.0.13`
+
+## Build
+
+- bump agent-js `v0.15.3`
+- bump all dev dependencies
+
+# 0.14.0 (2023-02-07)
 
 ## Release
 
@@ -6,6 +22,7 @@
 - sns `v0.0.12`
 - cmc `v0.0.8`
 - ledger `v0.0.5`
+- ckBTC `v0.0.1`
 - utils `v0.0.12`
 
 ### Breaking changes
@@ -15,8 +32,10 @@
 
 ### Features
 
+- new `@dfinity/ckbtc` library for interfacing with ckBTC on the Internet Computer
 - export a constant for the Icrc1 metadata logo
 - move and expose `assertPercentageNumber` to lib `@dfinity/utils`
+- register Sns vote
 
 ### Build
 
