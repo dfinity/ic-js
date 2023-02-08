@@ -28,10 +28,10 @@
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
-    "@types/node": "^18.11.18",
+    "@types/node": "^18.13.0",
     "@types/text-encoding": "^0.0.36",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "esbuild": "^0.17.5",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "esbuild": "^0.17.6",
     "eslint": "^8.33.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
@@ -50,8 +50,8 @@
     "whatwg-fetch": "^3.6.2"
   },
   "peerDependencies": {
-    "@dfinity/agent": "^0.15.1",
-    "@dfinity/candid": "^0.15.1",
-    "@dfinity/principal": "^0.15.1"
+    "@dfinity/agent": "^0.15.3",
+    "@dfinity/candid": "^0.15.3",
+    "@dfinity/principal": "^0.15.3"
   }
 }
