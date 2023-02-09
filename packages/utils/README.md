@@ -43,9 +43,13 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
 - [assertNonNullish](#gear-assertnonnullish)
 - [assertPercentageNumber](#gear-assertpercentagenumber)
+- [debounce](#gear-debounce)
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
+- [isNullish](#gear-isnullish)
+- [nonNullish](#gear-nonnullish)
+- [notEmptyString](#gear-notemptystring)
 - [principalToSubAccount](#gear-principaltosubaccount)
 - [smallerVersion](#gear-smallerversion)
 
@@ -131,6 +135,12 @@ Parameters:
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
 
+#### :gear: debounce
+
+| Function   | Type                                                                 |
+| ---------- | -------------------------------------------------------------------- |
+| `debounce` | `(func: Function, timeout?: number) => (...args: unknown[]) => void` |
+
 #### :gear: toNullable
 
 | Function     | Type                          |
@@ -148,6 +158,30 @@ Parameters:
 | Function              | Type                         |
 | --------------------- | ---------------------------- |
 | `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
+
+#### :gear: isNullish
+
+Is null or undefined
+
+| Function    | Type                                   |
+| ----------- | -------------------------------------- |
+| `isNullish` | `<T>(argument: T) => argument is null` |
+
+#### :gear: nonNullish
+
+Not null and not undefined
+
+| Function     | Type                                             |
+| ------------ | ------------------------------------------------ |
+| `nonNullish` | `<T>(argument: T) => argument is NonNullable<T>` |
+
+#### :gear: notEmptyString
+
+Not null and not undefined and not empty
+
+| Function         | Type                         |
+| ---------------- | ---------------------------- |
+| `notEmptyString` | `(value: string) => boolean` |
 
 #### :gear: principalToSubAccount
 
