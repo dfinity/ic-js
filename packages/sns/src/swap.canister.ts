@@ -14,6 +14,7 @@ import type {
 } from "../candid/sns_swap";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";
+import { toNewSaleTicketRequest } from "./converters/swap.converters";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { NewSaleTicketParams } from "./types/swap.params";
 
@@ -80,10 +81,17 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    * Return a sale ticket if created and not yet removed (payment flow)
    */
   getOpenTicket = async (
-    params: { withTicket: boolean } & QueryParams
+    params: { withTicket?: boolean } & QueryParams
   ): Promise<GetOpenTicketResponse> => {
-    // const response = await this.caller({ certified: params.certified }).get_open_ticket({});
+    if (params.withTicket === undefined) {
+      const response = await this.caller({
+        certified: params.certified,
+      }).get_open_ticket({});
 
+      return response;
+    }
+
+    // TODO(sale): remove mock
     await new Promise((f) => setTimeout(f, 500));
 
     return {
@@ -101,11 +109,14 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    * Create a sale ticket (payment flow)
    */
   newSaleTicket = async (
-    params: NewSaleTicketParams
+    params: { useMock?: boolean } & NewSaleTicketParams
   ): Promise<NewSaleTicketResponse> => {
-    // const request = toNewSaleTicketRequest(params);
-    // return await this.caller({ certified: true }).new_sale_ticket(request);
+    if (params?.useMock !== true) {
+      const request = toNewSaleTicketRequest(params);
+      return await this.caller({ certified: true }).new_sale_ticket(request);
+    }
 
+    // TODO(sale): remove mock
     await new Promise((f) => setTimeout(f, 500));
 
     return {
