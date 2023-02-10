@@ -1,17 +1,21 @@
 import { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
-import { Canister, createServices, fromNullable } from "@dfinity/utils";
+import {
+  Canister,
+  createServices,
+  fromDefinedNullable,
+  fromNullable,
+} from "@dfinity/utils";
 import type {
   BuyerState,
   GetBuyerStateRequest,
   GetLifecycleResponse,
-  GetOpenTicketResponse,
   GetStateResponse,
-  NewSaleTicketResponse,
   RefreshBuyerTokensRequest,
   Ticket,
   _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
+import { Result_1, Result_2 } from "../candid/sns_swap";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";
 import { toNewSaleTicketRequest } from "./converters/swap.converters";
@@ -80,54 +84,23 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
   /**
    * Return a sale ticket if created and not yet removed (payment flow)
    */
-  getOpenTicket = async (
-    params: { withTicket?: boolean } & QueryParams
-  ): Promise<GetOpenTicketResponse> => {
-    if (params.withTicket === undefined) {
-      const response = await this.caller({
-        certified: params.certified,
-      }).get_open_ticket({});
+  getOpenTicket = async (params: QueryParams): Promise<Result_1> => {
+    const { result } = await this.caller({
+      certified: params.certified,
+    }).get_open_ticket({});
 
-      return response;
-    }
-
-    // TODO(sale): remove mock
-    await new Promise((f) => setTimeout(f, 500));
-
-    return {
-      result: [
-        {
-          Ok: {
-            ticket: params.withTicket ? [createMockTicket()] : [],
-          },
-        },
-      ],
-    };
+    return fromDefinedNullable(result);
   };
 
   /**
    * Create a sale ticket (payment flow)
    */
-  newSaleTicket = async (
-    params: { useMock?: boolean } & NewSaleTicketParams
-  ): Promise<NewSaleTicketResponse> => {
-    if (params?.useMock !== true) {
-      const request = toNewSaleTicketRequest(params);
-      return await this.caller({ certified: true }).new_sale_ticket(request);
-    }
-
-    // TODO(sale): remove mock
-    await new Promise((f) => setTimeout(f, 500));
-
-    return {
-      result: [
-        {
-          Ok: {
-            ticket: [createMockTicket()],
-          },
-        },
-      ],
-    };
+  newSaleTicket = async (params: NewSaleTicketParams): Promise<Result_2> => {
+    const request = toNewSaleTicketRequest(params);
+    const { result } = await this.caller({ certified: true }).new_sale_ticket(
+      request
+    );
+    return fromDefinedNullable(result);
   };
 
   /**
