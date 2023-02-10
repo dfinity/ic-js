@@ -1,4 +1,3 @@
-import { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import {
   Canister,
@@ -12,10 +11,10 @@ import type {
   GetLifecycleResponse,
   GetStateResponse,
   RefreshBuyerTokensRequest,
-  Ticket,
+  Result_1,
+  Result_2,
   _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
-import type { Result_1, Result_2 } from "../candid/sns_swap";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";
 import { toNewSaleTicketRequest } from "./converters/swap.converters";
