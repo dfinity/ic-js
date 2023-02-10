@@ -4,7 +4,9 @@ import { mock } from "jest-mock-extended";
 import type {
   BuyerState,
   GetLifecycleResponse,
+  GetOpenTicketResponse,
   GetStateResponse,
+  NewSaleTicketResponse,
   Swap,
   _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
@@ -40,6 +42,77 @@ describe("Swap canister", () => {
     });
     const res = await canister.state({});
     expect(res).toEqual(mockResponse);
+  });
+
+  it("should return open sale ticket", async () => {
+    const mockResponse: GetOpenTicketResponse = {
+      result: [
+        {
+          Ok: {
+            ticket: [
+              {
+                creation_time: 1n,
+                ticket_id: 2n,
+                account: [
+                  {
+                    owner: [Principal.fromText("aaaaa-aa")],
+                    subaccount: [],
+                  },
+                ],
+                amount_icp_e8s: 3n,
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    const service = mock<ActorSubclass<SnsSwapService>>();
+    service.get_open_ticket.mockResolvedValue(mockResponse);
+
+    const canister = SnsSwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const res = await canister.getOpenTicket({});
+    expect(res).toEqual(mockResponse.result[0]);
+  });
+
+  it("should return new sale ticket", async () => {
+    const mockResponse: NewSaleTicketResponse = {
+      result: [
+        {
+          Ok: {
+            ticket: [
+              {
+                creation_time: 1n,
+                ticket_id: 2n,
+                account: [
+                  {
+                    owner: [Principal.fromText("aaaaa-aa")],
+                    subaccount: [],
+                  },
+                ],
+                amount_icp_e8s: 3n,
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    const service = mock<ActorSubclass<SnsSwapService>>();
+    service.new_sale_ticket.mockResolvedValue(mockResponse);
+
+    const canister = SnsSwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const res = await canister.newSaleTicket({
+      subaccount: Uint8Array.from([]),
+      amount_icp_e8s: 3n,
+    });
+    expect(res).toEqual(mockResponse.result[0]);
   });
 
   it("should return the lifecycle state of the swap canister", async () => {
