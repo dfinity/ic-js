@@ -19,7 +19,6 @@ import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
 import { SnsSwapCanister } from "./swap.canister";
 import type { SnsDisburseNeuronParams } from "./types/governance.params";
-import {E8s} from "./types/common";
 
 describe("SnsWrapper", () => {
   const mockGovernanceCanister = mock<SnsGovernanceCanister>();
@@ -349,11 +348,11 @@ describe("SnsWrapper", () => {
   });
 
   it("should call getOpenTicket with query and update", async () => {
-    await snsWrapper.getOpenTicket({certified: false});
+    await snsWrapper.getOpenTicket({ certified: false });
     expect(mockSwapCanister.getOpenTicket).toBeCalled();
     expect(mockCertifiedSwapCanister.getOpenTicket).not.toBeCalled();
 
-    await certifiedSnsWrapper.getOpenTicket({certified: true});
+    await certifiedSnsWrapper.getOpenTicket({ certified: true });
     expect(mockCertifiedSwapCanister.getOpenTicket).toBeCalled();
   });
 
