@@ -15,32 +15,12 @@ import type {
   Ticket,
   _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
-import { Result_1, Result_2 } from "../candid/sns_swap";
+import type { Result_1, Result_2 } from "../candid/sns_swap";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";
 import { toNewSaleTicketRequest } from "./converters/swap.converters";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { NewSaleTicketParams } from "./types/swap.params";
-
-// TODO(sale): remove when real environment available
-const mockPrincipal = Principal.fromText(
-  "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe"
-);
-const mockSubaccount = Uint8Array.from([
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 1,
-]);
-const createMockTicket = (): Ticket => ({
-  creation_time: BigInt(Date.now()),
-  ticket_id: 123n,
-  account: [
-    {
-      owner: [mockPrincipal],
-      subaccount: [mockSubaccount],
-    },
-  ],
-  amount_icp_e8s: 1234567890n,
-});
 
 export class SnsSwapCanister extends Canister<SnsSwapService> {
   static create(options: SnsCanisterOptions<SnsSwapService>) {
