@@ -9,6 +9,10 @@
 - ckBTC `v0.0.2`
 - utils `v0.0.13`
 
+## Features
+
+- new utils moved from NNS-dapp: `isNullish`, `nonNullish`, `notEmptyString` and `debounce`
+
 ## Build
 
 - bump agent-js `v0.15.3`
