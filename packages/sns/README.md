@@ -380,9 +380,9 @@ Get the state of the swap
 
 Notify of the user participating in the swap
 
-| Method                | Type                                                   |
-| --------------------- | ------------------------------------------------------ |
-| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<void>` |
+| Method                | Type                                                                         |
+| --------------------- | ---------------------------------------------------------------------------- |
+| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<RefreshBuyerTokensResponse>` |
 
 ##### :gear: getUserCommitment
 
@@ -670,9 +670,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: notifyParticipation
 
-| Method                | Type                                                   |
-| --------------------- | ------------------------------------------------------ |
-| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<void>` |
+| Method                | Type                                                                         |
+| --------------------- | ---------------------------------------------------------------------------- |
+| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<RefreshBuyerTokensResponse>` |
 
 ##### :gear: getUserCommitment
 
