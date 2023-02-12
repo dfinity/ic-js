@@ -11,6 +11,7 @@ import type {
   GetLifecycleResponse,
   GetStateResponse,
   RefreshBuyerTokensRequest,
+  RefreshBuyerTokensResponse,
   Ticket,
   _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
@@ -47,9 +48,8 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    */
   notifyParticipation = async (
     params: RefreshBuyerTokensRequest
-  ): Promise<void> => {
+  ): Promise<RefreshBuyerTokensResponse> =>
     await this.caller({ certified: true }).refresh_buyer_tokens(params);
-  };
 
   /**
    * Get user commitment

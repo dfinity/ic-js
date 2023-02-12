@@ -27,6 +27,7 @@ import type {
   GetLifecycleResponse,
   GetStateResponse,
   RefreshBuyerTokensRequest,
+  RefreshBuyerTokensResponse,
   Ticket,
 } from "../candid/sns_swap";
 import { MAX_NEURONS_SUBACCOUNTS } from "./constants/governance.constants";
@@ -372,7 +373,9 @@ export class SnsWrapper {
   ): Promise<GetStateResponse> => this.swap.state(this.mergeParams(params));
 
   // Always certified
-  notifyParticipation = (params: RefreshBuyerTokensRequest): Promise<void> =>
+  notifyParticipation = (
+    params: RefreshBuyerTokensRequest
+  ): Promise<RefreshBuyerTokensResponse> =>
     this.swap.notifyParticipation(params);
 
   getUserCommitment = (
