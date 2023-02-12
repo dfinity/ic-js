@@ -15,6 +15,10 @@ describe("did-utils", () => {
     expect(toNullable(undefined)).toEqual([]);
   });
 
+  it("should convert from null to empty array", () => {
+    expect(toNullable(null)).toEqual([]);
+  });
+
   it("should convert object to array", () => {
     const test = { test: "1" };
     expect(toNullable(test)).toEqual([test]);
