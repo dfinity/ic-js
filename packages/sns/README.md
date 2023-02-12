@@ -396,17 +396,17 @@ Get user commitment
 
 Return a sale ticket if created and not yet removed (payment flow)
 
-| Method          | Type                                         |
-| --------------- | -------------------------------------------- |
-| `getOpenTicket` | `(params: QueryParams) => Promise<Result_1>` |
+| Method          | Type                                       |
+| --------------- | ------------------------------------------ |
+| `getOpenTicket` | `(params: QueryParams) => Promise<Ticket>` |
 
 ##### :gear: newSaleTicket
 
 Create a sale ticket (payment flow)
 
-| Method          | Type                                                 |
-| --------------- | ---------------------------------------------------- |
-| `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Result_2>` |
+| Method          | Type                                               |
+| --------------- | -------------------------------------------------- |
+| `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Ticket>` |
 
 ##### :gear: getLifecycle
 
@@ -682,15 +682,15 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getOpenTicket
 
-| Method          | Type                                                            |
-| --------------- | --------------------------------------------------------------- |
-| `getOpenTicket` | `(params: Omit<QueryParams, "certified">) => Promise<Result_1>` |
+| Method          | Type                                                          |
+| --------------- | ------------------------------------------------------------- |
+| `getOpenTicket` | `(params: Omit<QueryParams, "certified">) => Promise<Ticket>` |
 
 ##### :gear: newSaleTicket
 
-| Method          | Type                                                 |
-| --------------- | ---------------------------------------------------- |
-| `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Result_2>` |
+| Method          | Type                                               |
+| --------------- | -------------------------------------------------- |
+| `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Ticket>` |
 
 ##### :gear: getLifecycle
 
