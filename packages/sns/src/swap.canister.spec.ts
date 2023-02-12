@@ -10,8 +10,16 @@ import type {
   Swap,
   _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
-import { SnsSwapLifecycle } from "./enums/swap.enums";
-import { swapCanisterIdMock } from "./mocks/sns.mock";
+import {
+  GetOpenTicketErrorType,
+  NewSaleTicketResponseErrorType,
+  SnsSwapLifecycle,
+} from "./enums/swap.enums";
+import {
+  SnsSwapGetOpenTicketError,
+  SnsSwapNewTicketError,
+} from "./errors/swap.errors";
+import { saleTicketMock, swapCanisterIdMock } from "./mocks/sns.mock";
 import { SnsSwapCanister } from "./swap.canister";
 
 describe("Swap canister", () => {
@@ -49,19 +57,7 @@ describe("Swap canister", () => {
       result: [
         {
           Ok: {
-            ticket: [
-              {
-                creation_time: 1n,
-                ticket_id: 2n,
-                account: [
-                  {
-                    owner: [Principal.fromText("aaaaa-aa")],
-                    subaccount: [],
-                  },
-                ],
-                amount_icp_e8s: 3n,
-              },
-            ],
+            ticket: [saleTicketMock],
           },
         },
       ],
@@ -75,7 +71,32 @@ describe("Swap canister", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.getOpenTicket({});
-    expect(res).toEqual(mockResponse.result[0]);
+    expect(res).toEqual(saleTicketMock);
+  });
+
+  it("should throw open sale ticket", async () => {
+    const mockResponse: GetOpenTicketResponse = {
+      result: [
+        {
+          Err: {
+            error_type: [GetOpenTicketErrorType.TYPE_SALE_CLOSED],
+          },
+        },
+      ],
+    };
+
+    const service = mock<ActorSubclass<SnsSwapService>>();
+    service.get_open_ticket.mockResolvedValue(mockResponse);
+
+    const canister = SnsSwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const call = () => canister.getOpenTicket({});
+
+    expect(call).rejects.toThrow(
+      new SnsSwapGetOpenTicketError(GetOpenTicketErrorType.TYPE_SALE_CLOSED)
+    );
   });
 
   it("should return new sale ticket", async () => {
@@ -83,17 +104,41 @@ describe("Swap canister", () => {
       result: [
         {
           Ok: {
-            ticket: [
+            ticket: [saleTicketMock],
+          },
+        },
+      ],
+    };
+
+    const service = mock<ActorSubclass<SnsSwapService>>();
+    service.new_sale_ticket.mockResolvedValue(mockResponse);
+
+    const canister = SnsSwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const ticket = await canister.newSaleTicket({
+      subaccount: Uint8Array.from([]),
+      amount_icp_e8s: 3n,
+    });
+
+    expect(ticket).toEqual(saleTicketMock);
+  });
+
+  it("should throw new sale ticket error", async () => {
+    const min_amount_icp_e8s_included = 123n;
+    const max_amount_icp_e8s_included = 321n;
+
+    const mockResponse: NewSaleTicketResponse = {
+      result: [
+        {
+          Err: {
+            error_type: NewSaleTicketResponseErrorType.TYPE_TICKET_EXISTS,
+            existing_ticket: [saleTicketMock],
+            invalid_user_amount: [
               {
-                creation_time: 1n,
-                ticket_id: 2n,
-                account: [
-                  {
-                    owner: [Principal.fromText("aaaaa-aa")],
-                    subaccount: [],
-                  },
-                ],
-                amount_icp_e8s: 3n,
+                min_amount_icp_e8s_included,
+                max_amount_icp_e8s_included,
               },
             ],
           },
@@ -108,11 +153,22 @@ describe("Swap canister", () => {
       canisterId: swapCanisterIdMock,
       certifiedServiceOverride: service,
     });
-    const res = await canister.newSaleTicket({
-      subaccount: Uint8Array.from([]),
-      amount_icp_e8s: 3n,
-    });
-    expect(res).toEqual(mockResponse.result[0]);
+    const call = () =>
+      canister.newSaleTicket({
+        subaccount: Uint8Array.from([]),
+        amount_icp_e8s: 3n,
+      });
+
+    expect(call).rejects.toThrow(
+      new SnsSwapNewTicketError({
+        errorType: NewSaleTicketResponseErrorType.TYPE_TICKET_EXISTS,
+        existingTicket: saleTicketMock,
+        invalidUserAmount: {
+          min_amount_icp_e8s_included,
+          max_amount_icp_e8s_included,
+        },
+      })
+    );
   });
 
   it("should return the lifecycle state of the swap canister", async () => {

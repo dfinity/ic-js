@@ -27,8 +27,7 @@ import type {
   GetLifecycleResponse,
   GetStateResponse,
   RefreshBuyerTokensRequest,
-  Result_1,
-  Result_2,
+  Ticket,
 } from "../candid/sns_swap";
 import { MAX_NEURONS_SUBACCOUNTS } from "./constants/governance.constants";
 import { SnsGovernanceError } from "./errors/governance.errors";
@@ -381,11 +380,11 @@ export class SnsWrapper {
   ): Promise<BuyerState | undefined> =>
     this.swap.getUserCommitment(this.mergeParams(params));
 
-  getOpenTicket = (params: Omit<QueryParams, "certified">): Promise<Result_1> =>
+  getOpenTicket = (params: Omit<QueryParams, "certified">): Promise<Ticket> =>
     this.swap.getOpenTicket(this.mergeParams(params));
 
   // Always certified
-  newSaleTicket = (params: NewSaleTicketParams): Promise<Result_2> =>
+  newSaleTicket = (params: NewSaleTicketParams): Promise<Ticket> =>
     this.swap.newSaleTicket(params);
 
   getLifecycle = (

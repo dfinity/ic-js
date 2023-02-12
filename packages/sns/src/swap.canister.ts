@@ -11,13 +11,16 @@ import type {
   GetLifecycleResponse,
   GetStateResponse,
   RefreshBuyerTokensRequest,
-  Result_1,
-  Result_2,
+  Ticket,
   _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";
 import { toNewSaleTicketRequest } from "./converters/swap.converters";
+import {
+  SnsSwapGetOpenTicketError,
+  SnsSwapNewTicketError,
+} from "./errors/swap.errors";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { NewSaleTicketParams } from "./types/swap.params";
 
@@ -63,23 +66,45 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
   /**
    * Return a sale ticket if created and not yet removed (payment flow)
    */
-  getOpenTicket = async (params: QueryParams): Promise<Result_1> => {
-    const { result } = await this.caller({
+  getOpenTicket = async (params: QueryParams): Promise<Ticket> => {
+    const { result: response } = await this.caller({
       certified: params.certified,
     }).get_open_ticket({});
+    const result = fromDefinedNullable(response);
 
-    return fromDefinedNullable(result);
+    if ("Ok" in result) {
+      return fromDefinedNullable(result.Ok.ticket);
+    }
+
+    const errorType = fromDefinedNullable(result?.Err?.error_type);
+    throw new SnsSwapGetOpenTicketError(errorType);
   };
 
   /**
    * Create a sale ticket (payment flow)
    */
-  newSaleTicket = async (params: NewSaleTicketParams): Promise<Result_2> => {
+  newSaleTicket = async (params: NewSaleTicketParams): Promise<Ticket> => {
     const request = toNewSaleTicketRequest(params);
-    const { result } = await this.caller({ certified: true }).new_sale_ticket(
-      request
-    );
-    return fromDefinedNullable(result);
+    const { result: response } = await this.caller({
+      certified: true,
+    }).new_sale_ticket(request);
+
+    const result = fromDefinedNullable(response);
+
+    if ("Ok" in result) {
+      return fromDefinedNullable(result.Ok.ticket);
+    }
+
+    const errorData = result.Err;
+    const error = new SnsSwapNewTicketError({
+      errorType: errorData.error_type,
+      invalidUserAmount: fromDefinedNullable(
+        errorData.invalid_user_amount ?? []
+      ),
+      existingTicket: fromDefinedNullable(errorData.existing_ticket ?? []),
+    });
+
+    throw error;
   };
 
   /**
