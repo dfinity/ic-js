@@ -180,3 +180,4 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 ## Resources
 
 - [Ledger & Tokenization Working Group Standards](https://github.com/dfinity/ICRC-1/)
+- [ICRC-1 Ledger](https://github.com/dfinity/ic/tree/master/rs/rosetta-api/icrc1)

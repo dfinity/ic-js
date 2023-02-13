@@ -3,7 +3,11 @@ import type { _SERVICE as CkBTCMinterService } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
-import type { GetBTCAddressParams } from "./types/minter.params";
+import type {
+  GetBTCAddressParams,
+  UpdateBalanceParams,
+} from "./types/minter.params";
+import type { UpdateBalanceResponse } from "./types/minter.responses";
 
 export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   static create(options: CkBTCMinterCanisterOptions<CkBTCMinterService>) {
@@ -27,9 +31,31 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    * @param {Principal} params.subaccount An optional subaccount to compute the address.
    * @returns {Promise<string>} The BTC address of the given account.
    */
-  getBtcAddress = (params: GetBTCAddressParams): Promise<string> =>
+  getBtcAddress = ({
+    owner,
+    subaccount,
+  }: GetBTCAddressParams): Promise<string> =>
     this.caller({ certified: true }).get_btc_address({
-      owner: toNullable(params.owner),
-      subaccount: toNullable(params.subaccount),
+      owner: toNullable(owner),
+      subaccount: toNullable(subaccount),
+    });
+
+  /**
+   * Notify the minter about the bitcoin transfer.
+   *
+   * Upon successful notification, new ckBTC should be available on the targeted address.
+   *
+   * @param {UpdateBalanceParams} params The parameters are the address to which bitcoin where transferred.
+   * @param {Principal} params.owner The owner of the address. If not provided, the `caller` will be use instead.
+   * @param {Principal} params.subaccount An optional subaccount of the address.
+   * @returns {Promise<UpdateBalanceParams>} The result (Ok or Error) of the balance update.
+   */
+  updateBalance = ({
+    owner,
+    subaccount,
+  }: UpdateBalanceParams): Promise<UpdateBalanceResponse> =>
+    this.caller({ certified: true }).update_balance({
+      owner: toNullable(owner),
+      subaccount: toNullable(subaccount),
     });
 }
