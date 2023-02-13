@@ -1,5 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import type { ListSnsCanistersResponse } from "../../candid/sns_root";
+import { Ticket } from "../../candid/sns_swap";
 
 export const rootCanisterIdMock: Principal = Principal.fromText(
   "pin7y-wyaaa-aaaaa-aacpa-cai"
@@ -29,4 +30,16 @@ export const snsMock: ListSnsCanistersResponse = {
   index: [indexCanisterIdMock],
   dapps: [],
   archives: [],
+};
+
+export const saleTicketMock: Ticket = {
+  creation_time: 1n,
+  ticket_id: 2n,
+  account: [
+    {
+      owner: [Principal.fromText("aaaaa-aa")],
+      subaccount: [],
+    },
+  ],
+  amount_icp_e8s: 3n,
 };
