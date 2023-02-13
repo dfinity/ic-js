@@ -13,6 +13,6 @@ export interface MinterParams extends Omit<QueryParams, "certified"> {
 export type GetBTCAddressParams = MinterParams;
 
 /**
- * Params to get a BTC address.
+ * Params to update ckBTC balance after a bitcoin transfer.
  */
 export type UpdateBalanceParams = MinterParams;
