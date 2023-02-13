@@ -223,12 +223,12 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     const request: ManageNeuron = toSplitNeuronRequest(params);
     const { command } = await this.manageNeuron(request);
     const response = fromNullable(command);
-    const errorMessate = (details: string) =>
+    const errorMessage = (details: string) =>
       `Split neuron failed (${details})`;
 
     // Validate response
     if (response === undefined) {
-      throw new SnsGovernanceError(errorMessate("no response"));
+      throw new SnsGovernanceError(errorMessage("no response"));
     }
 
     if ("Split" in response) {
@@ -239,10 +239,10 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
         return neuronId;
       }
 
-      throw new SnsGovernanceError(errorMessate("no id"));
+      throw new SnsGovernanceError(errorMessage("no id"));
     }
 
-    throw new SnsGovernanceError(errorMessate("unknown"));
+    throw new SnsGovernanceError(errorMessage("unknown"));
   };
 
   /**
