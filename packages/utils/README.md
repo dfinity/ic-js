@@ -44,12 +44,12 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [assertNonNullish](#gear-assertnonnullish)
 - [assertPercentageNumber](#gear-assertpercentagenumber)
 - [debounce](#gear-debounce)
-- [toNullable](#gear-tonullable)
-- [fromNullable](#gear-fromnullable)
-- [fromDefinedNullable](#gear-fromdefinednullable)
 - [isNullish](#gear-isnullish)
 - [nonNullish](#gear-nonnullish)
 - [notEmptyString](#gear-notemptystring)
+- [toNullable](#gear-tonullable)
+- [fromNullable](#gear-fromnullable)
+- [fromDefinedNullable](#gear-fromdefinednullable)
 - [principalToSubAccount](#gear-principaltosubaccount)
 - [smallerVersion](#gear-smallerversion)
 
@@ -141,24 +141,6 @@ Parameters:
 | ---------- | -------------------------------------------------------------------- |
 | `debounce` | `(func: Function, timeout?: number) => (...args: unknown[]) => void` |
 
-#### :gear: toNullable
-
-| Function     | Type                          |
-| ------------ | ----------------------------- |
-| `toNullable` | `<T>(value?: T) => [] or [T]` |
-
-#### :gear: fromNullable
-
-| Function       | Type                         |
-| -------------- | ---------------------------- |
-| `fromNullable` | `<T>(value: [] or [T]) => T` |
-
-#### :gear: fromDefinedNullable
-
-| Function              | Type                         |
-| --------------------- | ---------------------------- |
-| `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
-
 #### :gear: isNullish
 
 Is null or undefined
@@ -182,6 +164,24 @@ Not null and not undefined and not empty
 | Function         | Type                         |
 | ---------------- | ---------------------------- |
 | `notEmptyString` | `(value: string) => boolean` |
+
+#### :gear: toNullable
+
+| Function     | Type                          |
+| ------------ | ----------------------------- |
+| `toNullable` | `<T>(value?: T) => [] or [T]` |
+
+#### :gear: fromNullable
+
+| Function       | Type                         |
+| -------------- | ---------------------------- |
+| `fromNullable` | `<T>(value: [] or [T]) => T` |
+
+#### :gear: fromDefinedNullable
+
+| Function              | Type                         |
+| --------------------- | ---------------------------- |
+| `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
 
 #### :gear: principalToSubAccount
 
