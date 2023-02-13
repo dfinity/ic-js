@@ -1,22 +1,30 @@
 import { ActorSubclass } from "@dfinity/agent";
-import { ledgerCanisterIdMock } from "@dfinity/ledger/src/mocks/ledger.mock";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type { _SERVICE as CkBTCMinterService } from "../candid/minter";
+import type {
+  UpdateBalanceResult,
+  _SERVICE as CkBTCMinterService,
+} from "../candid/minter";
 import { CkBTCMinterCanister } from "./minter.canister";
+import { minterCanisterIdMock } from "./mocks/minter.mock";
 
 describe("ckBTC minter canister", () => {
+  const minter = (
+    service: ActorSubclass<CkBTCMinterService>
+  ): CkBTCMinterCanister =>
+    CkBTCMinterCanister.create({
+      canisterId: minterCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+
   describe("BTC address", () => {
     it("should return the BTC address of main account", async () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
       const address = "bcrt1qu2aqme90t6hpac50x0xw8ljwqs250vn6tzlmsv";
       service.get_btc_address.mockResolvedValue(address);
 
-      const canister = CkBTCMinterCanister.create({
-        canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
+      const canister = minter(service);
 
       const owner = Principal.fromText("aaaaa-aa");
       const res = await canister.getBtcAddress({
@@ -31,10 +39,7 @@ describe("ckBTC minter canister", () => {
       const address = "a_btc_address_with_subaccount";
       service.get_btc_address.mockResolvedValue(address);
 
-      const canister = CkBTCMinterCanister.create({
-        canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
+      const canister = minter(service);
 
       const owner = Principal.fromText("aaaaa-aa");
       const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
@@ -51,14 +56,79 @@ describe("ckBTC minter canister", () => {
         throw new Error();
       });
 
-      const canister = CkBTCMinterCanister.create({
-        canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
+      const canister = minter(service);
 
       const owner = Principal.fromText("aaaaa-aa");
       expect(() =>
         canister.getBtcAddress({
+          owner,
+        })
+      ).toThrowError();
+    });
+  });
+
+  describe("Update balance", () => {
+    const success: UpdateBalanceResult = {
+      block_index: 1n,
+      amount: 100_000n,
+    };
+    const ok = { Ok: success };
+
+    it("should return Ok", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.update_balance.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const res = await canister.updateBalance({
+        owner,
+      });
+      expect(service.update_balance).toBeCalled();
+      expect(res).toEqual(ok);
+    });
+
+    it("should return Ok if a subaccount is provided", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.update_balance.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
+      const res = await canister.updateBalance({
+        owner,
+        subaccount,
+      });
+      expect(res).toEqual(ok);
+    });
+
+    it("should return Err if an error was returned by the canister", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { AlreadyProcessing: null } };
+      service.update_balance.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const res = await canister.updateBalance({
+        owner,
+      });
+      expect(res).toEqual(error);
+    });
+
+    it("should bubble errors", () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.update_balance.mockImplementation(() => {
+        throw new Error();
+      });
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+      expect(() =>
+        canister.updateBalance({
           owner,
         })
       ).toThrowError();

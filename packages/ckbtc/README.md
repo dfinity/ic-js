@@ -87,3 +87,7 @@ Parameters:
 - `params.subaccount`: An optional subaccount to compute the address.
 
 <!-- TSDOC_END -->
+
+## Resources
+
+- [ckBTC Minter](https://github.com/dfinity/ic/tree/master/rs/bitcoin/ckbtc/minter/)

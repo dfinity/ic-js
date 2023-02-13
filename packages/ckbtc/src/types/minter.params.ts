@@ -2,10 +2,17 @@ import type { Subaccount } from "@dfinity/ledger/candid/icrc1_ledger";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 
-/**
- * Params to get a BTC address.
- */
-export interface GetBTCAddressParams extends Omit<QueryParams, "certified"> {
+export interface MinterParams extends Omit<QueryParams, "certified"> {
   owner?: Principal;
   subaccount?: Subaccount;
 }
+
+/**
+ * Params to get a BTC address.
+ */
+export type GetBTCAddressParams = MinterParams;
+
+/**
+ * Params to get a BTC address.
+ */
+export type UpdateBalanceParams = MinterParams;
