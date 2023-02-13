@@ -30,6 +30,7 @@ export type {
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
 export * from "./errors/governance.errors";
+export * from "./errors/swap.errors";
 export { SnsGovernanceCanister } from "./governance.canister";
 export { SnsRootCanister } from "./root.canister";
 export * from "./sns";
