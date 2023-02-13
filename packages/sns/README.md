@@ -358,6 +358,8 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 - [state](#gear-state)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+- [getOpenTicket](#gear-getopenticket)
+- [newSaleTicket](#gear-newsaleticket)
 - [getLifecycle](#gear-getlifecycle)
 
 ##### :gear: create
@@ -378,9 +380,9 @@ Get the state of the swap
 
 Notify of the user participating in the swap
 
-| Method                | Type                                                   |
-| --------------------- | ------------------------------------------------------ |
-| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<void>` |
+| Method                | Type                                                                         |
+| --------------------- | ---------------------------------------------------------------------------- |
+| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<RefreshBuyerTokensResponse>` |
 
 ##### :gear: getUserCommitment
 
@@ -389,6 +391,22 @@ Get user commitment
 | Method              | Type                                   |
 | ------------------- | -------------------------------------- |
 | `getUserCommitment` | `(params: any) => Promise<BuyerState>` |
+
+##### :gear: getOpenTicket
+
+Return a sale ticket if created and not yet removed (payment flow)
+
+| Method          | Type                                       |
+| --------------- | ------------------------------------------ |
+| `getOpenTicket` | `(params: QueryParams) => Promise<Ticket>` |
+
+##### :gear: newSaleTicket
+
+Create a sale ticket (payment flow)
+
+| Method          | Type                                               |
+| --------------- | -------------------------------------------------- |
+| `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Ticket>` |
 
 ##### :gear: getLifecycle
 
@@ -445,6 +463,8 @@ Parameters:
 - [swapState](#gear-swapstate)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+- [getOpenTicket](#gear-getopenticket)
+- [newSaleTicket](#gear-newsaleticket)
 - [getLifecycle](#gear-getlifecycle)
 - [getTransactions](#gear-gettransactions)
 - [stakeMaturity](#gear-stakematurity)
@@ -650,15 +670,27 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: notifyParticipation
 
-| Method                | Type                                                   |
-| --------------------- | ------------------------------------------------------ |
-| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<void>` |
+| Method                | Type                                                                         |
+| --------------------- | ---------------------------------------------------------------------------- |
+| `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<RefreshBuyerTokensResponse>` |
 
 ##### :gear: getUserCommitment
 
 | Method              | Type                                                    |
 | ------------------- | ------------------------------------------------------- |
 | `getUserCommitment` | `(params: GetBuyerStateRequest) => Promise<BuyerState>` |
+
+##### :gear: getOpenTicket
+
+| Method          | Type                                                          |
+| --------------- | ------------------------------------------------------------- |
+| `getOpenTicket` | `(params: Omit<QueryParams, "certified">) => Promise<Ticket>` |
+
+##### :gear: newSaleTicket
+
+| Method          | Type                                               |
+| --------------- | -------------------------------------------------- |
+| `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Ticket>` |
 
 ##### :gear: getLifecycle
 
