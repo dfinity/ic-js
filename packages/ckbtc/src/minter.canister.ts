@@ -3,7 +3,7 @@ import type { _SERVICE as CkBTCMinterService } from "../candid/minter";
 import { UpdateBalanceResult } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
-import { mapUpdateBalanceError } from "./errors/minter.errors";
+import { createUpdateBalanceError } from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
 import type {
   GetBTCAddressParams,
@@ -64,7 +64,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
     });
 
     if ("Err" in response) {
-      throw mapUpdateBalanceError(response.Err);
+      throw createUpdateBalanceError(response.Err);
     }
 
     return response.Ok;

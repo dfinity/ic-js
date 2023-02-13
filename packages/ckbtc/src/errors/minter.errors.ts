@@ -6,7 +6,7 @@ export class MinterTemporaryUnavailableError extends MinterUpdateBalanceError {}
 export class MinterAlreadyProcessingError extends MinterUpdateBalanceError {}
 export class MinterNoNewUtxosError extends MinterUpdateBalanceError {}
 
-export const mapUpdateBalanceError = (
+export const createUpdateBalanceError = (
   Err: UpdateBalanceError
 ): MinterUpdateBalanceError => {
   if ("GenericError" in Err) {
