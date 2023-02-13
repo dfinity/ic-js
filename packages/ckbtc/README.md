@@ -63,6 +63,7 @@ const btcAddress = await getBtcAddress({});
 
 - [create](#gear-create)
 - [getBtcAddress](#gear-getbtcaddress)
+- [updateBalance](#gear-updatebalance)
 
 ##### :gear: create
 
@@ -76,15 +77,31 @@ Returns a BTC address for a given account.
 
 Note: an update call is required by the Minter canister.
 
-| Method          | Type                                               |
-| --------------- | -------------------------------------------------- |
-| `getBtcAddress` | `(params: GetBTCAddressParams) => Promise<string>` |
+| Method          | Type                                                        |
+| --------------- | ----------------------------------------------------------- |
+| `getBtcAddress` | `({ owner, subaccount, }: MinterParams) => Promise<string>` |
 
 Parameters:
 
 - `params`: The parameters for which a BTC address should be resolved.
 - `params.owner`: The owner for which the BTC address should be generated. If not provided, the `caller` will be use instead.
 - `params.subaccount`: An optional subaccount to compute the address.
+
+##### :gear: updateBalance
+
+Notify the minter about the bitcoin transfer.
+
+Upon successful notification, new ckBTC should be available on the targeted address.
+
+| Method          | Type                                                                       |
+| --------------- | -------------------------------------------------------------------------- |
+| `updateBalance` | `({ owner, subaccount, }: MinterParams) => Promise<UpdateBalanceResponse>` |
+
+Parameters:
+
+- `params`: The parameters are the address to which bitcoin where transferred.
+- `params.owner`: The owner of the address. If not provided, the `caller` will be use instead.
+- `params.subaccount`: An optional subaccount of the address.
 
 <!-- TSDOC_END -->
 
