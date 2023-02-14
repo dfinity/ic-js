@@ -1,6 +1,6 @@
 export type {
   Account,
-  UpdateBalanceError,
+  RetrieveBtcOk,
   UpdateBalanceResult,
 } from "../candid/minter";
 export * from "./errors/minter.errors";

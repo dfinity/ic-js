@@ -1,18 +1,26 @@
 import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
   Account,
+  RetrieveBtcOk,
   UpdateBalanceResult,
   _SERVICE as CkBTCMinterService,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
-import { createUpdateBalanceError } from "./errors/minter.errors";
+import {
+  createRetrieveBtcError,
+  createUpdateBalanceError,
+} from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
 import type {
   GetBTCAddressParams,
+  RetrieveBtcParams,
   UpdateBalanceParams,
 } from "./types/minter.params";
-import type { UpdateBalanceResponse } from "./types/minter.responses";
+import type {
+  RetrieveBtcResponse,
+  UpdateBalanceResponse,
+} from "./types/minter.responses";
 
 export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   static create(options: CkBTCMinterCanisterOptions<CkBTCMinterService>) {
@@ -53,7 +61,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    * @param {UpdateBalanceParams} params The parameters are the address to which bitcoin where transferred.
    * @param {Principal} params.owner The owner of the address. If not provided, the `caller` will be use instead.
    * @param {Principal} params.subaccount An optional subaccount of the address.
-   * @returns {Promise<UpdateBalanceParams>} The result (Ok or Error) of the balance update.
+   * @returns {Promise<UpdateBalanceResult>} The result of the balance update.
    */
   updateBalance = async ({
     owner,
@@ -80,4 +88,32 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    */
   getWithdrawalAccount = (): Promise<Account> =>
     this.caller({ certified: true }).get_withdrawal_account();
+
+  /**
+   * Submits a request to convert ckBTC to BTC.
+   *
+   * # Note
+   *
+   * The BTC retrieval process is slow. Instead of synchronously waiting for a BTC transaction to settle, this method returns a request ([block_index]) that the caller can use to query the request status.
+   *
+   * # Preconditions
+   *
+   * The caller deposited the requested amount in ckBTC to the account that the [getWithdrawalAccount] endpoint returns.
+   *
+   * @param {RetrieveBtcParams} params The parameters are the bitcoin address and amount to convert.
+   * @param {string} params.address The bitcoin address.
+   * @param {bigint} params.amount The ckBTC amount.
+   * @returns {Promise<RetrieveBtcOk>} The result or the operation.
+   */
+  retrieveBtc = async (params: RetrieveBtcParams): Promise<RetrieveBtcOk> => {
+    const response: RetrieveBtcResponse = await this.caller({
+      certified: true,
+    }).retrieve_btc(params);
+
+    if ("Err" in response) {
+      throw createRetrieveBtcError(response.Err);
+    }
+
+    return response.Ok;
+  };
 }
