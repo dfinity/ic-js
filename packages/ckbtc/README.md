@@ -65,6 +65,7 @@ const btcAddress = await getBtcAddress({});
 - [getBtcAddress](#gear-getbtcaddress)
 - [updateBalance](#gear-updatebalance)
 - [getWithdrawalAccount](#gear-getwithdrawalaccount)
+- [retrieveBtc](#gear-retrievebtc)
 
 ##### :gear: create
 
@@ -111,6 +112,28 @@ Returns the account to which the caller should deposit ckBTC before withdrawing 
 | Method                 | Type                     |
 | ---------------------- | ------------------------ |
 | `getWithdrawalAccount` | `() => Promise<Account>` |
+
+##### :gear: retrieveBtc
+
+Submits a request to convert ckBTC to BTC.
+
+# Note
+
+The BTC retrieval process is slow. Instead of synchronously waiting for a BTC transaction to settle, this method returns a request ([block_index]) that the caller can use to query the request status.
+
+# Preconditions
+
+The caller deposited the requested amount in ckBTC to the account that the [getWithdrawalAccount] endpoint returns.
+
+| Method        | Type                                                    |
+| ------------- | ------------------------------------------------------- |
+| `retrieveBtc` | `(params: RetrieveBtcParams) => Promise<RetrieveBtcOk>` |
+
+Parameters:
+
+- `params`: The parameters are the bitcoin address and amount to convert.
+- `params.address`: The bitcoin address.
+- `params.amount`: The ckBTC amount.
 
 <!-- TSDOC_END -->
 
