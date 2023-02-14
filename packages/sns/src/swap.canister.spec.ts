@@ -3,8 +3,10 @@ import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import type {
   BuyerState,
+  GetDerivedStateResponse,
   GetLifecycleResponse,
   GetOpenTicketResponse,
+  GetSaleParametersResponse,
   GetStateResponse,
   NewSaleTicketResponse,
   Swap,
@@ -169,6 +171,51 @@ describe("Swap canister", () => {
         },
       })
     );
+  });
+
+  it("should return the derived state of the swap canister", async () => {
+    const testResponse: GetDerivedStateResponse = {
+      sns_tokens_per_icp: [2],
+      buyer_total_icp_e8s: [BigInt(100_000_000)],
+    };
+
+    const service = mock<ActorSubclass<SnsSwapService>>();
+    service.get_derived_state.mockResolvedValue(testResponse);
+
+    const canister = SnsSwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const res = await canister.getDerivedState({});
+    expect(res).toEqual(testResponse);
+  });
+
+  it("should return sale parameters", async () => {
+    const testResponse: GetSaleParametersResponse = {
+      params: [
+        {
+          min_participant_icp_e8s: BigInt(100_000_000),
+          neuron_basket_construction_parameters: [],
+          max_icp_e8s: BigInt(2_000_000_000),
+          swap_due_timestamp_seconds: BigInt(3_600),
+          min_participants: 3,
+          sns_token_e8s: BigInt(2_000_000_000),
+          sale_delay_seconds: [],
+          max_participant_icp_e8s: BigInt(500_000_000),
+          min_icp_e8s: BigInt(200_000_000),
+        },
+      ],
+    };
+
+    const service = mock<ActorSubclass<SnsSwapService>>();
+    service.get_sale_parameters.mockResolvedValue(testResponse);
+
+    const canister = SnsSwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const res = await canister.getDerivedState({});
+    expect(res).toEqual(testResponse);
   });
 
   it("should return the lifecycle state of the swap canister", async () => {
