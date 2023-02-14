@@ -1,7 +1,11 @@
 import { Canister, createServices, toNullable } from "@dfinity/utils";
-import type { _SERVICE as CkBTCMinterService } from "../candid/minter";
+import type {
+  UpdateBalanceResult,
+  _SERVICE as CkBTCMinterService,
+} from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
+import { createUpdateBalanceError } from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
 import type {
   GetBTCAddressParams,
@@ -50,12 +54,21 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    * @param {Principal} params.subaccount An optional subaccount of the address.
    * @returns {Promise<UpdateBalanceParams>} The result (Ok or Error) of the balance update.
    */
-  updateBalance = ({
+  updateBalance = async ({
     owner,
     subaccount,
-  }: UpdateBalanceParams): Promise<UpdateBalanceResponse> =>
-    this.caller({ certified: true }).update_balance({
+  }: UpdateBalanceParams): Promise<UpdateBalanceResult> => {
+    const response: UpdateBalanceResponse = await this.caller({
+      certified: true,
+    }).update_balance({
       owner: toNullable(owner),
       subaccount: toNullable(subaccount),
     });
+
+    if ("Err" in response) {
+      throw createUpdateBalanceError(response.Err);
+    }
+
+    return response.Ok;
+  };
 }
