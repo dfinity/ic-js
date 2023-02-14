@@ -390,9 +390,9 @@ Notify of the user participating in the swap
 
 Get user commitment
 
-| Method              | Type                                                                    |
-| ------------------- | ----------------------------------------------------------------------- |
-| `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
+| Method              | Type                                   |
+| ------------------- | -------------------------------------- |
+| `getUserCommitment` | `(params: any) => Promise<BuyerState>` |
 
 ##### :gear: getDerivedState
 
@@ -534,21 +534,21 @@ Parameters:
 
 ##### :gear: transactionFee
 
-| Method           | Type                                                          |
-| ---------------- | ------------------------------------------------------------- |
-| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
+| Method           | Type                                                              |
+| ---------------- | ----------------------------------------------------------------- |
+| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokens>` |
 
 ##### :gear: balance
 
-| Method    | Type                                                            |
-| --------- | --------------------------------------------------------------- |
-| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
+| Method    | Type                                                                |
+| --------- | ------------------------------------------------------------------- |
+| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<IcrcTokens>` |
 
 ##### :gear: transfer
 
-| Method     | Type                                          |
-| ---------- | --------------------------------------------- |
-| `transfer` | `(params: TransferParams) => Promise<bigint>` |
+| Method     | Type                                                  |
+| ---------- | ----------------------------------------------------- |
+| `transfer` | `(params: TransferParams) => Promise<IcrcBlockIndex>` |
 
 ##### :gear: getNeuron
 
@@ -606,9 +606,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getNeuronBalance
 
-| Method             | Type                                      |
-| ------------------ | ----------------------------------------- |
-| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<bigint>` |
+| Method             | Type                                          |
+| ------------------ | --------------------------------------------- |
+| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<IcrcTokens>` |
 
 ##### :gear: addNeuronPermissions
 
@@ -732,9 +732,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getTransactions
 
-| Method            | Type                                                                 |
-| ----------------- | -------------------------------------------------------------------- |
-| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
+| Method            | Type                                                                     |
+| ----------------- | ------------------------------------------------------------------------ |
+| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<IcrcGetTransactions>` |
 
 ##### :gear: stakeMaturity
 
