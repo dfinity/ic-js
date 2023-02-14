@@ -358,6 +358,8 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 - [state](#gear-state)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+- [getDerivedState](#gear-getderivedstate)
+- [getSaleParameters](#gear-getsaleparameters)
 - [getOpenTicket](#gear-getopenticket)
 - [newSaleTicket](#gear-newsaleticket)
 - [getLifecycle](#gear-getlifecycle)
@@ -388,9 +390,25 @@ Notify of the user participating in the swap
 
 Get user commitment
 
-| Method              | Type                                   |
-| ------------------- | -------------------------------------- |
-| `getUserCommitment` | `(params: any) => Promise<BuyerState>` |
+| Method              | Type                                                                    |
+| ------------------- | ----------------------------------------------------------------------- |
+| `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
+
+##### :gear: getDerivedState
+
+Get sale buyers state
+
+| Method            | Type                                                                |
+| ----------------- | ------------------------------------------------------------------- |
+| `getDerivedState` | `({ certified, }: QueryParams) => Promise<GetDerivedStateResponse>` |
+
+##### :gear: getSaleParameters
+
+Get sale parameters
+
+| Method              | Type                                                                  |
+| ------------------- | --------------------------------------------------------------------- |
+| `getSaleParameters` | `({ certified, }: QueryParams) => Promise<GetSaleParametersResponse>` |
 
 ##### :gear: getOpenTicket
 
@@ -466,6 +484,8 @@ Parameters:
 - [getOpenTicket](#gear-getopenticket)
 - [newSaleTicket](#gear-newsaleticket)
 - [getLifecycle](#gear-getlifecycle)
+- [getSaleParameters](#gear-getsaleparameters)
+- [getDerivedState](#gear-getderivedstate)
 - [getTransactions](#gear-gettransactions)
 - [stakeMaturity](#gear-stakematurity)
 - [autoStakeMaturity](#gear-autostakematurity)
@@ -514,21 +534,21 @@ Parameters:
 
 ##### :gear: transactionFee
 
-| Method           | Type                                                              |
-| ---------------- | ----------------------------------------------------------------- |
-| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokens>` |
+| Method           | Type                                                          |
+| ---------------- | ------------------------------------------------------------- |
+| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
 
 ##### :gear: balance
 
-| Method    | Type                                                                |
-| --------- | ------------------------------------------------------------------- |
-| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<IcrcTokens>` |
+| Method    | Type                                                            |
+| --------- | --------------------------------------------------------------- |
+| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
 
 ##### :gear: transfer
 
-| Method     | Type                                                  |
-| ---------- | ----------------------------------------------------- |
-| `transfer` | `(params: TransferParams) => Promise<IcrcBlockIndex>` |
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
+| `transfer` | `(params: TransferParams) => Promise<bigint>` |
 
 ##### :gear: getNeuron
 
@@ -586,9 +606,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getNeuronBalance
 
-| Method             | Type                                          |
-| ------------------ | --------------------------------------------- |
-| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<IcrcTokens>` |
+| Method             | Type                                      |
+| ------------------ | ----------------------------------------- |
+| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<bigint>` |
 
 ##### :gear: addNeuronPermissions
 
@@ -698,11 +718,23 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | -------------- | --------------------------------------------------------------------------- |
 | `getLifecycle` | `(params: Omit<QueryParams, "certified">) => Promise<GetLifecycleResponse>` |
 
+##### :gear: getSaleParameters
+
+| Method              | Type                                                                             |
+| ------------------- | -------------------------------------------------------------------------------- |
+| `getSaleParameters` | `(params: Omit<QueryParams, "certified">) => Promise<GetSaleParametersResponse>` |
+
+##### :gear: getDerivedState
+
+| Method            | Type                                                                           |
+| ----------------- | ------------------------------------------------------------------------------ |
+| `getDerivedState` | `(params: Omit<QueryParams, "certified">) => Promise<GetDerivedStateResponse>` |
+
 ##### :gear: getTransactions
 
-| Method            | Type                                                                     |
-| ----------------- | ------------------------------------------------------------------------ |
-| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<IcrcGetTransactions>` |
+| Method            | Type                                                                 |
+| ----------------- | -------------------------------------------------------------------- |
+| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
 
 ##### :gear: stakeMaturity
 
