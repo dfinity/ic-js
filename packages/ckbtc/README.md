@@ -64,6 +64,7 @@ const btcAddress = await getBtcAddress({});
 - [create](#gear-create)
 - [getBtcAddress](#gear-getbtcaddress)
 - [updateBalance](#gear-updatebalance)
+- [getWithdrawalAccount](#gear-getwithdrawalaccount)
 
 ##### :gear: create
 
@@ -102,6 +103,14 @@ Parameters:
 - `params`: The parameters are the address to which bitcoin where transferred.
 - `params.owner`: The owner of the address. If not provided, the `caller` will be use instead.
 - `params.subaccount`: An optional subaccount of the address.
+
+##### :gear: getWithdrawalAccount
+
+Returns the account to which the caller should deposit ckBTC before withdrawing BTC using the [retrieveBtc] endpoint.
+
+| Method                 | Type                     |
+| ---------------------- | ------------------------ |
+| `getWithdrawalAccount` | `() => Promise<Account>` |
 
 <!-- TSDOC_END -->
 
