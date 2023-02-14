@@ -3,6 +3,7 @@ import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
+  Account,
   UpdateBalanceResult,
   _SERVICE as CkBTCMinterService,
 } from "../candid/minter";
@@ -215,6 +216,39 @@ describe("ckBTC minter canister", () => {
           )}`
         )
       );
+    });
+  });
+
+  describe("Withdrawal account", () => {
+    it("should return the withdrawal account", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
+
+      const account: Account = {
+        owner,
+        subaccount: [subaccount],
+      };
+
+      service.get_withdrawal_account.mockResolvedValue(account);
+
+      const canister = minter(service);
+
+      const res = await canister.getWithdrawalAccount();
+      expect(service.get_withdrawal_account).toBeCalled();
+      expect(res).toEqual(account);
+    });
+
+    it("should bubble errors", () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.get_withdrawal_account.mockImplementation(() => {
+        throw new Error();
+      });
+
+      const canister = minter(service);
+
+      expect(() => canister.getWithdrawalAccount()).toThrowError();
     });
   });
 });

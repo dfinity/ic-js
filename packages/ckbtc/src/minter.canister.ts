@@ -1,5 +1,6 @@
 import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
+  Account,
   UpdateBalanceResult,
   _SERVICE as CkBTCMinterService,
 } from "../candid/minter";
@@ -71,4 +72,12 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
 
     return response.Ok;
   };
+
+  /**
+   * Returns the account to which the caller should deposit ckBTC before withdrawing BTC using the [retrieveBtc] endpoint.
+   *
+   * @returns {Promise<Account>} The account to which ckBTC needs to be transferred. Provide corresponding information to map an Icrc1 account.
+   */
+  getWithdrawalAccount = (): Promise<Account> =>
+    this.caller({ certified: true }).get_withdrawal_account();
 }
