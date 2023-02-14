@@ -66,14 +66,14 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
   /**
    * Return a sale ticket if created and not yet removed (payment flow)
    */
-  getOpenTicket = async (params: QueryParams): Promise<Ticket> => {
+  getOpenTicket = async (params: QueryParams): Promise<Ticket | undefined> => {
     const { result: response } = await this.caller({
       certified: params.certified,
     }).get_open_ticket({});
     const result = fromDefinedNullable(response);
 
     if ("Ok" in result) {
-      return fromDefinedNullable(result.Ok.ticket);
+      return fromNullable(result.Ok.ticket);
     }
 
     const errorType = fromDefinedNullable(result?.Err?.error_type);
@@ -98,10 +98,8 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
     const errorData = result.Err;
     const error = new SnsSwapNewTicketError({
       errorType: errorData.error_type,
-      invalidUserAmount: fromDefinedNullable(
-        errorData.invalid_user_amount ?? []
-      ),
-      existingTicket: fromDefinedNullable(errorData.existing_ticket ?? []),
+      invalidUserAmount: fromNullable(errorData.invalid_user_amount ?? []),
+      existingTicket: fromNullable(errorData.existing_ticket ?? []),
     });
 
     throw error;

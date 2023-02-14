@@ -383,7 +383,9 @@ export class SnsWrapper {
   ): Promise<BuyerState | undefined> =>
     this.swap.getUserCommitment(this.mergeParams(params));
 
-  getOpenTicket = (params: Omit<QueryParams, "certified">): Promise<Ticket> =>
+  getOpenTicket = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<Ticket | undefined> =>
     this.swap.getOpenTicket(this.mergeParams(params));
 
   // Always certified
