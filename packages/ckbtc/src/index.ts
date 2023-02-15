@@ -1,5 +1,5 @@
 export type {
-  Account,
+  Account as WithdrawalAccount,
   RetrieveBtcOk,
   UpdateBalanceResult,
 } from "../candid/minter";

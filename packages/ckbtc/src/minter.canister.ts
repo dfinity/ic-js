@@ -1,6 +1,6 @@
 import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
-  Account,
+  Account as WithdrawalAccount,
   RetrieveBtcOk,
   UpdateBalanceResult,
   _SERVICE as CkBTCMinterService,
@@ -86,7 +86,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    *
    * @returns {Promise<Account>} The account to which ckBTC needs to be transferred. Provide corresponding information to map an Icrc1 account.
    */
-  getWithdrawalAccount = (): Promise<Account> =>
+  getWithdrawalAccount = (): Promise<WithdrawalAccount> =>
     this.caller({ certified: true }).get_withdrawal_account();
 
   /**
