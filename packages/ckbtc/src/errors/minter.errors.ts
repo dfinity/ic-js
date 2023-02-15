@@ -1,4 +1,4 @@
-import { nonNullish } from "@dfinity/utils/src";
+import { nonNullish } from "@dfinity/utils";
 import type { RetrieveBtcError, UpdateBalanceError } from "../../candid/minter";
 
 export class MinterGenericError extends Error {}
