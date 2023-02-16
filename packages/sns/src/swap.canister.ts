@@ -8,7 +8,9 @@ import {
 import type {
   BuyerState,
   GetBuyerStateRequest,
+  GetDerivedStateResponse,
   GetLifecycleResponse,
+  GetSaleParametersResponse,
   GetStateResponse,
   RefreshBuyerTokensRequest,
   RefreshBuyerTokensResponse,
@@ -61,6 +63,24 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
       certified: params.certified,
     }).get_buyer_state({ principal_id: params.principal_id });
     return fromNullable(buyer_state);
+  };
+
+  /**
+   * Get sale buyers state
+   */
+  getDerivedState = async ({
+    certified,
+  }: QueryParams): Promise<GetDerivedStateResponse> => {
+    return this.caller({ certified }).get_derived_state({});
+  };
+
+  /**
+   * Get sale parameters
+   */
+  getSaleParameters = async ({
+    certified,
+  }: QueryParams): Promise<GetSaleParametersResponse> => {
+    return this.caller({ certified }).get_sale_parameters({});
   };
 
   /**

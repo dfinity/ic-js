@@ -328,6 +328,30 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call getSaleParameters with query and update", async () => {
+    await snsWrapper.getSaleParameters({});
+    expect(mockSwapCanister.getSaleParameters).toHaveBeenCalledWith({
+      certified: false,
+    });
+    expect(mockSwapCanister.getSaleParameters).toBeCalledTimes(1);
+    await certifiedSnsWrapper.getSaleParameters({});
+    expect(mockCertifiedSwapCanister.getSaleParameters).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
+  it("should call getDerivedState with query and update", async () => {
+    await snsWrapper.getDerivedState({});
+    expect(mockSwapCanister.getDerivedState).toHaveBeenCalledWith({
+      certified: false,
+    });
+    expect(mockSwapCanister.getDerivedState).toBeCalledTimes(1);
+    await certifiedSnsWrapper.getDerivedState({});
+    expect(mockCertifiedSwapCanister.getDerivedState).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
   it("should call notifyParticipation", async () => {
     await snsWrapper.notifyParticipation({ buyer: "aaaaa-aa" });
     expect(mockSwapCanister.notifyParticipation).toHaveBeenCalledWith({

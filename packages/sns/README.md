@@ -358,6 +358,8 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 - [state](#gear-state)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
+- [getDerivedState](#gear-getderivedstate)
+- [getSaleParameters](#gear-getsaleparameters)
 - [getOpenTicket](#gear-getopenticket)
 - [newSaleTicket](#gear-newsaleticket)
 - [getLifecycle](#gear-getlifecycle)
@@ -391,6 +393,22 @@ Get user commitment
 | Method              | Type                                   |
 | ------------------- | -------------------------------------- |
 | `getUserCommitment` | `(params: any) => Promise<BuyerState>` |
+
+##### :gear: getDerivedState
+
+Get sale buyers state
+
+| Method            | Type                                                                |
+| ----------------- | ------------------------------------------------------------------- |
+| `getDerivedState` | `({ certified, }: QueryParams) => Promise<GetDerivedStateResponse>` |
+
+##### :gear: getSaleParameters
+
+Get sale parameters
+
+| Method              | Type                                                                  |
+| ------------------- | --------------------------------------------------------------------- |
+| `getSaleParameters` | `({ certified, }: QueryParams) => Promise<GetSaleParametersResponse>` |
 
 ##### :gear: getOpenTicket
 
@@ -466,6 +484,8 @@ Parameters:
 - [getOpenTicket](#gear-getopenticket)
 - [newSaleTicket](#gear-newsaleticket)
 - [getLifecycle](#gear-getlifecycle)
+- [getSaleParameters](#gear-getsaleparameters)
+- [getDerivedState](#gear-getderivedstate)
 - [getTransactions](#gear-gettransactions)
 - [stakeMaturity](#gear-stakematurity)
 - [autoStakeMaturity](#gear-autostakematurity)
@@ -697,6 +717,18 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method         | Type                                                                        |
 | -------------- | --------------------------------------------------------------------------- |
 | `getLifecycle` | `(params: Omit<QueryParams, "certified">) => Promise<GetLifecycleResponse>` |
+
+##### :gear: getSaleParameters
+
+| Method              | Type                                                                             |
+| ------------------- | -------------------------------------------------------------------------------- |
+| `getSaleParameters` | `(params: Omit<QueryParams, "certified">) => Promise<GetSaleParametersResponse>` |
+
+##### :gear: getDerivedState
+
+| Method            | Type                                                                           |
+| ----------------- | ------------------------------------------------------------------------------ |
+| `getDerivedState` | `(params: Omit<QueryParams, "certified">) => Promise<GetDerivedStateResponse>` |
 
 ##### :gear: getTransactions
 

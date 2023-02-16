@@ -24,7 +24,9 @@ import type {
 import type {
   BuyerState,
   GetBuyerStateRequest,
+  GetDerivedStateResponse,
   GetLifecycleResponse,
+  GetSaleParametersResponse,
   GetStateResponse,
   RefreshBuyerTokensRequest,
   RefreshBuyerTokensResponse,
@@ -396,6 +398,16 @@ export class SnsWrapper {
     params: Omit<QueryParams, "certified">
   ): Promise<GetLifecycleResponse | undefined> =>
     this.swap.getLifecycle(this.mergeParams(params));
+
+  getSaleParameters = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<GetSaleParametersResponse | undefined> =>
+    this.swap.getSaleParameters(this.mergeParams(params));
+
+  getDerivedState = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<GetDerivedStateResponse | undefined> =>
+    this.swap.getDerivedState(this.mergeParams(params));
 
   // Always certified
   getTransactions = (
