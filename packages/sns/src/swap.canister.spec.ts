@@ -235,26 +235,22 @@ describe("Swap canister", () => {
     expect(res).toEqual(mockResponse);
   });
 
-  it("should call to notify the buyer tokens", async () => {
+  it("should call to notify payment failure", async () => {
     const service = mock<ActorSubclass<SnsSwapService>>();
-    service.refresh_buyer_tokens.mockResolvedValue({
-      icp_accepted_participation_e8s: BigInt(123),
-      icp_ledger_account_balance_e8s: BigInt(321),
+    service.notify_payment_failure.mockResolvedValue({
+      ticket: [saleTicketMock],
     });
 
     const canister = SnsSwapCanister.create({
       canisterId: swapCanisterIdMock,
       certifiedServiceOverride: service,
     });
-    const result = await canister.notifyParticipation({ buyer: "aaaaa-aa" });
+    const result = await canister.notifyPaymentFailure();
 
-    expect(service.refresh_buyer_tokens).toHaveBeenCalledWith({
-      buyer: "aaaaa-aa",
-    });
+    expect(service.notify_payment_failure).toHaveBeenCalledWith({});
 
     expect(result).toEqual({
-      icp_accepted_participation_e8s: 123n,
-      icp_ledger_account_balance_e8s: 321n,
+      ticket: [saleTicketMock],
     });
   });
 

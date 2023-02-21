@@ -352,6 +352,11 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call notifyPaymentFailure", async () => {
+    await snsWrapper.notifyPaymentFailure();
+    expect(mockSwapCanister.notifyPaymentFailure).toHaveBeenCalledWith();
+  });
+
   it("should call notifyParticipation", async () => {
     await snsWrapper.notifyParticipation({ buyer: "aaaaa-aa" });
     expect(mockSwapCanister.notifyParticipation).toHaveBeenCalledWith({
