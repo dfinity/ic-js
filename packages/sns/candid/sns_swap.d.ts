@@ -12,12 +12,12 @@ export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType;
   freezing_threshold: bigint;
-  balance: Array<[Uint8Array, bigint]>;
+  balance: Array<[Uint8Array | number[], bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array];
+  module_hash: [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -118,7 +118,7 @@ export interface GovernanceError {
 }
 export interface Icrc1Account {
   owner: [] | [Principal];
-  subaccount: [] | [Uint8Array];
+  subaccount: [] | [Uint8Array | number[]];
 }
 export interface Init {
   sns_root_canister_id: string;
@@ -168,10 +168,10 @@ export interface NeuronBasketConstructionParameters {
   count: bigint;
 }
 export interface NeuronId {
-  id: Uint8Array;
+  id: Uint8Array | number[];
 }
 export interface NewSaleTicketRequest {
-  subaccount: [] | [Uint8Array];
+  subaccount: [] | [Uint8Array | number[]];
   amount_icp_e8s: bigint;
 }
 export interface NewSaleTicketResponse {
@@ -243,11 +243,14 @@ export interface SnsNeuronRecipe {
 }
 export interface Swap {
   neuron_recipes: Array<SnsNeuronRecipe>;
+  next_ticket_id: [] | [bigint];
   decentralization_sale_open_timestamp_seconds: [] | [bigint];
   finalize_swap_in_progress: [] | [boolean];
   cf_participants: Array<CfParticipant>;
   init: [] | [Init];
+  purge_old_tickets_last_completion_timestamp_nanoseconds: [] | [bigint];
   lifecycle: number;
+  purge_old_tickets_next_principal: [] | [Uint8Array | number[]];
   buyers: Array<[string, BuyerState]>;
   params: [] | [Params];
   open_sns_token_swap_proposal_id: [] | [bigint];
@@ -298,6 +301,7 @@ export interface _SERVICE {
     ListSnsNeuronRecipesResponse
   >;
   new_sale_ticket: ActorMethod<[NewSaleTicketRequest], NewSaleTicketResponse>;
+  notify_payment_failure: ActorMethod<[{}], Ok_1>;
   open: ActorMethod<[OpenRequest], {}>;
   refresh_buyer_tokens: ActorMethod<
     [RefreshBuyerTokensRequest],
