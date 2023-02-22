@@ -24,6 +24,7 @@ export type {
   GetLifecycleResponse as SnsGetLifecycleResponse,
   GetSaleParametersResponse as SnsGetSaleParametersResponse,
   Init as SnsSwapInit,
+  Ok_1 as NotifyPaymentFailureResponse,
   Params as SnsParams,
   SnsNeuronRecipe,
   Swap as SnsSwap,
