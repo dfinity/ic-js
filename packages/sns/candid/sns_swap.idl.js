@@ -185,16 +185,11 @@ export const idlFactory = ({ IDL }) => {
   });
   const Swap = IDL.Record({
     'neuron_recipes' : IDL.Vec(SnsNeuronRecipe),
-    'next_ticket_id' : IDL.Opt(IDL.Nat64),
     'decentralization_sale_open_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'finalize_swap_in_progress' : IDL.Opt(IDL.Bool),
     'cf_participants' : IDL.Vec(CfParticipant),
     'init' : IDL.Opt(Init),
-    'purge_old_tickets_last_completion_timestamp_nanoseconds' : IDL.Opt(
-      IDL.Nat64
-    ),
     'lifecycle' : IDL.Int32,
-    'purge_old_tickets_next_principal' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'buyers' : IDL.Vec(IDL.Tuple(IDL.Text, BuyerState)),
     'params' : IDL.Opt(Params),
     'open_sns_token_swap_proposal_id' : IDL.Opt(IDL.Nat64),
@@ -321,7 +316,6 @@ export const idlFactory = ({ IDL }) => {
         [NewSaleTicketResponse],
         [],
       ),
-    'notify_payment_failure' : IDL.Func([IDL.Record({})], [Ok_1], []),
     'open' : IDL.Func([OpenRequest], [IDL.Record({})], []),
     'refresh_buyer_tokens' : IDL.Func(
         [RefreshBuyerTokensRequest],
