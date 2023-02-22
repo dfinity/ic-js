@@ -383,9 +383,9 @@ Get the state of the swap
 
 Notify of the payment failure to remove the ticket
 
-| Method                 | Type                  |
-| ---------------------- | --------------------- |
-| `notifyPaymentFailure` | `() => Promise<Ok_1>` |
+| Method                 | Type                    |
+| ---------------------- | ----------------------- |
+| `notifyPaymentFailure` | `() => Promise<Ticket>` |
 
 ##### :gear: notifyParticipation
 
@@ -706,9 +706,9 @@ Only the owner of a ticket can remove it.
 
 Always certified
 
-| Method                 | Type                  |
-| ---------------------- | --------------------- |
-| `notifyPaymentFailure` | `() => Promise<Ok_1>` |
+| Method                 | Type                    |
+| ---------------------- | ----------------------- |
+| `notifyPaymentFailure` | `() => Promise<Ticket>` |
 
 ##### :gear: notifyParticipation
 
