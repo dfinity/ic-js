@@ -46,6 +46,16 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
     this.caller(params).get_state({});
 
   /**
+   * Notify of the payment failure to remove the ticket
+   */
+  notifyPaymentFailure = async (): Promise<Ticket | undefined> => {
+    const { ticket } = await this.caller({
+      certified: true,
+    }).notify_payment_failure({});
+    return fromNullable(ticket);
+  };
+
+  /**
    * Notify of the user participating in the swap
    */
   notifyParticipation = async (

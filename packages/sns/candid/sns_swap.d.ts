@@ -243,11 +243,14 @@ export interface SnsNeuronRecipe {
 }
 export interface Swap {
   neuron_recipes: Array<SnsNeuronRecipe>;
+  next_ticket_id: [] | [bigint];
   decentralization_sale_open_timestamp_seconds: [] | [bigint];
   finalize_swap_in_progress: [] | [boolean];
   cf_participants: Array<CfParticipant>;
   init: [] | [Init];
+  purge_old_tickets_last_completion_timestamp_nanoseconds: [] | [bigint];
   lifecycle: number;
+  purge_old_tickets_next_principal: [] | [Uint8Array];
   buyers: Array<[string, BuyerState]>;
   params: [] | [Params];
   open_sns_token_swap_proposal_id: [] | [bigint];
@@ -298,6 +301,7 @@ export interface _SERVICE {
     ListSnsNeuronRecipesResponse
   >;
   new_sale_ticket: ActorMethod<[NewSaleTicketRequest], NewSaleTicketResponse>;
+  notify_payment_failure: ActorMethod<[{}], Ok_1>;
   open: ActorMethod<[OpenRequest], {}>;
   refresh_buyer_tokens: ActorMethod<
     [RefreshBuyerTokensRequest],

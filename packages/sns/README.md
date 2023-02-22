@@ -356,6 +356,7 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 
 - [create](#gear-create)
 - [state](#gear-state)
+- [notifyPaymentFailure](#gear-notifypaymentfailure)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
 - [getDerivedState](#gear-getderivedstate)
@@ -377,6 +378,14 @@ Get the state of the swap
 | Method  | Type                                                 |
 | ------- | ---------------------------------------------------- |
 | `state` | `(params: QueryParams) => Promise<GetStateResponse>` |
+
+##### :gear: notifyPaymentFailure
+
+Notify of the payment failure to remove the ticket
+
+| Method                 | Type                    |
+| ---------------------- | ----------------------- |
+| `notifyPaymentFailure` | `() => Promise<Ticket>` |
 
 ##### :gear: notifyParticipation
 
@@ -479,6 +488,7 @@ Parameters:
 - [setTopicFollowees](#gear-settopicfollowees)
 - [registerVote](#gear-registervote)
 - [swapState](#gear-swapstate)
+- [notifyPaymentFailure](#gear-notifypaymentfailure)
 - [notifyParticipation](#gear-notifyparticipation)
 - [getUserCommitment](#gear-getusercommitment)
 - [getOpenTicket](#gear-getopenticket)
@@ -687,6 +697,18 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method      | Type                                                                    |
 | ----------- | ----------------------------------------------------------------------- |
 | `swapState` | `(params: Omit<QueryParams, "certified">) => Promise<GetStateResponse>` |
+
+##### :gear: notifyPaymentFailure
+
+Returns the ticket if a ticket was found for the caller and the ticket
+was removed successfully. Returns None if no ticket was found for the caller.
+Only the owner of a ticket can remove it.
+
+Always certified
+
+| Method                 | Type                    |
+| ---------------------- | ----------------------- |
+| `notifyPaymentFailure` | `() => Promise<Ticket>` |
 
 ##### :gear: notifyParticipation
 

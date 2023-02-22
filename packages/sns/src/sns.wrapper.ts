@@ -374,6 +374,18 @@ export class SnsWrapper {
     params: Omit<QueryParams, "certified">
   ): Promise<GetStateResponse> => this.swap.state(this.mergeParams(params));
 
+  /**
+   * Returns the ticket if a ticket was found for the caller and the ticket
+   * was removed successfully. Returns None if no ticket was found for the caller.
+   * Only the owner of a ticket can remove it.
+   *
+   * Always certified
+   *
+   * @param params
+   */
+  notifyPaymentFailure = (): Promise<Ticket | undefined> =>
+    this.swap.notifyPaymentFailure();
+
   // Always certified
   notifyParticipation = (
     params: RefreshBuyerTokensRequest
