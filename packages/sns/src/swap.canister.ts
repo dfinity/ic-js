@@ -12,7 +12,6 @@ import type {
   GetLifecycleResponse,
   GetSaleParametersResponse,
   GetStateResponse,
-  Ok_1 as NotifyPaymentFailureResponse,
   RefreshBuyerTokensRequest,
   RefreshBuyerTokensResponse,
   Ticket,
@@ -49,8 +48,12 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
   /**
    * Notify of the payment failure to remove the ticket
    */
-  notifyPaymentFailure = async (): Promise<NotifyPaymentFailureResponse> =>
-    await this.caller({ certified: true }).notify_payment_failure({});
+  notifyPaymentFailure = async (): Promise<Ticket | undefined> => {
+    const { ticket } = await this.caller({
+      certified: true,
+    }).notify_payment_failure({});
+    return fromNullable(ticket);
+  };
 
   /**
    * Notify of the user participating in the swap

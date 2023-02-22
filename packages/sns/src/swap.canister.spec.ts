@@ -249,9 +249,7 @@ describe("Swap canister", () => {
 
     expect(service.notify_payment_failure).toHaveBeenCalledWith({});
 
-    expect(result).toEqual({
-      ticket: [saleTicketMock],
-    });
+    expect(result).toEqual(saleTicketMock);
   });
 
   it("should return the user commitment", async () => {

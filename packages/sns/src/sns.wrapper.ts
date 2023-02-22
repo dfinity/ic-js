@@ -28,7 +28,6 @@ import type {
   GetLifecycleResponse,
   GetSaleParametersResponse,
   GetStateResponse,
-  Ok_1 as NotifyPaymentFailureResponse,
   RefreshBuyerTokensRequest,
   RefreshBuyerTokensResponse,
   Ticket,
@@ -384,7 +383,7 @@ export class SnsWrapper {
    *
    * @param params
    */
-  notifyPaymentFailure = (): Promise<NotifyPaymentFailureResponse> =>
+  notifyPaymentFailure = (): Promise<Ticket | undefined> =>
     this.swap.notifyPaymentFailure();
 
   // Always certified
