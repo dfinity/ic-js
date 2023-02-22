@@ -308,6 +308,7 @@ export const idlFactory = ({ IDL }) => {
         [NewSaleTicketResponse],
         [],
       ),
+    'notify_payment_failure' : IDL.Func([IDL.Record({})], [Ok_1], []),
     'open' : IDL.Func([OpenRequest], [IDL.Record({})], []),
     'refresh_buyer_tokens' : IDL.Func(
         [RefreshBuyerTokensRequest],

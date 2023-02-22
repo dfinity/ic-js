@@ -298,6 +298,7 @@ export interface _SERVICE {
     ListSnsNeuronRecipesResponse
   >;
   new_sale_ticket: ActorMethod<[NewSaleTicketRequest], NewSaleTicketResponse>;
+  notify_payment_failure: ActorMethod<[{}], Ok_1>;
   open: ActorMethod<[OpenRequest], {}>;
   refresh_buyer_tokens: ActorMethod<
     [RefreshBuyerTokensRequest],
