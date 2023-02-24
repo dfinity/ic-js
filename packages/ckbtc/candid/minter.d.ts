@@ -49,6 +49,7 @@ export interface InitArgs {
 }
 export type Mode =
   | { RestrictedTo: Array<Principal> }
+  | { DepositsRestrictedTo: Array<Principal> }
   | { ReadOnly: null }
   | { GeneralAvailability: null };
 export interface RetrieveBtcArgs {
@@ -79,7 +80,12 @@ export type UpdateBalanceError =
     }
   | { TemporarilyUnavailable: string }
   | { AlreadyProcessing: null }
-  | { NoNewUtxos: null };
+  | {
+      NoNewUtxos: {
+        required_confirmations: number;
+        current_confirmations: [] | [number];
+      };
+    };
 export interface UpdateBalanceResult {
   block_index: bigint;
   amount: bigint;
@@ -96,6 +102,7 @@ export interface Utxo {
   outpoint: { txid: Uint8Array; vout: number };
 }
 export interface _SERVICE {
+  estimate_fee: ActorMethod<[{ amount: [] | [bigint] }], bigint>;
   get_btc_address: ActorMethod<
     [{ owner: [] | [Principal]; subaccount: [] | [Uint8Array] }],
     string

@@ -2,6 +2,7 @@
 export const idlFactory = ({ IDL }) => {
   const Mode = IDL.Variant({
     'RestrictedTo' : IDL.Vec(IDL.Principal),
+    'DepositsRestrictedTo' : IDL.Vec(IDL.Principal),
     'ReadOnly' : IDL.Null,
     'GeneralAvailability' : IDL.Null,
   });
@@ -100,9 +101,17 @@ export const idlFactory = ({ IDL }) => {
     }),
     'TemporarilyUnavailable' : IDL.Text,
     'AlreadyProcessing' : IDL.Null,
-    'NoNewUtxos' : IDL.Null,
+    'NoNewUtxos' : IDL.Record({
+      'required_confirmations' : IDL.Nat32,
+      'current_confirmations' : IDL.Opt(IDL.Nat32),
+    }),
   });
   return IDL.Service({
+    'estimate_fee' : IDL.Func(
+        [IDL.Record({ 'amount' : IDL.Opt(IDL.Nat64) })],
+        [IDL.Nat64],
+        [],
+      ),
     'get_btc_address' : IDL.Func(
         [
           IDL.Record({
@@ -149,6 +158,7 @@ export const idlFactory = ({ IDL }) => {
 export const init = ({ IDL }) => {
   const Mode = IDL.Variant({
     'RestrictedTo' : IDL.Vec(IDL.Principal),
+    'DepositsRestrictedTo' : IDL.Vec(IDL.Principal),
     'ReadOnly' : IDL.Null,
     'GeneralAvailability' : IDL.Null,
   });

@@ -1,4 +1,4 @@
-// Generated from IC repo commit 8b84d3d05843f1dfacf3ec65ada559acccd6ec14 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit 87eb51bc9aab91fb17a2b4d60ee7b719dba117dc 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -47,7 +47,10 @@ type UpdateBalanceResult = record {
 
 type UpdateBalanceError = variant {
     // There are no new UTXOs to process.
-    NoNewUtxos;
+    NoNewUtxos : record {
+        current_confirmations: opt nat32;
+        required_confirmations: nat32
+    };
     // The minter is already processing another update balance request for the caller.
     AlreadyProcessing;
     // The minter is overloaded, retry the request.
@@ -71,6 +74,8 @@ type Mode = variant {
     ReadOnly;
     // Only specified principals can modify minter's state.
     RestrictedTo : vec principal;
+    // Only specified principals can convert BTC to ckBTC.
+    DepositsRestrictedTo : vec principal;
     // Anyone can interact with the minter.
     GeneralAvailability;
 };
@@ -208,6 +213,10 @@ service : (InitArgs) -> {
     // }}} Section "Convert BTC to ckBTC"
 
     // Section "Convert ckBTC to BTC" {{{
+
+    /// Returns an estimation of the user's fee (in Satoshi) for a
+    /// retrive_btc request based on the current status of the Bitcoin network.
+    estimate_fee : (record { amount : opt nat64 }) -> (nat64) query;
 
     // Returns the account to which the caller should deposit ckBTC
     // before withdrawing BTC using the [retrieve_btc] endpoint.
