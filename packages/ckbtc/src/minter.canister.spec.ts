@@ -414,7 +414,10 @@ describe("ckBTC minter canister", () => {
 
       const canister = minter(service);
 
-      const res = await canister.estimateFee({ certified: true });
+      const res = await canister.estimateFee({
+        certified: true,
+        amount: undefined,
+      });
 
       expect(service.estimate_fee).toBeCalled();
       expect(res).toEqual(result);
@@ -429,7 +432,7 @@ describe("ckBTC minter canister", () => {
       const canister = minter(service);
 
       expect(() =>
-        canister.estimateFee({ certified: true })
+        canister.estimateFee({ certified: true, amount: undefined })
       ).rejects.toThrowError();
     });
   });
