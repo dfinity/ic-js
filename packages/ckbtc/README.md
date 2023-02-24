@@ -66,6 +66,7 @@ const btcAddress = await getBtcAddress({});
 - [updateBalance](#gear-updatebalance)
 - [getWithdrawalAccount](#gear-getwithdrawalaccount)
 - [retrieveBtc](#gear-retrievebtc)
+- [estimatedFee](#gear-estimatedfee)
 
 ##### :gear: create
 
@@ -134,6 +135,20 @@ Parameters:
 - `params`: The parameters are the bitcoin address and amount to convert.
 - `params.address`: The bitcoin address.
 - `params.amount`: The ckBTC amount.
+
+##### :gear: estimatedFee
+
+Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network.
+
+| Method         | Type                                               |
+| -------------- | -------------------------------------------------- |
+| `estimatedFee` | `({ certified, amount, }: any) => Promise<bigint>` |
+
+Parameters:
+
+- `params`: The parameters to estimate the fee.
+- `params.certified`: query or update call
+- `params.amount`: The optional amount for which the fee should be estimated.
 
 <!-- TSDOC_END -->
 
