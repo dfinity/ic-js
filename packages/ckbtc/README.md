@@ -66,7 +66,7 @@ const btcAddress = await getBtcAddress({});
 - [updateBalance](#gear-updatebalance)
 - [getWithdrawalAccount](#gear-getwithdrawalaccount)
 - [retrieveBtc](#gear-retrievebtc)
-- [estimatedFee](#gear-estimatedfee)
+- [estimateFee](#gear-estimatefee)
 
 ##### :gear: create
 
@@ -136,13 +136,13 @@ Parameters:
 - `params.address`: The bitcoin address.
 - `params.amount`: The ckBTC amount.
 
-##### :gear: estimatedFee
+##### :gear: estimateFee
 
 Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network.
 
-| Method         | Type                                               |
-| -------------- | -------------------------------------------------- |
-| `estimatedFee` | `({ certified, amount, }: any) => Promise<bigint>` |
+| Method        | Type                                               |
+| ------------- | -------------------------------------------------- |
+| `estimateFee` | `({ certified, amount, }: any) => Promise<bigint>` |
 
 Parameters:
 
