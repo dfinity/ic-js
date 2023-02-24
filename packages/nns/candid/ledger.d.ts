@@ -27,8 +27,15 @@ export interface GetBlocksArgs {
 export type Memo = bigint;
 export type Operation =
   | {
-      Burn: { from: AccountIdentifier; amount: Tokens };
+      Approve: {
+        fee: Tokens;
+        from: AccountIdentifier;
+        allowance_e8s: bigint;
+        expires_at: [] | [TimeStamp];
+        spender: AccountIdentifier;
+      };
     }
+  | { Burn: { from: AccountIdentifier; amount: Tokens } }
   | { Mint: { to: AccountIdentifier; amount: Tokens } }
   | {
       Transfer: {
@@ -36,6 +43,15 @@ export type Operation =
         fee: Tokens;
         from: AccountIdentifier;
         amount: Tokens;
+      };
+    }
+  | {
+      TransferFrom: {
+        to: AccountIdentifier;
+        fee: Tokens;
+        from: AccountIdentifier;
+        amount: Tokens;
+        spender: AccountIdentifier;
       };
     };
 export type QueryArchiveError =

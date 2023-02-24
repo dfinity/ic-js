@@ -6,9 +6,17 @@ export const idlFactory = ({ IDL }) => {
     'length' : IDL.Nat64,
   });
   const Memo = IDL.Nat64;
-  const AccountIdentifier = IDL.Vec(IDL.Nat8);
   const Tokens = IDL.Record({ 'e8s' : IDL.Nat64 });
+  const AccountIdentifier = IDL.Vec(IDL.Nat8);
+  const TimeStamp = IDL.Record({ 'timestamp_nanos' : IDL.Nat64 });
   const Operation = IDL.Variant({
+    'Approve' : IDL.Record({
+      'fee' : Tokens,
+      'from' : AccountIdentifier,
+      'allowance_e8s' : IDL.Int,
+      'expires_at' : IDL.Opt(TimeStamp),
+      'spender' : AccountIdentifier,
+    }),
     'Burn' : IDL.Record({ 'from' : AccountIdentifier, 'amount' : Tokens }),
     'Mint' : IDL.Record({ 'to' : AccountIdentifier, 'amount' : Tokens }),
     'Transfer' : IDL.Record({
@@ -17,8 +25,14 @@ export const idlFactory = ({ IDL }) => {
       'from' : AccountIdentifier,
       'amount' : Tokens,
     }),
+    'TransferFrom' : IDL.Record({
+      'to' : AccountIdentifier,
+      'fee' : Tokens,
+      'from' : AccountIdentifier,
+      'amount' : Tokens,
+      'spender' : AccountIdentifier,
+    }),
   });
-  const TimeStamp = IDL.Record({ 'timestamp_nanos' : IDL.Nat64 });
   const Transaction = IDL.Record({
     'memo' : Memo,
     'icrc1_memo' : IDL.Opt(IDL.Vec(IDL.Nat8)),

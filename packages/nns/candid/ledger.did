@@ -1,4 +1,4 @@
-// Generated from IC repo commit 5376a14c92f20b4bd285d7622ac5f2a8d21c0d02 'rs/rosetta-api/icp_ledger/ledger.did' by import-candid
+// Generated from IC repo commit 87eb51bc9aab91fb17a2b4d60ee7b719dba117dc 'rs/rosetta-api/icp_ledger/ledger.did' by import-candid
 // This is the official Ledger interface that is guaranteed to be backward compatible.
 
 // Amount of tokens, measured in 10^-8 of a token.
@@ -110,6 +110,20 @@ type Operation = variant {
     Transfer : record {
         from : AccountIdentifier;
         to : AccountIdentifier;
+        amount : Tokens;
+        fee : Tokens;
+    };
+    Approve : record {
+        from : AccountIdentifier;
+        spender : AccountIdentifier;
+        allowance_e8s : int;
+        fee : Tokens;
+        expires_at : opt TimeStamp;
+    };
+    TransferFrom : record {
+        from : AccountIdentifier;
+        to : AccountIdentifier;
+        spender : AccountIdentifier;
         amount : Tokens;
         fee : Tokens;
     };
