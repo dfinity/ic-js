@@ -13,6 +13,7 @@ import {
 } from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
 import type {
+  EstimatedFeeParams,
   GetBTCAddressParams,
   RetrieveBtcParams,
   UpdateBalanceParams,
@@ -116,4 +117,19 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
 
     return response.Ok;
   };
+
+  /**
+   * Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network.
+   *
+   * @param {RetrieveBtcParams} params The parameters to estimate the fee.
+   * @param {boolean} params.certified query or update call
+   * @param {bigint | undefined} params.amount The optional amount for which the fee should be estimated.
+   */
+  estimatedFee = async ({
+    certified,
+    amount,
+  }: EstimatedFeeParams): Promise<bigint> =>
+    this.caller({
+      certified,
+    }).estimate_fee({ amount: toNullable(amount) });
 }
