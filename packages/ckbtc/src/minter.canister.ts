@@ -13,7 +13,7 @@ import {
 } from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
 import type {
-  EstimatedFeeParams,
+  EstimateFeeParams,
   GetBTCAddressParams,
   RetrieveBtcParams,
   UpdateBalanceParams,
@@ -125,10 +125,10 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    * @param {boolean} params.certified query or update call
    * @param {bigint | undefined} params.amount The optional amount for which the fee should be estimated.
    */
-  estimatedFee = async ({
+  estimateFee = async ({
     certified,
     amount,
-  }: EstimatedFeeParams): Promise<bigint> =>
+  }: EstimateFeeParams): Promise<bigint> =>
     this.caller({
       certified,
     }).estimate_fee({ amount: toNullable(amount) });

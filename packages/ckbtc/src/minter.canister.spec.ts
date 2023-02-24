@@ -405,7 +405,7 @@ describe("ckBTC minter canister", () => {
     });
   });
 
-  describe("Estimated Fee", () => {
+  describe("Estimate Fee", () => {
     it("should return estimated fee", async () => {
       const result = 123789n;
 
@@ -414,7 +414,7 @@ describe("ckBTC minter canister", () => {
 
       const canister = minter(service);
 
-      const res = await canister.estimatedFee({ certified: true });
+      const res = await canister.estimateFee({ certified: true });
 
       expect(service.estimate_fee).toBeCalled();
       expect(res).toEqual(result);
@@ -429,7 +429,7 @@ describe("ckBTC minter canister", () => {
       const canister = minter(service);
 
       expect(() =>
-        canister.estimatedFee({ certified: true })
+        canister.estimateFee({ certified: true })
       ).rejects.toThrowError();
     });
   });

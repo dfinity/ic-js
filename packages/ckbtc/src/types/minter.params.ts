@@ -27,4 +27,4 @@ export type RetrieveBtcParams = RetrieveBtcArgs &
 /**
  * Params to estimate the fee of the Bitcoin network.
  */
-export type EstimatedFeeParams = QueryParams & { amount?: bigint };
+export type EstimateFeeParams = QueryParams & { amount?: bigint };
