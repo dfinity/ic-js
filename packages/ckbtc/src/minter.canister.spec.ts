@@ -1,6 +1,6 @@
 import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { arrayOfNumberToUint8Array } from "@dfinity/utils";
+import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   Account,
@@ -186,7 +186,14 @@ describe("ckBTC minter canister", () => {
     it("should throw MinterNoNewUtxosError", async () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
 
-      const error = { Err: { NoNewUtxos: null } };
+      const error = {
+        Err: {
+          NoNewUtxos: {
+            required_confirmations: 123,
+            current_confirmations: toNullable(456),
+          },
+        },
+      };
       service.update_balance.mockResolvedValue(error);
 
       const canister = minter(service);
@@ -395,6 +402,38 @@ describe("ckBTC minter canister", () => {
           )}`
         )
       );
+    });
+  });
+
+  describe("Estimate Fee", () => {
+    it("should return estimated fee", async () => {
+      const result = 123789n;
+
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.estimate_fee.mockResolvedValue(result);
+
+      const canister = minter(service);
+
+      const res = await canister.estimateFee({
+        certified: true,
+        amount: undefined,
+      });
+
+      expect(service.estimate_fee).toBeCalled();
+      expect(res).toEqual(result);
+    });
+
+    it("should bubble errors", () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.estimate_fee.mockImplementation(() => {
+        throw new Error();
+      });
+
+      const canister = minter(service);
+
+      expect(() =>
+        canister.estimateFee({ certified: true, amount: undefined })
+      ).rejects.toThrowError();
     });
   });
 });

@@ -23,3 +23,8 @@ export type UpdateBalanceParams = MinterParams;
  */
 export type RetrieveBtcParams = RetrieveBtcArgs &
   Omit<QueryParams, "certified">;
+
+/**
+ * Params to estimate the fee of the Bitcoin network.
+ */
+export type EstimateFeeParams = QueryParams & { amount: bigint | undefined };
