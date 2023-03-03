@@ -74,9 +74,9 @@ await main();
 
 Receives a string representing a number and returns the big int or error.
 
-| Function             | Type                                                   |
-| -------------------- | ------------------------------------------------------ |
-| `convertStringToE8s` | `(amount: string) => bigint or FromStringToTokenError` |
+| Function             | Type                                                  |
+| -------------------- | ----------------------------------------------------- |
+| `convertStringToE8s` | `(value: string) => bigint or FromStringToTokenError` |
 
 Parameters:
 
