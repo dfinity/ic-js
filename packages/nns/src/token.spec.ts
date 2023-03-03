@@ -95,6 +95,9 @@ describe("ICP", () => {
     ).toEqual(
       TokenAmount.fromE8s({ token: ICPToken, amount: BigInt(1234500000001) })
     );
+    expect(TokenAmount.fromString({ token: ICPToken, amount: "1e-8" })).toEqual(
+      TokenAmount.fromE8s({ token: ICPToken, amount: BigInt(1) })
+    );
   });
 
   it("returns an error on invalid formats", () => {
