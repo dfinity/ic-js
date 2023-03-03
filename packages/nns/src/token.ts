@@ -16,7 +16,7 @@ export const convertStringToE8s = (
   let amount = value.includes("e")
     ? Number(value).toLocaleString("en", {
         useGrouping: false,
-        maximumFractionDigits: 8,
+        maximumFractionDigits: 20,
       })
     : value;
 

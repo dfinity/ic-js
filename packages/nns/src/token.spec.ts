@@ -112,8 +112,12 @@ describe("ICP", () => {
     ).toBe(FromStringToTokenError.InvalidFormat);
 
     const callToNumber = () =>
-      TokenAmount.fromNumber({ token: ICPToken, amount: 0.0000000001 });
-    expect(callToNumber).toThrow();
+      TokenAmount.fromNumber({ token: ICPToken, amount: 1e-9 });
+    expect(callToNumber).toThrow(
+      expect.objectContaining({
+        message: "Number 1e-9 has more than 8 decimals",
+      })
+    );
   });
 
   it("rejects negative numbers", () => {
