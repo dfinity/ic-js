@@ -1,4 +1,5 @@
 import { BtcAddressType, BtcNetwork } from "../enums/btc.enums";
+import { ParseBtcAddressMalformedAddressError } from "../errors/btc.errors";
 import { parseBtcAddress } from "./btc.utils";
 
 describe("BTC utils", () => {
@@ -148,6 +149,31 @@ describe("BTC utils", () => {
     expect(() =>
       parseBtcAddress({ address, network: BtcNetwork.Regtest })
     ).toThrow();
+  });
+
+  describe("minter canister samples", () => {
+    it("parse Mainnet P2wpkhV0", () => {
+      const [a, b] = [
+        "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4",
+        "BC1QW508D6QEJXTDG4Y5R3ZARVARY0C5XW7KV8F3T4",
+      ];
+
+      expect(
+        parseBtcAddress({ address: a, network: BtcNetwork.Mainnet })
+      ).toEqual(BtcAddressType.P2wpkhV0);
+
+      expect(
+        parseBtcAddress({ address: b, network: BtcNetwork.Mainnet })
+      ).toEqual(BtcAddressType.P2wpkhV0);
+    });
+
+    it("should throw invalid checksum", () => {
+      const address = "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5";
+
+      expect(() => {
+        parseBtcAddress({ address, network: BtcNetwork.Regtest });
+      }).toThrow(ParseBtcAddressMalformedAddressError);
+    });
   });
 
   describe("not supported address types", () => {
