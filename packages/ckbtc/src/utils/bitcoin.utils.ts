@@ -15,28 +15,34 @@ export enum BitcoinAddressType {
   P2sh,
 }
 
+// See https://en.bitcoin.it/wiki/List_of_address_prefixes
+const BTC_MAINNET_PREFIX = 0; // or 0x00
+const BTC_MAINNET_P2SH_PREFIX = 5; // or 0x05
+const BTC_TESTNET_PREFIX = 111; // or 0x6f
+const BTC_TESTNET_P2SH_PREFIX = 196; // or 0xc4
+
 const Base58AddressTypes: Record<
   number,
-  { type: BitcoinAddressType; network: BtcNetwork }
+  { type: BitcoinAddressType; networks: BtcNetwork[] }
 > = {
-  0x00: {
+  [BTC_MAINNET_PREFIX]: {
     type: BitcoinAddressType.P2pkh,
-    network: BtcNetwork.Mainnet,
+    networks: [BtcNetwork.Mainnet],
   },
 
-  0x6f: {
+  [BTC_TESTNET_PREFIX]: {
     type: BitcoinAddressType.P2pkh,
-    network: BtcNetwork.Testnet,
+    networks: [BtcNetwork.Testnet, BtcNetwork.Regtest],
   },
 
-  0x05: {
+  [BTC_MAINNET_P2SH_PREFIX]: {
     type: BitcoinAddressType.P2sh,
-    network: BtcNetwork.Mainnet,
+    networks: [BtcNetwork.Mainnet],
   },
 
-  0xc4: {
+  [BTC_TESTNET_P2SH_PREFIX]: {
     type: BitcoinAddressType.P2sh,
-    network: BtcNetwork.Testnet,
+    networks: [BtcNetwork.Testnet, BtcNetwork.Regtest],
   },
 };
 
@@ -78,13 +84,13 @@ const parseBase58Address = ({
     const checksum = checksumHash.array().slice(0, 4);
 
     if (
-        expectedChecksum.some(
-            (value: number, index: number) => value !== checksum[index]
-        )
+      expectedChecksum.some(
+        (value: number, index: number) => value !== checksum[index]
+      )
     ) {
       throw new Error("MalformedAddress");
     }
-  }
+  };
 
   validateBase58Checksum(decoded);
 
@@ -96,9 +102,9 @@ const parseBase58Address = ({
     throw new Error("UnsupportedAddressType");
   }
 
-  const { type, network: parsedNetwork } = versionNetwork;
+  const { type, networks } = versionNetwork;
 
-  if (parsedNetwork !== network) {
+  if (!networks.includes(network)) {
     throw new Error("WrongNetwork");
   }
 
