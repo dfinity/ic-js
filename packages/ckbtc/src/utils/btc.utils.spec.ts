@@ -10,25 +10,34 @@ describe("BTC utils", () => {
   it("parse Mainnet P2PKH", () => {
     const address = "17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem";
 
-    expect(parseBtcAddress({ address, network: BtcNetwork.Mainnet })).toEqual(
-      BtcAddressType.P2pkh
-    );
+    expect(parseBtcAddress({ address, network: BtcNetwork.Mainnet })).toEqual({
+      address,
+      network: BtcNetwork.Mainnet,
+      type: BtcAddressType.P2pkh,
+      parser: "base58",
+    });
   });
 
   it("parse Testnet P2PKH", () => {
     const address = "mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn";
 
-    expect(parseBtcAddress({ address, network: BtcNetwork.Testnet })).toEqual(
-      BtcAddressType.P2pkh
-    );
+    expect(parseBtcAddress({ address, network: BtcNetwork.Testnet })).toEqual({
+      address,
+      network: BtcNetwork.Testnet,
+      type: BtcAddressType.P2pkh,
+      parser: "base58",
+    });
   });
 
   it("parse Regtest P2PKH", () => {
     const address = "mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn";
 
-    expect(parseBtcAddress({ address, network: BtcNetwork.Testnet })).toEqual(
-      BtcAddressType.P2pkh
-    );
+    expect(parseBtcAddress({ address, network: BtcNetwork.Regtest })).toEqual({
+      address,
+      network: BtcNetwork.Regtest,
+      type: BtcAddressType.P2pkh,
+      parser: "base58",
+    });
   });
 
   it("fails on invalid P2PKH", () => {
@@ -48,25 +57,34 @@ describe("BTC utils", () => {
   it("parse Mainnet P2SH", () => {
     const address = "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy";
 
-    expect(parseBtcAddress({ address, network: BtcNetwork.Mainnet })).toEqual(
-      BtcAddressType.P2sh
-    );
+    expect(parseBtcAddress({ address, network: BtcNetwork.Mainnet })).toEqual({
+      address,
+      network: BtcNetwork.Mainnet,
+      type: BtcAddressType.P2sh,
+      parser: "base58",
+    });
   });
 
   it("parse Testnet P2SH", () => {
     const address = "2MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc";
 
-    expect(parseBtcAddress({ address, network: BtcNetwork.Testnet })).toEqual(
-      BtcAddressType.P2sh
-    );
+    expect(parseBtcAddress({ address, network: BtcNetwork.Testnet })).toEqual({
+      address,
+      network: BtcNetwork.Testnet,
+      type: BtcAddressType.P2sh,
+      parser: "base58",
+    });
   });
 
   it("parse Regtest P2SH", () => {
     const address = "2MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc";
 
-    expect(parseBtcAddress({ address, network: BtcNetwork.Regtest })).toEqual(
-      BtcAddressType.P2sh
-    );
+    expect(parseBtcAddress({ address, network: BtcNetwork.Regtest })).toEqual({
+      address,
+      network: BtcNetwork.Regtest,
+      type: BtcAddressType.P2sh,
+      parser: "base58",
+    });
   });
 
   it("fails on invalid P2SH", () => {
@@ -119,26 +137,42 @@ describe("BTC utils", () => {
 
     expect(
       parseBtcAddress({ address: a, network: BtcNetwork.Mainnet })
-    ).toEqual(BtcAddressType.P2wpkhV0);
+    ).toEqual({
+      address: a,
+      network: BtcNetwork.Mainnet,
+      type: BtcAddressType.P2wpkhV0,
+      parser: "bip-173",
+    });
     expect(
       parseBtcAddress({ address: b, network: BtcNetwork.Mainnet })
-    ).toEqual(BtcAddressType.P2wpkhV0);
+    ).toEqual({
+      address: b,
+      network: BtcNetwork.Mainnet,
+      type: BtcAddressType.P2wpkhV0,
+      parser: "bip-173",
+    });
   });
 
   it("parse Testnet Bech32 P2WPKH", () => {
     const address = "tb1qw508d6qejxtdg4y5r3zarvary0c5xw7kxpjzsx";
 
-    expect(parseBtcAddress({ address, network: BtcNetwork.Testnet })).toEqual(
-      BtcAddressType.P2wpkhV0
-    );
+    expect(parseBtcAddress({ address, network: BtcNetwork.Testnet })).toEqual({
+      address,
+      network: BtcNetwork.Testnet,
+      type: BtcAddressType.P2wpkhV0,
+      parser: "bip-173",
+    });
   });
 
   it("parse Regtest Bech32 P2WPKH", () => {
     const address = "bcrt1q6z64a43mjgkcq0ul2znwneq3spghrlau9slefp";
 
-    expect(parseBtcAddress({ address, network: BtcNetwork.Regtest })).toEqual(
-      BtcAddressType.P2wpkhV0
-    );
+    expect(parseBtcAddress({ address, network: BtcNetwork.Regtest })).toEqual({
+      address,
+      network: BtcNetwork.Regtest,
+      type: BtcAddressType.P2wpkhV0,
+      parser: "bip-173",
+    });
   });
 
   it("fails on invalid Bech32", () => {
@@ -164,11 +198,21 @@ describe("BTC utils", () => {
 
       expect(
         parseBtcAddress({ address: a, network: BtcNetwork.Mainnet })
-      ).toEqual(BtcAddressType.P2wpkhV0);
+      ).toEqual({
+        address: a,
+        network: BtcNetwork.Mainnet,
+        type: BtcAddressType.P2wpkhV0,
+        parser: "bip-173",
+      });
 
       expect(
         parseBtcAddress({ address: b, network: BtcNetwork.Mainnet })
-      ).toEqual(BtcAddressType.P2wpkhV0);
+      ).toEqual({
+        address: b,
+        network: BtcNetwork.Mainnet,
+        type: BtcAddressType.P2wpkhV0,
+        parser: "bip-173",
+      });
     });
 
     it("should throw invalid checksum", () => {

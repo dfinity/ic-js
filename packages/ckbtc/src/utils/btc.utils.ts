@@ -14,6 +14,7 @@ import {
   ParseBtcAddressWrongNetworkError,
 } from "../errors/btc.errors";
 import type { BtcAddress } from "../types/btc";
+import { BtcAddressInfo } from "../types/btc";
 
 // See https://en.bitcoin.it/wiki/List_of_address_prefixes
 const BTC_MAINNET_PREFIX = 0; // or 0x00
@@ -49,7 +50,7 @@ const Base58AddressTypes: Record<
 const parseBase58Address = ({
   address,
   network,
-}: Required<BtcAddress>): BtcAddressType => {
+}: Required<BtcAddress>): BtcAddressInfo => {
   const decodeBase58 = (address: string): Uint8Array => {
     try {
       return base58_to_binary(address);
@@ -107,13 +108,18 @@ const parseBase58Address = ({
     throw new ParseBtcAddressWrongNetworkError();
   }
 
-  return type;
+  return {
+    address,
+    network,
+    type,
+    parser: "base58",
+  };
 };
 
 const parseBip173Address = ({
   address,
   network,
-}: Required<BtcAddress>): BtcAddressType => {
+}: Required<BtcAddress>): BtcAddressInfo => {
   const decodeBech32 = (address: string): Decoded => {
     try {
       if (
@@ -167,7 +173,12 @@ const parseBip173Address = ({
     throw new ParseBtcAddressBadWitnessLengthError();
   }
 
-  return BtcAddressType.P2wpkhV0;
+  return {
+    address,
+    network,
+    type: BtcAddressType.P2wpkhV0,
+    parser: "bip-173",
+  };
 };
 
 /**
@@ -184,7 +195,7 @@ const parseBip173Address = ({
 export const parseBtcAddress = ({
   address,
   network = BtcNetwork.Mainnet,
-}: BtcAddress): BtcAddressType => {
+}: BtcAddress): BtcAddressInfo => {
   switch (address.charAt(0)) {
     case "1":
     case "2":
