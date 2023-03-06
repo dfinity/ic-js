@@ -14,7 +14,7 @@ import {
   ParseBtcAddressWrongNetworkError,
 } from "../errors/btc.errors";
 import type { BtcAddress } from "../types/btc";
-import { BtcAddressInfo } from "../types/btc";
+import type { BtcAddressInfo } from "../types/btc";
 
 // See https://en.bitcoin.it/wiki/List_of_address_prefixes
 const BTC_MAINNET_PREFIX = 0; // or 0x00
