@@ -143,6 +143,13 @@ const parseBip173Address = ({
   const data = bech32.fromWords(rest);
 
   if (data.length !== 20) {
+    // Note: We throw an error for other length because the Minter canister applies such a policy and does not support P2tr and P2wsh yet.
+    // else if (witnessVersion === 1) {
+    //     type = BtcAddressType.P2tr;
+    //   } else {
+    //     type = BtcAddressType.P2wsh;
+    //   }
+
     throw new Error("BadWitnessLength");
   }
 
