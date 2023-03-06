@@ -9,8 +9,17 @@ import { FromStringToTokenError } from "./enums/token.enums";
  * @returns bigint | FromStringToTokenError
  */
 export const convertStringToE8s = (
-  amount: string
+  value: string
 ): bigint | FromStringToTokenError => {
+  // replace exponential format (1e-4) with plain (0.0001)
+  // doesn't support decimals for values >= ~1e16
+  let amount = value.includes("e")
+    ? Number(value).toLocaleString("en", {
+        useGrouping: false,
+        maximumFractionDigits: 20,
+      })
+    : value;
+
   // Remove all instances of "," and "'".
   amount = amount.trim().replace(/[,']/g, "");
 
