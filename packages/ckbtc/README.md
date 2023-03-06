@@ -154,4 +154,5 @@ Parameters:
 
 ## Resources
 
+- [Bitcoin integration](https://internetcomputer.org/docs/current/developer-docs/integrations/#bitcoin-integration)
 - [ckBTC Minter](https://github.com/dfinity/ic/tree/master/rs/bitcoin/ckbtc/minter/)
