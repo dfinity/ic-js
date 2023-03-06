@@ -95,6 +95,9 @@ describe("ICP", () => {
     ).toEqual(
       TokenAmount.fromE8s({ token: ICPToken, amount: BigInt(1234500000001) })
     );
+    expect(TokenAmount.fromString({ token: ICPToken, amount: "1e-8" })).toEqual(
+      TokenAmount.fromE8s({ token: ICPToken, amount: BigInt(1) })
+    );
   });
 
   it("returns an error on invalid formats", () => {
@@ -112,8 +115,12 @@ describe("ICP", () => {
     ).toBe(FromStringToTokenError.InvalidFormat);
 
     const callToNumber = () =>
-      TokenAmount.fromNumber({ token: ICPToken, amount: 0.0000000001 });
-    expect(callToNumber).toThrow();
+      TokenAmount.fromNumber({ token: ICPToken, amount: 1e-9 });
+    expect(callToNumber).toThrow(
+      expect.objectContaining({
+        message: "Number 1e-9 has more than 8 decimals",
+      })
+    );
   });
 
   it("rejects negative numbers", () => {
