@@ -9,7 +9,7 @@ export enum BtcNetwork {
   Testnet,
 }
 
-export enum BitcoinAddressType {
+export enum BtcAddressType {
   P2wpkhV0,
   P2pkh,
   P2sh,
@@ -23,30 +23,30 @@ const BTC_TESTNET_P2SH_PREFIX = 196; // or 0xc4
 
 const Base58AddressTypes: Record<
   number,
-  { type: BitcoinAddressType; networks: BtcNetwork[] }
+  { type: BtcAddressType; networks: BtcNetwork[] }
 > = {
   [BTC_MAINNET_PREFIX]: {
-    type: BitcoinAddressType.P2pkh,
+    type: BtcAddressType.P2pkh,
     networks: [BtcNetwork.Mainnet],
   },
 
   [BTC_TESTNET_PREFIX]: {
-    type: BitcoinAddressType.P2pkh,
+    type: BtcAddressType.P2pkh,
     networks: [BtcNetwork.Testnet, BtcNetwork.Regtest],
   },
 
   [BTC_MAINNET_P2SH_PREFIX]: {
-    type: BitcoinAddressType.P2sh,
+    type: BtcAddressType.P2sh,
     networks: [BtcNetwork.Mainnet],
   },
 
   [BTC_TESTNET_P2SH_PREFIX]: {
-    type: BitcoinAddressType.P2sh,
+    type: BtcAddressType.P2sh,
     networks: [BtcNetwork.Testnet, BtcNetwork.Regtest],
   },
 };
 
-export interface BitcoinAddress {
+export interface BtcAddress {
   address: string;
   network?: BtcNetwork;
 }
@@ -54,7 +54,7 @@ export interface BitcoinAddress {
 const parseBase58Address = ({
   address,
   network,
-}: Required<BitcoinAddress>): BitcoinAddressType => {
+}: Required<BtcAddress>): BtcAddressType => {
   const decodeBase58 = (address: string): Uint8Array => {
     try {
       return base58_to_binary(address);
@@ -114,7 +114,7 @@ const parseBase58Address = ({
 const parseBip173Address = ({
   address,
   network,
-}: Required<BitcoinAddress>): BitcoinAddressType => {
+}: Required<BtcAddress>): BtcAddressType => {
   const decodeBech32 = (address: string): Decoded => {
     try {
       if (
@@ -161,7 +161,7 @@ const parseBip173Address = ({
     throw new Error("BadWitnessLength");
   }
 
-  return BitcoinAddressType.P2wpkhV0;
+  return BtcAddressType.P2wpkhV0;
 };
 
 /**
@@ -170,14 +170,14 @@ const parseBip173Address = ({
  * Parse implementation follows strategy implemented in [Minter canister](https://github.com/dfinity/ic/blob/a8da3aa23dc6f8f4708cb0cb8edce84c5bd8f225/rs/bitcoin/ckbtc/minter/src/address.rs#L54).
  * JavaScript code inspired by [bitcoin-address-validation](https://github.com/ruigomeseu/bitcoin-address-validation).
  *
- * @param {BitcoinAddress} params The Bitcoin address and network to parse
+ * @param {BtcAddress} params The Bitcoin address and network to parse
  * @param {string} params.address
- * @param {BtcNetwork} params.network Optional. Default BtcNetwork.Mainnet
+ * @param {BtcNetwork} params.network Optional. Default BtcNetwork is Mainnet
  */
-export const parseBitcoinAddress = ({
+export const parseBtcAddress = ({
   address,
   network = BtcNetwork.Mainnet,
-}: BitcoinAddress): BitcoinAddressType => {
+}: BtcAddress): BtcAddressType => {
   switch (address.charAt(0)) {
     case "1":
     case "2":
