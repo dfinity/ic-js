@@ -2,18 +2,8 @@ import { isNullish } from "@dfinity/utils/src";
 import { base58_to_binary } from "base58-js";
 import { bech32, bech32m, type Decoded } from "bech32";
 import { sha256 } from "js-sha256";
-
-export enum BtcNetwork {
-  Mainnet,
-  Regtest,
-  Testnet,
-}
-
-export enum BtcAddressType {
-  P2wpkhV0,
-  P2pkh,
-  P2sh,
-}
+import { BtcAddressType, BtcNetwork } from "../enums/btc.enums";
+import type { BtcAddress } from "../types/btc";
 
 // See https://en.bitcoin.it/wiki/List_of_address_prefixes
 const BTC_MAINNET_PREFIX = 0; // or 0x00
@@ -45,11 +35,6 @@ const Base58AddressTypes: Record<
     networks: [BtcNetwork.Testnet, BtcNetwork.Regtest],
   },
 };
-
-export interface BtcAddress {
-  address: string;
-  network?: BtcNetwork;
-}
 
 const parseBase58Address = ({
   address,
