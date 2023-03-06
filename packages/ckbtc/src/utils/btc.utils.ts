@@ -160,7 +160,8 @@ const parseBip173Address = ({
  * Parse a Bitcoin address.
  *
  * Parse implementation follows strategy implemented in [Minter canister](https://github.com/dfinity/ic/blob/a8da3aa23dc6f8f4708cb0cb8edce84c5bd8f225/rs/bitcoin/ckbtc/minter/src/address.rs#L54).
- * JavaScript code inspired by [bitcoin-address-validation](https://github.com/ruigomeseu/bitcoin-address-validation).
+ *
+ * Credits: Parts of JavaScript code and test values from [bitcoin-address-validation](https://github.com/ruigomeseu/bitcoin-address-validation).
  *
  * @param {BtcAddress} params The Bitcoin address and network to parse
  * @param {string} params.address
