@@ -3,6 +3,16 @@ import { base58_to_binary } from "base58-js";
 import { bech32, bech32m, type Decoded } from "bech32";
 import { sha256 } from "js-sha256";
 import { BtcAddressType, BtcNetwork } from "../enums/btc.enums";
+import {
+  ParseBtcAddressBadWitnessLengthError,
+  ParseBtcAddressInvalidError,
+  ParseBtcAddressMalformedAddressError,
+  ParseBtcAddressNoDataError,
+  ParseBtcAddressUnexpectedHumanReadablePartError,
+  ParseBtcAddressUnsupportedAddressTypeError,
+  ParseBtcAddressUnsupportedWitnessVersionError,
+  ParseBtcAddressWrongNetworkError,
+} from "../errors/btc.errors";
 import type { BtcAddress } from "../types/btc";
 
 // See https://en.bitcoin.it/wiki/List_of_address_prefixes
@@ -44,7 +54,7 @@ const parseBase58Address = ({
     try {
       return base58_to_binary(address);
     } catch (error) {
-      throw new Error("Invalid Address");
+      throw new ParseBtcAddressInvalidError();
     }
   };
 
@@ -53,7 +63,9 @@ const parseBase58Address = ({
   const { length } = decoded;
 
   if (length !== 25) {
-    throw new Error("MalformedAddress");
+    throw new ParseBtcAddressMalformedAddressError(
+      `Expected the address to be 25 bytes, got ${length}.`
+    );
   }
 
   const validateBase58Checksum = (decoded: Uint8Array) => {
@@ -73,7 +85,9 @@ const parseBase58Address = ({
         (value: number, index: number) => value !== checksum[index]
       )
     ) {
-      throw new Error("MalformedAddress");
+      throw new ParseBtcAddressMalformedAddressError(
+        `Checksum mismatch expected ${expectedChecksum}, got ${checksum}.`
+      );
     }
   };
 
@@ -84,13 +98,13 @@ const parseBase58Address = ({
   const versionNetwork = Base58AddressTypes[version];
 
   if (isNullish(versionNetwork)) {
-    throw new Error("UnsupportedAddressType");
+    throw new ParseBtcAddressUnsupportedAddressTypeError();
   }
 
   const { type, networks } = versionNetwork;
 
   if (!networks.includes(network)) {
-    throw new Error("WrongNetwork");
+    throw new ParseBtcAddressWrongNetworkError();
   }
 
   return type;
@@ -112,7 +126,7 @@ const parseBip173Address = ({
 
       return bech32.decode(address);
     } catch (error) {
-      throw new Error("MalformedAddress");
+      throw new ParseBtcAddressMalformedAddressError();
     }
   };
 
@@ -127,17 +141,17 @@ const parseBip173Address = ({
   const decodedNetwork: BtcNetwork | undefined = mapPrefixToNetwork[prefix];
 
   if (isNullish(decodedNetwork)) {
-    throw new Error("Invalid address");
+    throw new ParseBtcAddressInvalidError();
   }
 
   if (decodedNetwork !== network) {
-    throw new Error("UnexpectedHumanReadablePart");
+    throw new ParseBtcAddressUnexpectedHumanReadablePartError();
   }
 
   const [witnessVersion, ...rest] = words;
 
   if (witnessVersion !== 0) {
-    throw new Error("UnsupportedWitnessVersion");
+    throw new ParseBtcAddressUnsupportedWitnessVersionError();
   }
 
   const data = bech32.fromWords(rest);
@@ -150,7 +164,7 @@ const parseBip173Address = ({
     //     type = BtcAddressType.P2wsh;
     //   }
 
-    throw new Error("BadWitnessLength");
+    throw new ParseBtcAddressBadWitnessLengthError();
   }
 
   return BtcAddressType.P2wpkhV0;
@@ -184,8 +198,8 @@ export const parseBtcAddress = ({
     case "T":
       return parseBip173Address({ address, network });
     case "":
-      throw new Error("NoData");
+      throw new ParseBtcAddressNoDataError();
     default:
-      throw new Error("UnsupportedAddressType");
+      throw new ParseBtcAddressUnsupportedAddressTypeError();
   }
 };
