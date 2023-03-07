@@ -98,6 +98,7 @@ Parameters:
 - [transactionFee](#gear-transactionfee)
 - [balance](#gear-balance)
 - [transfer](#gear-transfer)
+- [totalTokensSupply](#gear-totaltokenssupply)
 
 ##### :gear: create
 
@@ -144,6 +145,14 @@ Transfers tokens from the sender to the given account.
 Parameters:
 
 - `params`: The parameters to transfer tokens.
+
+##### :gear: totalTokensSupply
+
+Returns the total supply of tokens.
+
+| Method              | Type                                       |
+| ------------------- | ------------------------------------------ |
+| `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
 
 ### :factory: IcrcIndexCanister
 
