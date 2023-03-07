@@ -42,5 +42,10 @@
     "@dfinity/candid": "^0.15.4",
     "@dfinity/principal": "^0.15.4",
     "@dfinity/utils": "^0.0.13"
+  },
+  "dependencies": {
+    "base58-js": "^1.0.5",
+    "bech32": "^2.0.0",
+    "js-sha256": "^0.9.0"
   }
 }
