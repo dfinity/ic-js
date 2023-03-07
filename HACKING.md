@@ -22,6 +22,10 @@ To build or test a particular package - e.g. `sns`:
 npm run build/test --workspace=packages/sns
 ```
 
+Because of dependencies between the packages you need to make sure to build
+`packages/utils` and `packages/ledger` before you can build/test any of the
+other packages.
+
 ## nns-js: How-to test local changes with nns-dapp
 
 ### In this directory
