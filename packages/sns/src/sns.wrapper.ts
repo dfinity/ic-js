@@ -165,6 +165,11 @@ export class SnsWrapper {
   ): Promise<IcrcTokens> =>
     this.ledger.transactionFee(this.mergeParams(params));
 
+  totalTokensSupply = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<IcrcTokens> =>
+    this.ledger.totalTokensSupply(this.mergeParams(params));
+
   balance = (params: Omit<BalanceParams, "certified">): Promise<IcrcTokens> =>
     this.ledger.balance(this.mergeParams(params));
 
