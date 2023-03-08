@@ -42,6 +42,20 @@ describe("Ledger canister", () => {
     expect(res).toEqual(fee);
   });
 
+  it("should return the total tokens supply", async () => {
+    const service = mock<ActorSubclass<IcrcLedgerService>>();
+    const totalTokens = BigInt(1000_000_000_000);
+    service.icrc1_total_supply.mockResolvedValue(totalTokens);
+
+    const canister = IcrcLedgerCanister.create({
+      canisterId: ledgerCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+
+    const res = await canister.totalTokensSupply({});
+    expect(res).toEqual(totalTokens);
+  });
+
   describe("balance", () => {
     it("should return the balance of main account", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();

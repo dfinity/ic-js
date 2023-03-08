@@ -42,6 +42,8 @@ describe("SnsWrapper", () => {
   });
   const mockLedgerCanister = mock<IcrcLedgerCanister>();
   mockLedgerCanister.metadata.mockResolvedValue(tokenMetadataResponseMock);
+  const tokensSupply = BigInt(1_000_000_000_000);
+  mockLedgerCanister.totalTokensSupply.mockResolvedValue(tokensSupply);
 
   const mockCertifiedLedgerCanister = mock<IcrcLedgerCanister>();
   mockCertifiedLedgerCanister.metadata.mockResolvedValue(
@@ -306,6 +308,21 @@ describe("SnsWrapper", () => {
     expect(mockCertifiedLedgerCanister.metadata).toHaveBeenCalledWith({
       certified: true,
     });
+  });
+
+  it("should call leger totalTokensSupply with query or update", async () => {
+    await snsWrapper.totalTokensSupply({});
+    expect(mockLedgerCanister.totalTokensSupply).toHaveBeenCalledWith({
+      certified: false,
+    });
+
+    await certifiedSnsWrapper.totalTokensSupply({});
+    expect(mockCertifiedLedgerCanister.totalTokensSupply).toHaveBeenCalledWith({
+      certified: true,
+    });
+
+    expect(mockLedgerCanister.totalTokensSupply).toBeCalledTimes(1);
+    expect(mockCertifiedLedgerCanister.totalTokensSupply).toBeCalledTimes(1);
   });
 
   it("should call swapState with query and update", async () => {

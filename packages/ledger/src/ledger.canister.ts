@@ -70,4 +70,11 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
     }
     return response.Ok;
   };
+
+  /**
+   * Returns the total supply of tokens.
+   */
+  totalTokensSupply = (params: QueryParams): Promise<Tokens> => {
+    return this.caller(params).icrc1_total_supply();
+  };
 }

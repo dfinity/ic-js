@@ -467,6 +467,7 @@ Parameters:
 - [nervousSystemParameters](#gear-nervoussystemparameters)
 - [ledgerMetadata](#gear-ledgermetadata)
 - [transactionFee](#gear-transactionfee)
+- [totalTokensSupply](#gear-totaltokenssupply)
 - [balance](#gear-balance)
 - [transfer](#gear-transfer)
 - [getNeuron](#gear-getneuron)
@@ -547,6 +548,12 @@ Parameters:
 | Method           | Type                                                              |
 | ---------------- | ----------------------------------------------------------------- |
 | `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokens>` |
+
+##### :gear: totalTokensSupply
+
+| Method              | Type                                                              |
+| ------------------- | ----------------------------------------------------------------- |
+| `totalTokensSupply` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokens>` |
 
 ##### :gear: balance
 
