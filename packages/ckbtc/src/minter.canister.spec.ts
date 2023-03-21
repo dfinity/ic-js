@@ -2,11 +2,7 @@ import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type {
-  Account,
-  UpdateBalanceResult,
-  _SERVICE as CkBTCMinterService,
-} from "../candid/minter";
+import type { Account, _SERVICE as CkBTCMinterService } from "../candid/minter";
 import {
   RetrieveBtcError,
   RetrieveBtcOk,
@@ -25,6 +21,7 @@ import {
 } from "./errors/minter.errors";
 import { CkBTCMinterCanister } from "./minter.canister";
 import { bitcoinAddressMock, minterCanisterIdMock } from "./mocks/minter.mock";
+import { UpdateBalanceOk } from "./types/minter.responses";
 
 describe("ckBTC minter canister", () => {
   const minter = (
@@ -84,10 +81,15 @@ describe("ckBTC minter canister", () => {
   });
 
   describe("Update balance", () => {
-    const success: UpdateBalanceResult = {
-      block_index: 1n,
-      amount: 100_000n,
-    };
+    const success: UpdateBalanceOk = [
+      {
+        Checked: {
+          height: 123,
+          value: 123n,
+          outpoint: { txid: arrayOfNumberToUint8Array([0, 0, 1]), vout: 123 },
+        },
+      },
+    ];
     const ok = { Ok: success };
 
     it("should return Ok", async () => {

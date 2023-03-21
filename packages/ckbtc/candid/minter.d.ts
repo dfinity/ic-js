@@ -36,9 +36,12 @@ export type Event =
         amount: bigint;
       };
     }
+  | { checked_utxo: { clean: boolean; utxo: Utxo; uuid: string } }
   | { removed_retrieve_btc_request: { block_index: bigint } }
-  | { confirmed_transaction: { txid: Uint8Array } };
+  | { confirmed_transaction: { txid: Uint8Array } }
+  | { ignored_utxo: { utxo: Utxo } };
 export interface InitArgs {
+  kyt_principal: [] | [Principal];
   ecdsa_key_name: string;
   mode: Mode;
   retrieve_btc_min_amount: bigint;
@@ -47,6 +50,7 @@ export interface InitArgs {
   btc_network: BtcNetwork;
   min_confirmations: [] | [number];
 }
+export type MinterArg = { Upgrade: [] | [UpgradeArgs] } | { Init: InitArgs };
 export type Mode =
   | { RestrictedTo: Array<Principal> }
   | { DepositsRestrictedTo: Array<Principal> }
@@ -86,10 +90,6 @@ export type UpdateBalanceError =
         current_confirmations: [] | [number];
       };
     };
-export interface UpdateBalanceResult {
-  block_index: bigint;
-  amount: bigint;
-}
 export interface UpgradeArgs {
   mode: [] | [Mode];
   retrieve_btc_min_amount: [] | [bigint];
@@ -101,6 +101,17 @@ export interface Utxo {
   value: bigint;
   outpoint: { txid: Uint8Array; vout: number };
 }
+export type UtxoStatus =
+  | { ValueTooSmall: Utxo }
+  | { Tainted: Utxo }
+  | {
+      Minted: {
+        minted_amount: bigint;
+        block_index: bigint;
+        utxo: Utxo;
+      };
+    }
+  | { Checked: Utxo };
 export interface _SERVICE {
   estimate_fee: ActorMethod<[{ amount: [] | [bigint] }], bigint>;
   get_btc_address: ActorMethod<
@@ -119,6 +130,6 @@ export interface _SERVICE {
   >;
   update_balance: ActorMethod<
     [{ owner: [] | [Principal]; subaccount: [] | [Uint8Array] }],
-    { Ok: UpdateBalanceResult } | { Err: UpdateBalanceError }
+    { Ok: Array<UtxoStatus> } | { Err: UpdateBalanceError }
   >;
 }

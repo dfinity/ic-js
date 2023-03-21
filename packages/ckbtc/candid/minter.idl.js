@@ -6,12 +6,19 @@ export const idlFactory = ({ IDL }) => {
     'ReadOnly' : IDL.Null,
     'GeneralAvailability' : IDL.Null,
   });
+  const UpgradeArgs = IDL.Record({
+    'mode' : IDL.Opt(Mode),
+    'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
+    'max_time_in_queue_nanos' : IDL.Opt(IDL.Nat64),
+    'min_confirmations' : IDL.Opt(IDL.Nat32),
+  });
   const BtcNetwork = IDL.Variant({
     'Mainnet' : IDL.Null,
     'Regtest' : IDL.Null,
     'Testnet' : IDL.Null,
   });
   const InitArgs = IDL.Record({
+    'kyt_principal' : IDL.Opt(IDL.Principal),
     'ecdsa_key_name' : IDL.Text,
     'mode' : Mode,
     'retrieve_btc_min_amount' : IDL.Nat64,
@@ -19,6 +26,10 @@ export const idlFactory = ({ IDL }) => {
     'max_time_in_queue_nanos' : IDL.Nat64,
     'btc_network' : BtcNetwork,
     'min_confirmations' : IDL.Opt(IDL.Nat32),
+  });
+  const MinterArg = IDL.Variant({
+    'Upgrade' : IDL.Opt(UpgradeArgs),
+    'Init' : InitArgs,
   });
   const Account = IDL.Record({
     'owner' : IDL.Principal,
@@ -28,12 +39,6 @@ export const idlFactory = ({ IDL }) => {
     'height' : IDL.Nat32,
     'value' : IDL.Nat64,
     'outpoint' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8), 'vout' : IDL.Nat32 }),
-  });
-  const UpgradeArgs = IDL.Record({
-    'mode' : IDL.Opt(Mode),
-    'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
-    'max_time_in_queue_nanos' : IDL.Opt(IDL.Nat64),
-    'min_confirmations' : IDL.Opt(IDL.Nat32),
   });
   const BitcoinAddress = IDL.Variant({
     'p2sh' : IDL.Vec(IDL.Nat8),
@@ -62,8 +67,14 @@ export const idlFactory = ({ IDL }) => {
       'address' : BitcoinAddress,
       'amount' : IDL.Nat64,
     }),
+    'checked_utxo' : IDL.Record({
+      'clean' : IDL.Bool,
+      'utxo' : Utxo,
+      'uuid' : IDL.Text,
+    }),
     'removed_retrieve_btc_request' : IDL.Record({ 'block_index' : IDL.Nat64 }),
     'confirmed_transaction' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8) }),
+    'ignored_utxo' : IDL.Record({ 'utxo' : Utxo }),
   });
   const RetrieveBtcArgs = IDL.Record({
     'address' : IDL.Text,
@@ -90,9 +101,15 @@ export const idlFactory = ({ IDL }) => {
     'Submitted' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8) }),
     'Pending' : IDL.Null,
   });
-  const UpdateBalanceResult = IDL.Record({
-    'block_index' : IDL.Nat64,
-    'amount' : IDL.Nat64,
+  const UtxoStatus = IDL.Variant({
+    'ValueTooSmall' : Utxo,
+    'Tainted' : Utxo,
+    'Minted' : IDL.Record({
+      'minted_amount' : IDL.Nat64,
+      'block_index' : IDL.Nat64,
+      'utxo' : Utxo,
+    }),
+    'Checked' : Utxo,
   });
   const UpdateBalanceError = IDL.Variant({
     'GenericError' : IDL.Record({
@@ -147,7 +164,7 @@ export const idlFactory = ({ IDL }) => {
         ],
         [
           IDL.Variant({
-            'Ok' : UpdateBalanceResult,
+            'Ok' : IDL.Vec(UtxoStatus),
             'Err' : UpdateBalanceError,
           }),
         ],
@@ -162,12 +179,19 @@ export const init = ({ IDL }) => {
     'ReadOnly' : IDL.Null,
     'GeneralAvailability' : IDL.Null,
   });
+  const UpgradeArgs = IDL.Record({
+    'mode' : IDL.Opt(Mode),
+    'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
+    'max_time_in_queue_nanos' : IDL.Opt(IDL.Nat64),
+    'min_confirmations' : IDL.Opt(IDL.Nat32),
+  });
   const BtcNetwork = IDL.Variant({
     'Mainnet' : IDL.Null,
     'Regtest' : IDL.Null,
     'Testnet' : IDL.Null,
   });
   const InitArgs = IDL.Record({
+    'kyt_principal' : IDL.Opt(IDL.Principal),
     'ecdsa_key_name' : IDL.Text,
     'mode' : Mode,
     'retrieve_btc_min_amount' : IDL.Nat64,
@@ -176,5 +200,9 @@ export const init = ({ IDL }) => {
     'btc_network' : BtcNetwork,
     'min_confirmations' : IDL.Opt(IDL.Nat32),
   });
-  return [InitArgs];
+  const MinterArg = IDL.Variant({
+    'Upgrade' : IDL.Opt(UpgradeArgs),
+    'Init' : InitArgs,
+  });
+  return [MinterArg];
 };
