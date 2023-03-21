@@ -2,11 +2,13 @@ import type {
   RetrieveBtcError,
   RetrieveBtcOk,
   UpdateBalanceError,
-  UpdateBalanceResult,
+  UtxoStatus,
 } from "../../candid/minter";
 
+export type UpdateBalanceOk = UtxoStatus[];
+
 export type UpdateBalanceResponse =
-  | { Ok: UpdateBalanceResult }
+  | { Ok: UpdateBalanceOk }
   | { Err: UpdateBalanceError };
 
 export type RetrieveBtcResponse =

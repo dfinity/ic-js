@@ -1,7 +1,6 @@
 export type {
   Account as WithdrawalAccount,
   RetrieveBtcOk,
-  UpdateBalanceResult,
 } from "../candid/minter";
 export * from "./enums/btc.enums";
 export * from "./errors/btc.errors";

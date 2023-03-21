@@ -2,7 +2,6 @@ import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
   Account as WithdrawalAccount,
   RetrieveBtcOk,
-  UpdateBalanceResult,
   _SERVICE as CkBTCMinterService,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
@@ -20,6 +19,7 @@ import type {
 } from "./types/minter.params";
 import type {
   RetrieveBtcResponse,
+  UpdateBalanceOk,
   UpdateBalanceResponse,
 } from "./types/minter.responses";
 
@@ -62,12 +62,12 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    * @param {UpdateBalanceParams} params The parameters are the address to which bitcoin where transferred.
    * @param {Principal} params.owner The owner of the address. If not provided, the `caller` will be use instead.
    * @param {Principal} params.subaccount An optional subaccount of the address.
-   * @returns {Promise<UpdateBalanceResult>} The result of the balance update.
+   * @returns {Promise<UpdateBalanceOk>} The result of the balance update.
    */
   updateBalance = async ({
     owner,
     subaccount,
-  }: UpdateBalanceParams): Promise<UpdateBalanceResult> => {
+  }: UpdateBalanceParams): Promise<UpdateBalanceOk> => {
     const response: UpdateBalanceResponse = await this.caller({
       certified: true,
     }).update_balance({

@@ -96,9 +96,9 @@ Notify the minter about the bitcoin transfer.
 
 Upon successful notification, new ckBTC should be available on the targeted address.
 
-| Method          | Type                                                                     |
-| --------------- | ------------------------------------------------------------------------ |
-| `updateBalance` | `({ owner, subaccount, }: MinterParams) => Promise<UpdateBalanceResult>` |
+| Method          | Type                                                                 |
+| --------------- | -------------------------------------------------------------------- |
+| `updateBalance` | `({ owner, subaccount, }: MinterParams) => Promise<UpdateBalanceOk>` |
 
 Parameters:
 
