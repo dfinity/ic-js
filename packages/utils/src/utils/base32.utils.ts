@@ -1,5 +1,5 @@
 // tslint:disable:no-bitwise
-const alphabet = 'abcdefghijklmnopqrstuvwxyz234567';
+const alphabet = "abcdefghijklmnopqrstuvwxyz234567";
 
 // Build a lookup table for decoding.
 const lookupTable: Record<string, number> = Object.create(null);
@@ -8,8 +8,8 @@ for (let i = 0; i < alphabet.length; i++) {
 }
 
 // Add aliases for rfc4648.
-lookupTable['0'] = lookupTable.o;
-lookupTable['1'] = lookupTable.i;
+lookupTable["0"] = lookupTable.o;
+lookupTable["1"] = lookupTable.i;
 
 /**
  * @param input The input array to encode.
@@ -22,7 +22,7 @@ export function encodeBase32(input: Uint8Array): string {
   let bits = 0;
 
   // The output string in base32.
-  let output = '';
+  let output = "";
 
   function encodeByte(byte: number) {
     if (skip < 0) {
@@ -52,7 +52,7 @@ export function encodeBase32(input: Uint8Array): string {
     i += encodeByte(input[i]);
   }
 
-  return output + (skip < 0 ? alphabet[bits >> 3] : '');
+  return output + (skip < 0 ? alphabet[bits >> 3] : "");
 }
 
 /**

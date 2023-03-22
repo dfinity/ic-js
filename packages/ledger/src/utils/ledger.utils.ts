@@ -1,7 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { bigEndianCrc32, uint8ArrayToHexString } from "@dfinity/utils";
+import { encodeBase32 } from "@dfinity/utils/src/utils/base32.utils";
 import type { IcrcAccount } from "../types/ledger.responses";
-import {encodeBase32} from "@dfinity/utils/src/utils/base32.utils";
 
 // https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
 const EXTRA_BYTES = parseInt("7F", 16);
