@@ -46,3 +46,6 @@ export const arrayOfNumberToUint8Array = (numbers: Array<number>): Uint8Array =>
 
 export const asciiStringToByteArray = (text: string): Array<number> =>
   Array.from(text).map((c) => c.charCodeAt(0));
+
+export const uint8ArrayToHexString = (bytes: Uint8Array) =>
+  bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");

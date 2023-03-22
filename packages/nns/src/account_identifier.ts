@@ -1,9 +1,12 @@
 import type { Principal } from "@dfinity/principal";
-import { asciiStringToByteArray } from "@dfinity/utils";
+import {
+  asciiStringToByteArray,
+  bigEndianCrc32,
+  uint8ArrayToHexString,
+} from "@dfinity/utils";
 import { sha224 } from "js-sha256";
 import type { AccountIdentifier as AccountIdentifierCandid } from "../candid/governance";
 import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
-import { calculateCrc32, toHexString } from "./utils/converter.utils";
 
 export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}
@@ -31,7 +34,7 @@ export class AccountIdentifier {
     const hash = new Uint8Array(shaObj.array());
 
     // Prepend the checksum of the hash and convert to a hex string
-    const checksum = calculateCrc32(hash);
+    const checksum = bigEndianCrc32(hash);
     const bytes = new Uint8Array([...checksum, ...hash]);
     return new AccountIdentifier(bytes);
   }
@@ -46,7 +49,7 @@ export class AccountIdentifier {
   }
 
   public toHex(): string {
-    return toHexString(this.bytes);
+    return uint8ArrayToHexString(this.bytes);
   }
 
   public toUint8Array(): Uint8Array {

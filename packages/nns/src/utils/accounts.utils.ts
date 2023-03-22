@@ -1,5 +1,5 @@
+import { bigEndianCrc32 } from "@dfinity/utils";
 import { InvalidAccountIDError } from "../errors/governance.errors";
-import { calculateCrc32 } from "./converter.utils";
 
 /**
  * Checks account id check sum
@@ -16,7 +16,7 @@ export const checkAccountId = (accountId: string): void => {
 
   const toAccountBytes = Buffer.from(accountId, "hex");
   const foundChecksum = toAccountBytes.slice(0, 4);
-  const expectedCheckum = Buffer.from(calculateCrc32(toAccountBytes.slice(4)));
+  const expectedCheckum = Buffer.from(bigEndianCrc32(toAccountBytes.slice(4)));
   if (!expectedCheckum.equals(foundChecksum)) {
     throw new InvalidAccountIDError(
       `Account identifier ${accountId} has an invalid checksum. Are you sure the account identifier is correct?\n\nExpected checksum: ${expectedCheckum.toString(

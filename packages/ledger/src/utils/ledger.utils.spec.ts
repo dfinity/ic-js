@@ -4,13 +4,15 @@ import { decodeIcrcAccount, encodeIcrcAccount } from "./ledger.utils";
 
 describe("ledger-utils", () => {
   describe("encodeIcrcAccount", () => {
+    const owner = Principal.fromText(
+      "k2t6j-2nvnp-4zjm3-25dtz-6xhaa-c7boj-5gayf-oj3xs-i43lp-teztq-6ae"
+    );
+
     it("should return the principal text for main accounts", () => {
-      const owner = mockPrincipal;
       expect(encodeIcrcAccount({ owner })).toEqual(owner.toText());
     });
 
     it("should return the principal text for subaccount 0", () => {
-      const owner = mockPrincipal;
       const account = {
         owner,
         subaccount: new Uint8Array(32).fill(0),
@@ -18,15 +20,14 @@ describe("ledger-utils", () => {
       expect(encodeIcrcAccount(account)).toEqual(owner.toText());
     });
 
-    it("should return a string representation for subaccounts", () => {
-      const subaccount = new Uint8Array(32).fill(0);
-      subaccount[31] = 1;
+    it("should return a string representation for owner and subaccount", () => {
       const account = {
-        owner: Principal.fromText("2vxsx-fae"),
-        subaccount: subaccount,
+        owner,
+        subaccount: Uint8Array.from([...Array(32)].map((_, i) => i + 1)),
       };
+
       expect(encodeIcrcAccount(account)).toEqual(
-        Principal.fromText("ozcx7-eaeae-ax6").toText()
+        "k2t6j-2nvnp-4zjm3-25dtz-6xhaa-c7boj-5gayf-oj3xs-i43lp-teztq-6ae-dfxgiyy.102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20"
       );
     });
   });
