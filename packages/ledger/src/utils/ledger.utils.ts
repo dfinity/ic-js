@@ -1,8 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { bigEndianCrc32, uint8ArrayToHexString } from "@dfinity/utils";
 import type { IcrcAccount } from "../types/ledger.responses";
-// TODO: submit PR to agent-js to expose function
-import { encode } from "@dfinity/principal/lib/cjs/utils/base32";
+import {encodeBase32} from "@dfinity/utils/src/utils/base32.utils";
 
 // https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
 const EXTRA_BYTES = parseInt("7F", 16);
@@ -41,7 +40,7 @@ export const encodeIcrcAccount = ({
     Uint8Array.from([...owner.toUint8Array(), ...subaccount])
   );
 
-  return `${owner.toText()}-${encode(crc)}.${uint8ArrayToHexString(
+  return `${owner.toText()}-${encodeBase32(crc)}.${uint8ArrayToHexString(
     subaccount
   )}`;
 };

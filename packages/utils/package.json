@@ -50,8 +50,5 @@
     "@dfinity/agent": "^0.15.4",
     "@dfinity/candid": "^0.15.4",
     "@dfinity/principal": "^0.15.4"
-  },
-  "dependencies": {
-    "crc": "^4.3.2"
   }
 }
