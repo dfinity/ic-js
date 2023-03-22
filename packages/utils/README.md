@@ -41,8 +41,10 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [uint8ArrayToArrayOfNumber](#gear-uint8arraytoarrayofnumber)
 - [arrayOfNumberToUint8Array](#gear-arrayofnumbertouint8array)
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
+- [uint8ArrayToHexString](#gear-uint8arraytohexstring)
 - [assertNonNullish](#gear-assertnonnullish)
 - [assertPercentageNumber](#gear-assertpercentagenumber)
+- [bigEndianCrc32](#gear-bigendiancrc32)
 - [debounce](#gear-debounce)
 - [isNullish](#gear-isnullish)
 - [nonNullish](#gear-nonnullish)
@@ -123,6 +125,12 @@ Parameters:
 | ------------------------ | ---------------------------- |
 | `asciiStringToByteArray` | `(text: string) => number[]` |
 
+#### :gear: uint8ArrayToHexString
+
+| Function                | Type                            |
+| ----------------------- | ------------------------------- |
+| `uint8ArrayToHexString` | `(bytes: Uint8Array) => string` |
+
 #### :gear: assertNonNullish
 
 | Function           | Type                                                                 |
@@ -134,6 +142,12 @@ Parameters:
 | Function                 | Type                           |
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
+
+#### :gear: bigEndianCrc32
+
+| Function         | Type                                |
+| ---------------- | ----------------------------------- |
+| `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
 
 #### :gear: debounce
 
