@@ -36,12 +36,20 @@ export const encodeIcrcAccount = ({
     return owner.toText();
   }
 
+  const subaccountBytes = shrink(subaccount);
+
+  if (subaccountBytes.length === 0) {
+    return owner.toText();
+  }
+
   const crc = bigEndianCrc32(
     Uint8Array.from([...owner.toUint8Array(), ...subaccount])
   );
 
-  return `${owner.toText()}-${encodeBase32(crc)}.${uint8ArrayToHexString(
-    subaccount
+  const removeLeadingZeros = (text: string): string => text.replace(/^0+/, "");
+
+  return `${owner.toText()}-${encodeBase32(crc)}.${removeLeadingZeros(
+    uint8ArrayToHexString(subaccount)
   )}`;
 };
 
