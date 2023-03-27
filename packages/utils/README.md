@@ -34,6 +34,8 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [defaultAgent](#gear-defaultagent)
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
+- [assertNonNullish](#gear-assertnonnullish)
+- [assertPercentageNumber](#gear-assertpercentagenumber)
 - [uint8ArrayToBigInt](#gear-uint8arraytobigint)
 - [bigIntToUint8Array](#gear-biginttouint8array)
 - [numberToUint8Array](#gear-numbertouint8array)
@@ -43,8 +45,6 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
 - [hexStringToUint8Array](#gear-hexstringtouint8array)
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
-- [assertNonNullish](#gear-assertnonnullish)
-- [assertPercentageNumber](#gear-assertpercentagenumber)
 - [crc32](#gear-crc32)
 - [bigEndianCrc32](#gear-bigendiancrc32)
 - [debounce](#gear-debounce)
@@ -84,6 +84,18 @@ Parameters:
 | Function         | Type                                                                                                                                                                                                                                                            |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, }, idlFactory, certifiedIdlFactory, }: { options: RequiredCanisterOptions<T>; idlFactory: InterfaceFactory; certifiedIdlFactory: InterfaceFactory; }) => { ...; }` |
+
+#### :gear: assertNonNullish
+
+| Function           | Type                                                                 |
+| ------------------ | -------------------------------------------------------------------- |
+| `assertNonNullish` | `<T>(value: T, message?: string) => asserts value is NonNullable<T>` |
+
+#### :gear: assertPercentageNumber
+
+| Function                 | Type                           |
+| ------------------------ | ------------------------------ |
+| `assertPercentageNumber` | `(percentage: number) => void` |
 
 #### :gear: uint8ArrayToBigInt
 
@@ -138,18 +150,6 @@ Parameters:
 | Function                | Type                            |
 | ----------------------- | ------------------------------- |
 | `uint8ArrayToHexString` | `(bytes: Uint8Array) => string` |
-
-#### :gear: assertNonNullish
-
-| Function           | Type                                                                 |
-| ------------------ | -------------------------------------------------------------------- |
-| `assertNonNullish` | `<T>(value: T, message?: string) => asserts value is NonNullable<T>` |
-
-#### :gear: assertPercentageNumber
-
-| Function                 | Type                           |
-| ------------------------ | ------------------------------ |
-| `assertPercentageNumber` | `(percentage: number) => void` |
 
 #### :gear: crc32
 
