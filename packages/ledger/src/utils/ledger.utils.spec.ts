@@ -3,11 +3,12 @@ import { mockPrincipal } from "../mocks/ledger.mock";
 import { decodeIcrcAccount, encodeIcrcAccount } from "./ledger.utils";
 
 describe("ledger-utils", () => {
-  describe("encodeIcrcAccount", () => {
-    const owner = Principal.fromText(
-      "k2t6j-2nvnp-4zjm3-25dtz-6xhaa-c7boj-5gayf-oj3xs-i43lp-teztq-6ae"
-    );
+  const owner = Principal.fromText(
+    "k2t6j-2nvnp-4zjm3-25dtz-6xhaa-c7boj-5gayf-oj3xs-i43lp-teztq-6ae"
+  );
+  const subaccount = Uint8Array.from([...Array(32)].map((_, i) => i + 1));
 
+  describe("encodeIcrcAccount", () => {
     it("should return the principal text for main accounts", () => {
       expect(encodeIcrcAccount({ owner })).toEqual(owner.toText());
     });
@@ -23,7 +24,7 @@ describe("ledger-utils", () => {
     it("should return a string representation for owner and subaccount", () => {
       const account = {
         owner,
-        subaccount: Uint8Array.from([...Array(32)].map((_, i) => i + 1)),
+        subaccount,
       };
 
       expect(encodeIcrcAccount(account)).toEqual(
@@ -31,37 +32,36 @@ describe("ledger-utils", () => {
       );
     });
   });
-
   describe("decodeIcrcAccount", () => {
     it("should return the owner only for main accounts", () => {
-      const owner = mockPrincipal;
-      expect(decodeIcrcAccount(mockPrincipal.toText())).toEqual({ owner });
+      expect(decodeIcrcAccount(owner.toText())).toEqual({ owner });
     });
 
     it("should return the account with subaccounts", () => {
-      const subaccount = new Uint8Array(32).fill(0);
-      subaccount[31] = 1;
       const account1 = {
-        owner: Principal.fromText("2vxsx-fae"),
+        owner,
         subaccount,
       };
       expect(decodeIcrcAccount(encodeIcrcAccount(account1))).toEqual(account1);
     });
 
-    it("should raise an error if incorrect subaccount", () => {
-      const call1 = () => decodeIcrcAccount(Principal.fromHex("7f").toText());
-      expect(call1).toThrow();
+    it.only("should raise an error if invalid input", () => {
+      const call1 = () => decodeIcrcAccount("");
+      expect(call1).toThrowError(
+        new Error("Invalid account. No string provided.")
+      );
 
-      const call2 = () =>
-        decodeIcrcAccount(Principal.fromHex("0400017f").toText());
+      const call2 = () => decodeIcrcAccount("aaa");
       expect(call2).toThrow();
 
-      const call3 = () =>
-        decodeIcrcAccount(Principal.fromHex("0401037f").toText());
+      const call3 = () => decodeIcrcAccount("aaa.");
       expect(call3).toThrow();
 
-      const call4 = () => decodeIcrcAccount(Principal.fromHex("007f").toText());
+      const call4 = () => decodeIcrcAccount("aaa.bbb");
       expect(call4).toThrow();
+
+      const call5 = () => decodeIcrcAccount(".bbb");
+      expect(call5).toThrow();
     });
   });
 

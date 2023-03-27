@@ -1,11 +1,14 @@
 import { Principal } from "@dfinity/principal";
-import { bigEndianCrc32, uint8ArrayToHexString } from "@dfinity/utils";
+import {
+  bigEndianCrc32,
+  notEmptyString,
+  uint8ArrayToHexString,
+} from "@dfinity/utils";
+import { hexStringToUint8Array } from "@dfinity/utils/src";
 import { encodeBase32 } from "@dfinity/utils/src/utils/base32.utils";
 import type { IcrcAccount } from "../types/ledger.responses";
 
-// https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
-const EXTRA_BYTES = parseInt("7F", 16);
-const MAX_ACCOUNT_BYTES_LENGTH = 32;
+const MAX_SUBACCOUNT_HEX_LENGTH = 64;
 
 /**
  * Removes leading zeros from a Uint8Array
@@ -62,44 +65,27 @@ export const encodeIcrcAccount = ({
  * @returns IcrcAccount { owner: Principal, subaccount?: Uint8Array }
  */
 export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
-  const principal = Principal.fromText(accountString);
+  const [principalAndMaybeCheckSum, subaccount] = accountString.split(".");
 
-  const [extraBytes, nonZeroLength, ...restReversed] = principal
-    .toUint8Array()
-    .reverse();
+  if (!notEmptyString(principalAndMaybeCheckSum)) {
+    throw new Error("Invalid account. No string provided.");
+  }
 
-  if (extraBytes !== EXTRA_BYTES) {
+  if (subaccount === undefined) {
     return {
       owner: Principal.fromText(accountString),
     };
   }
 
-  if (
-    nonZeroLength > MAX_ACCOUNT_BYTES_LENGTH ||
-    nonZeroLength === 0 ||
-    nonZeroLength === undefined
-  ) {
-    throw new Error("Invalid account string");
-  }
+  const [_checksum, ...rest] = principalAndMaybeCheckSum.split("-").reverse();
+  const principalText = rest.reverse().join("-");
 
-  const subaccountBytesReversed = restReversed.slice(0, nonZeroLength);
-  if (
-    subaccountBytesReversed[0] === 0 ||
-    subaccountBytesReversed.length !== nonZeroLength
-  ) {
-    throw new Error("Invalid account string");
-  }
-  while (subaccountBytesReversed.length < MAX_ACCOUNT_BYTES_LENGTH) {
-    subaccountBytesReversed.push(0);
-  }
-  const subaccount = Uint8Array.from(subaccountBytesReversed.reverse());
-
-  const principalBytes = restReversed
-    .reverse()
-    .filter((_, i) => i < restReversed.length - nonZeroLength);
+  // TODO checksum validate
 
   return {
-    owner: Principal.fromUint8Array(Uint8Array.from(principalBytes)),
-    subaccount,
+    owner: Principal.fromText(principalText),
+    subaccount: hexStringToUint8Array(
+      subaccount.padStart(MAX_SUBACCOUNT_HEX_LENGTH, "0")
+    ),
   };
 };
