@@ -18,7 +18,8 @@
     "protoc": "bash ./scripts/update_proto.sh",
     "test": "jest",
     "test-all": "npm ci && npm run build --workspace=packages/utils && npm run build --workspace=packages/ledger && npm run test --workspaces",
-    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md packages/ckbtc/README.md"
+    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md packages/ckbtc/README.md",
+    "size": "size-limit --json"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "url": "https://github.com/dfinity/ic-js"
   },
   "devDependencies": {
+    "@size-limit/preset-small-lib": "^8.2.4",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.5",
     "@types/text-encoding": "^0.0.36",
@@ -49,5 +51,37 @@
     "tsdoc-markdown": "^0.0.1",
     "typescript": "^4.9.5",
     "whatwg-fetch": "^3.6.2"
-  }
+  },
+  "size-limit": [
+    {
+      "name": "@dfinity/ckbtc",
+      "path": "./packages/ckbtc/dist/index.js",
+      "limit": "90 kB"
+    },
+    {
+      "name": "@dfinity/cmc",
+      "path": "./packages/cmc/dist/index.js",
+      "limit": "80 kB"
+    },
+    {
+      "name": "@dfinity/ledger",
+      "path": "./packages/ledger/dist/index.js",
+      "limit": "85 kB"
+    },
+    {
+      "name": "@dfinity/nns",
+      "path": "./packages/nns/dist/index.js",
+      "limit": "210 kB"
+    },
+    {
+      "name": "@dfinity/sns",
+      "path": "./packages/sns/dist/index.js",
+      "limit": "100 kB"
+    },
+    {
+      "name": "@dfinity/utils",
+      "path": "./packages/utils/dist/index.js",
+      "limit": "85 kB"
+    }
+  ]
 }
