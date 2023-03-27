@@ -45,7 +45,6 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
 - [hexStringToUint8Array](#gear-hexstringtouint8array)
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
-- [crc32](#gear-crc32)
 - [bigEndianCrc32](#gear-bigendiancrc32)
 - [debounce](#gear-debounce)
 - [isNullish](#gear-isnullish)
@@ -150,18 +149,6 @@ Parameters:
 | Function                | Type                            |
 | ----------------------- | ------------------------------- |
 | `uint8ArrayToHexString` | `(bytes: Uint8Array) => string` |
-
-#### :gear: crc32
-
-Calculate the CRC32 of an ArrayBufferLike.
-
-| Function | Type                               |
-| -------- | ---------------------------------- |
-| `crc32`  | `(buf: ArrayBufferLike) => number` |
-
-Parameters:
-
-- `buf`: The BufferLike to calculate the CRC32 of.
 
 #### :gear: bigEndianCrc32
 
