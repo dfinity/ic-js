@@ -41,6 +41,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [uint8ArrayToArrayOfNumber](#gear-uint8arraytoarrayofnumber)
 - [arrayOfNumberToUint8Array](#gear-arrayofnumbertouint8array)
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
+- [hexStringToUint8Array](#gear-hexstringtouint8array)
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
 - [assertNonNullish](#gear-assertnonnullish)
 - [assertPercentageNumber](#gear-assertpercentagenumber)
@@ -125,6 +126,12 @@ Parameters:
 | Function                 | Type                         |
 | ------------------------ | ---------------------------- |
 | `asciiStringToByteArray` | `(text: string) => number[]` |
+
+#### :gear: hexStringToUint8Array
+
+| Function                | Type                                |
+| ----------------------- | ----------------------------------- |
+| `hexStringToUint8Array` | `(hexString: string) => Uint8Array` |
 
 #### :gear: uint8ArrayToHexString
 
