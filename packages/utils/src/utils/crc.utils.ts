@@ -56,7 +56,7 @@ const crc32 = (bytes: Uint8Array): number => {
   }
 
   return (crc ^ -1) >>> 0;
-}
+};
 
 export const bigEndianCrc32 = (bytes: Uint8Array): Uint8Array => {
   const checksumArrayBuf = new ArrayBuffer(4);
