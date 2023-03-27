@@ -44,6 +44,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
 - [assertNonNullish](#gear-assertnonnullish)
 - [assertPercentageNumber](#gear-assertpercentagenumber)
+- [crc32](#gear-crc32)
 - [bigEndianCrc32](#gear-bigendiancrc32)
 - [debounce](#gear-debounce)
 - [isNullish](#gear-isnullish)
@@ -142,6 +143,18 @@ Parameters:
 | Function                 | Type                           |
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
+
+#### :gear: crc32
+
+Calculate the CRC32 of an ArrayBufferLike.
+
+| Function | Type                               |
+| -------- | ---------------------------------- |
+| `crc32`  | `(buf: ArrayBufferLike) => number` |
+
+Parameters:
+
+- `buf`: The BufferLike to calculate the CRC32 of.
 
 #### :gear: bigEndianCrc32
 
