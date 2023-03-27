@@ -59,32 +59,68 @@
     {
       "name": "@dfinity/ckbtc",
       "path": "./packages/ckbtc/dist/index.js",
-      "limit": "90 kB"
+      "limit": "90 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils"
+      ]
     },
     {
       "name": "@dfinity/cmc",
       "path": "./packages/cmc/dist/index.js",
-      "limit": "80 kB"
+      "limit": "80 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils"
+      ]
     },
     {
       "name": "@dfinity/ledger",
       "path": "./packages/ledger/dist/index.js",
-      "limit": "85 kB"
+      "limit": "85 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils"
+      ]
     },
     {
       "name": "@dfinity/nns",
       "path": "./packages/nns/dist/index.js",
-      "limit": "210 kB"
+      "limit": "210 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils"
+      ]
     },
     {
       "name": "@dfinity/sns",
       "path": "./packages/sns/dist/index.js",
-      "limit": "100 kB"
+      "limit": "100 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils",
+        "@dfinity/ledger"
+      ]
     },
     {
       "name": "@dfinity/utils",
       "path": "./packages/utils/dist/index.js",
-      "limit": "85 kB"
+      "limit": "85 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal"
+      ]
     }
   ]
 }
