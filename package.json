@@ -30,6 +30,7 @@
     "url": "https://github.com/dfinity/ic-js"
   },
   "devDependencies": {
+    "@size-limit/esbuild": "^8.2.4",
     "@size-limit/preset-small-lib": "^8.2.4",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.5",
