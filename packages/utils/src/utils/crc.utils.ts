@@ -1,5 +1,3 @@
-import { Buffer } from "buffer";
-
 // This file is translated to JavaScript from
 // https://lxp32.github.io/docs/a-simple-example-crc32-calculation/
 const lookUpTable: Uint32Array = new Uint32Array([
@@ -48,17 +46,11 @@ const lookUpTable: Uint32Array = new Uint32Array([
   0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d,
 ]);
 
-/**
- * Calculate the CRC32 of an ArrayBufferLike.
- * @param buf The BufferLike to calculate the CRC32 of.
- */
-export function crc32(buf: ArrayBufferLike): number {
-  const b = new Uint8Array(buf);
+const crc32 = (bytes: Uint8Array): number => {
   let crc = -1;
 
-  // tslint:disable-next-line:prefer-for-of
-  for (let i = 0; i < b.length; i++) {
-    const byte = b[i];
+  for (let i = 0; i < bytes.length; i++) {
+    const byte = bytes[i];
     const t = (byte ^ crc) & 0xff;
     crc = lookUpTable[t] ^ (crc >>> 8);
   }
@@ -69,6 +61,6 @@ export function crc32(buf: ArrayBufferLike): number {
 export const bigEndianCrc32 = (bytes: Uint8Array): Uint8Array => {
   const checksumArrayBuf = new ArrayBuffer(4);
   const view = new DataView(checksumArrayBuf);
-  view.setUint32(0, crc32(Buffer.from(bytes)), false);
-  return Buffer.from(checksumArrayBuf);
+  view.setUint32(0, crc32(bytes), false);
+  return new Uint8Array(checksumArrayBuf);
 };
