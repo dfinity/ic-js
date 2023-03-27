@@ -59,7 +59,7 @@
     {
       "name": "@dfinity/ckbtc",
       "path": "./packages/ckbtc/dist/index.js",
-      "limit": "90 kB",
+      "limit": "8 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -70,7 +70,7 @@
     {
       "name": "@dfinity/cmc",
       "path": "./packages/cmc/dist/index.js",
-      "limit": "80 kB",
+      "limit": "1 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -81,7 +81,7 @@
     {
       "name": "@dfinity/ledger",
       "path": "./packages/ledger/dist/index.js",
-      "limit": "85 kB",
+      "limit": "2 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -92,7 +92,7 @@
     {
       "name": "@dfinity/nns",
       "path": "./packages/nns/dist/index.js",
-      "limit": "210 kB",
+      "limit": "121 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -103,7 +103,7 @@
     {
       "name": "@dfinity/sns",
       "path": "./packages/sns/dist/index.js",
-      "limit": "100 kB",
+      "limit": "13 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -115,7 +115,7 @@
     {
       "name": "@dfinity/utils",
       "path": "./packages/utils/dist/index.js",
-      "limit": "85 kB",
+      "limit": "2 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
