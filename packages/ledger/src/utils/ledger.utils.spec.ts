@@ -68,7 +68,8 @@ describe("ledger-utils", () => {
     });
 
     it("should raise an error if input is provided with an invalid checksum", () => {
-      const call = () => decodeIcrcAccount(`${ownerText}-abcdef.${subaccountHex}`);
+      const call = () =>
+        decodeIcrcAccount(`${ownerText}-abcdef.${subaccountHex}`);
       expect(call).toThrow();
     });
   });
