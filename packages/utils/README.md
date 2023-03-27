@@ -45,6 +45,8 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
 - [hexStringToUint8Array](#gear-hexstringtouint8array)
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
+- [encodeBase32](#gear-encodebase32)
+- [decodeBase32](#gear-decodebase32)
 - [bigEndianCrc32](#gear-bigendiancrc32)
 - [debounce](#gear-debounce)
 - [isNullish](#gear-isnullish)
@@ -149,6 +151,31 @@ Parameters:
 | Function                | Type                            |
 | ----------------------- | ------------------------------- |
 | `uint8ArrayToHexString` | `(bytes: Uint8Array) => string` |
+
+#### :gear: encodeBase32
+
+Encode an Uint8Array to a base32 string.
+
+| Function       | Type                            |
+| -------------- | ------------------------------- |
+| `encodeBase32` | `(input: Uint8Array) => string` |
+
+Parameters:
+
+- `input`: The input array to encode.
+
+#### :gear: decodeBase32
+
+Decode a base32 string to Uint8Array.
+
+| Function       | Type                            |
+| -------------- | ------------------------------- |
+| `decodeBase32` | `(input: string) => Uint8Array` |
+
+Parameters:
+
+- `input`: The input string to decode.
+- `input`: The base32 encoded string to decode.
 
 #### :gear: bigEndianCrc32
 
