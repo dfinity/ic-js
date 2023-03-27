@@ -58,7 +58,7 @@
     {
       "name": "@dfinity/ckbtc",
       "path": "./packages/ckbtc/dist/index.js",
-      "limit": "90 kB"
+      "limit": "5 kB"
     },
     {
       "name": "@dfinity/cmc",
