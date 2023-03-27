@@ -110,8 +110,19 @@ jobs:
       - name: Test
         run: npm run test --workspaces
 
+  size:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Size check
+        uses: andresz1/size-limit-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
   may-merge:
-    needs: ["formatting", "build", "lint", "test"]
+    needs: ["formatting", "build", "lint", "test", "size"]
     runs-on: ubuntu-20.04
     steps:
       - name: Cleared for merging

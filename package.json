@@ -19,7 +19,8 @@
     "test": "jest",
     "test-all": "npm ci && npm run build --workspace=packages/utils && npm run build --workspace=packages/ledger && npm run test --workspaces",
     "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md packages/ckbtc/README.md",
-    "build": "npm run build --workspaces"
+    "build": "npm run build --workspaces",
+    "size": "size-limit --json"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "url": "https://github.com/dfinity/ic-js"
   },
   "devDependencies": {
+    "@size-limit/esbuild": "^8.2.4",
     "@size-limit/preset-small-lib": "^8.2.4",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.5",
