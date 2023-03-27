@@ -19,8 +19,8 @@
     "test": "jest",
     "test-all": "npm ci && npm run build --workspace=packages/utils && npm run build --workspace=packages/ledger && npm run test --workspaces",
     "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md packages/ckbtc/README.md",
-    "size": "size-limit --json",
-    "build": "npm run build --workspaces"
+    "build": "npm run build --workspaces",
+    "size": "size-limit --json"
   },
   "repository": {
     "type": "git",
