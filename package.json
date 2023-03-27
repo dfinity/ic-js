@@ -46,6 +46,7 @@
     "node-fetch": "^3.3.1",
     "prettier": "^2.8.5",
     "prettier-plugin-organize-imports": "^3.2.2",
+    "size-limit": "^8.2.4",
     "text-encoding": "^0.7.0",
     "ts-jest": "^29.0.5",
     "ts-protoc-gen": "^0.15.0",
