@@ -34,6 +34,8 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [defaultAgent](#gear-defaultagent)
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
+- [assertNonNullish](#gear-assertnonnullish)
+- [assertPercentageNumber](#gear-assertpercentagenumber)
 - [uint8ArrayToBigInt](#gear-uint8arraytobigint)
 - [bigIntToUint8Array](#gear-biginttouint8array)
 - [numberToUint8Array](#gear-numbertouint8array)
@@ -41,8 +43,9 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [uint8ArrayToArrayOfNumber](#gear-uint8arraytoarrayofnumber)
 - [arrayOfNumberToUint8Array](#gear-arrayofnumbertouint8array)
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
-- [assertNonNullish](#gear-assertnonnullish)
-- [assertPercentageNumber](#gear-assertpercentagenumber)
+- [hexStringToUint8Array](#gear-hexstringtouint8array)
+- [uint8ArrayToHexString](#gear-uint8arraytohexstring)
+- [bigEndianCrc32](#gear-bigendiancrc32)
 - [debounce](#gear-debounce)
 - [isNullish](#gear-isnullish)
 - [nonNullish](#gear-nonnullish)
@@ -80,6 +83,18 @@ Parameters:
 | Function         | Type                                                                                                                                                                                                                                                            |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, }, idlFactory, certifiedIdlFactory, }: { options: RequiredCanisterOptions<T>; idlFactory: InterfaceFactory; certifiedIdlFactory: InterfaceFactory; }) => { ...; }` |
+
+#### :gear: assertNonNullish
+
+| Function           | Type                                                                 |
+| ------------------ | -------------------------------------------------------------------- |
+| `assertNonNullish` | `<T>(value: T, message?: string) => asserts value is NonNullable<T>` |
+
+#### :gear: assertPercentageNumber
+
+| Function                 | Type                           |
+| ------------------------ | ------------------------------ |
+| `assertPercentageNumber` | `(percentage: number) => void` |
 
 #### :gear: uint8ArrayToBigInt
 
@@ -123,17 +138,23 @@ Parameters:
 | ------------------------ | ---------------------------- |
 | `asciiStringToByteArray` | `(text: string) => number[]` |
 
-#### :gear: assertNonNullish
+#### :gear: hexStringToUint8Array
 
-| Function           | Type                                                                 |
-| ------------------ | -------------------------------------------------------------------- |
-| `assertNonNullish` | `<T>(value: T, message?: string) => asserts value is NonNullable<T>` |
+| Function                | Type                                |
+| ----------------------- | ----------------------------------- |
+| `hexStringToUint8Array` | `(hexString: string) => Uint8Array` |
 
-#### :gear: assertPercentageNumber
+#### :gear: uint8ArrayToHexString
 
-| Function                 | Type                           |
-| ------------------------ | ------------------------------ |
-| `assertPercentageNumber` | `(percentage: number) => void` |
+| Function                | Type                            |
+| ----------------------- | ------------------------------- |
+| `uint8ArrayToHexString` | `(bytes: Uint8Array) => string` |
+
+#### :gear: bigEndianCrc32
+
+| Function         | Type                                |
+| ---------------- | ----------------------------------- |
+| `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
 
 #### :gear: debounce
 

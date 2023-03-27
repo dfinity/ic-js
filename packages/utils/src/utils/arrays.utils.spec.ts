@@ -3,9 +3,11 @@ import {
   arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   bigIntToUint8Array,
+  hexStringToUint8Array,
   numberToUint8Array,
   uint8ArrayToArrayOfNumber,
   uint8ArrayToBigInt,
+  uint8ArrayToHexString,
 } from "./arrays.utils";
 
 describe("arrays-utils", () => {
@@ -48,5 +50,25 @@ describe("arrays-utils", () => {
     ];
 
     expect(asciiStringToByteArray("71101101107115")).toEqual(expectedResult);
+  });
+
+  const hex =
+    "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20";
+  const hexArray = Uint8Array.from([...Array(32)].map((_, i) => i + 1));
+
+  it("should convert hex string to uint8array", () => {
+    expect(hexStringToUint8Array(hex)).toEqual(hexArray);
+  });
+
+  it("should throw error if empty hex string is provided to convert to uint8array", () => {
+    expect(() => hexStringToUint8Array("")).toThrow();
+  });
+
+  it("should convert random string to uint8array of zeros", () => {
+    expect(hexStringToUint8Array("test")).toEqual(Uint8Array.from([0, 0]));
+  });
+
+  it("should convert hex uint8array to string", () => {
+    expect(uint8ArrayToHexString(hexArray)).toEqual(hex);
   });
 });
