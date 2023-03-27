@@ -1,3 +1,5 @@
+import { assertNonNullish } from "./asserts.utils";
+
 export const uint8ArrayToBigInt = (array: Uint8Array): bigint => {
   const view = new DataView(array.buffer, array.byteOffset, array.byteLength);
   if (typeof view.getBigUint64 === "function") {
@@ -46,3 +48,14 @@ export const arrayOfNumberToUint8Array = (numbers: Array<number>): Uint8Array =>
 
 export const asciiStringToByteArray = (text: string): Array<number> =>
   Array.from(text).map((c) => c.charCodeAt(0));
+
+export const hexStringToUint8Array = (hexString: string): Uint8Array => {
+  const matches = hexString.match(/.{1,2}/g);
+
+  assertNonNullish(matches, "Invalid hex string.");
+
+  return Uint8Array.from(matches.map((byte) => parseInt(byte, 16)));
+};
+
+export const uint8ArrayToHexString = (bytes: Uint8Array) =>
+  bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
