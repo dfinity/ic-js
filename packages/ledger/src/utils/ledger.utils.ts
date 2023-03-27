@@ -45,15 +45,20 @@ export const encodeIcrcAccount = ({
     return owner.toText();
   }
 
+  const removeLeadingZeros = (text: string): string => text.replace(/^0+/, "");
+
+  return `${owner.toText()}-${encodeCrc({
+    owner,
+    subaccount,
+  })}.${removeLeadingZeros(uint8ArrayToHexString(subaccount))}`;
+};
+
+const encodeCrc = ({ owner, subaccount }: Required<IcrcAccount>): string => {
   const crc = bigEndianCrc32(
     Uint8Array.from([...owner.toUint8Array(), ...subaccount])
   );
 
-  const removeLeadingZeros = (text: string): string => text.replace(/^0+/, "");
-
-  return `${owner.toText()}-${encodeBase32(crc)}.${removeLeadingZeros(
-    uint8ArrayToHexString(subaccount)
-  )}`;
+  return encodeBase32(crc);
 };
 
 /**
@@ -65,27 +70,33 @@ export const encodeIcrcAccount = ({
  * @returns IcrcAccount { owner: Principal, subaccount?: Uint8Array }
  */
 export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
-  const [principalAndMaybeCheckSum, subaccount] = accountString.split(".");
+  const [principalAndMaybeCheckSum, subaccountHex] = accountString.split(".");
 
   if (!notEmptyString(principalAndMaybeCheckSum)) {
     throw new Error("Invalid account. No string provided.");
   }
 
-  if (subaccount === undefined) {
+  if (subaccountHex === undefined) {
     return {
       owner: Principal.fromText(accountString),
     };
   }
 
-  const [_checksum, ...rest] = principalAndMaybeCheckSum.split("-").reverse();
+  const [checksum, ...rest] = principalAndMaybeCheckSum.split("-").reverse();
   const principalText = rest.reverse().join("-");
 
-  // TODO checksum validate
-
-  return {
+  const account = {
     owner: Principal.fromText(principalText),
     subaccount: hexStringToUint8Array(
-      subaccount.padStart(MAX_SUBACCOUNT_HEX_LENGTH, "0")
+      subaccountHex.padStart(MAX_SUBACCOUNT_HEX_LENGTH, "0")
     ),
   };
+
+  const crcText = encodeCrc(account);
+
+  if (crcText !== checksum) {
+    throw new Error("Invalid account. Invalid checksum.");
+  }
+
+  return account;
 };
