@@ -68,7 +68,8 @@ describe("ledger-utils", () => {
     });
 
     it("should raise an error if input is provided with an invalid checksum", () => {
-      const call = () => decodeIcrcAccount(`${ownerText}-abcdef.${subaccountHex}`);
+      const call = () =>
+        decodeIcrcAccount(`${ownerText}-abcdef.${subaccountHex}`);
       expect(call).toThrow();
     });
   });
@@ -79,7 +80,7 @@ describe("ledger-utils", () => {
       subaccount1[31] = 1;
       const account1 = {
         owner: Principal.fromText("2vxsx-fae"),
-        subaccount: subaccount1,
+        subaccount: subaccount,
       };
       expect(decodeIcrcAccount(encodeIcrcAccount(account1))).toEqual(account1);
 
@@ -96,6 +97,12 @@ describe("ledger-utils", () => {
         owner: mockPrincipal,
       };
       expect(decodeIcrcAccount(encodeIcrcAccount(account3))).toEqual(account3);
+
+      const account4 = {
+        owner,
+        subaccount,
+      };
+      expect(decodeIcrcAccount(encodeIcrcAccount(account4))).toEqual(account4);
     });
   });
 });
