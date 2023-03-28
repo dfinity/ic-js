@@ -3,6 +3,12 @@ const fs = require("fs");
 const path = require("path");
 
 /**
+ * Reference on AST types:
+ * - Docs on babel types https://babeljs.io/docs/babel-types
+ * - Discover and play with AST https://astexplorer.net/ (select @babel/parser as parser)
+ */
+
+/**
  * Identifies the `[] | [T]` pattern
  */
 const isOptionalUnionType = (annotation) => {
