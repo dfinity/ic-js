@@ -1,5 +1,9 @@
 import { Principal } from "@dfinity/principal";
-import { asciiStringToByteArray, numberToUint8Array } from "./arrays.utils";
+import {
+  asciiStringToByteArray,
+  numberToUint8Array,
+  uint8ArrayToHexString,
+} from "./arrays.utils";
 import { sha256 } from "./crypto.utils";
 
 describe("crypto-utils", () => {
@@ -27,9 +31,7 @@ describe("crypto-utils", () => {
   it("should encode sha256 to expected hex value", async () => {
     const msgUint8 = new TextEncoder().encode("hello world #@¶$");
     const hash = await sha256(msgUint8);
-    const hashHex = Array.from(hash)
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
+    const hashHex = uint8ArrayToHexString(hash);
     expect(hashHex).toEqual(
       "559a1d0c6d7756c70361a8f69fe0df408f2d43cdd0f71f5827f7c02451fa64d6"
     );
