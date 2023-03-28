@@ -1,17 +1,24 @@
 export type {
   Action as SnsAction,
   Ballot as SnsBallot,
+  DeregisterDappCanisters,
+  ExecuteGenericNervousSystemFunction,
   GetMetadataResponse as SnsGetMetadataResponse,
   ListNervousSystemFunctionsResponse as SnsListNervousSystemFunctionsResponse,
   ManageNeuron as SnsManageNeuron,
   ManageNeuronResponse as SnsManageNeuronResponse,
+  ManageSnsMetadata,
+  Motion as SnsMotion,
   NervousSystemFunction as SnsNervousSystemFunction,
   NervousSystemParameters,
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
   ProposalData as SnsProposalData,
   ProposalId as SnsProposalId,
+  RegisterDappCanisters,
   Tally as SnsTally,
+  TransferSnsTreasuryFunds,
+  UpgradeSnsControlledCanister,
 } from "../candid/sns_governance";
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
 export type {
