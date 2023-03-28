@@ -4,8 +4,8 @@ import { neuronSubaccount } from "./governance.utils";
 describe("governance utils", () => {
   describe("neuronSubaccount", () => {
     // Test it to make sure that if there are changes, the test will fail.
-    it("calculates the neuron subaccount based on controller and index", () => {
-      const subaccount = neuronSubaccount({
+    it("calculates the neuron subaccount based on controller and index", async () => {
+      const subaccount = await neuronSubaccount({
         controller: mockPrincipal,
         index: 4,
       });

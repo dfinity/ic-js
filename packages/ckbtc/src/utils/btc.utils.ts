@@ -1,7 +1,6 @@
-import { isNullish } from "@dfinity/utils";
+import { isNullish, sha256 } from "@dfinity/utils";
 import { base58_to_binary } from "base58-js";
 import { bech32, bech32m, type Decoded } from "bech32";
-import { sha256 } from "js-sha256";
 import { BtcAddressType, BtcNetwork } from "../enums/btc.enums";
 import {
   ParseBtcAddressBadWitnessLengthError,
@@ -46,10 +45,10 @@ const Base58AddressTypes: Record<
   },
 };
 
-const parseBase58Address = ({
+const parseBase58Address = async ({
   address,
   network,
-}: Required<BtcAddress>): BtcAddressInfo => {
+}: Required<BtcAddress>): Promise<BtcAddressInfo> => {
   const decodeBase58 = (address: string): Uint8Array => {
     try {
       return base58_to_binary(address);
@@ -68,17 +67,15 @@ const parseBase58Address = ({
     );
   }
 
-  const validateBase58Checksum = (decoded: Uint8Array) => {
+  const validateBase58Checksum = async (decoded: Uint8Array) => {
     const expectedChecksum = decoded.slice(length - 4, length);
     const body = decoded.slice(0, length - 4);
 
-    const bodyHash = sha256.create();
-    bodyHash.update(body);
+    const bodyHash = await sha256(body);
 
-    const checksumHash = sha256.create();
-    checksumHash.update(bodyHash.digest());
+    const checksumHash = await sha256(bodyHash);
 
-    const checksum = checksumHash.array().slice(0, 4);
+    const checksum = checksumHash.slice(0, 4);
 
     if (
       expectedChecksum.some(
@@ -91,7 +88,7 @@ const parseBase58Address = ({
     }
   };
 
-  validateBase58Checksum(decoded);
+  await validateBase58Checksum(decoded);
 
   const version = decoded[0];
 
@@ -115,10 +112,10 @@ const parseBase58Address = ({
   };
 };
 
-const parseBip173Address = ({
+const parseBip173Address = async ({
   address,
   network,
-}: Required<BtcAddress>): BtcAddressInfo => {
+}: Required<BtcAddress>): Promise<BtcAddressInfo> => {
   const decodeBech32 = (address: string): Decoded => {
     try {
       if (
@@ -194,7 +191,7 @@ const parseBip173Address = ({
 export const parseBtcAddress = ({
   address,
   network = BtcNetwork.Mainnet,
-}: BtcAddress): BtcAddressInfo => {
+}: BtcAddress): Promise<BtcAddressInfo> => {
   switch (address.charAt(0)) {
     case "1":
     case "2":

@@ -16,7 +16,7 @@
     "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
     "build": "npm run rmdir && mkdir -p dist && node esbuild.mjs && npm run ts-declaration",
     "prepack": "npm run build",
-    "test": "jest"
+    "test": "node --experimental-global-webcrypto ../../node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",

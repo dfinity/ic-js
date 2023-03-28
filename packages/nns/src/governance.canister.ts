@@ -4,9 +4,9 @@ import {
   asciiStringToByteArray,
   assertPercentageNumber,
   createServices,
+  sha256,
   uint8ArrayToBigInt,
 } from "@dfinity/utils";
-import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
 import type {
   ListProposalInfo,
@@ -241,7 +241,10 @@ export class GovernanceCanister {
 
     const nonceBytes = new Uint8Array(randomBytes(8));
     const nonce = uint8ArrayToBigInt(nonceBytes);
-    const toSubAccount = this.buildNeuronStakeSubAccount(nonceBytes, principal);
+    const toSubAccount = await this.buildNeuronStakeSubAccount(
+      nonceBytes,
+      principal
+    );
     const accountIdentifier = AccountIdentifier.fromPrincipal({
       principal: this.canisterId,
       subAccount: toSubAccount,
@@ -802,14 +805,20 @@ export class GovernanceCanister {
     );
   };
 
-  private buildNeuronStakeSubAccount = (
+  private buildNeuronStakeSubAccount = async (
     nonce: Uint8Array,
     principal: Principal
-  ): SubAccount => {
+  ): Promise<SubAccount> => {
     const padding = asciiStringToByteArray("neuron-stake");
-    const shaObj = sha256.create();
-    shaObj.update([0x0c, ...padding, ...principal.toUint8Array(), ...nonce]);
-    return SubAccount.fromBytes(new Uint8Array(shaObj.array())) as SubAccount;
+
+    const data = Uint8Array.from([
+      0x0c,
+      ...padding,
+      ...principal.toUint8Array(),
+      ...nonce,
+    ]);
+    const hash = await sha256(data);
+    return SubAccount.fromBytes(hash) as SubAccount;
   };
 
   private getGovernanceService(certified: boolean): GovernanceService {

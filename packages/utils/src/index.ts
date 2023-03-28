@@ -7,6 +7,7 @@ export * from "./utils/arrays.utils";
 export * from "./utils/asserts.utils";
 export * from "./utils/base32.utils";
 export * from "./utils/crc.utils";
+export * from "./utils/crypto.utils";
 export * from "./utils/debounce.utils";
 export * from "./utils/did.utils";
 export * from "./utils/nullish.utils";
