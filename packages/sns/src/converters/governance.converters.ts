@@ -2,6 +2,7 @@ import type { IcrcAccount } from "@dfinity/ledger";
 import { toNullable } from "@dfinity/utils";
 import type {
   Account,
+  Action,
   Command,
   ListProposals,
   ManageNeuron,
@@ -264,3 +265,5 @@ export const toListProposalRequest = ({
   include_status: Int32Array.from(includeStatus ?? []),
   limit: limit ?? DEFAULT_PROPOSALS_LIMIT,
 });
+
+export const toActionOptional = (action: Action): Action | undefined => {};

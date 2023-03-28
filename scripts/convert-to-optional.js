@@ -18,13 +18,7 @@ const isOptionalUnionType = (annotation) => {
   }
 };
 
-/**
- * Identifies wether the type is one that needs to be converted with `convertXxxx`.
- */
-const isConvertableType = (annotation) => {
-  console.log(annotation);
-  return false;
-};
+const EXTERNAL_TYPES = ["Principal", "Uint8Array"];
 
 const mappedInterfaces = new Map();
 
@@ -86,12 +80,34 @@ const transformOptionalTuple = () => {
             const call = t.callExpression(t.identifier("fromNullable"), [
               t.memberExpression(parameter, node.key),
             ]);
-            if (isConvertableType(annotation)) {
-              const typeName = "test";
-              return t.objectProperty(
-                node.key,
-                t.callExpression(t.identifier(`convert${typeName}`), [call])
+            const referenceTypes = annotation.typeAnnotation.types
+              .filter(
+                (type) =>
+                  type.type === "TSTupleType" && type.elementTypes.length === 1
+              )
+              .map((type) => type.elementTypes[0])
+              .filter((type) => type.type === "TSTypeReference")
+              .map((type) => type.typeName.name);
+            if (referenceTypes.length > 1) {
+              throw new Error(
+                `Unexpected number of type annotations for union type ${JSON.stringify(
+                  annotation
+                )}`
               );
+            }
+            if (referenceTypes.length === 0) {
+              return t.objectProperty(node.key, call);
+            }
+            const referenceType = referenceTypes[0];
+            if (
+              referenceType[0].toUpperCase() === referenceType[0] &&
+              !EXTERNAL_TYPES.includes(referenceType)
+            ) {
+              const converterCallExpression = t.callExpression(
+                t.identifier(`convert${referenceType}`),
+                [call]
+              );
+              return t.objectProperty(node.key, converterCallExpression);
             }
             return t.objectProperty(node.key, call);
           }
