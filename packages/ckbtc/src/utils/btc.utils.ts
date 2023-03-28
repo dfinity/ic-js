@@ -1,4 +1,9 @@
 import { isNullish } from "@dfinity/utils";
+import {
+  arrayBufferToUint8Array,
+  uint8ArrayToHexString,
+} from "@dfinity/utils/src";
+import { ripemd160 } from "@noble/hashes/ripemd160";
 import { base58_to_binary } from "base58-js";
 import { bech32, bech32m, type Decoded } from "bech32";
 import { sha256 } from "js-sha256";
@@ -212,4 +217,41 @@ export const parseBtcAddress = ({
     default:
       throw new ParseBtcAddressUnsupportedAddressTypeError();
   }
+};
+
+export const interpolateBtcAddress = async (): Promise<string> => {
+  const ECDSA_CKTESTBTC_MINTER_PUBLIC_KEY =
+    "03aed468e148a928fd48593a0e15b7b9c5b5008fd971be7f274e927d30c8589262";
+
+  // TODO: derive_public_key(ecdsa_public_key, account).public_key,
+  // ?????
+
+  // https://stackoverflow.com/a/63899012/5404186
+
+  // HASH160 = RIPEMD160(SHA256($publicKey))
+  // network_and_pkhash_to_p2wpkh(network, &crate::tx::hash160(public_key))
+  const publicKeyEncoder = new TextEncoder();
+  const publicKeyData = publicKeyEncoder.encode(
+    ECDSA_CKTESTBTC_MINTER_PUBLIC_KEY
+  );
+  const publicKeySha256 = await crypto.subtle.digest("SHA-256", publicKeyData);
+  const publicKeyHash160 = ripemd160(arrayBufferToUint8Array(publicKeySha256));
+
+  const hrp = (network: BtcNetwork): "bc" | "tb" | "bcrt" => {
+    switch (network) {
+      case BtcNetwork.Mainnet:
+        return "bc";
+      case BtcNetwork.Testnet:
+        return "tb";
+      case BtcNetwork.Regtest:
+        return "bcrt";
+    }
+  };
+
+  const hashHex = uint8ArrayToHexString(publicKeyHash160);
+  const publicKeyHashEncoder = new TextEncoder();
+  const publicKeyHashData = publicKeyHashEncoder.encode(hashHex);
+  const bech32Words = bech32.toWords(publicKeyHashData);
+  const words = new Uint8Array([0, ...bech32Words]);
+  return bech32.encode(hrp(BtcNetwork.Mainnet), words);
 };
