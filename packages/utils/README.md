@@ -48,6 +48,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [encodeBase32](#gear-encodebase32)
 - [decodeBase32](#gear-decodebase32)
 - [bigEndianCrc32](#gear-bigendiancrc32)
+- [sha256](#gear-sha256)
 - [debounce](#gear-debounce)
 - [isNullish](#gear-isnullish)
 - [nonNullish](#gear-nonnullish)
@@ -182,6 +183,12 @@ Parameters:
 | Function         | Type                                |
 | ---------------- | ----------------------------------- |
 | `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
+
+#### :gear: sha256
+
+| Function | Type                                        |
+| -------- | ------------------------------------------- |
+| `sha256` | `(data: Uint8Array) => Promise<Uint8Array>` |
 
 #### :gear: debounce
 
