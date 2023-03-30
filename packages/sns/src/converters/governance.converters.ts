@@ -2,32 +2,32 @@ import type { IcrcAccount } from "@dfinity/ledger";
 import { fromNullable, toNullable } from "@dfinity/utils";
 import type {
   Account,
-  Action,
+  Action as ActionCandid,
   Command,
-  FunctionType,
-  GenericNervousSystemFunction,
+  FunctionType as FunctionTypeCandid,
+  GenericNervousSystemFunction as GenericNervousSystemFunctionCandid,
   ListProposals,
   ManageNeuron,
-  ManageSnsMetadata,
-  NervousSystemFunction,
-  NervousSystemParameters,
+  ManageSnsMetadata as ManageSnsMetadataCandid,
+  NervousSystemFunction as NervousSystemFunctionCandid,
+  NervousSystemParameters as NervousSystemParametersCandid,
   NeuronId,
   Operation,
-  TransferSnsTreasuryFunds,
-  UpgradeSnsControlledCanister,
-  VotingRewardsParameters,
+  TransferSnsTreasuryFunds as TransferSnsTreasuryFundsCandid,
+  UpgradeSnsControlledCanister as UpgradeSnsControlledCanisterCandid,
+  VotingRewardsParameters as VotingRewardsParametersCandid,
 } from "../../candid/sns_governance";
 import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
 import type {
-  ActionOptional,
-  FunctionTypeOptional,
-  GenericNervousSystemFunctionOptional,
-  ManageSnsMetadataOptional,
-  NervousSystemFunctionOptional,
-  NervousSystemParametersOptional,
-  TransferSnsTreasuryFundsOptional,
-  UpgradeSnsControlledCanisterOptional,
-  VotingRewardsParametersOptional,
+  Action,
+  FunctionType,
+  GenericNervousSystemFunction,
+  ManageSnsMetadata,
+  NervousSystemFunction,
+  NervousSystemParameters,
+  TransferSnsTreasuryFunds,
+  UpgradeSnsControlledCanister,
+  VotingRewardsParameters,
 } from "../types/actions";
 import type {
   SnsClaimOrRefreshArgs,
@@ -285,7 +285,7 @@ export const toListProposalRequest = ({
   limit: limit ?? DEFAULT_PROPOSALS_LIMIT,
 });
 
-export const toActionOptional = (action: Action): ActionOptional => {
+export const toActionOptional = (action: ActionCandid): Action => {
   if ("ManageNervousSystemParameters" in action) {
     return {
       ManageNervousSystemParameters: convertNervousSystemParams(
@@ -362,8 +362,8 @@ export const toActionOptional = (action: Action): ActionOptional => {
 };
 
 const convertManageSnsMetadata = (
-  params: ManageSnsMetadata
-): ManageSnsMetadataOptional => ({
+  params: ManageSnsMetadataCandid
+): ManageSnsMetadata => ({
   url: fromNullable(params.url),
   logo: fromNullable(params.logo),
   name: fromNullable(params.name),
@@ -371,16 +371,16 @@ const convertManageSnsMetadata = (
 });
 
 const convertUpgradeSnsControlledCanister = (
-  params: UpgradeSnsControlledCanister
-): UpgradeSnsControlledCanisterOptional => ({
+  params: UpgradeSnsControlledCanisterCandid
+): UpgradeSnsControlledCanister => ({
   new_canister_wasm: params.new_canister_wasm,
   canister_id: fromNullable(params.canister_id),
   canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
 });
 
 const convertTransferSnsTreasuryFunds = (
-  params: TransferSnsTreasuryFunds
-): TransferSnsTreasuryFundsOptional => ({
+  params: TransferSnsTreasuryFundsCandid
+): TransferSnsTreasuryFunds => ({
   from_treasury: params.from_treasury,
   to_principal: fromNullable(params.to_principal),
   to_subaccount: fromNullable(params.to_subaccount),
@@ -389,8 +389,8 @@ const convertTransferSnsTreasuryFunds = (
 });
 
 const convertGenericNervousSystemFunction = (
-  params: GenericNervousSystemFunction
-): GenericNervousSystemFunctionOptional => ({
+  params: GenericNervousSystemFunctionCandid
+): GenericNervousSystemFunction => ({
   validator_canister_id: fromNullable(params.validator_canister_id),
   target_canister_id: fromNullable(params.target_canister_id),
   validator_method_name: fromNullable(params.validator_method_name),
@@ -398,8 +398,8 @@ const convertGenericNervousSystemFunction = (
 });
 
 const convertFunctionType = (
-  params: FunctionType | undefined
-): FunctionTypeOptional | undefined => {
+  params: FunctionTypeCandid | undefined
+): FunctionType | undefined => {
   if (params === undefined) {
     return undefined;
   }
@@ -420,8 +420,8 @@ const convertFunctionType = (
 };
 
 const convertNervousSystemFunction = (
-  params: NervousSystemFunction
-): NervousSystemFunctionOptional => ({
+  params: NervousSystemFunctionCandid
+): NervousSystemFunction => ({
   id: params.id,
   name: params.name,
   description: fromNullable(params.description),
@@ -429,8 +429,8 @@ const convertNervousSystemFunction = (
 });
 
 const convertVotingRewardsParameters = (
-  params: VotingRewardsParameters | undefined
-): VotingRewardsParametersOptional | undefined =>
+  params: VotingRewardsParametersCandid | undefined
+): VotingRewardsParameters | undefined =>
   params && {
     final_reward_rate_basis_points: fromNullable(
       params.final_reward_rate_basis_points
@@ -445,8 +445,8 @@ const convertVotingRewardsParameters = (
   };
 
 const convertNervousSystemParams = (
-  params: NervousSystemParameters
-): NervousSystemParametersOptional => ({
+  params: NervousSystemParametersCandid
+): NervousSystemParameters => ({
   default_followees: fromNullable(params.default_followees),
   max_dissolve_delay_seconds: fromNullable(params.max_dissolve_delay_seconds),
   max_dissolve_delay_bonus_percentage: fromNullable(

@@ -10,25 +10,25 @@ import type {
 } from "../../candid/sns_governance";
 import type { Option } from "./common";
 
-export type ActionOptional =
+export type Action =
   | {
-      ManageNervousSystemParameters: NervousSystemParametersOptional;
+      ManageNervousSystemParameters: NervousSystemParameters;
     }
-  | { AddGenericNervousSystemFunction: NervousSystemFunctionOptional }
+  | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { UpgradeSnsToNextVersion: Record<string, never> }
   | { RegisterDappCanisters: RegisterDappCanisters }
-  | { TransferSnsTreasuryFunds: TransferSnsTreasuryFundsOptional }
-  | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanisterOptional }
+  | { TransferSnsTreasuryFunds: TransferSnsTreasuryFunds }
+  | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { DeregisterDappCanisters: DeregisterDappCanisters }
   | { Unspecified: Record<string, never> }
-  | { ManageSnsMetadata: ManageSnsMetadataOptional }
+  | { ManageSnsMetadata: ManageSnsMetadata }
   | {
       ExecuteGenericNervousSystemFunction: ExecuteGenericNervousSystemFunction;
     }
   | { Motion: Motion };
 
-export interface NervousSystemParametersOptional {
+export interface NervousSystemParameters {
   default_followees: Option<DefaultFollowees>;
   max_dissolve_delay_seconds: Option<bigint>;
   max_dissolve_delay_bonus_percentage: Option<bigint>;
@@ -46,36 +46,36 @@ export interface NervousSystemParametersOptional {
   max_number_of_proposals_with_ballots: Option<bigint>;
   max_age_bonus_percentage: Option<bigint>;
   neuron_grantable_permissions: Option<NeuronPermissionList>;
-  voting_rewards_parameters: Option<VotingRewardsParametersOptional>;
+  voting_rewards_parameters: Option<VotingRewardsParameters>;
   max_number_of_principals_per_neuron: Option<bigint>;
 }
 
-export interface VotingRewardsParametersOptional {
+export interface VotingRewardsParameters {
   final_reward_rate_basis_points: Option<bigint>;
   initial_reward_rate_basis_points: Option<bigint>;
   reward_rate_transition_duration_seconds: Option<bigint>;
   round_duration_seconds: Option<bigint>;
 }
 
-export interface NervousSystemFunctionOptional {
+export interface NervousSystemFunction {
   id: bigint;
   name: string;
   description: Option<string>;
-  function_type: Option<FunctionTypeOptional>;
+  function_type: Option<FunctionType>;
 }
 
-export type FunctionTypeOptional =
+export type FunctionType =
   | { NativeNervousSystemFunction: Record<string, never> }
-  | { GenericNervousSystemFunction: GenericNervousSystemFunctionOptional };
+  | { GenericNervousSystemFunction: GenericNervousSystemFunction };
 
-export interface GenericNervousSystemFunctionOptional {
+export interface GenericNervousSystemFunction {
   validator_canister_id: Option<Principal>;
   target_canister_id: Option<Principal>;
   validator_method_name: Option<string>;
   target_method_name: Option<string>;
 }
 
-export interface TransferSnsTreasuryFundsOptional {
+export interface TransferSnsTreasuryFunds {
   from_treasury: number;
   to_principal: Option<Principal>;
   to_subaccount: Option<Subaccount>;
@@ -83,13 +83,13 @@ export interface TransferSnsTreasuryFundsOptional {
   amount_e8s: bigint;
 }
 
-export interface UpgradeSnsControlledCanisterOptional {
+export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array;
   canister_id: Option<Principal>;
   canister_upgrade_arg: Option<Uint8Array>;
 }
 
-export interface ManageSnsMetadataOptional {
+export interface ManageSnsMetadata {
   url: Option<string>;
   logo: Option<string>;
   name: Option<string>;
