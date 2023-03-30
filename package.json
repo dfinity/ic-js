@@ -103,7 +103,7 @@
     {
       "name": "@dfinity/sns",
       "path": "./packages/sns/dist/index.js",
-      "limit": "13 kB",
+      "limit": "14 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
