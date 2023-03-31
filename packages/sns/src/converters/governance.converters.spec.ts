@@ -86,7 +86,7 @@ describe("governance converters", () => {
           initial_voting_period_seconds,
           neuron_minimum_dissolve_delay_to_vote_seconds,
           reject_cost_e8s,
-          max_proposals_to_keep_per_action: 2,
+          max_proposals_to_keep_per_action,
           wait_for_quiet_deadline_increase_seconds: undefined,
           max_number_of_neurons,
           transaction_fee_e8s,
@@ -110,7 +110,7 @@ describe("governance converters", () => {
       const name = "test function";
       const description = "test description";
       const validator_canister_id = mockPrincipal;
-      const target_canister_id = mockPrincipal;
+      const target_canister_id = Principal.fromHex("AB");
       const validator_method_name = "validator_method_name";
       const target_method_name = "target_method_name";
       const action: ActionCandid = {
@@ -175,7 +175,7 @@ describe("governance converters", () => {
       const from_treasury = 3;
       const to_principal = mockPrincipal;
       const memo = BigInt(3);
-      const amount_e8s = BigInt(3);
+      const amount_e8s = BigInt(10_000_000_000);
       const action: ActionCandid = {
         TransferSnsTreasuryFunds: {
           from_treasury,
@@ -221,7 +221,7 @@ describe("governance converters", () => {
       const action: ActionCandid = {
         DeregisterDappCanisters: {
           canister_ids: [mockPrincipal],
-          new_controllers: [mockPrincipal],
+          new_controllers: [Principal.fromHex("AB")],
         },
       };
       expect(fromCandidAction(action)).toEqual(action);
