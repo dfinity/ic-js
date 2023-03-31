@@ -30,7 +30,7 @@ export type {
   Ticket as SnsSwapTicket,
   TransferableAmount as SnsTransferableAmount,
 } from "../candid/sns_swap";
-export { toActionOptional } from "./converters/governance.converters";
+export { fromCandidAction } from "./converters/governance.converters";
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
 export * from "./errors/governance.errors";
