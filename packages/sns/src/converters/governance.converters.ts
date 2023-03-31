@@ -285,7 +285,7 @@ export const toListProposalRequest = ({
   limit: limit ?? DEFAULT_PROPOSALS_LIMIT,
 });
 
-export const toActionOptional = (action: ActionCandid): Action => {
+export const fromCandidAction = (action: ActionCandid): Action => {
   if ("ManageNervousSystemParameters" in action) {
     return {
       ManageNervousSystemParameters: convertNervousSystemParams(

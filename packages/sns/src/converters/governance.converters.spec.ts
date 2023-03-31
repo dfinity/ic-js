@@ -4,10 +4,10 @@ import type {
   DefaultFollowees,
 } from "../../candid/sns_governance";
 import type { Action } from "../types/actions";
-import { toActionOptional } from "./governance.converters";
+import { fromCandidAction } from "./governance.converters";
 
 describe("governance converters", () => {
-  describe("toActionOptional", () => {
+  describe("fromCandidAction", () => {
     const mockPrincipal = Principal.fromText("aaaaa-aa");
 
     it("converts ManageNervousSystemParameters action", () => {
@@ -102,7 +102,7 @@ describe("governance converters", () => {
           max_number_of_principals_per_neuron,
         },
       };
-      expect(toActionOptional(action)).toEqual(expectedAction);
+      expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
     it("converts AddGenericNervousSystemFunction action", () => {
@@ -145,21 +145,21 @@ describe("governance converters", () => {
           },
         },
       };
-      expect(toActionOptional(action)).toEqual(expectedAction);
+      expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
     it("converts RemoveGenericNervousSystemFunction action", () => {
       const action: ActionCandid = {
         RemoveGenericNervousSystemFunction: BigInt(3),
       };
-      expect(toActionOptional(action)).toEqual(action);
+      expect(fromCandidAction(action)).toEqual(action);
     });
 
     it("converts UpgradeSnsToNextVersion action", () => {
       const action: ActionCandid = {
         UpgradeSnsToNextVersion: {},
       };
-      expect(toActionOptional(action)).toEqual(action);
+      expect(fromCandidAction(action)).toEqual(action);
     });
 
     it("converts RegisterDappCanisters action", () => {
@@ -168,7 +168,7 @@ describe("governance converters", () => {
           canister_ids: [mockPrincipal],
         },
       };
-      expect(toActionOptional(action)).toEqual(action);
+      expect(fromCandidAction(action)).toEqual(action);
     });
 
     it("converts TransferSnsTreasuryFunds action", () => {
@@ -194,7 +194,7 @@ describe("governance converters", () => {
           amount_e8s,
         },
       };
-      expect(toActionOptional(action)).toEqual(expectedAction);
+      expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
     it("converts UpgradeSnsControlledCanister action", () => {
@@ -214,7 +214,7 @@ describe("governance converters", () => {
           canister_upgrade_arg: undefined,
         },
       };
-      expect(toActionOptional(action)).toEqual(expectedAction);
+      expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
     it("converts DeregisterDappCanisters action", () => {
@@ -224,14 +224,14 @@ describe("governance converters", () => {
           new_controllers: [mockPrincipal],
         },
       };
-      expect(toActionOptional(action)).toEqual(action);
+      expect(fromCandidAction(action)).toEqual(action);
     });
 
     it("converts Unspecified action", () => {
       const action: ActionCandid = {
         Unspecified: {},
       };
-      expect(toActionOptional(action)).toEqual(action);
+      expect(fromCandidAction(action)).toEqual(action);
     });
 
     it("converts ManageSnsMetadata action", () => {
@@ -253,7 +253,7 @@ describe("governance converters", () => {
           description: undefined,
         },
       };
-      expect(toActionOptional(action)).toEqual(expectedAction);
+      expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
     it("converts ExecuteGenericNervousSystemFunction action", () => {
@@ -263,14 +263,14 @@ describe("governance converters", () => {
           payload: new Uint8Array(),
         },
       };
-      expect(toActionOptional(action)).toEqual(action);
+      expect(fromCandidAction(action)).toEqual(action);
     });
 
     it("converts Motion action", () => {
       const action: ActionCandid = {
         Motion: { motion_text: "test motion" },
       };
-      expect(toActionOptional(action)).toEqual(action);
+      expect(fromCandidAction(action)).toEqual(action);
     });
   });
 });
