@@ -17,7 +17,7 @@ import {
 } from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
 import type {
-  EstimateFeeParams,
+  EstimateWithdrawalFeeParams,
   GetBTCAddressParams,
   RetrieveBtcParams,
   UpdateBalanceParams,
@@ -134,7 +134,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   estimateWithdrawalFee = async ({
     certified,
     amount,
-  }: EstimateFeeParams): Promise<EstimateWithdrawalFee> =>
+  }: EstimateWithdrawalFeeParams): Promise<EstimateWithdrawalFee> =>
     this.caller({
       certified,
     }).estimate_withdrawal_fee({ amount: toNullable(amount) });
