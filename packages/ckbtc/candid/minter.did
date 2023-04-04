@@ -1,4 +1,4 @@
-// Generated from IC repo commit cd8058402b0f65c9fd502f9bb19dff114592ff03 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit 078de6d2b8d15cccb09fcfe2483fddabe6c39457 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -121,6 +121,9 @@ type InitArgs = record {
     /// The minter's operation mode.
     mode : Mode;
 
+    /// The fee paid per check by the KYT cansiter.
+    kyt_fee : opt nat64;
+
     /// The canister id of the KYT canister.
     kyt_principal: opt principal;
 };
@@ -140,6 +143,12 @@ type UpgradeArgs = record {
 
     /// If set, overrides the current minter's operation mode.
     mode : opt Mode;
+
+    /// The fee per check by the KYT cansiter.
+    kyt_fee : opt nat64;
+
+    /// The principal of the KYT canister.
+    kyt_principal : opt principal;
 };
 
 type RetrieveBtcStatus = variant {
@@ -243,7 +252,10 @@ service : (minter_arg : MinterArg) -> {
 
     /// Returns an estimate of the user's fee (in Satoshi) for a
     /// retrieve_btc request based on the current status of the Bitcoin network.
-    estimate_fee : (record { amount : opt nat64 }) -> (nat64) query;
+    estimate_withdrawal_fee : (record { amount : opt nat64 }) -> (record { bitcoin_fee: nat64; minter_fee: nat64;}) query;
+
+    /// Returns the fee that the minter will charge for a bitcoin deposit.
+    get_deposit_fee: () -> (nat64) query;
 
     // Returns the account to which the caller should deposit ckBTC
     // before withdrawing BTC using the [retrieve_btc] endpoint.
