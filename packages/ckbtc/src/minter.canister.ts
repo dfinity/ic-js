@@ -1,8 +1,8 @@
 import {
   Canister,
   createServices,
-  type QueryParams,
   toNullable,
+  type QueryParams,
 } from "@dfinity/utils";
 import type {
   Account as WithdrawalAccount,
