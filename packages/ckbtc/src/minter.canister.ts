@@ -125,7 +125,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   };
 
   /**
-   * Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network and those related to the minter.
+   * Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network and the fee related to the minter.
    *
    * @param {RetrieveBtcParams} params The parameters to estimate the fee.
    * @param {boolean} params.certified query or update call
