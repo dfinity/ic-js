@@ -66,7 +66,8 @@ const btcAddress = await getBtcAddress({});
 - [updateBalance](#gear-updatebalance)
 - [getWithdrawalAccount](#gear-getwithdrawalaccount)
 - [retrieveBtc](#gear-retrievebtc)
-- [estimateFee](#gear-estimatefee)
+- [estimateWithdrawalFee](#gear-estimatewithdrawalfee)
+- [getDepositFee](#gear-getdepositfee)
 
 ##### :gear: create
 
@@ -136,19 +137,32 @@ Parameters:
 - `params.address`: The bitcoin address.
 - `params.amount`: The ckBTC amount.
 
-##### :gear: estimateFee
+##### :gear: estimateWithdrawalFee
 
-Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network.
+Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network and the fee related to the minter.
 
-| Method        | Type                                               |
-| ------------- | -------------------------------------------------- |
-| `estimateFee` | `({ certified, amount, }: any) => Promise<bigint>` |
+| Method                  | Type                                                              |
+| ----------------------- | ----------------------------------------------------------------- |
+| `estimateWithdrawalFee` | `({ certified, amount, }: any) => Promise<EstimateWithdrawalFee>` |
 
 Parameters:
 
 - `params`: The parameters to estimate the fee.
 - `params.certified`: query or update call
 - `params.amount`: The optional amount for which the fee should be estimated.
+
+##### :gear: getDepositFee
+
+Returns the fee that the minter will charge for a bitcoin deposit.
+
+| Method          | Type                                              |
+| --------------- | ------------------------------------------------- |
+| `getDepositFee` | `({ certified }: QueryParams) => Promise<bigint>` |
+
+Parameters:
+
+- `params`: The parameters to get the deposit fee.
+- `params.certified`: query or update call
 
 <!-- TSDOC_END -->
 

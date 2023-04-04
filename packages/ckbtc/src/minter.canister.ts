@@ -1,4 +1,9 @@
-import { Canister, createServices, toNullable } from "@dfinity/utils";
+import {
+  Canister,
+  createServices,
+  toNullable,
+  type QueryParams,
+} from "@dfinity/utils";
 import type {
   Account as WithdrawalAccount,
   RetrieveBtcOk,
@@ -12,12 +17,13 @@ import {
 } from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
 import type {
-  EstimateFeeParams,
+  EstimateWithdrawalFeeParams,
   GetBTCAddressParams,
   RetrieveBtcParams,
   UpdateBalanceParams,
 } from "./types/minter.params";
 import type {
+  EstimateWithdrawalFee,
   RetrieveBtcResponse,
   UpdateBalanceOk,
   UpdateBalanceResponse,
@@ -119,17 +125,28 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   };
 
   /**
-   * Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network.
+   * Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network and the fee related to the minter.
    *
    * @param {RetrieveBtcParams} params The parameters to estimate the fee.
    * @param {boolean} params.certified query or update call
    * @param {bigint | undefined} params.amount The optional amount for which the fee should be estimated.
    */
-  estimateFee = async ({
+  estimateWithdrawalFee = async ({
     certified,
     amount,
-  }: EstimateFeeParams): Promise<bigint> =>
+  }: EstimateWithdrawalFeeParams): Promise<EstimateWithdrawalFee> =>
     this.caller({
       certified,
-    }).estimate_fee({ amount: toNullable(amount) });
+    }).estimate_withdrawal_fee({ amount: toNullable(amount) });
+
+  /**
+   * Returns the fee that the minter will charge for a bitcoin deposit.
+   *
+   * @param {QueryParams} params The parameters to get the deposit fee.
+   * @param {boolean} params.certified query or update call
+   */
+  getDepositFee = async ({ certified }: QueryParams): Promise<bigint> =>
+    this.caller({
+      certified,
+    }).get_deposit_fee();
 }

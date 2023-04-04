@@ -7,10 +7,12 @@ export const idlFactory = ({ IDL }) => {
     'GeneralAvailability' : IDL.Null,
   });
   const UpgradeArgs = IDL.Record({
+    'kyt_principal' : IDL.Opt(IDL.Principal),
     'mode' : IDL.Opt(Mode),
     'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
     'max_time_in_queue_nanos' : IDL.Opt(IDL.Nat64),
     'min_confirmations' : IDL.Opt(IDL.Nat32),
+    'kyt_fee' : IDL.Opt(IDL.Nat64),
   });
   const BtcNetwork = IDL.Variant({
     'Mainnet' : IDL.Null,
@@ -26,6 +28,7 @@ export const idlFactory = ({ IDL }) => {
     'max_time_in_queue_nanos' : IDL.Nat64,
     'btc_network' : BtcNetwork,
     'min_confirmations' : IDL.Opt(IDL.Nat32),
+    'kyt_fee' : IDL.Opt(IDL.Nat64),
   });
   const MinterArg = IDL.Variant({
     'Upgrade' : IDL.Opt(UpgradeArgs),
@@ -124,9 +127,9 @@ export const idlFactory = ({ IDL }) => {
     }),
   });
   return IDL.Service({
-    'estimate_fee' : IDL.Func(
+    'estimate_withdrawal_fee' : IDL.Func(
         [IDL.Record({ 'amount' : IDL.Opt(IDL.Nat64) })],
-        [IDL.Nat64],
+        [IDL.Record({ 'minter_fee' : IDL.Nat64, 'bitcoin_fee' : IDL.Nat64 })],
         [],
       ),
     'get_btc_address' : IDL.Func(
@@ -139,6 +142,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Text],
         [],
       ),
+    'get_deposit_fee' : IDL.Func([], [IDL.Nat64], []),
     'get_events' : IDL.Func(
         [IDL.Record({ 'start' : IDL.Nat64, 'length' : IDL.Nat64 })],
         [IDL.Vec(Event)],
@@ -180,10 +184,12 @@ export const init = ({ IDL }) => {
     'GeneralAvailability' : IDL.Null,
   });
   const UpgradeArgs = IDL.Record({
+    'kyt_principal' : IDL.Opt(IDL.Principal),
     'mode' : IDL.Opt(Mode),
     'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
     'max_time_in_queue_nanos' : IDL.Opt(IDL.Nat64),
     'min_confirmations' : IDL.Opt(IDL.Nat32),
+    'kyt_fee' : IDL.Opt(IDL.Nat64),
   });
   const BtcNetwork = IDL.Variant({
     'Mainnet' : IDL.Null,
@@ -199,6 +205,7 @@ export const init = ({ IDL }) => {
     'max_time_in_queue_nanos' : IDL.Nat64,
     'btc_network' : BtcNetwork,
     'min_confirmations' : IDL.Opt(IDL.Nat32),
+    'kyt_fee' : IDL.Opt(IDL.Nat64),
   });
   const MinterArg = IDL.Variant({
     'Upgrade' : IDL.Opt(UpgradeArgs),
