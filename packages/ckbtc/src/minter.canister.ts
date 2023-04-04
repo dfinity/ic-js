@@ -1,4 +1,9 @@
-import { Canister, createServices, toNullable } from "@dfinity/utils";
+import {
+  Canister,
+  createServices,
+  QueryParams,
+  toNullable,
+} from "@dfinity/utils";
 import type {
   Account as WithdrawalAccount,
   RetrieveBtcOk,
@@ -18,11 +23,11 @@ import type {
   UpdateBalanceParams,
 } from "./types/minter.params";
 import type {
+  EstimateWithdrawalFee,
   RetrieveBtcResponse,
   UpdateBalanceOk,
   UpdateBalanceResponse,
 } from "./types/minter.responses";
-import type { EstimateWithdrawalFee } from "./types/minter.responses";
 
 export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   static create(options: CkBTCMinterCanisterOptions<CkBTCMinterService>) {
@@ -133,4 +138,15 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
     this.caller({
       certified,
     }).estimate_withdrawal_fee({ amount: toNullable(amount) });
+
+  /**
+   * Returns the fee that the minter will charge for a bitcoin deposit.
+   *
+   * @param {RetrieveBtcParams} params The parameters to get the deposit fee.
+   * @param {boolean} params.certified query or update call
+   */
+  getDepositFee = async ({ certified }: QueryParams): Promise<bigint> =>
+    this.caller({
+      certified,
+    }).get_deposit_fee();
 }
