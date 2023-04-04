@@ -142,7 +142,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   /**
    * Returns the fee that the minter will charge for a bitcoin deposit.
    *
-   * @param {RetrieveBtcParams} params The parameters to get the deposit fee.
+   * @param {QueryParams} params The parameters to get the deposit fee.
    * @param {boolean} params.certified query or update call
    */
   getDepositFee = async ({ certified }: QueryParams): Promise<bigint> =>
