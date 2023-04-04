@@ -1,7 +1,7 @@
 import {
   Canister,
   createServices,
-  QueryParams,
+  type QueryParams,
   toNullable,
 } from "@dfinity/utils";
 import type {
