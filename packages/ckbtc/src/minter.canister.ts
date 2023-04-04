@@ -22,6 +22,7 @@ import type {
   UpdateBalanceOk,
   UpdateBalanceResponse,
 } from "./types/minter.responses";
+import type { EstimateWithdrawalFee } from "./types/minter.responses";
 
 export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   static create(options: CkBTCMinterCanisterOptions<CkBTCMinterService>) {
@@ -119,17 +120,17 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   };
 
   /**
-   * Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network.
+   * Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network and those related to the minter.
    *
    * @param {RetrieveBtcParams} params The parameters to estimate the fee.
    * @param {boolean} params.certified query or update call
    * @param {bigint | undefined} params.amount The optional amount for which the fee should be estimated.
    */
-  estimateFee = async ({
+  estimateWithdrawalFee = async ({
     certified,
     amount,
-  }: EstimateFeeParams): Promise<bigint> =>
+  }: EstimateFeeParams): Promise<EstimateWithdrawalFee> =>
     this.caller({
       certified,
-    }).estimate_fee({ amount: toNullable(amount) });
+    }).estimate_withdrawal_fee({ amount: toNullable(amount) });
 }
