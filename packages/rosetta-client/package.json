@@ -1,0 +1,36 @@
+{
+  "name": "rosetta-client",
+  "version": "0.0.1",
+  "description": "JavaScript library to interact with the Rosetta client of the IC",
+  "license": "Apache-2.0",
+  "main": "dist/cjs/index.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "rmdir": "node ../../scripts/rmdir.mjs",
+    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
+    "build": "npm run rmdir && mkdir -p dist && node esbuild.mjs && npm run ts-declaration",
+    "prepack": "npm run build",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfinity/ic-js.git",
+    "directory": "packages/rosetta-client"
+  },
+  "bugs": {
+    "url": "https://github.com/dfinity/ic-js/issues"
+  },
+  "keywords": [
+    "internet computer",
+    "internet-computer",
+    "rosetta",
+    "icp"
+  ],
+  "homepage": "https://github.com/dfinity/ic-js#readme"
+}

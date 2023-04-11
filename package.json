@@ -9,7 +9,8 @@
     "packages/nns",
     "packages/sns",
     "packages/cmc",
-    "packages/ckbtc"
+    "packages/ckbtc",
+    "packages/rosetta-client"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -18,7 +19,7 @@
     "protoc": "bash ./scripts/update_proto.sh",
     "test": "jest",
     "test-all": "npm ci && npm run build --workspace=packages/utils && npm run build --workspace=packages/ledger && npm run test --workspaces",
-    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md packages/ckbtc/README.md",
+    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md packages/ckbtc/README.md packages/rosetta-client/README.md",
     "build": "npm run build --workspaces",
     "size": "size-limit --json"
   },

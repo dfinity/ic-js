@@ -40,3 +40,7 @@ jobs:
         run: npm publish --tag next --workspace=packages/ckbtc
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish rosetta-client
+        run: npm publish --tag next --workspace=packages/rosetta-client
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

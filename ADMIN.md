@@ -16,34 +16,51 @@ npm init -w ./packages/a
 
 2. Setup the new package
 
-Copy `package.json`, `license.md`, `esbuild.mjs` etc. files as in other libs. As for example from the [cmc](https://github.com/dfinity/ic-js/tree/main/packages/cmc) library.
+Copy `package.json`, `license.md`, `esbuild.mjs`, `jest.config.js` and `tsconfig.json` files as in other libs.
+
+For example, copy the ones from [cmc](https://github.com/dfinity/ic-js/tree/main/packages/cmc) library.
 
 Adapt `package.json` content.
 
-2. Configure did files
+2. Configure did files (if needed)
 
 Add did source files [import-candid](./scripts/import-candid) and [compile-idl-js](./scripts/compile-idl-js).
 
-3. Generate did and js files
+3. Generate did and js files (if needed)
 
 Run the scripts modified in last steps
 
-4. Implement
+4. Implement the library
 
-Implement a feature or at least provide a `src/index.ts` file in the new lib that contains at least an `export {};`.
+Implement one feature or provide a `src/index.ts` file in the new lib that contains at least an `export {};`.
 
-5. Docs
+5. Add empty test
 
-Add new library to [docs](./scripts/docs.js) generator and in `package.json` script `docs` to format the generated docs with prettier at the ends of the process.
+Add an empty test to make sure the command will not fail because there are no tests.
 
-6. Update CI
+```javaScript
+describe("packate", () => {
+  it("is implemented", () => {
+    expect(true).toBe(true);
+  });
+});
+```
 
-Add new library to various CI [workflows](https://github.com/dfinity/ic-js/tree/main/.github/workflows).
+6. Docs
 
-5. Build, PR and merge
+- Add new library to [docs](./scripts/docs.js) generator
+- Add readme file of the new library in `package.json` script `docs` to format the generated docs with prettier.
 
-6. Tags and release to npm
+<!-- TODO: Fix differenced of running `npm run docs` locally and in CI -->
 
-7. Provide a new PR that bump version of all libs to start `next` version
+7. Update CI
 
-8. Merge and publish `next` to npm
+Add new library to "nightly" and "publish" CI [workflows](https://github.com/dfinity/ic-js/tree/main/.github/workflows):
+
+8. Build, PR and merge
+
+9. Tag and release to npm
+
+10. Provide a new PR that bump version of all libs to start `next` version
+
+11. Merge and publish `next` to npm
