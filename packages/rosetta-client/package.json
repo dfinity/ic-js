@@ -1,5 +1,5 @@
 {
-  "name": "rosetta-client",
+  "name": "@dfinity/rosetta-client",
   "version": "0.0.1",
   "description": "JavaScript library to interact with the Rosetta client of the IC",
   "license": "Apache-2.0",

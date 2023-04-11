@@ -41,7 +41,3 @@ jobs:
         run: npm publish --workspace=packages/ckbtc --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - name: Publish Rosetta Client
-        run: npm publish --workspace=packages/rosetta-client --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
