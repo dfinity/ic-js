@@ -1,5 +1,7 @@
+import * as lib from "./index";
+
 describe("rosetta-client", () => {
   it("is implemented", () => {
-    expect(true).toBe(true);
+    expect(lib).toEqual({});
   });
 });

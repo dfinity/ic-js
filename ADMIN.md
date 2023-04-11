@@ -36,15 +36,19 @@ Implement one feature or provide a `src/index.ts` file in the new lib that conta
 
 5. Add empty test
 
-Add an empty test to make sure the command will not fail because there are no tests.
+Add an empty test file `index.spec.ts` to make sure the command will not fail because there are no tests.
 
 ```javaScript
-describe("packate", () => {
+import * as lib from "./index";
+
+describe("rosetta-client", () => {
   it("is implemented", () => {
-    expect(true).toBe(true);
+    expect(lib).toEqual({});
   });
 });
 ```
+
+You need an `import` to avoid considering it a global script file.
 
 6. Docs
 
