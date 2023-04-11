@@ -57,14 +57,18 @@ You need an `import` to avoid considering it a global script file.
 
 <!-- TODO: Fix differenced of running `npm run docs` locally and in CI -->
 
-7. Update CI
+7. Add to Size workflow
 
-Add new library to "nightly" and "publish" CI [workflows](https://github.com/dfinity/ic-js/tree/main/.github/workflows):
+Add new entry in the field `size-limit` of the main [package.json](./package.json).
 
-8. Build, PR and merge
+8. Update CI
 
-9. Tag and release to npm
+Add new library to "nightly" and "publish" CI [workflows](https://github.com/dfinity/ic-js/tree/main/.github/workflows).
 
-10. Provide a new PR that bump version of all libs to start `next` version
+9. Build, PR and merge
 
-11. Merge and publish `next` to npm
+10. Tag and release to npm
+
+11. Provide a new PR that bump version of all libs to start `next` version
+
+12. Merge and publish `next` to npm

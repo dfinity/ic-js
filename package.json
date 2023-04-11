@@ -122,6 +122,12 @@
         "@dfinity/candid",
         "@dfinity/principal"
       ]
+    },
+    {
+      "name": "@dfinity/rosetta-client",
+      "path": "./packages/rosetta-client/dist/index.js",
+      "limit": "1 kB",
+      "ignore": []
     }
   ]
 }
