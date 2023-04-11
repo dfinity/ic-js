@@ -421,8 +421,10 @@ export type Result_5 = { Ok: NeuronInfo } | { Err: GovernanceError };
 export type Result_6 = { Ok: NodeProvider } | { Err: GovernanceError };
 export type Result_7 = { Committed: Committed } | { Aborted: {} };
 export interface RewardEvent {
+  rounds_since_last_distribution: [] | [bigint];
   day_after_genesis: bigint;
   actual_timestamp_seconds: bigint;
+  total_available_e8s_equivalent: bigint;
   distributed_e8s_equivalent: bigint;
   settled_proposals: Array<NeuronId>;
 }
@@ -517,6 +519,7 @@ export interface _SERVICE {
     [NeuronIdOrSubaccount],
     Result_2
   >;
+  get_latest_reward_event: ActorMethod<[], RewardEvent>;
   get_metrics: ActorMethod<[], Result_3>;
   get_monthly_node_provider_rewards: ActorMethod<[], Result_4>;
   get_most_recent_monthly_node_provider_rewards: ActorMethod<

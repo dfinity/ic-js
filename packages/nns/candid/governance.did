@@ -1,4 +1,4 @@
-// Generated from IC repo commit 5376a14c92f20b4bd285d7622ac5f2a8d21c0d02 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 241ad2c2ed1b25131c038c2390d6d212057d87ee 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -353,8 +353,10 @@ type Result_5 = variant { Ok : NeuronInfo; Err : GovernanceError };
 type Result_6 = variant { Ok : NodeProvider; Err : GovernanceError };
 type Result_7 = variant { Committed : Committed; Aborted : record {} };
 type RewardEvent = record {
+  rounds_since_last_distribution : opt nat64;
   day_after_genesis : nat64;
   actual_timestamp_seconds : nat64;
+  total_available_e8s_equivalent : nat64;
   distributed_e8s_equivalent : nat64;
   settled_proposals : vec NeuronId;
 };
@@ -430,6 +432,7 @@ service : (Governance) -> {
   get_full_neuron_by_id_or_subaccount : (NeuronIdOrSubaccount) -> (
       Result_2,
     ) query;
+  get_latest_reward_event : () -> (RewardEvent) query;
   get_metrics : () -> (Result_3) query;
   get_monthly_node_provider_rewards : () -> (Result_4);
   get_most_recent_monthly_node_provider_rewards : () -> (
