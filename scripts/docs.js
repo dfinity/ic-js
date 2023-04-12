@@ -34,6 +34,8 @@ const ledgerInputFiles = [
 
 const ckBTCInputFiles = ["./packages/ckbtc/src/minter.canister.ts"];
 
+const rosettaInputFiles = ["./packages/rosetta-client/src/index.ts"];
+
 generateDocumentation({
   inputFiles: nnsInputFiles,
   outputFile: "./packages/nns/README.md",
@@ -69,4 +71,10 @@ generateDocumentation({
   outputFile: "./packages/utils/README.md",
   markdownOptions: { headingLevel: "###" },
   buildOptions: { explore: true },
+});
+
+generateDocumentation({
+  inputFiles: rosettaInputFiles,
+  outputFile: "./packages/rosetta-client/README.md",
+  markdownOptions: { headingLevel: "###" },
 });

@@ -407,34 +407,65 @@ describe("ckBTC minter canister", () => {
     });
   });
 
-  describe("Estimate Fee", () => {
+  describe("Estimate Withdrawal Fee", () => {
     it("should return estimated fee", async () => {
-      const result = 123789n;
+      const result = { minter_fee: 123n, bitcoin_fee: 456n };
 
       const service = mock<ActorSubclass<CkBTCMinterService>>();
-      service.estimate_fee.mockResolvedValue(result);
+      service.estimate_withdrawal_fee.mockResolvedValue(result);
 
       const canister = minter(service);
 
-      const res = await canister.estimateFee({
+      const res = await canister.estimateWithdrawalFee({
         certified: true,
         amount: undefined,
       });
 
-      expect(service.estimate_fee).toBeCalled();
+      expect(service.estimate_withdrawal_fee).toBeCalled();
       expect(res).toEqual(result);
     });
 
     it("should bubble errors", () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
-      service.estimate_fee.mockImplementation(() => {
+      service.estimate_withdrawal_fee.mockImplementation(() => {
         throw new Error();
       });
 
       const canister = minter(service);
 
       expect(() =>
-        canister.estimateFee({ certified: true, amount: undefined })
+        canister.estimateWithdrawalFee({ certified: true, amount: undefined })
+      ).rejects.toThrowError();
+    });
+  });
+
+  describe("Deposit Fee", () => {
+    it("should return deposit fee", async () => {
+      const result = 123789n;
+
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.get_deposit_fee.mockResolvedValue(result);
+
+      const canister = minter(service);
+
+      const res = await canister.getDepositFee({
+        certified: true,
+      });
+
+      expect(service.get_deposit_fee).toBeCalled();
+      expect(res).toEqual(result);
+    });
+
+    it("should bubble errors", () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.get_deposit_fee.mockImplementation(() => {
+        throw new Error();
+      });
+
+      const canister = minter(service);
+
+      expect(() =>
+        canister.getDepositFee({ certified: true })
       ).rejects.toThrowError();
     });
   });

@@ -14,3 +14,5 @@ export type UpdateBalanceResponse =
 export type RetrieveBtcResponse =
   | { Ok: RetrieveBtcOk }
   | { Err: RetrieveBtcError };
+
+export type EstimateWithdrawalFee = { minter_fee: bigint; bitcoin_fee: bigint };

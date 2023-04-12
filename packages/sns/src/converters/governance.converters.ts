@@ -1,14 +1,34 @@
 import type { IcrcAccount } from "@dfinity/ledger";
-import { toNullable } from "@dfinity/utils";
+import { fromNullable, toNullable } from "@dfinity/utils";
 import type {
   Account,
+  Action as ActionCandid,
   Command,
+  FunctionType as FunctionTypeCandid,
+  GenericNervousSystemFunction as GenericNervousSystemFunctionCandid,
   ListProposals,
   ManageNeuron,
+  ManageSnsMetadata as ManageSnsMetadataCandid,
+  NervousSystemFunction as NervousSystemFunctionCandid,
+  NervousSystemParameters as NervousSystemParametersCandid,
   NeuronId,
   Operation,
+  TransferSnsTreasuryFunds as TransferSnsTreasuryFundsCandid,
+  UpgradeSnsControlledCanister as UpgradeSnsControlledCanisterCandid,
+  VotingRewardsParameters as VotingRewardsParametersCandid,
 } from "../../candid/sns_governance";
 import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
+import type {
+  Action,
+  FunctionType,
+  GenericNervousSystemFunction,
+  ManageSnsMetadata,
+  NervousSystemFunction,
+  NervousSystemParameters,
+  TransferSnsTreasuryFunds,
+  UpgradeSnsControlledCanister,
+  VotingRewardsParameters,
+} from "../types/actions";
 import type {
   SnsClaimOrRefreshArgs,
   SnsDisburseNeuronParams,
@@ -263,4 +283,207 @@ export const toListProposalRequest = ({
   include_reward_status: Int32Array.from(includeRewardStatus ?? []),
   include_status: Int32Array.from(includeStatus ?? []),
   limit: limit ?? DEFAULT_PROPOSALS_LIMIT,
+});
+
+export const fromCandidAction = (action: ActionCandid): Action => {
+  if ("ManageNervousSystemParameters" in action) {
+    return {
+      ManageNervousSystemParameters: convertNervousSystemParams(
+        action.ManageNervousSystemParameters
+      ),
+    };
+  }
+
+  if ("AddGenericNervousSystemFunction" in action) {
+    return {
+      AddGenericNervousSystemFunction: convertNervousSystemFunction(
+        action.AddGenericNervousSystemFunction
+      ),
+    };
+  }
+
+  if ("RemoveGenericNervousSystemFunction" in action) {
+    return {
+      RemoveGenericNervousSystemFunction:
+        action.RemoveGenericNervousSystemFunction,
+    };
+  }
+
+  if ("UpgradeSnsToNextVersion" in action) {
+    return { UpgradeSnsToNextVersion: action.UpgradeSnsToNextVersion };
+  }
+
+  if ("RegisterDappCanisters" in action) {
+    return { RegisterDappCanisters: action.RegisterDappCanisters };
+  }
+
+  if ("TransferSnsTreasuryFunds" in action) {
+    return {
+      TransferSnsTreasuryFunds: convertTransferSnsTreasuryFunds(
+        action.TransferSnsTreasuryFunds
+      ),
+    };
+  }
+
+  if ("UpgradeSnsControlledCanister" in action) {
+    return {
+      UpgradeSnsControlledCanister: convertUpgradeSnsControlledCanister(
+        action.UpgradeSnsControlledCanister
+      ),
+    };
+  }
+
+  if ("DeregisterDappCanisters" in action) {
+    return { DeregisterDappCanisters: action.DeregisterDappCanisters };
+  }
+
+  if ("Unspecified" in action) {
+    return { Unspecified: action.Unspecified };
+  }
+
+  if ("ManageSnsMetadata" in action) {
+    return {
+      ManageSnsMetadata: convertManageSnsMetadata(action.ManageSnsMetadata),
+    };
+  }
+
+  if ("ExecuteGenericNervousSystemFunction" in action) {
+    return {
+      ExecuteGenericNervousSystemFunction:
+        action.ExecuteGenericNervousSystemFunction,
+    };
+  }
+
+  if ("Motion" in action) {
+    return { Motion: action.Motion };
+  }
+
+  throw new Error(`Unknown action type ${JSON.stringify(action)}`);
+};
+
+const convertManageSnsMetadata = (
+  params: ManageSnsMetadataCandid
+): ManageSnsMetadata => ({
+  url: fromNullable(params.url),
+  logo: fromNullable(params.logo),
+  name: fromNullable(params.name),
+  description: fromNullable(params.description),
+});
+
+const convertUpgradeSnsControlledCanister = (
+  params: UpgradeSnsControlledCanisterCandid
+): UpgradeSnsControlledCanister => ({
+  new_canister_wasm: params.new_canister_wasm,
+  canister_id: fromNullable(params.canister_id),
+  canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
+});
+
+const convertTransferSnsTreasuryFunds = (
+  params: TransferSnsTreasuryFundsCandid
+): TransferSnsTreasuryFunds => ({
+  from_treasury: params.from_treasury,
+  to_principal: fromNullable(params.to_principal),
+  to_subaccount: fromNullable(params.to_subaccount),
+  memo: fromNullable(params.memo),
+  amount_e8s: params.amount_e8s,
+});
+
+const convertGenericNervousSystemFunction = (
+  params: GenericNervousSystemFunctionCandid
+): GenericNervousSystemFunction => ({
+  validator_canister_id: fromNullable(params.validator_canister_id),
+  target_canister_id: fromNullable(params.target_canister_id),
+  validator_method_name: fromNullable(params.validator_method_name),
+  target_method_name: fromNullable(params.target_method_name),
+});
+
+const convertFunctionType = (
+  params: FunctionTypeCandid | undefined
+): FunctionType | undefined => {
+  if (params === undefined) {
+    return undefined;
+  }
+
+  if ("NativeNervousSystemFunction" in params) {
+    return { NativeNervousSystemFunction: params.NativeNervousSystemFunction };
+  }
+
+  if ("GenericNervousSystemFunction" in params) {
+    return {
+      GenericNervousSystemFunction: convertGenericNervousSystemFunction(
+        params.GenericNervousSystemFunction
+      ),
+    };
+  }
+
+  throw new Error(`Unknown FunctionType ${JSON.stringify(params)}`);
+};
+
+const convertNervousSystemFunction = (
+  params: NervousSystemFunctionCandid
+): NervousSystemFunction => ({
+  id: params.id,
+  name: params.name,
+  description: fromNullable(params.description),
+  function_type: convertFunctionType(fromNullable(params.function_type)),
+});
+
+const convertVotingRewardsParameters = (
+  params: VotingRewardsParametersCandid | undefined
+): VotingRewardsParameters | undefined =>
+  params && {
+    final_reward_rate_basis_points: fromNullable(
+      params.final_reward_rate_basis_points
+    ),
+    initial_reward_rate_basis_points: fromNullable(
+      params.initial_reward_rate_basis_points
+    ),
+    reward_rate_transition_duration_seconds: fromNullable(
+      params.reward_rate_transition_duration_seconds
+    ),
+    round_duration_seconds: fromNullable(params.round_duration_seconds),
+  };
+
+const convertNervousSystemParams = (
+  params: NervousSystemParametersCandid
+): NervousSystemParameters => ({
+  default_followees: fromNullable(params.default_followees),
+  max_dissolve_delay_seconds: fromNullable(params.max_dissolve_delay_seconds),
+  max_dissolve_delay_bonus_percentage: fromNullable(
+    params.max_dissolve_delay_bonus_percentage
+  ),
+  max_followees_per_function: fromNullable(params.max_followees_per_function),
+  neuron_claimer_permissions: fromNullable(params.neuron_claimer_permissions),
+  neuron_minimum_stake_e8s: fromNullable(params.neuron_minimum_stake_e8s),
+  max_neuron_age_for_age_bonus: fromNullable(
+    params.max_neuron_age_for_age_bonus
+  ),
+  initial_voting_period_seconds: fromNullable(
+    params.initial_voting_period_seconds
+  ),
+  neuron_minimum_dissolve_delay_to_vote_seconds: fromNullable(
+    params.neuron_minimum_dissolve_delay_to_vote_seconds
+  ),
+  reject_cost_e8s: fromNullable(params.reject_cost_e8s),
+  max_proposals_to_keep_per_action: fromNullable(
+    params.max_proposals_to_keep_per_action
+  ),
+  wait_for_quiet_deadline_increase_seconds: fromNullable(
+    params.wait_for_quiet_deadline_increase_seconds
+  ),
+  max_number_of_neurons: fromNullable(params.max_number_of_neurons),
+  transaction_fee_e8s: fromNullable(params.transaction_fee_e8s),
+  max_number_of_proposals_with_ballots: fromNullable(
+    params.max_number_of_proposals_with_ballots
+  ),
+  max_age_bonus_percentage: fromNullable(params.max_age_bonus_percentage),
+  neuron_grantable_permissions: fromNullable(
+    params.neuron_grantable_permissions
+  ),
+  voting_rewards_parameters: convertVotingRewardsParameters(
+    fromNullable(params.voting_rewards_parameters)
+  ),
+  max_number_of_principals_per_neuron: fromNullable(
+    params.max_number_of_principals_per_neuron
+  ),
 });
