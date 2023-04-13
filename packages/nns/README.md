@@ -363,7 +363,7 @@ Returns the index of the block containing the tx if it was successful.
 - [create](#gear-create)
 - [listNeurons](#gear-listneurons)
 - [listKnownNeurons](#gear-listknownneurons)
-- [getLastestRewardEvent](#gear-getLastestRewardEvent)
+- [getLastestRewardEvent](#gear-getlastestrewardevent)
 - [listProposals](#gear-listproposals)
 - [stakeNeuron](#gear-stakeneuron)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
@@ -426,7 +426,7 @@ it is fetched using a query call.
 Returns the latest reward event.
 
 If `certified` is true, the request is fetched as an update call, otherwise
-it is fetched using a query call.
+it's fetched using a query call.
 
 | Method                  | Type                                            |
 | ----------------------- | ----------------------------------------------- |
