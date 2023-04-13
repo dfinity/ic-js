@@ -363,6 +363,7 @@ Returns the index of the block containing the tx if it was successful.
 - [create](#gear-create)
 - [listNeurons](#gear-listneurons)
 - [listKnownNeurons](#gear-listknownneurons)
+- [lastestRewardEvent](#gear-lastestrewardevent)
 - [listProposals](#gear-listproposals)
 - [stakeNeuron](#gear-stakeneuron)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
@@ -419,6 +420,17 @@ it is fetched using a query call.
 | Method             | Type                                              |
 | ------------------ | ------------------------------------------------- |
 | `listKnownNeurons` | `(certified?: boolean) => Promise<KnownNeuron[]>` |
+
+##### :gear: lastestRewardEvent
+
+Returns the latest reward event.
+
+If `certified` is true, the request is fetched as an update call, otherwise
+it is fetched using a query call.
+
+| Method               | Type                                            |
+| -------------------- | ----------------------------------------------- |
+| `lastestRewardEvent` | `(certified?: boolean) => Promise<RewardEvent>` |
 
 ##### :gear: listProposals
 
