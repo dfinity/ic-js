@@ -197,6 +197,7 @@ export class GovernanceCanister {
    *
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it's fetched using a query call.
+   *
    */
   public getLastestRewardEvent = async (
     certified = true
