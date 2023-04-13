@@ -1,3 +1,4 @@
+export type { RewardEvent } from "../candid/governance";
 export type { DeployedSns } from "../candid/sns_wasm";
 export { AccountIdentifier, SubAccount } from "./account_identifier";
 export * from "./enums/governance.enums";
