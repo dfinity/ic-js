@@ -198,7 +198,7 @@ export class GovernanceCanister {
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it's fetched using a query call.
    */
-  public lastestRewardEvent = async (
+  public getLastestRewardEvent = async (
     certified = true
   ): Promise<RewardEvent> => {
     return this.getGovernanceService(certified).get_latest_reward_event();
