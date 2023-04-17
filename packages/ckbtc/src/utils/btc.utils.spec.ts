@@ -274,7 +274,7 @@ describe("BTC utils", () => {
   describe("interpolate", () => {
     it("should interpolate minter public key", async () => {
       const address = await interpolateBtcAddress();
-      expect(address).toEqual("test");
+      expect(address).toEqual("bc1qweplzwn3m2jwsd7mchqajh3ndx5l5ef9g8vkud");
     });
   });
 });
