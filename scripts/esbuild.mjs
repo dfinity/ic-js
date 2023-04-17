@@ -1,6 +1,5 @@
 import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 import esbuild from "esbuild";
-import { wasmLoader } from "esbuild-plugin-wasm";
 import {
   existsSync,
   mkdirSync,
@@ -8,9 +7,10 @@ import {
   readFileSync,
   statSync,
   writeFileSync,
-} from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+} from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { wasmPlugin } from "./wasm.plugin.mjs";
 
 const peerDependencies = (packageJson) => {
   const json = readFileSync(packageJson, "utf8");
@@ -66,7 +66,7 @@ const buildEsmCjs = () => {
         ...Object.keys(commonPeerDependencies),
         ...Object.keys(workspacePeerDependencies),
       ],
-      plugins: [NodeModulesPolyfillPlugin(), wasmLoader()],
+      plugins: [NodeModulesPolyfillPlugin(), wasmPlugin],
     })
     .catch(() => process.exit(1));
 
