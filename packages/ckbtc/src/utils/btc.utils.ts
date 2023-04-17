@@ -3,7 +3,7 @@ import { isNullish } from "@dfinity/utils";
 import { base58_to_binary } from "base58-js";
 import { bech32, bech32m, type Decoded } from "bech32";
 import BIP32Factory from "bip32";
-import * as bitcoin from "bitcoinjs-lib";
+import { payments } from "bitcoinjs-lib";
 import { sha256 } from "js-sha256";
 import * as ecc from "tiny-secp256k1";
 import { BtcAddressType, BtcNetwork } from "../enums/btc.enums";
@@ -276,7 +276,7 @@ export const interpolateBtcAddress = async (): Promise<string | undefined> => {
     .deriveExtended(subaccount_buffer, false);
 
   const public_key = result.publicKey;
-  const read = bitcoin.payments.p2wpkh({
+  const read = payments.p2wpkh({
     pubkey: public_key,
     // network: bitcoin.networks.testnet,
   });
