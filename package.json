@@ -31,6 +31,7 @@
     "url": "https://github.com/dfinity/ic-js"
   },
   "devDependencies": {
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@size-limit/esbuild": "^8.2.4",
     "@size-limit/preset-small-lib": "^8.2.4",
     "@types/jest": "^29.5.0",
@@ -38,6 +39,7 @@
     "@types/text-encoding": "^0.0.36",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "esbuild": "^0.17.15",
+    "esbuild-plugin-wasm": "^1.0.0",
     "eslint": "^8.37.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",

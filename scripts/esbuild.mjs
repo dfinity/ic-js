@@ -1,4 +1,6 @@
+import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 import esbuild from "esbuild";
+import { wasmLoader } from "esbuild-plugin-wasm";
 import {
   existsSync,
   mkdirSync,
@@ -64,6 +66,7 @@ const buildEsmCjs = () => {
         ...Object.keys(commonPeerDependencies),
         ...Object.keys(workspacePeerDependencies),
       ],
+      plugins: [NodeModulesPolyfillPlugin(), wasmLoader()],
     })
     .catch(() => process.exit(1));
 
