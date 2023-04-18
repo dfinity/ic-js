@@ -11,6 +11,7 @@ import randomBytes from "randombytes";
 import type {
   ListProposalInfo,
   ProposalInfo as RawProposalInfo,
+  RewardEvent,
   _SERVICE as GovernanceService,
 } from "../candid/governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
@@ -190,6 +191,20 @@ export class GovernanceCanister {
       description: n.known_neuron_data[0]?.description[0],
     }));
   };
+
+  /**
+   * Returns the latest reward event.
+   *
+   * If `certified` is true, the request is fetched as an update call, otherwise
+   * it's fetched using a query call.
+   *
+   */
+  public getLastestRewardEvent = async (
+    certified = true
+  ): Promise<RewardEvent> => {
+    return this.getGovernanceService(certified).get_latest_reward_event();
+  };
+
   /**
    * Returns the list of proposals made for the community to vote on,
    * paginated and filtered by the request.

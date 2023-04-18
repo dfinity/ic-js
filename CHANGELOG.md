@@ -12,7 +12,7 @@
 ## Features
 
 - new utils moved from NNS-dapp: `isNullish`, `nonNullish`, `notEmptyString` and `debounce`
-- added ckBTC `updateBalance`, `getWithdrawalAccount` and `retrieveBtc` functions
+- added ckBTC `updateBalance`, `getWithdrawalAccount`, `retrieveBtc`, `estimateWithdrawalFee` and `getDepositFee` functions
 
 ## Build
 

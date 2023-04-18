@@ -49,6 +49,7 @@ export interface InitArgs {
   max_time_in_queue_nanos: bigint;
   btc_network: BtcNetwork;
   min_confirmations: [] | [number];
+  kyt_fee: [] | [bigint];
 }
 export type MinterArg = { Upgrade: [] | [UpgradeArgs] } | { Init: InitArgs };
 export type Mode =
@@ -91,10 +92,12 @@ export type UpdateBalanceError =
       };
     };
 export interface UpgradeArgs {
+  kyt_principal: [] | [Principal];
   mode: [] | [Mode];
   retrieve_btc_min_amount: [] | [bigint];
   max_time_in_queue_nanos: [] | [bigint];
   min_confirmations: [] | [number];
+  kyt_fee: [] | [bigint];
 }
 export interface Utxo {
   height: number;
@@ -113,11 +116,15 @@ export type UtxoStatus =
     }
   | { Checked: Utxo };
 export interface _SERVICE {
-  estimate_fee: ActorMethod<[{ amount: [] | [bigint] }], bigint>;
+  estimate_withdrawal_fee: ActorMethod<
+    [{ amount: [] | [bigint] }],
+    { minter_fee: bigint; bitcoin_fee: bigint }
+  >;
   get_btc_address: ActorMethod<
     [{ owner: [] | [Principal]; subaccount: [] | [Uint8Array] }],
     string
   >;
+  get_deposit_fee: ActorMethod<[], bigint>;
   get_events: ActorMethod<[{ start: bigint; length: bigint }], Array<Event>>;
   get_withdrawal_account: ActorMethod<[], Account>;
   retrieve_btc: ActorMethod<

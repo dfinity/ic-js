@@ -64,8 +64,10 @@ export const idlFactory = ({ IDL }) => {
     'maximum_node_provider_rewards_e8s' : IDL.Nat64,
   });
   const RewardEvent = IDL.Record({
+    'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'day_after_genesis' : IDL.Nat64,
     'actual_timestamp_seconds' : IDL.Nat64,
+    'total_available_e8s_equivalent' : IDL.Nat64,
     'distributed_e8s_equivalent' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(NeuronId),
   });
@@ -527,6 +529,7 @@ export const idlFactory = ({ IDL }) => {
         [Result_2],
         [],
       ),
+    'get_latest_reward_event' : IDL.Func([], [RewardEvent], []),
     'get_metrics' : IDL.Func([], [Result_3], []),
     'get_monthly_node_provider_rewards' : IDL.Func([], [Result_4], []),
     'get_most_recent_monthly_node_provider_rewards' : IDL.Func(
@@ -628,8 +631,10 @@ export const init = ({ IDL }) => {
     'maximum_node_provider_rewards_e8s' : IDL.Nat64,
   });
   const RewardEvent = IDL.Record({
+    'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'day_after_genesis' : IDL.Nat64,
     'actual_timestamp_seconds' : IDL.Nat64,
+    'total_available_e8s_equivalent' : IDL.Nat64,
     'distributed_e8s_equivalent' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(NeuronId),
   });

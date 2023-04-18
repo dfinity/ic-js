@@ -27,8 +27,10 @@ export type {
   Params as SnsParams,
   SnsNeuronRecipe,
   Swap as SnsSwap,
+  Ticket as SnsSwapTicket,
   TransferableAmount as SnsTransferableAmount,
 } from "../candid/sns_swap";
+export { fromCandidAction } from "./converters/governance.converters";
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
 export * from "./errors/governance.errors";

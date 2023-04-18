@@ -15,6 +15,7 @@ import type {
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
   Result,
+  RewardEvent,
   _SERVICE as GovernanceService,
 } from "../candid/governance";
 import { NeuronId as PbNeuronId } from "../proto/base_types_pb";
@@ -1537,6 +1538,30 @@ describe("GovernanceCanister", () => {
       });
       const call = () => governance.makeProposal(makeProposalRequest);
       expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
+
+  describe("getLastestRewardEvent", () => {
+    const mockRewardEvent: RewardEvent = {
+      rounds_since_last_distribution: [BigInt(1_000)],
+      day_after_genesis: BigInt(365),
+      actual_timestamp_seconds: BigInt(12234455555),
+      total_available_e8s_equivalent: BigInt(20_000_000_000),
+      distributed_e8s_equivalent: BigInt(2_000_000_000),
+      settled_proposals: [],
+    };
+
+    it("gets the latest reward event", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.get_latest_reward_event.mockResolvedValue(mockRewardEvent);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const rewardEvent = await governance.getLastestRewardEvent(true);
+      expect(service.get_latest_reward_event).toBeCalled();
+      expect(rewardEvent).toBe(mockRewardEvent);
     });
   });
 });
