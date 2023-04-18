@@ -1,17 +1,17 @@
-# 0.16.0 (wip)
+# 0.15.1 (2023-04-18)
 
 ## Release
 
-- nns `v0.16.0`
+- nns `v0.15.1`
 - sns `v0.0.14`
 - cmc `v0.0.10`
 - ledger `v0.0.7`
 - ckBTC `v0.0.3`
 - utils `v0.0.14`
 
-## Features
+## Fix
 
-- ...
+- absolute `utils` import in `ledger` library
 
 # 0.15.0 (2023-04-18)
 
