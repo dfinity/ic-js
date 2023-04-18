@@ -1,11 +1,12 @@
 import { Principal } from "@dfinity/principal";
 import {
   bigEndianCrc32,
+  encodeBase32,
+  hexStringToUint8Array,
+  isNullish,
   notEmptyString,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
-import { hexStringToUint8Array, isNullish } from "@dfinity/utils/src";
-import { encodeBase32 } from "@dfinity/utils/src/utils/base32.utils";
 import type { IcrcAccount } from "../types/ledger.responses";
 
 const MAX_SUBACCOUNT_HEX_LENGTH = 64;
