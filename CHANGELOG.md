@@ -11,7 +11,7 @@
 
 ## Fix
 
-- absolute `utils` import in `ledger` library
+- correct absolute `utils` import in `ledger` library
 
 # 0.15.0 (2023-04-18)
 
