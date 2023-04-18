@@ -1,4 +1,4 @@
-# 0.15.0 (wip)
+# 0.15.0 (2023-04-18)
 
 ## Release
 
@@ -13,11 +13,19 @@
 
 - new utils moved from NNS-dapp: `isNullish`, `nonNullish`, `notEmptyString` and `debounce`
 - added ckBTC `updateBalance`, `getWithdrawalAccount`, `retrieveBtc`, `estimateWithdrawalFee` and `getDepositFee` functions
+- parse and validate bitcoin address
+- review textual encoding for ICRC-1 account as in [dfinity/ICRC-1#98](https://github.com/dfinity/ICRC-1/pull/98)
+- add SNS action converters
+- get latest reward event NNS Governance
+- extend nnsFuncton enum with UpdateElectedReplicaVersions
+- add total tokens supply endpoint
+- new utils to convert hex to/from uint8array, crc and base32
 
 ## Build
 
-- bump agent-js `v0.15.3`
+- bump agent-js `v0.15.4`
 - bump all dev dependencies
+- hook size limit plugin to check the size of the libraries with the CI
 
 # 0.14.0 (2023-02-07)
 
