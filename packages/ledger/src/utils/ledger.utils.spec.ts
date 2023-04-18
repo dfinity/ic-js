@@ -48,6 +48,15 @@ describe("ledger-utils", () => {
       expect(decodeIcrcAccount(encodeIcrcAccount(account1))).toEqual(account1);
     });
 
+    it("should return the account for owner and subaccount as string", () => {
+      expect(
+        decodeIcrcAccount(`${ownerText}-${checksum}.${subaccountHex}`)
+      ).toEqual({
+        owner,
+        subaccount,
+      });
+    });
+
     it("should raise an error if invalid input", () => {
       const call1 = () => decodeIcrcAccount("");
       expect(call1).toThrowError(
