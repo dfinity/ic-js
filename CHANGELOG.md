@@ -1,3 +1,18 @@
+# 0.16.0 (wip)
+
+## Release
+
+- nns `v0.16.0`
+- sns `v0.0.15`
+- cmc `v0.0.11`
+- ledger `v0.0.8`
+- ckBTC `v0.0.4`
+- utils `v0.0.15`
+
+## Features
+
+- ...
+
 # 0.15.1 (2023-04-18)
 
 ## Release
