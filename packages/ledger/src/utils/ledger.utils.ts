@@ -1,23 +1,14 @@
 import { Principal } from "@dfinity/principal";
+import {
+  bigEndianCrc32,
+  notEmptyString,
+  uint8ArrayToHexString,
+} from "@dfinity/utils";
+import { hexStringToUint8Array, isNullish } from "@dfinity/utils/src";
+import { encodeBase32 } from "@dfinity/utils/src/utils/base32.utils";
 import type { IcrcAccount } from "../types/ledger.responses";
 
-// https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R236
-const EXTRA_BYTES = parseInt("7F", 16);
-const MAX_ACCOUNT_BYTES_LENGTH = 32;
-
-/**
- * Removes leading zeros from a Uint8Array
- *
- * @param bytes Uint8Array
- * @returns Uint8Array
- */
-const shrink = (bytes: Uint8Array): Uint8Array => {
-  const shrinked = Array.from(bytes);
-  while (shrinked[0] === 0) {
-    shrinked.shift();
-  }
-  return Uint8Array.from(shrinked);
-};
+const MAX_SUBACCOUNT_HEX_LENGTH = 64;
 
 /**
  * Encodes an Icrc-1 account compatible into a string.
@@ -30,73 +21,68 @@ export const encodeIcrcAccount = ({
   owner,
   subaccount,
 }: IcrcAccount): string => {
-  if (subaccount === undefined) {
+  if (isNullish(subaccount)) {
     return owner.toText();
   }
 
-  const subaccountBytes = shrink(subaccount);
+  const removeLeadingZeros = (text: string): string => text.replace(/^0+/, "");
 
-  if (subaccountBytes.length === 0) {
+  const subaccountText = removeLeadingZeros(uint8ArrayToHexString(subaccount));
+
+  if (subaccountText.length === 0) {
     return owner.toText();
   }
 
-  const bytes = Uint8Array.from([
-    ...owner.toUint8Array(),
-    ...subaccountBytes,
-    subaccountBytes.length,
-    EXTRA_BYTES,
-  ]);
+  return `${owner.toText()}-${encodeCrc({
+    owner,
+    subaccount,
+  })}.${subaccountText}`;
+};
 
-  return Principal.fromUint8Array(bytes).toText();
+const encodeCrc = ({ owner, subaccount }: Required<IcrcAccount>): string => {
+  const crc = bigEndianCrc32(
+    Uint8Array.from([...owner.toUint8Array(), ...subaccount])
+  );
+
+  return encodeBase32(crc);
 };
 
 /**
  * Decodes a string into an Icrc-1 compatible account.
- * Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R268
+ * Formatting Reference: https://github.com/dfinity/ICRC-1/pull/98
  *
  * @param accountString string
  * @throws Error if the string is not a valid Icrc-1 account
  * @returns IcrcAccount { owner: Principal, subaccount?: Uint8Array }
  */
 export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
-  const principal = Principal.fromText(accountString);
+  const [principalAndMaybeCheckSum, subaccountHex] = accountString.split(".");
 
-  const [extraBytes, nonZeroLength, ...restReversed] = principal
-    .toUint8Array()
-    .reverse();
+  if (!notEmptyString(principalAndMaybeCheckSum)) {
+    throw new Error("Invalid account. No string provided.");
+  }
 
-  if (extraBytes !== EXTRA_BYTES) {
+  if (isNullish(subaccountHex)) {
     return {
       owner: Principal.fromText(accountString),
     };
   }
 
-  if (
-    nonZeroLength > MAX_ACCOUNT_BYTES_LENGTH ||
-    nonZeroLength === 0 ||
-    nonZeroLength === undefined
-  ) {
-    throw new Error("Invalid account string");
-  }
+  const [checksum, ...rest] = principalAndMaybeCheckSum.split("-").reverse();
+  const principalText = rest.reverse().join("-");
 
-  const subaccountBytesReversed = restReversed.slice(0, nonZeroLength);
-  if (
-    subaccountBytesReversed[0] === 0 ||
-    subaccountBytesReversed.length !== nonZeroLength
-  ) {
-    throw new Error("Invalid account string");
-  }
-  while (subaccountBytesReversed.length < MAX_ACCOUNT_BYTES_LENGTH) {
-    subaccountBytesReversed.push(0);
-  }
-  const subaccount = Uint8Array.from(subaccountBytesReversed.reverse());
-
-  const principalBytes = restReversed
-    .reverse()
-    .filter((_, i) => i < restReversed.length - nonZeroLength);
-
-  return {
-    owner: Principal.fromUint8Array(Uint8Array.from(principalBytes)),
-    subaccount,
+  const account = {
+    owner: Principal.fromText(principalText),
+    subaccount: hexStringToUint8Array(
+      subaccountHex.padStart(MAX_SUBACCOUNT_HEX_LENGTH, "0")
+    ),
   };
+
+  const crcText = encodeCrc(account);
+
+  if (crcText !== checksum) {
+    throw new Error("Invalid account. Invalid checksum.");
+  }
+
+  return account;
 };
