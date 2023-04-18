@@ -78,4 +78,4 @@ Add new library to "nightly" and "publish" CI [workflows](https://github.com/dfi
 
 To release a version to npm, create a release in GitHub. This will start an action that build and publish the libraries.
 
-Afterwards, to open next version, bump the libraries' version and add a note in [CHANGELOG](./CHANGELOG.md).
+To open next version afterward, bump the libraries' version and add a note in [CHANGELOG](./CHANGELOG.md).
