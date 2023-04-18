@@ -4,25 +4,11 @@ import {
   notEmptyString,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
-import { hexStringToUint8Array } from "@dfinity/utils/src";
+import { hexStringToUint8Array, isNullish } from "@dfinity/utils/src";
 import { encodeBase32 } from "@dfinity/utils/src/utils/base32.utils";
 import type { IcrcAccount } from "../types/ledger.responses";
 
 const MAX_SUBACCOUNT_HEX_LENGTH = 64;
-
-/**
- * Removes leading zeros from a Uint8Array
- *
- * @param bytes Uint8Array
- * @returns Uint8Array
- */
-const shrink = (bytes: Uint8Array): Uint8Array => {
-  const shrinked = Array.from(bytes);
-  while (shrinked[0] === 0) {
-    shrinked.shift();
-  }
-  return Uint8Array.from(shrinked);
-};
 
 /**
  * Encodes an Icrc-1 account compatible into a string.
@@ -35,22 +21,22 @@ export const encodeIcrcAccount = ({
   owner,
   subaccount,
 }: IcrcAccount): string => {
-  if (subaccount === undefined) {
-    return owner.toText();
-  }
-
-  const subaccountBytes = shrink(subaccount);
-
-  if (subaccountBytes.length === 0) {
+  if (isNullish(subaccount)) {
     return owner.toText();
   }
 
   const removeLeadingZeros = (text: string): string => text.replace(/^0+/, "");
 
+  const subaccountText = removeLeadingZeros(uint8ArrayToHexString(subaccount));
+
+  if (subaccountText.length === 0) {
+    return owner.toText();
+  }
+
   return `${owner.toText()}-${encodeCrc({
     owner,
     subaccount,
-  })}.${removeLeadingZeros(uint8ArrayToHexString(subaccount))}`;
+  })}.${subaccountText}`;
 };
 
 const encodeCrc = ({ owner, subaccount }: Required<IcrcAccount>): string => {
@@ -76,7 +62,7 @@ export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
     throw new Error("Invalid account. No string provided.");
   }
 
-  if (subaccountHex === undefined) {
+  if (isNullish(subaccountHex)) {
     return {
       owner: Principal.fromText(accountString),
     };
