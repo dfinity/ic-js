@@ -4,8 +4,7 @@ import {
   notEmptyString,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
-import { hexStringToUint8Array, isNullish } from "@dfinity/utils/src";
-import { encodeBase32 } from "@dfinity/utils/src/utils/base32.utils";
+import { hexStringToUint8Array, isNullish, encodeBase32 } from "@dfinity/utils";
 import type { IcrcAccount } from "../types/ledger.responses";
 
 const MAX_SUBACCOUNT_HEX_LENGTH = 64;
