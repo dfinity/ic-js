@@ -5,6 +5,7 @@ Few useful bullet points to administrate [ic-js](https://github.com/dfinity/ic-j
 # Table of contents
 
 - [Create a new library](#create-a-new-library)
+- [Release](#release)
 
 ## Create a new library
 
@@ -72,3 +73,9 @@ Add new library to "nightly" and "publish" CI [workflows](https://github.com/dfi
 11. Provide a new PR that bump version of all libs to start `next` version
 
 12. Merge and publish `next` to npm
+
+## Release
+
+To release a version to npm, create a release in GitHub. This will start an action that build and publish the libraries.
+
+Afterwards, to open next version, bump the libraries' version and add a note in [CHANGELOG](./CHANGELOG.md).
