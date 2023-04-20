@@ -7,6 +7,7 @@ export interface AccountIdentifier {
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
   | { ManageNeuron: ManageNeuron }
+  | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
   | { RewardNodeProvider: RewardNodeProvider }
   | { OpenSnsTokenSwap: OpenSnsTokenSwap }
@@ -41,6 +42,9 @@ export type By =
   | { NeuronIdOrSubaccount: {} }
   | { MemoAndController: ClaimOrRefreshNeuronFromAccount }
   | { Memo: bigint };
+export interface Canister {
+  id: [] | [Principal];
+}
 export interface CanisterStatusResultV2 {
   status: [] | [number];
   freezing_threshold: [] | [bigint];
@@ -122,8 +126,23 @@ export interface Committed {
 export interface Configure {
   operation: [] | [Operation];
 }
+export interface CreateServiceNervousSystem {
+  url: [] | [string];
+  governance_parameters: [] | [GovernanceParameters];
+  fallback_controller_principal_ids: Array<Principal>;
+  logo: [] | [Image];
+  name: [] | [string];
+  ledger_parameters: [] | [LedgerParameters];
+  description: [] | [string];
+  dapp_canisters: Array<Canister>;
+  swap_parameters: [] | [SwapParameters];
+  initial_token_distribution: [] | [InitialTokenDistribution];
+}
 export interface DerivedProposalInformation {
   swap_background_information: [] | [SwapBackgroundInformation];
+}
+export interface DeveloperDistribution {
+  developer_neurons: Array<NeuronDistribution>;
 }
 export interface Disburse {
   to_account: [] | [AccountIdentifier];
@@ -142,6 +161,9 @@ export interface DisburseToNeuron {
 export type DissolveState =
   | { DissolveDelaySeconds: bigint }
   | { WhenDissolvedTimestampSeconds: bigint };
+export interface Duration {
+  seconds: [] | [bigint];
+}
 export interface ExecuteNnsFunction {
   nns_function: number;
   payload: Uint8Array;
@@ -197,8 +219,28 @@ export interface GovernanceError {
   error_message: string;
   error_type: number;
 }
+export interface GovernanceParameters {
+  neuron_maximum_dissolve_delay_bonus: [] | [Percentage];
+  neuron_maximum_age_for_age_bonus: [] | [Duration];
+  neuron_maximum_dissolve_delay: [] | [Duration];
+  neuron_minimum_dissolve_delay_to_vote: [] | [Duration];
+  neuron_maximum_age_bonus: [] | [Percentage];
+  neuron_minimum_stake: [] | [Tokens];
+  proposal_wait_for_quiet_deadline_increase: [] | [Duration];
+  proposal_initial_voting_period: [] | [Duration];
+  proposal_rejection_fee: [] | [Tokens];
+  voting_reward_parameters: [] | [VotingRewardParameters];
+}
+export interface Image {
+  base64_encoding: [] | [string];
+}
 export interface IncreaseDissolveDelay {
   additional_dissolve_delay_seconds: number;
+}
+export interface InitialTokenDistribution {
+  treasury_distribution: [] | [SwapDistribution];
+  developer_distribution: [] | [DeveloperDistribution];
+  swap_distribution: [] | [SwapDistribution];
 }
 export interface KnownNeuron {
   id: [] | [NeuronId];
@@ -207,6 +249,12 @@ export interface KnownNeuron {
 export interface KnownNeuronData {
   name: string;
   description: [] | [string];
+}
+export interface LedgerParameters {
+  transaction_fee: [] | [Tokens];
+  token_symbol: [] | [string];
+  token_logo: [] | [Image];
+  token_name: [] | [string];
 }
 export interface ListKnownNeuronsResponse {
   known_neurons: Array<KnownNeuron>;
@@ -293,8 +341,19 @@ export interface Neuron {
   spawn_at_timestamp_seconds: [] | [bigint];
 }
 export interface NeuronBasketConstructionParameters {
+  dissolve_delay_interval: [] | [Duration];
+  count: [] | [bigint];
+}
+export interface NeuronBasketConstructionParameters_1 {
   dissolve_delay_interval_seconds: bigint;
   count: bigint;
+}
+export interface NeuronDistribution {
+  controller: [] | [Principal];
+  dissolve_delay: [] | [Duration];
+  memo: [] | [bigint];
+  vesting_period: [] | [Duration];
+  stake: [] | [Tokens];
 }
 export interface NeuronId {
   id: bigint;
@@ -350,7 +409,7 @@ export interface Params {
   min_participant_icp_e8s: bigint;
   neuron_basket_construction_parameters:
     | []
-    | [NeuronBasketConstructionParameters];
+    | [NeuronBasketConstructionParameters_1];
   max_icp_e8s: bigint;
   swap_due_timestamp_seconds: bigint;
   min_participants: number;
@@ -358,6 +417,9 @@ export interface Params {
   sale_delay_seconds: [] | [bigint];
   max_participant_icp_e8s: bigint;
   min_icp_e8s: bigint;
+}
+export interface Percentage {
+  basis_points: [] | [bigint];
 }
 export interface Proposal {
   url: string;
@@ -425,6 +487,7 @@ export interface RewardEvent {
   day_after_genesis: bigint;
   actual_timestamp_seconds: bigint;
   total_available_e8s_equivalent: bigint;
+  latest_round_available_e8s_equivalent: [] | [bigint];
   distributed_e8s_equivalent: bigint;
   settled_proposals: Array<NeuronId>;
 }
@@ -491,6 +554,19 @@ export interface SwapBackgroundInformation {
   root_canister_summary: [] | [CanisterSummary];
   dapp_canister_summaries: Array<CanisterSummary>;
 }
+export interface SwapDistribution {
+  total: [] | [Tokens];
+}
+export interface SwapParameters {
+  minimum_participants: [] | [bigint];
+  neuron_basket_construction_parameters:
+    | []
+    | [NeuronBasketConstructionParameters];
+  maximum_participant_icp: [] | [bigint];
+  minimum_icp: [] | [bigint];
+  minimum_participant_icp: [] | [bigint];
+  maximum_icp: [] | [bigint];
+}
 export interface Tally {
   no: bigint;
   yes: bigint;
@@ -501,8 +577,16 @@ export interface TimeWindow {
   start_timestamp_seconds: bigint;
   end_timestamp_seconds: bigint;
 }
+export interface Tokens {
+  e8s: [] | [bigint];
+}
 export interface UpdateNodeProvider {
   reward_account: [] | [AccountIdentifier];
+}
+export interface VotingRewardParameters {
+  reward_rate_transition_duration: [] | [Duration];
+  initial_reward_rate: [] | [Percentage];
+  final_reward_rate: [] | [Percentage];
 }
 export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
