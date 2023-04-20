@@ -8,6 +8,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout
@@ -17,26 +20,26 @@ jobs:
       - name: Set up npm
         run: printf '%s\n' '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}' registry=https://registry.npmjs.org/ always-auth=true >> .npmrc
       - name: Publish utils
-        run: npm publish --tag next --workspace=packages/utils
+        run: npm publish --provenance --tag next --workspace=packages/utils
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish Ledger
-        run: npm publish --tag next --workspace=packages/ledger
+        run: npm publish --provenance --tag next --workspace=packages/ledger
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish NNS
-        run: npm publish --tag next --workspace=packages/nns
+        run: npm publish --provenance --tag next --workspace=packages/nns
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish SNS
-        run: npm publish --tag next --workspace=packages/sns
+        run: npm publish --provenance --tag next --workspace=packages/sns
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish CMC
-        run: npm publish --tag next --workspace=packages/cmc
+        run: npm publish --provenance --tag next --workspace=packages/cmc
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish ckBTC
-        run: npm publish --tag next --workspace=packages/ckbtc
+        run: npm publish --provenance --tag next --workspace=packages/ckbtc
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
