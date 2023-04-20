@@ -257,6 +257,11 @@ const fromAction = (action: Action): RawAction => {
     };
   }
 
+  if ("CreateServiceNervousSystem" in action) {
+    // TODO: Convert from CreateServiceNervousSystem to RawCreateServiceNervousSystem
+    return action;
+  }
+
   // If there's a missing action, this line will cause a compiler error.
   throw new UnsupportedValueError(action);
 };

@@ -392,6 +392,11 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
+  if ("CreateServiceNervousSystem" in action) {
+    // TODO: Convert from RawCreateServiceNervousSystem to CreateServiceNervousSystem (no arrays as optionals)
+    return action;
+  }
+
   throw new UnsupportedValueError(action);
 };
 

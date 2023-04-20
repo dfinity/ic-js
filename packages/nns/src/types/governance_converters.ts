@@ -1,5 +1,6 @@
 import type { DerEncodedPublicKey } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+import type { CreateServiceNervousSystem } from "../../candid/governance";
 import type {
   NeuronState,
   ProposalRewardStatus,
@@ -21,6 +22,8 @@ export type Action =
   | {
       ExecuteNnsFunction: ExecuteNnsFunction;
     }
+  // TODO: Create new CreateServiceNervousSystem type (don't use array for optional fields)
+  | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ManageNeuron: ManageNeuron }
   | { ApproveGenesisKyc: ApproveGenesisKyc }
   | { ManageNetworkEconomics: NetworkEconomics }
