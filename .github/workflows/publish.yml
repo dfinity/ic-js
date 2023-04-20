@@ -18,26 +18,26 @@ jobs:
       - name: Set up npm
         run: printf '%s\n' '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}' registry=https://registry.npmjs.org/ always-auth=true >> .npmrc
       - name: Publish utils
-        run: npm publish --workspace=packages/utils --access public
+        run: npm publish --workspace=packages/utils --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish Ledger
-        run: npm publish --workspace=packages/ledger --access public
+        run: npm publish --workspace=packages/ledger --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish NNS
-        run: npm publish --workspace=packages/nns --access public
+        run: npm publish --workspace=packages/nns --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish SNS
-        run: npm publish --workspace=packages/sns --access public
+        run: npm publish --workspace=packages/sns --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish CMC
-        run: npm publish --workspace=packages/cmc --access public
+        run: npm publish --workspace=packages/cmc --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish ckBTC
-        run: npm publish --workspace=packages/ckbtc --access public
+        run: npm publish --workspace=packages/ckbtc --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
