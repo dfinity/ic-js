@@ -1,4 +1,4 @@
-// Generated from IC repo commit 241ad2c2ed1b25131c038c2390d6d212057d87ee 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
+// Generated from IC repo commit 9aac7d457a14a4cd89efcfa07d4eb9bf8079297c 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
 type AddWasmRequest = record { hash : vec nat8; wasm : opt SnsWasm };
 type AddWasmResponse = record { result : opt Result };
 type AirdropDistribution = record { airdrop_neurons : vec NeuronDistribution };

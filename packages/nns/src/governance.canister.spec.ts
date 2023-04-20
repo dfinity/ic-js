@@ -1549,6 +1549,7 @@ describe("GovernanceCanister", () => {
       total_available_e8s_equivalent: BigInt(20_000_000_000),
       distributed_e8s_equivalent: BigInt(2_000_000_000),
       settled_proposals: [],
+      latest_round_available_e8s_equivalent: [BigInt(1_000_000_000)],
     };
 
     it("gets the latest reward event", async () => {
