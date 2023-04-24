@@ -1,6 +1,7 @@
 export type {
   Action as SnsAction,
   Ballot as SnsBallot,
+  DefaultFollowees as SnsDefaultFollowees,
   FunctionType as SnsFunctionType,
   GetMetadataResponse as SnsGetMetadataResponse,
   ListNervousSystemFunctionsResponse as SnsListNervousSystemFunctionsResponse,
