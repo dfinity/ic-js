@@ -1,17 +1,20 @@
 export type {
   Action as SnsAction,
   Ballot as SnsBallot,
+  FunctionType as SnsFunctionType,
   GetMetadataResponse as SnsGetMetadataResponse,
   ListNervousSystemFunctionsResponse as SnsListNervousSystemFunctionsResponse,
   ManageNeuron as SnsManageNeuron,
   ManageNeuronResponse as SnsManageNeuronResponse,
   NervousSystemFunction as SnsNervousSystemFunction,
-  NervousSystemParameters,
+  NervousSystemParameters as SnsNervousSystemParameters,
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
+  NeuronPermissionList as SnsNeuronPermissionList,
   ProposalData as SnsProposalData,
   ProposalId as SnsProposalId,
   Tally as SnsTally,
+  VotingRewardsParameters as SnsVotingRewardsParameters,
 } from "../candid/sns_governance";
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
 export type {
@@ -24,7 +27,9 @@ export type {
   GetLifecycleResponse as SnsGetLifecycleResponse,
   GetSaleParametersResponse as SnsGetSaleParametersResponse,
   Init as SnsSwapInit,
+  InvalidUserAmount as SnsInvalidUserAmount,
   Params as SnsParams,
+  RefreshBuyerTokensResponse as SnsRefreshBuyerTokensResponse,
   SnsNeuronRecipe,
   Swap as SnsSwap,
   Ticket as SnsSwapTicket,
