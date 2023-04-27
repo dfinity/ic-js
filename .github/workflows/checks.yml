@@ -112,6 +112,8 @@ jobs:
 
   size:
     runs-on: ubuntu-20.04
+    # The size checker should run and provide metrics only on PRs
+    if: ${{ github.ref != 'refs/heads/main' }}
 
     steps:
       - name: Checkout
