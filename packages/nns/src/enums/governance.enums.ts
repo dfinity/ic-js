@@ -121,4 +121,5 @@ export enum NnsFunction {
   RetireReplicaVersion = 36,
   InsertSnsWasmUpgradePathEntries = 37,
   UpdateElectedReplicaVersions = 38,
+  BitcoinSetConfig = 39,
 }
