@@ -1,4 +1,3 @@
-import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import type {
   Account,
@@ -6,14 +5,12 @@ import type {
   Timestamp,
   Tokens,
 } from "../../candid/icrc1_ledger";
+import type { IcrcAccount } from "./ledger.responses";
 
 /**
  * Params to get the balance of an ICRC-1 account.
  */
-export interface BalanceParams extends QueryParams {
-  owner: Principal;
-  subaccount?: Subaccount;
-}
+export type BalanceParams = IcrcAccount & QueryParams;
 
 /**
  * Params to make a transfer in an ICRC-1 ledger
