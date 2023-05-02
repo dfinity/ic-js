@@ -126,9 +126,9 @@ The ledger transaction fees.
 
 Returns the balance of the given account.
 
-| Method    | Type                                         |
-| --------- | -------------------------------------------- |
-| `balance` | `(params: BalanceParams) => Promise<bigint>` |
+| Method    | Type                               |
+| --------- | ---------------------------------- |
+| `balance` | `(params: any) => Promise<bigint>` |
 
 Parameters:
 
