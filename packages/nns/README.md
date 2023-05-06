@@ -51,7 +51,7 @@ const main = async () => {
 
   const balance = await ledger.accountBalance({ accountIdentifier });
 
-  console.log(`Balance: ${balance.toE8s()}`);
+  console.log(`Balance: ${balance}`);
 };
 
 await main();
