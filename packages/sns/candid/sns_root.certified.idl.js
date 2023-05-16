@@ -16,32 +16,27 @@ export const idlFactory = ({ IDL }) => {
     'stopping' : IDL.Null,
     'running' : IDL.Null,
   });
+  const DefiniteCanisterSettings = IDL.Record({
+    'controllers' : IDL.Vec(IDL.Principal),
+  });
   const CanisterStatusResult = IDL.Record({
     'controller' : IDL.Principal,
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
+    'settings' : DefiniteCanisterSettings,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
   const GetSnsCanistersSummaryRequest = IDL.Record({
     'update_canister_list' : IDL.Opt(IDL.Bool),
   });
-  const CanisterStatusType_1 = IDL.Variant({
-    'stopped' : IDL.Null,
-    'stopping' : IDL.Null,
-    'running' : IDL.Null,
-  });
   const DefiniteCanisterSettingsArgs = IDL.Record({
-    'controller' : IDL.Principal,
     'freezing_threshold' : IDL.Nat,
     'controllers' : IDL.Vec(IDL.Principal),
     'memory_allocation' : IDL.Nat,
     'compute_allocation' : IDL.Nat,
   });
   const CanisterStatusResultV2 = IDL.Record({
-    'controller' : IDL.Principal,
-    'status' : CanisterStatusType_1,
-    'freezing_threshold' : IDL.Nat,
-    'balance' : IDL.Vec(IDL.Tuple(IDL.Vec(IDL.Nat8), IDL.Nat)),
+    'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
     'settings' : DefiniteCanisterSettingsArgs,

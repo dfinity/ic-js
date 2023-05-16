@@ -1,14 +1,17 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_swap.did */
 export const idlFactory = ({ IDL }) => {
+  const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const Init = IDL.Record({
     'sns_root_canister_id' : IDL.Text,
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
     'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
+    'confirmation_text' : IDL.Opt(IDL.Text),
     'nns_governance_canister_id' : IDL.Text,
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'icp_ledger_canister_id' : IDL.Text,
     'sns_ledger_canister_id' : IDL.Text,
     'sns_governance_canister_id' : IDL.Text,
+    'restricted_countries' : IDL.Opt(Countries),
   });
   const ErrorRefundIcpRequest = IDL.Record({
     'source_principal_id' : IDL.Opt(IDL.Principal),
@@ -81,8 +84,10 @@ export const idlFactory = ({ IDL }) => {
     'principal_id' : IDL.Opt(IDL.Principal),
   });
   const TransferableAmount = IDL.Record({
+    'transfer_fee_paid_e8s' : IDL.Opt(IDL.Nat64),
     'transfer_start_timestamp_seconds' : IDL.Nat64,
     'amount_e8s' : IDL.Nat64,
+    'amount_transferred_e8s' : IDL.Opt(IDL.Nat64),
     'transfer_success_timestamp_seconds' : IDL.Nat64,
   });
   const BuyerState = IDL.Record({ 'icp' : IDL.Opt(TransferableAmount) });
@@ -116,6 +121,9 @@ export const idlFactory = ({ IDL }) => {
   const GetDerivedStateResponse = IDL.Record({
     'sns_tokens_per_icp' : IDL.Opt(IDL.Float64),
     'buyer_total_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'cf_participant_count' : IDL.Opt(IDL.Nat64),
+    'direct_participant_count' : IDL.Opt(IDL.Nat64),
+    'cf_neuron_count' : IDL.Opt(IDL.Nat64),
   });
   const GetInitResponse = IDL.Record({ 'init' : IDL.Opt(Init) });
   const GetLifecycleResponse = IDL.Record({
@@ -202,6 +210,9 @@ export const idlFactory = ({ IDL }) => {
   const DerivedState = IDL.Record({
     'sns_tokens_per_icp' : IDL.Float32,
     'buyer_total_icp_e8s' : IDL.Nat64,
+    'cf_participant_count' : IDL.Opt(IDL.Nat64),
+    'direct_participant_count' : IDL.Opt(IDL.Nat64),
+    'cf_neuron_count' : IDL.Opt(IDL.Nat64),
   });
   const GetStateResponse = IDL.Record({
     'swap' : IDL.Opt(Swap),
@@ -252,7 +263,10 @@ export const idlFactory = ({ IDL }) => {
     'params' : IDL.Opt(Params),
     'open_sns_token_swap_proposal_id' : IDL.Opt(IDL.Nat64),
   });
-  const RefreshBuyerTokensRequest = IDL.Record({ 'buyer' : IDL.Text });
+  const RefreshBuyerTokensRequest = IDL.Record({
+    'confirmation_text' : IDL.Opt(IDL.Text),
+    'buyer' : IDL.Text,
+  });
   const RefreshBuyerTokensResponse = IDL.Record({
     'icp_accepted_participation_e8s' : IDL.Nat64,
     'icp_ledger_account_balance_e8s' : IDL.Nat64,
@@ -336,15 +350,18 @@ export const idlFactory = ({ IDL }) => {
   });
 };
 export const init = ({ IDL }) => {
+  const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const Init = IDL.Record({
     'sns_root_canister_id' : IDL.Text,
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
     'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
+    'confirmation_text' : IDL.Opt(IDL.Text),
     'nns_governance_canister_id' : IDL.Text,
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'icp_ledger_canister_id' : IDL.Text,
     'sns_ledger_canister_id' : IDL.Text,
     'sns_governance_canister_id' : IDL.Text,
+    'restricted_countries' : IDL.Opt(Countries),
   });
   return [Init];
 };
