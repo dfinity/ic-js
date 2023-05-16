@@ -39,12 +39,12 @@ export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType;
   freezing_threshold: bigint;
-  balance: Array<[Uint8Array, bigint]>;
+  balance: Array<[Uint8Array | number[], bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array];
+  module_hash: [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -153,7 +153,7 @@ export type DissolveState =
   | { WhenDissolvedTimestampSeconds: bigint };
 export interface ExecuteGenericNervousSystemFunction {
   function_id: bigint;
-  payload: Uint8Array;
+  payload: Uint8Array | number[];
 }
 export interface FinalizeDisburseMaturity {
   amount_to_be_disbursed_e8s: bigint;
@@ -247,7 +247,7 @@ export interface IncreaseDissolveDelay {
   additional_dissolve_delay_seconds: number;
 }
 export interface ListNervousSystemFunctionsResponse {
-  reserved_ids: BigUint64Array;
+  reserved_ids: BigUint64Array | bigint[];
   functions: Array<NervousSystemFunction>;
 }
 export interface ListNeurons {
@@ -259,17 +259,17 @@ export interface ListNeuronsResponse {
   neurons: Array<Neuron>;
 }
 export interface ListProposals {
-  include_reward_status: Int32Array;
+  include_reward_status: Int32Array | number[];
   before_proposal: [] | [ProposalId];
   limit: number;
-  exclude_type: BigUint64Array;
-  include_status: Int32Array;
+  exclude_type: BigUint64Array | bigint[];
+  include_status: Int32Array | number[];
 }
 export interface ListProposalsResponse {
   proposals: Array<ProposalData>;
 }
 export interface ManageNeuron {
-  subaccount: Uint8Array;
+  subaccount: Uint8Array | number[];
   command: [] | [Command];
 }
 export interface ManageNeuronResponse {
@@ -340,7 +340,7 @@ export interface Neuron {
   neuron_fees_e8s: bigint;
 }
 export interface NeuronId {
-  id: Uint8Array;
+  id: Uint8Array | number[];
 }
 export interface NeuronInFlightCommand {
   command: [] | [Command_2];
@@ -357,10 +357,10 @@ export interface NeuronParameters {
 }
 export interface NeuronPermission {
   principal: [] | [Principal];
-  permission_type: Int32Array;
+  permission_type: Int32Array | number[];
 }
 export interface NeuronPermissionList {
-  permissions: Int32Array;
+  permissions: Int32Array | number[];
 }
 export type Operation =
   | {
@@ -441,7 +441,7 @@ export interface StakeMaturityResponse {
   staked_maturity_e8s: bigint;
 }
 export interface Subaccount {
-  subaccount: Uint8Array;
+  subaccount: Uint8Array | number[];
 }
 export interface SwapNeuron {
   id: [] | [NeuronId];
@@ -467,17 +467,17 @@ export interface UpgradeInProgress {
   target_version: [] | [Version];
 }
 export interface UpgradeSnsControlledCanister {
-  new_canister_wasm: Uint8Array;
+  new_canister_wasm: Uint8Array | number[];
   canister_id: [] | [Principal];
-  canister_upgrade_arg: [] | [Uint8Array];
+  canister_upgrade_arg: [] | [Uint8Array | number[]];
 }
 export interface Version {
-  archive_wasm_hash: Uint8Array;
-  root_wasm_hash: Uint8Array;
-  swap_wasm_hash: Uint8Array;
-  ledger_wasm_hash: Uint8Array;
-  governance_wasm_hash: Uint8Array;
-  index_wasm_hash: Uint8Array;
+  archive_wasm_hash: Uint8Array | number[];
+  root_wasm_hash: Uint8Array | number[];
+  swap_wasm_hash: Uint8Array | number[];
+  ledger_wasm_hash: Uint8Array | number[];
+  governance_wasm_hash: Uint8Array | number[];
+  index_wasm_hash: Uint8Array | number[];
 }
 export interface VotingRewardsParameters {
   final_reward_rate_basis_points: [] | [bigint];

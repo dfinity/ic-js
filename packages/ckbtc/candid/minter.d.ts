@@ -3,12 +3,12 @@ import type { Principal } from "@dfinity/principal";
 
 export interface Account {
   owner: Principal;
-  subaccount: [] | [Uint8Array];
+  subaccount: [] | [Uint8Array | number[]];
 }
 export type BitcoinAddress =
-  | { p2sh: Uint8Array }
-  | { p2wpkh_v0: Uint8Array }
-  | { p2pkh: Uint8Array };
+  | { p2sh: Uint8Array | number[] }
+  | { p2wpkh_v0: Uint8Array | number[] }
+  | { p2pkh: Uint8Array | number[] };
 export type BtcNetwork =
   | { Mainnet: null }
   | { Regtest: null }
@@ -20,9 +20,9 @@ export type Event =
   | {
       sent_transaction: {
         change_output: [] | [{ value: bigint; vout: number }];
-        txid: Uint8Array;
+        txid: Uint8Array | number[];
         utxos: Array<Utxo>;
-        requests: BigUint64Array;
+        requests: BigUint64Array | bigint[];
         submitted_at: bigint;
       };
     }
@@ -38,7 +38,7 @@ export type Event =
     }
   | { checked_utxo: { clean: boolean; utxo: Utxo; uuid: string } }
   | { removed_retrieve_btc_request: { block_index: bigint } }
-  | { confirmed_transaction: { txid: Uint8Array } }
+  | { confirmed_transaction: { txid: Uint8Array | number[] } }
   | { ignored_utxo: { utxo: Utxo } };
 export interface InitArgs {
   kyt_principal: [] | [Principal];
@@ -73,11 +73,11 @@ export interface RetrieveBtcOk {
 }
 export type RetrieveBtcStatus =
   | { Signing: null }
-  | { Confirmed: { txid: Uint8Array } }
-  | { Sending: { txid: Uint8Array } }
+  | { Confirmed: { txid: Uint8Array | number[] } }
+  | { Sending: { txid: Uint8Array | number[] } }
   | { AmountTooLow: null }
   | { Unknown: null }
-  | { Submitted: { txid: Uint8Array } }
+  | { Submitted: { txid: Uint8Array | number[] } }
   | { Pending: null };
 export type UpdateBalanceError =
   | {
@@ -102,7 +102,7 @@ export interface UpgradeArgs {
 export interface Utxo {
   height: number;
   value: bigint;
-  outpoint: { txid: Uint8Array; vout: number };
+  outpoint: { txid: Uint8Array | number[]; vout: number };
 }
 export type UtxoStatus =
   | { ValueTooSmall: Utxo }
@@ -121,7 +121,12 @@ export interface _SERVICE {
     { minter_fee: bigint; bitcoin_fee: bigint }
   >;
   get_btc_address: ActorMethod<
-    [{ owner: [] | [Principal]; subaccount: [] | [Uint8Array] }],
+    [
+      {
+        owner: [] | [Principal];
+        subaccount: [] | [Uint8Array | number[]];
+      }
+    ],
     string
   >;
   get_deposit_fee: ActorMethod<[], bigint>;
@@ -136,7 +141,12 @@ export interface _SERVICE {
     RetrieveBtcStatus
   >;
   update_balance: ActorMethod<
-    [{ owner: [] | [Principal]; subaccount: [] | [Uint8Array] }],
+    [
+      {
+        owner: [] | [Principal];
+        subaccount: [] | [Uint8Array | number[]];
+      }
+    ],
     { Ok: Array<UtxoStatus> } | { Err: UpdateBalanceError }
   >;
 }

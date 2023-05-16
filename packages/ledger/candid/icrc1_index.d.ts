@@ -3,7 +3,7 @@ import type { Principal } from "@dfinity/principal";
 
 export interface Account {
   owner: Principal;
-  subaccount: [] | [Uint8Array];
+  subaccount: [] | [Uint8Array | number[]];
 }
 export interface GetAccountTransactionsArgs {
   max_results: bigint;
@@ -27,14 +27,14 @@ export interface ListSubaccountsArgs {
   owner: Principal;
   start: [] | [SubAccount];
 }
-export type SubAccount = Uint8Array;
+export type SubAccount = Uint8Array | number[];
 export interface Transaction {
   burn:
     | []
     | [
         {
           from: Account;
-          memo: [] | [Uint8Array];
+          memo: [] | [Uint8Array | number[]];
           created_at_time: [] | [bigint];
           amount: bigint;
         }
@@ -45,7 +45,7 @@ export interface Transaction {
     | [
         {
           to: Account;
-          memo: [] | [Uint8Array];
+          memo: [] | [Uint8Array | number[]];
           created_at_time: [] | [bigint];
           amount: bigint;
         }
@@ -58,7 +58,7 @@ export interface Transaction {
           to: Account;
           fee: [] | [bigint];
           from: Account;
-          memo: [] | [Uint8Array];
+          memo: [] | [Uint8Array | number[]];
           created_at_time: [] | [bigint];
           amount: bigint;
         }

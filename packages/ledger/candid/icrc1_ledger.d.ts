@@ -23,13 +23,13 @@ export interface InitArgs {
   };
   token_name: string;
 }
-export type Subaccount = Uint8Array;
+export type Subaccount = Uint8Array | number[];
 export type Timestamp = bigint;
 export type Tokens = bigint;
 export interface TransferArg {
   to: Account;
   fee: [] | [Tokens];
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   from_subaccount: [] | [Subaccount];
   created_at_time: [] | [Timestamp];
   amount: Tokens;
@@ -49,7 +49,7 @@ export type TransferResult = { Ok: BlockIndex } | { Err: TransferError };
 export type Value =
   | { Int: bigint }
   | { Nat: bigint }
-  | { Blob: Uint8Array }
+  | { Blob: Uint8Array | number[] }
   | { Text: string };
 export interface _SERVICE {
   icrc1_balance_of: ActorMethod<[Account], Tokens>;

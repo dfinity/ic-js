@@ -12,18 +12,18 @@ export interface CanisterStatusResult {
   controller: Principal;
   status: CanisterStatusType;
   memory_size: bigint;
-  module_hash: [] | [Uint8Array];
+  module_hash: [] | [Uint8Array | number[]];
 }
 export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType_1;
   freezing_threshold: bigint;
-  balance: Array<[Uint8Array, bigint]>;
+  balance: Array<[Uint8Array | number[], bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array];
+  module_hash: [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
