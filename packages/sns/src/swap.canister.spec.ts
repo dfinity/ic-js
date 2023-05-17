@@ -177,6 +177,9 @@ describe("Swap canister", () => {
     const testResponse: GetDerivedStateResponse = {
       sns_tokens_per_icp: [2],
       buyer_total_icp_e8s: [BigInt(100_000_000)],
+      cf_participant_count: [BigInt(3)],
+      direct_participant_count: [BigInt(4)],
+      cf_neuron_count: [BigInt(6)],
     };
 
     const service = mock<ActorSubclass<SnsSwapService>>();
@@ -259,6 +262,8 @@ describe("Swap canister", () => {
           amount_e8s: BigInt(100000000),
           transfer_start_timestamp_seconds: BigInt(0),
           transfer_success_timestamp_seconds: BigInt(0),
+          transfer_fee_paid_e8s: [BigInt(100000)],
+          amount_transferred_e8s: [BigInt(99900000)],
         },
       ],
     };

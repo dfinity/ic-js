@@ -87,6 +87,7 @@ export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array;
   canister_id: Option<Principal>;
   canister_upgrade_arg: Option<Uint8Array>;
+  mode: Option<number>;
 }
 
 export interface ManageSnsMetadata {

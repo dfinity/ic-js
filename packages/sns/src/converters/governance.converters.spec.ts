@@ -72,6 +72,7 @@ describe("governance converters", () => {
           max_number_of_principals_per_neuron: [
             max_number_of_principals_per_neuron,
           ],
+          maturity_modulation_disabled: [false],
         },
       };
       const expectedAction: Action = {
@@ -200,11 +201,13 @@ describe("governance converters", () => {
     it("converts UpgradeSnsControlledCanister action", () => {
       const new_canister_wasm = new Uint8Array();
       const canister_id = mockPrincipal;
+      const mode = 1;
       const action: ActionCandid = {
         UpgradeSnsControlledCanister: {
           new_canister_wasm,
           canister_id: [canister_id],
           canister_upgrade_arg: [],
+          mode: [mode],
         },
       };
       const expectedAction: Action = {
@@ -212,6 +215,7 @@ describe("governance converters", () => {
           new_canister_wasm: new Uint8Array(),
           canister_id,
           canister_upgrade_arg: undefined,
+          mode,
         },
       };
       expect(fromCandidAction(action)).toEqual(expectedAction);
