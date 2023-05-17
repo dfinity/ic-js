@@ -375,10 +375,10 @@ describe("SnsWrapper", () => {
   });
 
   it("should call notifyParticipation", async () => {
-    await snsWrapper.notifyParticipation({ buyer: "aaaaa-aa" });
-    expect(mockSwapCanister.notifyParticipation).toHaveBeenCalledWith({
-      buyer: "aaaaa-aa",
-    });
+    const confirmation_text: [string] = ["I agree"];
+    const params = { buyer: "aaaaa-aa", confirmation_text };
+    await snsWrapper.notifyParticipation(params);
+    expect(mockSwapCanister.notifyParticipation).toHaveBeenCalledWith(params);
   });
 
   it("should call getUserCommitment with query and update", async () => {

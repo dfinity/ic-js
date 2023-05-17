@@ -35,6 +35,9 @@ export interface CfParticipant {
   hotkey_principal: string;
   cf_neurons: Array<CfNeuron>;
 }
+export interface Countries {
+  iso_codes: Array<string>;
+}
 export interface DefiniteCanisterSettingsArgs {
   controller: Principal;
   freezing_threshold: bigint;
@@ -45,6 +48,9 @@ export interface DefiniteCanisterSettingsArgs {
 export interface DerivedState {
   sns_tokens_per_icp: number;
   buyer_total_icp_e8s: bigint;
+  cf_participant_count: [] | [bigint];
+  direct_participant_count: [] | [bigint];
+  cf_neuron_count: [] | [bigint];
 }
 export interface DirectInvestment {
   buyer_principal: string;
@@ -94,6 +100,9 @@ export interface GetBuyersTotalResponse {
 export interface GetDerivedStateResponse {
   sns_tokens_per_icp: [] | [number];
   buyer_total_icp_e8s: [] | [bigint];
+  cf_participant_count: [] | [bigint];
+  direct_participant_count: [] | [bigint];
+  cf_neuron_count: [] | [bigint];
 }
 export interface GetInitResponse {
   init: [] | [Init];
@@ -124,11 +133,13 @@ export interface Init {
   sns_root_canister_id: string;
   fallback_controller_principal_ids: Array<string>;
   neuron_minimum_stake_e8s: [] | [bigint];
+  confirmation_text: [] | [string];
   nns_governance_canister_id: string;
   transaction_fee_e8s: [] | [bigint];
   icp_ledger_canister_id: string;
   sns_ledger_canister_id: string;
   sns_governance_canister_id: string;
+  restricted_countries: [] | [Countries];
 }
 export interface InvalidUserAmount {
   min_amount_icp_e8s_included: bigint;
@@ -211,6 +222,7 @@ export type Possibility =
 export type Possibility_1 = { Ok: Response } | { Err: CanisterCallError };
 export type Possibility_2 = { Ok: {} } | { Err: CanisterCallError };
 export interface RefreshBuyerTokensRequest {
+  confirmation_text: [] | [string];
   buyer: string;
 }
 export interface RefreshBuyerTokensResponse {
@@ -269,8 +281,10 @@ export interface Ticket {
   amount_icp_e8s: bigint;
 }
 export interface TransferableAmount {
+  transfer_fee_paid_e8s: [] | [bigint];
   transfer_start_timestamp_seconds: bigint;
   amount_e8s: bigint;
+  amount_transferred_e8s: [] | [bigint];
   transfer_success_timestamp_seconds: bigint;
 }
 export interface _SERVICE {

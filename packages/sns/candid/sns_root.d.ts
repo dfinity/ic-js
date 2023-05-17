@@ -12,13 +12,11 @@ export interface CanisterStatusResult {
   controller: Principal;
   status: CanisterStatusType;
   memory_size: bigint;
+  settings: DefiniteCanisterSettings;
   module_hash: [] | [Uint8Array];
 }
 export interface CanisterStatusResultV2 {
-  controller: Principal;
-  status: CanisterStatusType_1;
-  freezing_threshold: bigint;
-  balance: Array<[Uint8Array, bigint]>;
+  status: CanisterStatusType;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
@@ -29,16 +27,14 @@ export type CanisterStatusType =
   | { stopped: null }
   | { stopping: null }
   | { running: null };
-export type CanisterStatusType_1 =
-  | { stopped: null }
-  | { stopping: null }
-  | { running: null };
 export interface CanisterSummary {
   status: [] | [CanisterStatusResultV2];
   canister_id: [] | [Principal];
 }
+export interface DefiniteCanisterSettings {
+  controllers: Array<Principal>;
+}
 export interface DefiniteCanisterSettingsArgs {
-  controller: Principal;
   freezing_threshold: bigint;
   controllers: Array<Principal>;
   memory_allocation: bigint;

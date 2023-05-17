@@ -376,6 +376,7 @@ const convertUpgradeSnsControlledCanister = (
   new_canister_wasm: params.new_canister_wasm,
   canister_id: fromNullable(params.canister_id),
   canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
+  mode: fromNullable(params.mode),
 });
 
 const convertTransferSnsTreasuryFunds = (

@@ -175,6 +175,9 @@ export interface GenericNervousSystemFunction {
   validator_method_name: [] | [string];
   target_method_name: [] | [string];
 }
+export interface GetMaturityModulationResponse {
+  maturity_modulation: [] | [MaturityModulation];
+}
 export interface GetMetadataResponse {
   url: [] | [string];
   logo: [] | [string];
@@ -207,6 +210,7 @@ export interface Governance {
   root_canister_id: [] | [Principal];
   id_to_nervous_system_functions: Array<[bigint, NervousSystemFunction]>;
   metrics: [] | [GovernanceCachedMetrics];
+  maturity_modulation: [] | [MaturityModulation];
   mode: number;
   parameters: [] | [NervousSystemParameters];
   is_finalizing_disburse_maturity: [] | [boolean];
@@ -281,6 +285,10 @@ export interface ManageSnsMetadata {
   name: [] | [string];
   description: [] | [string];
 }
+export interface MaturityModulation {
+  current_basis_points: [] | [number];
+  updated_at_timestamp_seconds: [] | [bigint];
+}
 export interface MemoAndController {
   controller: [] | [Principal];
   memo: bigint;
@@ -320,6 +328,7 @@ export interface NervousSystemParameters {
   max_age_bonus_percentage: [] | [bigint];
   neuron_grantable_permissions: [] | [NeuronPermissionList];
   voting_rewards_parameters: [] | [VotingRewardsParameters];
+  maturity_modulation_disabled: [] | [boolean];
   max_number_of_principals_per_neuron: [] | [bigint];
 }
 export interface Neuron {
@@ -414,6 +423,7 @@ export interface RemoveNeuronPermissions {
 export type Result = { Error: GovernanceError } | { Neuron: Neuron };
 export type Result_1 = { Error: GovernanceError } | { Proposal: ProposalData };
 export interface RewardEvent {
+  rounds_since_last_distribution: [] | [bigint];
   actual_timestamp_seconds: bigint;
   end_timestamp_seconds: [] | [bigint];
   distributed_e8s_equivalent: bigint;
@@ -468,6 +478,7 @@ export interface UpgradeInProgress {
 }
 export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array;
+  mode: [] | [number];
   canister_id: [] | [Principal];
   canister_upgrade_arg: [] | [Uint8Array];
 }
@@ -493,7 +504,10 @@ export interface _SERVICE {
     [ClaimSwapNeuronsRequest],
     ClaimSwapNeuronsResponse
   >;
+  fail_stuck_upgrade_in_progress: ActorMethod<[{}], {}>;
   get_build_metadata: ActorMethod<[], string>;
+  get_latest_reward_event: ActorMethod<[], RewardEvent>;
+  get_maturity_modulation: ActorMethod<[{}], GetMaturityModulationResponse>;
   get_metadata: ActorMethod<[{}], GetMetadataResponse>;
   get_mode: ActorMethod<[{}], GetModeResponse>;
   get_nervous_system_parameters: ActorMethod<[null], NervousSystemParameters>;
