@@ -106,7 +106,7 @@
     {
       "name": "@dfinity/nns-proto",
       "path": "./packages/nns-proto/dist/index.js",
-      "limit": "78 kB"
+      "limit": "80 kB"
     },
     {
       "name": "@dfinity/sns",
