@@ -8,10 +8,26 @@
 - ledger `v0.0.8`
 - ckBTC `v0.0.4`
 - utils `v0.0.15`
+- nns-proto `v0.0.1`
+
+## Breaking Changes
+
+- the protobuf dependencies of `@dfinity/nns` have been extracted to a new peer dependency called `@dfinity/nns-proto`. In the NNS-dapp, we manually chunk the libraries. This change enables the dapp to load the required code of the hardware wallet only when necessary.
 
 ## Features
 
-- ...
+- update `sns-js` and `nns-js` candid definitions
+- add `BitcoinSetConfig` to enum `NnsFunction`
+- expose some more Sns types
+
+## Build
+
+- publish provenance to npm
+- do not run size checker on main branch
+
+## Docs
+
+- fix sample in `nns-js` README
 
 # 0.15.1 (2023-04-18)
 
@@ -383,4 +399,4 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 
 ### Tests
 
-- add test for protobug files
+- add test for protobuf files
