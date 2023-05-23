@@ -6,12 +6,12 @@
   "workspaces": [
     "packages/utils",
     "packages/ledger",
+    "packages/nns-proto",
     "packages/nns",
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/rosetta-client",
-    "packages/nns-proto"
+    "packages/rosetta-client"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
