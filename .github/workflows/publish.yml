@@ -28,6 +28,10 @@ jobs:
         run: npm publish --workspace=packages/ledger --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish NNS-proto
+        run: npm publish --workspace=packages/nns-proto --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish NNS
         run: npm publish --workspace=packages/nns --provenance --access public
         env:
