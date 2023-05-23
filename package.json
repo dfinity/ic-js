@@ -94,7 +94,7 @@
     {
       "name": "@dfinity/nns",
       "path": "./packages/nns/dist/index.js",
-      "limit": "110 kB",
+      "limit": "29 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -106,7 +106,7 @@
     {
       "name": "@dfinity/nns-proto",
       "path": "./packages/nns-proto/dist/index.js",
-      "limit": "650 kB"
+      "limit": "78 kB"
     },
     {
       "name": "@dfinity/sns",
