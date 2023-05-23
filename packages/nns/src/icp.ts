@@ -1,4 +1,4 @@
-import { ICPTs } from "../proto/ledger_pb";
+import { ICPTs } from "@dfinity/nns-proto";
 import type { FromStringToTokenError } from "./enums/token.enums";
 import { convertStringToE8s, ICPToken, type Token } from "./token";
 

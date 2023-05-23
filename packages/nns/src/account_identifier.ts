@@ -1,3 +1,4 @@
+import { AccountIdentifier as AccountIdentifierPb } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
   asciiStringToByteArray,
@@ -6,7 +7,6 @@ import {
 } from "@dfinity/utils";
 import { sha224 } from "js-sha256";
 import type { AccountIdentifier as AccountIdentifierCandid } from "../candid/governance";
-import { AccountIdentifier as AccountIdentifierPb } from "../proto/ledger_pb";
 
 export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}

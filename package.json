@@ -10,7 +10,8 @@
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/rosetta-client"
+    "packages/rosetta-client",
+    "packages/nns-proto"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -98,8 +99,14 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
-        "@dfinity/utils"
+        "@dfinity/utils",
+        "@dfinity/nns-proto"
       ]
+    },
+    {
+      "name": "@dfinity/nns-proto",
+      "path": "./packages/nns-proto/dist/index.js",
+      "limit": "650 kB"
     },
     {
       "name": "@dfinity/sns",
