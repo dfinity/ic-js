@@ -1,7 +1,7 @@
 {
-  "name": "@dfinity/nns",
-  "version": "0.16.0",
-  "description": "A library for interfacing with the Internet Computer's Network Nervous System.",
+  "name": "@dfinity/nns-proto",
+  "version": "0.0.1",
+  "description": "The protobuf source used by nns-js to support hardware wallets.",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.cjs.js",
   "module": "dist/esm/index.js",
@@ -14,21 +14,14 @@
   "scripts": {
     "rmdir": "node ../../scripts/rmdir.mjs",
     "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
-    "build": "npm run rmdir && mkdir -p dist && cp -R candid dist && node esbuild.mjs && npm run ts-declaration",
+    "build": "npm run rmdir && mkdir -p dist && cp -R proto dist && node esbuild.mjs && npm run ts-declaration",
     "prepack": "npm run build",
-    "test": "jest"
-  },
-  "dependencies": {
-    "js-sha256": "^0.9.0",
-    "randombytes": "^2.1.0"
-  },
-  "devDependencies": {
-    "@types/randombytes": "^2.0.0"
+    "test": ""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dfinity/ic-js.git",
-    "directory": "packages/nns"
+    "directory": "packages/nns-proto"
   },
   "bugs": {
     "url": "https://github.com/dfinity/ic-js"
@@ -50,11 +43,10 @@
     "network nervous system",
     "network-nervous-system"
   ],
-  "peerDependencies": {
-    "@dfinity/agent": "^0.15.4",
-    "@dfinity/candid": "^0.15.4",
-    "@dfinity/nns-proto": "^0.0.1",
-    "@dfinity/principal": "^0.15.4",
-    "@dfinity/utils": "^0.0.15"
+  "dependencies": {
+    "google-protobuf": "^3.21.2"
+  },
+  "devDependencies": {
+    "@types/google-protobuf": "^3.15.6"
   }
 }

@@ -1,10 +1,10 @@
-import { Principal } from "@dfinity/principal";
 import {
+  AccountIdentifier as PbAccountIdentifier,
+  ManageNeuron as PbManageNeuron,
   NeuronId as PbNeuronId,
   PrincipalId as PbPrincipalId,
-} from "../../../proto/base_types_pb";
-import { ManageNeuron as PbManageNeuron } from "../../../proto/governance_pb";
-import { AccountIdentifier as PbAccountIdentifier } from "../../../proto/ledger_pb";
+} from "@dfinity/nns-proto";
+import { Principal } from "@dfinity/principal";
 import type { NeuronId } from "../../types/common";
 import type {
   AddHotKeyRequest,

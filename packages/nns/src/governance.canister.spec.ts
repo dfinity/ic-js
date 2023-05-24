@@ -5,6 +5,10 @@ import {
   type Agent,
   type RequestId,
 } from "@dfinity/agent";
+import {
+  ManageNeuronResponse as PbManageNeuronResponse,
+  NeuronId as PbNeuronId,
+} from "@dfinity/nns-proto";
 import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
@@ -18,8 +22,6 @@ import type {
   RewardEvent,
   _SERVICE as GovernanceService,
 } from "../candid/governance";
-import { NeuronId as PbNeuronId } from "../proto/base_types_pb";
-import { ManageNeuronResponse as PbManageNeuronResponse } from "../proto/governance_pb";
 import { Topic, Vote } from "./enums/governance.enums";
 import {
   FeatureNotSupportedError,

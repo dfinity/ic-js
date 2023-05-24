@@ -1,3 +1,10 @@
+import type {
+  BallotInfo as PbBallotInfo,
+  ListNeuronsResponse,
+  Neuron as PbNeuron,
+  NeuronInfo as PbNeuronInfo,
+  PrincipalId,
+} from "@dfinity/nns-proto";
 import { Principal } from "@dfinity/principal";
 import { fromNullable, uint8ArrayToArrayOfNumber } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
@@ -27,13 +34,6 @@ import type {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governance";
-import type { PrincipalId } from "../../../proto/base_types_pb";
-import type {
-  BallotInfo as PbBallotInfo,
-  ListNeuronsResponse,
-  Neuron as PbNeuron,
-  NeuronInfo as PbNeuronInfo,
-} from "../../../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "../../account_identifier";
 import { NeuronState } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";

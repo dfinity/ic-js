@@ -1,4 +1,4 @@
-import { ManageNeuronResponse as PbManageNeuronResponse } from "../../../proto/governance_pb";
+import { ManageNeuronResponse as PbManageNeuronResponse } from "@dfinity/nns-proto";
 import { GovernanceError } from "../../errors/governance.errors";
 
 export const checkPbManageNeuronResponse = (rawResponse: Uint8Array): void => {

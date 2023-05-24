@@ -1,4 +1,10 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
+import type { ManageNeuron as PbManageNeuron } from "@dfinity/nns-proto";
+import {
+  ListNeurons as PbListNeurons,
+  ListNeuronsResponse as PbListNeuronsResponse,
+  ManageNeuronResponse as PbManageNeuronResponse,
+} from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
   asciiStringToByteArray,
@@ -16,12 +22,6 @@ import type {
 } from "../candid/governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { idlFactory } from "../candid/governance.idl";
-import type { ManageNeuron as PbManageNeuron } from "../proto/governance_pb";
-import {
-  ListNeurons as PbListNeurons,
-  ListNeuronsResponse as PbListNeuronsResponse,
-  ManageNeuronResponse as PbManageNeuronResponse,
-} from "../proto/governance_pb";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
   fromClaimOrRefreshNeuronRequest,

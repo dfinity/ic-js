@@ -1,9 +1,4 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
-import type { Principal } from "@dfinity/principal";
-import { createServices } from "@dfinity/utils";
-import type { _SERVICE as LedgerService } from "../candid/ledger";
-import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
-import { idlFactory } from "../candid/ledger.idl";
 import {
   AccountBalanceRequest,
   BlockHeight as PbBlockHeight,
@@ -12,7 +7,12 @@ import {
   Payment,
   SendRequest,
   TimeStamp,
-} from "../proto/ledger_pb";
+} from "@dfinity/nns-proto";
+import type { Principal } from "@dfinity/principal";
+import { createServices } from "@dfinity/utils";
+import type { _SERVICE as LedgerService } from "../candid/ledger";
+import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
+import { idlFactory } from "../candid/ledger.idl";
 import type { AccountIdentifier } from "./account_identifier";
 import {
   subAccountNumbersToSubaccount,

@@ -12,6 +12,7 @@ The libraries are still in active development, and new features will incremental
 - [ledger](/packages/ledger): interacting with ICRC compatible **ledgers**
 - [ckBTC](/packages/ckbtc): interfacing with **ckBTC**
 - [utils](/packages/utils): a collection of utilities and constants
+- [nns-proto](/packages/nns-proto): the protobuf source used by `nns-js` to support hardware wallets
 
 ## Installation
 
@@ -20,7 +21,7 @@ Install any library of this repo in your project from [npm](https://www.npmjs.co
 ```bash
 npm i @dfinity/utils
 npm i @dfinity/ledger
-npm i @dfinity/nns
+npm i @dfinity/nns-proto @dfinity/nns
 npm i @dfinity/sns
 npm i @dfinity/cmc
 npm i @dfinity/ckbtc

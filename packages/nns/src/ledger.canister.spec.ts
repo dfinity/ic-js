@@ -1,8 +1,8 @@
 import { ActorSubclass } from "@dfinity/agent";
+import { Memo, Payment, SendRequest } from "@dfinity/nns-proto";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as LedgerService } from "../candid/ledger";
-import { Memo, Payment, SendRequest } from "../proto/ledger_pb";
 import { AccountIdentifier } from "./account_identifier";
 import { toICPTs } from "./canisters/ledger/ledger.request.converts";
 import { TRANSACTION_FEE } from "./constants/constants";

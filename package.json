@@ -6,6 +6,7 @@
   "workspaces": [
     "packages/utils",
     "packages/ledger",
+    "packages/nns-proto",
     "packages/nns",
     "packages/sns",
     "packages/cmc",
@@ -93,13 +94,19 @@
     {
       "name": "@dfinity/nns",
       "path": "./packages/nns/dist/index.js",
-      "limit": "110 kB",
+      "limit": "29 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
-        "@dfinity/utils"
+        "@dfinity/utils",
+        "@dfinity/nns-proto"
       ]
+    },
+    {
+      "name": "@dfinity/nns-proto",
+      "path": "./packages/nns-proto/dist/index.js",
+      "limit": "80 kB"
     },
     {
       "name": "@dfinity/sns",
