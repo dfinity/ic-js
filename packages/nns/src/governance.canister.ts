@@ -1,10 +1,5 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { ManageNeuron as PbManageNeuron } from "@dfinity/nns-proto";
-import {
-  ListNeurons as PbListNeurons,
-  ListNeuronsResponse as PbListNeuronsResponse,
-  ManageNeuronResponse as PbManageNeuronResponse,
-} from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
   asciiStringToByteArray,
@@ -97,7 +92,7 @@ import type {
   SpawnRequest,
 } from "./types/governance_converters";
 import { checkAccountId } from "./utils/accounts.utils";
-import { updateCall } from "./utils/proto.utils";
+import { importNnsProto, updateCall } from "./utils/proto.utils";
 
 export class GovernanceCanister {
   private constructor(
@@ -853,8 +848,13 @@ export class GovernanceCanister {
   };
 
   private listNeuronsHardwareWallet = async (): Promise<Array<NeuronInfo>> => {
+    const {
+      ListNeurons: ListNeuronsConstructor,
+      ListNeuronsResponse: ListNeuronsResponseConstructor,
+    } = await importNnsProto();
+
     // We can't pass a list of neuron ids, the HW cannot handle it.
-    const request = new PbListNeurons();
+    const request = new ListNeuronsConstructor();
     request.setIncludeNeuronsReadableByCaller(true);
 
     const rawResponse = await updateCall({
@@ -864,7 +864,8 @@ export class GovernanceCanister {
       arg: request.serializeBinary(),
     });
 
-    const response = PbListNeuronsResponse.deserializeBinary(rawResponse);
+    const response =
+      ListNeuronsResponseConstructor.deserializeBinary(rawResponse);
     const pbNeurons = response.getFullNeuronsList();
     return response
       .getNeuronIdsList()
@@ -883,7 +884,7 @@ export class GovernanceCanister {
       arg: rawRequest.serializeBinary(),
     });
 
-    checkPbManageNeuronResponse(rawResponse);
+    await checkPbManageNeuronResponse(rawResponse);
   };
 
   private addHotkeyHardwareWallet = async ({
@@ -893,7 +894,7 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     principal: Principal;
   }): Promise<void> => {
-    const rawRequest = fromAddHotKeyRequest({
+    const rawRequest = await fromAddHotKeyRequest({
       neuronId,
       principal: principal.toText(),
     });
@@ -907,7 +908,7 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     principal: Principal;
   }): Promise<void> => {
-    const rawRequest = fromRemoveHotKeyRequest({
+    const rawRequest = await fromRemoveHotKeyRequest({
       neuronId,
       principal: principal.toText(),
     });
@@ -921,7 +922,7 @@ export class GovernanceCanister {
     neuronId: NeuronId;
     additionalDissolveDelaySeconds: number;
   }): Promise<void> => {
-    const rawRequest = fromIncreaseDissolveDelayRequest({
+    const rawRequest = await fromIncreaseDissolveDelayRequest({
       neuronId,
       additionalDissolveDelaySeconds,
     });
@@ -931,42 +932,42 @@ export class GovernanceCanister {
   private startDissolvingHardwareWallet = async (
     neuronId: NeuronId
   ): Promise<void> => {
-    const rawRequest = fromStartDissolvingRequest(neuronId);
+    const rawRequest = await fromStartDissolvingRequest(neuronId);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private stopDissolvingHardwareWallet = async (
     neuronId: NeuronId
   ): Promise<void> => {
-    const rawRequest = fromStopDissolvingRequest(neuronId);
+    const rawRequest = await fromStopDissolvingRequest(neuronId);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private joinCommunityFundHardwareWallet = async (
     neuronId: NeuronId
   ): Promise<void> => {
-    const rawRequest = fromCommunityFundRequest(neuronId);
+    const rawRequest = await fromCommunityFundRequest(neuronId);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private disburseHardwareWallet = async (
     request: DisburseRequest
   ): Promise<void> => {
-    const rawRequest = fromDisburseRequest(request);
+    const rawRequest = await fromDisburseRequest(request);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private mergeMaturityHardwareWallet = async (
     request: MergeMaturityRequest
   ): Promise<void> => {
-    const rawRequest = fromMergeMaturityRequest(request);
+    const rawRequest = await fromMergeMaturityRequest(request);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private spawnHardwareWallet = async (
     request: SpawnRequest
   ): Promise<NeuronId> => {
-    const rawRequest = fromSpawnRequest(request);
+    const rawRequest = await fromSpawnRequest(request);
     const rawResponse = await updateCall({
       agent: this.agent,
       canisterId: this.canisterId,
@@ -974,7 +975,11 @@ export class GovernanceCanister {
       arg: rawRequest.serializeBinary(),
     });
 
-    const response = PbManageNeuronResponse.deserializeBinary(rawResponse);
+    const { ManageNeuronResponse: ManageNeuronResponseConstructor } =
+      await importNnsProto();
+
+    const response =
+      ManageNeuronResponseConstructor.deserializeBinary(rawResponse);
     const err = response.getError();
     if (err) {
       throw new GovernanceError({

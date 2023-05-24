@@ -1,6 +1,7 @@
-import { ICPTs } from "@dfinity/nns-proto";
+import type { ICPTs } from "@dfinity/nns-proto/proto/ledger_pb";
 import type { FromStringToTokenError } from "./enums/token.enums";
 import { convertStringToE8s, ICPToken, type Token } from "./token";
+import { importNnsProto } from "./utils/proto.utils";
 
 /**
  * We don't extend to keep `fromE8s` and `fromString` as backwards compatible.
@@ -32,8 +33,10 @@ export class ICP {
     return this.e8s;
   }
 
-  public toProto(): ICPTs {
-    const proto = new ICPTs();
+  public async toProto(): Promise<ICPTs> {
+    const { ICPTs: ICPTsConstructor } = await importNnsProto();
+
+    const proto = new ICPTsConstructor();
     proto.setE8s(this.e8s.toString());
     return proto;
   }

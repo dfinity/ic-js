@@ -1,8 +1,12 @@
-import { ManageNeuronResponse as PbManageNeuronResponse } from "@dfinity/nns-proto";
 import { GovernanceError } from "../../errors/governance.errors";
+import { importNnsProto } from "../../utils/proto.utils";
 
-export const checkPbManageNeuronResponse = (rawResponse: Uint8Array): void => {
-  const response = PbManageNeuronResponse.deserializeBinary(rawResponse);
+export const checkPbManageNeuronResponse = async (rawResponse: Uint8Array) => {
+  const { ManageNeuronResponse: ManageNeuronResponseConstructor } =
+    await importNnsProto();
+
+  const response =
+    ManageNeuronResponseConstructor.deserializeBinary(rawResponse);
   const err = response.getError();
   if (err) {
     throw new GovernanceError({
