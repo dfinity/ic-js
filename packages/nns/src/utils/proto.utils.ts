@@ -2,6 +2,11 @@ import type { Agent } from "@dfinity/agent";
 import { polling } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+type ModuleType = typeof import("@dfinity/nns-proto");
+export const importNnsProto = (): Promise<ModuleType> =>
+  import("@dfinity/nns-proto");
+
 /**
  * Submits an update call to the IC.
  * @returns The (binary) response if the request succeeded, an error otherwise.

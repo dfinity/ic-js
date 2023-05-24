@@ -1,13 +1,4 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
-import {
-  AccountBalanceRequest,
-  BlockHeight as PbBlockHeight,
-  ICPTs,
-  Memo,
-  Payment,
-  SendRequest,
-  TimeStamp,
-} from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import { createServices } from "@dfinity/utils";
 import type { _SERVICE as LedgerService } from "../candid/ledger";
@@ -31,7 +22,7 @@ import type {
   LedgerCanisterOptions,
 } from "./types/ledger.options";
 import type { TransferRequest } from "./types/ledger_converters";
-import { queryCall, updateCall } from "./utils/proto.utils";
+import { importNnsProto, queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
   private constructor(
@@ -141,8 +132,11 @@ export class LedgerCanister {
   }): Promise<bigint> => {
     const callMethod = certified ? this.updateFetcher : this.queryFetcher;
 
-    const request = new AccountBalanceRequest();
-    request.setAccount(accountIdentifier.toProto());
+    const { AccountBalanceRequest: AccountBalanceRequestConstructor, ICPTs } =
+      await importNnsProto();
+
+    const request = new AccountBalanceRequestConstructor();
+    request.setAccount(await accountIdentifier.toProto());
 
     const responseBytes = await callMethod({
       agent: this.agent,
@@ -164,17 +158,20 @@ export class LedgerCanister {
     fromSubAccount,
     createdAt,
   }: TransferRequest): Promise<BlockHeight> => {
+    const { SendRequest, Payment, Memo, TimeStamp, BlockHeight } =
+      await importNnsProto();
+
     const request = new SendRequest();
-    request.setTo(to.toProto());
+    request.setTo(await to.toProto());
 
     const payment = new Payment();
-    payment.setReceiverGets(toICPTs(amount));
+    payment.setReceiverGets(await toICPTs(amount));
     request.setPayment(payment);
 
-    request.setMaxFee(toICPTs(fee ?? TRANSACTION_FEE));
+    request.setMaxFee(await toICPTs(fee ?? TRANSACTION_FEE));
 
     // Always explicitly set the memo for compatibility with ledger wallet - hardware wallet
-    const requestMemo: Memo = new Memo();
+    const requestMemo = new Memo();
     requestMemo.setMemo((memo ?? BigInt(0)).toString());
     request.setMemo(requestMemo);
 
@@ -185,7 +182,9 @@ export class LedgerCanister {
     }
 
     if (fromSubAccount !== undefined) {
-      request.setFromSubaccount(subAccountNumbersToSubaccount(fromSubAccount));
+      request.setFromSubaccount(
+        await subAccountNumbersToSubaccount(fromSubAccount)
+      );
     }
 
     try {
@@ -197,7 +196,7 @@ export class LedgerCanister {
       });
 
       // Successful tx. Return the block height.
-      return BigInt(PbBlockHeight.deserializeBinary(responseBytes).getHeight());
+      return BigInt(BlockHeight.deserializeBinary(responseBytes).getHeight());
     } catch (err) {
       if (err instanceof Error) {
         throw mapTransferProtoError(err);

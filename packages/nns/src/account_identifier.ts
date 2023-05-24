@@ -1,4 +1,4 @@
-import { AccountIdentifier as AccountIdentifierPb } from "@dfinity/nns-proto";
+import type { AccountIdentifier as AccountIdentifierPb } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
   asciiStringToByteArray,
@@ -7,6 +7,7 @@ import {
 } from "@dfinity/utils";
 import { sha224 } from "js-sha256";
 import type { AccountIdentifier as AccountIdentifierCandid } from "../candid/governance";
+import { importNnsProto } from "./utils/proto.utils";
 
 export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}
@@ -42,8 +43,10 @@ export class AccountIdentifier {
   /**
    * @returns An AccountIdentifier protobuf object.
    */
-  public toProto(): AccountIdentifierPb {
-    const accountIdentifier = new AccountIdentifierPb();
+  public async toProto(): Promise<AccountIdentifierPb> {
+    const { AccountIdentifier: AccountIdentifierConstructor } =
+      await importNnsProto();
+    const accountIdentifier = new AccountIdentifierConstructor();
     accountIdentifier.setHash(this.bytes);
     return accountIdentifier;
   }

@@ -1,4 +1,4 @@
-import { ICPTs, Subaccount } from "@dfinity/nns-proto";
+import type { ICPTs, Subaccount } from "@dfinity/nns-proto";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import type {
   Tokens,
@@ -6,18 +6,21 @@ import type {
 } from "../../../candid/ledger";
 import { TRANSACTION_FEE } from "../../constants/constants";
 import type { TransferRequest } from "../../types/ledger_converters";
+import { importNnsProto } from "../../utils/proto.utils";
 
-export const subAccountNumbersToSubaccount = (
+export const subAccountNumbersToSubaccount = async (
   subAccountNumbers: number[]
-): Subaccount => {
+): Promise<Subaccount> => {
   const bytes = new Uint8Array(subAccountNumbers).buffer;
-  const subaccount: Subaccount = new Subaccount();
+  const { Subaccount: SubaccountConstructor } = await importNnsProto();
+  const subaccount: Subaccount = new SubaccountConstructor();
   subaccount.setSubAccount(new Uint8Array(bytes));
   return subaccount;
 };
 
-export const toICPTs = (amount: bigint): ICPTs => {
-  const result = new ICPTs();
+export const toICPTs = async (amount: bigint): Promise<ICPTs> => {
+  const { ICPTs: ICPTsConstructor } = await importNnsProto();
+  const result = new ICPTsConstructor();
   result.setE8s(amount.toString(10));
   return result;
 };

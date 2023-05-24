@@ -162,9 +162,9 @@ Parameters:
 
 ##### :gear: toProto
 
-| Method    | Type                        |
-| --------- | --------------------------- |
-| `toProto` | `() => AccountIdentifierPb` |
+| Method    | Type                                 |
+| --------- | ------------------------------------ |
+| `toProto` | `() => Promise<AccountIdentifierPb>` |
 
 ##### :gear: toHex
 
@@ -309,9 +309,9 @@ Parameters:
 
 TODO: Remove this method when ICP class is not used anymore
 
-| Method    | Type          |
-| --------- | ------------- |
-| `toProto` | `() => ICPTs` |
+| Method    | Type                   |
+| --------- | ---------------------- |
+| `toProto` | `() => Promise<ICPTs>` |
 
 ### :factory: LedgerCanister
 
@@ -692,9 +692,9 @@ Initialize from a string. Accepted formats:
 
 ##### :gear: toProto
 
-| Method    | Type          |
-| --------- | ------------- |
-| `toProto` | `() => ICPTs` |
+| Method    | Type                   |
+| --------- | ---------------------- |
+| `toProto` | `() => Promise<ICPTs>` |
 
 ### :factory: SnsWasmCanister
 

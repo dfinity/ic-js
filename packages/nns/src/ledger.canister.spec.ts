@@ -503,7 +503,7 @@ describe("LedgerCanister", () => {
         expect(typeof res).toEqual("bigint");
       });
 
-      const initExpectedRequest = ({
+      const initExpectedRequest = async ({
         to,
         amount,
         memo,
@@ -513,19 +513,19 @@ describe("LedgerCanister", () => {
         amount: bigint;
         memo?: bigint;
         fee?: E8s;
-      }): SendRequest => {
+      }): Promise<SendRequest> => {
         const expectedRequest = new SendRequest();
-        expectedRequest.setTo(to.toProto());
+        expectedRequest.setTo(await to.toProto());
 
         const payment = new Payment();
-        payment.setReceiverGets(toICPTs(amount));
+        payment.setReceiverGets(await toICPTs(amount));
         expectedRequest.setPayment(payment);
 
-        const requestMemo: Memo = new Memo();
+        const requestMemo = new Memo();
         requestMemo.setMemo((memo ?? BigInt(0)).toString());
         expectedRequest.setMemo(requestMemo);
 
-        expectedRequest.setMaxFee(toICPTs(fee ?? TRANSACTION_FEE));
+        expectedRequest.setMaxFee(await toICPTs(fee ?? TRANSACTION_FEE));
 
         return expectedRequest;
       };
@@ -539,7 +539,7 @@ describe("LedgerCanister", () => {
         // @ts-ignore - private function
         const spy = jest.spyOn(ledger, "updateFetcher");
 
-        const expectedRequest = initExpectedRequest({ to, amount });
+        const expectedRequest = await initExpectedRequest({ to, amount });
 
         await ledger.transfer({
           to,
@@ -567,7 +567,7 @@ describe("LedgerCanister", () => {
 
         const fee = BigInt(990_000);
 
-        const expectedRequest = initExpectedRequest({ to, amount, fee });
+        const expectedRequest = await initExpectedRequest({ to, amount, fee });
 
         await ledger.transfer({
           to,
@@ -596,7 +596,7 @@ describe("LedgerCanister", () => {
 
         const memo = BigInt(990_000);
 
-        const expectedRequest = initExpectedRequest({ to, amount, memo });
+        const expectedRequest = await initExpectedRequest({ to, amount, memo });
 
         await ledger.transfer({
           to,

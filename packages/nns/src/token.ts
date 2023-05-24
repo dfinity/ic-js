@@ -1,6 +1,7 @@
-import { ICPTs } from "@dfinity/nns-proto";
+import type { ICPTs } from "@dfinity/nns-proto";
 import { E8S_PER_TOKEN } from "./constants/constants";
 import { FromStringToTokenError } from "./enums/token.enums";
+import { importNnsProto } from "./utils/proto.utils";
 
 /**
  * Receives a string representing a number and returns the big int or error.
@@ -160,8 +161,10 @@ export class TokenAmount {
    * TODO: Remove this method when ICP class is not used anymore
    * @deprecated
    */
-  public toProto(): ICPTs {
-    const proto = new ICPTs();
+  public async toProto(): Promise<ICPTs> {
+    const { ICPTs: ICPTsConstructor } = await importNnsProto();
+
+    const proto = new ICPTsConstructor();
     proto.setE8s(this.e8s.toString());
     return proto;
   }
