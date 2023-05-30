@@ -53,6 +53,27 @@ const btcAddress = await getBtcAddress({});
 
 <!-- TSDOC_START -->
 
+### :toolbox: Functions
+
+- [parseBtcAddress](#gear-parsebtcaddress)
+
+#### :gear: parseBtcAddress
+
+Parse a Bitcoin address.
+
+Parse implementation follows strategy implemented in [Minter canister](https://github.com/dfinity/ic/blob/a8da3aa23dc6f8f4708cb0cb8edce84c5bd8f225/rs/bitcoin/ckbtc/minter/src/address.rs#L54).
+
+Credits: Parts of JavaScript code and test values from [bitcoin-address-validation](https://github.com/ruigomeseu/bitcoin-address-validation).
+
+| Function          | Type                                                    |
+| ----------------- | ------------------------------------------------------- |
+| `parseBtcAddress` | `({ address, network, }: BtcAddress) => BtcAddressInfo` |
+
+Parameters:
+
+- `params`: The Bitcoin address and network to parse
+- `params.network`: Optional. Default BtcNetwork is Mainnet
+
 ### :factory: CkBTCMinterCanister
 
 #### Constructors
