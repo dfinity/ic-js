@@ -11,6 +11,9 @@ export interface AddWasmResponse {
 export interface AirdropDistribution {
   airdrop_neurons: Array<NeuronDistribution>;
 }
+export interface Countries {
+  iso_codes: Array<string>;
+}
 export interface DeployNewSnsRequest {
   sns_init_payload: [] | [SnsInitPayload];
 }
@@ -110,6 +113,7 @@ export interface SnsInitPayload {
   token_symbol: [] | [string];
   final_reward_rate_basis_points: [] | [bigint];
   neuron_minimum_stake_e8s: [] | [bigint];
+  confirmation_text: [] | [string];
   logo: [] | [string];
   name: [] | [string];
   initial_voting_period_seconds: [] | [bigint];
@@ -124,6 +128,7 @@ export interface SnsInitPayload {
   reward_rate_transition_duration_seconds: [] | [bigint];
   token_name: [] | [string];
   proposal_reject_cost_e8s: [] | [bigint];
+  restricted_countries: [] | [Countries];
 }
 export interface SnsUpgrade {
   next_version: [] | [SnsVersion];

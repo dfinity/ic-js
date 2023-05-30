@@ -1,7 +1,8 @@
-// Generated from IC repo commit 9aac7d457a14a4cd89efcfa07d4eb9bf8079297c 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
+// Generated from IC repo commit b9fc66eafca530e997313aa68aaac31d41e6a875 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
 type AddWasmRequest = record { hash : vec nat8; wasm : opt SnsWasm };
 type AddWasmResponse = record { result : opt Result };
 type AirdropDistribution = record { airdrop_neurons : vec NeuronDistribution };
+type Countries = record { iso_codes : vec text };
 type DeployNewSnsRequest = record { sns_init_payload : opt SnsInitPayload };
 type DeployNewSnsResponse = record {
   subnet_id : opt principal;
@@ -85,6 +86,7 @@ type SnsInitPayload = record {
   token_symbol : opt text;
   final_reward_rate_basis_points : opt nat64;
   neuron_minimum_stake_e8s : opt nat64;
+  confirmation_text : opt text;
   logo : opt text;
   name : opt text;
   initial_voting_period_seconds : opt nat64;
@@ -99,6 +101,7 @@ type SnsInitPayload = record {
   reward_rate_transition_duration_seconds : opt nat64;
   token_name : opt text;
   proposal_reject_cost_e8s : opt nat64;
+  restricted_countries : opt Countries;
 };
 type SnsUpgrade = record {
   next_version : opt SnsVersion;

@@ -1,4 +1,4 @@
-// Generated from IC repo commit 9aac7d457a14a4cd89efcfa07d4eb9bf8079297c 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit b9fc66eafca530e997313aa68aaac31d41e6a875 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -78,7 +78,7 @@ type Command_1 = variant {
   ClaimOrRefresh : ClaimOrRefreshResponse;
   Configure : record {};
   RegisterVote : record {};
-  Merge : record {};
+  Merge : MergeResponse;
   DisburseToNeuron : SpawnResponse;
   MakeProposal : MakeProposalResponse;
   StakeMaturity : StakeMaturityResponse;
@@ -237,6 +237,12 @@ type MergeMaturity = record { percentage_to_merge : nat32 };
 type MergeMaturityResponse = record {
   merged_maturity_e8s : nat64;
   new_stake_e8s : nat64;
+};
+type MergeResponse = record {
+  target_neuron : opt Neuron;
+  source_neuron : opt Neuron;
+  target_neuron_info : opt NeuronInfo;
+  source_neuron_info : opt NeuronInfo;
 };
 type MostRecentMonthlyNodeProviderRewards = record {
   timestamp : nat64;
@@ -469,10 +475,10 @@ type SwapDistribution = record { total : opt Tokens };
 type SwapParameters = record {
   minimum_participants : opt nat64;
   neuron_basket_construction_parameters : opt NeuronBasketConstructionParameters;
-  maximum_participant_icp : opt nat64;
-  minimum_icp : opt nat64;
-  minimum_participant_icp : opt nat64;
-  maximum_icp : opt nat64;
+  maximum_participant_icp : opt Tokens;
+  minimum_icp : opt Tokens;
+  minimum_participant_icp : opt Tokens;
+  maximum_icp : opt Tokens;
 };
 type Tally = record {
   no : nat64;
@@ -525,6 +531,7 @@ service : (Governance) -> {
   settle_community_fund_participation : (SettleCommunityFundParticipation) -> (
       Result,
     );
+  simulate_manage_neuron : (ManageNeuron) -> (ManageNeuronResponse);
   transfer_gtc_neuron : (NeuronId, NeuronId) -> (Result);
   update_node_provider : (UpdateNodeProvider) -> (Result);
 }
