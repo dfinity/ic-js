@@ -104,7 +104,7 @@ export type Command_1 =
   | { ClaimOrRefresh: ClaimOrRefreshResponse }
   | { Configure: {} }
   | { RegisterVote: {} }
-  | { Merge: {} }
+  | { Merge: MergeResponse }
   | { DisburseToNeuron: SpawnResponse }
   | { MakeProposal: MakeProposalResponse }
   | { StakeMaturity: StakeMaturityResponse }
@@ -300,6 +300,12 @@ export interface MergeMaturity {
 export interface MergeMaturityResponse {
   merged_maturity_e8s: bigint;
   new_stake_e8s: bigint;
+}
+export interface MergeResponse {
+  target_neuron: [] | [Neuron];
+  source_neuron: [] | [Neuron];
+  target_neuron_info: [] | [NeuronInfo];
+  source_neuron_info: [] | [NeuronInfo];
 }
 export interface MostRecentMonthlyNodeProviderRewards {
   timestamp: bigint;
@@ -562,10 +568,10 @@ export interface SwapParameters {
   neuron_basket_construction_parameters:
     | []
     | [NeuronBasketConstructionParameters];
-  maximum_participant_icp: [] | [bigint];
-  minimum_icp: [] | [bigint];
-  minimum_participant_icp: [] | [bigint];
-  maximum_icp: [] | [bigint];
+  maximum_participant_icp: [] | [Tokens];
+  minimum_icp: [] | [Tokens];
+  minimum_participant_icp: [] | [Tokens];
+  maximum_icp: [] | [Tokens];
 }
 export interface Tally {
   no: bigint;
@@ -629,6 +635,7 @@ export interface _SERVICE {
     [SettleCommunityFundParticipation],
     Result
   >;
+  simulate_manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
   transfer_gtc_neuron: ActorMethod<[NeuronId, NeuronId], Result>;
   update_node_provider: ActorMethod<[UpdateNodeProvider], Result>;
 }

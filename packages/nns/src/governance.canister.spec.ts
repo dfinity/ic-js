@@ -997,7 +997,16 @@ describe("GovernanceCanister", () => {
       const sourceNeuronId = BigInt(10);
       const targetNeuronId = BigInt(13);
       const serviceResponse: ManageNeuronResponse = {
-        command: [{ Merge: {} }],
+        command: [
+          {
+            Merge: {
+              target_neuron: [],
+              source_neuron: [],
+              target_neuron_info: [],
+              source_neuron_info: [],
+            },
+          },
+        ],
       };
       const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);

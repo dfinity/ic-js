@@ -260,10 +260,10 @@ export const idlFactory = ({ IDL }) => {
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
     ),
-    'maximum_participant_icp' : IDL.Opt(IDL.Nat64),
-    'minimum_icp' : IDL.Opt(IDL.Nat64),
-    'minimum_participant_icp' : IDL.Opt(IDL.Nat64),
-    'maximum_icp' : IDL.Opt(IDL.Nat64),
+    'maximum_participant_icp' : IDL.Opt(Tokens),
+    'minimum_icp' : IDL.Opt(Tokens),
+    'minimum_participant_icp' : IDL.Opt(Tokens),
+    'maximum_icp' : IDL.Opt(Tokens),
   });
   const SwapDistribution = IDL.Record({ 'total' : IDL.Opt(Tokens) });
   const NeuronDistribution = IDL.Record({
@@ -541,6 +541,12 @@ export const idlFactory = ({ IDL }) => {
   const ClaimOrRefreshResponse = IDL.Record({
     'refreshed_neuron_id' : IDL.Opt(NeuronId),
   });
+  const MergeResponse = IDL.Record({
+    'target_neuron' : IDL.Opt(Neuron),
+    'source_neuron' : IDL.Opt(Neuron),
+    'target_neuron_info' : IDL.Opt(NeuronInfo),
+    'source_neuron_info' : IDL.Opt(NeuronInfo),
+  });
   const MakeProposalResponse = IDL.Record({
     'proposal_id' : IDL.Opt(NeuronId),
   });
@@ -561,7 +567,7 @@ export const idlFactory = ({ IDL }) => {
     'ClaimOrRefresh' : ClaimOrRefreshResponse,
     'Configure' : IDL.Record({}),
     'RegisterVote' : IDL.Record({}),
-    'Merge' : IDL.Record({}),
+    'Merge' : MergeResponse,
     'DisburseToNeuron' : SpawnResponse,
     'MakeProposal' : MakeProposalResponse,
     'StakeMaturity' : StakeMaturityResponse,
@@ -632,6 +638,11 @@ export const idlFactory = ({ IDL }) => {
     'settle_community_fund_participation' : IDL.Func(
         [SettleCommunityFundParticipation],
         [Result],
+        [],
+      ),
+    'simulate_manage_neuron' : IDL.Func(
+        [ManageNeuron],
+        [ManageNeuronResponse],
         [],
       ),
     'transfer_gtc_neuron' : IDL.Func([NeuronId, NeuronId], [Result], []),
@@ -899,10 +910,10 @@ export const init = ({ IDL }) => {
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
     ),
-    'maximum_participant_icp' : IDL.Opt(IDL.Nat64),
-    'minimum_icp' : IDL.Opt(IDL.Nat64),
-    'minimum_participant_icp' : IDL.Opt(IDL.Nat64),
-    'maximum_icp' : IDL.Opt(IDL.Nat64),
+    'maximum_participant_icp' : IDL.Opt(Tokens),
+    'minimum_icp' : IDL.Opt(Tokens),
+    'minimum_participant_icp' : IDL.Opt(Tokens),
+    'maximum_icp' : IDL.Opt(Tokens),
   });
   const SwapDistribution = IDL.Record({ 'total' : IDL.Opt(Tokens) });
   const NeuronDistribution = IDL.Record({
