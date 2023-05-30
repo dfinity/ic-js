@@ -46,6 +46,7 @@ export const idlFactory = ({ IDL }) => {
   const InitialTokenDistribution = IDL.Variant({
     'FractionalDeveloperVotingPower' : FractionalDeveloperVotingPower,
   });
+  const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const SnsInitPayload = IDL.Record({
     'url' : IDL.Opt(IDL.Text),
     'max_dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
@@ -54,6 +55,7 @@ export const idlFactory = ({ IDL }) => {
     'token_symbol' : IDL.Opt(IDL.Text),
     'final_reward_rate_basis_points' : IDL.Opt(IDL.Nat64),
     'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
+    'confirmation_text' : IDL.Opt(IDL.Text),
     'logo' : IDL.Opt(IDL.Text),
     'name' : IDL.Opt(IDL.Text),
     'initial_voting_period_seconds' : IDL.Opt(IDL.Nat64),
@@ -68,6 +70,7 @@ export const idlFactory = ({ IDL }) => {
     'reward_rate_transition_duration_seconds' : IDL.Opt(IDL.Nat64),
     'token_name' : IDL.Opt(IDL.Text),
     'proposal_reject_cost_e8s' : IDL.Opt(IDL.Nat64),
+    'restricted_countries' : IDL.Opt(Countries),
   });
   const DeployNewSnsRequest = IDL.Record({
     'sns_init_payload' : IDL.Opt(SnsInitPayload),
