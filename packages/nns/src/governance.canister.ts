@@ -5,6 +5,9 @@ import {
   asciiStringToByteArray,
   assertPercentageNumber,
   createServices,
+  fromNullable,
+  isNullish,
+  nonNullish,
   uint8ArrayToBigInt,
 } from "@dfinity/utils";
 import { sha256 } from "js-sha256";
@@ -278,7 +281,7 @@ export class GovernanceCanister {
     // Typescript was complaining with `neuronId || new NeuronNotFound()`:
     // "Type 'undefined' is not assignable to type 'bigint | StakeNeuronError | TransferError'"
     // hence the explicit check.
-    if (neuronId === undefined) {
+    if (isNullish(neuronId)) {
       throw new CouldNotClaimNeuronError();
     }
 
@@ -480,17 +483,22 @@ export class GovernanceCanister {
       service: this.certifiedService,
     });
 
-    if (
-      "Merge" in command &&
-      command.Merge.target_neuron_info[0] !== undefined &&
-      command.Merge.target_neuron[0]?.id[0]?.id !== undefined
-    ) {
-      return toNeuronInfo({
-        neuronId: command.Merge.target_neuron[0].id[0].id,
-        neuronInfo: command.Merge.target_neuron_info[0],
-        rawNeuron: command.Merge.target_neuron[0],
-        canisterId: this.canisterId,
-      });
+    if ("Merge" in command) {
+      const mergedNeuronInfo = fromNullable(command.Merge.target_neuron_info);
+      const mergedNeuron = fromNullable(command.Merge.target_neuron);
+
+      if (nonNullish(mergedNeuronInfo) && nonNullish(mergedNeuron)) {
+        const mergedNeuronId = fromNullable(mergedNeuron.id)?.id;
+
+        if (nonNullish(mergedNeuronId)) {
+          return toNeuronInfo({
+            neuronId: mergedNeuronId,
+            neuronInfo: mergedNeuronInfo,
+            rawNeuron: mergedNeuron,
+            canisterId: this.canisterId,
+          });
+        }
+      }
     }
 
     // Edge case
