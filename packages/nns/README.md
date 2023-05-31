@@ -375,6 +375,7 @@ Returns the index of the block containing the tx if it was successful.
 - [leaveCommunityFund](#gear-leavecommunityfund)
 - [setNodeProviderAccount](#gear-setnodeprovideraccount)
 - [mergeNeurons](#gear-mergeneurons)
+- [simulateMergeNeurons](#gear-simulatemergeneurons)
 - [splitNeuron](#gear-splitneuron)
 - [getProposal](#gear-getproposal)
 - [makeProposal](#gear-makeproposal)
@@ -533,6 +534,14 @@ Merge two neurons
 | Method         | Type                                                                              |
 | -------------- | --------------------------------------------------------------------------------- |
 | `mergeNeurons` | `(request: { sourceNeuronId: bigint; targetNeuronId: bigint; }) => Promise<void>` |
+
+##### :gear: simulateMergeNeurons
+
+Simulate merging two neurons
+
+| Method                 | Type                                                                                    |
+| ---------------------- | --------------------------------------------------------------------------------------- |
+| `simulateMergeNeurons` | `(request: { sourceNeuronId: bigint; targetNeuronId: bigint; }) => Promise<NeuronInfo>` |
 
 ##### :gear: splitNeuron
 
