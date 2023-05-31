@@ -32,7 +32,10 @@ const ledgerInputFiles = [
   "./packages/ledger/src/index.canister.ts",
 ];
 
-const ckBTCInputFiles = ["./packages/ckbtc/src/minter.canister.ts"];
+const ckBTCInputFiles = [
+  "./packages/ckbtc/src/minter.canister.ts",
+  "./packages/ckbtc/src/utils/btc.utils.ts",
+];
 
 const rosettaInputFiles = ["./packages/rosetta-client/src/index.ts"];
 
