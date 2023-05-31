@@ -495,7 +495,9 @@ export class GovernanceCanister {
 
     // Edge case
     throw new UnrecognizedTypeError(
-      `simulateMergeNeurons: Unrecognized Merge error in ${JSON.stringify(command)}`
+      `simulateMergeNeurons: Unrecognized Merge error in ${JSON.stringify(
+        command
+      )}`
     );
   };
 
