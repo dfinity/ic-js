@@ -34,6 +34,7 @@ import { GovernanceCanister } from "./governance.canister";
 import { LedgerCanister } from "./ledger.canister";
 import {
   mockListNeuronsResponse,
+  mockNeuron,
   mockNeuronId,
   mockNeuronInfo,
 } from "./mocks/governance.mock";
@@ -1035,6 +1036,59 @@ describe("GovernanceCanister", () => {
       });
       const call = () =>
         governance.mergeNeurons({
+          sourceNeuronId,
+          targetNeuronId,
+        });
+      expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
+
+  describe("GovernanceCanister.simulateMergeNeurons", () => {
+    it("successfully simulate merging two neurons", async () => {
+      const sourceNeuronId = BigInt(11);
+      const targetNeuronId = BigInt(14);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [
+          {
+            Merge: {
+              target_neuron: [{ ...mockNeuron, id: [{ id: targetNeuronId }] }],
+              source_neuron: [{ ...mockNeuron, id: [{ id: sourceNeuronId }] }],
+              target_neuron_info: [mockNeuronInfo],
+              source_neuron_info: [mockNeuronInfo],
+            },
+          },
+        ],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.simulate_manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const mergedNeuron = await governance.simulateMergeNeurons({
+        sourceNeuronId,
+        targetNeuronId,
+      });
+      expect(mergedNeuron.neuronId).toBe(targetNeuronId);
+      expect(mergedNeuron.fullNeuron?.id).toBe(targetNeuronId);
+      expect(service.simulate_manage_neuron).toBeCalled();
+      expect(service.manage_neuron).not.toBeCalled();
+    });
+
+    it("throws error if response is error", async () => {
+      const sourceNeuronId = BigInt(12);
+      const targetNeuronId = BigInt(15);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.simulate_manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        governance.simulateMergeNeurons({
           sourceNeuronId,
           targetNeuronId,
         });

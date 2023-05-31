@@ -57,12 +57,14 @@ import {
   convertPbNeuronToNeuronInfo,
   toArrayOfNeuronInfo,
   toListProposalsResponse,
+  toNeuronInfo,
   toProposalInfo,
 } from "./canisters/governance/response.converters";
 import { checkPbManageNeuronResponse } from "./canisters/governance/response.proto.converters";
 import {
   getSuccessfulCommandFromResponse,
   manageNeuron,
+  simulateManageNeuron,
 } from "./canisters/governance/services";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_TOKEN } from "./constants/constants";
@@ -460,6 +462,43 @@ export class GovernanceCanister {
       request: rawRequest,
       service: this.certifiedService,
     });
+  };
+
+  /**
+   * Simulate merging two neurons
+   *
+   * @throws {@link GovernanceError}
+   */
+  public simulateMergeNeurons = async (request: {
+    sourceNeuronId: NeuronId;
+    targetNeuronId: NeuronId;
+  }): Promise<NeuronInfo> => {
+    const rawRequest = toMergeRequest(request);
+
+    const command = await simulateManageNeuron({
+      request: rawRequest,
+      service: this.certifiedService,
+    });
+
+    if (
+      "Merge" in command &&
+      command.Merge.target_neuron_info[0] !== undefined &&
+      command.Merge.target_neuron[0]?.id[0]?.id !== undefined
+    ) {
+      return toNeuronInfo({
+        neuronId: command.Merge.target_neuron[0].id[0].id,
+        neuronInfo: command.Merge.target_neuron_info[0],
+        rawNeuron: command.Merge.target_neuron[0],
+        canisterId: this.canisterId,
+      });
+    }
+
+    // Edge case
+    throw new UnrecognizedTypeError(
+      `simulateMergeNeurons: Unrecognized Merge error in ${JSON.stringify(
+        command
+      )}`
+    );
   };
 
   /**

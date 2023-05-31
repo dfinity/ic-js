@@ -43,3 +43,17 @@ export const manageNeuron = async ({
   // We use it only to assert that there are no errors
   getSuccessfulCommandFromResponse(response);
 };
+
+/**
+ * @throws {@link GovernanceError}
+ */
+export const simulateManageNeuron = async ({
+  request,
+  service,
+}: {
+  request: ManageNeuron;
+  service: GovernanceService;
+}): Promise<Command_1> => {
+  const response = await service.simulate_manage_neuron(request);
+  return getSuccessfulCommandFromResponse(response);
+};

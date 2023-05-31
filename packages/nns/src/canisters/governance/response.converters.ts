@@ -68,7 +68,7 @@ import {
   principalToAccountIdentifier,
 } from "../../utils/account_identifier.utils";
 
-const toNeuronInfo = ({
+export const toNeuronInfo = ({
   neuronId,
   neuronInfo,
   rawNeuron,
