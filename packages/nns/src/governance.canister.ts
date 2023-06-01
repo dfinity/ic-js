@@ -14,6 +14,9 @@ import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
 import type {
   ListProposalInfo,
+  MergeResponse,
+  Neuron as RawNeuron,
+  NeuronInfo as RawNeuronInfo,
   ProposalInfo as RawProposalInfo,
   RewardEvent,
   _SERVICE as GovernanceService,
@@ -483,22 +486,24 @@ export class GovernanceCanister {
       service: this.certifiedService,
     });
 
-    if ("Merge" in command) {
-      const mergedNeuronInfo = fromNullable(command.Merge.target_neuron_info);
-      const mergedNeuron = fromNullable(command.Merge.target_neuron);
+    let merge: MergeResponse | undefined;
+    let neuronInfo: RawNeuronInfo | undefined;
+    let rawNeuron: RawNeuron | undefined;
+    let neuronId: NeuronId | undefined;
 
-      if (nonNullish(mergedNeuronInfo) && nonNullish(mergedNeuron)) {
-        const mergedNeuronId = fromNullable(mergedNeuron.id)?.id;
-
-        if (nonNullish(mergedNeuronId)) {
-          return toNeuronInfo({
-            neuronId: mergedNeuronId,
-            neuronInfo: mergedNeuronInfo,
-            rawNeuron: mergedNeuron,
-            canisterId: this.canisterId,
-          });
-        }
-      }
+    if (
+      "Merge" in command &&
+      nonNullish((merge = command.Merge)) &&
+      nonNullish((neuronInfo = fromNullable(merge.target_neuron_info))) &&
+      nonNullish((rawNeuron = fromNullable(merge.target_neuron))) &&
+      nonNullish((neuronId = fromNullable(rawNeuron.id)?.id))
+    ) {
+      return toNeuronInfo({
+        neuronId,
+        neuronInfo,
+        rawNeuron,
+        canisterId: this.canisterId,
+      });
     }
 
     // Edge case
