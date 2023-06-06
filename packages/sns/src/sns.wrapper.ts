@@ -114,12 +114,14 @@ export class SnsWrapper {
     ledgerCanisterId: Principal;
     governanceCanisterId: Principal;
     swapCanisterId: Principal;
+    indexCanisterId: Principal;
   } {
     return {
       rootCanisterId: this.root.canisterId,
       ledgerCanisterId: this.ledger.canisterId,
       governanceCanisterId: this.governance.canisterId,
       swapCanisterId: this.swap.canisterId,
+      indexCanisterId: this.index.canisterId,
     };
   }
 

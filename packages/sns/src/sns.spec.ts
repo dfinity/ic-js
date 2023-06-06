@@ -3,9 +3,11 @@ import { mock } from "jest-mock-extended";
 import type { _SERVICE as SnsRootService } from "../candid/sns_root";
 import {
   governanceCanisterIdMock,
+  indexCanisterIdMock,
   ledgerCanisterIdMock,
   rootCanisterIdMock,
   snsMock,
+  swapCanisterIdMock,
 } from "./mocks/sns.mock";
 import { initSnsWrapper } from "./sns";
 
@@ -23,12 +25,12 @@ describe("Sns", () => {
 
     expect(canisterIds).not.toBeNull();
 
-    const { rootCanisterId, ledgerCanisterId, governanceCanisterId } =
-      canisterIds;
-    expect(rootCanisterId.toText()).toEqual(rootCanisterIdMock.toText());
-    expect(ledgerCanisterId.toText()).toEqual(ledgerCanisterIdMock.toText());
-    expect(governanceCanisterId.toText()).toEqual(
-      governanceCanisterIdMock.toText()
-    );
+    expect(canisterIds).toEqual({
+      rootCanisterId: rootCanisterIdMock,
+      ledgerCanisterId: ledgerCanisterIdMock,
+      governanceCanisterId: governanceCanisterIdMock,
+      swapCanisterId: swapCanisterIdMock,
+      indexCanisterId: indexCanisterIdMock,
+    });
   });
 });
