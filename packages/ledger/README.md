@@ -91,6 +91,12 @@ Parameters:
 
 `public`
 
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 #### Methods
 
 - [create](#gear-create)
@@ -126,9 +132,9 @@ The ledger transaction fees.
 
 Returns the balance of the given account.
 
-| Method    | Type                               |
-| --------- | ---------------------------------- |
-| `balance` | `(params: any) => Promise<bigint>` |
+| Method    | Type                                         |
+| --------- | -------------------------------------------- |
+| `balance` | `(params: BalanceParams) => Promise<bigint>` |
 
 Parameters:
 
@@ -159,6 +165,12 @@ Returns the total supply of tokens.
 #### Constructors
 
 `public`
+
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 

@@ -162,9 +162,9 @@ Parameters:
 
 ##### :gear: toProto
 
-| Method    | Type                                 |
-| --------- | ------------------------------------ |
-| `toProto` | `() => Promise<AccountIdentifierPb>` |
+| Method    | Type                               |
+| --------- | ---------------------------------- |
+| `toProto` | `() => Promise<AccountIdentifier>` |
 
 ##### :gear: toHex
 
