@@ -26,7 +26,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils @dfinity/
 
 ## Usage
 
-`sns-js` can be utilized with two distinct approaches. The first approach is explorative, where you only need to provide the Sns root canister ID of your project to initialize a wrapper that handles routing the calls to the appropriate canister. This means having a single entry point for all functions. The second approach, which is more common, involves instantiating the specific canisters you require.
+`sns-js` can be utilized with two distinct approaches. The first approach is explorative, where you only need to provide the SNS root canister ID of your project to initialize a wrapper that handles routing the calls to the appropriate canister. This means having a single entry point for all functions. The second approach, which is more common, involves instantiating the specific canisters you require.
 
 ### Explorative way
 
