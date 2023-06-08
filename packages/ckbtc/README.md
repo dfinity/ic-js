@@ -80,6 +80,12 @@ Parameters:
 
 `public`
 
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 #### Methods
 
 - [create](#gear-create)
@@ -162,9 +168,9 @@ Parameters:
 
 Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network and the fee related to the minter.
 
-| Method                  | Type                                                              |
-| ----------------------- | ----------------------------------------------------------------- |
-| `estimateWithdrawalFee` | `({ certified, amount, }: any) => Promise<EstimateWithdrawalFee>` |
+| Method                  | Type                                                                                      |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| `estimateWithdrawalFee` | `({ certified, amount, }: EstimateWithdrawalFeeParams) => Promise<EstimateWithdrawalFee>` |
 
 Parameters:
 

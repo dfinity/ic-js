@@ -1,6 +1,6 @@
 # ledger-js
 
-A library for interfacing with [ICRC ledgers](https://github.com/dfinity/ic/tree/master/rs/rosetta-api/icrc1) on the Internet Computer.
+A library for interfacing with [ICRC ledger](https://github.com/dfinity/ic/tree/master/rs/rosetta-api/icrc1) on the Internet Computer.
 
 [![npm version](https://img.shields.io/npm/v/@dfinity/ledger.svg?logo=npm)](https://www.npmjs.com/package/@dfinity/ledger) [![GitHub license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -91,6 +91,12 @@ Parameters:
 
 `public`
 
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
+
 #### Methods
 
 - [create](#gear-create)
@@ -124,11 +130,11 @@ The ledger transaction fees.
 
 ##### :gear: balance
 
-Returns the balance of the given account.
+Returns the balance for a given account provided as owner and with optional subaccount.
 
-| Method    | Type                               |
-| --------- | ---------------------------------- |
-| `balance` | `(params: any) => Promise<bigint>` |
+| Method    | Type                                         |
+| --------- | -------------------------------------------- |
+| `balance` | `(params: BalanceParams) => Promise<bigint>` |
 
 Parameters:
 
@@ -159,6 +165,12 @@ Returns the total supply of tokens.
 #### Constructors
 
 `public`
+
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
 
 #### Methods
 
