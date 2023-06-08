@@ -130,7 +130,7 @@ The ledger transaction fees.
 
 ##### :gear: balance
 
-Returns the balance of the given account.
+Returns the balance for a given account provided as owner and with optional subaccount.
 
 | Method    | Type                                         |
 | --------- | -------------------------------------------- |
