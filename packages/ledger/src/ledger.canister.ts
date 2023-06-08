@@ -40,7 +40,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
     this.caller(params).icrc1_fee();
 
   /**
-   * Returns the balance of the given account.
+   * Returns the balance for a given account provided as owner and with optional subaccount.
    *
    * @param {BalanceParams} params The parameters to get the balance of an account.
    * @returns {Promise<Tokens>} The balance of the given account.
