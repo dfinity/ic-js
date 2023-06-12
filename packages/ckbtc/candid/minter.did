@@ -1,4 +1,4 @@
-// Generated from IC repo commit 078de6d2b8d15cccb09fcfe2483fddabe6c39457 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit 010a489c530137d893222ccac356b704b32f007a 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -194,6 +194,12 @@ type BitcoinAddress = variant {
     p2sh : blob;
 };
 
+type MinterInfo = record {
+    min_confirmations : nat32;
+    retrieve_btc_min_amount : nat64;
+    kyt_fee : nat64;
+};
+
 type Event = variant {
     init : InitArgs;
     upgrade : UpgradeArgs;
@@ -203,6 +209,12 @@ type Event = variant {
         address : BitcoinAddress;
         block_index : nat64;
         received_at : nat64;
+        kyt_provider : opt principal;
+    };
+    distributed_kyt_fee : record {
+        kyt_provider : principal;
+        amount : nat64;
+        block_index: nat64;
     };
     removed_retrieve_btc_request : record { block_index : nat64 };
     sent_transaction : record {
@@ -211,20 +223,36 @@ type Event = variant {
         utxos : vec Utxo;
         change_output : opt record { vout : nat32; value : nat64 };
         submitted_at : nat64;
+        fee: opt nat64;
+    };
+    replaced_transaction : record {
+        new_txid : blob;
+        old_txid : blob;
+        change_output : record { vout : nat32; value : nat64 };
+        submitted_at : nat64;
+        fee: nat64;
     };
     confirmed_transaction : record { txid : blob };
     checked_utxo : record {
         utxo : Utxo;
         uuid : text;
         clean : bool;
+        kyt_provider : opt principal;
     };
     ignored_utxo : record { utxo: Utxo; };
+    retrieve_btc_kyt_failed : record {
+        address : text;
+        amount : nat64;
+        kyt_provider : principal;
+        uuid : text;
+        block_index : nat64;
+    };
 };
 
 type MinterArg = variant {
     Init : InitArgs;
     Upgrade : opt UpgradeArgs;
-}
+};
 
 service : (minter_arg : MinterArg) -> {
     // Section "Convert BTC to ckBTC" {{{
@@ -252,7 +280,7 @@ service : (minter_arg : MinterArg) -> {
 
     /// Returns an estimate of the user's fee (in Satoshi) for a
     /// retrieve_btc request based on the current status of the Bitcoin network.
-    estimate_withdrawal_fee : (record { amount : opt nat64 }) -> (record { bitcoin_fee: nat64; minter_fee: nat64;}) query;
+    estimate_withdrawal_fee : (record { amount : opt nat64 }) -> (record { bitcoin_fee : nat64; minter_fee : nat64 }) query;
 
     /// Returns the fee that the minter will charge for a bitcoin deposit.
     get_deposit_fee: () -> (nat64) query;
@@ -260,6 +288,7 @@ service : (minter_arg : MinterArg) -> {
     // Returns the account to which the caller should deposit ckBTC
     // before withdrawing BTC using the [retrieve_btc] endpoint.
     get_withdrawal_account : () -> (Account);
+
 
     // Submits a request to convert ckBTC to BTC.
     //
@@ -280,6 +309,11 @@ service : (minter_arg : MinterArg) -> {
     retrieve_btc_status : (record { block_index : nat64 }) -> (RetrieveBtcStatus) query;
 
     // }}} Section "Convert ckBTC to BTC"
+
+    // Section "Minter Information" {{{
+    // Returns internal minter parameters.
+    get_minter_info : () -> (MinterInfo) query;
+    // }}}
 
     // Section "Event log" {{{
 

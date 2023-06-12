@@ -54,6 +54,7 @@ export const idlFactory = ({ IDL }) => {
       'utxos' : IDL.Vec(Utxo),
     }),
     'sent_transaction' : IDL.Record({
+      'fee' : IDL.Opt(IDL.Nat64),
       'change_output' : IDL.Opt(
         IDL.Record({ 'value' : IDL.Nat64, 'vout' : IDL.Nat32 })
       ),
@@ -62,22 +63,48 @@ export const idlFactory = ({ IDL }) => {
       'requests' : IDL.Vec(IDL.Nat64),
       'submitted_at' : IDL.Nat64,
     }),
+    'distributed_kyt_fee' : IDL.Record({
+      'block_index' : IDL.Nat64,
+      'amount' : IDL.Nat64,
+      'kyt_provider' : IDL.Principal,
+    }),
     'init' : InitArgs,
     'upgrade' : UpgradeArgs,
+    'retrieve_btc_kyt_failed' : IDL.Record({
+      'block_index' : IDL.Nat64,
+      'uuid' : IDL.Text,
+      'address' : IDL.Text,
+      'amount' : IDL.Nat64,
+      'kyt_provider' : IDL.Principal,
+    }),
     'accepted_retrieve_btc_request' : IDL.Record({
       'received_at' : IDL.Nat64,
       'block_index' : IDL.Nat64,
       'address' : BitcoinAddress,
       'amount' : IDL.Nat64,
+      'kyt_provider' : IDL.Opt(IDL.Principal),
     }),
     'checked_utxo' : IDL.Record({
       'clean' : IDL.Bool,
       'utxo' : Utxo,
       'uuid' : IDL.Text,
+      'kyt_provider' : IDL.Opt(IDL.Principal),
     }),
     'removed_retrieve_btc_request' : IDL.Record({ 'block_index' : IDL.Nat64 }),
     'confirmed_transaction' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8) }),
+    'replaced_transaction' : IDL.Record({
+      'fee' : IDL.Nat64,
+      'change_output' : IDL.Record({ 'value' : IDL.Nat64, 'vout' : IDL.Nat32 }),
+      'old_txid' : IDL.Vec(IDL.Nat8),
+      'new_txid' : IDL.Vec(IDL.Nat8),
+      'submitted_at' : IDL.Nat64,
+    }),
     'ignored_utxo' : IDL.Record({ 'utxo' : Utxo }),
+  });
+  const MinterInfo = IDL.Record({
+    'retrieve_btc_min_amount' : IDL.Nat64,
+    'min_confirmations' : IDL.Nat32,
+    'kyt_fee' : IDL.Nat64,
   });
   const RetrieveBtcArgs = IDL.Record({
     'address' : IDL.Text,
@@ -148,6 +175,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(Event)],
         [],
       ),
+    'get_minter_info' : IDL.Func([], [MinterInfo], []),
     'get_withdrawal_account' : IDL.Func([], [Account], []),
     'retrieve_btc' : IDL.Func(
         [RetrieveBtcArgs],
