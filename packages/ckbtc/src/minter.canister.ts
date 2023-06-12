@@ -6,6 +6,7 @@ import {
 } from "@dfinity/utils";
 import type {
   Account as WithdrawalAccount,
+  MinterInfo,
   RetrieveBtcOk,
   _SERVICE as CkBTCMinterService,
 } from "../candid/minter";
@@ -149,4 +150,15 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
     this.caller({
       certified,
     }).get_deposit_fee();
+
+  /**
+   * Returns internal minter parameters such as the minimal amount to retrieve BTC, minimal number of confirmations or KYT fee.
+   *
+   * @param {QueryParams} params The parameters to get the deposit fee.
+   * @param {boolean} params.certified query or update call
+   */
+  getMinterInfo = async ({ certified }: QueryParams): Promise<MinterInfo> =>
+    this.caller({
+      certified,
+    }).get_minter_info();
 }

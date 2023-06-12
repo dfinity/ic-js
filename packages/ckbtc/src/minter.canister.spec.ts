@@ -469,4 +469,39 @@ describe("ckBTC minter canister", () => {
       ).rejects.toThrowError();
     });
   });
+
+  describe("Minter Info", () => {
+    it("should return minter info", async () => {
+      const result = {
+        retrieve_btc_min_amount: 1n,
+        min_confirmations: 12,
+        kyt_fee: 3n,
+      };
+
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.get_minter_info.mockResolvedValue(result);
+
+      const canister = minter(service);
+
+      const res = await canister.getMinterInfo({
+        certified: true,
+      });
+
+      expect(service.get_minter_info).toBeCalled();
+      expect(res).toEqual(result);
+    });
+
+    it("should bubble errors", () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.get_minter_info.mockImplementation(() => {
+        throw new Error();
+      });
+
+      const canister = minter(service);
+
+      expect(() =>
+        canister.getMinterInfo({ certified: true })
+      ).rejects.toThrowError();
+    });
+  });
 });
