@@ -19,6 +19,7 @@ export type Event =
     }
   | {
       sent_transaction: {
+        fee: [] | [bigint];
         change_output: [] | [{ value: bigint; vout: number }];
         txid: Uint8Array;
         utxos: Array<Utxo>;
@@ -26,19 +27,52 @@ export type Event =
         submitted_at: bigint;
       };
     }
+  | {
+      distributed_kyt_fee: {
+        block_index: bigint;
+        amount: bigint;
+        kyt_provider: Principal;
+      };
+    }
   | { init: InitArgs }
   | { upgrade: UpgradeArgs }
+  | {
+      retrieve_btc_kyt_failed: {
+        block_index: bigint;
+        uuid: string;
+        address: string;
+        amount: bigint;
+        kyt_provider: Principal;
+      };
+    }
   | {
       accepted_retrieve_btc_request: {
         received_at: bigint;
         block_index: bigint;
         address: BitcoinAddress;
         amount: bigint;
+        kyt_provider: [] | [Principal];
       };
     }
-  | { checked_utxo: { clean: boolean; utxo: Utxo; uuid: string } }
+  | {
+      checked_utxo: {
+        clean: boolean;
+        utxo: Utxo;
+        uuid: string;
+        kyt_provider: [] | [Principal];
+      };
+    }
   | { removed_retrieve_btc_request: { block_index: bigint } }
   | { confirmed_transaction: { txid: Uint8Array } }
+  | {
+      replaced_transaction: {
+        fee: bigint;
+        change_output: { value: bigint; vout: number };
+        old_txid: Uint8Array;
+        new_txid: Uint8Array;
+        submitted_at: bigint;
+      };
+    }
   | { ignored_utxo: { utxo: Utxo } };
 export interface InitArgs {
   kyt_principal: [] | [Principal];
@@ -52,6 +86,11 @@ export interface InitArgs {
   kyt_fee: [] | [bigint];
 }
 export type MinterArg = { Upgrade: [] | [UpgradeArgs] } | { Init: InitArgs };
+export interface MinterInfo {
+  retrieve_btc_min_amount: bigint;
+  min_confirmations: number;
+  kyt_fee: bigint;
+}
 export type Mode =
   | { RestrictedTo: Array<Principal> }
   | { DepositsRestrictedTo: Array<Principal> }
@@ -126,6 +165,7 @@ export interface _SERVICE {
   >;
   get_deposit_fee: ActorMethod<[], bigint>;
   get_events: ActorMethod<[{ start: bigint; length: bigint }], Array<Event>>;
+  get_minter_info: ActorMethod<[], MinterInfo>;
   get_withdrawal_account: ActorMethod<[], Account>;
   retrieve_btc: ActorMethod<
     [RetrieveBtcArgs],

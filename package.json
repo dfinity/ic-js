@@ -61,7 +61,7 @@
     {
       "name": "@dfinity/ckbtc",
       "path": "./packages/ckbtc/dist/index.js",
-      "limit": "8 kB",
+      "limit": "9 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
