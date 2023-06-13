@@ -10,6 +10,14 @@
 - utils `v0.0.16`
 - nns-proto `v0.0.2`
 
+## Breaking Changes
+
+- ckBTC `getDepositFee` has been deprecated. Instead, use the new feature `getMinterInfo`
+
+## Features
+
+- introduces `getMinterInfo` for ckBTC which returns internal minter parameters such as the minimal amount to retrieve BTC, minimal number of confirmations or KYT fee
+
 # 0.16.0 (2023-05-24)
 
 ## Release
