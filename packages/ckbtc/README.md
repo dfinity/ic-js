@@ -94,7 +94,6 @@ Parameters:
 - [getWithdrawalAccount](#gear-getwithdrawalaccount)
 - [retrieveBtc](#gear-retrievebtc)
 - [estimateWithdrawalFee](#gear-estimatewithdrawalfee)
-- [getDepositFee](#gear-getdepositfee)
 - [getMinterInfo](#gear-getminterinfo)
 
 ##### :gear: create
@@ -178,19 +177,6 @@ Parameters:
 - `params`: The parameters to estimate the fee.
 - `params.certified`: query or update call
 - `params.amount`: The optional amount for which the fee should be estimated.
-
-##### :gear: getDepositFee
-
-Returns the fee that the minter will charge for a bitcoin deposit.
-
-| Method          | Type                                              |
-| --------------- | ------------------------------------------------- |
-| `getDepositFee` | `({ certified }: QueryParams) => Promise<bigint>` |
-
-Parameters:
-
-- `params`: The parameters to get the deposit fee.
-- `params.certified`: query or update call
 
 ##### :gear: getMinterInfo
 
