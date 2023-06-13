@@ -13,6 +13,7 @@ import {
 import { sha256 } from "js-sha256";
 import randomBytes from "randombytes";
 import type {
+  Command_1,
   ListProposalInfo,
   MergeResponse,
   Neuron as RawNeuron,
@@ -189,9 +190,11 @@ export class GovernanceCanister {
     ).list_known_neurons();
 
     return response.known_neurons.map((n) => ({
-      id: n.id[0]?.id ?? BigInt(0),
-      name: n.known_neuron_data[0]?.name ?? "",
-      description: n.known_neuron_data[0]?.description[0],
+      id: fromNullable(n.id)?.id ?? BigInt(0),
+      name: fromNullable(n.known_neuron_data)?.name ?? "",
+      description: fromNullable(
+        fromNullable(n.known_neuron_data)?.description ?? []
+      ),
     }));
   };
 
@@ -533,11 +536,11 @@ export class GovernanceCanister {
     });
 
     const response = await this.certifiedService.manage_neuron(request);
-    const commmand = getSuccessfulCommandFromResponse(response);
+    const command = getSuccessfulCommandFromResponse(response);
 
-    if ("Split" in commmand) {
-      const neuron = commmand.Split.created_neuron_id[0];
-      if (neuron === undefined) {
+    if ("Split" in command) {
+      const neuron = fromNullable(command.Split.created_neuron_id);
+      if (isNullish(neuron)) {
         // Edge case
         throw new GovernanceError({
           error_message:
@@ -638,7 +641,7 @@ export class GovernanceCanister {
     toAccountId?: string;
     amount?: E8s;
   }): Promise<void> => {
-    if (toAccountId !== undefined) {
+    if (nonNullish(toAccountId)) {
       // Might throw InvalidAccountIDError
       checkAccountId(toAccountId);
     }
@@ -646,10 +649,9 @@ export class GovernanceCanister {
       return this.disburseHardwareWallet({ neuronId, toAccountId, amount });
     }
     // TODO: Test that the new way also works for disbursements.
-    const toAccountIdentifier =
-      toAccountId !== undefined
-        ? AccountIdentifier.fromHex(toAccountId)
-        : undefined;
+    const toAccountIdentifier = nonNullish(toAccountId)
+      ? AccountIdentifier.fromHex(toAccountId)
+      : undefined;
     const request = toDisburseNeuronRequest({
       neuronId,
       toAccountIdentifier,
@@ -735,7 +737,7 @@ export class GovernanceCanister {
     newController?: Principal;
     nonce?: bigint;
   }): Promise<bigint> => {
-    if (percentageToSpawn !== undefined) {
+    if (nonNullish(percentageToSpawn)) {
       // Migth throw InvalidPercentageError
       assertPercentageNumber(percentageToSpawn);
     }
@@ -756,11 +758,15 @@ export class GovernanceCanister {
 
     const response = await this.certifiedService.manage_neuron(request);
     const command = getSuccessfulCommandFromResponse(response);
+    let createdNeuronId: NeuronId | undefined;
+
     if (
       "Spawn" in command &&
-      command.Spawn.created_neuron_id[0] !== undefined
+      nonNullish(
+        (createdNeuronId = fromNullable(command.Spawn.created_neuron_id)?.id)
+      )
     ) {
-      return command.Spawn.created_neuron_id[0].id;
+      return createdNeuronId;
     }
 
     // Edge case
@@ -831,10 +837,12 @@ export class GovernanceCanister {
       controller,
     });
     const rawResponse = await this.certifiedService.manage_neuron(rawRequest);
-    const { command } = rawResponse;
-    if (command.length && "ClaimOrRefresh" in command[0]) {
-      const claim = command[0].ClaimOrRefresh;
-      return claim.refreshed_neuron_id[0]?.id;
+    let command: Command_1 | undefined;
+    if (
+      nonNullish((command = fromNullable(rawResponse.command))) &&
+      "ClaimOrRefresh" in command
+    ) {
+      return fromNullable(command.ClaimOrRefresh.refreshed_neuron_id)?.id;
     }
 
     throw new UnrecognizedTypeError(
@@ -853,10 +861,12 @@ export class GovernanceCanister {
   ): Promise<NeuronId | undefined> => {
     const rawRequest = fromClaimOrRefreshNeuronRequest(request);
     const rawResponse = await this.service.manage_neuron(rawRequest);
-    const { command } = rawResponse;
-    if (command.length && "ClaimOrRefresh" in command[0]) {
-      const claim = command[0].ClaimOrRefresh;
-      return claim.refreshed_neuron_id[0]?.id;
+    let command: Command_1 | undefined;
+    if (
+      nonNullish((command = fromNullable(rawResponse.command))) &&
+      "ClaimOrRefresh" in command
+    ) {
+      return fromNullable(command.ClaimOrRefresh.refreshed_neuron_id)?.id;
     }
 
     throw new UnrecognizedTypeError(
@@ -1040,7 +1050,7 @@ export class GovernanceCanister {
       });
     }
     const createdNeuronId = response.getSpawn()?.getCreatedNeuronId();
-    if (createdNeuronId !== undefined) {
+    if (nonNullish(createdNeuronId)) {
       return BigInt(createdNeuronId.getId());
     }
     throw new UnrecognizedTypeError(
