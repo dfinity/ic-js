@@ -439,37 +439,6 @@ describe("ckBTC minter canister", () => {
     });
   });
 
-  describe("Deposit Fee", () => {
-    it("should return deposit fee", async () => {
-      const result = 123789n;
-
-      const service = mock<ActorSubclass<CkBTCMinterService>>();
-      service.get_deposit_fee.mockResolvedValue(result);
-
-      const canister = minter(service);
-
-      const res = await canister.getDepositFee({
-        certified: true,
-      });
-
-      expect(service.get_deposit_fee).toBeCalled();
-      expect(res).toEqual(result);
-    });
-
-    it("should bubble errors", () => {
-      const service = mock<ActorSubclass<CkBTCMinterService>>();
-      service.get_deposit_fee.mockImplementation(() => {
-        throw new Error();
-      });
-
-      const canister = minter(service);
-
-      expect(() =>
-        canister.getDepositFee({ certified: true })
-      ).rejects.toThrowError();
-    });
-  });
-
   describe("Minter Info", () => {
     it("should return minter info", async () => {
       const result = {

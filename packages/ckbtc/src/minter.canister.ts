@@ -141,17 +141,6 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
     }).estimate_withdrawal_fee({ amount: toNullable(amount) });
 
   /**
-   * Returns the fee that the minter will charge for a bitcoin deposit.
-   *
-   * @param {QueryParams} params The parameters to get the deposit fee.
-   * @param {boolean} params.certified query or update call
-   */
-  getDepositFee = async ({ certified }: QueryParams): Promise<bigint> =>
-    this.caller({
-      certified,
-    }).get_deposit_fee();
-
-  /**
    * Returns internal minter parameters such as the minimal amount to retrieve BTC, minimal number of confirmations or KYT fee.
    *
    * @param {QueryParams} params The parameters to get the deposit fee.
