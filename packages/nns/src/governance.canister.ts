@@ -247,6 +247,7 @@ export class GovernanceCanister {
     fromSubAccount,
     ledgerCanister,
     createdAt,
+    fee,
   }: {
     stake: bigint;
     principal: Principal;
@@ -255,6 +256,7 @@ export class GovernanceCanister {
     // Used for the TransferRequest parameters.
     // Check the TransferRequest type for more information.
     createdAt?: bigint;
+    fee?: E8s;
   }): Promise<NeuronId> => {
     if (stake < E8S_PER_TOKEN) {
       throw new InsufficientAmountError(stake);
@@ -275,6 +277,7 @@ export class GovernanceCanister {
       fromSubAccount,
       to: accountIdentifier,
       createdAt,
+      fee,
     });
 
     // Notify the governance of the transaction so that the neuron is created.
