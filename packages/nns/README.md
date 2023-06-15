@@ -452,9 +452,9 @@ Parameters:
 
 ##### :gear: stakeNeuron
 
-| Method        | Type                                                                                                                                                                                                             |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `stakeNeuron` | `({ stake, principal, fromSubAccount, ledgerCanister, createdAt, }: { stake: bigint; principal: Principal; fromSubAccount?: number[]; ledgerCanister: LedgerCanister; createdAt?: bigint; }) => Promise<bigint>` |
+| Method        | Type                                                                                                                                                                                                                                |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stakeNeuron` | `({ stake, principal, fromSubAccount, ledgerCanister, createdAt, fee, }: { stake: bigint; principal: Principal; fromSubAccount?: number[]; ledgerCanister: LedgerCanister; createdAt?: bigint; fee?: bigint; }) => Promise<bigint>` |
 
 ##### :gear: increaseDissolveDelay
 
