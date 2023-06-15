@@ -192,6 +192,37 @@ describe("GovernanceCanister", () => {
       expect(response).toEqual(neuronId);
     });
 
+    it("stakeNeuron passes fee to the ledger transfer", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [
+          { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
+        ],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const mockLedger = mock<LedgerCanister>();
+      mockLedger.transfer.mockImplementation(
+        jest.fn().mockResolvedValue(BigInt(1))
+      );
+      const fee = BigInt(10_000);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const response = await governance.stakeNeuron({
+        stake: BigInt(100_000_000),
+        principal: new AnonymousIdentity().getPrincipal(),
+        ledgerCanister: mockLedger,
+        fee,
+      });
+
+      expect(mockLedger.transfer).toBeCalledWith(
+        expect.objectContaining({ fee })
+      );
+    });
+
     it("creates new neuron from subaccount successfully", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
