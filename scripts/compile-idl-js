@@ -27,6 +27,7 @@ did_files_to_compile() {
   did_files_to_compile_for_pkg "cmc"
   did_files_to_compile_for_pkg "ledger"
   did_files_to_compile_for_pkg "ckbtc"
+  did_files_to_compile_for_pkg "ic-management"
 }
 
 # Normal API access.

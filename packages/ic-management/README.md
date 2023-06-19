@@ -43,7 +43,7 @@ const { getCanisterDetails } = CkBTCCanister.create({
   agent,
 });
 
-const details = await getCanisterDetails({canisterId: YOUR_CANISTER_ID});
+const details = await getCanisterDetails({ canisterId: YOUR_CANISTER_ID });
 ```
 
 ## Features
