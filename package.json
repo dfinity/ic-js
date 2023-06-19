@@ -11,7 +11,8 @@
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/rosetta-client"
+    "packages/rosetta-client",
+    "package/ic-management"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
