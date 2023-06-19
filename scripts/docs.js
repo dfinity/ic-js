@@ -39,6 +39,8 @@ const ckBTCInputFiles = [
 
 const rosettaInputFiles = ["./packages/rosetta-client/src/index.ts"];
 
+const icMgmtInputFiles = ["./packages/ic-management/src/index.ts"];
+
 generateDocumentation({
   inputFiles: nnsInputFiles,
   outputFile: "./packages/nns/README.md",
@@ -79,5 +81,11 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: rosettaInputFiles,
   outputFile: "./packages/rosetta-client/README.md",
+  markdownOptions: { headingLevel: "###" },
+});
+
+generateDocumentation({
+  inputFiles: icMgmtInputFiles,
+  outputFile: "./packages/ic-management/README.md",
   markdownOptions: { headingLevel: "###" },
 });
