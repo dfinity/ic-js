@@ -5,12 +5,12 @@ import {
 import { Principal } from "@dfinity/principal";
 import { toNullable } from "@dfinity/utils/src";
 import { mapError } from "./errors/ic-management.errors";
+import type { ICManagementCanisterOptions } from "./types/canister.options";
+import type { CanisterStatusDidResponse } from "./types/ic-management.did";
 import type {
   CanisterDetails,
   CanisterSettings,
 } from "./types/ic-management.response";
-import type { ICManagementCanisterOptions } from "./types/canister.options";
-import type { CanisterStatusDidResponse } from "./types/ic-management.did";
 import { toCanisterDetails } from "./utils/ic-management.converters";
 
 export class ICManagementCanister {

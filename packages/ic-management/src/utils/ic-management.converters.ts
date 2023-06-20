@@ -1,11 +1,11 @@
 import type { Principal } from "@dfinity/principal";
+import { nonNullish } from "@dfinity/utils/src";
+import type {
+  CanisterStatusDid as RawCanisterStatus,
+  CanisterStatusDidResponse,
+} from "../types/ic-management.did";
 import type { CanisterDetails } from "../types/ic-management.response";
 import { CanisterStatus } from "../types/ic-management.response";
-import type {
-  CanisterStatusDidResponse,
-  CanisterStatusDid as RawCanisterStatus,
-} from "../types/ic-management.did";
-import {nonNullish} from "@dfinity/utils/src";
 
 const getCanisterStatus = (status: RawCanisterStatus): CanisterStatus => {
   if ("stopped" in status) {
