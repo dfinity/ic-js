@@ -58,7 +58,7 @@ const data = await metadata();
 
 - [encodeIcrcAccount](#gear-encodeicrcaccount)
 - [decodeIcrcAccount](#gear-decodeicrcaccount)
-- [parsePaymentCode](#gear-parsepaymentcode)
+- [decodePayment](#gear-decodepayment)
 
 #### :gear: encodeIcrcAccount
 
@@ -86,7 +86,7 @@ Parameters:
 
 - `accountString`: string
 
-#### :gear: parsePaymentCode
+#### :gear: decodePayment
 
 A naive implementation of a payment parser. Given a code, the function attempts to extract a token name, account identifier (textual representation), and an optional amount.
 
@@ -96,9 +96,9 @@ Similarly, if an optional amount is provided but it's not a valid number, the pa
 Please note that this function doesn't perform any validity checks on the extracted information.
 It doesn't verify if the token is known or if the identifier is a valid address.
 
-| Function           | Type                                                                        |
-| ------------------ | --------------------------------------------------------------------------- |
-| `parsePaymentCode` | `(code: string) => { token: string; identifier: string; amount?: number; }` |
+| Function        | Type                                                                        |
+| --------------- | --------------------------------------------------------------------------- |
+| `decodePayment` | `(code: string) => { token: string; identifier: string; amount?: number; }` |
 
 Parameters:
 
