@@ -39,7 +39,7 @@ const agent = await createAgent({
   host: HOST,
 });
 
-const { getCanisterDetails } = CkBTCCanister.create({
+const { getCanisterDetails } = ICMgmtCanister.create({
   agent,
 });
 
