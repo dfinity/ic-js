@@ -140,7 +140,7 @@
     {
       "name": "@dfinity/ic-management",
       "path": "./packages/ic-management/dist/index.js",
-      "limit": "10 kB",
+      "limit": "3 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
