@@ -58,6 +58,7 @@ const data = await metadata();
 
 - [encodeIcrcAccount](#gear-encodeicrcaccount)
 - [decodeIcrcAccount](#gear-decodeicrcaccount)
+- [parsePaymentCode](#gear-parsepaymentcode)
 
 #### :gear: encodeIcrcAccount
 
@@ -84,6 +85,24 @@ Formatting Reference: https://github.com/dfinity/ICRC-1/pull/98
 Parameters:
 
 - `accountString`: string
+
+#### :gear: parsePaymentCode
+
+A naive implementation of a payment parser. Given a code, the function attempts to extract a token name, account identifier (textual representation), and an optional amount.
+
+If the code doesn't match the expected pattern, `undefined` is returned for simplicity.
+Similarly, if an optional amount is provided but it's not a valid number, the parser will not throw an exception and returns `undefined`.
+
+Please note that this function doesn't perform any validity checks on the extracted information.
+It doesn't verify if the token is known or if the identifier is a valid address.
+
+| Function           | Type                                                                        |
+| ------------------ | --------------------------------------------------------------------------- |
+| `parsePaymentCode` | `(code: string) => { token: string; identifier: string; amount?: number; }` |
+
+Parameters:
+
+- `code`: string
 
 ### :factory: IcrcLedgerCanister
 
