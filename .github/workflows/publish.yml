@@ -48,3 +48,7 @@ jobs:
         run: npm publish --workspace=packages/ckbtc --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish ic-management
+        run: npm publish --workspace=packages/ic-management --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

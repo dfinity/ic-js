@@ -1,4 +1,17 @@
-# 0.17.0 (wip)
+# 0.18.0 (wip)
+
+## Release
+
+- nns `v0.16.2`
+- sns `v0.0.17`
+- cmc `v0.0.13`
+- ledger `v0.0.10`
+- ckBTC `v0.0.6`
+- ic-management `v0.0.2`
+- utils `v0.0.17`
+- nns-proto `v0.0.3`
+
+# 0.17.0 (2023-06-20)
 
 ## Release
 
@@ -7,6 +20,7 @@
 - cmc `v0.0.12`
 - ledger `v0.0.9`
 - ckBTC `v0.0.5`
+- ic-management `v0.0.1`
 - utils `v0.0.16`
 - nns-proto `v0.0.2`
 
@@ -16,7 +30,26 @@
 
 ## Features
 
-- introduces `getMinterInfo` for ckBTC which returns internal minter parameters such as the minimal amount to retrieve BTC, minimal number of confirmations or KYT fee
+- introducing `@dfinity/ic-management` — a new library for interfacing with IC management canister
+- add `getMinterInfo` for ckBTC which returns internal minter parameters such as the minimal amount to retrieve BTC, minimal number of confirmations or KYT fee
+- add fee to nns stake neuron method
+- expose Sns index canister id in wrapper
+- add `simulateMergeNeurons` to Nns governance
+
+## Refactor
+
+- use `isNullish` and `fromNullable` utils in Nns `governance.canister.ts`
+
+## Build
+
+- remove `global` polyfill for the browser and add `worker` conditions to bundle
+- improve docs generation in the CI
+- update Candid types in Nns
+
+## Docs
+
+- improve Sns README
+- generate README docs for BTC utils
 
 # 0.16.0 (2023-05-24)
 

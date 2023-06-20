@@ -1,4 +1,4 @@
-# ckbtc-js
+# ic-management-js
 
 A library for interfacing with [Internet Computer (IC) management canister](https://internetcomputer.org/docs/current/developer-docs/integrations/https-outcalls/https-outcalls-how-to-use/#ic-management-canister).
 
@@ -26,7 +26,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 ## Usage
 
-The features are available through the class `LedgerCanister`. It has to be instantiated with a canister ID.
+The features are available through the class `ICMgmtCanister`. It has to be instantiated with a canister ID.
 
 e.g. fetching a token metadata.
 
@@ -39,11 +39,11 @@ const agent = await createAgent({
   host: HOST,
 });
 
-const { getCanisterDetails } = ICMgmtCanister.create({
+const { canisterStatus } = ICMgmtCanister.create({
   agent,
 });
 
-const details = await getCanisterDetails({ canisterId: YOUR_CANISTER_ID });
+const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 ```
 
 ## Features

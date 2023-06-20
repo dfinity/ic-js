@@ -40,7 +40,7 @@ const ckBTCInputFiles = [
 
 const rosettaInputFiles = ["./packages/rosetta-client/src/index.ts"];
 
-const icMgmtInputFiles = ["./packages/ic-management/src/index.ts"];
+const icMgmtInputFiles = ["./packages/ckbtc/src/ic-management.canister.ts"];
 
 generateDocumentation({
   inputFiles: nnsInputFiles,
