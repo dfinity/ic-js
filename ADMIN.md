@@ -56,8 +56,6 @@ You need an `import` to avoid considering it a global script file.
 - Add new library to [docs](./scripts/docs.js) generator
 - Add readme file of the new library in `package.json` script `docs` to format the generated docs with prettier.
 
-<!-- TODO: Fix differenced of running `npm run docs` locally and in CI -->
-
 7. Add to Size workflow
 
 Add new entry in the field `size-limit` of the main [package.json](./package.json).

@@ -74,4 +74,7 @@ import_did "rs/rosetta-api/icrc1/index/index.did" "icrc1_index.did" "ledger"
 
 mkdir -p packages/ckbtc/candid
 import_did "rs/bitcoin/ckbtc/minter/ckbtc_minter.did" "minter.did" "ckbtc"
+
+mkdir -p packages/ic-management/candid
+curl https://raw.githubusercontent.com/dfinity/interface-spec/master/spec/ic.did -o packages/ic-management/candid/ic-management.did
 : Fin
