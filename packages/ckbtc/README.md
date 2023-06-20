@@ -26,7 +26,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 ## Usage
 
-The features are available through the class `LedgerCanister`. It has to be instantiated with a canister ID.
+The features are available through the class `CkBTCCanister`. It has to be instantiated with a canister ID.
 
 e.g. fetching a token metadata.
 
