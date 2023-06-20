@@ -16,7 +16,8 @@
 
 ## Features
 
-- introduces `getMinterInfo` for ckBTC which returns internal minter parameters such as the minimal amount to retrieve BTC, minimal number of confirmations or KYT fee
+- introducing `@dfinity/ic-management` — a new library for interfacing with IC management canister
+- add `getMinterInfo` for ckBTC which returns internal minter parameters such as the minimal amount to retrieve BTC, minimal number of confirmations or KYT fee
 
 # 0.16.0 (2023-05-24)
 
