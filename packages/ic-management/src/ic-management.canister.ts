@@ -3,7 +3,7 @@ import {
   type ManagementCanisterRecord,
 } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { toNullable } from "@dfinity/utils/src";
+import { toNullable } from "@dfinity/utils";
 import { mapError } from "./errors/ic-management.errors";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import type { CanisterStatusDidResponse } from "./types/ic-management.did";

@@ -1,5 +1,5 @@
 import type { Principal } from "@dfinity/principal";
-import { nonNullish } from "@dfinity/utils/src";
+import { nonNullish } from "@dfinity/utils";
 import type {
   CanisterStatusDid as RawCanisterStatus,
   CanisterStatusDidResponse,
