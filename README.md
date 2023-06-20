@@ -11,6 +11,7 @@ The libraries are still in active development, and new features will incremental
 - [cmc](/packages/cmc): interfacing with the **cmc** canister of the IC
 - [ledger](/packages/ledger): interacting with ICRC compatible **ledgers**
 - [ckBTC](/packages/ckbtc): interfacing with **ckBTC**
+- [ic-management](/packages/ic-management): interfacing with the **IC management canister**
 - [utils](/packages/utils): a collection of utilities and constants
 - [nns-proto](/packages/nns-proto): the protobuf source used by `nns-js` to support hardware wallets
 

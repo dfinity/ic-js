@@ -12,7 +12,7 @@
     "packages/cmc",
     "packages/ckbtc",
     "packages/rosetta-client",
-    "package/ic-management"
+    "packages/ic-management"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -136,6 +136,16 @@
       "path": "./packages/rosetta-client/dist/index.js",
       "limit": "1 kB",
       "ignore": []
+    },
+    {
+      "name": "@dfinity/ic-management",
+      "path": "./packages/ic-management/dist/index.js",
+      "limit": "3 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal"
+      ]
     }
   ]
 }
