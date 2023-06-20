@@ -1,4 +1,4 @@
-# ckbtc-js
+# ic-management-js
 
 A library for interfacing with [Internet Computer (IC) management canister](https://internetcomputer.org/docs/current/developer-docs/integrations/https-outcalls/https-outcalls-how-to-use/#ic-management-canister).
 
