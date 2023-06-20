@@ -39,11 +39,11 @@ const agent = await createAgent({
   host: HOST,
 });
 
-const { getCanisterDetails } = ICMgmtCanister.create({
+const { canisterStatus } = ICMgmtCanister.create({
   agent,
 });
 
-const details = await getCanisterDetails(YOUR_CANISTER_ID);
+const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 ```
 
 ## Features

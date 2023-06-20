@@ -4,14 +4,9 @@ import {
 } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { toNullable } from "@dfinity/utils";
-import { mapError } from "./errors/ic-management.errors";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
-import type { CanisterStatusDidResponse } from "./types/ic-management.did";
-import type {
-  CanisterDetails,
-  CanisterSettings,
-} from "./types/ic-management.response";
-import { toCanisterDetails } from "./utils/ic-management.converters";
+import type { UpdateSettingsParams } from "./types/ic-management.params";
+import type { CanisterStatusResponse } from "./types/ic-management.responses";
 
 export class ICManagementCanister {
   private constructor(private readonly service: ManagementCanisterRecord) {
@@ -30,25 +25,12 @@ export class ICManagementCanister {
    * Returns canister details (memory size, status, etc.)
    *
    * @param {Principal} canisterId
-   * @returns Promise<CanisterDetails>
-   * @throws UserNotTheController, Error
+   * @returns Promise<CanisterStatusResponse>
    */
-  public getCanisterDetails = async (
-    canisterId: Principal
-  ): Promise<CanisterDetails> => {
-    try {
-      const rawResponse: CanisterStatusDidResponse =
-        await this.service.canister_status({
-          canister_id: canisterId,
-        });
-      return toCanisterDetails({
-        response: rawResponse,
-        canisterId,
-      });
-    } catch (error: unknown) {
-      throw mapError(error);
-    }
-  };
+  canisterStatus = (canisterId: Principal): Promise<CanisterStatusResponse> =>
+    this.service.canister_status({
+      canister_id: canisterId,
+    });
 
   /**
    * Update canister settings
@@ -56,10 +38,8 @@ export class ICManagementCanister {
    * @param {Object} params
    * @param {Principal} params.canisterId
    * @param {CanisterSettings} params.settings
-   * @returns Promise<void>
-   * @throws UserNotTheController, Error
    */
-  public updateSettings = async ({
+  updateSettings = async ({
     canisterId,
     settings: {
       controllers,
@@ -67,25 +47,14 @@ export class ICManagementCanister {
       memoryAllocation,
       computeAllocation,
     },
-  }: {
-    canisterId: Principal;
-    settings: Partial<CanisterSettings>;
-  }): Promise<void> => {
-    try {
-      // Empty array does not change the value in the settings.
-      await this.service.update_settings({
-        canister_id: canisterId,
-        settings: {
-          controllers: toNullable(
-            controllers?.map((c) => Principal.fromText(c))
-          ),
-          freezing_threshold: toNullable(freezingThreshold),
-          memory_allocation: toNullable(memoryAllocation),
-          compute_allocation: toNullable(computeAllocation),
-        },
-      });
-    } catch (error: unknown) {
-      throw mapError(error);
-    }
-  };
+  }: UpdateSettingsParams): Promise<void> =>
+    this.service.update_settings({
+      canister_id: canisterId,
+      settings: {
+        controllers: toNullable(controllers?.map((c) => Principal.fromText(c))),
+        freezing_threshold: toNullable(freezingThreshold),
+        memory_allocation: toNullable(memoryAllocation),
+        compute_allocation: toNullable(computeAllocation),
+      },
+    });
 }

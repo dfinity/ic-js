@@ -2,15 +2,9 @@ import type { ManagementCanisterRecord } from "@dfinity/agent";
 import { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
-import { UserNotTheControllerError } from "./errors/ic-management.errors";
 import { ICManagementCanister } from "./ic-management.canister";
-import {
-  mockCanisterDetails,
-  mockCanisterId,
-  mockCanisterSettings,
-} from "./ic-management.mock";
-import { CanisterStatusDidResponse } from "./types/ic-management.did";
-import { toCanisterDetails } from "./utils/ic-management.converters";
+import { mockCanisterId, mockCanisterSettings } from "./ic-management.mock";
+import { CanisterStatusResponse } from "./types/ic-management.responses";
 
 describe("ICManagementCanister", () => {
   const mockAgent: HttpAgent = mock<HttpAgent>();
@@ -23,7 +17,7 @@ describe("ICManagementCanister", () => {
   };
 
   describe("ICManagementCanister.getCanisterDetails", () => {
-    it("returns account identifier when success", async () => {
+    it("returns canister status when success", async () => {
       const settings = {
         freezing_threshold: BigInt(2),
         controllers: [
@@ -34,7 +28,7 @@ describe("ICManagementCanister", () => {
         memory_allocation: BigInt(4),
         compute_allocation: BigInt(10),
       };
-      const response: CanisterStatusDidResponse = {
+      const response: CanisterStatusResponse = {
         status: { running: null },
         memory_size: BigInt(1000),
         cycles: BigInt(10_000),
@@ -46,24 +40,9 @@ describe("ICManagementCanister", () => {
 
       const icManagement = await createICManagement(service);
 
-      const res = await icManagement.getCanisterDetails(mockCanisterDetails.id);
+      const res = await icManagement.canisterStatus(mockCanisterId);
 
-      expect(res).toEqual(
-        toCanisterDetails({ response, canisterId: mockCanisterDetails.id })
-      );
-    });
-
-    it("throws UserNotTheControllerError", async () => {
-      const error = new Error("code: 403");
-      const service = mock<ManagementCanisterRecord>();
-      service.canister_status.mockRejectedValue(error);
-
-      const icManagement = await createICManagement(service);
-
-      const call = () =>
-        icManagement.getCanisterDetails(Principal.fromText("aaaaa-aa"));
-
-      expect(call).rejects.toThrowError(UserNotTheControllerError);
+      expect(res).toEqual(response);
     });
 
     it("throws Error", async () => {
@@ -74,7 +53,7 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () =>
-        icManagement.getCanisterDetails(Principal.fromText("aaaaa-aa"));
+        icManagement.canisterStatus(Principal.fromText("aaaaa-aa"));
 
       expect(call).rejects.toThrowError(Error);
     });
@@ -110,21 +89,6 @@ describe("ICManagementCanister", () => {
         settings: partialSettings,
       });
       expect(service.update_settings).toBeCalled();
-    });
-
-    it("throws UserNotTheControllerError", async () => {
-      const error = new Error("code: 403");
-      const service = mock<ManagementCanisterRecord>();
-      service.update_settings.mockRejectedValue(error);
-
-      const icManagement = await createICManagement(service);
-
-      const call = () =>
-        icManagement.updateSettings({
-          canisterId: mockCanisterId,
-          settings: mockCanisterSettings,
-        });
-      expect(call).rejects.toThrowError(UserNotTheControllerError);
     });
 
     it("throws Error", async () => {
