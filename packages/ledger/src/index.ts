@@ -20,3 +20,4 @@ export * from "./types/index.params";
 export * from "./types/ledger.params";
 export * from "./types/ledger.responses";
 export * from "./utils/ledger.utils";
+export * from "./utils/payment.utils";

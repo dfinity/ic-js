@@ -1,6 +1,6 @@
-import { parsePaymentCode } from "./qrcode.utils";
+import { parsePaymentCode } from "./payment.utils";
 
-describe("qrcode.utils", () => {
+describe("payment.utils", () => {
   it("extract payment information", () => {
     expect(
       parsePaymentCode(
