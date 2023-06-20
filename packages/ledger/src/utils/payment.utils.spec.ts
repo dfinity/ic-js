@@ -1,9 +1,9 @@
-import { parsePaymentCode } from "./payment.utils";
+import { decodePayment } from "./payment.utils";
 
 describe("payment.utils", () => {
   it("extract payment information", () => {
     expect(
-      parsePaymentCode(
+      decodePayment(
         "bitcoin:BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U?amount=0.00001"
       )
     ).toEqual({
@@ -13,7 +13,7 @@ describe("payment.utils", () => {
     });
 
     expect(
-      parsePaymentCode(
+      decodePayment(
         "icp:646f4d2d6fcb6fab5ba1547647526b666553467ecb5cb28c8d9ddf451c8f4c21?amount=1234"
       )
     ).toEqual({
@@ -24,7 +24,7 @@ describe("payment.utils", () => {
     });
 
     expect(
-      parsePaymentCode(
+      decodePayment(
         "icp:646f4d2d6fcb6fab5ba1547647526b666553467ecb5cb28c8d9ddf451c8f4c21"
       )
     ).toEqual({
@@ -34,7 +34,7 @@ describe("payment.utils", () => {
     });
 
     expect(
-      parsePaymentCode(
+      decodePayment(
         "icp:646f4d2d6fcb6fab5ba1547647526b666553467ecb5cb28c8d9ddf451c8f4c21?amount=1234.456"
       )
     ).toEqual({
@@ -45,31 +45,41 @@ describe("payment.utils", () => {
     });
   });
 
+  it("extract payment amount information with value keyword", () => {
+    expect(
+      decodePayment(
+        "ethereum:0xdAC17F958D2ee523a2206206994597C13D831ec7?value=987.321"
+      )
+    ).toEqual({
+      token: "ethereum",
+      identifier: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      amount: 987.321,
+    });
+  });
+
   it("cannot extract payment information if token or address not provided", () => {
     expect(
-      parsePaymentCode(
-        "BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U?amount=0.00001"
-      )
+      decodePayment("BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U?amount=0.00001")
     ).toBeUndefined();
 
-    expect(parsePaymentCode("bitcoin:?amount=0.00001")).toBeUndefined();
+    expect(decodePayment("bitcoin:?amount=0.00001")).toBeUndefined();
 
     expect(
-      parsePaymentCode("BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U")
+      decodePayment("BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U")
     ).toBeUndefined();
 
     expect(
-      parsePaymentCode("BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U")
+      decodePayment("BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U")
     ).toBeUndefined();
 
-    expect(parsePaymentCode("bitcoin:")).toBeUndefined();
+    expect(decodePayment("bitcoin:")).toBeUndefined();
 
-    expect(parsePaymentCode("bitcoin")).toBeUndefined();
+    expect(decodePayment("bitcoin")).toBeUndefined();
   });
 
   it("cannot extract payment information if amount is not a number", () => {
     expect(
-      parsePaymentCode("BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U?amount=test")
+      decodePayment("BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U?amount=test")
     ).toBeUndefined();
   });
 });

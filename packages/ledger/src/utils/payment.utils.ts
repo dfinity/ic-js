@@ -12,10 +12,11 @@ import { isNullish, nonNullish } from "@dfinity/utils";
  * @param code string
  * @returns { token: string; identifier: string; amount?: number } | undefined
  */
-export const parsePaymentCode = (
+export const decodePayment = (
   code: string
 ): { token: string; identifier: string; amount?: number } | undefined => {
-  const regex = /^([a-zA-Z]+):([A-Za-z0-9]+)(?:\?amount=(\d+(?:\.\d+)?))?$/;
+  const regex =
+    /^([a-zA-Z]+):([A-Za-z0-9]+)(?:\?(?:amount|value)=(\d+(?:\.\d+)?))?$/;
 
   const match = code.match(regex);
   if (isNullish(match)) {
