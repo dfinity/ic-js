@@ -2,6 +2,29 @@
 
 ## Release
 
+- nns `v0.16.3`
+- sns `v0.0.18`
+- cmc `v0.0.14`
+- ledger `v0.0.11`
+- ckBTC `v0.0.7`
+- ic-management `v0.0.4`
+- utils `v0.0.18`
+- nns-proto `v0.0.4`
+
+# 0.17.2 (2023-06-21)
+
+## Release
+
+- ic-management `v0.0.3`
+
+## Build
+
+No particular changes. Resolve a version conflicts in npmjs.
+
+# 0.17.1 (2023-06-21)
+
+## Release
+
 - nns `v0.16.2`
 - sns `v0.0.17`
 - cmc `v0.0.13`
@@ -10,6 +33,19 @@
 - ic-management `v0.0.2`
 - utils `v0.0.17`
 - nns-proto `v0.0.3`
+
+## Fix
+
+- redo `global` polyfill for the browser
+- expose more types in new library `ic-management-js`
+
+## Build
+
+- fix `ic-management-js` next dependencies and version
+
+## Docs
+
+- various improvements in READMEs
 
 # 0.17.0 (2023-06-20)
 
