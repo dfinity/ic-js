@@ -1,4 +1,4 @@
-# 0.18.0 (wip)
+# 0.17.1 (2023-06-21)
 
 ## Release
 
@@ -10,6 +10,19 @@
 - ic-management `v0.0.2`
 - utils `v0.0.17`
 - nns-proto `v0.0.3`
+
+## Fix
+
+- redo `global` polyfill for the browser
+- expose more types in new library `ic-management-js`
+
+## Build
+
+- fix `ic-management-js` next dependencies and version
+
+## Docs
+
+- various improvements in READMEs
 
 # 0.17.0 (2023-06-20)
 
