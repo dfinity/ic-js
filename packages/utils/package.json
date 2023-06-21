@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/utils",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "A collection of utilities and constants for NNS/SNS projects.",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.cjs.js",
