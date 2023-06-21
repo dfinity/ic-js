@@ -9,6 +9,13 @@ import { isNullish, nonNullish } from "@dfinity/utils";
  * Please note that this function doesn't perform any validity checks on the extracted information.
  * It doesn't verify if the token is known or if the identifier is a valid address.
  *
+ * urn            = token ":" address [ "?" params]
+ * token         = [ ckbtc / icp / chat / bitcoin / ethereum ... ]
+ * address       = STRING
+ * params        = param [ "&" params ]
+ * param         = [ amountparam ]
+ * amountparam   = "amount=" *digit [ "." *digit ]
+ *
  * @param code string
  * @returns { token: string; identifier: string; amount?: number } | undefined
  */
