@@ -56,21 +56,23 @@ You need an `import` to avoid considering it a global script file.
 - Add new library to [docs](./scripts/docs.js) generator
 - Add readme file of the new library in `package.json` script `docs` to format the generated docs with prettier.
 
-7. Add to Size workflow
+7. Add the new library to the [build-next](./scripts/build-next) script to tweak version and make dependencies less restrictive when the "next" version is published.
+
+8. Add to Size workflow
 
 Add new entry in the field `size-limit` of the main [package.json](./package.json).
 
-8. Update CI
+9. Update CI
 
 Add new library to "nightly" and "publish" CI [workflows](https://github.com/dfinity/ic-js/tree/main/.github/workflows).
 
-9. Build, PR and merge
+10. Build, PR and merge
 
-10. Tag and release to npm
+11. Tag and release to npm
 
-11. Provide a new PR that bump version of all libs to start `next` version
+12. Provide a new PR that bump version of all libs to start `next` version
 
-12. Merge and publish `next` to npm
+13. Merge and publish `next` to npm
 
 ## Release
 
