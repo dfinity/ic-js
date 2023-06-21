@@ -103,4 +103,16 @@ describe("payment.utils", () => {
       decodePayment("BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U?amount=test")
     ).toBeUndefined();
   });
+
+  it("should extract amount even if multiple parameters", () => {
+    expect(
+      decodePayment(
+        "ethereum:0x89205a3a3b2a69de6dbf7f01ed13b2108b2c43e7/transfer?address=0x8e23ee67d1332ad560396262c48ffbb01f93d052&uint256=1&value=444.555"
+      )
+    ).toEqual({
+      token: "ethereum",
+      identifier: "0x89205a3a3b2a69de6dbf7f01ed13b2108b2c43e7",
+      amount: 444.555,
+    });
+  });
 });
