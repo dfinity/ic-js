@@ -11,6 +11,16 @@
 - utils `v0.0.18`
 - nns-proto `v0.0.4`
 
+# 0.17.2 (2023-06-21)
+
+## Release
+
+- ic-management `v0.0.3`
+
+## Build
+
+No particular changes. Resolve a version conflicts in npmjs.
+
 # 0.17.1 (2023-06-21)
 
 ## Release
