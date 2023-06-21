@@ -11,6 +11,7 @@ node ./scripts/update-version.mjs nns
 node ./scripts/update-version.mjs sns
 node ./scripts/update-version.mjs cmc
 node ./scripts/update-version.mjs ckbtc
+node ./scripts/update-version.mjs ic-management
 
 : Now we can build
 npm run build --workspaces
