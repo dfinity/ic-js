@@ -7,7 +7,7 @@
 - cmc `v0.0.14`
 - ledger `v0.0.11`
 - ckBTC `v0.0.7`
-- ic-management `v0.0.3`
+- ic-management `v0.0.4`
 - utils `v0.0.18`
 - nns-proto `v0.0.4`
 
