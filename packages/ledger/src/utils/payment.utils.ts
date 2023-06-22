@@ -23,7 +23,7 @@ export const decodePayment = (
   code: string
 ): { token: string; identifier: string; amount?: number } | undefined => {
   const regex =
-    /^([a-zA-Z0-9%_.~+-]+):([a-zA-Z0-9%_.~+-]+(?:\/)?([a-zA-Z0-9%_.~+/-]+)?)\??((?:[a-zA-Z0-9%_.~+-]+=[a-zA-Z0-9%_.~+-]+(?:[&;])?)*)$/;
+    /^([a-zA-Z0-9%_.~+-]+):([a-zA-Z0-9%_.~+-]+(?:\/)?([a-zA-Z0-9%_.~+/-]+)?)(?:\?)?((?:[a-zA-Z0-9%_.~+-]+=[a-zA-Z0-9%_.~+-]+(?:[&;])?)*)$/;
 
   const match = code.match(regex);
 
