@@ -94,7 +94,7 @@ If the code doesn't match the expected pattern, `undefined` is returned for simp
 Similarly, if an optional amount is provided but it's not a valid number, the parser will not throw an exception and returns `undefined`.
 
 Please note that this function doesn't perform any validity checks on the extracted information.
-It doesn't verify if the token is known or if the identifier is a valid address.
+It does not verify if the token is known or if the identifier is a valid address.
 
 urn = token ":" address [ "?" params]
 token = [ ckbtc / icp / chat / bitcoin / ethereum ... ]
