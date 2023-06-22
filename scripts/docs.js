@@ -29,6 +29,7 @@ const cmcInputFiles = ["./packages/cmc/src/cmc.canister.ts"];
 const ledgerInputFiles = [
   "./packages/ledger/src/ledger.canister.ts",
   "./packages/ledger/src/utils/ledger.utils.ts",
+  "./packages/ledger/src/utils/payment.utils.ts",
   "./packages/ledger/src/index.canister.ts",
 ];
 
