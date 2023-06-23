@@ -37,12 +37,12 @@ export const decodePayment = (
   const decodeAmount = (): string | undefined => {
     const regex = /([a-zA-Z0-9%_.~+-]+)=([a-zA-Z0-9%_.~+-]+)([&;])?/g;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const match = [...(parameters ?? "").matchAll(regex)].find(([_param_, key]) =>
-      /amount|value/.test(key)
+    const match = [...(parameters ?? "").matchAll(regex)].find(
+      ([_param_, key]) => /amount|value/.test(key)
     );
 
     if (isNullish(match)) {
-      return undefined
+      return undefined;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
