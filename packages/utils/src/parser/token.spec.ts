@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { FromStringToTokenError } from "./enums/token.enums";
+import { FromStringToTokenError } from "../enums/token.enums";
 import { ICPToken, TokenAmount } from "./token";
 
 describe("ICP", () => {
