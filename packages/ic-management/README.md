@@ -31,7 +31,7 @@ The features are available through the class `ICMgmtCanister`. It has to be inst
 e.g. fetching a token metadata.
 
 ```ts
-import { ICMgmtCanister } from "@dfinity/ic-management";
+import { ICManagementCanister } from "@dfinity/ic-management";
 import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({
@@ -39,7 +39,7 @@ const agent = await createAgent({
   host: HOST,
 });
 
-const { canisterStatus } = ICMgmtCanister.create({
+const { canisterStatus } = ICManagementCanister.create({
   agent,
 });
 
