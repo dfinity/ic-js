@@ -65,22 +65,9 @@ await main();
 
 ### :toolbox: Functions
 
-- [convertStringToE8s](#gear-convertstringtoe8s)
 - [ineligibleNeurons](#gear-ineligibleneurons)
 - [votableNeurons](#gear-votableneurons)
 - [votedNeurons](#gear-votedneurons)
-
-#### :gear: convertStringToE8s
-
-Receives a string representing a number and returns the big int or error.
-
-| Function             | Type                                                  |
-| -------------------- | ----------------------------------------------------- |
-| `convertStringToE8s` | `(value: string) => bigint or FromStringToTokenError` |
-
-Parameters:
-
-- `amount`: - in string format
 
 #### :gear: ineligibleNeurons
 
@@ -125,16 +112,6 @@ Parameters:
 
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal for which some neurons might have already voted.
-
-### :wrench: Constants
-
-- [ICPToken](#gear-icptoken)
-
-#### :gear: ICPToken
-
-| Constant   | Type    |
-| ---------- | ------- |
-| `ICPToken` | `Token` |
 
 ### :factory: AccountIdentifier
 
@@ -241,77 +218,6 @@ Parameters:
 | Method         | Type                                                            |
 | -------------- | --------------------------------------------------------------- |
 | `claimNeurons` | `({ hexPubKey, }: { hexPubKey: string; }) => Promise<bigint[]>` |
-
-### :factory: TokenAmount
-
-Represents an amount of tokens.
-
-#### Methods
-
-- [fromE8s](#gear-frome8s)
-- [fromString](#gear-fromstring)
-- [fromNumber](#gear-fromnumber)
-- [toE8s](#gear-toe8s)
-- [toProto](#gear-toproto)
-
-##### :gear: fromE8s
-
-Initialize from a bigint. Bigint are considered e8s.
-
-| Method    | Type                                                                     |
-| --------- | ------------------------------------------------------------------------ |
-| `fromE8s` | `({ amount, token, }: { amount: bigint; token: Token; }) => TokenAmount` |
-
-Parameters:
-
-- `params.amount`: The amount in bigint format.
-- `params.token`: The token type.
-
-##### :gear: fromString
-
-Initialize from a string. Accepted formats:
-
-1234567.8901
-1'234'567.8901
-1,234,567.8901
-
-| Method       | Type                                                                                               |
-| ------------ | -------------------------------------------------------------------------------------------------- |
-| `fromString` | `({ amount, token, }: { amount: string; token: Token; }) => FromStringToTokenError or TokenAmount` |
-
-Parameters:
-
-- `params.amount`: The amount in string format.
-- `params.token`: The token type.
-
-##### :gear: fromNumber
-
-Initialize from a number.
-
-1 integer is considered E8S_PER_TOKEN
-
-| Method       | Type                                                                     |
-| ------------ | ------------------------------------------------------------------------ |
-| `fromNumber` | `({ amount, token, }: { amount: number; token: Token; }) => TokenAmount` |
-
-Parameters:
-
-- `params.amount`: The amount in number format.
-- `params.token`: The token type.
-
-##### :gear: toE8s
-
-| Method  | Type           |
-| ------- | -------------- |
-| `toE8s` | `() => bigint` |
-
-##### :gear: toProto
-
-TODO: Remove this method when ICP class is not used anymore
-
-| Method    | Type                   |
-| --------- | ---------------------- |
-| `toProto` | `() => Promise<ICPTs>` |
 
 ### :factory: LedgerCanister
 
@@ -691,7 +597,7 @@ Initialize from a string. Accepted formats:
 
 | Method       | Type                                                |
 | ------------ | --------------------------------------------------- |
-| `fromString` | `(amount: string) => FromStringToTokenError or ICP` |
+| `fromString` | `(amount: string) => ICP or FromStringToTokenError` |
 
 ##### :gear: toE8s
 
