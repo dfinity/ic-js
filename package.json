@@ -145,7 +145,8 @@
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
-        "@dfinity/principal"
+        "@dfinity/principal",
+        "@dfinity/utils"
       ]
     }
   ],
