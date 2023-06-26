@@ -31,6 +31,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 
 ### :toolbox: Functions
 
+- [convertStringToE8s](#gear-convertstringtoe8s)
 - [defaultAgent](#gear-defaultagent)
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
@@ -57,6 +58,18 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [fromDefinedNullable](#gear-fromdefinednullable)
 - [principalToSubAccount](#gear-principaltosubaccount)
 - [smallerVersion](#gear-smallerversion)
+
+#### :gear: convertStringToE8s
+
+Receives a string representing a number and returns the big int or error.
+
+| Function             | Type                                                  |
+| -------------------- | ----------------------------------------------------- |
+| `convertStringToE8s` | `(value: string) => bigint or FromStringToTokenError` |
+
+Parameters:
+
+- `amount`: - in string format
 
 #### :gear: defaultAgent
 
@@ -252,6 +265,85 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 | Function         | Type                                                                                            |
 | ---------------- | ----------------------------------------------------------------------------------------------- |
 | `smallerVersion` | `({ minVersion, currentVersion, }: { minVersion: string; currentVersion: string; }) => boolean` |
+
+### :wrench: Constants
+
+- [E8S_PER_TOKEN](#gear-e8s_per_token)
+- [ICPToken](#gear-icptoken)
+
+#### :gear: E8S_PER_TOKEN
+
+| Constant        | Type     |
+| --------------- | -------- |
+| `E8S_PER_TOKEN` | `bigint` |
+
+#### :gear: ICPToken
+
+| Constant   | Type    |
+| ---------- | ------- |
+| `ICPToken` | `Token` |
+
+### :factory: TokenAmount
+
+Represents an amount of tokens.
+
+#### Methods
+
+- [fromE8s](#gear-frome8s)
+- [fromString](#gear-fromstring)
+- [fromNumber](#gear-fromnumber)
+- [toE8s](#gear-toe8s)
+
+##### :gear: fromE8s
+
+Initialize from a bigint. Bigint are considered e8s.
+
+| Method    | Type                                                                     |
+| --------- | ------------------------------------------------------------------------ |
+| `fromE8s` | `({ amount, token, }: { amount: bigint; token: Token; }) => TokenAmount` |
+
+Parameters:
+
+- `params.amount`: The amount in bigint format.
+- `params.token`: The token type.
+
+##### :gear: fromString
+
+Initialize from a string. Accepted formats:
+
+1234567.8901
+1'234'567.8901
+1,234,567.8901
+
+| Method       | Type                                                                                               |
+| ------------ | -------------------------------------------------------------------------------------------------- |
+| `fromString` | `({ amount, token, }: { amount: string; token: Token; }) => FromStringToTokenError or TokenAmount` |
+
+Parameters:
+
+- `params.amount`: The amount in string format.
+- `params.token`: The token type.
+
+##### :gear: fromNumber
+
+Initialize from a number.
+
+1 integer is considered E8S_PER_TOKEN
+
+| Method       | Type                                                                     |
+| ------------ | ------------------------------------------------------------------------ |
+| `fromNumber` | `({ amount, token, }: { amount: number; token: Token; }) => TokenAmount` |
+
+Parameters:
+
+- `params.amount`: The amount in number format.
+- `params.token`: The token type.
+
+##### :gear: toE8s
+
+| Method  | Type           |
+| ------- | -------------- |
+| `toE8s` | `() => bigint` |
 
 ### :factory: Canister
 

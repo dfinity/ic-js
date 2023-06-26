@@ -1,5 +1,5 @@
+import { convertStringToE8s } from "@dfinity/utils";
 import type { TransferError as RawTransferError } from "../../candid/ledger";
-import { convertStringToE8s } from "../token";
 import type { BlockHeight } from "../types/common";
 
 export class TransferError extends Error {}
