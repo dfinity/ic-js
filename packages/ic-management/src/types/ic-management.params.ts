@@ -1,5 +1,9 @@
-import type { Principal } from "@dfinity/principal";
-import type { QueryParams } from "@dfinity/utils/src";
+import { Principal } from "@dfinity/principal";
+import { toNullable, type ServiceParam } from "@dfinity/utils";
+import type {
+  canister_settings,
+  _SERVICE as IcManagementService,
+} from "../../candid/ic-management";
 
 export interface CanisterSettings {
   controllers?: string[];
@@ -8,7 +12,64 @@ export interface CanisterSettings {
   computeAllocation?: bigint;
 }
 
-export type UpdateSettingsParams = {
+export function toCanisterSettings({
+  controllers,
+  freezingThreshold,
+  memoryAllocation,
+  computeAllocation,
+}: CanisterSettings = {}): canister_settings {
+  return {
+    controllers: toNullable(controllers?.map((c) => Principal.fromText(c))),
+    freezing_threshold: toNullable(freezingThreshold),
+    memory_allocation: toNullable(memoryAllocation),
+    compute_allocation: toNullable(computeAllocation),
+  };
+}
+
+export interface CreateCanisterParams {
+  settings?: CanisterSettings;
+  senderCanisterVerion?: bigint;
+}
+
+export interface UpdateSettingsParams {
   canisterId: Principal;
+  senderCanisterVerion?: bigint;
   settings: CanisterSettings;
-} & Omit<QueryParams, "certified">;
+}
+
+export enum InstallMode {
+  Install,
+  Reinstall,
+  Upgrade,
+}
+
+export function toInstallMode(
+  installMode: InstallMode
+): ServiceParam<IcManagementService, "install_code">[0]["mode"] {
+  switch (installMode) {
+    case InstallMode.Install:
+      return { install: null };
+    case InstallMode.Reinstall:
+      return { reinstall: null };
+    case InstallMode.Upgrade:
+      return { upgrade: null };
+  }
+}
+
+export interface InstallCodeParams {
+  mode: InstallMode;
+  canisterId: Principal;
+  wasmModule: Uint8Array;
+  arg: Uint8Array;
+  senderCanisterVerion?: bigint;
+}
+
+export interface UninstallCodeParams {
+  canisterId: Principal;
+  senderCanisterVerion?: bigint;
+}
+
+export interface CanisterInfoParams {
+  canisterId: Principal;
+  numRequestChanges?: bigint;
+}
