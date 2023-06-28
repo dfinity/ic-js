@@ -12,19 +12,19 @@ export interface CanisterSettings {
   computeAllocation?: bigint;
 }
 
-export function toCanisterSettings({
+export const toCanisterSettings = ({
   controllers,
   freezingThreshold,
   memoryAllocation,
   computeAllocation,
-}: CanisterSettings = {}): canister_settings {
+}: CanisterSettings = {}): canister_settings => {
   return {
     controllers: toNullable(controllers?.map((c) => Principal.fromText(c))),
     freezing_threshold: toNullable(freezingThreshold),
     memory_allocation: toNullable(memoryAllocation),
     compute_allocation: toNullable(computeAllocation),
   };
-}
+};
 
 export interface CreateCanisterParams {
   settings?: CanisterSettings;
@@ -43,9 +43,12 @@ export enum InstallMode {
   Upgrade,
 }
 
-export function toInstallMode(
-  installMode: InstallMode
-): ServiceParam<IcManagementService, "install_code">[0]["mode"] {
+export type InstallModeParam = ServiceParam<
+  IcManagementService,
+  "install_code"
+>[0]["mode"];
+
+export const toInstallMode = (installMode: InstallMode): InstallModeParam => {
   switch (installMode) {
     case InstallMode.Install:
       return { install: null };
@@ -54,7 +57,7 @@ export function toInstallMode(
     case InstallMode.Upgrade:
       return { upgrade: null };
   }
-}
+};
 
 export interface InstallCodeParams {
   mode: InstallMode;

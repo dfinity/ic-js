@@ -29,7 +29,7 @@ export class ICManagementCanister {
     const { service } = createServices<IcManagementService>({
       options: {
         ...options,
-        canisterId: Principal.fromHex(""),
+        canisterId: Principal.fromText("aaaaa-aa"),
       },
       idlFactory,
       certifiedIdlFactory,
