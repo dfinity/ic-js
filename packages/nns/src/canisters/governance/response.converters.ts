@@ -7,6 +7,7 @@ import type {
 } from "@dfinity/nns-proto";
 import { Principal } from "@dfinity/principal";
 import { fromNullable, uint8ArrayToArrayOfNumber } from "@dfinity/utils";
+import { fromDefinedNullable } from "@dfinity/utils/src";
 import type { Map } from "google-protobuf";
 import type {
   AccountIdentifier as RawAccountIdentifier,
@@ -34,11 +35,28 @@ import type {
   RewardMode as RawRewardMode,
   Tally as RawTally,
 } from "../../../candid/governance";
+import type {
+  Canister as RawCanister,
+  DeveloperDistribution as RawDeveloperDistribution,
+  Duration as RawDuration,
+  GovernanceParameters as RawGovernanceParameters,
+  Image as RawImage,
+  InitialTokenDistribution as RawInitialTokenDistribution,
+  LedgerParameters as RawLedgerParameters,
+  NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
+  NeuronDistribution as RawNeuronDistribution,
+  Percentage as RawPercentage,
+  SwapDistribution as RawSwapDistribution,
+  SwapParameters as RawSwapParameters,
+  Tokens as RawTokens,
+  VotingRewardParameters as RawVotingRewardParameters,
+} from "../../../candid/governance";
 import { AccountIdentifier, SubAccount } from "../../account_identifier";
 import { NeuronState } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
   AccountIdentifier as AccountIdentifierString,
+  CanisterIdString,
   E8s,
   NeuronId,
 } from "../../types/common";
@@ -49,19 +67,32 @@ import type {
   By,
   Change,
   Command,
+  DeveloperDistribution,
   DissolveState,
+  Duration,
   Followees,
+  GovernanceParameters,
+  Image,
+  InitialTokenDistribution,
   KnownNeuron,
+  LedgerParameters,
   ListProposalsResponse,
   Neuron,
+  NeuronBasketConstructionParameters,
+  NeuronDistribution,
   NeuronIdOrSubaccount,
   NeuronInfo,
   NodeProvider,
   Operation,
+  Percentage,
   Proposal,
   ProposalInfo,
   RewardMode,
+  SwapDistribution,
+  SwapParameters,
   Tally,
+  Tokens,
+  VotingRewardParameters,
 } from "../../types/governance_converters";
 import {
   accountIdentifierFromBytes,
@@ -393,8 +424,35 @@ const toAction = (action: RawAction): Action => {
   }
 
   if ("CreateServiceNervousSystem" in action) {
-    // TODO: Convert from RawCreateServiceNervousSystem to CreateServiceNervousSystem (no arrays as optionals)
-    return action;
+    const createServiceNervousSystem = action.CreateServiceNervousSystem;
+    return {
+      CreateServiceNervousSystem: {
+        url: fromNullable(createServiceNervousSystem.url),
+        governanceParameters: toGovernanceParameters(
+          fromNullable(createServiceNervousSystem.governance_parameters)
+        ),
+        fallbackControllerPrincipalIds:
+          createServiceNervousSystem.fallback_controller_principal_ids.map(
+            (principalId) => principalId.toString()
+          ),
+        logo: toImage(fromNullable(createServiceNervousSystem.logo)),
+        name: fromNullable(createServiceNervousSystem.name),
+        ledgerParameters: toLedgerParameters(
+          fromNullable(createServiceNervousSystem.ledger_parameters)
+        ),
+        description: fromNullable(createServiceNervousSystem.description),
+        dappCanisters:
+          (createServiceNervousSystem.dapp_canisters.map(
+            toCanisterIdString
+          ) as CanisterIdString[]) ?? [],
+        swapParameters: toSwapParameters(
+          fromNullable(createServiceNervousSystem.swap_parameters)
+        ),
+        initialTokenDistribution: toInitialTokenDistribution(
+          fromNullable(createServiceNervousSystem.initial_token_distribution)
+        ),
+      },
+    };
   }
 
   throw new UnsupportedValueError(action);
@@ -914,3 +972,225 @@ export const convertPbNeuronToNeuronInfo =
           : convertPbNeuronToFullNeuron({ pbNeuron, pbNeuronInfo, canisterId }),
     };
   };
+
+const toPercentage = (
+  percentage: RawPercentage | undefined
+): Percentage | undefined => {
+  return percentage === undefined
+    ? undefined
+    : {
+        basisPoints: fromNullable(percentage.basis_points),
+      };
+};
+
+const toDuration = (
+  duration: RawDuration | undefined
+): Duration | undefined => {
+  return duration === undefined
+    ? undefined
+    : {
+        seconds: fromNullable(duration.seconds),
+      };
+};
+
+const toTokens = (tokens: RawTokens | undefined): Tokens | undefined => {
+  return tokens === undefined
+    ? undefined
+    : {
+        e8s: fromNullable(tokens.e8s),
+      };
+};
+
+const toCanisterIdString = (
+  canister: RawCanister | undefined
+): CanisterIdString | undefined => {
+  return canister === undefined
+    ? undefined
+    : canister.id.length === 0
+    ? undefined
+    : fromDefinedNullable(canister.id).toString();
+};
+
+const toImage = (image: RawImage | undefined): Image | undefined => {
+  return image === undefined
+    ? undefined
+    : {
+        base64Encoding: fromNullable(image.base64_encoding),
+      };
+};
+
+const toLedgerParameters = (
+  ledgerParameters: RawLedgerParameters | undefined
+): LedgerParameters | undefined => {
+  return ledgerParameters === undefined
+    ? undefined
+    : {
+        transactionFee: toTokens(
+          fromNullable(ledgerParameters.transaction_fee)
+        ),
+        tokenSymbol: fromNullable(ledgerParameters.token_symbol),
+        tokenLogo: toImage(fromNullable(ledgerParameters.token_logo)),
+        tokenName: fromNullable(ledgerParameters.token_name),
+      };
+};
+
+const toVotingRewardParameters = (
+  votingRewardParameters: RawVotingRewardParameters | undefined
+): VotingRewardParameters | undefined => {
+  return votingRewardParameters === undefined
+    ? undefined
+    : {
+        rewardRateTransitionDuration: toDuration(
+          fromNullable(votingRewardParameters.reward_rate_transition_duration)
+        ),
+        initialRewardRate: toPercentage(
+          fromNullable(votingRewardParameters.initial_reward_rate)
+        ),
+        finalRewardRate: toPercentage(
+          fromNullable(votingRewardParameters.final_reward_rate)
+        ),
+      };
+};
+
+const toGovernanceParameters = (
+  governanceParameters: RawGovernanceParameters | undefined
+): GovernanceParameters | undefined => {
+  return governanceParameters === undefined
+    ? undefined
+    : {
+        neuronMaximumDissolveDelayBonus: toPercentage(
+          fromNullable(governanceParameters.neuron_maximum_dissolve_delay_bonus)
+        ),
+        neuronMaximumAgeForAgeBonus: toDuration(
+          fromNullable(governanceParameters.neuron_maximum_age_for_age_bonus)
+        ),
+        neuronMaximumDissolveDelay: toDuration(
+          fromNullable(governanceParameters.neuron_maximum_dissolve_delay)
+        ),
+        neuronMinimumDissolveDelayToVote: toDuration(
+          fromNullable(
+            governanceParameters.neuron_minimum_dissolve_delay_to_vote
+          )
+        ),
+        neuronMaximumAgeBonus: toPercentage(
+          fromNullable(governanceParameters.neuron_maximum_age_bonus)
+        ),
+        neuronMinimumStake: toTokens(
+          fromNullable(governanceParameters.neuron_minimum_stake)
+        ),
+        proposalWaitForQuietDeadlineIncrease: toDuration(
+          fromNullable(
+            governanceParameters.proposal_wait_for_quiet_deadline_increase
+          )
+        ),
+        proposalInitialVotingPeriod: toDuration(
+          fromNullable(governanceParameters.proposal_initial_voting_period)
+        ),
+        proposalRejectionFee: toTokens(
+          fromNullable(governanceParameters.proposal_rejection_fee)
+        ),
+        votingRewardParameters: toVotingRewardParameters(
+          fromNullable(governanceParameters.voting_reward_parameters)
+        ),
+      };
+};
+
+const toNeuronBasketConstructionParameters = (
+  neuronBasketConstructionParameters:
+    | RawNeuronBasketConstructionParameters
+    | undefined
+): NeuronBasketConstructionParameters | undefined => {
+  return neuronBasketConstructionParameters === undefined
+    ? undefined
+    : {
+        dissolveDelayInterval: toDuration(
+          fromNullable(
+            neuronBasketConstructionParameters.dissolve_delay_interval
+          )
+        ),
+        count: fromNullable(neuronBasketConstructionParameters.count),
+      };
+};
+
+const toSwapParameters = (
+  swapParameters: RawSwapParameters | undefined
+): SwapParameters | undefined => {
+  return swapParameters === undefined
+    ? undefined
+    : {
+        minimumParticipants: fromNullable(swapParameters.minimum_participants),
+        neuronBasketConstructionParameters:
+          toNeuronBasketConstructionParameters(
+            fromNullable(swapParameters.neuron_basket_construction_parameters)
+          ),
+        maximumParticipantIcp: toTokens(
+          fromNullable(swapParameters.maximum_participant_icp)
+        ),
+        minimumIcp: toTokens(fromNullable(swapParameters.minimum_icp)),
+        minimumParticipantIcp: toTokens(
+          fromNullable(swapParameters.minimum_participant_icp)
+        ),
+        maximumIcp: toTokens(fromNullable(swapParameters.maximum_icp)),
+      };
+};
+
+const toSwapDistribution = (
+  swapDistribution: RawSwapDistribution | undefined
+): SwapDistribution | undefined => {
+  return swapDistribution === undefined
+    ? undefined
+    : {
+        total: toTokens(fromNullable(swapDistribution.total)),
+      };
+};
+
+const toNeuronDistribution = (
+  neuronDistribution: RawNeuronDistribution | undefined
+): NeuronDistribution | undefined => {
+  return neuronDistribution === undefined
+    ? undefined
+    : {
+        controller:
+          neuronDistribution.controller.length === 0
+            ? undefined
+            : neuronDistribution.controller[0].toString(),
+        dissolveDelay: toDuration(
+          fromNullable(neuronDistribution.dissolve_delay)
+        ),
+        memo: fromNullable(neuronDistribution.memo),
+        vestingPeriod: toDuration(
+          fromNullable(neuronDistribution.vesting_period)
+        ),
+        stake: toTokens(fromNullable(neuronDistribution.stake)),
+      };
+};
+
+const toDeveloperDistribution = (
+  developerDistribution: RawDeveloperDistribution | undefined
+): DeveloperDistribution | undefined => {
+  return developerDistribution === undefined
+    ? undefined
+    : {
+        developerNeurons: developerDistribution.developer_neurons.map(
+          toNeuronDistribution
+        ) as Array<NeuronDistribution>,
+      };
+};
+
+const toInitialTokenDistribution = (
+  initialTokenDistribution: RawInitialTokenDistribution | undefined
+): InitialTokenDistribution | undefined => {
+  return initialTokenDistribution === undefined
+    ? undefined
+    : {
+        treasuryDistribution: toSwapDistribution(
+          fromNullable(initialTokenDistribution.treasury_distribution)
+        ),
+        developerDistribution: toDeveloperDistribution(
+          fromNullable(initialTokenDistribution.developer_distribution)
+        ),
+        swapDistribution: toSwapDistribution(
+          fromNullable(initialTokenDistribution.swap_distribution)
+        ),
+      };
+};
