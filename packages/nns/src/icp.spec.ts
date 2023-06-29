@@ -1,5 +1,5 @@
+import { FromStringToTokenError } from "@dfinity/utils";
 import { describe, expect, it } from "@jest/globals";
-import { FromStringToTokenError } from "./enums/token.enums";
 import { ICP } from "./icp";
 
 describe("ICP", () => {

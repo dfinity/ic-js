@@ -11,6 +11,15 @@
 - utils `v0.0.18`
 - nns-proto `v0.0.4`
 
+## Breaking Changes
+
+- move `convertStringToE8s` and `TokenAmount` from Nns package to `@dfinity/utils`
+- retire `TokenAmount.toProto()`
+
+## Features
+
+- add a new utils function `decodePayment` to the `@dfinity/ledger` library. Useful to decode payment through QR code that contains target address and amount
+
 # 0.17.2 (2023-06-21)
 
 ## Release

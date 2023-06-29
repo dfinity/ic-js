@@ -1,6 +1,10 @@
 import type { ICPTs } from "@dfinity/nns-proto";
-import type { FromStringToTokenError } from "./enums/token.enums";
-import { convertStringToE8s, ICPToken, type Token } from "./token";
+import {
+  convertStringToE8s,
+  ICPToken,
+  type FromStringToTokenError,
+  type Token,
+} from "@dfinity/utils";
 import { importNnsProto } from "./utils/proto.utils";
 
 /**
