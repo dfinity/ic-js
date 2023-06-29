@@ -492,91 +492,91 @@ export interface ListNodeProvidersResponse {
 // CreateServiceNervousSystem
 
 export interface Percentage {
-  basis_points: bigint;
+  basisPoints?: bigint;
 }
 
 export interface Duration {
-  seconds: bigint;
+  seconds?: bigint;
 }
 
 export interface Tokens {
-  e8s: bigint;
+  e8s?: bigint;
 }
 
 export interface Image {
-  base64_encoding: string;
+  base64Encoding?: string;
 }
 
 export interface LedgerParameters {
-  transaction_fee: Tokens;
-  token_symbol: string;
-  token_logo: Image;
-  token_name: string;
+  transactionFee?: Tokens;
+  tokenSymbol?: string;
+  tokenLogo?: Image;
+  tokenName?: string;
 }
 
 export interface VotingRewardParameters {
-  reward_rate_transition_duration: Duration;
-  initial_reward_rate: Percentage;
-  final_reward_rate: Percentage;
+  rewardRateTransitionDuration?: Duration;
+  initialRewardRate?: Percentage;
+  finalRewardRate?: Percentage;
 }
 
 export interface GovernanceParameters {
-  neuron_maximum_dissolve_delay_bonus: Option<Percentage>;
-  neuron_maximum_age_for_age_bonus: Option<Duration>;
-  neuron_maximum_dissolve_delay: Option<Duration>;
-  neuron_minimum_dissolve_delay_to_vote: Option<Duration>;
-  neuron_maximum_age_bonus: Option<Percentage>;
-  neuron_minimum_stake: Option<Tokens>;
-  proposal_wait_for_quiet_deadline_increase: Option<Duration>;
-  proposal_initial_voting_period: Option<Duration>;
-  proposal_rejection_fee: Option<Tokens>;
-  voting_reward_parameters: Option<VotingRewardParameters>;
+  neuronMaximumDissolveDelayBonus?: Percentage;
+  neuronMaximumAgeForAgeBonus?: Duration;
+  neuronMaximumDissolveDelay?: Duration;
+  neuronMinimumDissolveDelayToVote?: Duration;
+  neuronMaximumAgeBonus?: Percentage;
+  neuronMinimumStake?: Tokens;
+  proposalWaitForQuietDeadlineIncrease?: Duration;
+  proposalInitialVotingPeriod?: Duration;
+  proposalRejectionFee?: Tokens;
+  votingRewardParameters?: VotingRewardParameters;
 }
 
 export interface NeuronBasketConstructionParameters {
-  dissolve_delay_interval: Duration;
-  count: bigint;
+  dissolveDelayInterval?: Duration;
+  count?: bigint;
 }
 export interface SwapParameters {
-  minimum_participants: bigint;
-  neuron_basket_construction_parameters: NeuronBasketConstructionParameters;
-  maximum_participant_icp: Tokens;
-  minimum_icp: Tokens;
-  minimum_participant_icp: Tokens;
-  maximum_icp: Tokens;
+  minimumParticipants?: bigint;
+  neuronBasketConstructionParameters?: NeuronBasketConstructionParameters;
+  maximumParticipantIcp?: Tokens;
+  minimumIcp?: Tokens;
+  minimumParticipantIcp?: Tokens;
+  maximumIcp?: Tokens;
 }
 
 export interface SwapDistribution {
-  total: Tokens;
+  total?: Tokens;
 }
 
 export interface NeuronDistribution {
-  controller: Principal;
-  dissolve_delay: Duration;
-  memo: bigint;
-  vesting_period: Duration;
-  stake: Tokens;
+  controller?: PrincipalString;
+  dissolveDelay?: Duration;
+  memo?: bigint;
+  vestingPeriod?: Duration;
+  stake?: Tokens;
 }
 
 export interface DeveloperDistribution {
-  developer_neurons: Array<NeuronDistribution>;
+  developerNeurons: Array<NeuronDistribution>;
 }
 
 export interface InitialTokenDistribution {
-  treasury_distribution: SwapDistribution;
-  developer_distribution: DeveloperDistribution;
-  swap_distribution: SwapDistribution;
+  treasuryDistribution?: SwapDistribution;
+  developerDistribution?: DeveloperDistribution;
+  swapDistribution?: SwapDistribution;
 }
 
 export interface CreateServiceNervousSystem {
-  url: string;
-  governance_parameters: GovernanceParameters;
-  fallback_controller_principal_ids: Array<Principal>;
-  logo: Image;
-  name: string;
-  ledger_parameters: LedgerParameters;
-  description: string;
-  dapp_canisters: Array<CanisterIdString>;
-  swap_parameters: SwapParameters;
-  initial_token_distribution: InitialTokenDistribution;
+  url?: string;
+  governanceParameters?: GovernanceParameters;
+  fallbackControllerPrincipalIds: Array<PrincipalString>;
+  logo?: Image;
+  name?: string;
+  ledgerParameters?: LedgerParameters;
+  description?: string;
+  dappCanisters: Array<CanisterIdString>;
+  swapParameters?: SwapParameters;
+  initialTokenDistribution?: InitialTokenDistribution;
 }
