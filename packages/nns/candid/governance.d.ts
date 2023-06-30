@@ -19,6 +19,7 @@ export type Action =
   | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
   | { Motion: Motion };
 export interface AddHotKey {
+  // test changes
   new_hot_key: [] | [Principal];
 }
 export interface AddOrRemoveNodeProvider {
