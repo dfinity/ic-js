@@ -11,4 +11,6 @@ export enum BtcAddressType {
   P2wpkhV0,
   P2pkh,
   P2sh,
+  P2wsh,
+  P2tr
 }

@@ -224,32 +224,63 @@ describe("BTC utils", () => {
     });
   });
 
-  describe("not supported address types", () => {
-    it("fails on Mainnet Bech32 P2WSH", () => {
+  describe("p2wsh and P2tr address type", () => {
+    it("Mainnet Bech32 P2WSH", () => {
       const address =
         "bc1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qccfmv3";
 
-      expect(() =>
-        parseBtcAddress({ address, network: BtcNetwork.Mainnet })
-      ).toThrow();
+      expect(parseBtcAddress({ address, network: BtcNetwork.Mainnet })).toEqual({
+        address,
+        network: BtcNetwork.Mainnet,
+        type: BtcAddressType.P2wsh,
+        parser: "bip-173"
+      });
     });
 
-    it("fails on Testnet Bech32 P2WSH", () => {
+    it("Testnet Bech32 P2WSH", () => {
       const address =
         "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7";
 
-      expect(() =>
-        parseBtcAddress({ address, network: BtcNetwork.Testnet })
-      ).toThrow();
+      expect(parseBtcAddress({ address, network: BtcNetwork.Testnet })).toEqual({
+        address,
+        network: BtcNetwork.Testnet,
+        type: BtcAddressType.P2wsh,
+        parser: "bip-173"
+      });
     });
 
+    it("Regtest Bech32 P2WSH", () => {
+      const address =
+        "bcrt1q5n2k3frgpxces3dsw4qfpqk4kksv0cz96pldxdwxrrw0d5ud5hcqzzx7zt";
+
+      expect(parseBtcAddress({ address, network: BtcNetwork.Regtest })).toEqual({
+        address,
+        network: BtcNetwork.Regtest,
+        type: BtcAddressType.P2wsh,
+        parser: "bip-173"
+      });
+    });
     it("fails on Regtest Bech32 P2WSH", () => {
       const address =
         "bcrt1q5n2k3frgpxces3dsw4qfpqk4kksv0cz96pldxdwxrrw0d5ud5hcqzzx7zt";
 
-      expect(() =>
-        parseBtcAddress({ address, network: BtcNetwork.Regtest })
-      ).toThrow();
+      expect(parseBtcAddress({ address, network: BtcNetwork.Regtest })).toEqual({
+        address,
+        network: BtcNetwork.Regtest,
+        type: BtcAddressType.P2wsh,
+        parser: "bip-173"
+      });
+    });
+    it("Mainnet Bech32m P2tr", () => {
+      const address =
+        "bc1pz37fc4cn9ah8anwm4xqqhvxygjf9rjf2resrw8h8w4tmvcs0863sa2e586";
+
+      expect(parseBtcAddress({ address, network: BtcNetwork.Mainnet })).toEqual({
+        address,
+        network: BtcNetwork.Mainnet,
+        type: BtcAddressType.P2tr,
+        parser: "bip-173"
+      });
     });
   });
 });
