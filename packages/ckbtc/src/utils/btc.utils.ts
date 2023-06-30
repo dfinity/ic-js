@@ -168,7 +168,6 @@ const parseBip173Address = ({
     } else if (witnessVersion == 1) {
       type = BtcAddressType.P2tr;
     } else {
-
     }
   }
 

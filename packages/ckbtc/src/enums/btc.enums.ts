@@ -12,5 +12,5 @@ export enum BtcAddressType {
   P2pkh,
   P2sh,
   P2wsh,
-  P2tr
+  P2tr,
 }
