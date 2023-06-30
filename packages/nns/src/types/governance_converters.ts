@@ -489,8 +489,6 @@ export interface ListNodeProvidersResponse {
   nodeProviders: NodeProvider[];
 }
 
-// CreateServiceNervousSystem
-
 export interface Percentage {
   basisPoints?: bigint;
 }
