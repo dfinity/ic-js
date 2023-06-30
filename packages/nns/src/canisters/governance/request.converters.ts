@@ -555,11 +555,15 @@ const fromAction = (action: Action): RawAction => {
   }
 
   if ("CreateServiceNervousSystem" in action) {
+    // TODO: uncomment when the CreateServiceNervousSystem dummy proposal is needed
+    /*
     return {
       CreateServiceNervousSystem: fromCreateServiceNervousSystem(
         action.CreateServiceNervousSystem
       ),
     };
+     */
+    throw new Error("CreateServiceNervousSystem is commented out");
   }
 
   // If there's a missing action, this line will cause a compiler error.
