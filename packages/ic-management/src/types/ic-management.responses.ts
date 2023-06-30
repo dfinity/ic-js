@@ -1,18 +1,12 @@
-import type { definite_canister_settings } from "../../candid/ic-management";
+import type { ServiceResponse } from "@dfinity/utils";
+import type { _SERVICE as IcManagementService } from "../../candid/ic-management";
 
-export interface CanisterStatusResponse {
-  status:
-    | {
-        stopped: null;
-      }
-    | {
-        stopping: null;
-      }
-    | {
-        running: null;
-      };
-  memory_size: bigint;
-  cycles: bigint;
-  settings: definite_canister_settings;
-  module_hash: [] | [Array<number>];
-}
+export type CanisterStatusResponse = ServiceResponse<
+  IcManagementService,
+  "canister_status"
+>;
+
+export type CanisterInfoResponse = ServiceResponse<
+  IcManagementService,
+  "canister_info"
+>;
