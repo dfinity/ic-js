@@ -7,15 +7,29 @@ import type {
   By as RawBy,
   Change as RawChange,
   Command as RawCommand,
+  CreateServiceNervousSystem as RawCreateServiceNervousSystem,
+  DeveloperDistribution as RawDeveloperDistribution,
+  Duration as RawDuration,
   Followees as RawFollowees,
+  GovernanceParameters as RawGovernanceParameters,
+  Image as RawImage,
+  InitialTokenDistribution as RawInitialTokenDistribution,
+  LedgerParameters as RawLedgerParameters,
   ListNeurons as RawListNeurons,
   ListProposalInfo,
   ManageNeuron as RawManageNeuron,
+  NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
+  NeuronDistribution as RawNeuronDistribution,
   NeuronId as RawNeuronId,
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
+  Percentage as RawPercentage,
   RewardMode as RawRewardMode,
+  SwapDistribution as RawSwapDistribution,
+  SwapParameters as RawSwapParameters,
+  Tokens as RawTokens,
+  VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
 import type { AccountIdentifier as AccountIdentifierClass } from "../../account_identifier";
 import type { Vote } from "../../enums/governance.enums";
@@ -27,16 +41,30 @@ import type {
   Change,
   ClaimOrRefreshNeuronRequest,
   Command,
+  CreateServiceNervousSystem,
+  DeveloperDistribution,
   DisburseToNeuronRequest,
+  Duration,
   FollowRequest,
+  GovernanceParameters,
+  Image,
+  InitialTokenDistribution,
+  LedgerParameters,
   ListProposalsRequest,
   MakeProposalRequest,
   ManageNeuron,
+  NeuronBasketConstructionParameters,
+  NeuronDistribution,
   NeuronIdOrSubaccount,
   NodeProvider,
   Operation,
+  Percentage,
   ProposalId,
   RewardMode,
+  SwapDistribution,
+  SwapParameters,
+  Tokens,
+  VotingRewardParameters,
 } from "../../types/governance_converters";
 import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
 
@@ -64,7 +92,6 @@ const fromNeuronIdOrSubaccount = (
   throw new UnsupportedValueError(neuronIdOrSubaccount);
 };
 
-/*
 const fromPercentage = (percentage: Percentage): RawPercentage =>
   percentage.basisPoints !== undefined
     ? { basis_points: [percentage.basisPoints] }
@@ -333,7 +360,6 @@ const fromCreateServiceNervousSystem = (
         ]
       : [],
 });
- */
 
 const fromAction = (action: Action): RawAction => {
   if ("ExecuteNnsFunction" in action) {
