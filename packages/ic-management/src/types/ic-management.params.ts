@@ -76,3 +76,14 @@ export interface CanisterInfoParams {
   canisterId: Principal;
   numRequestChanges?: bigint;
 }
+
+export interface ProvisionalCreateCanisterWithCyclesParams {
+  amount?: bigint;
+  settings?: CanisterSettings;
+  canisterId?: Principal;
+}
+
+export interface ProvisionalTopUpCanisterParams {
+  canisterId: Principal;
+  amount: bigint;
+}
