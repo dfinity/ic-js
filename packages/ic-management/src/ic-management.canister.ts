@@ -7,6 +7,7 @@ import type { ICManagementCanisterOptions } from "./types/canister.options";
 import type {
   CanisterInfoParams,
   CreateCanisterParams,
+  ProvisionalCreateCanisterWithCyclesParams,
   UninstallCodeParams,
 } from "./types/ic-management.params";
 import {
@@ -175,4 +176,28 @@ export class ICManagementCanister {
    */
   deleteCanister = (canisterId: Principal): Promise<void> =>
     this.service.delete_canister({ canister_id: canisterId });
+
+  /**
+   * Creates a canister. Only available on development instances.
+   *
+   * @param {Object} params
+   * @param {Principal} params.canisterId
+   * @param {BigInt} params.amount
+   * @param {CanisterSettings} params.settings
+   * @returns
+   */
+  provisionalCreateCanisterWithCycles = async ({
+    settings,
+    amount,
+    canisterId,
+  }: ProvisionalCreateCanisterWithCyclesParams = {}): Promise<Principal> => {
+    const { canister_id } =
+      await this.service.provisional_create_canister_with_cycles({
+        settings: toNullable(toCanisterSettings(settings)),
+        amount: toNullable(amount),
+        specified_id: toNullable(canisterId),
+      });
+
+    return canister_id;
+  };
 }
