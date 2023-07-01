@@ -1,6 +1,5 @@
 import type { DerEncodedPublicKey } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
-import type { CreateServiceNervousSystem } from "../../candid/governance";
 import type {
   NeuronState,
   ProposalRewardStatus,
@@ -22,7 +21,6 @@ export type Action =
   | {
       ExecuteNnsFunction: ExecuteNnsFunction;
     }
-  // TODO: Create new CreateServiceNervousSystem type (don't use array for optional fields)
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ManageNeuron: ManageNeuron }
   | { ApproveGenesisKyc: ApproveGenesisKyc }
@@ -489,4 +487,94 @@ export interface MakeExecuteNnsFunctionProposalRequest {
 
 export interface ListNodeProvidersResponse {
   nodeProviders: NodeProvider[];
+}
+
+export interface Percentage {
+  basisPoints?: bigint;
+}
+
+export interface Duration {
+  seconds?: bigint;
+}
+
+export interface Tokens {
+  e8s?: bigint;
+}
+
+export interface Image {
+  base64Encoding?: string;
+}
+
+export interface LedgerParameters {
+  transactionFee?: Tokens;
+  tokenSymbol?: string;
+  tokenLogo?: Image;
+  tokenName?: string;
+}
+
+export interface VotingRewardParameters {
+  rewardRateTransitionDuration?: Duration;
+  initialRewardRate?: Percentage;
+  finalRewardRate?: Percentage;
+}
+
+export interface GovernanceParameters {
+  neuronMaximumDissolveDelayBonus?: Percentage;
+  neuronMaximumAgeForAgeBonus?: Duration;
+  neuronMaximumDissolveDelay?: Duration;
+  neuronMinimumDissolveDelayToVote?: Duration;
+  neuronMaximumAgeBonus?: Percentage;
+  neuronMinimumStake?: Tokens;
+  proposalWaitForQuietDeadlineIncrease?: Duration;
+  proposalInitialVotingPeriod?: Duration;
+  proposalRejectionFee?: Tokens;
+  votingRewardParameters?: VotingRewardParameters;
+}
+
+export interface NeuronBasketConstructionParameters {
+  dissolveDelayInterval?: Duration;
+  count?: bigint;
+}
+export interface SwapParameters {
+  minimumParticipants?: bigint;
+  neuronBasketConstructionParameters?: NeuronBasketConstructionParameters;
+  maximumParticipantIcp?: Tokens;
+  minimumIcp?: Tokens;
+  minimumParticipantIcp?: Tokens;
+  maximumIcp?: Tokens;
+}
+
+export interface SwapDistribution {
+  total?: Tokens;
+}
+
+export interface NeuronDistribution {
+  controller?: PrincipalString;
+  dissolveDelay?: Duration;
+  memo?: bigint;
+  vestingPeriod?: Duration;
+  stake?: Tokens;
+}
+
+export interface DeveloperDistribution {
+  developerNeurons: Array<NeuronDistribution>;
+}
+
+export interface InitialTokenDistribution {
+  treasuryDistribution?: SwapDistribution;
+  developerDistribution?: DeveloperDistribution;
+  swapDistribution?: SwapDistribution;
+}
+
+export interface CreateServiceNervousSystem {
+  url?: string;
+  governanceParameters?: GovernanceParameters;
+  fallbackControllerPrincipalIds: Array<PrincipalString>;
+  logo?: Image;
+  name?: string;
+  ledgerParameters?: LedgerParameters;
+  description?: string;
+  dappCanisters: Array<CanisterIdString>;
+  swapParameters?: SwapParameters;
+  initialTokenDistribution?: InitialTokenDistribution;
 }

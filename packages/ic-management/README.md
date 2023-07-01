@@ -57,8 +57,15 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 #### Methods
 
 - [create](#gear-create)
-- [canisterStatus](#gear-canisterstatus)
+- [createCanister](#gear-createcanister)
 - [updateSettings](#gear-updatesettings)
+- [installCode](#gear-installcode)
+- [uninstallCode](#gear-uninstallcode)
+- [startCanister](#gear-startcanister)
+- [stopCanister](#gear-stopcanister)
+- [canisterStatus](#gear-canisterstatus)
+- [canisterInfo](#gear-canisterinfo)
+- [deleteCanister](#gear-deletecanister)
 
 ##### :gear: create
 
@@ -66,21 +73,77 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 | -------- | ---------------------------------------------------------------- |
 | `create` | `(options: ICManagementCanisterOptions) => ICManagementCanister` |
 
-##### :gear: canisterStatus
+##### :gear: createCanister
 
-Returns canister details (memory size, status, etc.)
+Create a new canister
 
-| Method           | Type                                                         |
-| ---------------- | ------------------------------------------------------------ |
-| `canisterStatus` | `(canisterId: Principal) => Promise<CanisterStatusResponse>` |
+| Method           | Type                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------ |
+| `createCanister` | `({ settings, senderCanisterVerion, }?: CreateCanisterParams) => Promise<Principal>` |
 
 ##### :gear: updateSettings
 
 Update canister settings
 
-| Method           | Type                                                                                                                                           |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `updateSettings` | `({ canisterId, settings: { controllers, freezingThreshold, memoryAllocation, computeAllocation, }, }: UpdateSettingsParams) => Promise<void>` |
+| Method           | Type                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------ |
+| `updateSettings` | `({ canisterId, senderCanisterVerion, settings, }: UpdateSettingsParams) => Promise<void>` |
+
+##### :gear: installCode
+
+Install code to a canister
+
+| Method        | Type                                                                                                 |
+| ------------- | ---------------------------------------------------------------------------------------------------- |
+| `installCode` | `({ mode, canisterId, wasmModule, arg, senderCanisterVerion, }: InstallCodeParams) => Promise<void>` |
+
+##### :gear: uninstallCode
+
+Uninstall code from a canister
+
+| Method          | Type                                                                            |
+| --------------- | ------------------------------------------------------------------------------- |
+| `uninstallCode` | `({ canisterId, senderCanisterVerion, }: UninstallCodeParams) => Promise<void>` |
+
+##### :gear: startCanister
+
+Start a canister
+
+| Method          | Type                                       |
+| --------------- | ------------------------------------------ |
+| `startCanister` | `(canisterId: Principal) => Promise<void>` |
+
+##### :gear: stopCanister
+
+Stop a canister
+
+| Method         | Type                                       |
+| -------------- | ------------------------------------------ |
+| `stopCanister` | `(canisterId: Principal) => Promise<void>` |
+
+##### :gear: canisterStatus
+
+Get canister details (memory size, status, etc.)
+
+| Method           | Type                                                                                    |
+| ---------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| `canisterStatus` | `(canisterId: Principal) => Promise<{ status: { stopped: null; } or { stopping: null; } | { running: null; }; memory_size: bigint; cycles: bigint; settings: definite_canister_settings; idle_cycles_burned_per_day: bigint; module_hash: [] | [...]; }>` |
+
+##### :gear: canisterInfo
+
+Get canister info (controllers, module hash, changes, etc.)
+
+| Method         | Type                                                                                                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `canisterInfo` | `({ canisterId, numRequestChanges, }: CanisterInfoParams) => Promise<{ controllers: Principal[]; module_hash: [] or [Uint8Array]; recent_changes: change[]; total_num_changes: bigint; }>` |
+
+##### :gear: deleteCanister
+
+Deletes a canister
+
+| Method           | Type                                       |
+| ---------------- | ------------------------------------------ |
+| `deleteCanister` | `(canisterId: Principal) => Promise<void>` |
 
 <!-- TSDOC_END -->
 
