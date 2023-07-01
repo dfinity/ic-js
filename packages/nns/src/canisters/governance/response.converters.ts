@@ -6,8 +6,11 @@ import type {
   PrincipalId,
 } from "@dfinity/nns-proto";
 import { Principal } from "@dfinity/principal";
-import { fromNullable, uint8ArrayToArrayOfNumber } from "@dfinity/utils";
-import { fromDefinedNullable } from "@dfinity/utils/src";
+import {
+  fromDefinedNullable,
+  fromNullable,
+  uint8ArrayToArrayOfNumber,
+} from "@dfinity/utils";
 import type { Map } from "google-protobuf";
 import type {
   AccountIdentifier as RawAccountIdentifier,
