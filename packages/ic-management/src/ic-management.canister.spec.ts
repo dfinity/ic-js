@@ -361,4 +361,50 @@ describe("ICManagementCanister", () => {
       expect(call).rejects.toThrowError(Error);
     });
   });
+
+  describe("provisionalCreateCanisterWithCycles", () => {
+    it("calls provisional_create_canister_with_cycles", async () => {
+      const response: ServiceResponse<
+        IcManagementService,
+        "provisional_create_canister_with_cycles"
+      > = {
+        canister_id: mockCanisterId,
+      };
+      const service = mock<IcManagementService>();
+      service.provisional_create_canister_with_cycles.mockResolvedValue(
+        response
+      );
+
+      const icManagement = await createICManagement(service);
+
+      await icManagement.provisionalCreateCanisterWithCycles();
+
+      expect(
+        service.provisional_create_canister_with_cycles
+      ).toHaveBeenCalledWith({
+        amount: [],
+        settings: [
+          {
+            controllers: [],
+            compute_allocation: [],
+            freezing_threshold: [],
+            memory_allocation: [],
+          },
+        ],
+        specified_id: [],
+      });
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.delete_canister.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.provisionalCreateCanisterWithCycles();
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
 });
