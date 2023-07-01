@@ -377,21 +377,18 @@ describe("ICManagementCanister", () => {
 
       const icManagement = await createICManagement(service);
 
-      await icManagement.provisionalCreateCanisterWithCycles();
+      await icManagement.provisionalCreateCanisterWithCycles({
+        amount: BigInt(100_000),
+        canisterId: mockCanisterId,
+        settings: mockCanisterSettings,
+      });
 
       expect(
         service.provisional_create_canister_with_cycles
       ).toHaveBeenCalledWith({
-        amount: [],
-        settings: [
-          {
-            controllers: [],
-            compute_allocation: [],
-            freezing_threshold: [],
-            memory_allocation: [],
-          },
-        ],
-        specified_id: [],
+        amount: [BigInt(100_000)],
+        settings: [mappedMockCanisterSettings],
+        specified_id: [mockCanisterId],
       });
     });
 

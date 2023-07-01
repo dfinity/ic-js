@@ -184,7 +184,7 @@ export class ICManagementCanister {
    * @param {Principal} params.canisterId
    * @param {BigInt} params.amount
    * @param {CanisterSettings} params.settings
-   * @returns
+   * @returns {Promise<Principal>}
    */
   provisionalCreateCanisterWithCycles = async ({
     settings,
