@@ -16,7 +16,7 @@ import { isNullish, nonNullish } from "@dfinity/utils";
  * params        = param [ "&" params ]
  * param         = [ amountparam ]
  * amountparam   = "amount=" *digit [ "." *digit ]
- * ``
+ * ```
  *
  * @param code string
  * @returns { token: string; identifier: string; amount?: number } | undefined
