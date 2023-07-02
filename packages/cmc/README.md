@@ -94,4 +94,6 @@ It returns the new Cycles of the canister.
 | ------------- | ---------------------------------------------- |
 | `notifyTopUp` | `(request: NotifyTopUpArg) => Promise<bigint>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L13)
+
 <!-- TSDOC_END -->
