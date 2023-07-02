@@ -73,8 +73,6 @@ Parameters:
 
 - `account`: : Principal, subaccount?: Uint8Array }
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/ledger.utils.ts#L21)
-
 #### :gear: decodeIcrcAccount
 
 Decodes a string into an Icrc-1 compatible account.
@@ -87,8 +85,6 @@ Formatting Reference: https://github.com/dfinity/ICRC-1/pull/98
 Parameters:
 
 - `accountString`: string
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/ledger.utils.ts#L59)
 
 #### :gear: decodePayment
 
@@ -116,8 +112,6 @@ amountparam   = "amount=" *digit [ "." *digit ]
 Parameters:
 
 - `code`: string
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/payment.utils.ts#L24)
 
 ### :factory: IcrcLedgerCanister
 
@@ -184,8 +178,6 @@ Returns the total supply of tokens.
 | ------------------- | ------------------------------------------ |
 | `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L16)
-
 ### :factory: IcrcIndexCanister
 
 #### Methods
@@ -211,8 +203,6 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 | Method            | Type                                                                 |
 | ----------------- | -------------------------------------------------------------------- |
 | `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L13)
 
 <!-- TSDOC_END -->
 

@@ -87,8 +87,6 @@ Parameters:
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal to match against the selected neurons.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L39)
-
 #### :gear: votableNeurons
 
 Filter the neurons that can vote for a proposal - i.e. the neurons that have not voted yet and are eligible
@@ -102,8 +100,6 @@ Parameters:
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal to match against the selected neurons.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L68)
-
 #### :gear: votedNeurons
 
 Filter the neurons that have voted for a proposal.
@@ -116,8 +112,6 @@ Parameters:
 
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal for which some neurons might have already voted.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L94)
 
 ### :factory: AccountIdentifier
 
@@ -173,8 +167,6 @@ Parameters:
 | ------------------------- | ------------------------- |
 | `toAccountIdentifierHash` | `() => AccountIdentifier` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L12)
-
 ### :factory: SubAccount
 
 #### Methods
@@ -208,8 +200,6 @@ Parameters:
 | -------------- | ------------------ |
 | `toUint8Array` | `() => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L73)
-
 ### :factory: GenesisTokenCanister
 
 #### Methods
@@ -228,8 +218,6 @@ Parameters:
 | Method         | Type                                                            |
 | -------------- | --------------------------------------------------------------- |
 | `claimNeurons` | `({ hexPubKey, }: { hexPubKey: string; }) => Promise<bigint[]>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/genesis_token.canister.ts#L9)
 
 ### :factory: LedgerCanister
 
@@ -273,8 +261,6 @@ Returns the index of the block containing the tx if it was successful.
 | Method     | Type                                            |
 | ---------- | ----------------------------------------------- |
 | `transfer` | `(request: TransferRequest) => Promise<bigint>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main//home/runner/work/ic-js/ic-js/packages/nns/src/ledger.canister.ts#L27)
 
 ### :factory: GovernanceCanister
 
@@ -584,8 +570,6 @@ Return the data of the neuron provided as id.
 | ----------- | ---------------------------------------------------------------------------------------------- |
 | `getNeuron` | `({ certified, neuronId, }: { certified: boolean; neuronId: bigint; }) => Promise<NeuronInfo>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L106)
-
 ### :factory: ICP
 
 We don't extend to keep `fromE8s` and `fromString` as backwards compatible.
@@ -627,8 +611,6 @@ Initialize from a string. Accepted formats:
 | --------- | ---------------------- |
 | `toProto` | `() => Promise<ICPTs>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L14)
-
 ### :factory: SnsWasmCanister
 
 #### Methods
@@ -647,7 +629,5 @@ Initialize from a string. Accepted formats:
 | Method      | Type                                                                   |
 | ----------- | ---------------------------------------------------------------------- |
 | `listSnses` | `({ certified, }: { certified?: boolean; }) => Promise<DeployedSns[]>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/sns_wasm.canister.ts#L10)
 
 <!-- TSDOC_END -->
