@@ -79,6 +79,8 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 | ---------------- | ---------------- |
 | `initSnsWrapper` | `InitSnsWrapper` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.ts#L33)
+
 ### :factory: SnsGovernanceCanister
 
 #### Methods
@@ -315,6 +317,8 @@ Claim neuron
 | ------------- | -------------------------------------------------------------------------------- |
 | `claimNeuron` | `({ memo, controller, subaccount, }: SnsClaimNeuronParams) => Promise<NeuronId>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L60)
+
 ### :factory: SnsRootCanister
 
 #### Methods
@@ -337,6 +341,8 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 | Method             | Type                                                                              |
 | ------------------ | --------------------------------------------------------------------------------- |
 | `listSnsCanisters` | `({ certified, }: { certified?: boolean; }) => Promise<ListSnsCanistersResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L10)
 
 ### :factory: SnsSwapCanister
 
@@ -430,6 +436,8 @@ Get sale lifecycle state
 | Method         | Type                                                     |
 | -------------- | -------------------------------------------------------- |
 | `getLifecycle` | `(params: QueryParams) => Promise<GetLifecycleResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main//home/runner/work/ic-js/ic-js/packages/sns/src/swap.canister.ts#L30)
 
 ### :factory: SnsWrapper
 
@@ -764,5 +772,7 @@ Always certified
 | Method              | Type                                                          |
 | ------------------- | ------------------------------------------------------------- |
 | `autoStakeMaturity` | `(params: SnsNeuronAutoStakeMaturityParams) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main//home/runner/work/ic-js/ic-js/packages/sns/src/sns.wrapper.ts#L82)
 
 <!-- TSDOC_END -->
