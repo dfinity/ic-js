@@ -44,51 +44,56 @@ const icMgmtInputFiles = [
   "./packages/ic-management/src/ic-management.canister.ts",
 ];
 
+const markdownOptions = {
+  headingLevel: "###",
+  repo: { url: "https://github.com/dfinity/ic-js" },
+};
+
 generateDocumentation({
   inputFiles: nnsInputFiles,
   outputFile: "./packages/nns/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
 });
 
 generateDocumentation({
   inputFiles: snsInputFiles,
   outputFile: "./packages/sns/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
 });
 
 generateDocumentation({
   inputFiles: cmcInputFiles,
   outputFile: "./packages/cmc/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
 });
 
 generateDocumentation({
   inputFiles: ledgerInputFiles,
   outputFile: "./packages/ledger/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
 });
 
 generateDocumentation({
   inputFiles: ckBTCInputFiles,
   outputFile: "./packages/ckbtc/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
 });
 
 generateDocumentation({
   inputFiles: utilsInputFiles,
   outputFile: "./packages/utils/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
   buildOptions: { explore: true },
 });
 
 generateDocumentation({
   inputFiles: rosettaInputFiles,
   outputFile: "./packages/rosetta-client/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
 });
 
 generateDocumentation({
   inputFiles: icMgmtInputFiles,
   outputFile: "./packages/ic-management/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
 });
