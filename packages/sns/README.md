@@ -81,16 +81,6 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 
 ### :factory: SnsGovernanceCanister
 
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
-
 #### Methods
 
 - [create](#gear-create)
@@ -327,16 +317,6 @@ Claim neuron
 
 ### :factory: SnsRootCanister
 
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
-
 #### Methods
 
 - [create](#gear-create)
@@ -359,16 +339,6 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 | `listSnsCanisters` | `({ certified, }: { certified?: boolean; }) => Promise<ListSnsCanistersResponse>` |
 
 ### :factory: SnsSwapCanister
-
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
 
 #### Methods
 
