@@ -96,12 +96,14 @@ Similarly, if an optional amount is provided but it's not a valid number, the pa
 Please note that this function doesn't perform any validity checks on the extracted information.
 It does not verify if the token is known or if the identifier is a valid address.
 
-urn = token ":" address [ "?" params]
-token = [ ckbtc / icp / chat / bitcoin / ethereum ... ]
-address = STRING
-params = param [ "&" params ]
-param = [ amountparam ]
-amountparam = "amount=" *digit [ "." *digit ]
+```
+urn            = token ":" address [ "?" params]
+token         = [ ckbtc / icp / chat / bitcoin / ethereum ... ]
+address       = STRING
+params        = param [ "&" params ]
+param         = [ amountparam ]
+amountparam   = "amount=" *digit [ "." *digit ]
+```
 
 | Function        | Type                                                                        |
 | --------------- | --------------------------------------------------------------------------- |
@@ -112,16 +114,6 @@ Parameters:
 - `code`: string
 
 ### :factory: IcrcLedgerCanister
-
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
 
 #### Methods
 
@@ -187,16 +179,6 @@ Returns the total supply of tokens.
 | `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
 
 ### :factory: IcrcIndexCanister
-
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
 
 #### Methods
 

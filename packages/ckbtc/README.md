@@ -76,16 +76,6 @@ Parameters:
 
 ### :factory: CkBTCMinterCanister
 
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
-
 #### Methods
 
 - [create](#gear-create)

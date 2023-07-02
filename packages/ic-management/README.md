@@ -66,6 +66,7 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 - [canisterStatus](#gear-canisterstatus)
 - [canisterInfo](#gear-canisterinfo)
 - [deleteCanister](#gear-deletecanister)
+- [provisionalCreateCanisterWithCycles](#gear-provisionalcreatecanisterwithcycles)
 
 ##### :gear: create
 
@@ -144,6 +145,14 @@ Deletes a canister
 | Method           | Type                                       |
 | ---------------- | ------------------------------------------ |
 | `deleteCanister` | `(canisterId: Principal) => Promise<void>` |
+
+##### :gear: provisionalCreateCanisterWithCycles
+
+Creates a canister. Only available on development instances.
+
+| Method                                | Type                                                                                                    |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `provisionalCreateCanisterWithCycles` | `({ settings, amount, canisterId, }?: ProvisionalCreateCanisterWithCyclesParams) => Promise<Principal>` |
 
 <!-- TSDOC_END -->
 

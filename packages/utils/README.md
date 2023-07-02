@@ -347,34 +347,8 @@ Parameters:
 
 ### :factory: Canister
 
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
-
 ### :factory: InvalidPercentageError
 
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `message`
-
 ### :factory: NullishError
-
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `message`
 
 <!-- TSDOC_END -->
