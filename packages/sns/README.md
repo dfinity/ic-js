@@ -83,6 +83,8 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 
 ### :factory: SnsGovernanceCanister
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L60)
+
 #### Methods
 
 - [create](#gear-create)
@@ -122,6 +124,8 @@ Parameters:
 
 - `options`: Miscellaneous options to initialize the canister. Its ID being the only mandatory parammeter.
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L66)
+
 ##### :gear: listNeurons
 
 List the neurons of the Sns
@@ -129,6 +133,8 @@ List the neurons of the Sns
 | Method        | Type                                                  |
 | ------------- | ----------------------------------------------------- |
 | `listNeurons` | `(params: SnsListNeuronsParams) => Promise<Neuron[]>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L80)
 
 ##### :gear: listProposals
 
@@ -138,6 +144,8 @@ List the proposals of the Sns
 | --------------- | ------------------------------------------------------------- |
 | `listProposals` | `(params: SnsListProposalsParams) => Promise<ProposalData[]>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L94)
+
 ##### :gear: getProposal
 
 Get the proposal of the Sns
@@ -145,6 +153,8 @@ Get the proposal of the Sns
 | Method        | Type                                                      |
 | ------------- | --------------------------------------------------------- |
 | `getProposal` | `(params: SnsGetProposalParams) => Promise<ProposalData>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L108)
 
 ##### :gear: listNervousSystemFunctions
 
@@ -155,6 +165,8 @@ Neurons can follow other neurons in specific Nervous System Functions.
 | ---------------------------- | ---------------------------------------------------------------------- |
 | `listNervousSystemFunctions` | `(params: QueryParams) => Promise<ListNervousSystemFunctionsResponse>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L127)
+
 ##### :gear: metadata
 
 Get the Sns metadata (title, description, etc.)
@@ -162,6 +174,8 @@ Get the Sns metadata (title, description, etc.)
 | Method     | Type                                                    |
 | ---------- | ------------------------------------------------------- |
 | `metadata` | `(params: QueryParams) => Promise<GetMetadataResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L135)
 
 ##### :gear: nervousSystemParameters
 
@@ -171,6 +185,8 @@ Get the Sns nervous system parameters (default followees, max dissolve delay, ma
 | ------------------------- | ----------------------------------------------------------- |
 | `nervousSystemParameters` | `(params: QueryParams) => Promise<NervousSystemParameters>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L141)
+
 ##### :gear: getNeuron
 
 Get the neuron of the Sns
@@ -178,6 +194,8 @@ Get the neuron of the Sns
 | Method      | Type                                              |
 | ----------- | ------------------------------------------------- |
 | `getNeuron` | `(params: SnsGetNeuronParams) => Promise<Neuron>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L149)
 
 ##### :gear: queryNeuron
 
@@ -187,6 +205,8 @@ Same as `getNeuron` but returns undefined instead of raising error when not foun
 | ------------- | ------------------------------------------------- |
 | `queryNeuron` | `(params: SnsGetNeuronParams) => Promise<Neuron>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L167)
+
 ##### :gear: manageNeuron
 
 Manage neuron. For advanced users.
@@ -194,6 +214,8 @@ Manage neuron. For advanced users.
 | Method         | Type                                                       |
 | -------------- | ---------------------------------------------------------- |
 | `manageNeuron` | `(request: ManageNeuron) => Promise<ManageNeuronResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L187)
 
 ##### :gear: addNeuronPermissions
 
@@ -203,6 +225,8 @@ Add permissions to a neuron for a specific principal
 | ---------------------- | ------------------------------------------------------- |
 | `addNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L200)
+
 ##### :gear: removeNeuronPermissions
 
 Remove permissions to a neuron for a specific principal
@@ -210,6 +234,8 @@ Remove permissions to a neuron for a specific principal
 | Method                    | Type                                                    |
 | ------------------------- | ------------------------------------------------------- |
 | `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L210)
 
 ##### :gear: splitNeuron
 
@@ -219,6 +245,8 @@ Split neuron
 | ------------- | ----------------------------------------------------- |
 | `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<NeuronId>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L220)
+
 ##### :gear: disburse
 
 Disburse neuron on Account
@@ -226,6 +254,8 @@ Disburse neuron on Account
 | Method     | Type                                                 |
 | ---------- | ---------------------------------------------------- |
 | `disburse` | `(params: SnsDisburseNeuronParams) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L251)
 
 ##### :gear: startDissolving
 
@@ -235,6 +265,8 @@ Start dissolving process of a neuron
 | ----------------- | --------------------------------------- |
 | `startDissolving` | `(neuronId: NeuronId) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L259)
+
 ##### :gear: stopDissolving
 
 Stop dissolving process of a neuron
@@ -242,6 +274,8 @@ Stop dissolving process of a neuron
 | Method           | Type                                    |
 | ---------------- | --------------------------------------- |
 | `stopDissolving` | `(neuronId: NeuronId) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L267)
 
 ##### :gear: stakeMaturity
 
@@ -256,6 +290,8 @@ Parameters:
 - `neuronId`: The id of the neuron for which to stake the maturity
 - `percentageToStake`: Optional. Percentage of the current maturity to stake. If not provided, all of the neuron's current maturity will be staked.
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L279)
+
 ##### :gear: autoStakeMaturity
 
 Changes auto-stake maturity for a Neuron.
@@ -269,6 +305,8 @@ Parameters:
 - `neuronId`: The id of the neuron for which to request a change of the auto stake feature
 - `autoStake`: `true` to enable the auto-stake maturity for this neuron, `false` to turn it off
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L299)
+
 ##### :gear: setDissolveTimestamp
 
 Increase dissolve delay of a neuron
@@ -276,6 +314,8 @@ Increase dissolve delay of a neuron
 | Method                 | Type                                                       |
 | ---------------------- | ---------------------------------------------------------- |
 | `setDissolveTimestamp` | `(params: SnsSetDissolveTimestampParams) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L309)
 
 ##### :gear: increaseDissolveDelay
 
@@ -285,6 +325,8 @@ Increase dissolve delay of a neuron
 | ----------------------- | ----------------------------------------------------------- |
 | `increaseDissolveDelay` | `(params: SnsIncreaseDissolveDelayParams) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L319)
+
 ##### :gear: setTopicFollowees
 
 Sets followees of a neuron for a specific Nervous System Function (topic)
@@ -292,6 +334,8 @@ Sets followees of a neuron for a specific Nervous System Function (topic)
 | Method              | Type                                              |
 | ------------------- | ------------------------------------------------- |
 | `setTopicFollowees` | `(params: SnsSetTopicFollowees) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L329)
 
 ##### :gear: registerVote
 
@@ -301,6 +345,8 @@ Registers vote for a proposal from the neuron passed.
 | -------------- | -------------------------------------------------- |
 | `registerVote` | `(params: SnsRegisterVoteParams) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L337)
+
 ##### :gear: refreshNeuron
 
 Refresh neuron
@@ -308,6 +354,8 @@ Refresh neuron
 | Method          | Type                                    |
 | --------------- | --------------------------------------- |
 | `refreshNeuron` | `(neuronId: NeuronId) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L345)
 
 ##### :gear: claimNeuron
 
@@ -317,9 +365,11 @@ Claim neuron
 | ------------- | -------------------------------------------------------------------------------- |
 | `claimNeuron` | `({ memo, controller, subaccount, }: SnsClaimNeuronParams) => Promise<NeuronId>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L60)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L355)
 
 ### :factory: SnsRootCanister
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L10)
 
 #### Methods
 
@@ -332,6 +382,8 @@ Claim neuron
 | -------- | ------------------------------------------------------------ |
 | `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsRootCanister` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L11)
+
 ##### :gear: listSnsCanisters
 
 List the canisters that are part of the Sns.
@@ -342,9 +394,11 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 | ------------------ | --------------------------------------------------------------------------------- |
 | `listSnsCanisters` | `({ certified, }: { certified?: boolean; }) => Promise<ListSnsCanistersResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L10)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L32)
 
 ### :factory: SnsSwapCanister
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L30)
 
 #### Methods
 
@@ -365,6 +419,8 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 | -------- | ------------------------------------------------------------ |
 | `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsSwapCanister` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L31)
+
 ##### :gear: state
 
 Get the state of the swap
@@ -372,6 +428,8 @@ Get the state of the swap
 | Method  | Type                                                 |
 | ------- | ---------------------------------------------------- |
 | `state` | `(params: QueryParams) => Promise<GetStateResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L45)
 
 ##### :gear: notifyPaymentFailure
 
@@ -381,6 +439,8 @@ Notify of the payment failure to remove the ticket
 | ---------------------- | ----------------------- |
 | `notifyPaymentFailure` | `() => Promise<Ticket>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L51)
+
 ##### :gear: notifyParticipation
 
 Notify of the user participating in the swap
@@ -388,6 +448,8 @@ Notify of the user participating in the swap
 | Method                | Type                                                                         |
 | --------------------- | ---------------------------------------------------------------------------- |
 | `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<RefreshBuyerTokensResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L61)
 
 ##### :gear: getUserCommitment
 
@@ -397,6 +459,8 @@ Get user commitment
 | ------------------- | ----------------------------------------------------------------------- |
 | `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L69)
+
 ##### :gear: getDerivedState
 
 Get sale buyers state
@@ -404,6 +468,8 @@ Get sale buyers state
 | Method            | Type                                                                |
 | ----------------- | ------------------------------------------------------------------- |
 | `getDerivedState` | `({ certified, }: QueryParams) => Promise<GetDerivedStateResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L81)
 
 ##### :gear: getSaleParameters
 
@@ -413,6 +479,8 @@ Get sale parameters
 | ------------------- | --------------------------------------------------------------------- |
 | `getSaleParameters` | `({ certified, }: QueryParams) => Promise<GetSaleParametersResponse>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L90)
+
 ##### :gear: getOpenTicket
 
 Return a sale ticket if created and not yet removed (payment flow)
@@ -420,6 +488,8 @@ Return a sale ticket if created and not yet removed (payment flow)
 | Method          | Type                                       |
 | --------------- | ------------------------------------------ |
 | `getOpenTicket` | `(params: QueryParams) => Promise<Ticket>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L99)
 
 ##### :gear: newSaleTicket
 
@@ -429,6 +499,8 @@ Create a sale ticket (payment flow)
 | --------------- | -------------------------------------------------- |
 | `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Ticket>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L116)
+
 ##### :gear: getLifecycle
 
 Get sale lifecycle state
@@ -437,13 +509,15 @@ Get sale lifecycle state
 | -------------- | -------------------------------------------------------- |
 | `getLifecycle` | `(params: QueryParams) => Promise<GetLifecycleResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L30)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L141)
 
 ### :factory: SnsWrapper
 
 Sns wrapper - notably used by NNS-dapp - ease the access to a particular Sns.
 It knows all the Sns' canisters, wrap and enhance their available features.
 A wrapper either performs query or update calls.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L82)
 
 #### Constructors
 
@@ -503,11 +577,15 @@ Parameters:
 | ------------- | ------------------------------------------------------------------------ |
 | `listNeurons` | `(params: Omit<SnsListNeuronsParams, "certified">) => Promise<Neuron[]>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L128)
+
 ##### :gear: listProposals
 
 | Method          | Type                                                                             |
 | --------------- | -------------------------------------------------------------------------------- |
 | `listProposals` | `(params: Omit<SnsListProposalsParams, "certified">) => Promise<ProposalData[]>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L132)
 
 ##### :gear: getProposal
 
@@ -515,11 +593,15 @@ Parameters:
 | ------------- | ---------------------------------------------------------------------------- |
 | `getProposal` | `(params: Omit<SnsGetProposalParams, "certified">) => Promise<ProposalData>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L137)
+
 ##### :gear: listNervousSystemFunctions
 
 | Method                       | Type                                                                                      |
 | ---------------------------- | ----------------------------------------------------------------------------------------- |
 | `listNervousSystemFunctions` | `(params: Omit<QueryParams, "certified">) => Promise<ListNervousSystemFunctionsResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L142)
 
 ##### :gear: metadata
 
@@ -527,11 +609,15 @@ Parameters:
 | ---------- | ------------------------------------------------------------------------------------------------------- |
 | `metadata` | `(params: Omit<QueryParams, "certified">) => Promise<[GetMetadataResponse, IcrcTokenMetadataResponse]>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L147)
+
 ##### :gear: nervousSystemParameters
 
 | Method                    | Type                                                                           |
 | ------------------------- | ------------------------------------------------------------------------------ |
 | `nervousSystemParameters` | `(params: Omit<QueryParams, "certified">) => Promise<NervousSystemParameters>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L155)
 
 ##### :gear: ledgerMetadata
 
@@ -539,11 +625,15 @@ Parameters:
 | ---------------- | -------------------------------------------------------------------------------- |
 | `ledgerMetadata` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokenMetadataResponse>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L160)
+
 ##### :gear: transactionFee
 
 | Method           | Type                                                          |
 | ---------------- | ------------------------------------------------------------- |
 | `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L165)
 
 ##### :gear: totalTokensSupply
 
@@ -551,11 +641,15 @@ Parameters:
 | ------------------- | ------------------------------------------------------------- |
 | `totalTokensSupply` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L170)
+
 ##### :gear: balance
 
 | Method    | Type                                                            |
 | --------- | --------------------------------------------------------------- |
 | `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L175)
 
 ##### :gear: transfer
 
@@ -563,17 +657,23 @@ Parameters:
 | ---------- | --------------------------------------------- |
 | `transfer` | `(params: TransferParams) => Promise<bigint>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L179)
+
 ##### :gear: getNeuron
 
 | Method      | Type                                                                 |
 | ----------- | -------------------------------------------------------------------- |
 | `getNeuron` | `(params: Omit<SnsGetNeuronParams, "certified">) => Promise<Neuron>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L182)
+
 ##### :gear: queryNeuron
 
 | Method        | Type                                                                 |
 | ------------- | -------------------------------------------------------------------- |
 | `queryNeuron` | `(params: Omit<SnsGetNeuronParams, "certified">) => Promise<Neuron>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L186)
 
 ##### :gear: nextNeuronAccount
 
@@ -593,6 +693,8 @@ This is how the backend can identify which neuron is being claimed.
 | ------------------- | ------------------------------------------------------------------------------ |
 | `nextNeuronAccount` | `(controller: Principal) => Promise<{ account: IcrcAccount; index: bigint; }>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L207)
+
 ##### :gear: stakeNeuron
 
 Stakes a neuron.
@@ -604,6 +706,8 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | Method        | Type                                                                                             |
 | ------------- | ------------------------------------------------------------------------------------------------ |
 | `stakeNeuron` | `({ stakeE8s, source, controller, createdAt, fee, }: SnsStakeNeuronParams) => Promise<NeuronId>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L254)
 
 ##### :gear: increaseStakeNeuron
 
@@ -617,11 +721,15 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | --------------------- | ---------------------------------------------------------------------------------- |
 | `increaseStakeNeuron` | `({ stakeE8s, source, neuronId, }: SnsIncreaseStakeNeuronParams) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L302)
+
 ##### :gear: getNeuronBalance
 
 | Method             | Type                                      |
 | ------------------ | ----------------------------------------- |
 | `getNeuronBalance` | `(neuronId: NeuronId) => Promise<bigint>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L321)
 
 ##### :gear: addNeuronPermissions
 
@@ -629,11 +737,15 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | ---------------------- | ------------------------------------------------------- |
 | `addNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L330)
+
 ##### :gear: refreshNeuron
 
 | Method          | Type                                    |
 | --------------- | --------------------------------------- |
 | `refreshNeuron` | `(neuronId: NeuronId) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L334)
 
 ##### :gear: claimNeuron
 
@@ -641,11 +753,15 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | ------------- | ----------------------------------------------------- |
 | `claimNeuron` | `(params: SnsClaimNeuronParams) => Promise<NeuronId>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L338)
+
 ##### :gear: removeNeuronPermissions
 
 | Method                    | Type                                                    |
 | ------------------------- | ------------------------------------------------------- |
 | `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L342)
 
 ##### :gear: splitNeuron
 
@@ -653,11 +769,15 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | ------------- | ----------------------------------------------------- |
 | `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<NeuronId>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L347)
+
 ##### :gear: disburse
 
 | Method     | Type                                                 |
 | ---------- | ---------------------------------------------------- |
 | `disburse` | `(params: SnsDisburseNeuronParams) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L351)
 
 ##### :gear: startDissolving
 
@@ -665,11 +785,15 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | ----------------- | --------------------------------------- |
 | `startDissolving` | `(neuronId: NeuronId) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L355)
+
 ##### :gear: stopDissolving
 
 | Method           | Type                                    |
 | ---------------- | --------------------------------------- |
 | `stopDissolving` | `(neuronId: NeuronId) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L359)
 
 ##### :gear: setDissolveTimestamp
 
@@ -677,11 +801,15 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | ---------------------- | ---------------------------------------------------------- |
 | `setDissolveTimestamp` | `(params: SnsSetDissolveTimestampParams) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L363)
+
 ##### :gear: increaseDissolveDelay
 
 | Method                  | Type                                                        |
 | ----------------------- | ----------------------------------------------------------- |
 | `increaseDissolveDelay` | `(params: SnsIncreaseDissolveDelayParams) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L368)
 
 ##### :gear: setTopicFollowees
 
@@ -689,17 +817,23 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 | ------------------- | ------------------------------------------------- |
 | `setTopicFollowees` | `(params: SnsSetTopicFollowees) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L373)
+
 ##### :gear: registerVote
 
 | Method         | Type                                               |
 | -------------- | -------------------------------------------------- |
 | `registerVote` | `(params: SnsRegisterVoteParams) => Promise<void>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L377)
+
 ##### :gear: swapState
 
 | Method      | Type                                                                    |
 | ----------- | ----------------------------------------------------------------------- |
 | `swapState` | `(params: Omit<QueryParams, "certified">) => Promise<GetStateResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L380)
 
 ##### :gear: notifyPaymentFailure
 
@@ -713,11 +847,15 @@ Always certified
 | ---------------------- | ----------------------- |
 | `notifyPaymentFailure` | `() => Promise<Ticket>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L393)
+
 ##### :gear: notifyParticipation
 
 | Method                | Type                                                                         |
 | --------------------- | ---------------------------------------------------------------------------- |
 | `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<RefreshBuyerTokensResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L397)
 
 ##### :gear: getUserCommitment
 
@@ -725,11 +863,15 @@ Always certified
 | ------------------- | ------------------------------------------------------- |
 | `getUserCommitment` | `(params: GetBuyerStateRequest) => Promise<BuyerState>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L402)
+
 ##### :gear: getOpenTicket
 
 | Method          | Type                                                          |
 | --------------- | ------------------------------------------------------------- |
 | `getOpenTicket` | `(params: Omit<QueryParams, "certified">) => Promise<Ticket>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L407)
 
 ##### :gear: newSaleTicket
 
@@ -737,11 +879,15 @@ Always certified
 | --------------- | -------------------------------------------------- |
 | `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Ticket>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L413)
+
 ##### :gear: getLifecycle
 
 | Method         | Type                                                                        |
 | -------------- | --------------------------------------------------------------------------- |
 | `getLifecycle` | `(params: Omit<QueryParams, "certified">) => Promise<GetLifecycleResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L416)
 
 ##### :gear: getSaleParameters
 
@@ -749,11 +895,15 @@ Always certified
 | ------------------- | -------------------------------------------------------------------------------- |
 | `getSaleParameters` | `(params: Omit<QueryParams, "certified">) => Promise<GetSaleParametersResponse>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L421)
+
 ##### :gear: getDerivedState
 
 | Method            | Type                                                                           |
 | ----------------- | ------------------------------------------------------------------------------ |
 | `getDerivedState` | `(params: Omit<QueryParams, "certified">) => Promise<GetDerivedStateResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L426)
 
 ##### :gear: getTransactions
 
@@ -761,11 +911,15 @@ Always certified
 | ----------------- | -------------------------------------------------------------------- |
 | `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L432)
+
 ##### :gear: stakeMaturity
 
 | Method          | Type                                                      |
 | --------------- | --------------------------------------------------------- |
 | `stakeMaturity` | `(params: SnsNeuronStakeMaturityParams) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L437)
 
 ##### :gear: autoStakeMaturity
 
@@ -773,6 +927,6 @@ Always certified
 | ------------------- | ------------------------------------------------------------- |
 | `autoStakeMaturity` | `(params: SnsNeuronAutoStakeMaturityParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L82)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L441)
 
 <!-- TSDOC_END -->

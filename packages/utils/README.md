@@ -113,7 +113,7 @@ Parameters:
 | ------------------ | -------------------------------------------------------------------- |
 | `assertNonNullish` | `<T>(value: T, message?: string) => asserts value is NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L4)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L7)
 
 #### :gear: assertPercentageNumber
 
@@ -345,6 +345,8 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 
 Represents an amount of tokens.
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L73)
+
 #### Methods
 
 - [fromE8s](#gear-frome8s)
@@ -365,6 +367,8 @@ Parameters:
 - `params.amount`: The amount in bigint format.
 - `params.token`: The token type.
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L83)
+
 ##### :gear: fromString
 
 Initialize from a string. Accepted formats:
@@ -382,6 +386,8 @@ Parameters:
 - `params.amount`: The amount in string format.
 - `params.token`: The token type.
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L104)
+
 ##### :gear: fromNumber
 
 Initialize from a number.
@@ -397,18 +403,26 @@ Parameters:
 - `params.amount`: The amount in number format.
 - `params.token`: The token type.
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L128)
+
 ##### :gear: toE8s
 
 | Method  | Type           |
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L73)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L154)
 
 ### :factory: Canister
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/canister.ts#L4)
+
 ### :factory: InvalidPercentageError
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L1)
+
 ### :factory: NullishError
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L2)
 
 <!-- TSDOC_END -->
