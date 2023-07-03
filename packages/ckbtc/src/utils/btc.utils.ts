@@ -170,24 +170,12 @@ const parseBip173Address = ({
         parser: "bip-173",
       };
     case 32:
-      switch (witnessVersion) {
-        case 0:
-          return {
-            address,
-            network,
-            type: BtcAddressType.P2wsh,
-            parser: "bip-173",
-          };
-        case 1:
-          return {
-            address,
-            network,
-            type: BtcAddressType.P2tr,
-            parser: "bip-173",
-          };
-        default:
-          throw new ParseBtcAddressUnsupportedWitnessVersionError();
-      }
+      return {
+        address,
+        network,
+        type: witnessVersion === 0 ? BtcAddressType.P2wsh : BtcAddressType.P2tr,
+        parser: "bip-173",
+      };
     default:
       throw new ParseBtcAddressBadWitnessLengthError();
   }
