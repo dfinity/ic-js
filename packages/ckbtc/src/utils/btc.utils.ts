@@ -160,27 +160,37 @@ const parseBip173Address = ({
   }
 
   const data = bech32.fromWords(rest);
-  let type = BtcAddressType.P2wpkhV0;
 
-  if (data.length === 32) {
-    if (witnessVersion == 0) {
-      type = BtcAddressType.P2wsh;
-    } else if (witnessVersion == 1) {
-      type = BtcAddressType.P2tr;
-    } else {
-    }
+  switch (data.length) {
+    case 20:
+      return {
+        address,
+        network,
+        type: BtcAddressType.P2wpkhV0,
+        parser: "bip-173",
+      };
+    case 32:
+      switch (witnessVersion) {
+        case 0:
+          return {
+            address,
+            network,
+            type: BtcAddressType.P2wsh,
+            parser: "bip-173",
+          };
+        case 1:
+          return {
+            address,
+            network,
+            type: BtcAddressType.P2tr,
+            parser: "bip-173",
+          };
+        default:
+          throw new ParseBtcAddressUnsupportedWitnessVersionError();
+      }
+    default:
+      throw new ParseBtcAddressBadWitnessLengthError();
   }
-
-  if (data.length !== 20 && data.length !== 32) {
-    throw new ParseBtcAddressBadWitnessLengthError();
-  }
-
-  return {
-    address,
-    network,
-    type,
-    parser: "bip-173",
-  };
 };
 
 /**
