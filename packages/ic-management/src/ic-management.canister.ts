@@ -1,4 +1,4 @@
-import { CallConfig } from "@dfinity/agent";
+import type { CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { createServices, toNullable } from "@dfinity/utils";
 import type { _SERVICE as IcManagementService } from "../candid/ic-management";
@@ -33,6 +33,7 @@ export class ICManagementCanister {
     const transform = (
       _methodName: string,
       args: unknown[],
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _callConfig: CallConfig
     ) => {
       const first = args[0] as { canister_id: string };
