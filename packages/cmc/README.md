@@ -55,6 +55,8 @@ const rate = await getIcpToCyclesConversionRate();
 
 ### :factory: CMCCanister
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L13)
+
 #### Methods
 
 - [create](#gear-create)
@@ -68,6 +70,8 @@ const rate = await getIcpToCyclesConversionRate();
 | -------- | ---------------------------------------------- |
 | `create` | `(options: CMCCanisterOptions) => CMCCanister` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L18)
+
 ##### :gear: getIcpToCyclesConversionRate
 
 Returns conversion rate of ICP to Cycles
@@ -75,6 +79,8 @@ Returns conversion rate of ICP to Cycles
 | Method                         | Type                    |
 | ------------------------------ | ----------------------- |
 | `getIcpToCyclesConversionRate` | `() => Promise<bigint>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L37)
 
 ##### :gear: notifyCreateCanister
 
@@ -85,6 +91,8 @@ It returns the new canister principal.
 | ---------------------- | ---------------------------------------------------------- |
 | `notifyCreateCanister` | `(request: NotifyCreateCanisterArg) => Promise<Principal>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L54)
+
 ##### :gear: notifyTopUp
 
 Notifies Cycles Minting Canister of new cycles being added to canister.
@@ -93,5 +101,7 @@ It returns the new Cycles of the canister.
 | Method        | Type                                           |
 | ------------- | ---------------------------------------------- |
 | `notifyTopUp` | `(request: NotifyTopUpArg) => Promise<bigint>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L82)
 
 <!-- TSDOC_END -->
