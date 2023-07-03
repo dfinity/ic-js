@@ -54,8 +54,6 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 
 ### :factory: ICManagementCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L24)
-
 #### Methods
 
 - [create](#gear-create)
@@ -76,8 +74,6 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 | -------- | ---------------------------------------------------------------- |
 | `create` | `(options: ICManagementCanisterOptions) => ICManagementCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L29)
-
 ##### :gear: createCanister
 
 Create a new canister
@@ -85,8 +81,6 @@ Create a new canister
 | Method           | Type                                                                                 |
 | ---------------- | ------------------------------------------------------------------------------------ |
 | `createCanister` | `({ settings, senderCanisterVerion, }?: CreateCanisterParams) => Promise<Principal>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L50)
 
 ##### :gear: updateSettings
 
@@ -96,8 +90,6 @@ Update canister settings
 | ---------------- | ------------------------------------------------------------------------------------------ |
 | `updateSettings` | `({ canisterId, senderCanisterVerion, settings, }: UpdateSettingsParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L71)
-
 ##### :gear: installCode
 
 Install code to a canister
@@ -105,8 +97,6 @@ Install code to a canister
 | Method        | Type                                                                                                 |
 | ------------- | ---------------------------------------------------------------------------------------------------- |
 | `installCode` | `({ mode, canisterId, wasmModule, arg, senderCanisterVerion, }: InstallCodeParams) => Promise<void>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L93)
 
 ##### :gear: uninstallCode
 
@@ -116,8 +106,6 @@ Uninstall code from a canister
 | --------------- | ------------------------------------------------------------------------------- |
 | `uninstallCode` | `({ canisterId, senderCanisterVerion, }: UninstallCodeParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L116)
-
 ##### :gear: startCanister
 
 Start a canister
@@ -125,8 +113,6 @@ Start a canister
 | Method          | Type                                       |
 | --------------- | ------------------------------------------ |
 | `startCanister` | `(canisterId: Principal) => Promise<void>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L131)
 
 ##### :gear: stopCanister
 
@@ -136,27 +122,21 @@ Stop a canister
 | -------------- | ------------------------------------------ |
 | `stopCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L140)
-
 ##### :gear: canisterStatus
 
 Get canister details (memory size, status, etc.)
 
-| Method           | Type                                                                                    |
-| ---------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| `canisterStatus` | `(canisterId: Principal) => Promise<{ status: { stopped: null; } or { stopping: null; } | { running: null; }; memory_size: bigint; cycles: bigint; settings: definite_canister_settings; idle_cycles_burned_per_day: bigint; module_hash: [] | [...]; }>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L149)
+| Method           | Type                                                                               |
+| ---------------- | ---------------------------------------------------------------------------------- |
+| `canisterStatus` | `(canisterId: Principal) => Promise<ServiceResponse<_SERVICE, "canister_status">>` |
 
 ##### :gear: canisterInfo
 
 Get canister info (controllers, module hash, changes, etc.)
 
-| Method         | Type                                                                                                                                                                                       |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `canisterInfo` | `({ canisterId, numRequestChanges, }: CanisterInfoParams) => Promise<{ controllers: Principal[]; module_hash: [] or [Uint8Array]; recent_changes: change[]; total_num_changes: bigint; }>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L162)
+| Method         | Type                                                                                                              |
+| -------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `canisterInfo` | `({ canisterId, numRequestChanges, }: CanisterInfoParams) => Promise<ServiceResponse<_SERVICE, "canister_info">>` |
 
 ##### :gear: deleteCanister
 
@@ -166,8 +146,6 @@ Deletes a canister
 | ---------------- | ------------------------------------------ |
 | `deleteCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L177)
-
 ##### :gear: provisionalCreateCanisterWithCycles
 
 Creates a canister. Only available on development instances.
@@ -175,8 +153,6 @@ Creates a canister. Only available on development instances.
 | Method                                | Type                                                                                                    |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `provisionalCreateCanisterWithCycles` | `({ settings, amount, canisterId, }?: ProvisionalCreateCanisterWithCyclesParams) => Promise<Principal>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L189)
 
 <!-- TSDOC_END -->
 

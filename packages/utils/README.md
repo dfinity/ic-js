@@ -71,8 +71,6 @@ Parameters:
 
 - `amount`: - in string format
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L10)
-
 #### :gear: defaultAgent
 
 Get a default agent that connects to mainnet with the anonymous identity.
@@ -80,8 +78,6 @@ Get a default agent that connects to mainnet with the anonymous identity.
 | Function       | Type          |
 | -------------- | ------------- |
 | `defaultAgent` | `() => Agent` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L8)
 
 #### :gear: createAgent
 
@@ -97,15 +93,11 @@ Parameters:
 - `host`: An optional host to connect to
 - `fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L20)
-
 #### :gear: createServices
 
 | Function         | Type                                                                                                                                                                                                                                                            |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, }, idlFactory, certifiedIdlFactory, }: { options: RequiredCanisterOptions<T>; idlFactory: InterfaceFactory; certifiedIdlFactory: InterfaceFactory; }) => { ...; }` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/actor.utils.ts#L13)
 
 #### :gear: assertNonNullish
 
@@ -113,15 +105,11 @@ Parameters:
 | ------------------ | -------------------------------------------------------------------- |
 | `assertNonNullish` | `<T>(value: T, message?: string) => asserts value is NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L7)
-
 #### :gear: assertPercentageNumber
 
 | Function                 | Type                           |
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L15)
 
 #### :gear: uint8ArrayToBigInt
 
@@ -129,15 +117,11 @@ Parameters:
 | -------------------- | ------------------------------- |
 | `uint8ArrayToBigInt` | `(array: Uint8Array) => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L3)
-
 #### :gear: bigIntToUint8Array
 
 | Function             | Type                            |
 | -------------------- | ------------------------------- |
 | `bigIntToUint8Array` | `(value: bigint) => Uint8Array` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L15)
 
 #### :gear: numberToUint8Array
 
@@ -145,15 +129,11 @@ Parameters:
 | -------------------- | ------------------------------- |
 | `numberToUint8Array` | `(value: number) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L31)
-
 #### :gear: arrayBufferToUint8Array
 
 | Function                  | Type                                  |
 | ------------------------- | ------------------------------------- |
 | `arrayBufferToUint8Array` | `(buffer: ArrayBuffer) => Uint8Array` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L40)
 
 #### :gear: uint8ArrayToArrayOfNumber
 
@@ -161,15 +141,11 @@ Parameters:
 | --------------------------- | --------------------------------- |
 | `uint8ArrayToArrayOfNumber` | `(array: Uint8Array) => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L43)
-
 #### :gear: arrayOfNumberToUint8Array
 
 | Function                    | Type                                |
 | --------------------------- | ----------------------------------- |
 | `arrayOfNumberToUint8Array` | `(numbers: number[]) => Uint8Array` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L46)
 
 #### :gear: asciiStringToByteArray
 
@@ -177,23 +153,17 @@ Parameters:
 | ------------------------ | ---------------------------- |
 | `asciiStringToByteArray` | `(text: string) => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L49)
-
 #### :gear: hexStringToUint8Array
 
 | Function                | Type                                |
 | ----------------------- | ----------------------------------- |
 | `hexStringToUint8Array` | `(hexString: string) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L52)
-
 #### :gear: uint8ArrayToHexString
 
 | Function                | Type                            |
 | ----------------------- | ------------------------------- |
 | `uint8ArrayToHexString` | `(bytes: Uint8Array) => string` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L60)
 
 #### :gear: encodeBase32
 
@@ -206,8 +176,6 @@ Encode an Uint8Array to a base32 string.
 Parameters:
 
 - `input`: The input array to encode.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base32.utils.ts#L21)
 
 #### :gear: decodeBase32
 
@@ -222,23 +190,17 @@ Parameters:
 - `input`: The input string to decode.
 - `input`: The base32 encoded string to decode.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base32.utils.ts#L67)
-
 #### :gear: bigEndianCrc32
 
 | Function         | Type                                |
 | ---------------- | ----------------------------------- |
 | `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
-
 #### :gear: debounce
 
 | Function   | Type                                                                 |
 | ---------- | -------------------------------------------------------------------- |
 | `debounce` | `(func: Function, timeout?: number) => (...args: unknown[]) => void` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L2)
 
 #### :gear: isNullish
 
@@ -248,8 +210,6 @@ Is null or undefined
 | ----------- | -------------------------------------- |
 | `isNullish` | `<T>(argument: T) => argument is null` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L2)
-
 #### :gear: nonNullish
 
 Not null and not undefined
@@ -257,8 +217,6 @@ Not null and not undefined
 | Function     | Type                                             |
 | ------------ | ------------------------------------------------ |
 | `nonNullish` | `<T>(argument: T) => argument is NonNullable<T>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L7)
 
 #### :gear: notEmptyString
 
@@ -268,15 +226,11 @@ Not null and not undefined and not empty
 | ---------------- | ---------------------------- |
 | `notEmptyString` | `(value: string) => boolean` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L12)
-
 #### :gear: toNullable
 
 | Function     | Type                          |
 | ------------ | ----------------------------- |
 | `toNullable` | `<T>(value?: T) => [] or [T]` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L4)
 
 #### :gear: fromNullable
 
@@ -284,15 +238,11 @@ Not null and not undefined and not empty
 | -------------- | ---------------------------- |
 | `fromNullable` | `<T>(value: [] or [T]) => T` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L8)
-
 #### :gear: fromDefinedNullable
 
 | Function              | Type                         |
 | --------------------- | ---------------------------- |
 | `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L12)
 
 #### :gear: principalToSubAccount
 
@@ -307,8 +257,6 @@ Parameters:
 
 - `principal`: The principal that needs to be converted to Subaccount
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/principal.utils.ts#L8)
-
 #### :gear: smallerVersion
 
 Returns true if the current version is smaller than the minVersion, false if equal or bigger.
@@ -317,8 +265,6 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 | Function         | Type                                                                                            |
 | ---------------- | ----------------------------------------------------------------------------------------------- |
 | `smallerVersion` | `({ minVersion, currentVersion, }: { minVersion: string; currentVersion: string; }) => boolean` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L28)
 
 ### :wrench: Constants
 
@@ -331,21 +277,15 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 | --------------- | -------- |
 | `E8S_PER_TOKEN` | `bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/constants/constants.ts#L1)
-
 #### :gear: ICPToken
 
 | Constant   | Type    |
 | ---------- | ------- |
 | `ICPToken` | `Token` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L62)
-
 ### :factory: TokenAmount
 
 Represents an amount of tokens.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L73)
 
 #### Methods
 
@@ -367,8 +307,6 @@ Parameters:
 - `params.amount`: The amount in bigint format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L83)
-
 ##### :gear: fromString
 
 Initialize from a string. Accepted formats:
@@ -386,8 +324,6 @@ Parameters:
 - `params.amount`: The amount in string format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L104)
-
 ##### :gear: fromNumber
 
 Initialize from a number.
@@ -403,26 +339,42 @@ Parameters:
 - `params.amount`: The amount in number format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L128)
-
 ##### :gear: toE8s
 
 | Method  | Type           |
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L154)
-
 ### :factory: Canister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/canister.ts#L4)
+#### Constructors
+
+`public`
+
+Parameters:
+
+- `id`
+- `service`
+- `certifiedService`
 
 ### :factory: InvalidPercentageError
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L1)
+#### Constructors
+
+`public`
+
+Parameters:
+
+- `message`
 
 ### :factory: NullishError
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L2)
+#### Constructors
+
+`public`
+
+Parameters:
+
+- `message`
 
 <!-- TSDOC_END -->
