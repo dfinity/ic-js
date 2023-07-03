@@ -142,9 +142,9 @@ Stop a canister
 
 Get canister details (memory size, status, etc.)
 
-| Method           | Type                                                                               |
-| ---------------- | ---------------------------------------------------------------------------------- |
-| `canisterStatus` | `(canisterId: Principal) => Promise<ServiceResponse<_SERVICE, "canister_status">>` |
+| Method           | Type                                                                                    |
+| ---------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| `canisterStatus` | `(canisterId: Principal) => Promise<{ status: { stopped: null; } or { stopping: null; } | { running: null; }; memory_size: bigint; cycles: bigint; settings: definite_canister_settings; idle_cycles_burned_per_day: bigint; module_hash: [] | [...]; }>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L149)
 
@@ -152,9 +152,9 @@ Get canister details (memory size, status, etc.)
 
 Get canister info (controllers, module hash, changes, etc.)
 
-| Method         | Type                                                                                                              |
-| -------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `canisterInfo` | `({ canisterId, numRequestChanges, }: CanisterInfoParams) => Promise<ServiceResponse<_SERVICE, "canister_info">>` |
+| Method         | Type                                                                                                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `canisterInfo` | `({ canisterId, numRequestChanges, }: CanisterInfoParams) => Promise<{ controllers: Principal[]; module_hash: [] or [Uint8Array]; recent_changes: change[]; total_num_changes: bigint; }>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L162)
 
