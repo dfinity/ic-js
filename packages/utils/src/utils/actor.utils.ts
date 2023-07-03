@@ -48,6 +48,8 @@ export const createServices = <T>({
     Actor.createActor<T>(certifiedIdlFactory, {
       agent,
       canisterId,
+      callTransform,
+      queryTransform,
     });
 
   return { service, certifiedService, agent, canisterId };
