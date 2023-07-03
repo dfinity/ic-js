@@ -1,4 +1,4 @@
-import type { ActorSubclass, Agent } from "@dfinity/agent";
+import type { ActorConfig, ActorSubclass, Agent } from "@dfinity/agent";
 import { Actor } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
@@ -8,7 +8,8 @@ import { defaultAgent } from "./agent.utils";
 type RequiredCanisterOptions<T> = Required<
   Pick<CanisterOptions<T>, "canisterId">
 > &
-  Omit<CanisterOptions<T>, "canisterId">;
+  Omit<CanisterOptions<T>, "canisterId"> &
+  Pick<ActorConfig, "queryTransform" | "callTransform">;
 
 export const createServices = <T>({
   options: {
@@ -16,6 +17,8 @@ export const createServices = <T>({
     serviceOverride,
     certifiedServiceOverride,
     agent: agentOption,
+    callTransform,
+    queryTransform,
   },
   idlFactory,
   certifiedIdlFactory,
@@ -36,6 +39,8 @@ export const createServices = <T>({
     Actor.createActor<T>(idlFactory, {
       agent,
       canisterId,
+      callTransform,
+      queryTransform,
     });
 
   const certifiedService: ActorSubclass<T> =
