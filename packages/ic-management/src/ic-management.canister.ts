@@ -1,3 +1,4 @@
+import type { CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { createServices, toNullable } from "@dfinity/utils";
 import type { _SERVICE as IcManagementService } from "../candid/ic-management";
@@ -27,10 +28,29 @@ export class ICManagementCanister {
   }
 
   public static create(options: ICManagementCanisterOptions) {
+    // Source getManagementCanister in agent-js.
+    // Allow usage of the ICManagementCanister wrapper locally.
+    const transform = (
+      _methodName: string,
+      args: unknown[],
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _callConfig: CallConfig
+    ) => {
+      const first = args[0] as { canister_id: string };
+      let effectiveCanisterId = Principal.fromHex("");
+      if (first && typeof first === "object" && first.canister_id) {
+        effectiveCanisterId = Principal.from(first.canister_id as unknown);
+      }
+      return { effectiveCanisterId };
+    };
+
     const { service } = createServices<IcManagementService>({
       options: {
         ...options,
-        canisterId: Principal.fromText("aaaaa-aa"),
+        // Resolve to "aaaaa-aa" on mainnet
+        canisterId: Principal.fromHex(""),
+        callTransform: transform,
+        queryTransform: transform,
       },
       idlFactory,
       certifiedIdlFactory,
