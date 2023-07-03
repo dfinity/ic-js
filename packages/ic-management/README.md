@@ -182,4 +182,4 @@ Creates a canister. Only available on development instances.
 
 ## Resources
 
-- [IC Interface Specification ](https://github.com/dfinity/interface-spec)
+- [IC Interface Specification](https://github.com/dfinity/interface-spec)
