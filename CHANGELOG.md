@@ -11,7 +11,7 @@
 - utils `v0.0.19`
 - nns-proto `v0.0.5`
 
-# 0.18.0 (wip)
+# 0.18.0 (2023-07-03)
 
 ## Release
 
@@ -32,6 +32,13 @@
 ## Features
 
 - add a new utils function `decodePayment` to the `@dfinity/ledger` library. Useful to decode payment through QR code that contains target address and amount
+- add provisional create canister with cycles method
+- `CreateServiceNervousSystem` <-> `RawCreateServiceNervousSystem` transformations for Nns proposal
+- decode payment code (early support and not yet specified. see ICRC-22)
+
+## Build
+
+- bump `semver`
 
 # 0.17.2 (2023-06-21)
 

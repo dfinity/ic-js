@@ -73,6 +73,8 @@ Parameters:
 
 - `account`: : Principal, subaccount?: Uint8Array }
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/ledger.utils.ts#L21)
+
 #### :gear: decodeIcrcAccount
 
 Decodes a string into an Icrc-1 compatible account.
@@ -86,6 +88,8 @@ Parameters:
 
 - `accountString`: string
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/ledger.utils.ts#L59)
+
 #### :gear: decodePayment
 
 A naive implementation of a payment parser. Given a code, the function attempts to extract a token name, account identifier (textual representation), and an optional amount.
@@ -96,12 +100,14 @@ Similarly, if an optional amount is provided but it's not a valid number, the pa
 Please note that this function doesn't perform any validity checks on the extracted information.
 It does not verify if the token is known or if the identifier is a valid address.
 
-urn = token ":" address [ "?" params]
-token = [ ckbtc / icp / chat / bitcoin / ethereum ... ]
-address = STRING
-params = param [ "&" params ]
-param = [ amountparam ]
-amountparam = "amount=" *digit [ "." *digit ]
+```
+urn            = token ":" address [ "?" params]
+token         = [ ckbtc / icp / chat / bitcoin / ethereum ... ]
+address       = STRING
+params        = param [ "&" params ]
+param         = [ amountparam ]
+amountparam   = "amount=" *digit [ "." *digit ]
+```
 
 | Function        | Type                                                                        |
 | --------------- | --------------------------------------------------------------------------- |
@@ -111,17 +117,11 @@ Parameters:
 
 - `code`: string
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/payment.utils.ts#L24)
+
 ### :factory: IcrcLedgerCanister
 
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L16)
 
 #### Methods
 
@@ -138,6 +138,8 @@ Parameters:
 | -------- | ---------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L17)
+
 ##### :gear: metadata
 
 The token metadata (name, symbol, etc.).
@@ -146,6 +148,8 @@ The token metadata (name, symbol, etc.).
 | ---------- | ------------------------------------------------------------- |
 | `metadata` | `(params: QueryParams) => Promise<IcrcTokenMetadataResponse>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L31)
+
 ##### :gear: transactionFee
 
 The ledger transaction fees.
@@ -153,6 +157,8 @@ The ledger transaction fees.
 | Method           | Type                                       |
 | ---------------- | ------------------------------------------ |
 | `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L39)
 
 ##### :gear: balance
 
@@ -166,6 +172,8 @@ Parameters:
 
 - `params`: The parameters to get the balance of an account.
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L48)
+
 ##### :gear: transfer
 
 Transfers tokens from the sender to the given account.
@@ -178,6 +186,8 @@ Parameters:
 
 - `params`: The parameters to transfer tokens.
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L61)
+
 ##### :gear: totalTokensSupply
 
 Returns the total supply of tokens.
@@ -186,17 +196,11 @@ Returns the total supply of tokens.
 | ------------------- | ------------------------------------------ |
 | `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L77)
+
 ### :factory: IcrcIndexCanister
 
-#### Constructors
-
-`public`
-
-Parameters:
-
-- `id`
-- `service`
-- `certifiedService`
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L13)
 
 #### Methods
 
@@ -208,6 +212,8 @@ Parameters:
 | Method   | Type                                                                  |
 | -------- | --------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L14)
 
 ##### :gear: getTransactions
 
@@ -221,6 +227,8 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 | Method            | Type                                                                 |
 | ----------------- | -------------------------------------------------------------------- |
 | `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L33)
 
 <!-- TSDOC_END -->
 
