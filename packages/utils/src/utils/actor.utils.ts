@@ -8,8 +8,7 @@ import { defaultAgent } from "./agent.utils";
 type RequiredCanisterOptions<T> = Required<
   Pick<CanisterOptions<T>, "canisterId">
 > &
-  Omit<CanisterOptions<T>, "canisterId"> &
-  Pick<ActorConfig, "queryTransform" | "callTransform">;
+  Omit<CanisterOptions<T>, "canisterId">;
 
 export const createServices = <T>({
   options: {
@@ -23,7 +22,8 @@ export const createServices = <T>({
   idlFactory,
   certifiedIdlFactory,
 }: {
-  options: RequiredCanisterOptions<T>;
+  options: RequiredCanisterOptions<T> &
+    Pick<ActorConfig, "queryTransform" | "callTransform">;
   idlFactory: IDL.InterfaceFactory;
   certifiedIdlFactory: IDL.InterfaceFactory;
 }): {
