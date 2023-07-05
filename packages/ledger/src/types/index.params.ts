@@ -1,4 +1,4 @@
-import type { QueryParams } from "@dfinity/utils/src";
+import type { QueryParams } from "@dfinity/utils";
 import type { IcrcTxId } from "./index.types";
 import type { IcrcAccount } from "./ledger.responses";
 
