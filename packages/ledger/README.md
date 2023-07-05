@@ -217,18 +217,17 @@ Returns the total supply of tokens.
 
 ##### :gear: getTransactions
 
-Get the transactions of an account
+Get the transactions of an account.
 
-Always certified.
-`get_account_transactions` needs to be called with an update
-because the index canisters makes a call to the ledger canister to get the transaction data.
-Index Canister only holds the transactions ids in state, not the whole transaction data.
+| Method            | Type                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| `getTransactions` | `({ certified, ...rest }: GetAccountTransactionsParams) => Promise<GetTransactions>` |
 
-| Method            | Type                                                                 |
-| ----------------- | -------------------------------------------------------------------- |
-| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
+Parameters:
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L33)
+- `params`: The parameters to get the transactions of an account.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L31)
 
 <!-- TSDOC_END -->
 
