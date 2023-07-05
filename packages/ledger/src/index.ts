@@ -1,8 +1,8 @@
 export type {
+  BlockIndex as IcrcTxId,
   GetTransactions as IcrcGetTransactions,
   Transaction as IcrcTransaction,
   TransactionWithId as IcrcTransactionWithId,
-  BlockIndex as IcrcTxId,
 } from "../candid/icrc1_index";
 export type {
   BlockIndex as IcrcBlockIndex,
