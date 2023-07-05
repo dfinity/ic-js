@@ -23,19 +23,18 @@ export class IcrcIndexCanister extends Canister<IcrcIndexService> {
   }
 
   /**
-   * Get the transactions of an account
+   * Get the transactions of an account.
    *
-   * Always certified.
-   * `get_account_transactions` needs to be called with an update
-   * because the index canisters makes a call to the ledger canister to get the transaction data.
-   * Index Canister only holds the transactions ids in state, not the whole transaction data.
+   * @param {GetAccountTransactionsParams} params The parameters to get the transactions of an account.
+   * @returns {Promise<GetTransactions>} The list of transactions and further related information of the given account.
    */
-  getTransactions = async (
-    params: GetAccountTransactionsParams
-  ): Promise<GetTransactions> => {
+  getTransactions = async ({
+    certified,
+    ...rest
+  }: GetAccountTransactionsParams): Promise<GetTransactions> => {
     const response = await this.caller({
-      certified: true,
-    }).get_account_transactions(toGetTransactionsArgs(params));
+      certified,
+    }).get_account_transactions(toGetTransactionsArgs(rest));
 
     if ("Err" in response) {
       throw new IndexError(response.Err.message);
