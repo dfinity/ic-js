@@ -1,10 +1,10 @@
 import { Principal } from "@dfinity/principal";
-import type { Value } from "../../candid/icrc1_ledger";
+import { MetadataValue } from "../../candid/icrc1_ledger";
 import { IcrcMetadataResponseEntries } from "../types/ledger.responses";
 
 export const tokeMetadataResponseMock: [
   string | IcrcMetadataResponseEntries,
-  Value
+  MetadataValue
 ][] = [
   [IcrcMetadataResponseEntries.DECIMALS, { Nat: BigInt(8) }],
   [IcrcMetadataResponseEntries.NAME, { Text: "Beta Test" }],
