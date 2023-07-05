@@ -50,6 +50,7 @@ describe("Index canister", () => {
         Ok: {
           transactions: [transactionWithId],
           oldest_tx_id: [],
+          balance: 123n,
         },
       });
 
