@@ -1,8 +1,8 @@
-import type { TxId } from "../../candid/icrc1_index";
+import type { IcrcTxId } from "./index.types";
 import type { IcrcAccount } from "./ledger.responses";
 
 export interface GetAccountTransactionsParams {
   max_results: bigint;
-  start?: TxId;
+  start?: IcrcTxId;
   account: IcrcAccount;
 }

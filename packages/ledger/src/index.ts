@@ -1,10 +1,4 @@
 export type {
-  GetTransactions as IcrcGetTransactions,
-  Transaction as IcrcTransaction,
-  TransactionWithId as IcrcTransactionWithId,
-  BlockIndex as IcrcTxId,
-} from "../candid/icrc1_index";
-export type {
   BlockIndex as IcrcBlockIndex,
   Subaccount as IcrcSubaccount,
   Tokens as IcrcTokens,
@@ -17,6 +11,7 @@ export * from "./errors/ledger.errors";
 export { IcrcIndexCanister } from "./index.canister";
 export { IcrcLedgerCanister } from "./ledger.canister";
 export * from "./types/index.params";
+export * from "./types/index.types";
 export * from "./types/ledger.params";
 export * from "./types/ledger.responses";
 export * from "./utils/ledger.utils";
