@@ -189,6 +189,7 @@ service ic : {
     amount: opt nat;
     settings : opt canister_settings;
     specified_id: opt canister_id;
+    sender_canister_version : opt nat64;
   }) -> (record {canister_id : canister_id});
   provisional_top_up_canister :
     (record { canister_id: canister_id; amount: nat }) -> ();

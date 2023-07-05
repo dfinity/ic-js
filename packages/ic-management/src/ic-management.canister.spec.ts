@@ -389,6 +389,7 @@ describe("ICManagementCanister", () => {
         amount: [BigInt(100_000)],
         settings: [mappedMockCanisterSettings],
         specified_id: [mockCanisterId],
+        sender_canister_version: [],
       });
     });
 
