@@ -170,6 +170,7 @@ export interface _SERVICE {
         settings: [] | [canister_settings];
         specified_id: [] | [canister_id];
         amount: [] | [bigint];
+        sender_canister_version: [] | [bigint];
       }
     ],
     { canister_id: canister_id }

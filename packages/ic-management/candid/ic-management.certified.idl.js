@@ -233,6 +233,7 @@ export const idlFactory = ({ IDL }) => {
             'settings' : IDL.Opt(canister_settings),
             'specified_id' : IDL.Opt(canister_id),
             'amount' : IDL.Opt(IDL.Nat),
+            'sender_canister_version' : IDL.Opt(IDL.Nat64),
           }),
         ],
         [IDL.Record({ 'canister_id' : canister_id })],

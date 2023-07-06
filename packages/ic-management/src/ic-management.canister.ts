@@ -216,6 +216,7 @@ export class ICManagementCanister {
         settings: toNullable(toCanisterSettings(settings)),
         amount: toNullable(amount),
         specified_id: toNullable(canisterId),
+        sender_canister_version: [],
       });
 
     return canister_id;
