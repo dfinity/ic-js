@@ -63,7 +63,7 @@ const data = await metadata();
 #### :gear: encodeIcrcAccount
 
 Encodes an Icrc-1 account compatible into a string.
-Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R238
+Formatting Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/TextualEncoding.md
 
 | Function            | Type                                              |
 | ------------------- | ------------------------------------------------- |
