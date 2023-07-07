@@ -50,7 +50,7 @@ const encodeCrc = ({ owner, subaccount }: Required<IcrcAccount>): string => {
 
 /**
  * Decodes a string into an Icrc-1 compatible account.
- * Formatting Reference: https://github.com/dfinity/ICRC-1/pull/98
+ * Formatting Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/TextualEncoding.md
  *
  * @param accountString string
  * @throws Error if the string is not a valid Icrc-1 account

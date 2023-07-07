@@ -78,7 +78,7 @@ Parameters:
 #### :gear: decodeIcrcAccount
 
 Decodes a string into an Icrc-1 compatible account.
-Formatting Reference: https://github.com/dfinity/ICRC-1/pull/98
+Formatting Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/TextualEncoding.md
 
 | Function            | Type                                     |
 | ------------------- | ---------------------------------------- |
