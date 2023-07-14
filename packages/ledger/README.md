@@ -92,6 +92,8 @@ Parameters:
 
 #### :gear: decodePayment
 
+👀 This feature is currently in draft. You can find more information about it at https://github.com/dfinity/ICRC/issues/22.
+
 A naive implementation of a payment parser. Given a code, the function attempts to extract a token name, account identifier (textual representation), and an optional amount.
 
 If the code doesn't match the expected pattern, `undefined` is returned for simplicity.
@@ -117,7 +119,7 @@ Parameters:
 
 - `code`: string
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/payment.utils.ts#L24)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/payment.utils.ts#L26)
 
 ### :factory: IcrcLedgerCanister
 
