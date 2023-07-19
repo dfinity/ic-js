@@ -73,7 +73,7 @@ describe("Governance canister", () => {
       functions: [nervousSysttemFunctionMock],
     };
     service.list_nervous_system_functions.mockResolvedValue(
-      nervousSystemFunctionsMock
+      nervousSystemFunctionsMock,
     );
 
     const canister = SnsGovernanceCanister.create({
@@ -198,7 +198,7 @@ describe("Governance canister", () => {
     it("should raise an error if call fails", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockRejectedValue(
-        new Error("error")
+        new Error("error"),
       );
 
       const canister = SnsGovernanceCanister.create({
@@ -511,7 +511,7 @@ describe("Governance canister", () => {
       const mockParams = { test: true };
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.get_nervous_system_parameters.mockResolvedValue(
-        mockParams as unknown as NervousSystemParameters
+        mockParams as unknown as NervousSystemParameters,
       );
 
       const canister = SnsGovernanceCanister.create({
@@ -1060,7 +1060,7 @@ describe("Governance canister", () => {
 
   describe("stakeMaturity", () => {
     const testStakeMaturitySuccess = async (
-      percentageToStake: number | undefined
+      percentageToStake: number | undefined,
     ) => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue({
@@ -1138,7 +1138,7 @@ describe("Governance canister", () => {
 
   describe("autoStakeMaturity", () => {
     const testAutoStakeMaturitySuccess = async (
-      requested_setting_for_auto_stake_maturity: boolean
+      requested_setting_for_auto_stake_maturity: boolean,
     ) => {
       const request: ManageNeuron = {
         subaccount: neuronIdMock.id,

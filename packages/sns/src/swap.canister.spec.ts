@@ -97,7 +97,7 @@ describe("Swap canister", () => {
     const call = () => canister.getOpenTicket({});
 
     expect(call).rejects.toThrow(
-      new SnsSwapGetOpenTicketError(GetOpenTicketErrorType.TYPE_SALE_CLOSED)
+      new SnsSwapGetOpenTicketError(GetOpenTicketErrorType.TYPE_SALE_CLOSED),
     );
   });
 
@@ -169,7 +169,7 @@ describe("Swap canister", () => {
           min_amount_icp_e8s_included,
           max_amount_icp_e8s_included,
         },
-      })
+      }),
     );
   });
 

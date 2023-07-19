@@ -49,7 +49,7 @@ const updateVersion = async () => {
 
   // Peer dependencies need to point to wip references - e.g. @dfinity/utils@0.0.1-next
   const peerDependencies = Object.entries(
-    packageJson.peerDependencies ?? {}
+    packageJson.peerDependencies ?? {},
   ).reduce((acc, [key, _value]) => {
     acc[key] = `*`;
     return acc;
@@ -64,9 +64,9 @@ const updateVersion = async () => {
         ...(Object.keys(peerDependencies).length > 0 && { peerDependencies }),
       },
       null,
-      2
+      2,
     ),
-    "utf-8"
+    "utf-8",
   );
 };
 

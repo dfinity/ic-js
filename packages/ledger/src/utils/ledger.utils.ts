@@ -42,7 +42,7 @@ export const encodeIcrcAccount = ({
 
 const encodeCrc = ({ owner, subaccount }: Required<IcrcAccount>): string => {
   const crc = bigEndianCrc32(
-    Uint8Array.from([...owner.toUint8Array(), ...subaccount])
+    Uint8Array.from([...owner.toUint8Array(), ...subaccount]),
   );
 
   return encodeBase32(crc);
@@ -75,7 +75,7 @@ export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
   const account = {
     owner: Principal.fromText(principalText),
     subaccount: hexStringToUint8Array(
-      subaccountHex.padStart(MAX_SUBACCOUNT_HEX_LENGTH, "0")
+      subaccountHex.padStart(MAX_SUBACCOUNT_HEX_LENGTH, "0"),
     ),
   };
 
