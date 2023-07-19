@@ -699,7 +699,7 @@ We don't extend to keep `fromE8s` and `fromString` as backwards compatible.
 | --------- | ------------------------- |
 | `fromE8s` | `(amount: bigint) => ICP` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L17)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L20)
 
 ##### :gear: fromString
 
@@ -713,7 +713,7 @@ Initialize from a string. Accepted formats:
 | ------------ | --------------------------------------------------- |
 | `fromString` | `(amount: string) => ICP or FromStringToTokenError` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L28)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L31)
 
 ##### :gear: toE8s
 
@@ -721,7 +721,7 @@ Initialize from a string. Accepted formats:
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L36)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L39)
 
 ##### :gear: toProto
 
@@ -729,7 +729,7 @@ Initialize from a string. Accepted formats:
 | --------- | ---------------------- |
 | `toProto` | `() => Promise<ICPTs>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L40)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L43)
 
 ### :factory: SnsWasmCanister
 
