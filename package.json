@@ -48,8 +48,6 @@
     "jest": "^29.5.0",
     "jest-mock-extended": "^3.0.4",
     "node-fetch": "^3.3.1",
-    "prettier": "^2.8.7",
-    "prettier-plugin-organize-imports": "^3.2.2",
     "semver": "^7.5.3",
     "size-limit": "^8.2.4",
     "text-encoding": "^0.7.0",
@@ -152,5 +150,9 @@
   ],
   "overrides": {
     "semver": "^7.5.3"
+  },
+  "dependencies": {
+    "prettier": "^3.0.0",
+    "prettier-plugin-organize-imports": "^3.2.3"
   }
 }
