@@ -12,7 +12,7 @@ import { GovernanceError } from "../../errors/governance.errors";
  * @throws {@link GovernanceError}
  */
 export const getSuccessfulCommandFromResponse = (
-  response: ManageNeuronResponse
+  response: ManageNeuronResponse,
 ): Command_1 => {
   const { command } = response;
   const data = command[0];

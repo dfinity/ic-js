@@ -140,7 +140,7 @@ const toNeuron = ({
 }): Neuron => ({
   id: neuron.id.length ? toNeuronId(neuron.id[0]) : undefined,
   stakedMaturityE8sEquivalent: fromNullable(
-    neuron.staked_maturity_e8s_equivalent
+    neuron.staked_maturity_e8s_equivalent,
   ),
   controller: neuron.controller.length
     ? neuron.controller[0].toString()
@@ -165,7 +165,7 @@ const toNeuron = ({
     : undefined,
   spawnAtTimesSeconds: neuron.spawn_at_timestamp_seconds[0],
   followees: neuron.followees.map(([topic, followees]) =>
-    toFollowees({ topic, followees })
+    toFollowees({ topic, followees }),
   ),
 });
 
@@ -201,7 +201,7 @@ const toFollowees = ({
 const toNeuronId = ({ id }: RawNeuronId): NeuronId => id;
 
 const toNeuronIdOrSubaccount = (
-  neuronIdOrSubaccount: RawNeuronIdOrSubaccount
+  neuronIdOrSubaccount: RawNeuronIdOrSubaccount,
 ): NeuronIdOrSubaccount => {
   if ("NeuronId" in neuronIdOrSubaccount) {
     return { NeuronId: neuronIdOrSubaccount.NeuronId.id };
@@ -350,7 +350,7 @@ const toAction = (action: RawAction): Action => {
     return {
       SetDefaultFollowees: {
         defaultFollowees: setDefaultFollowees.default_followees.map(
-          ([topic, followees]) => toFollowees({ topic, followees })
+          ([topic, followees]) => toFollowees({ topic, followees }),
         ),
       },
     };
@@ -400,10 +400,10 @@ const toAction = (action: RawAction): Action => {
     return {
       OpenSnsTokenSwap: {
         communityFundInvestmentE8s: fromNullable(
-          OpenSnsTokenSwap.community_fund_investment_e8s
+          OpenSnsTokenSwap.community_fund_investment_e8s,
         ),
         targetSwapCanisterId: fromNullable(
-          OpenSnsTokenSwap.target_swap_canister_id
+          OpenSnsTokenSwap.target_swap_canister_id,
         ),
         ...(params !== undefined && {
           params: {
@@ -416,7 +416,7 @@ const toAction = (action: RawAction): Action => {
             minIcpE8s: params.min_icp_e8s,
             saleDelaySeconds: fromNullable(params.sale_delay_seconds),
             neuronBasketConstructionParameters: fromNullable(
-              params.neuron_basket_construction_parameters
+              params.neuron_basket_construction_parameters,
             ),
           },
         }),
@@ -430,27 +430,27 @@ const toAction = (action: RawAction): Action => {
       CreateServiceNervousSystem: {
         url: fromNullable(createServiceNervousSystem.url),
         governanceParameters: toGovernanceParameters(
-          fromNullable(createServiceNervousSystem.governance_parameters)
+          fromNullable(createServiceNervousSystem.governance_parameters),
         ),
         fallbackControllerPrincipalIds:
           createServiceNervousSystem.fallback_controller_principal_ids.map(
-            (principalId) => principalId.toString()
+            (principalId) => principalId.toString(),
           ),
         logo: toImage(fromNullable(createServiceNervousSystem.logo)),
         name: fromNullable(createServiceNervousSystem.name),
         ledgerParameters: toLedgerParameters(
-          fromNullable(createServiceNervousSystem.ledger_parameters)
+          fromNullable(createServiceNervousSystem.ledger_parameters),
         ),
         description: fromNullable(createServiceNervousSystem.description),
         dappCanisters:
           (createServiceNervousSystem.dapp_canisters.map(
-            toCanisterIdString
+            toCanisterIdString,
           ) as CanisterIdString[]) ?? [],
         swapParameters: toSwapParameters(
-          fromNullable(createServiceNervousSystem.swap_parameters)
+          fromNullable(createServiceNervousSystem.swap_parameters),
         ),
         initialTokenDistribution: toInitialTokenDistribution(
-          fromNullable(createServiceNervousSystem.initial_token_distribution)
+          fromNullable(createServiceNervousSystem.initial_token_distribution),
         ),
       },
     };
@@ -697,7 +697,7 @@ const toAmount = (amount: RawAmount): E8s => {
 };
 
 const toAccountIdentifier = (
-  accountIdentifier: RawAccountIdentifier
+  accountIdentifier: RawAccountIdentifier,
 ): AccountIdentifierString =>
   accountIdentifierFromBytes(new Uint8Array(accountIdentifier.hash));
 
@@ -749,18 +749,18 @@ const toClaimOrRefreshBy = (by: RawBy): By => {
 };
 
 export const toProposalInfo = (
-  proposalInfo: RawProposalInfo
+  proposalInfo: RawProposalInfo,
 ): ProposalInfo => ({
   id: proposalInfo.id.length ? toNeuronId(proposalInfo.id[0]) : undefined,
   ballots: proposalInfo.ballots.map((b) =>
-    toBallot({ neuronId: b[0], ballot: b[1] })
+    toBallot({ neuronId: b[0], ballot: b[1] }),
   ),
   rejectCost: proposalInfo.reject_cost_e8s,
   proposalTimestampSeconds: proposalInfo.proposal_timestamp_seconds,
   rewardEventRound: proposalInfo.reward_event_round,
   failedTimestampSeconds: proposalInfo.failed_timestamp_seconds,
   deadlineTimestampSeconds: fromNullable(
-    proposalInfo.deadline_timestamp_seconds
+    proposalInfo.deadline_timestamp_seconds,
   ),
   decidedTimestampSeconds: proposalInfo.decided_timestamp_seconds,
   proposal: proposalInfo.proposal.length
@@ -790,10 +790,10 @@ export const toArrayOfNeuronInfo = ({
       neuronId: id,
       neuronInfo,
       rawNeuron: full_neurons.find(
-        (neuron) => neuron.id.length && neuron.id[0].id === id
+        (neuron) => neuron.id.length && neuron.id[0].id === id,
       ),
       canisterId,
-    })
+    }),
   );
 
 export const toListProposalsResponse = ({
@@ -837,7 +837,7 @@ const pbNeuronToNeuronState = (neuron?: PbNeuron): NeuronState => {
 };
 
 const convertPbFolloweesMapToFollowees = (
-  pbFolloweesMap: Map<number, PbNeuron.Followees>
+  pbFolloweesMap: Map<number, PbNeuron.Followees>,
 ): Followees[] => {
   return pbFolloweesMap.toArray().map(([topicString, pbFollowees]) => {
     return {
@@ -851,7 +851,7 @@ const convertPbFolloweesMapToFollowees = (
 };
 
 const convertPbPrincipalIdToPrincipalString = (
-  pbPrincipal: PrincipalId
+  pbPrincipal: PrincipalId,
 ): string =>
   Principal.fromUint8Array(pbPrincipal.getSerializedId_asU8()).toText();
 
@@ -864,7 +864,7 @@ const convertNeuronSubaccountToAccountIdentifier = ({
 }): AccountIdentifier => {
   // We assume fromBytes does not return an Error type.
   const subAccount = SubAccount.fromBytes(
-    neuron.getAccount_asU8()
+    neuron.getAccount_asU8(),
   ) as SubAccount;
 
   return AccountIdentifier.fromPrincipal({
@@ -892,7 +892,7 @@ const convertPbNeuronToFullNeuron = ({
   if (pbNeuron.hasWhenDissolvedTimestampSeconds()) {
     dissolveState = {
       WhenDissolvedTimestampSeconds: BigInt(
-        pbNeuron.getWhenDissolvedTimestampSeconds()
+        pbNeuron.getWhenDissolvedTimestampSeconds(),
       ),
     };
   } else if (pbNeuron.hasDissolveDelaySeconds()) {
@@ -914,7 +914,7 @@ const convertPbNeuronToFullNeuron = ({
     autoStakeMaturity: undefined,
     maturityE8sEquivalent: BigInt(pbNeuron.getMaturityE8sEquivalent()),
     agingSinceTimestampSeconds: BigInt(
-      pbNeuron.getAgingSinceTimestampSeconds()
+      pbNeuron.getAgingSinceTimestampSeconds(),
     ),
     spawnAtTimesSeconds: pbNeuron.hasSpawnAtTimestampSeconds()
       ? BigInt(pbNeuron.getSpawnAtTimestampSeconds())
@@ -944,12 +944,12 @@ export const convertPbNeuronToNeuronInfo =
   }) =>
   (pbNeuronMapEntry: ListNeuronsResponse.NeuronMapEntry): NeuronInfo => {
     const pbNeuron = pbNeurons.find(
-      (pbNeuron) => pbNeuron.getId()?.getId() === pbNeuronMapEntry.getKey()
+      (pbNeuron) => pbNeuron.getId()?.getId() === pbNeuronMapEntry.getKey(),
     );
     const pbNeuronInfo = pbNeuronMapEntry.getValue();
     if (pbNeuronInfo === undefined) {
       throw new Error(
-        `NeuronInfo not present for neuron ${pbNeuronMapEntry.getKey()}`
+        `NeuronInfo not present for neuron ${pbNeuronMapEntry.getKey()}`,
       );
     }
     return {
@@ -957,13 +957,13 @@ export const convertPbNeuronToNeuronInfo =
       dissolveDelaySeconds: BigInt(pbNeuronInfo.getDissolveDelaySeconds()),
       recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
       createdTimestampSeconds: BigInt(
-        pbNeuronInfo.getCreatedTimestampSeconds()
+        pbNeuronInfo.getCreatedTimestampSeconds(),
       ),
       state: pbNeuronToNeuronState(pbNeuron),
       // TODO: Data not available in Neuron type
       joinedCommunityFundTimestampSeconds: undefined,
       retrievedAtTimestampSeconds: BigInt(
-        pbNeuronInfo.getRetrievedAtTimestampSeconds()
+        pbNeuronInfo.getRetrievedAtTimestampSeconds(),
       ),
       votingPower: BigInt(pbNeuronInfo.getVotingPower()),
       ageSeconds: BigInt(pbNeuronInfo.getAgeSeconds()),
@@ -975,7 +975,7 @@ export const convertPbNeuronToNeuronInfo =
   };
 
 const toPercentage = (
-  percentage: RawPercentage | undefined
+  percentage: RawPercentage | undefined,
 ): Percentage | undefined => {
   return percentage === undefined
     ? undefined
@@ -985,7 +985,7 @@ const toPercentage = (
 };
 
 const toDuration = (
-  duration: RawDuration | undefined
+  duration: RawDuration | undefined,
 ): Duration | undefined => {
   return duration === undefined
     ? undefined
@@ -1003,7 +1003,7 @@ const toTokens = (tokens: RawTokens | undefined): Tokens | undefined => {
 };
 
 const toCanisterIdString = (
-  canister: RawCanister | undefined
+  canister: RawCanister | undefined,
 ): CanisterIdString | undefined => {
   return canister === undefined
     ? undefined
@@ -1021,13 +1021,13 @@ const toImage = (image: RawImage | undefined): Image | undefined => {
 };
 
 const toLedgerParameters = (
-  ledgerParameters: RawLedgerParameters | undefined
+  ledgerParameters: RawLedgerParameters | undefined,
 ): LedgerParameters | undefined => {
   return ledgerParameters === undefined
     ? undefined
     : {
         transactionFee: toTokens(
-          fromNullable(ledgerParameters.transaction_fee)
+          fromNullable(ledgerParameters.transaction_fee),
         ),
         tokenSymbol: fromNullable(ledgerParameters.token_symbol),
         tokenLogo: toImage(fromNullable(ledgerParameters.token_logo)),
@@ -1036,62 +1036,64 @@ const toLedgerParameters = (
 };
 
 const toVotingRewardParameters = (
-  votingRewardParameters: RawVotingRewardParameters | undefined
+  votingRewardParameters: RawVotingRewardParameters | undefined,
 ): VotingRewardParameters | undefined => {
   return votingRewardParameters === undefined
     ? undefined
     : {
         rewardRateTransitionDuration: toDuration(
-          fromNullable(votingRewardParameters.reward_rate_transition_duration)
+          fromNullable(votingRewardParameters.reward_rate_transition_duration),
         ),
         initialRewardRate: toPercentage(
-          fromNullable(votingRewardParameters.initial_reward_rate)
+          fromNullable(votingRewardParameters.initial_reward_rate),
         ),
         finalRewardRate: toPercentage(
-          fromNullable(votingRewardParameters.final_reward_rate)
+          fromNullable(votingRewardParameters.final_reward_rate),
         ),
       };
 };
 
 const toGovernanceParameters = (
-  governanceParameters: RawGovernanceParameters | undefined
+  governanceParameters: RawGovernanceParameters | undefined,
 ): GovernanceParameters | undefined => {
   return governanceParameters === undefined
     ? undefined
     : {
         neuronMaximumDissolveDelayBonus: toPercentage(
-          fromNullable(governanceParameters.neuron_maximum_dissolve_delay_bonus)
+          fromNullable(
+            governanceParameters.neuron_maximum_dissolve_delay_bonus,
+          ),
         ),
         neuronMaximumAgeForAgeBonus: toDuration(
-          fromNullable(governanceParameters.neuron_maximum_age_for_age_bonus)
+          fromNullable(governanceParameters.neuron_maximum_age_for_age_bonus),
         ),
         neuronMaximumDissolveDelay: toDuration(
-          fromNullable(governanceParameters.neuron_maximum_dissolve_delay)
+          fromNullable(governanceParameters.neuron_maximum_dissolve_delay),
         ),
         neuronMinimumDissolveDelayToVote: toDuration(
           fromNullable(
-            governanceParameters.neuron_minimum_dissolve_delay_to_vote
-          )
+            governanceParameters.neuron_minimum_dissolve_delay_to_vote,
+          ),
         ),
         neuronMaximumAgeBonus: toPercentage(
-          fromNullable(governanceParameters.neuron_maximum_age_bonus)
+          fromNullable(governanceParameters.neuron_maximum_age_bonus),
         ),
         neuronMinimumStake: toTokens(
-          fromNullable(governanceParameters.neuron_minimum_stake)
+          fromNullable(governanceParameters.neuron_minimum_stake),
         ),
         proposalWaitForQuietDeadlineIncrease: toDuration(
           fromNullable(
-            governanceParameters.proposal_wait_for_quiet_deadline_increase
-          )
+            governanceParameters.proposal_wait_for_quiet_deadline_increase,
+          ),
         ),
         proposalInitialVotingPeriod: toDuration(
-          fromNullable(governanceParameters.proposal_initial_voting_period)
+          fromNullable(governanceParameters.proposal_initial_voting_period),
         ),
         proposalRejectionFee: toTokens(
-          fromNullable(governanceParameters.proposal_rejection_fee)
+          fromNullable(governanceParameters.proposal_rejection_fee),
         ),
         votingRewardParameters: toVotingRewardParameters(
-          fromNullable(governanceParameters.voting_reward_parameters)
+          fromNullable(governanceParameters.voting_reward_parameters),
         ),
       };
 };
@@ -1099,22 +1101,22 @@ const toGovernanceParameters = (
 const toNeuronBasketConstructionParameters = (
   neuronBasketConstructionParameters:
     | RawNeuronBasketConstructionParameters
-    | undefined
+    | undefined,
 ): NeuronBasketConstructionParameters | undefined => {
   return neuronBasketConstructionParameters === undefined
     ? undefined
     : {
         dissolveDelayInterval: toDuration(
           fromNullable(
-            neuronBasketConstructionParameters.dissolve_delay_interval
-          )
+            neuronBasketConstructionParameters.dissolve_delay_interval,
+          ),
         ),
         count: fromNullable(neuronBasketConstructionParameters.count),
       };
 };
 
 const toSwapParameters = (
-  swapParameters: RawSwapParameters | undefined
+  swapParameters: RawSwapParameters | undefined,
 ): SwapParameters | undefined => {
   return swapParameters === undefined
     ? undefined
@@ -1122,21 +1124,21 @@ const toSwapParameters = (
         minimumParticipants: fromNullable(swapParameters.minimum_participants),
         neuronBasketConstructionParameters:
           toNeuronBasketConstructionParameters(
-            fromNullable(swapParameters.neuron_basket_construction_parameters)
+            fromNullable(swapParameters.neuron_basket_construction_parameters),
           ),
         maximumParticipantIcp: toTokens(
-          fromNullable(swapParameters.maximum_participant_icp)
+          fromNullable(swapParameters.maximum_participant_icp),
         ),
         minimumIcp: toTokens(fromNullable(swapParameters.minimum_icp)),
         minimumParticipantIcp: toTokens(
-          fromNullable(swapParameters.minimum_participant_icp)
+          fromNullable(swapParameters.minimum_participant_icp),
         ),
         maximumIcp: toTokens(fromNullable(swapParameters.maximum_icp)),
       };
 };
 
 const toSwapDistribution = (
-  swapDistribution: RawSwapDistribution | undefined
+  swapDistribution: RawSwapDistribution | undefined,
 ): SwapDistribution | undefined => {
   return swapDistribution === undefined
     ? undefined
@@ -1146,7 +1148,7 @@ const toSwapDistribution = (
 };
 
 const toNeuronDistribution = (
-  neuronDistribution: RawNeuronDistribution | undefined
+  neuronDistribution: RawNeuronDistribution | undefined,
 ): NeuronDistribution | undefined => {
   return neuronDistribution === undefined
     ? undefined
@@ -1156,42 +1158,42 @@ const toNeuronDistribution = (
             ? undefined
             : neuronDistribution.controller[0].toString(),
         dissolveDelay: toDuration(
-          fromNullable(neuronDistribution.dissolve_delay)
+          fromNullable(neuronDistribution.dissolve_delay),
         ),
         memo: fromNullable(neuronDistribution.memo),
         vestingPeriod: toDuration(
-          fromNullable(neuronDistribution.vesting_period)
+          fromNullable(neuronDistribution.vesting_period),
         ),
         stake: toTokens(fromNullable(neuronDistribution.stake)),
       };
 };
 
 const toDeveloperDistribution = (
-  developerDistribution: RawDeveloperDistribution | undefined
+  developerDistribution: RawDeveloperDistribution | undefined,
 ): DeveloperDistribution | undefined => {
   return developerDistribution === undefined
     ? undefined
     : {
         developerNeurons: developerDistribution.developer_neurons.map(
-          toNeuronDistribution
+          toNeuronDistribution,
         ) as Array<NeuronDistribution>,
       };
 };
 
 const toInitialTokenDistribution = (
-  initialTokenDistribution: RawInitialTokenDistribution | undefined
+  initialTokenDistribution: RawInitialTokenDistribution | undefined,
 ): InitialTokenDistribution | undefined => {
   return initialTokenDistribution === undefined
     ? undefined
     : {
         treasuryDistribution: toSwapDistribution(
-          fromNullable(initialTokenDistribution.treasury_distribution)
+          fromNullable(initialTokenDistribution.treasury_distribution),
         ),
         developerDistribution: toDeveloperDistribution(
-          fromNullable(initialTokenDistribution.developer_distribution)
+          fromNullable(initialTokenDistribution.developer_distribution),
         ),
         swapDistribution: toSwapDistribution(
-          fromNullable(initialTokenDistribution.swap_distribution)
+          fromNullable(initialTokenDistribution.swap_distribution),
         ),
       };
 };

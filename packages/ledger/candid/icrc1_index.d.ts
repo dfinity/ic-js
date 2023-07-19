@@ -37,7 +37,7 @@ export interface Transaction {
           memo: [] | [Uint8Array];
           created_at_time: [] | [bigint];
           amount: bigint;
-        }
+        },
       ];
   kind: string;
   mint:
@@ -48,7 +48,7 @@ export interface Transaction {
           memo: [] | [Uint8Array];
           created_at_time: [] | [bigint];
           amount: bigint;
-        }
+        },
       ];
   timestamp: bigint;
   transfer:
@@ -61,7 +61,7 @@ export interface Transaction {
           memo: [] | [Uint8Array];
           created_at_time: [] | [bigint];
           amount: bigint;
-        }
+        },
       ];
 }
 export interface TransactionWithId {

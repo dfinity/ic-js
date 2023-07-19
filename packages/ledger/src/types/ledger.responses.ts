@@ -12,7 +12,7 @@ export enum IcrcMetadataResponseEntries {
 
 export type IcrcTokenMetadataResponse = [
   string | IcrcMetadataResponseEntries,
-  Value
+  Value,
 ][];
 
 export interface IcrcAccount {

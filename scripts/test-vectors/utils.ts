@@ -32,7 +32,7 @@ import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../packages/nns/src/constants
  */
 
 function _prepareCborForLedger(
-  request: ReadRequest | CallRequest
+  request: ReadRequest | CallRequest,
 ): ArrayBuffer {
   return Cbor.encode({ content: request });
 }
@@ -91,7 +91,7 @@ export const writeToJson = ({
           return value.toText();
         }
         return value;
-      })
+      }),
     );
   } catch (error) {
     console.log("There was an error");

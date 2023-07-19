@@ -33,14 +33,14 @@ export class BadFeeError extends TransferError {
 }
 
 export const mapTransferError = (
-  rawTransferError: RawTransferError
+  rawTransferError: RawTransferError,
 ): TransferError => {
   if ("TxDuplicate" in rawTransferError) {
     return new TxDuplicateError(rawTransferError.TxDuplicate.duplicate_of);
   }
   if ("InsufficientFunds" in rawTransferError) {
     return new InsufficientFundsError(
-      rawTransferError.InsufficientFunds.balance.e8s
+      rawTransferError.InsufficientFunds.balance.e8s,
     );
   }
   if ("TxCreatedInFuture" in rawTransferError) {
@@ -48,7 +48,7 @@ export const mapTransferError = (
   }
   if ("TxTooOld" in rawTransferError) {
     return new TxTooOldError(
-      Number(rawTransferError.TxTooOld.allowed_window_nanos)
+      Number(rawTransferError.TxTooOld.allowed_window_nanos),
     );
   }
   if ("BadFee" in rawTransferError) {
@@ -56,7 +56,7 @@ export const mapTransferError = (
   }
   // Edge case
   return new TransferError(
-    `Unknown error type ${JSON.stringify(rawTransferError)}`
+    `Unknown error type ${JSON.stringify(rawTransferError)}`,
   );
 };
 
@@ -81,7 +81,7 @@ export const mapTransferProtoError = (responseBytes: Error): TransferError => {
 
     {
       const m = message.match(
-        /debit account.*, current balance: (\d*(\.\d*)?)/
+        /debit account.*, current balance: (\d*(\.\d*)?)/,
       );
       if (m && m.length > 1) {
         const balance = convertStringToE8s(m[1]);

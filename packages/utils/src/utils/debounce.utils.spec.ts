@@ -4,7 +4,7 @@ describe("debounce-utils", () => {
   let callback: jest.Mock;
 
   beforeAll(() =>
-    jest.spyOn(console, "error").mockImplementation(() => undefined)
+    jest.spyOn(console, "error").mockImplementation(() => undefined),
   );
 
   afterAll(() => jest.resetAllMocks());
