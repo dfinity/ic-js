@@ -15,12 +15,10 @@ function install_agent() {
 PACKAGES=utils,ckbtc,cmc,ic-management,ledger,nns,sns
 
 # Remove all agents first to avoid resolve conflicts
-for package in $(echo $PACKAGES | sed "s/,/ /g")
-do
-    rm_agent "$package"
+for package in $(echo $PACKAGES | sed "s/,/ /g"); do
+  rm_agent "$package"
 done
 
-for package in $(echo $PACKAGES | sed "s/,/ /g")
-do
-    install_agent "$package"
+for package in $(echo $PACKAGES | sed "s/,/ /g"); do
+  install_agent "$package"
 done
