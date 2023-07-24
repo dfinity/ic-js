@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+function rm_agent() {
+  local package=$1
+
+  npm rm @dfinity/agent @dfinity/candid @dfinity/principal --workspace=packages/"$package"
+}
+
+function install_agent() {
+  local package=$1
+
+  npm i @dfinity/agent@latest @dfinity/candid@latest @dfinity/principal@latest --workspace=packages/"$package" --save-peer
+}
+
+PACKAGES=utils,ckbtc,cmc,ic-management,ledger,nns,sns
+
+# Remove all agents first to avoid resolve conflicts
+for package in $(echo $PACKAGES | sed "s/,/ /g")
+do
+    rm_agent "$package"
+done
+
+for package in $(echo $PACKAGES | sed "s/,/ /g")
+do
+    install_agent "$package"
+done
