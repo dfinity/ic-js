@@ -51,10 +51,10 @@
     "network-nervous-system"
   ],
   "peerDependencies": {
-    "@dfinity/agent": "^0.15.4",
-    "@dfinity/candid": "^0.15.4",
+    "@dfinity/agent": "^0.18.1",
+    "@dfinity/candid": "^0.18.1",
     "@dfinity/nns-proto": "^0.0.5",
-    "@dfinity/principal": "^0.15.4",
+    "@dfinity/principal": "^0.18.1",
     "@dfinity/utils": "^0.0.19"
   }
 }

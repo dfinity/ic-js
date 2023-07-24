@@ -2,6 +2,7 @@ import {
   ActorSubclass,
   AnonymousIdentity,
   polling,
+  SubmitResponse,
   type Agent,
   type RequestId,
 } from "@dfinity/agent";
@@ -54,7 +55,7 @@ describe("GovernanceCanister", () => {
       status: 13,
       statusText: "good",
     },
-  };
+  } as SubmitResponse;
   const newSpawnNeuronId = new PbNeuronId();
   newSpawnNeuronId.setId("1234");
   const spawnResponse = new PbManageNeuronResponse.SpawnResponse();
@@ -1335,7 +1336,7 @@ describe("GovernanceCanister", () => {
           status: 13,
           statusText: "good",
         },
-      };
+      } as SubmitResponse;
       agent.call.mockResolvedValue(response);
 
       const governance = GovernanceCanister.create({
