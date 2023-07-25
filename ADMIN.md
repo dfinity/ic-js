@@ -42,7 +42,7 @@ Add an empty test file `index.spec.ts` to make sure the command will not fail be
 ```javaScript
 import * as lib from "./index";
 
-describe("rosetta-client", () => {
+describe("my-lib", () => {
   it("is implemented", () => {
     expect(lib).toEqual({});
   });
