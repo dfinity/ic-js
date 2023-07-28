@@ -22,12 +22,12 @@ import type {
   Canister as RawCanister,
   Change as RawChange,
   Command as RawCommand,
+  Countries as RawCountries,
   DeveloperDistribution as RawDeveloperDistribution,
   DissolveState as RawDissolveState,
   Duration as RawDuration,
-  GlobalTimeOfDay as RawGlobalTimeOfDay,
-  Countries as RawCountries,
   Followees as RawFollowees,
+  GlobalTimeOfDay as RawGlobalTimeOfDay,
   GovernanceParameters as RawGovernanceParameters,
   Image as RawImage,
   InitialTokenDistribution as RawInitialTokenDistribution,
@@ -70,12 +70,12 @@ import type {
   By,
   Change,
   Command,
+  Countries,
   DeveloperDistribution,
   DissolveState,
   Duration,
-  GlobalTimeOfDay,
-  Countries,
   Followees,
+  GlobalTimeOfDay,
   GovernanceParameters,
   Image,
   InitialTokenDistribution,
@@ -1004,7 +1004,7 @@ const toGlobalTimeOfDay = (
   return time === undefined
     ? undefined
     : {
-      secondsAfterUtcMidnight: fromNullable(time.seconds_after_utc_midnight),
+        secondsAfterUtcMidnight: fromNullable(time.seconds_after_utc_midnight),
       };
 };
 
@@ -1013,9 +1013,9 @@ const toCountries = (
 ): Countries | undefined => {
   return countries === undefined
     ? undefined
-    : {
+    : ({
         isoCodes: countries.iso_codes,
-      } as Countries;
+      } as Countries);
 };
 
 const toTokens = (tokens: RawTokens | undefined): Tokens | undefined => {
@@ -1155,14 +1155,18 @@ const toSwapParameters = (
         maximumParticipantIcp: toTokens(
           fromNullable(swapParameters.maximum_participant_icp),
         ),
-        neuronsFundInvestment: toTokens(fromNullable(swapParameters.neurons_fund_investment)),
+        neuronsFundInvestment: toTokens(
+          fromNullable(swapParameters.neurons_fund_investment),
+        ),
         minimumIcp: toTokens(fromNullable(swapParameters.minimum_icp)),
         minimumParticipantIcp: toTokens(
           fromNullable(swapParameters.minimum_participant_icp),
         ),
         startTime: toGlobalTimeOfDay(fromNullable(swapParameters.start_time)),
         maximumIcp: toTokens(fromNullable(swapParameters.maximum_icp)),
-        restrictedCountries: toCountries(fromNullable(swapParameters.restricted_countries)),
+        restrictedCountries: toCountries(
+          fromNullable(swapParameters.restricted_countries),
+        ),
       };
 };
 

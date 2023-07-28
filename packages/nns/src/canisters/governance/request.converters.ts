@@ -11,8 +11,8 @@ import type {
   CreateServiceNervousSystem as RawCreateServiceNervousSystem,
   DeveloperDistribution as RawDeveloperDistribution,
   Duration as RawDuration,
-  GlobalTimeOfDay as RawGlobalTimeOfDay,
   Followees as RawFollowees,
+  GlobalTimeOfDay as RawGlobalTimeOfDay,
   GovernanceParameters as RawGovernanceParameters,
   Image as RawImage,
   InitialTokenDistribution as RawInitialTokenDistribution,
@@ -42,12 +42,14 @@ import type {
   By,
   Change,
   ClaimOrRefreshNeuronRequest,
-  Command, Countries,
+  Command,
+  Countries,
   CreateServiceNervousSystem,
   DeveloperDistribution,
   DisburseToNeuronRequest,
   Duration,
-  FollowRequest, GlobalTimeOfDay,
+  FollowRequest,
+  GlobalTimeOfDay,
   GovernanceParameters,
   Image,
   InitialTokenDistribution,
@@ -109,8 +111,9 @@ const fromGlobalTimeOfDay = (time: GlobalTimeOfDay): RawGlobalTimeOfDay =>
     ? { seconds_after_utc_midnight: [time.secondsAfterUtcMidnight] }
     : { seconds_after_utc_midnight: [] };
 
-const fromCountries = (countries: Countries): RawCountries =>
-  ({ iso_codes: countries.isoCodes });
+const fromCountries = (countries: Countries): RawCountries => ({
+  iso_codes: countries.isoCodes,
+});
 
 const fromTokens = (tokens: Tokens): RawTokens =>
   tokens.e8s !== undefined ? { e8s: [tokens.e8s] } : { e8s: [] };
@@ -165,7 +168,10 @@ const fromSwapParameters = (
     swapParameters.minimumParticipants !== undefined
       ? [swapParameters.minimumParticipants]
       : [],
-  duration: swapParameters.duration !== undefined ? [fromDuration(swapParameters.duration)] : [],
+  duration:
+    swapParameters.duration !== undefined
+      ? [fromDuration(swapParameters.duration)]
+      : [],
   neuron_basket_construction_parameters:
     swapParameters.neuronBasketConstructionParameters !== undefined
       ? [
@@ -174,12 +180,18 @@ const fromSwapParameters = (
           ),
         ]
       : [],
-  confirmation_text: swapParameters.confirmationText !== undefined ? [swapParameters.confirmationText] : [],
+  confirmation_text:
+    swapParameters.confirmationText !== undefined
+      ? [swapParameters.confirmationText]
+      : [],
   maximum_participant_icp:
     swapParameters.maximumParticipantIcp !== undefined
       ? [fromTokens(swapParameters.maximumParticipantIcp)]
       : [],
-  neurons_fund_investment: swapParameters.neuronsFundInvestment !== undefined ? [fromTokens(swapParameters.neuronsFundInvestment)] : [],
+  neurons_fund_investment:
+    swapParameters.neuronsFundInvestment !== undefined
+      ? [fromTokens(swapParameters.neuronsFundInvestment)]
+      : [],
   minimum_icp:
     swapParameters.minimumIcp !== undefined
       ? [fromTokens(swapParameters.minimumIcp)]
@@ -188,14 +200,18 @@ const fromSwapParameters = (
     swapParameters.minimumParticipantIcp !== undefined
       ? [fromTokens(swapParameters.minimumParticipantIcp)]
       : [],
-  start_time: swapParameters.startTime !== undefined ? [fromGlobalTimeOfDay(swapParameters.startTime)] : [],
+  start_time:
+    swapParameters.startTime !== undefined
+      ? [fromGlobalTimeOfDay(swapParameters.startTime)]
+      : [],
   maximum_icp:
     swapParameters.maximumIcp !== undefined
       ? [fromTokens(swapParameters.maximumIcp)]
       : [],
-  restricted_countries: swapParameters.restrictedCountries !== undefined
-    ? [fromCountries(swapParameters.restrictedCountries)]
-    : [],
+  restricted_countries:
+    swapParameters.restrictedCountries !== undefined
+      ? [fromCountries(swapParameters.restrictedCountries)]
+      : [],
 });
 
 const fromNeuronBasketConstructionParameters = (
@@ -893,7 +909,10 @@ export const fromListProposalsRequest = ({
     before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
     limit: limit,
     exclude_topic: Int32Array.from(excludeTopic),
-    include_all_manage_neuron_proposals:  includeAllManageNeuronProposals !== undefined ? [includeAllManageNeuronProposals] : [],
+    include_all_manage_neuron_proposals:
+      includeAllManageNeuronProposals !== undefined
+        ? [includeAllManageNeuronProposals]
+        : [],
     include_status: Int32Array.from(includeStatus),
   };
 };
