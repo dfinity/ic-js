@@ -502,6 +502,14 @@ export interface Duration {
   seconds?: bigint;
 }
 
+export interface GlobalTimeOfDay {
+  secondsAfterUtcMidnight?: bigint;
+}
+
+export interface Countries {
+  isoCodes: Array<string>;
+}
+
 export interface Tokens {
   e8s?: bigint;
 }
@@ -542,11 +550,16 @@ export interface NeuronBasketConstructionParameters {
 }
 export interface SwapParameters {
   minimumParticipants?: bigint;
+  duration?: Duration;
   neuronBasketConstructionParameters?: NeuronBasketConstructionParameters;
+  confirmationText?: string;
   maximumParticipantIcp?: Tokens;
+  neuronsFundInvestment?: Tokens;
   minimumIcp?: Tokens;
   minimumParticipantIcp?: Tokens;
+  startTime?: GlobalTimeOfDay;
   maximumIcp?: Tokens;
+  restrictedCountries?: Countries;
 }
 
 export interface SwapDistribution {

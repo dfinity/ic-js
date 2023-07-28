@@ -255,15 +255,24 @@ export const idlFactory = ({ IDL }) => {
     'dissolve_delay_interval' : IDL.Opt(Duration),
     'count' : IDL.Opt(IDL.Nat64),
   });
+  const GlobalTimeOfDay = IDL.Record({
+    'seconds_after_utc_midnight' : IDL.Opt(IDL.Nat64),
+  });
+  const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const SwapParameters = IDL.Record({
     'minimum_participants' : IDL.Opt(IDL.Nat64),
+    'duration' : IDL.Opt(Duration),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
     ),
+    'confirmation_text' : IDL.Opt(IDL.Text),
     'maximum_participant_icp' : IDL.Opt(Tokens),
+    'neurons_fund_investment' : IDL.Opt(Tokens),
     'minimum_icp' : IDL.Opt(Tokens),
     'minimum_participant_icp' : IDL.Opt(Tokens),
+    'start_time' : IDL.Opt(GlobalTimeOfDay),
     'maximum_icp' : IDL.Opt(Tokens),
+    'restricted_countries' : IDL.Opt(Countries),
   });
   const SwapDistribution = IDL.Record({ 'total' : IDL.Opt(Tokens) });
   const NeuronDistribution = IDL.Record({
@@ -906,15 +915,24 @@ export const init = ({ IDL }) => {
     'dissolve_delay_interval' : IDL.Opt(Duration),
     'count' : IDL.Opt(IDL.Nat64),
   });
+  const GlobalTimeOfDay = IDL.Record({
+    'seconds_after_utc_midnight' : IDL.Opt(IDL.Nat64),
+  });
+  const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const SwapParameters = IDL.Record({
     'minimum_participants' : IDL.Opt(IDL.Nat64),
+    'duration' : IDL.Opt(Duration),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
     ),
+    'confirmation_text' : IDL.Opt(IDL.Text),
     'maximum_participant_icp' : IDL.Opt(Tokens),
+    'neurons_fund_investment' : IDL.Opt(Tokens),
     'minimum_icp' : IDL.Opt(Tokens),
     'minimum_participant_icp' : IDL.Opt(Tokens),
+    'start_time' : IDL.Opt(GlobalTimeOfDay),
     'maximum_icp' : IDL.Opt(Tokens),
+    'restricted_countries' : IDL.Opt(Countries),
   });
   const SwapDistribution = IDL.Record({ 'total' : IDL.Opt(Tokens) });
   const NeuronDistribution = IDL.Record({

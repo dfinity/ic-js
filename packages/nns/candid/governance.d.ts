@@ -126,6 +126,9 @@ export interface Committed {
 export interface Configure {
   operation: [] | [Operation];
 }
+export interface Countries {
+  iso_codes: Array<string>;
+}
 export interface CreateServiceNervousSystem {
   url: [] | [string];
   governance_parameters: [] | [GovernanceParameters];
@@ -174,6 +177,9 @@ export interface Follow {
 }
 export interface Followees {
   followees: Array<NeuronId>;
+}
+export interface GlobalTimeOfDay {
+  seconds_after_utc_midnight: [] | [bigint];
 }
 export interface Governance {
   default_followees: Array<[number, Followees]>;
@@ -566,13 +572,18 @@ export interface SwapDistribution {
 }
 export interface SwapParameters {
   minimum_participants: [] | [bigint];
+  duration: [] | [Duration];
   neuron_basket_construction_parameters:
     | []
     | [NeuronBasketConstructionParameters];
+  confirmation_text: [] | [string];
   maximum_participant_icp: [] | [Tokens];
+  neurons_fund_investment: [] | [Tokens];
   minimum_icp: [] | [Tokens];
   minimum_participant_icp: [] | [Tokens];
+  start_time: [] | [GlobalTimeOfDay];
   maximum_icp: [] | [Tokens];
+  restricted_countries: [] | [Countries];
 }
 export interface Tally {
   no: bigint;
