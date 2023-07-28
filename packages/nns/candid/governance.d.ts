@@ -275,6 +275,7 @@ export interface ListProposalInfo {
   before_proposal: [] | [NeuronId];
   limit: number;
   exclude_topic: Int32Array;
+  include_all_manage_neuron_proposals: [] | [boolean];
   include_status: Int32Array;
 }
 export interface ListProposalInfoResponse {

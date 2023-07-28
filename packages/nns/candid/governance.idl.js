@@ -532,6 +532,7 @@ export const idlFactory = ({ IDL }) => {
     'before_proposal' : IDL.Opt(NeuronId),
     'limit' : IDL.Nat32,
     'exclude_topic' : IDL.Vec(IDL.Int32),
+    'include_all_manage_neuron_proposals' : IDL.Opt(IDL.Bool),
     'include_status' : IDL.Vec(IDL.Int32),
   });
   const ListProposalInfoResponse = IDL.Record({

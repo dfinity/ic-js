@@ -869,12 +869,14 @@ export const fromListProposalsRequest = ({
   excludeTopic,
   includeStatus,
   limit,
+  includeAllManageNeuronProposals,
 }: ListProposalsRequest): ListProposalInfo => {
   return {
     include_reward_status: Int32Array.from(includeRewardStatus),
     before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
     limit: limit,
     exclude_topic: Int32Array.from(excludeTopic),
+    include_all_manage_neuron_proposals:  includeAllManageNeuronProposals !== undefined ? [includeAllManageNeuronProposals] : [],
     include_status: Int32Array.from(includeStatus),
   };
 };

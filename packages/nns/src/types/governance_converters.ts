@@ -155,6 +155,11 @@ export interface ListProposalsRequest {
   // seeing
   excludeTopic: Array<Topic>;
 
+  // Include all ManageNeuron proposals regardless of the visibility of the
+  // proposal to the caller principal. Note that exclude_topic is still
+  // respected even when this option is set to true.
+  includeAllManageNeuronProposals: boolean;
+
   // Include proposals that have a status in this list (see
   // [ProposalStatus] for more information). If this list is empty, no
   // restriction is applied.
