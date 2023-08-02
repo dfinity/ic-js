@@ -25,6 +25,7 @@ export type {
   GetBuyerStateRequest as SnsGetBuyerStateRequest,
   GetBuyerStateResponse as SnsGetBuyerStateResponse,
   GetDerivedStateResponse as SnsGetDerivedStateResponse,
+  GetInitResponse as SnsGetInitResponse,
   GetLifecycleResponse as SnsGetLifecycleResponse,
   GetSaleParametersResponse as SnsGetSaleParametersResponse,
   Init as SnsSwapInit,
