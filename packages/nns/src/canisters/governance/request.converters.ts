@@ -188,9 +188,9 @@ const fromSwapParameters = (
     swapParameters.maximumParticipantIcp !== undefined
       ? [fromTokens(swapParameters.maximumParticipantIcp)]
       : [],
-  neurons_fund_investment:
-    swapParameters.neuronsFundInvestment !== undefined
-      ? [fromTokens(swapParameters.neuronsFundInvestment)]
+  neurons_fund_investment_icp:
+    swapParameters.neuronsFundInvestmentIcp !== undefined
+      ? [fromTokens(swapParameters.neuronsFundInvestmentIcp)]
       : [],
   minimum_icp:
     swapParameters.minimumIcp !== undefined

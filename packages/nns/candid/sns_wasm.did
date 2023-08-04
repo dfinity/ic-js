@@ -1,4 +1,4 @@
-// Generated from IC repo commit 509bc5a87192031915768db6e24647cc26f86069 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
+// Generated from IC repo commit 72b42535224bc01c89266be2e9ec067cadf10515 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
 type AddWasmRequest = record { hash : vec nat8; wasm : opt SnsWasm };
 type AddWasmResponse = record { result : opt Result };
 type AirdropDistribution = record { airdrop_neurons : vec NeuronDistribution };
@@ -126,6 +126,7 @@ type SnsInitPayload = record {
   max_age_bonus_percentage : opt nat64;
   initial_token_distribution : opt InitialTokenDistribution;
   reward_rate_transition_duration_seconds : opt nat64;
+  token_logo : opt text;
   token_name : opt text;
   max_participant_icp_e8s : opt nat64;
   proposal_reject_cost_e8s : opt nat64;

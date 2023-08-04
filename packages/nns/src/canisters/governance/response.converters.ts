@@ -1155,8 +1155,8 @@ const toSwapParameters = (
         maximumParticipantIcp: toTokens(
           fromNullable(swapParameters.maximum_participant_icp),
         ),
-        neuronsFundInvestment: toTokens(
-          fromNullable(swapParameters.neurons_fund_investment),
+        neuronsFundInvestmentIcp: toTokens(
+          fromNullable(swapParameters.neurons_fund_investment_icp),
         ),
         minimumIcp: toTokens(fromNullable(swapParameters.minimum_icp)),
         minimumParticipantIcp: toTokens(

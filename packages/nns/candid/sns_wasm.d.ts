@@ -164,6 +164,7 @@ export interface SnsInitPayload {
   max_age_bonus_percentage: [] | [bigint];
   initial_token_distribution: [] | [InitialTokenDistribution];
   reward_rate_transition_duration_seconds: [] | [bigint];
+  token_logo: [] | [string];
   token_name: [] | [string];
   max_participant_icp_e8s: [] | [bigint];
   proposal_reject_cost_e8s: [] | [bigint];

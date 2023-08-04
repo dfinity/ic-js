@@ -267,11 +267,11 @@ export const idlFactory = ({ IDL }) => {
     ),
     'confirmation_text' : IDL.Opt(IDL.Text),
     'maximum_participant_icp' : IDL.Opt(Tokens),
-    'neurons_fund_investment' : IDL.Opt(Tokens),
     'minimum_icp' : IDL.Opt(Tokens),
     'minimum_participant_icp' : IDL.Opt(Tokens),
     'start_time' : IDL.Opt(GlobalTimeOfDay),
     'maximum_icp' : IDL.Opt(Tokens),
+    'neurons_fund_investment_icp' : IDL.Opt(Tokens),
     'restricted_countries' : IDL.Opt(Countries),
   });
   const SwapDistribution = IDL.Record({ 'total' : IDL.Opt(Tokens) });
@@ -927,11 +927,11 @@ export const init = ({ IDL }) => {
     ),
     'confirmation_text' : IDL.Opt(IDL.Text),
     'maximum_participant_icp' : IDL.Opt(Tokens),
-    'neurons_fund_investment' : IDL.Opt(Tokens),
     'minimum_icp' : IDL.Opt(Tokens),
     'minimum_participant_icp' : IDL.Opt(Tokens),
     'start_time' : IDL.Opt(GlobalTimeOfDay),
     'maximum_icp' : IDL.Opt(Tokens),
+    'neurons_fund_investment_icp' : IDL.Opt(Tokens),
     'restricted_countries' : IDL.Opt(Countries),
   });
   const SwapDistribution = IDL.Record({ 'total' : IDL.Opt(Tokens) });
