@@ -554,7 +554,7 @@ export interface SwapParameters {
   neuronBasketConstructionParameters?: NeuronBasketConstructionParameters;
   confirmationText?: string;
   maximumParticipantIcp?: Tokens;
-  neuronsFundInvestment?: Tokens;
+  neuronsFundInvestmentIcp?: Tokens;
   minimumIcp?: Tokens;
   minimumParticipantIcp?: Tokens;
   startTime?: GlobalTimeOfDay;
