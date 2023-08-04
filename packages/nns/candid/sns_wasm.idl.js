@@ -96,6 +96,7 @@ export const idlFactory = ({ IDL }) => {
     'max_age_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'initial_token_distribution' : IDL.Opt(InitialTokenDistribution),
     'reward_rate_transition_duration_seconds' : IDL.Opt(IDL.Nat64),
+    'token_logo' : IDL.Opt(IDL.Text),
     'token_name' : IDL.Opt(IDL.Text),
     'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'proposal_reject_cost_e8s' : IDL.Opt(IDL.Nat64),

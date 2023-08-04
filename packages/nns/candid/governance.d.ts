@@ -578,11 +578,11 @@ export interface SwapParameters {
     | [NeuronBasketConstructionParameters];
   confirmation_text: [] | [string];
   maximum_participant_icp: [] | [Tokens];
-  neurons_fund_investment: [] | [Tokens];
   minimum_icp: [] | [Tokens];
   minimum_participant_icp: [] | [Tokens];
   start_time: [] | [GlobalTimeOfDay];
   maximum_icp: [] | [Tokens];
+  neurons_fund_investment_icp: [] | [Tokens];
   restricted_countries: [] | [Countries];
 }
 export interface Tally {

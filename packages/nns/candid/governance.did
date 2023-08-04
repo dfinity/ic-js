@@ -1,4 +1,4 @@
-// Generated from IC repo commit 509bc5a87192031915768db6e24647cc26f86069 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 72b42535224bc01c89266be2e9ec067cadf10515 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -481,11 +481,11 @@ type SwapParameters = record {
   neuron_basket_construction_parameters : opt NeuronBasketConstructionParameters;
   confirmation_text : opt text;
   maximum_participant_icp : opt Tokens;
-  neurons_fund_investment : opt Tokens;
   minimum_icp : opt Tokens;
   minimum_participant_icp : opt Tokens;
   start_time : opt GlobalTimeOfDay;
   maximum_icp : opt Tokens;
+  neurons_fund_investment_icp : opt Tokens;
   restricted_countries : opt Countries;
 };
 type Tally = record {
