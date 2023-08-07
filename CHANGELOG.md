@@ -11,7 +11,7 @@
 - utils `v0.0.20`
 - nns-proto `v0.0.6`
 
-# 0.18.1 (wip)
+# 0.18.1 (2023-08-07)
 
 ## Release
 
@@ -23,6 +23,20 @@
 - ic-management `v0.0.5`
 - utils `v0.0.19`
 - nns-proto `v0.0.5`
+
+## Features
+
+- update `nns/governance.did` and `sns_wasm.did` for 1-proposal
+- update `ic.did` for `@dfinity/ic-management`
+- update `icrc1_ledger.did`
+
+## Build
+
+- bump agent-js `v0.18.1`
+
+## Docs
+
+- add mention that ICRC-22 is currently a draft
 
 # 0.18.0 (2023-07-03)
 
