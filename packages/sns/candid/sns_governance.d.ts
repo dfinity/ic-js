@@ -36,10 +36,7 @@ export interface Ballot {
 }
 export type By = { MemoAndController: MemoAndController } | { NeuronId: {} };
 export interface CanisterStatusResultV2 {
-  controller: Principal;
   status: CanisterStatusType;
-  freezing_threshold: bigint;
-  balance: Array<[Uint8Array, bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
@@ -119,7 +116,6 @@ export interface DefaultFollowees {
   followees: Array<[bigint, Followees]>;
 }
 export interface DefiniteCanisterSettingsArgs {
-  controller: Principal;
   freezing_threshold: bigint;
   controllers: Array<Principal>;
   memory_allocation: bigint;

@@ -1,6 +1,9 @@
 import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
+export type AuthzChangeOp =
+  | { Authorize: { add_self: boolean } }
+  | { Deauthorize: null };
 export interface CanisterCallError {
   code: [] | [number];
   description: string;
@@ -8,10 +11,14 @@ export interface CanisterCallError {
 export interface CanisterIdRecord {
   canister_id: Principal;
 }
+export type CanisterInstallMode =
+  | { reinstall: null }
+  | { upgrade: null }
+  | { install: null };
 export interface CanisterStatusResult {
-  controller: Principal;
   status: CanisterStatusType;
   memory_size: bigint;
+  cycles: bigint;
   settings: DefiniteCanisterSettings;
   module_hash: [] | [Uint8Array];
 }
@@ -30,6 +37,17 @@ export type CanisterStatusType =
 export interface CanisterSummary {
   status: [] | [CanisterStatusResultV2];
   canister_id: [] | [Principal];
+}
+export interface ChangeCanisterProposal {
+  arg: Uint8Array;
+  wasm_module: Uint8Array;
+  stop_before_installing: boolean;
+  mode: CanisterInstallMode;
+  canister_id: Principal;
+  query_allocation: [] | [bigint];
+  authz_changes: Array<MethodAuthzChange>;
+  memory_allocation: [] | [bigint];
+  compute_allocation: [] | [bigint];
 }
 export interface DefiniteCanisterSettings {
   controllers: Array<Principal>;
@@ -65,6 +83,12 @@ export interface ListSnsCanistersResponse {
   dapps: Array<Principal>;
   archives: Array<Principal>;
 }
+export interface MethodAuthzChange {
+  principal: [] | [Principal];
+  method_name: string;
+  canister: Principal;
+  operation: AuthzChangeOp;
+}
 export interface RegisterDappCanisterRequest {
   canister_id: [] | [Principal];
 }
@@ -90,6 +114,7 @@ export interface SnsRootCanister {
 }
 export interface _SERVICE {
   canister_status: ActorMethod<[CanisterIdRecord], CanisterStatusResult>;
+  change_canister: ActorMethod<[ChangeCanisterProposal], undefined>;
   get_build_metadata: ActorMethod<[], string>;
   get_sns_canisters_summary: ActorMethod<
     [GetSnsCanistersSummaryRequest],
