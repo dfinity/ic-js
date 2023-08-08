@@ -1,4 +1,4 @@
-// Generated from IC repo commit 26b480f775222265f4369bc485d502a140f15564 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 726b1529fd34a47fcf0627a72301d62a282c788d 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -29,10 +29,7 @@ type By = variant {
   NeuronId : record {};
 };
 type CanisterStatusResultV2 = record {
-  controller : principal;
   status : CanisterStatusType;
-  freezing_threshold : nat;
-  balance : vec record { vec nat8; nat };
   memory_size : nat;
   cycles : nat;
   settings : DefiniteCanisterSettingsArgs;
@@ -100,7 +97,6 @@ type Command_2 = variant {
 type Configure = record { operation : opt Operation };
 type DefaultFollowees = record { followees : vec record { nat64; Followees } };
 type DefiniteCanisterSettingsArgs = record {
-  controller : principal;
   freezing_threshold : nat;
   controllers : vec principal;
   memory_allocation : nat;

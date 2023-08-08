@@ -20,11 +20,37 @@ export const idlFactory = ({ IDL }) => {
     'controllers' : IDL.Vec(IDL.Principal),
   });
   const CanisterStatusResult = IDL.Record({
-    'controller' : IDL.Principal,
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
+    'cycles' : IDL.Nat,
     'settings' : DefiniteCanisterSettings,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
+  const CanisterInstallMode = IDL.Variant({
+    'reinstall' : IDL.Null,
+    'upgrade' : IDL.Null,
+    'install' : IDL.Null,
+  });
+  const AuthzChangeOp = IDL.Variant({
+    'Authorize' : IDL.Record({ 'add_self' : IDL.Bool }),
+    'Deauthorize' : IDL.Null,
+  });
+  const MethodAuthzChange = IDL.Record({
+    'principal' : IDL.Opt(IDL.Principal),
+    'method_name' : IDL.Text,
+    'canister' : IDL.Principal,
+    'operation' : AuthzChangeOp,
+  });
+  const ChangeCanisterProposal = IDL.Record({
+    'arg' : IDL.Vec(IDL.Nat8),
+    'wasm_module' : IDL.Vec(IDL.Nat8),
+    'stop_before_installing' : IDL.Bool,
+    'mode' : CanisterInstallMode,
+    'canister_id' : IDL.Principal,
+    'query_allocation' : IDL.Opt(IDL.Nat),
+    'authz_changes' : IDL.Vec(MethodAuthzChange),
+    'memory_allocation' : IDL.Opt(IDL.Nat),
+    'compute_allocation' : IDL.Opt(IDL.Nat),
   });
   const GetSnsCanistersSummaryRequest = IDL.Record({
     'update_canister_list' : IDL.Opt(IDL.Bool),
@@ -92,6 +118,7 @@ export const idlFactory = ({ IDL }) => {
         [CanisterStatusResult],
         [],
       ),
+    'change_canister' : IDL.Func([ChangeCanisterProposal], [], []),
     'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
     'get_sns_canisters_summary' : IDL.Func(
         [GetSnsCanistersSummaryRequest],

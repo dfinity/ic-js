@@ -9,10 +9,7 @@ export interface CanisterCallError {
   description: string;
 }
 export interface CanisterStatusResultV2 {
-  controller: Principal;
   status: CanisterStatusType;
-  freezing_threshold: bigint;
-  balance: Array<[Uint8Array, bigint]>;
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
@@ -39,7 +36,6 @@ export interface Countries {
   iso_codes: Array<string>;
 }
 export interface DefiniteCanisterSettingsArgs {
-  controller: Principal;
   freezing_threshold: bigint;
   controllers: Array<Principal>;
   memory_allocation: bigint;
@@ -88,6 +84,11 @@ export interface FinalizeSwapResponse {
   claim_neuron_result: [] | [SweepResult];
   sweep_sns_result: [] | [SweepResult];
 }
+export interface GetAutoFinalizationStatusResponse {
+  auto_finalize_swap_response: [] | [FinalizeSwapResponse];
+  has_auto_finalize_been_attempted: [] | [boolean];
+  is_auto_finalize_enabled: [] | [boolean];
+}
 export interface GetBuyerStateRequest {
   principal_id: [] | [Principal];
 }
@@ -130,16 +131,30 @@ export interface Icrc1Account {
   subaccount: [] | [Uint8Array];
 }
 export interface Init {
+  nns_proposal_id: [] | [bigint];
   sns_root_canister_id: string;
+  min_participant_icp_e8s: [] | [bigint];
+  neuron_basket_construction_parameters:
+    | []
+    | [NeuronBasketConstructionParameters];
   fallback_controller_principal_ids: Array<string>;
+  max_icp_e8s: [] | [bigint];
   neuron_minimum_stake_e8s: [] | [bigint];
   confirmation_text: [] | [string];
+  swap_start_timestamp_seconds: [] | [bigint];
+  swap_due_timestamp_seconds: [] | [bigint];
+  min_participants: [] | [number];
+  sns_token_e8s: [] | [bigint];
   nns_governance_canister_id: string;
   transaction_fee_e8s: [] | [bigint];
   icp_ledger_canister_id: string;
   sns_ledger_canister_id: string;
+  neurons_fund_participants: [] | [NeuronsFundParticipants];
+  should_auto_finalize: [] | [boolean];
+  max_participant_icp_e8s: [] | [bigint];
   sns_governance_canister_id: string;
   restricted_countries: [] | [Countries];
+  min_icp_e8s: [] | [bigint];
 }
 export interface InvalidUserAmount {
   min_amount_icp_e8s_included: bigint;
@@ -151,9 +166,6 @@ export type Investor =
 export interface ListCommunityFundParticipantsRequest {
   offset: [] | [bigint];
   limit: [] | [number];
-}
-export interface ListCommunityFundParticipantsResponse {
-  cf_participants: Array<CfParticipant>;
 }
 export interface ListDirectParticipantsRequest {
   offset: [] | [number];
@@ -180,6 +192,9 @@ export interface NeuronBasketConstructionParameters {
 }
 export interface NeuronId {
   id: Uint8Array;
+}
+export interface NeuronsFundParticipants {
+  cf_participants: Array<CfParticipant>;
 }
 export interface NewSaleTicketRequest {
   subaccount: [] | [Uint8Array];
@@ -254,12 +269,14 @@ export interface SnsNeuronRecipe {
   investor: [] | [Investor];
 }
 export interface Swap {
+  auto_finalize_swap_response: [] | [FinalizeSwapResponse];
   neuron_recipes: Array<SnsNeuronRecipe>;
   next_ticket_id: [] | [bigint];
   decentralization_sale_open_timestamp_seconds: [] | [bigint];
   finalize_swap_in_progress: [] | [boolean];
   cf_participants: Array<CfParticipant>;
   init: [] | [Init];
+  already_tried_to_auto_finalize: [] | [boolean];
   purge_old_tickets_last_completion_timestamp_nanoseconds: [] | [bigint];
   lifecycle: number;
   purge_old_tickets_next_principal: [] | [Uint8Array];
@@ -293,6 +310,10 @@ export interface _SERVICE {
     ErrorRefundIcpResponse
   >;
   finalize_swap: ActorMethod<[{}], FinalizeSwapResponse>;
+  get_auto_finalization_status: ActorMethod<
+    [{}],
+    GetAutoFinalizationStatusResponse
+  >;
   get_buyer_state: ActorMethod<[GetBuyerStateRequest], GetBuyerStateResponse>;
   get_buyers_total: ActorMethod<[{}], GetBuyersTotalResponse>;
   get_canister_status: ActorMethod<[{}], CanisterStatusResultV2>;
@@ -304,7 +325,7 @@ export interface _SERVICE {
   get_state: ActorMethod<[{}], GetStateResponse>;
   list_community_fund_participants: ActorMethod<
     [ListCommunityFundParticipantsRequest],
-    ListCommunityFundParticipantsResponse
+    NeuronsFundParticipants
   >;
   list_direct_participants: ActorMethod<
     [ListDirectParticipantsRequest],

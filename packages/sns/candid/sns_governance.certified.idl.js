@@ -378,17 +378,13 @@ export const idlFactory = ({ IDL }) => {
     'running' : IDL.Null,
   });
   const DefiniteCanisterSettingsArgs = IDL.Record({
-    'controller' : IDL.Principal,
     'freezing_threshold' : IDL.Nat,
     'controllers' : IDL.Vec(IDL.Principal),
     'memory_allocation' : IDL.Nat,
     'compute_allocation' : IDL.Nat,
   });
   const CanisterStatusResultV2 = IDL.Record({
-    'controller' : IDL.Principal,
     'status' : CanisterStatusType,
-    'freezing_threshold' : IDL.Nat,
-    'balance' : IDL.Vec(IDL.Tuple(IDL.Vec(IDL.Nat8), IDL.Nat)),
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
     'settings' : DefiniteCanisterSettingsArgs,
