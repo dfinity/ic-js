@@ -297,6 +297,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    * @param {neuronId: NeuronId; toAccount?: IcrcAccount; percentageToDisburse: number; } params
    * @param {IcrcAccount} toAccount. Account to disburse maturity.
    * @param {NeuronId} neuronId The id of the neuron for which to disburse the maturity
+   * @param {number} percentageToDisburse How many percents of available maturity to disburse.
    */
   disburseMaturity = async (
     params: SnsNeuronDisburseMaturityParams,
