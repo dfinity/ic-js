@@ -39,6 +39,7 @@ import {
 import { rootCanisterIdMock } from "./mocks/sns.mock";
 import {
   SnsDisburseNeuronParams,
+  SnsNeuronDisburseMaturityParams,
   SnsRegisterVoteParams,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
@@ -1131,6 +1132,81 @@ describe("Governance canister", () => {
           neuronId: neuronIdMock,
           percentageToStake: 75,
         });
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("disburseMaturity", () => {
+    const toAccount = {
+      owner: Principal.fromText("aaaaa-aa"),
+      subaccount: arrayOfNumberToUint8Array([0, 0, 1]),
+    };
+    const params: SnsNeuronDisburseMaturityParams = {
+      neuronId: {
+        id: arrayOfNumberToUint8Array([1, 2, 3]),
+      },
+      percentageToDisburse: 50,
+      toAccount,
+    };
+
+    it("should disburse maturity of the neuron", async () => {
+      const request: ManageNeuron = {
+        subaccount: params.neuronId.id,
+        command: [
+          {
+            DisburseMaturity: {
+              to_account: [toCandidAccount(toAccount)],
+              percentage_to_disburse: params.percentageToDisburse,
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ DisburseMaturity: { amount_disbursed_e8s: BigInt(0) } }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.disburseMaturity(params);
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    });
+
+    it("throws error if percentage not valid", () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const call = () =>
+        canister.disburseMaturity({
+          ...params,
+          percentageToDisburse: 500,
+        });
+
+      expect(call).rejects.toThrow(InvalidPercentageError);
+      expect(service.manage_neuron).not.toBeCalled();
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.disburseMaturity(params);
+
       expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
