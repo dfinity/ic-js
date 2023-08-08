@@ -166,6 +166,15 @@ export interface SnsNeuronStakeMaturityParams
 }
 
 /**
+ * The parameters to disburse maturity of a neuron
+ */
+export interface SnsNeuronDisburseMaturityParams
+  extends SnsNeuronManagementParams {
+  toAccount?: IcrcAccount;
+  percentageToDisburse: number;
+}
+
+/**
  * The parameters to toggle auto stake maturity of a neuron
  */
 export interface SnsNeuronAutoStakeMaturityParams
