@@ -305,7 +305,7 @@ Parameters:
 
 - `toAccount. Account`: to disburse maturity.
 - `neuronId`: The id of the neuron for which to disburse the maturity
-- `percentageToDisburse`: How many percents of available maturity to disburse.
+- `percentageToDisburse`: What percentage of the available maturity to disburse.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L302)
 
