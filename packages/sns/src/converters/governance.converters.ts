@@ -35,6 +35,7 @@ import type {
   SnsIncreaseDissolveDelayParams,
   SnsListProposalsParams,
   SnsNeuronAutoStakeMaturityParams,
+  SnsNeuronDisburseMaturityParams,
   SnsNeuronPermissionsParams,
   SnsNeuronStakeMaturityParams,
   SnsRegisterVoteParams,
@@ -174,6 +175,23 @@ export const toStakeMaturityRequest = ({
     command: {
       StakeMaturity: {
         percentage_to_stake: toNullable(percentageToStake),
+      },
+    },
+  });
+
+export const toDisburseMaturityRequest = ({
+  neuronId,
+  percentageToDisburse,
+  toAccount,
+}: SnsNeuronDisburseMaturityParams): ManageNeuron =>
+  toManageNeuronCommand({
+    neuronId,
+    command: {
+      DisburseMaturity: {
+        // currently there is a main account only support
+        to_account:
+          toAccount === undefined ? [] : toNullable(toCandidAccount(toAccount)),
+        percentage_to_disburse: percentageToDisburse,
       },
     },
   });
