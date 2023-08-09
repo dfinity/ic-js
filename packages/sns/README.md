@@ -586,6 +586,7 @@ Parameters:
 - [getDerivedState](#gear-getderivedstate)
 - [getTransactions](#gear-gettransactions)
 - [stakeMaturity](#gear-stakematurity)
+- [disburseMaturity](#gear-disbursematurity)
 - [autoStakeMaturity](#gear-autostakematurity)
 
 ##### :gear: listNeurons
@@ -938,12 +939,20 @@ Always certified
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L437)
 
+##### :gear: disburseMaturity
+
+| Method             | Type                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| `disburseMaturity` | `(params: SnsNeuronDisburseMaturityParams) => Promise<void>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L441)
+
 ##### :gear: autoStakeMaturity
 
 | Method              | Type                                                          |
 | ------------------- | ------------------------------------------------------------- |
 | `autoStakeMaturity` | `(params: SnsNeuronAutoStakeMaturityParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L441)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L445)
 
 <!-- TSDOC_END -->
