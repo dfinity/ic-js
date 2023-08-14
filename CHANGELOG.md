@@ -11,6 +11,10 @@
 - utils `v0.0.20`
 - nns-proto `v0.0.6`
 
+## Features
+
+- Reviver and replacer to interpret `BigInt`, `Principal`, and `Uint8Array` in `JSON.stringify|parse`
+
 # 0.18.1 (2023-08-07)
 
 ## Release

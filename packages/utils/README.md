@@ -56,6 +56,8 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
+- [jsonReplacer](#gear-jsonreplacer)
+- [jsonReviver](#gear-jsonreviver)
 - [principalToSubAccount](#gear-principaltosubaccount)
 - [smallerVersion](#gear-smallerversion)
 
@@ -293,6 +295,26 @@ Not null and not undefined and not empty
 | `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L12)
+
+#### :gear: jsonReplacer
+
+A parser that interprets revived BigInt, Principal, and Uint8Array when constructing JavaScript values or objects.
+
+| Function       | Type                                        |
+| -------------- | ------------------------------------------- |
+| `jsonReplacer` | `(_key: string, value: unknown) => unknown` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L11)
+
+#### :gear: jsonReviver
+
+A function that alters the behavior of the stringification process for BigInt, Principal and Uint8Array.
+
+| Function      | Type                                        |
+| ------------- | ------------------------------------------- |
+| `jsonReviver` | `(_key: string, value: unknown) => unknown` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L30)
 
 #### :gear: principalToSubAccount
 
