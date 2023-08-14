@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import {nonNullish} from "./nullish.utils";
+import { nonNullish } from "./nullish.utils";
 
 const JSON_KEY_BIGINT = "__bigint__";
 const JSON_KEY_PRINCIPAL = "__principal__";
