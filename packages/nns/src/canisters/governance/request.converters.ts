@@ -7,10 +7,12 @@ import type {
   By as RawBy,
   Change as RawChange,
   Command as RawCommand,
+  Countries as RawCountries,
   CreateServiceNervousSystem as RawCreateServiceNervousSystem,
   DeveloperDistribution as RawDeveloperDistribution,
   Duration as RawDuration,
   Followees as RawFollowees,
+  GlobalTimeOfDay as RawGlobalTimeOfDay,
   GovernanceParameters as RawGovernanceParameters,
   Image as RawImage,
   InitialTokenDistribution as RawInitialTokenDistribution,
@@ -41,11 +43,13 @@ import type {
   Change,
   ClaimOrRefreshNeuronRequest,
   Command,
+  Countries,
   CreateServiceNervousSystem,
   DeveloperDistribution,
   DisburseToNeuronRequest,
   Duration,
   FollowRequest,
+  GlobalTimeOfDay,
   GovernanceParameters,
   Image,
   InitialTokenDistribution,
@@ -102,6 +106,15 @@ const fromDuration = (duration: Duration): RawDuration =>
     ? { seconds: [duration.seconds] }
     : { seconds: [] };
 
+const fromGlobalTimeOfDay = (time: GlobalTimeOfDay): RawGlobalTimeOfDay =>
+  time.secondsAfterUtcMidnight !== undefined
+    ? { seconds_after_utc_midnight: [time.secondsAfterUtcMidnight] }
+    : { seconds_after_utc_midnight: [] };
+
+const fromCountries = (countries: Countries): RawCountries => ({
+  iso_codes: countries.isoCodes,
+});
+
 const fromTokens = (tokens: Tokens): RawTokens =>
   tokens.e8s !== undefined ? { e8s: [tokens.e8s] } : { e8s: [] };
 
@@ -155,6 +168,10 @@ const fromSwapParameters = (
     swapParameters.minimumParticipants !== undefined
       ? [swapParameters.minimumParticipants]
       : [],
+  duration:
+    swapParameters.duration !== undefined
+      ? [fromDuration(swapParameters.duration)]
+      : [],
   neuron_basket_construction_parameters:
     swapParameters.neuronBasketConstructionParameters !== undefined
       ? [
@@ -163,9 +180,17 @@ const fromSwapParameters = (
           ),
         ]
       : [],
+  confirmation_text:
+    swapParameters.confirmationText !== undefined
+      ? [swapParameters.confirmationText]
+      : [],
   maximum_participant_icp:
     swapParameters.maximumParticipantIcp !== undefined
       ? [fromTokens(swapParameters.maximumParticipantIcp)]
+      : [],
+  neurons_fund_investment_icp:
+    swapParameters.neuronsFundInvestmentIcp !== undefined
+      ? [fromTokens(swapParameters.neuronsFundInvestmentIcp)]
       : [],
   minimum_icp:
     swapParameters.minimumIcp !== undefined
@@ -175,9 +200,17 @@ const fromSwapParameters = (
     swapParameters.minimumParticipantIcp !== undefined
       ? [fromTokens(swapParameters.minimumParticipantIcp)]
       : [],
+  start_time:
+    swapParameters.startTime !== undefined
+      ? [fromGlobalTimeOfDay(swapParameters.startTime)]
+      : [],
   maximum_icp:
     swapParameters.maximumIcp !== undefined
       ? [fromTokens(swapParameters.maximumIcp)]
+      : [],
+  restricted_countries:
+    swapParameters.restrictedCountries !== undefined
+      ? [fromCountries(swapParameters.restrictedCountries)]
       : [],
 });
 
@@ -869,12 +902,17 @@ export const fromListProposalsRequest = ({
   excludeTopic,
   includeStatus,
   limit,
+  includeAllManageNeuronProposals,
 }: ListProposalsRequest): ListProposalInfo => {
   return {
     include_reward_status: Int32Array.from(includeRewardStatus),
     before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
     limit: limit,
     exclude_topic: Int32Array.from(excludeTopic),
+    include_all_manage_neuron_proposals:
+      includeAllManageNeuronProposals !== undefined
+        ? [includeAllManageNeuronProposals]
+        : [],
     include_status: Int32Array.from(includeStatus),
   };
 };

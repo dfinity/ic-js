@@ -19,6 +19,23 @@ export const idlFactory = ({ IDL }) => {
     'Hash' : IDL.Vec(IDL.Nat8),
   });
   const AddWasmResponse = IDL.Record({ 'result' : IDL.Opt(Result) });
+  const NeuronBasketConstructionParameters = IDL.Record({
+    'dissolve_delay_interval_seconds' : IDL.Nat64,
+    'count' : IDL.Nat64,
+  });
+  const Canister = IDL.Record({ 'id' : IDL.Opt(IDL.Principal) });
+  const DappCanisters = IDL.Record({ 'canisters' : IDL.Vec(Canister) });
+  const CfNeuron = IDL.Record({
+    'nns_neuron_id' : IDL.Nat64,
+    'amount_icp_e8s' : IDL.Nat64,
+  });
+  const CfParticipant = IDL.Record({
+    'hotkey_principal' : IDL.Text,
+    'cf_neurons' : IDL.Vec(CfNeuron),
+  });
+  const NeuronsFundParticipants = IDL.Record({
+    'participants' : IDL.Vec(CfParticipant),
+  });
   const TreasuryDistribution = IDL.Record({ 'total_e8s' : IDL.Nat64 });
   const NeuronDistribution = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
@@ -51,29 +68,48 @@ export const idlFactory = ({ IDL }) => {
     'url' : IDL.Opt(IDL.Text),
     'max_dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_dissolve_delay_bonus_percentage' : IDL.Opt(IDL.Nat64),
+    'nns_proposal_id' : IDL.Opt(IDL.Nat64),
+    'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'neuron_basket_construction_parameters' : IDL.Opt(
+      NeuronBasketConstructionParameters
+    ),
     'fallback_controller_principal_ids' : IDL.Vec(IDL.Text),
     'token_symbol' : IDL.Opt(IDL.Text),
     'final_reward_rate_basis_points' : IDL.Opt(IDL.Nat64),
+    'max_icp_e8s' : IDL.Opt(IDL.Nat64),
     'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
     'confirmation_text' : IDL.Opt(IDL.Text),
     'logo' : IDL.Opt(IDL.Text),
     'name' : IDL.Opt(IDL.Text),
+    'swap_start_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'swap_due_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'initial_voting_period_seconds' : IDL.Opt(IDL.Nat64),
     'neuron_minimum_dissolve_delay_to_vote_seconds' : IDL.Opt(IDL.Nat64),
     'description' : IDL.Opt(IDL.Text),
     'max_neuron_age_seconds_for_age_bonus' : IDL.Opt(IDL.Nat64),
+    'min_participants' : IDL.Opt(IDL.Nat64),
     'initial_reward_rate_basis_points' : IDL.Opt(IDL.Nat64),
     'wait_for_quiet_deadline_increase_seconds' : IDL.Opt(IDL.Nat64),
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
+    'dapp_canisters' : IDL.Opt(DappCanisters),
+    'neurons_fund_participants' : IDL.Opt(NeuronsFundParticipants),
     'max_age_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'initial_token_distribution' : IDL.Opt(InitialTokenDistribution),
     'reward_rate_transition_duration_seconds' : IDL.Opt(IDL.Nat64),
+    'token_logo' : IDL.Opt(IDL.Text),
     'token_name' : IDL.Opt(IDL.Text),
+    'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'proposal_reject_cost_e8s' : IDL.Opt(IDL.Nat64),
     'restricted_countries' : IDL.Opt(Countries),
+    'min_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const DeployNewSnsRequest = IDL.Record({
     'sns_init_payload' : IDL.Opt(SnsInitPayload),
+  });
+  const DappCanistersTransferResult = IDL.Record({
+    'restored_dapp_canisters' : IDL.Vec(Canister),
+    'nns_controlled_dapp_canisters' : IDL.Vec(Canister),
+    'sns_controlled_dapp_canisters' : IDL.Vec(Canister),
   });
   const SnsCanisterIds = IDL.Record({
     'root' : IDL.Opt(IDL.Principal),
@@ -83,6 +119,7 @@ export const idlFactory = ({ IDL }) => {
     'governance' : IDL.Opt(IDL.Principal),
   });
   const DeployNewSnsResponse = IDL.Record({
+    'dapp_canisters_transfer_result' : IDL.Opt(DappCanistersTransferResult),
     'subnet_id' : IDL.Opt(IDL.Principal),
     'error' : IDL.Opt(SnsWasmError),
     'canisters' : IDL.Opt(SnsCanisterIds),

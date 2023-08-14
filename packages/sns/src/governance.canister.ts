@@ -26,6 +26,7 @@ import {
   toAddPermissionsRequest,
   toAutoStakeMaturityNeuronRequest,
   toClaimOrRefreshRequest,
+  toDisburseMaturityRequest,
   toDisburseNeuronRequest,
   toFollowRequest,
   toIncreaseDissolveDelayRequest,
@@ -49,6 +50,7 @@ import type {
   SnsListNeuronsParams,
   SnsListProposalsParams,
   SnsNeuronAutoStakeMaturityParams,
+  SnsNeuronDisburseMaturityParams,
   SnsNeuronPermissionsParams,
   SnsNeuronStakeMaturityParams,
   SnsRegisterVoteParams,
@@ -286,6 +288,23 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
       neuronId,
       percentageToStake,
     });
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Disburse the maturity of a neuron.
+   *
+   * @param {neuronId: NeuronId; toAccount?: IcrcAccount; percentageToDisburse: number; } params
+   * @param {IcrcAccount} toAccount. Account to disburse maturity.
+   * @param {NeuronId} neuronId The id of the neuron for which to disburse the maturity
+   * @param {number} percentageToDisburse What percentage of the available maturity to disburse.
+   */
+  disburseMaturity = async (
+    params: SnsNeuronDisburseMaturityParams,
+  ): Promise<void> => {
+    assertPercentageNumber(params.percentageToDisburse);
+
+    const request: ManageNeuron = toDisburseMaturityRequest(params);
     await this.manageNeuron(request);
   };
 

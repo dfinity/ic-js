@@ -22,10 +22,12 @@ import type {
   Canister as RawCanister,
   Change as RawChange,
   Command as RawCommand,
+  Countries as RawCountries,
   DeveloperDistribution as RawDeveloperDistribution,
   DissolveState as RawDissolveState,
   Duration as RawDuration,
   Followees as RawFollowees,
+  GlobalTimeOfDay as RawGlobalTimeOfDay,
   GovernanceParameters as RawGovernanceParameters,
   Image as RawImage,
   InitialTokenDistribution as RawInitialTokenDistribution,
@@ -68,10 +70,12 @@ import type {
   By,
   Change,
   Command,
+  Countries,
   DeveloperDistribution,
   DissolveState,
   Duration,
   Followees,
+  GlobalTimeOfDay,
   GovernanceParameters,
   Image,
   InitialTokenDistribution,
@@ -994,6 +998,26 @@ const toDuration = (
       };
 };
 
+const toGlobalTimeOfDay = (
+  time: RawGlobalTimeOfDay | undefined,
+): GlobalTimeOfDay | undefined => {
+  return time === undefined
+    ? undefined
+    : {
+        secondsAfterUtcMidnight: fromNullable(time.seconds_after_utc_midnight),
+      };
+};
+
+const toCountries = (
+  countries: RawCountries | undefined,
+): Countries | undefined => {
+  return countries === undefined
+    ? undefined
+    : ({
+        isoCodes: countries.iso_codes,
+      } as Countries);
+};
+
 const toTokens = (tokens: RawTokens | undefined): Tokens | undefined => {
   return tokens === undefined
     ? undefined
@@ -1122,18 +1146,27 @@ const toSwapParameters = (
     ? undefined
     : {
         minimumParticipants: fromNullable(swapParameters.minimum_participants),
+        duration: toDuration(fromNullable(swapParameters.duration)),
         neuronBasketConstructionParameters:
           toNeuronBasketConstructionParameters(
             fromNullable(swapParameters.neuron_basket_construction_parameters),
           ),
+        confirmationText: fromNullable(swapParameters.confirmation_text),
         maximumParticipantIcp: toTokens(
           fromNullable(swapParameters.maximum_participant_icp),
+        ),
+        neuronsFundInvestmentIcp: toTokens(
+          fromNullable(swapParameters.neurons_fund_investment_icp),
         ),
         minimumIcp: toTokens(fromNullable(swapParameters.minimum_icp)),
         minimumParticipantIcp: toTokens(
           fromNullable(swapParameters.minimum_participant_icp),
         ),
+        startTime: toGlobalTimeOfDay(fromNullable(swapParameters.start_time)),
         maximumIcp: toTokens(fromNullable(swapParameters.maximum_icp)),
+        restrictedCountries: toCountries(
+          fromNullable(swapParameters.restricted_countries),
+        ),
       };
 };
 

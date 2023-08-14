@@ -609,6 +609,27 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call disburseMaturity", async () => {
+    const neuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+    const toAccount = {
+      owner: Principal.fromText("aaaaa-aa"),
+      subaccount: arrayOfNumberToUint8Array([0, 0, 1]),
+    };
+    const percentageToDisburse = 50;
+    await snsWrapper.disburseMaturity({
+      neuronId,
+      percentageToDisburse,
+      toAccount,
+    });
+    expect(mockGovernanceCanister.disburseMaturity).toHaveBeenCalledWith({
+      neuronId,
+      percentageToDisburse,
+      toAccount,
+    });
+  });
+
   it("should call autoStakeMaturity", async () => {
     const neuronId = {
       id: arrayOfNumberToUint8Array([1, 2, 3]),

@@ -47,6 +47,7 @@ import type {
   SnsListNeuronsParams,
   SnsListProposalsParams,
   SnsNeuronAutoStakeMaturityParams,
+  SnsNeuronDisburseMaturityParams,
   SnsNeuronPermissionsParams,
   SnsNeuronStakeMaturityParams,
   SnsRegisterVoteParams,
@@ -436,6 +437,10 @@ export class SnsWrapper {
   // Always certified
   stakeMaturity = (params: SnsNeuronStakeMaturityParams): Promise<void> =>
     this.governance.stakeMaturity(params);
+
+  // Always certified
+  disburseMaturity = (params: SnsNeuronDisburseMaturityParams): Promise<void> =>
+    this.governance.disburseMaturity(params);
 
   // Always certified
   autoStakeMaturity = (
