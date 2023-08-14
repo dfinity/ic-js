@@ -1,10 +1,15 @@
-// Generated from IC repo commit 26b480f775222265f4369bc485d502a140f15564 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit 726b1529fd34a47fcf0627a72301d62a282c788d 'rs/sns/root/canister/root.did' by import-candid
+type AuthzChangeOp = variant {
+  Authorize : record { add_self : bool };
+  Deauthorize;
+};
 type CanisterCallError = record { code : opt int32; description : text };
 type CanisterIdRecord = record { canister_id : principal };
+type CanisterInstallMode = variant { reinstall; upgrade; install };
 type CanisterStatusResult = record {
-  controller : principal;
   status : CanisterStatusType;
   memory_size : nat;
+  cycles : nat;
   settings : DefiniteCanisterSettings;
   module_hash : opt vec nat8;
 };
@@ -20,6 +25,17 @@ type CanisterStatusType = variant { stopped; stopping; running };
 type CanisterSummary = record {
   status : opt CanisterStatusResultV2;
   canister_id : opt principal;
+};
+type ChangeCanisterProposal = record {
+  arg : vec nat8;
+  wasm_module : vec nat8;
+  stop_before_installing : bool;
+  mode : CanisterInstallMode;
+  canister_id : principal;
+  query_allocation : opt nat;
+  authz_changes : vec MethodAuthzChange;
+  memory_allocation : opt nat;
+  compute_allocation : opt nat;
 };
 type DefiniteCanisterSettings = record { controllers : vec principal };
 type DefiniteCanisterSettingsArgs = record {
@@ -51,6 +67,12 @@ type ListSnsCanistersResponse = record {
   dapps : vec principal;
   archives : vec principal;
 };
+type MethodAuthzChange = record {
+  "principal" : opt principal;
+  method_name : text;
+  canister : principal;
+  operation : AuthzChangeOp;
+};
 type RegisterDappCanisterRequest = record { canister_id : opt principal };
 type RegisterDappCanistersRequest = record { canister_ids : vec principal };
 type SetDappControllersRequest = record {
@@ -70,6 +92,7 @@ type SnsRootCanister = record {
 };
 service : (SnsRootCanister) -> {
   canister_status : (CanisterIdRecord) -> (CanisterStatusResult);
+  change_canister : (ChangeCanisterProposal) -> ();
   get_build_metadata : () -> (text) query;
   get_sns_canisters_summary : (GetSnsCanistersSummaryRequest) -> (
       GetSnsCanistersSummaryResponse,
