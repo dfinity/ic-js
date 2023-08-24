@@ -14,6 +14,11 @@
 ## Features
 
 - Reviver and replacer to interpret `BigInt`, `Principal`, and `Uint8Array` in `JSON.stringify|parse`
+- Add Sns disburse maturity function
+
+## Build
+
+- bump agent-js `v0.19.0`
 
 # 0.18.1 (2023-08-07)
 
