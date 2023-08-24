@@ -11,7 +11,7 @@
 - utils `v0.0.21`
 - nns-proto `v0.0.7`
 
-# 0.18.2 (wip)
+# 0.18.2 (2023-08-24)
 
 ## Release
 
@@ -27,6 +27,11 @@
 ## Features
 
 - Reviver and replacer to interpret `BigInt`, `Principal`, and `Uint8Array` in `JSON.stringify|parse`
+- Add Sns disburse maturity function
+
+## Build
+
+- bump agent-js `v0.19.1`
 
 # 0.18.1 (2023-08-07)
 
