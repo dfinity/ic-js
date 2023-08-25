@@ -247,13 +247,13 @@ describe("Swap canister", () => {
     };
 
     const service = mock<ActorSubclass<SnsSwapService>>();
-    service.get_lifecycle.mockResolvedValue(mockResponse);
+    service.get_auto_finalization_status.mockResolvedValue(mockResponse);
 
     const canister = SnsSwapCanister.create({
       canisterId: swapCanisterIdMock,
       certifiedServiceOverride: service,
     });
-    const res = await canister.getLifecycle({});
+    const res = await canister.getFinalizationStatus({});
     expect(res).toEqual(mockResponse);
   });
 
