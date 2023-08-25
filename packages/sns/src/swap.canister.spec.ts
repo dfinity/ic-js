@@ -3,6 +3,7 @@ import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import type {
   BuyerState,
+  GetAutoFinalizationStatusResponse,
   GetDerivedStateResponse,
   GetLifecycleResponse,
   GetOpenTicketResponse,
@@ -97,7 +98,7 @@ describe("Swap canister", () => {
     const call = () => canister.getOpenTicket({});
 
     expect(call).rejects.toThrow(
-      new SnsSwapGetOpenTicketError(GetOpenTicketErrorType.TYPE_SALE_CLOSED),
+      new SnsSwapGetOpenTicketError(GetOpenTicketErrorType.TYPE_SALE_CLOSED)
     );
   });
 
@@ -169,7 +170,7 @@ describe("Swap canister", () => {
           min_amount_icp_e8s_included,
           max_amount_icp_e8s_included,
         },
-      }),
+      })
     );
   });
 
@@ -225,6 +226,24 @@ describe("Swap canister", () => {
     const mockResponse: GetLifecycleResponse = {
       decentralization_sale_open_timestamp_seconds: [BigInt(2)],
       lifecycle: [SnsSwapLifecycle.Adopted],
+    };
+
+    const service = mock<ActorSubclass<SnsSwapService>>();
+    service.get_lifecycle.mockResolvedValue(mockResponse);
+
+    const canister = SnsSwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const res = await canister.getLifecycle({});
+    expect(res).toEqual(mockResponse);
+  });
+
+  it("should return the finalization status of the swap canister", async () => {
+    const mockResponse: GetAutoFinalizationStatusResponse = {
+      auto_finalize_swap_response: [],
+      has_auto_finalize_been_attempted: [false],
+      is_auto_finalize_enabled: [false],
     };
 
     const service = mock<ActorSubclass<SnsSwapService>>();

@@ -7,6 +7,7 @@ import {
 } from "@dfinity/utils";
 import type {
   BuyerState,
+  GetAutoFinalizationStatusResponse,
   GetBuyerStateRequest,
   GetDerivedStateResponse,
   GetLifecycleResponse,
@@ -59,7 +60,7 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    * Notify of the user participating in the swap
    */
   notifyParticipation = async (
-    params: RefreshBuyerTokensRequest,
+    params: RefreshBuyerTokensRequest
   ): Promise<RefreshBuyerTokensResponse> =>
     await this.caller({ certified: true }).refresh_buyer_tokens(params);
 
@@ -67,7 +68,7 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    * Get user commitment
    */
   getUserCommitment = async (
-    params: GetBuyerStateRequest & QueryParams,
+    params: GetBuyerStateRequest & QueryParams
   ): Promise<BuyerState | undefined> => {
     const { buyer_state } = await this.caller({
       certified: params.certified,
@@ -140,5 +141,14 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    */
   getLifecycle = async (params: QueryParams): Promise<GetLifecycleResponse> => {
     return this.caller(params).get_lifecycle({});
+  };
+
+  /**
+   * Get sale lifecycle state
+   */
+  getFinalizationStatus = async (
+    params: QueryParams
+  ): Promise<GetAutoFinalizationStatusResponse> => {
+    return this.caller(params).get_auto_finalization_status({});
   };
 }

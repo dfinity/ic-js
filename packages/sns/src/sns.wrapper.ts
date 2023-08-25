@@ -23,6 +23,7 @@ import type {
 } from "../candid/sns_governance";
 import type {
   BuyerState,
+  GetAutoFinalizationStatusResponse,
   GetBuyerStateRequest,
   GetDerivedStateResponse,
   GetLifecycleResponse,
@@ -127,26 +128,26 @@ export class SnsWrapper {
   }
 
   listNeurons = (
-    params: Omit<SnsListNeuronsParams, "certified">,
+    params: Omit<SnsListNeuronsParams, "certified">
   ): Promise<Neuron[]> => this.governance.listNeurons(this.mergeParams(params));
 
   listProposals = (
-    params: Omit<SnsListProposalsParams, "certified">,
+    params: Omit<SnsListProposalsParams, "certified">
   ): Promise<ProposalData[]> =>
     this.governance.listProposals(this.mergeParams(params));
 
   getProposal = (
-    params: Omit<SnsGetProposalParams, "certified">,
+    params: Omit<SnsGetProposalParams, "certified">
   ): Promise<ProposalData> =>
     this.governance.getProposal(this.mergeParams(params));
 
   listNervousSystemFunctions = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<ListNervousSystemFunctionsResponse> =>
     this.governance.listNervousSystemFunctions(this.mergeParams(params));
 
   metadata = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<[GetMetadataResponse, IcrcTokenMetadataResponse]> =>
     Promise.all([
       this.governance.metadata(this.mergeParams(params)),
@@ -154,22 +155,22 @@ export class SnsWrapper {
     ]);
 
   nervousSystemParameters = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<NervousSystemParameters> =>
     this.governance.nervousSystemParameters(this.mergeParams(params));
 
   ledgerMetadata = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<IcrcTokenMetadataResponse> =>
     this.ledger.metadata(this.mergeParams(params));
 
   transactionFee = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<IcrcTokens> =>
     this.ledger.transactionFee(this.mergeParams(params));
 
   totalTokensSupply = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<IcrcTokens> =>
     this.ledger.totalTokensSupply(this.mergeParams(params));
 
@@ -181,11 +182,11 @@ export class SnsWrapper {
     this.ledger.transfer(params);
 
   getNeuron = (
-    params: Omit<SnsGetNeuronParams, "certified">,
+    params: Omit<SnsGetNeuronParams, "certified">
   ): Promise<Neuron> => this.governance.getNeuron(this.mergeParams(params));
 
   queryNeuron = (
-    params: Omit<SnsGetNeuronParams, "certified">,
+    params: Omit<SnsGetNeuronParams, "certified">
   ): Promise<Neuron | undefined> =>
     this.governance.queryNeuron(this.mergeParams(params));
 
@@ -206,7 +207,7 @@ export class SnsWrapper {
    * @returns
    */
   nextNeuronAccount = async (
-    controller: Principal,
+    controller: Principal
   ): Promise<{ account: IcrcAccount; index: bigint }> => {
     // TODO: try parallilizing requests to improve performance
     // OR use binary search https://dfinity.atlassian.net/browse/FOLLOW-825
@@ -261,12 +262,12 @@ export class SnsWrapper {
   }: SnsStakeNeuronParams): Promise<NeuronId> => {
     this.assertCertified("stakeNeuron");
     const { account: neuronAccount, index } = await this.nextNeuronAccount(
-      controller,
+      controller
     );
     // This should not happen. The neuron account is always a subaccount of the SNS governance canister.
     if (neuronAccount.subaccount === undefined) {
       throw new SnsGovernanceError(
-        "There was an error creating the neuron subaccount",
+        "There was an error creating the neuron subaccount"
       );
     }
     await this.ledger.transfer({
@@ -341,7 +342,7 @@ export class SnsWrapper {
 
   // Always certified
   removeNeuronPermissions = (
-    params: SnsNeuronPermissionsParams,
+    params: SnsNeuronPermissionsParams
   ): Promise<void> => this.governance.removeNeuronPermissions(params);
 
   // Always certified
@@ -362,12 +363,12 @@ export class SnsWrapper {
 
   // Always certified
   setDissolveTimestamp = (
-    params: SnsSetDissolveTimestampParams,
+    params: SnsSetDissolveTimestampParams
   ): Promise<void> => this.governance.setDissolveTimestamp(params);
 
   // Always certified
   increaseDissolveDelay = (
-    params: SnsIncreaseDissolveDelayParams,
+    params: SnsIncreaseDissolveDelayParams
   ): Promise<void> => this.governance.increaseDissolveDelay(params);
 
   // Always certified
@@ -379,7 +380,7 @@ export class SnsWrapper {
     this.governance.registerVote(params);
 
   swapState = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<GetStateResponse> => this.swap.state(this.mergeParams(params));
 
   /**
@@ -396,17 +397,17 @@ export class SnsWrapper {
 
   // Always certified
   notifyParticipation = (
-    params: RefreshBuyerTokensRequest,
+    params: RefreshBuyerTokensRequest
   ): Promise<RefreshBuyerTokensResponse> =>
     this.swap.notifyParticipation(params);
 
   getUserCommitment = (
-    params: GetBuyerStateRequest,
+    params: GetBuyerStateRequest
   ): Promise<BuyerState | undefined> =>
     this.swap.getUserCommitment(this.mergeParams(params));
 
   getOpenTicket = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<Ticket | undefined> =>
     this.swap.getOpenTicket(this.mergeParams(params));
 
@@ -415,23 +416,28 @@ export class SnsWrapper {
     this.swap.newSaleTicket(params);
 
   getLifecycle = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<GetLifecycleResponse | undefined> =>
     this.swap.getLifecycle(this.mergeParams(params));
 
+  getFinalizationStatus = (
+    params: Omit<QueryParams, "certified">
+  ): Promise<GetAutoFinalizationStatusResponse | undefined> =>
+    this.swap.getFinalizationStatus(this.mergeParams(params));
+
   getSaleParameters = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<GetSaleParametersResponse | undefined> =>
     this.swap.getSaleParameters(this.mergeParams(params));
 
   getDerivedState = (
-    params: Omit<QueryParams, "certified">,
+    params: Omit<QueryParams, "certified">
   ): Promise<GetDerivedStateResponse | undefined> =>
     this.swap.getDerivedState(this.mergeParams(params));
 
   // Always certified
   getTransactions = (
-    params: GetAccountTransactionsParams,
+    params: GetAccountTransactionsParams
   ): Promise<IcrcGetTransactions> => this.index.getTransactions(params);
 
   // Always certified
@@ -444,7 +450,7 @@ export class SnsWrapper {
 
   // Always certified
   autoStakeMaturity = (
-    params: SnsNeuronAutoStakeMaturityParams,
+    params: SnsNeuronAutoStakeMaturityParams
   ): Promise<void> => this.governance.autoStakeMaturity(params);
 
   private mergeParams<T>(params: T): QueryParams & T {
