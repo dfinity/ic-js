@@ -1,6 +1,10 @@
 import type { IcrcSubaccount } from "@dfinity/ledger";
 import type { Principal } from "@dfinity/principal";
-import { arrayOfNumberToUint8Array,asciiStringToByteArray,numberToUint8Array } from "@dfinity/utils";
+import {
+  arrayOfNumberToUint8Array,
+  asciiStringToByteArray,
+  numberToUint8Array,
+} from "@dfinity/utils";
 import { sha256 } from "@noble/hashes/sha256";
 
 /**
