@@ -7,6 +7,7 @@ import {
 } from "@dfinity/utils";
 import type {
   BuyerState,
+  GetAutoFinalizationStatusResponse,
   GetBuyerStateRequest,
   GetDerivedStateResponse,
   GetLifecycleResponse,
@@ -140,5 +141,14 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    */
   getLifecycle = async (params: QueryParams): Promise<GetLifecycleResponse> => {
     return this.caller(params).get_lifecycle({});
+  };
+
+  /**
+   * Get sale lifecycle state
+   */
+  getFinalizationStatus = async (
+    params: QueryParams,
+  ): Promise<GetAutoFinalizationStatusResponse> => {
+    return this.caller(params).get_auto_finalization_status({});
   };
 }

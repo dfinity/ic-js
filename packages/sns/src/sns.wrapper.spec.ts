@@ -345,6 +345,19 @@ describe("SnsWrapper", () => {
     });
   });
 
+  it("should call getFinalizationStatus with query and update", async () => {
+    await snsWrapper.getFinalizationStatus({});
+    expect(mockSwapCanister.getFinalizationStatus).toHaveBeenCalledWith({
+      certified: false,
+    });
+    await certifiedSnsWrapper.getFinalizationStatus({});
+    expect(
+      mockCertifiedSwapCanister.getFinalizationStatus,
+    ).toHaveBeenCalledWith({
+      certified: true,
+    });
+  });
+
   it("should call getSaleParameters with query and update", async () => {
     await snsWrapper.getSaleParameters({});
     expect(mockSwapCanister.getSaleParameters).toHaveBeenCalledWith({

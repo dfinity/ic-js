@@ -3,6 +3,7 @@ import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import type {
   BuyerState,
+  GetAutoFinalizationStatusResponse,
   GetDerivedStateResponse,
   GetLifecycleResponse,
   GetOpenTicketResponse,
@@ -235,6 +236,24 @@ describe("Swap canister", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.getLifecycle({});
+    expect(res).toEqual(mockResponse);
+  });
+
+  it("should return the finalization status of the swap canister", async () => {
+    const mockResponse: GetAutoFinalizationStatusResponse = {
+      auto_finalize_swap_response: [],
+      has_auto_finalize_been_attempted: [false],
+      is_auto_finalize_enabled: [false],
+    };
+
+    const service = mock<ActorSubclass<SnsSwapService>>();
+    service.get_auto_finalization_status.mockResolvedValue(mockResponse);
+
+    const canister = SnsSwapCanister.create({
+      canisterId: swapCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+    const res = await canister.getFinalizationStatus({});
     expect(res).toEqual(mockResponse);
   });
 

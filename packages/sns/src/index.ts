@@ -22,6 +22,8 @@ export type {
   BuyerState as SnsSwapBuyerState,
   CfParticipant,
   DerivedState as SnsSwapDerivedState,
+  FinalizeSwapResponse as SnsFinalizeSwapResponse,
+  GetAutoFinalizationStatusResponse as SnsGetAutoFinalizationStatusResponse,
   GetBuyerStateRequest as SnsGetBuyerStateRequest,
   GetBuyerStateResponse as SnsGetBuyerStateResponse,
   GetDerivedStateResponse as SnsGetDerivedStateResponse,
