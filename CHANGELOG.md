@@ -1,3 +1,16 @@
+# 0.18.4 (wip)
+
+## Release
+
+- nns `v0.16.7`
+- sns `v0.0.22`
+- cmc `v0.0.18`
+- ledger `v0.0.15`
+- ckBTC `v0.0.11`
+- ic-management `v0.0.8`
+- utils `v0.0.22`
+- nns-proto `v0.0.8`
+
 # 0.18.3 (wip)
 
 ## Release
