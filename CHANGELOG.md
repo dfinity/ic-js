@@ -17,7 +17,7 @@
 
 ## Fix
 
-- bump agent-js `v0.19.2` to fix evaluation of subdomain when `host` is not specified 
+- bump agent-js `v0.19.2` to fix evaluation of subdomain when `host` is not specified
 
 ## Build
 
