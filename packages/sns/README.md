@@ -415,7 +415,7 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 
 ### :factory: SnsSwapCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L31)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L33)
 
 #### Methods
 
@@ -437,7 +437,7 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 | -------- | ------------------------------------------------------------ |
 | `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsSwapCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L32)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L34)
 
 ##### :gear: state
 
@@ -447,7 +447,7 @@ Get the state of the swap
 | ------- | ---------------------------------------------------- |
 | `state` | `(params: QueryParams) => Promise<GetStateResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L46)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L48)
 
 ##### :gear: notifyPaymentFailure
 
@@ -457,7 +457,7 @@ Notify of the payment failure to remove the ticket
 | ---------------------- | ----------------------- |
 | `notifyPaymentFailure` | `() => Promise<Ticket>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L52)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L54)
 
 ##### :gear: notifyParticipation
 
@@ -467,7 +467,7 @@ Notify of the user participating in the swap
 | --------------------- | ---------------------------------------------------------------------------- |
 | `notifyParticipation` | `(params: RefreshBuyerTokensRequest) => Promise<RefreshBuyerTokensResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L62)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L64)
 
 ##### :gear: getUserCommitment
 
@@ -477,7 +477,7 @@ Get user commitment
 | ------------------- | ----------------------------------------------------------------------- |
 | `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L70)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L72)
 
 ##### :gear: getDerivedState
 
@@ -487,7 +487,7 @@ Get sale buyers state
 | ----------------- | ------------------------------------------------------------------- |
 | `getDerivedState` | `({ certified, }: QueryParams) => Promise<GetDerivedStateResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L82)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L84)
 
 ##### :gear: getSaleParameters
 
@@ -497,7 +497,7 @@ Get sale parameters
 | ------------------- | --------------------------------------------------------------------- |
 | `getSaleParameters` | `({ certified, }: QueryParams) => Promise<GetSaleParametersResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L91)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L93)
 
 ##### :gear: getOpenTicket
 
@@ -507,7 +507,7 @@ Return a sale ticket if created and not yet removed (payment flow)
 | --------------- | ------------------------------------------ |
 | `getOpenTicket` | `(params: QueryParams) => Promise<Ticket>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L100)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L102)
 
 ##### :gear: newSaleTicket
 
@@ -517,7 +517,7 @@ Create a sale ticket (payment flow)
 | --------------- | -------------------------------------------------- |
 | `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Ticket>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L117)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L119)
 
 ##### :gear: getLifecycle
 
@@ -527,7 +527,7 @@ Get sale lifecycle state
 | -------------- | -------------------------------------------------------- |
 | `getLifecycle` | `(params: QueryParams) => Promise<GetLifecycleResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L142)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L144)
 
 ##### :gear: getFinalizationStatus
 
@@ -537,7 +537,7 @@ Get sale lifecycle state
 | ----------------------- | --------------------------------------------------------------------- |
 | `getFinalizationStatus` | `(params: QueryParams) => Promise<GetAutoFinalizationStatusResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L149)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L151)
 
 ### :factory: SnsWrapper
 
