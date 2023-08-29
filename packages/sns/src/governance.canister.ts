@@ -5,6 +5,7 @@ import {
   Canister,
   createServices,
   fromNullable,
+  isNullish,
   toNullable,
 } from "@dfinity/utils";
 import type {
@@ -17,10 +18,11 @@ import type {
   NeuronId,
   ProposalData,
   SplitResponse,
-  _SERVICE as SnsGovernanceService,
+  _SERVICE as SnsGovernanceOriginalService,
 } from "../candid/sns_governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";
+import type { _SERVICE as SnsGovernanceTestService } from "../candid/sns_governance_test";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import {
   toAddPermissionsRequest,
@@ -49,6 +51,7 @@ import type {
   SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
   SnsListProposalsParams,
+  SnsNeuronAddMaturityParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronDisburseMaturityParams,
   SnsNeuronPermissionsParams,
@@ -58,6 +61,9 @@ import type {
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
+
+export type SnsGovernanceService = SnsGovernanceOriginalService &
+  Pick<SnsGovernanceTestService, "add_maturity">;
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
@@ -320,6 +326,30 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   ): Promise<void> => {
     const request: ManageNeuron = toAutoStakeMaturityNeuronRequest(params);
     await this.manageNeuron(request);
+  };
+
+  /**
+   * sns-governance-test function to simulate maturity related function.
+   *
+   * @param {neuronId: NeuronId; toAccount?: IcrcAccount; percentageToDisburse: number; } params
+   * @param {NeuronId} neuronId The id of the neuron for which to increase the maturity
+   * @param {bigint} amountE8s How much maturity to add.
+   */
+  addMaturity = async (params: SnsNeuronAddMaturityParams): Promise<bigint> => {
+    const { neuronId, amountE8s } = params;
+    const response = await this.caller({ certified: true }).add_maturity({
+      id: toNullable(neuronId),
+      amount_e8s: toNullable(amountE8s),
+    });
+    const newMaturity = fromNullable(response.new_maturity_e8s);
+    if (
+      isNullish(response) ||
+      newMaturity === undefined ||
+      "Error" in response
+    ) {
+      throw new SnsGovernanceError();
+    }
+    return newMaturity;
   };
 
   /**

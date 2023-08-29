@@ -12,7 +12,6 @@ import type {
   NervousSystemFunction,
   NervousSystemParameters,
   NeuronId,
-  _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
 import {
   DEFAULT_PROPOSALS_LIMIT,
@@ -26,7 +25,7 @@ import {
   SnsVote,
 } from "./enums/governance.enums";
 import { SnsGovernanceError } from "./errors/governance.errors";
-import { SnsGovernanceCanister } from "./governance.canister";
+import {SnsGovernanceCanister, SnsGovernanceService} from "./governance.canister";
 import {
   metadataMock,
   neuronIdMock,

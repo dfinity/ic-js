@@ -21,6 +21,8 @@ export interface InitSnsCanistersOptions extends QueryParams {
   agent?: Agent;
   /** The options that will be used to instantiate the actors of the root canister of the particular Sns. */
   rootOptions: Omit<SnsCanisterOptions<SnsRootService>, "agent">;
+  /** Use test version of sns governance api */
+  test: boolean;
 }
 
 export interface InitSnsWrapper {
@@ -34,6 +36,7 @@ export const initSnsWrapper: InitSnsWrapper = async ({
   agent,
   rootOptions,
   certified = true,
+  test = false,
 }: InitSnsCanistersOptions): Promise<SnsWrapper> => {
   const rootCanister: SnsRootCanister = SnsRootCanister.create({
     ...rootOptions,
@@ -58,9 +61,10 @@ export const initSnsWrapper: InitSnsWrapper = async ({
     governance: SnsGovernanceCanister.create({
       canisterId: governanceCanisterId,
       agent,
+      test,
     }),
     ledger: IcrcLedgerCanister.create({ canisterId: ledgerCanisterId, agent }),
-    swap: SnsSwapCanister.create({ canisterId: swapCanisterId, agent }),
+    swap: SnsSwapCanister.create({ canisterId: swapCanisterId, agent, test }),
     index: IcrcIndexCanister.create({ canisterId: indexCanisterId, agent }),
     certified,
   });
