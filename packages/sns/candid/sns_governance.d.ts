@@ -22,6 +22,13 @@ export type Action =
       ExecuteGenericNervousSystemFunction: ExecuteGenericNervousSystemFunction;
     }
   | { Motion: Motion };
+export interface AddMaturityRequest {
+  id: [] | [NeuronId];
+  amount_e8s: [] | [bigint];
+}
+export interface AddMaturityResponse {
+  new_maturity_e8s: [] | [bigint];
+}
 export interface AddNeuronPermissions {
   permissions_to_add: [] | [NeuronPermissionList];
   principal_id: [] | [Principal];
@@ -496,6 +503,7 @@ export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
+  add_maturity: ActorMethod<[AddMaturityRequest], AddMaturityResponse>;
   claim_swap_neurons: ActorMethod<
     [ClaimSwapNeuronsRequest],
     ClaimSwapNeuronsResponse
@@ -523,4 +531,5 @@ export interface _SERVICE {
   list_proposals: ActorMethod<[ListProposals], ListProposalsResponse>;
   manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
   set_mode: ActorMethod<[SetMode], {}>;
+  update_neuron: ActorMethod<[Neuron], [] | [GovernanceError]>;
 }

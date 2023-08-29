@@ -327,6 +327,13 @@ export const idlFactory = ({ IDL }) => {
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Text, Neuron)),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });
+  const AddMaturityRequest = IDL.Record({
+    'id' : IDL.Opt(NeuronId),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const AddMaturityResponse = IDL.Record({
+    'new_maturity_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const NeuronParameters = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
     'dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
@@ -473,6 +480,7 @@ export const idlFactory = ({ IDL }) => {
   const ManageNeuronResponse = IDL.Record({ 'command' : IDL.Opt(Command_1) });
   const SetMode = IDL.Record({ 'mode' : IDL.Int32 });
   return IDL.Service({
+    'add_maturity' : IDL.Func([AddMaturityRequest], [AddMaturityResponse], []),
     'claim_swap_neurons' : IDL.Func(
         [ClaimSwapNeuronsRequest],
         [ClaimSwapNeuronsResponse],
@@ -523,6 +531,7 @@ export const idlFactory = ({ IDL }) => {
     'list_proposals' : IDL.Func([ListProposals], [ListProposalsResponse], []),
     'manage_neuron' : IDL.Func([ManageNeuron], [ManageNeuronResponse], []),
     'set_mode' : IDL.Func([SetMode], [IDL.Record({})], []),
+    'update_neuron' : IDL.Func([Neuron], [IDL.Opt(GovernanceError)], []),
   });
 };
 export const init = ({ IDL }) => {
