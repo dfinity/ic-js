@@ -5,6 +5,7 @@ import {
   Canister,
   createServices,
   fromNullable,
+  isNullish,
   toNullable,
 } from "@dfinity/utils";
 import type {
@@ -49,6 +50,7 @@ import type {
   SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
   SnsListProposalsParams,
+  SnsNeuronAddMaturityParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronDisburseMaturityParams,
   SnsNeuronPermissionsParams,
@@ -320,6 +322,30 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   ): Promise<void> => {
     const request: ManageNeuron = toAutoStakeMaturityNeuronRequest(params);
     await this.manageNeuron(request);
+  };
+
+  /**
+   * sns-governance-test function to simulate maturity related function.
+   *
+   * @param {neuronId: NeuronId; toAccount?: IcrcAccount; percentageToDisburse: number; } params
+   * @param {NeuronId} neuronId The id of the neuron for which to increase the maturity
+   * @param {bigint} amountE8s How much maturity to add.
+   */
+  addMaturity = async (params: SnsNeuronAddMaturityParams): Promise<bigint> => {
+    const { neuronId, amountE8s } = params;
+    const response = await this.caller({ certified: true }).add_maturity({
+      id: toNullable(neuronId),
+      amount_e8s: toNullable(amountE8s),
+    });
+    const newMaturity = fromNullable(response.new_maturity_e8s);
+    if (
+      isNullish(response) ||
+      newMaturity === undefined ||
+      "Error" in response
+    ) {
+      throw new SnsGovernanceError();
+    }
+    return newMaturity;
   };
 
   /**

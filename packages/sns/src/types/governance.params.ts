@@ -181,3 +181,9 @@ export interface SnsNeuronAutoStakeMaturityParams
   extends SnsNeuronManagementParams {
   autoStake: boolean;
 }
+/**
+ * The parameters to add maturity of a neuron
+ */
+export interface SnsNeuronAddMaturityParams extends SnsNeuronManagementParams {
+  amountE8s: bigint;
+}
