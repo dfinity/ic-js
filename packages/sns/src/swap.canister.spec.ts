@@ -18,6 +18,7 @@ import {
   NewSaleTicketResponseErrorType,
   SnsSwapLifecycle,
 } from "./enums/swap.enums";
+import { UnsupportedMethodError } from "./errors/common.errors";
 import {
   SnsSwapGetOpenTicketError,
   SnsSwapNewTicketError,
@@ -239,22 +240,62 @@ describe("Swap canister", () => {
     expect(res).toEqual(mockResponse);
   });
 
-  it("should return the finalization status of the swap canister", async () => {
-    const mockResponse: GetAutoFinalizationStatusResponse = {
-      auto_finalize_swap_response: [],
-      has_auto_finalize_been_attempted: [false],
-      is_auto_finalize_enabled: [false],
-    };
+  describe("getFinalizationStatus", () => {
+    it("should return the finalization status of the swap canister", async () => {
+      const mockResponse: GetAutoFinalizationStatusResponse = {
+        auto_finalize_swap_response: [],
+        has_auto_finalize_been_attempted: [false],
+        is_auto_finalize_enabled: [false],
+      };
 
-    const service = mock<ActorSubclass<SnsSwapService>>();
-    service.get_auto_finalization_status.mockResolvedValue(mockResponse);
+      const service = mock<ActorSubclass<SnsSwapService>>();
+      service.get_auto_finalization_status.mockResolvedValue(mockResponse);
 
-    const canister = SnsSwapCanister.create({
-      canisterId: swapCanisterIdMock,
-      certifiedServiceOverride: service,
+      const canister = SnsSwapCanister.create({
+        canisterId: swapCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const res = await canister.getFinalizationStatus({});
+      expect(res).toEqual(mockResponse);
     });
-    const res = await canister.getFinalizationStatus({});
-    expect(res).toEqual(mockResponse);
+
+    it("throw UnsupportedMethodError if method not supported", async () => {
+      const errorMessage = `Call failed:
+      Canister: s55qq-oqaaa-aaaaa-aaakq-cai
+      Method: get_auto_finalization_status (query)
+      "Status": "rejected"
+      "Code": "DestinationInvalid"
+      "Message": "IC0302: Canister s55qq-oqaaa-aaaaa-aaakq-cai has no query method 'get_auto_finalization_status'"`;
+
+      const service = mock<ActorSubclass<SnsSwapService>>();
+      service.get_auto_finalization_status.mockRejectedValue(
+        new Error(errorMessage),
+      );
+
+      const canister = SnsSwapCanister.create({
+        canisterId: swapCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.getFinalizationStatus({});
+      expect(call).rejects.toThrow(
+        new UnsupportedMethodError("getFinalizationStatus"),
+      );
+    });
+
+    it("throw forward error if not unsupported method error", async () => {
+      const errorMessage = "Another error";
+      const err = new Error(errorMessage);
+
+      const service = mock<ActorSubclass<SnsSwapService>>();
+      service.get_auto_finalization_status.mockRejectedValue(err);
+
+      const canister = SnsSwapCanister.create({
+        canisterId: swapCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.getFinalizationStatus({});
+      expect(call).rejects.toThrow(err);
+    });
   });
 
   it("should call to notify payment failure", async () => {
