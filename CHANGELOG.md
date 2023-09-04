@@ -11,10 +11,6 @@
 - utils `v0.0.21`
 - nns-proto `v0.0.7`
 
-## Features
-
-- replaces the `js-sha256` library with `@noble/hashes`
-
 ## Fix
 
 - bump agent-js `v0.19.2` to fix evaluation of subdomain when `host` is not specified
