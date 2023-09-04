@@ -11,6 +11,10 @@
 - utils `v0.0.22`
 - nns-proto `v0.0.8`
 
+## Features
+
+- replaces the `js-sha256` library with `@noble/hashes`
+
 # 0.18.3 (2023-09-04)
 
 ## Release

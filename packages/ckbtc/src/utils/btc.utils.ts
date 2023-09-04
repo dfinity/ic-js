@@ -1,7 +1,7 @@
 import { isNullish } from "@dfinity/utils";
+import { sha256 } from "@noble/hashes/sha256";
 import { base58_to_binary } from "base58-js";
 import { bech32, bech32m, type Decoded } from "bech32";
-import { sha256 } from "js-sha256";
 import { BtcAddressType, BtcNetwork } from "../enums/btc.enums";
 import {
   ParseBtcAddressBadWitnessLengthError,
@@ -78,7 +78,7 @@ const parseBase58Address = ({
     const checksumHash = sha256.create();
     checksumHash.update(bodyHash.digest());
 
-    const checksum = checksumHash.array().slice(0, 4);
+    const checksum = checksumHash.digest().slice(0, 4);
 
     if (
       expectedChecksum.some(

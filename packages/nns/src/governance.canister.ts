@@ -2,6 +2,7 @@ import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { ManageNeuron as PbManageNeuron } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
+  arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   assertPercentageNumber,
   createServices,
@@ -10,7 +11,7 @@ import {
   nonNullish,
   uint8ArrayToBigInt,
 } from "@dfinity/utils";
-import { sha256 } from "js-sha256";
+import { sha256 } from "@noble/hashes/sha256";
 import randomBytes from "randombytes";
 import type {
   Command_1,
@@ -883,8 +884,15 @@ export class GovernanceCanister {
   ): SubAccount => {
     const padding = asciiStringToByteArray("neuron-stake");
     const shaObj = sha256.create();
-    shaObj.update([0x0c, ...padding, ...principal.toUint8Array(), ...nonce]);
-    return SubAccount.fromBytes(new Uint8Array(shaObj.array())) as SubAccount;
+    shaObj.update(
+      arrayOfNumberToUint8Array([
+        0x0c,
+        ...padding,
+        ...principal.toUint8Array(),
+        ...nonce,
+      ]),
+    );
+    return SubAccount.fromBytes(shaObj.digest()) as SubAccount;
   };
 
   private getGovernanceService(certified: boolean): GovernanceService {
