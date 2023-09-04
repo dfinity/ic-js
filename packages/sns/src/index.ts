@@ -42,6 +42,7 @@ export type {
 export { fromCandidAction } from "./converters/governance.converters";
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
+export * from "./errors/common.errors";
 export * from "./errors/governance.errors";
 export * from "./errors/swap.errors";
 export { SnsGovernanceCanister } from "./governance.canister";
