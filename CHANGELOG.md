@@ -11,7 +11,7 @@
 - utils `v0.0.22`
 - nns-proto `v0.0.8`
 
-# 0.18.3 (wip)
+# 0.18.3 (2023-09-04)
 
 ## Release
 
@@ -23,6 +23,14 @@
 - ic-management `v0.0.7`
 - utils `v0.0.21`
 - nns-proto `v0.0.7`
+
+## Fix
+
+- bump agent-js `v0.19.2` to fix evaluation of subdomain when `host` is not specified
+
+## Build
+
+- remove unused dependencies in `@dfinity/ic-management`
 
 # 0.18.2 (2023-08-24)
 
