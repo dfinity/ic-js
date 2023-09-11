@@ -13,7 +13,7 @@ import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance_test
 import { idlFactory } from "../candid/sns_governance_test.idl";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import type { SnsCanisterOptions } from "./types/canister.options";
-import { SnsAddMaturityParams } from "./types/governance_test.params";
+import type { SnsAddMaturityParams } from "./types/governance_test.params";
 
 export class SnsGovernanceTestCanister extends Canister<SnsGovernanceTestService> {
   /**
