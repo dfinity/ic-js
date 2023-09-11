@@ -33,7 +33,7 @@ export class SnsGovernanceTestCanister extends Canister<SnsGovernanceTestService
   }
 
   /**
-   * List the neurons of the Sns
+   * Add maturity to a neuron (only for testing purposes. Testnet only.)
    */
   addMaturity = async (params: SnsAddMaturityParams): Promise<void> => {
     const { id, amountE8s } = params;
