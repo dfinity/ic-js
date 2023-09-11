@@ -1,4 +1,4 @@
-// Generated from IC repo commit 726b1529fd34a47fcf0627a72301d62a282c788d 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 4fbe776aeea08222b8b47f5f2902fe77b58b7150 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -116,7 +116,10 @@ type DisburseMaturityInProgress = record {
   amount_e8s : nat64;
   account_to_disburse_to : opt Account;
 };
-type DisburseMaturityResponse = record { amount_disbursed_e8s : nat64 };
+type DisburseMaturityResponse = record {
+  amount_disbursed_e8s : nat64;
+  amount_deducted_e8s : opt nat64;
+};
 type DisburseResponse = record { transfer_block_height : nat64 };
 type DissolveState = variant {
   DissolveDelaySeconds : nat64;
