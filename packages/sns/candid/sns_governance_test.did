@@ -1,4 +1,4 @@
-// Generated from IC repo commit 4fbe776aeea08222b8b47f5f2902fe77b58b7150 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 4fbe776aeea08222b8b47f5f2902fe77b58b7150 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -14,6 +14,8 @@ type Action = variant {
   ExecuteGenericNervousSystemFunction : ExecuteGenericNervousSystemFunction;
   Motion : Motion;
 };
+type AddMaturityRequest = record { id : opt NeuronId; amount_e8s : opt nat64 };
+type AddMaturityResponse = record { new_maturity_e8s : opt nat64 };
 type AddNeuronPermissions = record {
   permissions_to_add : opt NeuronPermissionList;
   principal_id : opt principal;
@@ -243,6 +245,10 @@ type MergeMaturityResponse = record {
   merged_maturity_e8s : nat64;
   new_stake_e8s : nat64;
 };
+type MintTokensRequest = record {
+  recipient : opt Account;
+  amount_e8s : opt nat64;
+};
 type Motion = record { motion_text : text };
 type NervousSystemFunction = record {
   id : nat64;
@@ -411,6 +417,7 @@ type VotingRewardsParameters = record {
 };
 type WaitForQuietState = record { current_deadline_timestamp_seconds : nat64 };
 service : (Governance) -> {
+  add_maturity : (AddMaturityRequest) -> (AddMaturityResponse);
   claim_swap_neurons : (ClaimSwapNeuronsRequest) -> (ClaimSwapNeuronsResponse);
   fail_stuck_upgrade_in_progress : (record {}) -> (record {});
   get_build_metadata : () -> (text) query;
@@ -432,5 +439,7 @@ service : (Governance) -> {
   list_neurons : (ListNeurons) -> (ListNeuronsResponse) query;
   list_proposals : (ListProposals) -> (ListProposalsResponse) query;
   manage_neuron : (ManageNeuron) -> (ManageNeuronResponse);
+  mint_tokens : (MintTokensRequest) -> (record {});
   set_mode : (SetMode) -> (record {});
+  update_neuron : (Neuron) -> (opt GovernanceError);
 }

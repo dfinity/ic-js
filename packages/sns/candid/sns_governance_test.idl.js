@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_governance.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_governance_test.did */
 export const idlFactory = ({ IDL }) => {
   const GenericNervousSystemFunction = IDL.Record({
     'validator_canister_id' : IDL.Opt(IDL.Principal),
@@ -327,6 +327,13 @@ export const idlFactory = ({ IDL }) => {
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Text, Neuron)),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });
+  const AddMaturityRequest = IDL.Record({
+    'id' : IDL.Opt(NeuronId),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const AddMaturityResponse = IDL.Record({
+    'new_maturity_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const NeuronParameters = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
     'dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
@@ -472,8 +479,13 @@ export const idlFactory = ({ IDL }) => {
     'AddNeuronPermission' : IDL.Record({}),
   });
   const ManageNeuronResponse = IDL.Record({ 'command' : IDL.Opt(Command_1) });
+  const MintTokensRequest = IDL.Record({
+    'recipient' : IDL.Opt(Account),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const SetMode = IDL.Record({ 'mode' : IDL.Int32 });
   return IDL.Service({
+    'add_maturity' : IDL.Func([AddMaturityRequest], [AddMaturityResponse], []),
     'claim_swap_neurons' : IDL.Func(
         [ClaimSwapNeuronsRequest],
         [ClaimSwapNeuronsResponse],
@@ -484,22 +496,26 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Record({})],
         [],
       ),
-    'get_build_metadata' : IDL.Func([], [IDL.Text], []),
-    'get_latest_reward_event' : IDL.Func([], [RewardEvent], []),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
+    'get_latest_reward_event' : IDL.Func([], [RewardEvent], ['query']),
     'get_maturity_modulation' : IDL.Func(
         [IDL.Record({})],
         [GetMaturityModulationResponse],
         [],
       ),
-    'get_metadata' : IDL.Func([IDL.Record({})], [GetMetadataResponse], []),
-    'get_mode' : IDL.Func([IDL.Record({})], [GetModeResponse], []),
+    'get_metadata' : IDL.Func(
+        [IDL.Record({})],
+        [GetMetadataResponse],
+        ['query'],
+      ),
+    'get_mode' : IDL.Func([IDL.Record({})], [GetModeResponse], ['query']),
     'get_nervous_system_parameters' : IDL.Func(
         [IDL.Null],
         [NervousSystemParameters],
-        [],
+        ['query'],
       ),
-    'get_neuron' : IDL.Func([GetNeuron], [GetNeuronResponse], []),
-    'get_proposal' : IDL.Func([GetProposal], [GetProposalResponse], []),
+    'get_neuron' : IDL.Func([GetNeuron], [GetNeuronResponse], ['query']),
+    'get_proposal' : IDL.Func([GetProposal], [GetProposalResponse], ['query']),
     'get_root_canister_status' : IDL.Func(
         [IDL.Null],
         [CanisterStatusResultV2],
@@ -508,22 +524,28 @@ export const idlFactory = ({ IDL }) => {
     'get_running_sns_version' : IDL.Func(
         [IDL.Record({})],
         [GetRunningSnsVersionResponse],
-        [],
+        ['query'],
       ),
     'get_sns_initialization_parameters' : IDL.Func(
         [IDL.Record({})],
         [GetSnsInitializationParametersResponse],
-        [],
+        ['query'],
       ),
     'list_nervous_system_functions' : IDL.Func(
         [],
         [ListNervousSystemFunctionsResponse],
-        [],
+        ['query'],
       ),
-    'list_neurons' : IDL.Func([ListNeurons], [ListNeuronsResponse], []),
-    'list_proposals' : IDL.Func([ListProposals], [ListProposalsResponse], []),
+    'list_neurons' : IDL.Func([ListNeurons], [ListNeuronsResponse], ['query']),
+    'list_proposals' : IDL.Func(
+        [ListProposals],
+        [ListProposalsResponse],
+        ['query'],
+      ),
     'manage_neuron' : IDL.Func([ManageNeuron], [ManageNeuronResponse], []),
+    'mint_tokens' : IDL.Func([MintTokensRequest], [IDL.Record({})], []),
     'set_mode' : IDL.Func([SetMode], [IDL.Record({})], []),
+    'update_neuron' : IDL.Func([Neuron], [IDL.Opt(GovernanceError)], []),
   });
 };
 export const init = ({ IDL }) => {
