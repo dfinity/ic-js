@@ -123,7 +123,7 @@ Parameters:
 
 ### :factory: IcrcLedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L25)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L27)
 
 #### Methods
 
@@ -135,6 +135,7 @@ Parameters:
 - [totalTokensSupply](#gear-totaltokenssupply)
 - [transferFrom](#gear-transferfrom)
 - [approve](#gear-approve)
+- [allowance](#gear-allowance)
 
 ##### :gear: create
 
@@ -142,7 +143,7 @@ Parameters:
 | -------- | ---------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L26)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L28)
 
 ##### :gear: metadata
 
@@ -152,7 +153,7 @@ The token metadata (name, symbol, etc.).
 | ---------- | ------------------------------------------------------------- |
 | `metadata` | `(params: QueryParams) => Promise<IcrcTokenMetadataResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L40)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L42)
 
 ##### :gear: transactionFee
 
@@ -162,7 +163,7 @@ The ledger transaction fees.
 | ---------------- | ------------------------------------------ |
 | `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L48)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L50)
 
 ##### :gear: balance
 
@@ -176,7 +177,7 @@ Parameters:
 
 - `params`: The parameters to get the balance of an account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L57)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L59)
 
 ##### :gear: transfer
 
@@ -190,7 +191,7 @@ Parameters:
 
 - `params`: The parameters to transfer tokens.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L70)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L72)
 
 ##### :gear: totalTokensSupply
 
@@ -200,7 +201,7 @@ Returns the total supply of tokens.
 | ------------------- | ------------------------------------------ |
 | `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L86)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L88)
 
 ##### :gear: transferFrom
 
@@ -216,7 +217,7 @@ Parameters:
 
 - `params`: The parameters to transfer tokens from to.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L99)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L101)
 
 ##### :gear: approve
 
@@ -232,7 +233,23 @@ Parameters:
 
 - `params`: The parameters to approve.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L121)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L123)
+
+##### :gear: allowance
+
+Returns the token allowance that the `spender` account can transfer from the specified `account`, and the expiration time for that allowance, if any.
+
+Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_allowance
+
+| Method      | Type                                              |
+| ----------- | ------------------------------------------------- |
+| `allowance` | `(params: AllowanceParams) => Promise<Allowance>` |
+
+Parameters:
+
+- `params`: The parameters to call the allowance.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L145)
 
 ### :factory: IcrcIndexCanister
 
