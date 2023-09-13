@@ -8,6 +8,7 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc1_ledger.idl";
 import {
+  toApproveArgs,
   toTransferArg,
   toTransferFromArgs,
 } from "./converters/ledger.converters";
@@ -18,6 +19,7 @@ import type {
   TransferFromParams,
   TransferParams,
 } from "./types/ledger.params";
+import { ApproveParams } from "./types/ledger.params";
 import type { IcrcTokenMetadataResponse } from "./types/ledger.responses";
 
 export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
@@ -92,7 +94,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    *
    * @param {TransferFromParams} params The parameters to transfer tokens from to.
    *
-   * @throws {IcrcTransferError} If the transfer fails.
+   * @throws {IcrcTransferError} If the transfer from fails.
    */
   transferFrom = async (params: TransferFromParams): Promise<BlockIndex> => {
     const response = await this.caller({ certified: true }).icrc2_transfer_from(
@@ -102,6 +104,28 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
       throw new IcrcTransferError({
         errorType: response.Err,
         msg: "Failed to transfer from",
+      });
+    }
+    return response.Ok;
+  };
+
+  /**
+   * This method entitles the `spender` to transfer token `amount` on behalf of the caller from account `{ owner = caller; subaccount = from_subaccount }`.
+   *
+   * Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_approve
+   *
+   * @param {ApproveParams} params The parameters to approve.
+   *
+   * @throws {IcrcTransferError} If the approval fails.
+   */
+  approve = async (params: ApproveParams): Promise<bigint> => {
+    const response = await this.caller({ certified: true }).icrc2_approve(
+      toApproveArgs(params),
+    );
+    if ("Err" in response) {
+      throw new IcrcTransferError({
+        errorType: response.Err,
+        msg: "Failed to entitle the spender to transfer the amount",
       });
     }
     return response.Ok;

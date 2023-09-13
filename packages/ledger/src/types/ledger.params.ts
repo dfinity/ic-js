@@ -48,3 +48,9 @@ export type TransferFromParams = Omit<TransferParams, "from_subaccount"> & {
   spender_subaccount?: Subaccount;
   from: Account;
 };
+
+export type ApproveParams = Omit<TransferParams, "to"> & {
+  expected_allowance?: bigint;
+  expires_at?: bigint;
+  spender: Account;
+};
