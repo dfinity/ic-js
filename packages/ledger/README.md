@@ -123,14 +123,13 @@ Parameters:
 
 ### :factory: IcrcLedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L16)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L17)
 
 #### Methods
 
 - [create](#gear-create)
 - [metadata](#gear-metadata)
 - [transactionFee](#gear-transactionfee)
-- [balance](#gear-balance)
 - [transfer](#gear-transfer)
 - [totalTokensSupply](#gear-totaltokenssupply)
 
@@ -140,7 +139,7 @@ Parameters:
 | -------- | ---------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L17)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L18)
 
 ##### :gear: metadata
 
@@ -150,7 +149,7 @@ The token metadata (name, symbol, etc.).
 | ---------- | ------------------------------------------------------------- |
 | `metadata` | `(params: QueryParams) => Promise<IcrcTokenMetadataResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L31)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L32)
 
 ##### :gear: transactionFee
 
@@ -160,21 +159,7 @@ The ledger transaction fees.
 | ---------------- | ------------------------------------------ |
 | `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L39)
-
-##### :gear: balance
-
-Returns the balance for a given account provided as owner and with optional subaccount.
-
-| Method    | Type                                         |
-| --------- | -------------------------------------------- |
-| `balance` | `(params: BalanceParams) => Promise<bigint>` |
-
-Parameters:
-
-- `params`: The parameters to get the balance of an account.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L48)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L40)
 
 ##### :gear: transfer
 
@@ -188,7 +173,7 @@ Parameters:
 
 - `params`: The parameters to transfer tokens.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L61)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L50)
 
 ##### :gear: totalTokensSupply
 
@@ -198,16 +183,17 @@ Returns the total supply of tokens.
 | ------------------- | ------------------------------------------ |
 | `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L77)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L66)
 
 ### :factory: IcrcIndexCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L13)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L16)
 
 #### Methods
 
 - [create](#gear-create)
 - [getTransactions](#gear-gettransactions)
+- [balance](#gear-balance)
 
 ##### :gear: create
 
@@ -215,7 +201,7 @@ Returns the total supply of tokens.
 | -------- | --------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L14)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L17)
 
 ##### :gear: getTransactions
 
@@ -229,7 +215,21 @@ Parameters:
 
 - `params`: The parameters to get the transactions of an account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L31)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L34)
+
+##### :gear: balance
+
+Returns the balance for a given account provided as owner and with optional subaccount.
+
+| Method    | Type                                         |
+| --------- | -------------------------------------------- |
+| `balance` | `(params: BalanceParams) => Promise<bigint>` |
+
+Parameters:
+
+- `params`: The parameters to get the balance of an account.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/index.canister.ts#L55)
 
 <!-- TSDOC_END -->
 
