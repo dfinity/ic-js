@@ -5,6 +5,23 @@ export interface Account {
   owner: Principal;
   subaccount: [] | [Uint8Array];
 }
+export interface Approve {
+  fee: [] | [bigint];
+  from: Account;
+  memo: [] | [Uint8Array];
+  created_at_time: [] | [bigint];
+  amount: bigint;
+  expected_allowance: [] | [bigint];
+  expires_at: [] | [bigint];
+  spender: Account;
+}
+export interface Burn {
+  from: Account;
+  memo: [] | [Uint8Array];
+  created_at_time: [] | [bigint];
+  amount: bigint;
+  spender: [] | [Account];
+}
 export interface GetAccountTransactionsArgs {
   max_results: bigint;
   start: [] | [TxId];
@@ -27,46 +44,33 @@ export interface ListSubaccountsArgs {
   owner: Principal;
   start: [] | [SubAccount];
 }
+export interface Mint {
+  to: Account;
+  memo: [] | [Uint8Array];
+  created_at_time: [] | [bigint];
+  amount: bigint;
+}
 export type SubAccount = Uint8Array;
 export interface Transaction {
-  burn:
-    | []
-    | [
-        {
-          from: Account;
-          memo: [] | [Uint8Array];
-          created_at_time: [] | [bigint];
-          amount: bigint;
-        },
-      ];
+  burn: [] | [Burn];
   kind: string;
-  mint:
-    | []
-    | [
-        {
-          to: Account;
-          memo: [] | [Uint8Array];
-          created_at_time: [] | [bigint];
-          amount: bigint;
-        },
-      ];
+  mint: [] | [Mint];
+  approve: [] | [Approve];
   timestamp: bigint;
-  transfer:
-    | []
-    | [
-        {
-          to: Account;
-          fee: [] | [bigint];
-          from: Account;
-          memo: [] | [Uint8Array];
-          created_at_time: [] | [bigint];
-          amount: bigint;
-        },
-      ];
+  transfer: [] | [Transfer];
 }
 export interface TransactionWithId {
   id: TxId;
   transaction: Transaction;
+}
+export interface Transfer {
+  to: Account;
+  fee: [] | [bigint];
+  from: Account;
+  memo: [] | [Uint8Array];
+  created_at_time: [] | [bigint];
+  amount: bigint;
+  spender: [] | [Account];
 }
 export type TxId = bigint;
 export interface _SERVICE {

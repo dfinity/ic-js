@@ -11,6 +11,10 @@
 - utils `v0.0.23`
 - nns-proto `v0.0.9`
 
+## Features
+
+- update index did definitions in ledger which provides more information in the transactions
+
 ## Build
 
 - bump did files in Cmc
