@@ -120,7 +120,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    *
    * @throws {IcrcTransferError} If the approval fails.
    */
-  approve = async (params: ApproveParams): Promise<bigint> => {
+  approve = async (params: ApproveParams): Promise<BlockIndex> => {
     const response = await this.caller({ certified: true }).icrc2_approve(
       toApproveArgs(params),
     );
