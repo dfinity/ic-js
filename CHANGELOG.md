@@ -15,6 +15,10 @@
 
 - update index did definitions in ledger which provides more information in the transactions
 
+## Build
+
+- bump did files in Cmc
+
 # 0.18.4 (2023-09-05)
 
 ## Release
