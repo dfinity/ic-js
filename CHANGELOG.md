@@ -13,6 +13,7 @@
 
 ## Features
 
+- add support for `icrc2_transfer_from`, `icrc2_approve` and `icrc2_allowance` in `@dfinity/ledger`
 - update index did definitions in ledger which provides more information in the transactions
 
 ## Build
