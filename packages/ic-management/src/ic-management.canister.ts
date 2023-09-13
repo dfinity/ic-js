@@ -34,7 +34,7 @@ export class ICManagementCanister {
       _methodName: string,
       args: unknown[],
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      _callConfig: CallConfig
+      _callConfig: CallConfig,
     ) => {
       const first = args[0] as { canister_id: string };
       let effectiveCanisterId = Principal.fromHex("");
@@ -216,6 +216,7 @@ export class ICManagementCanister {
         settings: toNullable(toCanisterSettings(settings)),
         amount: toNullable(amount),
         specified_id: toNullable(canisterId),
+        sender_canister_version: [],
       });
 
     return canister_id;

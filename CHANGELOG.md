@@ -1,4 +1,77 @@
-# 0.18.1 (wip)
+# 0.18.5 (wip)
+
+## Release
+
+- nns `v0.16.8`
+- sns `v0.0.23`
+- cmc `v0.0.19`
+- ledger `v0.0.16`
+- ckBTC `v0.0.12`
+- ic-management `v0.0.9`
+- utils `v0.0.23`
+- nns-proto `v0.0.9`
+
+# 0.18.4 (2023-09-05)
+
+## Release
+
+- nns `v0.16.7`
+- sns `v0.0.22`
+- cmc `v0.0.18`
+- ledger `v0.0.15`
+- ckBTC `v0.0.11`
+- ic-management `v0.0.8`
+- utils `v0.0.22`
+- nns-proto `v0.0.8`
+
+## Features
+
+- replaces the `js-sha256` library with `@noble/hashes`
+
+# 0.18.3 (2023-09-04)
+
+## Release
+
+- nns `v0.16.6`
+- sns `v0.0.21`
+- cmc `v0.0.17`
+- ledger `v0.0.14`
+- ckBTC `v0.0.10`
+- ic-management `v0.0.7`
+- utils `v0.0.21`
+- nns-proto `v0.0.7`
+
+## Fix
+
+- bump agent-js `v0.19.2` to fix evaluation of subdomain when `host` is not specified
+
+## Build
+
+- remove unused dependencies in `@dfinity/ic-management`
+
+# 0.18.2 (2023-08-24)
+
+## Release
+
+- nns `v0.16.5`
+- sns `v0.0.20`
+- cmc `v0.0.16`
+- ledger `v0.0.13`
+- ckBTC `v0.0.9`
+- ic-management `v0.0.6`
+- utils `v0.0.20`
+- nns-proto `v0.0.6`
+
+## Features
+
+- Reviver and replacer to interpret `BigInt`, `Principal`, and `Uint8Array` in `JSON.stringify|parse`
+- Add Sns disburse maturity function
+
+## Build
+
+- bump agent-js `v0.19.1`
+
+# 0.18.1 (2023-08-07)
 
 ## Release
 
@@ -10,6 +83,20 @@
 - ic-management `v0.0.5`
 - utils `v0.0.19`
 - nns-proto `v0.0.5`
+
+## Features
+
+- update `nns/governance.did` and `sns_wasm.did` for 1-proposal
+- update `ic.did` for `@dfinity/ic-management`
+- update `icrc1_ledger.did`
+
+## Build
+
+- bump agent-js `v0.18.1`
+
+## Docs
+
+- add mention that ICRC-22 is currently a draft
 
 # 0.18.0 (2023-07-03)
 

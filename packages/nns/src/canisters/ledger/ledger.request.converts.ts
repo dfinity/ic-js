@@ -9,7 +9,7 @@ import type { TransferRequest } from "../../types/ledger_converters";
 import { importNnsProto } from "../../utils/proto.utils";
 
 export const subAccountNumbersToSubaccount = async (
-  subAccountNumbers: number[]
+  subAccountNumbers: number[],
 ): Promise<Subaccount> => {
   const bytes = new Uint8Array(subAccountNumbers).buffer;
   const { Subaccount: SubaccountConstructor } = await importNnsProto();

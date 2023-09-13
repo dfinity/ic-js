@@ -2,6 +2,7 @@ import {
   ActorSubclass,
   AnonymousIdentity,
   polling,
+  SubmitResponse,
   type Agent,
   type RequestId,
 } from "@dfinity/agent";
@@ -54,7 +55,7 @@ describe("GovernanceCanister", () => {
       status: 13,
       statusText: "good",
     },
-  };
+  } as SubmitResponse;
   const newSpawnNeuronId = new PbNeuronId();
   newSpawnNeuronId.setId("1234");
   const spawnResponse = new PbManageNeuronResponse.SpawnResponse();
@@ -66,7 +67,7 @@ describe("GovernanceCanister", () => {
   const spyPollForResponse = jest
     .spyOn(polling, "pollForResponse")
     .mockImplementation(
-      jest.fn().mockResolvedValue(successfulResponse.serializeBinary())
+      jest.fn().mockResolvedValue(successfulResponse.serializeBinary()),
     );
 
   const error: GovernanceErrorDetail = {
@@ -175,7 +176,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1))
+        jest.fn().mockResolvedValue(BigInt(1)),
       );
 
       const governance = GovernanceCanister.create({
@@ -204,7 +205,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1))
+        jest.fn().mockResolvedValue(BigInt(1)),
       );
       const fee = BigInt(10_000);
 
@@ -219,7 +220,7 @@ describe("GovernanceCanister", () => {
       });
 
       expect(mockLedger.transfer).toBeCalledWith(
-        expect.objectContaining({ fee })
+        expect.objectContaining({ fee }),
       );
     });
 
@@ -235,7 +236,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1))
+        jest.fn().mockResolvedValue(BigInt(1)),
       );
 
       const governance = GovernanceCanister.create({
@@ -263,7 +264,7 @@ describe("GovernanceCanister", () => {
       };
       const service = mock<ActorSubclass<GovernanceService>>();
       service.claim_or_refresh_neuron_from_account.mockResolvedValue(
-        clainNeuronResponse
+        clainNeuronResponse,
       );
 
       const mockLedger = mock<LedgerCanister>();
@@ -284,7 +285,7 @@ describe("GovernanceCanister", () => {
       expect(service.claim_or_refresh_neuron_from_account).not.toBeCalled();
 
       await expect(call).rejects.toThrow(
-        new InsufficientAmountError(BigInt(10_000_000))
+        new InsufficientAmountError(BigInt(10_000_000)),
       );
     });
 
@@ -388,7 +389,7 @@ describe("GovernanceCanister", () => {
         });
 
       await expect(call).rejects.toThrow(
-        new GovernanceError(unexpectedGovernanceError)
+        new GovernanceError(unexpectedGovernanceError),
       );
     });
 
@@ -400,7 +401,7 @@ describe("GovernanceCanister", () => {
       });
 
       service.list_neurons.mockResolvedValue(
-        Promise.resolve(mockListNeuronsResponse)
+        Promise.resolve(mockListNeuronsResponse),
       );
 
       const response = await governance.getNeuron({
@@ -430,7 +431,7 @@ describe("GovernanceCanister", () => {
         latest_tally: [],
       } as unknown as RawProposalInfo;
       service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal])
+        Promise.resolve([rawProposal]),
       );
       const response = await governance.getProposal({
         proposalId: BigInt(1),
@@ -555,7 +556,7 @@ describe("GovernanceCanister", () => {
         });
 
       await expect(call).rejects.toThrow(
-        new GovernanceError(unexpectedGovernanceError)
+        new GovernanceError(unexpectedGovernanceError),
       );
     });
   });
@@ -613,7 +614,7 @@ describe("GovernanceCanister", () => {
         });
 
       await expect(call).rejects.toThrow(
-        new GovernanceError(unexpectedGovernanceError)
+        new GovernanceError(unexpectedGovernanceError),
       );
     });
   });
@@ -729,7 +730,7 @@ describe("GovernanceCanister", () => {
         });
 
       await expect(call).rejects.toThrow(
-        new GovernanceError(unexpectedGovernanceError)
+        new GovernanceError(unexpectedGovernanceError),
       );
     });
   });
@@ -1335,7 +1336,7 @@ describe("GovernanceCanister", () => {
           status: 13,
           statusText: "good",
         },
-      };
+      } as SubmitResponse;
       agent.call.mockResolvedValue(response);
 
       const governance = GovernanceCanister.create({

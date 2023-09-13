@@ -7,13 +7,13 @@ describe("ICP", () => {
     expect(ICP.fromString("1")).toEqual(ICP.fromE8s(BigInt(100000000)));
     expect(ICP.fromString("1234")).toEqual(ICP.fromE8s(BigInt(123400000000)));
     expect(ICP.fromString("000001234")).toEqual(
-      ICP.fromE8s(BigInt(123400000000))
+      ICP.fromE8s(BigInt(123400000000)),
     );
     expect(ICP.fromString(" 1")).toEqual(ICP.fromE8s(BigInt(100000000)));
     expect(ICP.fromString("1,000")).toEqual(ICP.fromE8s(BigInt(100000000000)));
     expect(ICP.fromString("1'000")).toEqual(ICP.fromE8s(BigInt(100000000000)));
     expect(ICP.fromString("1'000'000")).toEqual(
-      ICP.fromE8s(BigInt(100000000000000))
+      ICP.fromE8s(BigInt(100000000000000)),
     );
   });
 
@@ -22,7 +22,7 @@ describe("ICP", () => {
     expect(ICP.fromString("0.0001")).toEqual(ICP.fromE8s(BigInt(10000)));
     expect(ICP.fromString("0.00000001")).toEqual(ICP.fromE8s(BigInt(1)));
     expect(ICP.fromString("0.0000000001")).toEqual(
-      FromStringToTokenError.FractionalMoreThan8Decimals
+      FromStringToTokenError.FractionalMoreThan8Decimals,
     );
     expect(ICP.fromString(".01")).toEqual(ICP.fromE8s(BigInt(1000000)));
   });
@@ -31,13 +31,13 @@ describe("ICP", () => {
     expect(ICP.fromString("1.1")).toEqual(ICP.fromE8s(BigInt(110000000)));
     expect(ICP.fromString("1.1")).toEqual(ICP.fromE8s(BigInt(110000000)));
     expect(ICP.fromString("12,345.00000001")).toEqual(
-      ICP.fromE8s(BigInt(1234500000001))
+      ICP.fromE8s(BigInt(1234500000001)),
     );
     expect(ICP.fromString("12'345.00000001")).toEqual(
-      ICP.fromE8s(BigInt(1234500000001))
+      ICP.fromE8s(BigInt(1234500000001)),
     );
     expect(ICP.fromString("12345.00000001")).toEqual(
-      ICP.fromE8s(BigInt(1234500000001))
+      ICP.fromE8s(BigInt(1234500000001)),
     );
   });
 
@@ -46,7 +46,7 @@ describe("ICP", () => {
     expect(ICP.fromString("a")).toBe(FromStringToTokenError.InvalidFormat);
     expect(ICP.fromString("3.a")).toBe(FromStringToTokenError.InvalidFormat);
     expect(ICP.fromString("123asdf$#@~!")).toBe(
-      FromStringToTokenError.InvalidFormat
+      FromStringToTokenError.InvalidFormat,
     );
   });
 

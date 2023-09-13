@@ -8,7 +8,7 @@ import type {
 import type { BalanceParams } from "./types/ledger.params";
 
 export abstract class IcrcCanister<
-  T extends IcrcLedgerService | IcrcIndexService
+  T extends IcrcLedgerService | IcrcIndexService,
 > extends Canister<T> {
   /**
    * Returns the balance for a given account provided as owner and with optional subaccount.

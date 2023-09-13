@@ -63,7 +63,7 @@ const data = await metadata();
 #### :gear: encodeIcrcAccount
 
 Encodes an Icrc-1 account compatible into a string.
-Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R238
+Formatting Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/TextualEncoding.md
 
 | Function            | Type                                              |
 | ------------------- | ------------------------------------------------- |
@@ -78,7 +78,7 @@ Parameters:
 #### :gear: decodeIcrcAccount
 
 Decodes a string into an Icrc-1 compatible account.
-Formatting Reference: https://github.com/dfinity/ICRC-1/pull/98
+Formatting Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/TextualEncoding.md
 
 | Function            | Type                                     |
 | ------------------- | ---------------------------------------- |
@@ -91,6 +91,8 @@ Parameters:
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/ledger.utils.ts#L59)
 
 #### :gear: decodePayment
+
+👀 This feature is currently in draft. You can find more information about it at https://github.com/dfinity/ICRC/issues/22.
 
 A naive implementation of a payment parser. Given a code, the function attempts to extract a token name, account identifier (textual representation), and an optional amount.
 
@@ -117,7 +119,7 @@ Parameters:
 
 - `code`: string
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/payment.utils.ts#L24)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/utils/payment.utils.ts#L26)
 
 ### :factory: IcrcLedgerCanister
 

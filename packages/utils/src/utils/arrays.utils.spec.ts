@@ -25,7 +25,7 @@ describe("arrays-utils", () => {
 
   it("should convert bigint to Uint8Array and back to bigint", () =>
     expect(uint8ArrayToBigInt(bigIntToUint8Array(1555628690182n))).toEqual(
-      1555628690182n
+      1555628690182n,
     ));
 
   it("should convert number to Uint8Array", () => {

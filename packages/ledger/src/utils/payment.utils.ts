@@ -1,6 +1,8 @@
 import { isNullish, nonNullish } from "@dfinity/utils";
 
 /**
+ * 👀 This feature is currently in draft. You can find more information about it at https://github.com/dfinity/ICRC/issues/22.
+ *
  * A naive implementation of a payment parser. Given a code, the function attempts to extract a token name, account identifier (textual representation), and an optional amount.
  *
  * If the code doesn't match the expected pattern, `undefined` is returned for simplicity.
@@ -22,7 +24,7 @@ import { isNullish, nonNullish } from "@dfinity/utils";
  * @returns { token: string; identifier: string; amount?: number } | undefined
  */
 export const decodePayment = (
-  code: string
+  code: string,
 ): { token: string; identifier: string; amount?: number } | undefined => {
   const regex =
     /^([a-zA-Z]+):([A-Za-z0-9:\-.]+).*?(?:[?&](?:amount|value)=(\d+(?:\.\d+)?))?$/;

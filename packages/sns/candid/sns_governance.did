@@ -1,4 +1,4 @@
-// Generated from IC repo commit 26b480f775222265f4369bc485d502a140f15564 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 4fbe776aeea08222b8b47f5f2902fe77b58b7150 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -29,10 +29,7 @@ type By = variant {
   NeuronId : record {};
 };
 type CanisterStatusResultV2 = record {
-  controller : principal;
   status : CanisterStatusType;
-  freezing_threshold : nat;
-  balance : vec record { vec nat8; nat };
   memory_size : nat;
   cycles : nat;
   settings : DefiniteCanisterSettingsArgs;
@@ -100,7 +97,6 @@ type Command_2 = variant {
 type Configure = record { operation : opt Operation };
 type DefaultFollowees = record { followees : vec record { nat64; Followees } };
 type DefiniteCanisterSettingsArgs = record {
-  controller : principal;
   freezing_threshold : nat;
   controllers : vec principal;
   memory_allocation : nat;
@@ -120,7 +116,10 @@ type DisburseMaturityInProgress = record {
   amount_e8s : nat64;
   account_to_disburse_to : opt Account;
 };
-type DisburseMaturityResponse = record { amount_disbursed_e8s : nat64 };
+type DisburseMaturityResponse = record {
+  amount_disbursed_e8s : nat64;
+  amount_deducted_e8s : opt nat64;
+};
 type DisburseResponse = record { transfer_block_height : nat64 };
 type DissolveState = variant {
   DissolveDelaySeconds : nat64;

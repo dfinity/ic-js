@@ -56,6 +56,8 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
+- [jsonReplacer](#gear-jsonreplacer)
+- [jsonReviver](#gear-jsonreviver)
 - [principalToSubAccount](#gear-principaltosubaccount)
 - [smallerVersion](#gear-smallerversion)
 
@@ -294,6 +296,26 @@ Not null and not undefined and not empty
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L12)
 
+#### :gear: jsonReplacer
+
+A parser that interprets revived BigInt, Principal, and Uint8Array when constructing JavaScript values or objects.
+
+| Function       | Type                                        |
+| -------------- | ------------------------------------------- |
+| `jsonReplacer` | `(_key: string, value: unknown) => unknown` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L11)
+
+#### :gear: jsonReviver
+
+A function that alters the behavior of the stringification process for BigInt, Principal and Uint8Array.
+
+| Function      | Type                                        |
+| ------------- | ------------------------------------------- |
+| `jsonReviver` | `(_key: string, value: unknown) => unknown` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L30)
+
 #### :gear: principalToSubAccount
 
 Convert a principal to a Uint8Array 32 length.
@@ -367,7 +389,7 @@ Parameters:
 - `params.amount`: The amount in bigint format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L83)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L86)
 
 ##### :gear: fromString
 
@@ -386,7 +408,7 @@ Parameters:
 - `params.amount`: The amount in string format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L104)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L107)
 
 ##### :gear: fromNumber
 
@@ -403,7 +425,7 @@ Parameters:
 - `params.amount`: The amount in number format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L128)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L131)
 
 ##### :gear: toE8s
 
@@ -411,7 +433,7 @@ Parameters:
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L154)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L157)
 
 ### :factory: Canister
 

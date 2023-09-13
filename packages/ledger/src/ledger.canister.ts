@@ -49,7 +49,7 @@ export class IcrcLedgerCanister extends IcrcCanister<IcrcLedgerService> {
    */
   transfer = async (params: TransferParams): Promise<BlockIndex> => {
     const response = await this.caller({ certified: true }).icrc1_transfer(
-      toTransferArg(params)
+      toTransferArg(params),
     );
     if ("Err" in response) {
       throw new IcrcTransferError({

@@ -13,7 +13,7 @@ const MAX_SUBACCOUNT_HEX_LENGTH = 64;
 
 /**
  * Encodes an Icrc-1 account compatible into a string.
- * Formatting Reference: https://github.com/dfinity/ICRC-1/pull/55/files#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R238
+ * Formatting Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/TextualEncoding.md
  *
  * @param account { owner: Principal, subaccount?: Uint8Array }
  * @returns string
@@ -42,7 +42,7 @@ export const encodeIcrcAccount = ({
 
 const encodeCrc = ({ owner, subaccount }: Required<IcrcAccount>): string => {
   const crc = bigEndianCrc32(
-    Uint8Array.from([...owner.toUint8Array(), ...subaccount])
+    Uint8Array.from([...owner.toUint8Array(), ...subaccount]),
   );
 
   return encodeBase32(crc);
@@ -50,7 +50,7 @@ const encodeCrc = ({ owner, subaccount }: Required<IcrcAccount>): string => {
 
 /**
  * Decodes a string into an Icrc-1 compatible account.
- * Formatting Reference: https://github.com/dfinity/ICRC-1/pull/98
+ * Formatting Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/TextualEncoding.md
  *
  * @param accountString string
  * @throws Error if the string is not a valid Icrc-1 account
@@ -75,7 +75,7 @@ export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
   const account = {
     owner: Principal.fromText(principalText),
     subaccount: hexStringToUint8Array(
-      subaccountHex.padStart(MAX_SUBACCOUNT_HEX_LENGTH, "0")
+      subaccountHex.padStart(MAX_SUBACCOUNT_HEX_LENGTH, "0"),
     ),
   };
 

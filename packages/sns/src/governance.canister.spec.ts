@@ -39,6 +39,7 @@ import {
 import { rootCanisterIdMock } from "./mocks/sns.mock";
 import {
   SnsDisburseNeuronParams,
+  SnsNeuronDisburseMaturityParams,
   SnsRegisterVoteParams,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
@@ -73,7 +74,7 @@ describe("Governance canister", () => {
       functions: [nervousSysttemFunctionMock],
     };
     service.list_nervous_system_functions.mockResolvedValue(
-      nervousSystemFunctionsMock
+      nervousSystemFunctionsMock,
     );
 
     const canister = SnsGovernanceCanister.create({
@@ -198,7 +199,7 @@ describe("Governance canister", () => {
     it("should raise an error if call fails", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockRejectedValue(
-        new Error("error")
+        new Error("error"),
       );
 
       const canister = SnsGovernanceCanister.create({
@@ -511,7 +512,7 @@ describe("Governance canister", () => {
       const mockParams = { test: true };
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.get_nervous_system_parameters.mockResolvedValue(
-        mockParams as unknown as NervousSystemParameters
+        mockParams as unknown as NervousSystemParameters,
       );
 
       const canister = SnsGovernanceCanister.create({
@@ -1060,7 +1061,7 @@ describe("Governance canister", () => {
 
   describe("stakeMaturity", () => {
     const testStakeMaturitySuccess = async (
-      percentageToStake: number | undefined
+      percentageToStake: number | undefined,
     ) => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue({
@@ -1136,9 +1137,91 @@ describe("Governance canister", () => {
     });
   });
 
+  describe("disburseMaturity", () => {
+    const toAccount = {
+      owner: Principal.fromText("aaaaa-aa"),
+      subaccount: arrayOfNumberToUint8Array([0, 0, 1]),
+    };
+    const params: SnsNeuronDisburseMaturityParams = {
+      neuronId: {
+        id: arrayOfNumberToUint8Array([1, 2, 3]),
+      },
+      percentageToDisburse: 50,
+      toAccount,
+    };
+
+    it("should disburse maturity of the neuron", async () => {
+      const request: ManageNeuron = {
+        subaccount: params.neuronId.id,
+        command: [
+          {
+            DisburseMaturity: {
+              to_account: [toCandidAccount(toAccount)],
+              percentage_to_disburse: params.percentageToDisburse,
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [
+          {
+            DisburseMaturity: {
+              amount_disbursed_e8s: BigInt(0),
+              amount_deducted_e8s: [BigInt(0)],
+            },
+          },
+        ],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.disburseMaturity(params);
+
+      expect(service.manage_neuron).toBeCalled();
+      expect(service.manage_neuron).toBeCalledWith(request);
+    });
+
+    it("throws error if percentage not valid", () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const call = () =>
+        canister.disburseMaturity({
+          ...params,
+          percentageToDisburse: 500,
+        });
+
+      expect(call).rejects.toThrow(InvalidPercentageError);
+      expect(service.manage_neuron).not.toBeCalled();
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () => canister.disburseMaturity(params);
+
+      expect(call).rejects.toThrowError(SnsGovernanceError);
+      expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
   describe("autoStakeMaturity", () => {
     const testAutoStakeMaturitySuccess = async (
-      requested_setting_for_auto_stake_maturity: boolean
+      requested_setting_for_auto_stake_maturity: boolean,
     ) => {
       const request: ManageNeuron = {
         subaccount: neuronIdMock.id,

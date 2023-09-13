@@ -12,7 +12,10 @@ import { importNnsProto } from "./utils/proto.utils";
  * @deprecated
  */
 export class ICP {
-  private constructor(private e8s: bigint, public token: Token) {}
+  private constructor(
+    private e8s: bigint,
+    public token: Token,
+  ) {}
 
   public static fromE8s(amount: bigint): ICP {
     return new ICP(amount, ICPToken);

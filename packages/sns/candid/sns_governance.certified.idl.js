@@ -378,17 +378,13 @@ export const idlFactory = ({ IDL }) => {
     'running' : IDL.Null,
   });
   const DefiniteCanisterSettingsArgs = IDL.Record({
-    'controller' : IDL.Principal,
     'freezing_threshold' : IDL.Nat,
     'controllers' : IDL.Vec(IDL.Principal),
     'memory_allocation' : IDL.Nat,
     'compute_allocation' : IDL.Nat,
   });
   const CanisterStatusResultV2 = IDL.Record({
-    'controller' : IDL.Principal,
     'status' : CanisterStatusType,
-    'freezing_threshold' : IDL.Nat,
-    'balance' : IDL.Vec(IDL.Tuple(IDL.Vec(IDL.Nat8), IDL.Nat)),
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
     'settings' : DefiniteCanisterSettingsArgs,
@@ -446,6 +442,7 @@ export const idlFactory = ({ IDL }) => {
   const SplitResponse = IDL.Record({ 'created_neuron_id' : IDL.Opt(NeuronId) });
   const DisburseMaturityResponse = IDL.Record({
     'amount_disbursed_e8s' : IDL.Nat64,
+    'amount_deducted_e8s' : IDL.Opt(IDL.Nat64),
   });
   const ClaimOrRefreshResponse = IDL.Record({
     'refreshed_neuron_id' : IDL.Opt(NeuronId),

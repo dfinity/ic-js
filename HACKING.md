@@ -53,7 +53,7 @@ npm rm @dfinity/the-library-you-want-to-test
 npm i /User/path/to/packages/the-library-you-want-to-test
 ```
 
-**Note: Don't commit the changes in package.json nor in package-lock.json**
+**Note: Don't commit the changes in package.json nor in package-lock.json.**
 
 ## Candid files
 
