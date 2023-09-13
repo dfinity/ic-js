@@ -23,6 +23,7 @@ import type {
 } from "../candid/sns_governance";
 import type {
   BuyerState,
+  GetAutoFinalizationStatusResponse,
   GetBuyerStateRequest,
   GetDerivedStateResponse,
   GetLifecycleResponse,
@@ -418,6 +419,11 @@ export class SnsWrapper {
     params: Omit<QueryParams, "certified">,
   ): Promise<GetLifecycleResponse | undefined> =>
     this.swap.getLifecycle(this.mergeParams(params));
+
+  getFinalizationStatus = (
+    params: Omit<QueryParams, "certified">,
+  ): Promise<GetAutoFinalizationStatusResponse | undefined> =>
+    this.swap.getFinalizationStatus(this.mergeParams(params));
 
   getSaleParameters = (
     params: Omit<QueryParams, "certified">,

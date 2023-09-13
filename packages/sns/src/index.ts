@@ -22,6 +22,8 @@ export type {
   BuyerState as SnsSwapBuyerState,
   CfParticipant,
   DerivedState as SnsSwapDerivedState,
+  FinalizeSwapResponse as SnsFinalizeSwapResponse,
+  GetAutoFinalizationStatusResponse as SnsGetAutoFinalizationStatusResponse,
   GetBuyerStateRequest as SnsGetBuyerStateRequest,
   GetBuyerStateResponse as SnsGetBuyerStateResponse,
   GetDerivedStateResponse as SnsGetDerivedStateResponse,
@@ -40,9 +42,11 @@ export type {
 export { fromCandidAction } from "./converters/governance.converters";
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
+export * from "./errors/common.errors";
 export * from "./errors/governance.errors";
 export * from "./errors/swap.errors";
 export { SnsGovernanceCanister } from "./governance.canister";
+export { SnsGovernanceTestCanister } from "./governance_test.canister";
 export { SnsRootCanister } from "./root.canister";
 export * from "./sns";
 export * from "./sns.wrapper";

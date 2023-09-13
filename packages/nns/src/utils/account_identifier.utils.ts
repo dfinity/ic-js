@@ -1,11 +1,12 @@
 import type { Principal } from "@dfinity/principal";
 import {
+  arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   bigEndianCrc32,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
+import { sha224 } from "@noble/hashes/sha256";
 import { Buffer } from "buffer";
-import { sha224 } from "js-sha256";
 import type { AccountIdentifier } from "../types/common";
 
 export const accountIdentifierToBytes = (
@@ -25,12 +26,14 @@ export const principalToAccountIdentifier = (
   const padding = asciiStringToByteArray("\x0Aaccount-id");
 
   const shaObj = sha224.create();
-  shaObj.update([
-    ...padding,
-    ...principal.toUint8Array(),
-    ...(subAccount ?? Array(32).fill(0)),
-  ]);
-  const hash = new Uint8Array(shaObj.array());
+  shaObj.update(
+    arrayOfNumberToUint8Array([
+      ...padding,
+      ...principal.toUint8Array(),
+      ...(subAccount ?? Array(32).fill(0)),
+    ]),
+  );
+  const hash = shaObj.digest();
 
   // Prepend the checksum of the hash and convert to a hex string
   const checksum = bigEndianCrc32(hash);

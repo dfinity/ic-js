@@ -7,6 +7,7 @@ import {
 } from "@dfinity/utils";
 import type {
   BuyerState,
+  GetAutoFinalizationStatusResponse,
   GetBuyerStateRequest,
   GetDerivedStateResponse,
   GetLifecycleResponse,
@@ -20,12 +21,14 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";
 import { toNewSaleTicketRequest } from "./converters/swap.converters";
+import { UnsupportedMethodError } from "./errors/common.errors";
 import {
   SnsSwapGetOpenTicketError,
   SnsSwapNewTicketError,
 } from "./errors/swap.errors";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { NewSaleTicketParams } from "./types/swap.params";
+import { isMethodNotSupportedError } from "./utils/error.utils";
 
 export class SnsSwapCanister extends Canister<SnsSwapService> {
   static create(options: SnsCanisterOptions<SnsSwapService>) {
@@ -140,5 +143,22 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    */
   getLifecycle = async (params: QueryParams): Promise<GetLifecycleResponse> => {
     return this.caller(params).get_lifecycle({});
+  };
+
+  /**
+   * Get sale lifecycle state
+   */
+  getFinalizationStatus = async (
+    params: QueryParams,
+  ): Promise<GetAutoFinalizationStatusResponse> => {
+    try {
+      return await this.caller(params).get_auto_finalization_status({});
+    } catch (error) {
+      // Throw a custom error if the method is not supported by the canister
+      if (isMethodNotSupportedError(error)) {
+        throw new UnsupportedMethodError("getFinalizationStatus");
+      }
+      throw error;
+    }
   };
 }
