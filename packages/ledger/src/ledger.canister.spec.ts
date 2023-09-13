@@ -3,6 +3,7 @@ import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
+  Allowance,
   ApproveArgs,
   TransferArg,
   TransferFromArgs,
@@ -16,6 +17,7 @@ import {
   tokeMetadataResponseMock,
 } from "./mocks/ledger.mock";
 import {
+  AllowanceParams,
   ApproveParams,
   TransferFromParams,
   TransferParams,
@@ -275,6 +277,42 @@ describe("Ledger canister", () => {
 
       const call = () => canister.approve(approveParams);
       expect(call).rejects.toThrow(IcrcTransferError);
+    });
+  });
+
+  describe("allowance", () => {
+    const allowance: Allowance = {
+      allowance: 123n,
+      expires_at: [456n],
+    };
+
+    const allowanceParams: Omit<AllowanceParams, "certified"> = {
+      spender: {
+        owner: mockPrincipal,
+        subaccount: [],
+      },
+      account: {
+        owner: Principal.fromText("aaaaa-aa"),
+        subaccount: [],
+      },
+    };
+
+    it("should return the allowance", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc2_allowance.mockResolvedValue(allowance);
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const res = await canister.allowance({
+        ...allowanceParams,
+        certified: true,
+      });
+      expect(service.icrc2_allowance).toBeCalledWith(allowanceParams);
+      expect(res).toEqual(allowance);
     });
   });
 });

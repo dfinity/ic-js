@@ -1,6 +1,7 @@
 import type { QueryParams } from "@dfinity/utils";
 import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
+  Allowance,
   BlockIndex,
   Tokens,
   _SERVICE as IcrcLedgerService,
@@ -15,11 +16,12 @@ import {
 import { IcrcTransferError } from "./errors/ledger.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
 import type {
+  AllowanceParams,
+  ApproveParams,
   BalanceParams,
   TransferFromParams,
   TransferParams,
 } from "./types/ledger.params";
-import { ApproveParams } from "./types/ledger.params";
 import type { IcrcTokenMetadataResponse } from "./types/ledger.responses";
 
 export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
@@ -129,5 +131,19 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
       });
     }
     return response.Ok;
+  };
+
+  /**
+   * Returns the token allowance that the `spender` account can transfer from the specified `account`, and the expiration time for that allowance, if any.
+   *
+   * Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_allowance
+   *
+   * @param {AllowanceParams} params The parameters to call the allowance.
+   *
+   * @returns {Allowance} The token allowance. If there is no active approval, the ledger MUST return `{ allowance = 0; expires_at = null }`.
+   */
+  allowance = async (params: AllowanceParams): Promise<Allowance> => {
+    const { certified, ...rest } = params;
+    return this.caller({ certified }).icrc2_allowance({ ...rest });
   };
 }
