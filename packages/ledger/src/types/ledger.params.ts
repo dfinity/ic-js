@@ -32,3 +32,19 @@ export interface TransferParams {
   created_at_time?: Timestamp;
   amount: Tokens;
 }
+
+/**
+ * Params for an icrc2_transfer_from.
+ *
+ * @param {Account} to The account to transfer tokens to.
+ * @param {Account} from The account to transfer tokens from.
+ * @param {Subaccount?} spender_subaccount A spender subaccount.
+ * @param {Tokens} amount The Amount of tokens to transfer.
+ * @param {Uint8Array?} memo Transfer memo.
+ * @param {Timestamp?} created_at_time nanoseconds since unix epoc to trigger deduplication and avoid other issues
+ * @param {Tokens?} fee The fee of the transfer when it's not the default fee.
+ */
+export type TransferFromParams = Omit<TransferParams, "from_subaccount"> & {
+  spender_subaccount?: Subaccount;
+  from: Account;
+};

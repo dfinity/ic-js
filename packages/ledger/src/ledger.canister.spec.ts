@@ -4,15 +4,17 @@ import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   TransferArg,
+  TransferFromArgs,
   _SERVICE as IcrcLedgerService,
 } from "../candid/icrc1_ledger";
 import { IcrcTransferError } from "./errors/ledger.errors";
 import { IcrcLedgerCanister } from "./ledger.canister";
 import {
   ledgerCanisterIdMock,
+  mockPrincipal,
   tokeMetadataResponseMock,
 } from "./mocks/ledger.mock";
-import { TransferParams } from "./types/ledger.params";
+import { TransferFromParams, TransferParams } from "./types/ledger.params";
 
 describe("Ledger canister", () => {
   it("should return the token metadata", async () => {
@@ -146,6 +148,69 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.transfer(transferParams);
+      expect(call).rejects.toThrow(IcrcTransferError);
+    });
+  });
+
+  describe("transfer-from", () => {
+    const transferParams: TransferFromParams = {
+      from: {
+        owner: mockPrincipal,
+        subaccount: [],
+      },
+      to: {
+        owner: Principal.fromText("aaaaa-aa"),
+        subaccount: [],
+      },
+      amount: BigInt(100_000_000),
+    };
+    const transferArg: TransferFromArgs = {
+      from: {
+        owner: mockPrincipal,
+        subaccount: [],
+      },
+      to: {
+        owner: Principal.fromText("aaaaa-aa"),
+        subaccount: [],
+      },
+      fee: [],
+      memo: [],
+      spender_subaccount: [],
+      created_at_time: [],
+      amount: BigInt(100_000_000),
+    };
+    it("should return the block height successfully", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const blockHeight = BigInt(100);
+      service.icrc2_transfer_from.mockResolvedValue({ Ok: blockHeight });
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.transferFrom(transferParams);
+      expect(res).toEqual(blockHeight);
+      expect(service.icrc2_transfer_from).toBeCalledWith(transferArg);
+    });
+
+    it("should raise IcrcTransferError error", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const errorResponse = {
+        Err: {
+          InsufficientFunds: {
+            balance: BigInt(0),
+          },
+        },
+      };
+      service.icrc2_transfer_from.mockResolvedValue(errorResponse);
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const call = () => canister.transferFrom(transferParams);
       expect(call).rejects.toThrow(IcrcTransferError);
     });
   });

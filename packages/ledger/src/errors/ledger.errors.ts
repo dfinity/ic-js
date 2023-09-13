@@ -1,8 +1,6 @@
-import type { TransferError } from "../../candid/icrc1_ledger";
-
-export class IcrcTransferError extends Error {
-  public errorType: TransferError;
-  constructor({ msg, errorType }: { msg?: string; errorType: TransferError }) {
+export class IcrcTransferError<T> extends Error {
+  public errorType: T;
+  constructor({ msg, errorType }: { msg?: string; errorType: T }) {
     super(msg);
     this.errorType = errorType;
   }

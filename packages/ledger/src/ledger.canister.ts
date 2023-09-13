@@ -7,10 +7,17 @@ import type {
 } from "../candid/icrc1_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc1_ledger.idl";
-import { toTransferArg } from "./converters/ledger.converters";
+import {
+  toTransferArg,
+  toTransferFromArgs,
+} from "./converters/ledger.converters";
 import { IcrcTransferError } from "./errors/ledger.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
-import type { BalanceParams, TransferParams } from "./types/ledger.params";
+import type {
+  BalanceParams,
+  TransferFromParams,
+  TransferParams,
+} from "./types/ledger.params";
 import type { IcrcTokenMetadataResponse } from "./types/ledger.responses";
 
 export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
@@ -76,5 +83,27 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    */
   totalTokensSupply = (params: QueryParams): Promise<Tokens> => {
     return this.caller(params).icrc1_total_supply();
+  };
+
+  /**
+   * Transfers a token amount from the `from` account to the `to` account using the allowance of the spender's account (`SpenderAccount = { owner = caller; subaccount = spender_subaccount }`). The ledger draws the fees from the `from` account.
+   *
+   * Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_transfer_from
+   *
+   * @param {TransferFromParams} params The parameters to transfer tokens from to.
+   *
+   * @throws {IcrcTransferError} If the transfer fails.
+   */
+  transferFrom = async (params: TransferFromParams): Promise<BlockIndex> => {
+    const response = await this.caller({ certified: true }).icrc2_transfer_from(
+      toTransferFromArgs(params),
+    );
+    if ("Err" in response) {
+      throw new IcrcTransferError({
+        errorType: response.Err,
+        msg: "Failed to transfer from",
+      });
+    }
+    return response.Ok;
   };
 }
