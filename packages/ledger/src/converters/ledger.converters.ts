@@ -1,11 +1,14 @@
 import { toNullable } from "@dfinity/utils";
-import type { TransferArg, TransferFromArgs } from "../../candid/icrc1_ledger";
-import { ApproveArgs } from "../../candid/icrc1_ledger";
 import type {
+  ApproveArgs,
+  TransferArg,
+  TransferFromArgs,
+} from "../../candid/icrc1_ledger";
+import type {
+  ApproveParams,
   TransferFromParams,
   TransferParams,
 } from "../types/ledger.params";
-import { ApproveParams } from "../types/ledger.params";
 
 export const toTransferArg = ({
   from_subaccount,

@@ -1,11 +1,11 @@
 import type { QueryParams } from "@dfinity/utils";
 import type {
   Account,
+  AllowanceArgs,
   Subaccount,
   Timestamp,
   Tokens,
 } from "../../candid/icrc1_ledger";
-import { AllowanceArgs } from "../../candid/icrc1_ledger";
 import type { IcrcAccount } from "./ledger.responses";
 
 /**
