@@ -27,15 +27,35 @@ export const decodePayment = (
   code: string,
 ): { token: string; identifier: string; amount?: number } | undefined => {
   const regex =
-    /^([a-zA-Z]+):([A-Za-z0-9:\-.]+).*?(?:[?&](?:amount|value)=(\d+(?:\.\d+)?))?$/;
+    /^([a-zA-Z0-9%_.~+-]+):([a-zA-Z0-9%_.~+-]+\/?([a-zA-Z0-9%_.~+/-]+)?)\??((?:[a-zA-Z0-9%_.~+-]+=[a-zA-Z0-9%_.~+-]+(?:[&;])?)*)$/;
 
   const match = code.match(regex);
+
   if (isNullish(match)) {
     return undefined;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, token, identifier, amount] = match;
+  const [_code_, token, identifier, _undefined_, parameters] = match;
+
+  const decodeAmount = (): string | undefined => {
+    const regex = /([a-zA-Z0-9%_.~+-]+)=([a-zA-Z0-9%_.~+-]+)([&;])?/g;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const match = [...(parameters ?? "").matchAll(regex)].find(
+      ([_param_, key]) => /amount|value/.test(key)
+    );
+
+    if (isNullish(match)) {
+      return undefined;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_param_, _key_, value] = match;
+
+    return value;
+  };
+
+  const amount = decodeAmount();
 
   return {
     token,
