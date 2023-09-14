@@ -38,8 +38,15 @@ describe("Index canister", () => {
             created_at_time: [BigInt(123)],
             amount: BigInt(33),
             fee: [BigInt(10)],
+            spender: [
+              {
+                owner: Principal.fromText("aaaaa-aa"),
+                subaccount: [],
+              },
+            ],
           },
         ],
+        approve: [],
       };
       const transactionWithId = {
         id: BigInt(1),
