@@ -38,8 +38,6 @@ const ckBTCInputFiles = [
   "./packages/ckbtc/src/utils/btc.utils.ts",
 ];
 
-const rosettaInputFiles = ["./packages/rosetta-client/src/index.ts"];
-
 const icMgmtInputFiles = [
   "./packages/ic-management/src/ic-management.canister.ts",
 ];
@@ -92,13 +90,6 @@ generateDocumentation({
   outputFile: "./packages/utils/README.md",
   markdownOptions,
   buildOptions: { ...buildOptions, explore: true },
-});
-
-generateDocumentation({
-  inputFiles: rosettaInputFiles,
-  outputFile: "./packages/rosetta-client/README.md",
-  markdownOptions,
-  buildOptions,
 });
 
 generateDocumentation({
