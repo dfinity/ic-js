@@ -1,4 +1,5 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
+import type { IcrcLedgerCanister } from "@dfinity/ledger";
 import type { ManageNeuron as PbManageNeuron } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
@@ -278,6 +279,74 @@ export class GovernanceCanister {
       fromSubAccount,
       to: accountIdentifier,
       createdAt,
+      fee,
+    });
+
+    // Notify the governance of the transaction so that the neuron is created.
+    const neuronId: NeuronId | undefined =
+      await this.claimOrRefreshNeuronFromAccount({
+        controller: principal,
+        memo: nonce,
+      });
+
+    // Typescript was complaining with `neuronId || new NeuronNotFound()`:
+    // "Type 'undefined' is not assignable to type 'bigint | StakeNeuronError | TransferError'"
+    // hence the explicit check.
+    if (isNullish(neuronId)) {
+      throw new CouldNotClaimNeuronError();
+    }
+
+    return neuronId;
+  };
+
+  // TODO: Rename to and replace `stakeNeuron` once `stakeNeuronIcrc1` is tested
+  // in NNS dapp.
+  /**
+   * @throws {@link InsufficientAmountError}
+   * @throws {@link StakeNeuronTransferError}
+   * @throws {@link CouldNotClaimNeuronError}
+   * @throws {@link TransferError}
+   */
+  public stakeNeuronIcrc1 = async ({
+    stake,
+    principal,
+    fromSubAccount,
+    icrcLedgerCanister,
+    createdAt,
+    fee,
+  }: {
+    stake: bigint;
+    principal: Principal;
+    fromSubAccount?: number[];
+    icrcLedgerCanister: IcrcLedgerCanister;
+    // Used for the TransferRequest parameters.
+    // Check the TransferRequest type for more information.
+    createdAt?: bigint;
+    fee?: E8s;
+  }): Promise<NeuronId> => {
+    if (stake < E8S_PER_TOKEN) {
+      throw new InsufficientAmountError(stake);
+    }
+
+    const nonceBytes = new Uint8Array(randomBytes(8));
+    const nonce = uint8ArrayToBigInt(nonceBytes);
+    const toSubAccount = this.getNeuronStakeSubAccountBytes(
+      nonceBytes,
+      principal,
+    );
+
+    const from_subaccount = fromSubAccount && Uint8Array.from(fromSubAccount);
+
+    // Send amount to the ledger.
+    await icrcLedgerCanister.transfer({
+      memo: nonceBytes,
+      amount: stake,
+      from_subaccount,
+      to: {
+        owner: this.canisterId,
+        subaccount: [toSubAccount],
+      },
+      created_at_time: createdAt,
       fee,
     });
 
@@ -882,6 +951,15 @@ export class GovernanceCanister {
     nonce: Uint8Array,
     principal: Principal,
   ): SubAccount => {
+    return SubAccount.fromBytes(
+      this.getNeuronStakeSubAccountBytes(nonce, principal),
+    ) as SubAccount;
+  };
+
+  private getNeuronStakeSubAccountBytes = (
+    nonce: Uint8Array,
+    principal: Principal,
+  ): Uint8Array => {
     const padding = asciiStringToByteArray("neuron-stake");
     const shaObj = sha256.create();
     shaObj.update(
@@ -892,7 +970,7 @@ export class GovernanceCanister {
         ...nonce,
       ]),
     );
-    return SubAccount.fromBytes(shaObj.digest()) as SubAccount;
+    return shaObj.digest();
   };
 
   private getGovernanceService(certified: boolean): GovernanceService {
