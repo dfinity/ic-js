@@ -85,7 +85,7 @@
     {
       "name": "@dfinity/ledger",
       "path": "./packages/ledger/dist/index.js",
-      "limit": "3 kB",
+      "limit": "4 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",

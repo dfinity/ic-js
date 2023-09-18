@@ -1,16 +1,27 @@
 import type { QueryParams } from "@dfinity/utils";
 import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
+  Allowance,
   BlockIndex,
   Tokens,
   _SERVICE as IcrcLedgerService,
 } from "../candid/icrc1_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc1_ledger.idl";
-import { toTransferArg } from "./converters/ledger.converters";
+import {
+  toApproveArgs,
+  toTransferArg,
+  toTransferFromArgs,
+} from "./converters/ledger.converters";
 import { IcrcTransferError } from "./errors/ledger.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
-import type { BalanceParams, TransferParams } from "./types/ledger.params";
+import type {
+  AllowanceParams,
+  ApproveParams,
+  BalanceParams,
+  TransferFromParams,
+  TransferParams,
+} from "./types/ledger.params";
 import type { IcrcTokenMetadataResponse } from "./types/ledger.responses";
 
 export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
@@ -76,5 +87,63 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    */
   totalTokensSupply = (params: QueryParams): Promise<Tokens> => {
     return this.caller(params).icrc1_total_supply();
+  };
+
+  /**
+   * Transfers a token amount from the `from` account to the `to` account using the allowance of the spender's account (`SpenderAccount = { owner = caller; subaccount = spender_subaccount }`). The ledger draws the fees from the `from` account.
+   *
+   * Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_transfer_from
+   *
+   * @param {TransferFromParams} params The parameters to transfer tokens from to.
+   *
+   * @throws {IcrcTransferError} If the transfer from fails.
+   */
+  transferFrom = async (params: TransferFromParams): Promise<BlockIndex> => {
+    const response = await this.caller({ certified: true }).icrc2_transfer_from(
+      toTransferFromArgs(params),
+    );
+    if ("Err" in response) {
+      throw new IcrcTransferError({
+        errorType: response.Err,
+        msg: "Failed to transfer from",
+      });
+    }
+    return response.Ok;
+  };
+
+  /**
+   * This method entitles the `spender` to transfer token `amount` on behalf of the caller from account `{ owner = caller; subaccount = from_subaccount }`.
+   *
+   * Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_approve
+   *
+   * @param {ApproveParams} params The parameters to approve.
+   *
+   * @throws {IcrcTransferError} If the approval fails.
+   */
+  approve = async (params: ApproveParams): Promise<BlockIndex> => {
+    const response = await this.caller({ certified: true }).icrc2_approve(
+      toApproveArgs(params),
+    );
+    if ("Err" in response) {
+      throw new IcrcTransferError({
+        errorType: response.Err,
+        msg: "Failed to entitle the spender to transfer the amount",
+      });
+    }
+    return response.Ok;
+  };
+
+  /**
+   * Returns the token allowance that the `spender` account can transfer from the specified `account`, and the expiration time for that allowance, if any.
+   *
+   * Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_allowance
+   *
+   * @param {AllowanceParams} params The parameters to call the allowance.
+   *
+   * @returns {Allowance} The token allowance. If there is no active approval, the ledger MUST return `{ allowance = 0; expires_at = null }`.
+   */
+  allowance = async (params: AllowanceParams): Promise<Allowance> => {
+    const { certified, ...rest } = params;
+    return this.caller({ certified }).icrc2_allowance({ ...rest });
   };
 }
