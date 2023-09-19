@@ -123,6 +123,31 @@ export class LedgerCanister {
     return response.Ok;
   };
 
+  /**
+   * Transfer ICP from the caller to the destination `accountIdentifier`.
+   * Returns the index of the block containing the tx if it was successful.
+   *
+   * @throws {@link TransferError}
+   */
+  public transfer = async (request: TransferRequest): Promise<BlockHeight> => {
+    if (this.hardwareWallet) {
+      return this.transferHardwareWallet(request);
+    }
+    // When candid is implemented, the previous lines will go away.
+    // But the transaction fee method is not supported by Ledger App yet.
+    if (request.fee === undefined) {
+      request.fee = this.hardwareWallet
+        ? TRANSACTION_FEE
+        : await this.transactionFee();
+    }
+    const rawRequest = toTransferRawRequest(request);
+    const response = await this.certifiedService.transfer(rawRequest);
+    if ("Err" in response) {
+      throw mapTransferError(response.Err);
+    }
+    return response.Ok;
+  };
+
   private accountBalanceHardwareWallet = async ({
     accountIdentifier,
     certified = true,

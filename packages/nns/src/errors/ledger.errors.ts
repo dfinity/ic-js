@@ -60,6 +60,34 @@ export const mapTransferError = (
   );
 };
 
+export const mapTransferError = (
+  rawTransferError: RawTransferError,
+): TransferError => {
+  if ("TxDuplicate" in rawTransferError) {
+    return new TxDuplicateError(rawTransferError.TxDuplicate.duplicate_of);
+  }
+  if ("InsufficientFunds" in rawTransferError) {
+    return new InsufficientFundsError(
+      rawTransferError.InsufficientFunds.balance.e8s,
+    );
+  }
+  if ("TxCreatedInFuture" in rawTransferError) {
+    return new TxCreatedInFutureError();
+  }
+  if ("TxTooOld" in rawTransferError) {
+    return new TxTooOldError(
+      Number(rawTransferError.TxTooOld.allowed_window_nanos),
+    );
+  }
+  if ("BadFee" in rawTransferError) {
+    return new BadFeeError(rawTransferError.BadFee.expected_fee.e8s);
+  }
+  // Edge case
+  return new TransferError(
+    `Unknown error type ${JSON.stringify(rawTransferError)}`,
+  );
+};
+
 export const mapTransferProtoError = (responseBytes: Error): TransferError => {
   const { message } = responseBytes;
 
