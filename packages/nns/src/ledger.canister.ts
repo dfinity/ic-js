@@ -8,11 +8,13 @@ import type { AccountIdentifier } from "./account_identifier";
 import {
   subAccountNumbersToSubaccount,
   toICPTs,
+  toIcrc1TransferRawRequest,
   toTransferRawRequest,
 } from "./canisters/ledger/ledger.request.converts";
 import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
+  mapIcrc1TransferError,
   mapTransferError,
   mapTransferProtoError,
 } from "./errors/ledger.errors";
@@ -21,7 +23,10 @@ import type {
   LedgerCanisterCall,
   LedgerCanisterOptions,
 } from "./types/ledger.options";
-import type { TransferRequest } from "./types/ledger_converters";
+import type {
+  Icrc1TransferRequest,
+  TransferRequest,
+} from "./types/ledger_converters";
 import { importNnsProto, queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
@@ -124,26 +129,24 @@ export class LedgerCanister {
   };
 
   /**
-   * Transfer ICP from the caller to the destination `accountIdentifier`.
+   * Transfer ICP from the caller to the destination `Account`.
    * Returns the index of the block containing the tx if it was successful.
    *
    * @throws {@link TransferError}
    */
-  public transfer = async (request: TransferRequest): Promise<BlockHeight> => {
-    if (this.hardwareWallet) {
-      return this.transferHardwareWallet(request);
-    }
-    // When candid is implemented, the previous lines will go away.
-    // But the transaction fee method is not supported by Ledger App yet.
+  public icrc1Transfer = async (
+    request: Icrc1TransferRequest,
+  ): Promise<BlockHeight> => {
+    // The transaction fee method is not supported by Ledger App yet.
     if (request.fee === undefined) {
       request.fee = this.hardwareWallet
         ? TRANSACTION_FEE
         : await this.transactionFee();
     }
-    const rawRequest = toTransferRawRequest(request);
-    const response = await this.certifiedService.transfer(rawRequest);
+    const rawRequest = toIcrc1TransferRawRequest(request);
+    const response = await this.certifiedService.icrc1_transfer(rawRequest);
     if ("Err" in response) {
-      throw mapTransferError(response.Err);
+      throw mapIcrc1TransferError(response.Err);
     }
     return response.Ok;
   };

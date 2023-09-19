@@ -1,5 +1,8 @@
 import { convertStringToE8s } from "@dfinity/utils";
-import type { TransferError as RawTransferError } from "../../candid/ledger";
+import type {
+  Icrc1TransferError as RawIcrc1TransferError,
+  TransferError as RawTransferError,
+} from "../../candid/ledger";
 import type { BlockHeight } from "../types/common";
 
 export class TransferError extends Error {}
@@ -13,7 +16,7 @@ export class InsufficientFundsError extends TransferError {
 }
 
 export class TxTooOldError extends TransferError {
-  constructor(public readonly allowed_window_secs: number) {
+  constructor(public readonly allowed_window_secs?: number | undefined) {
     super();
   }
 }
@@ -60,27 +63,25 @@ export const mapTransferError = (
   );
 };
 
-export const mapTransferError = (
-  rawTransferError: RawTransferError,
+export const mapIcrc1TransferError = (
+  rawTransferError: RawIcrc1TransferError,
 ): TransferError => {
-  if ("TxDuplicate" in rawTransferError) {
-    return new TxDuplicateError(rawTransferError.TxDuplicate.duplicate_of);
+  if ("Duplicate" in rawTransferError) {
+    return new TxDuplicateError(rawTransferError.Duplicate.duplicate_of);
   }
   if ("InsufficientFunds" in rawTransferError) {
     return new InsufficientFundsError(
-      rawTransferError.InsufficientFunds.balance.e8s,
+      rawTransferError.InsufficientFunds.balance,
     );
   }
-  if ("TxCreatedInFuture" in rawTransferError) {
+  if ("CreatedInFuture" in rawTransferError) {
     return new TxCreatedInFutureError();
   }
-  if ("TxTooOld" in rawTransferError) {
-    return new TxTooOldError(
-      Number(rawTransferError.TxTooOld.allowed_window_nanos),
-    );
+  if ("TooOld" in rawTransferError) {
+    return new TxTooOldError();
   }
   if ("BadFee" in rawTransferError) {
-    return new BadFeeError(rawTransferError.BadFee.expected_fee.e8s);
+    return new BadFeeError(rawTransferError.BadFee.expected_fee);
   }
   // Edge case
   return new TransferError(
