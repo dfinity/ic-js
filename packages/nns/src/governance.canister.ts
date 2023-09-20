@@ -300,6 +300,8 @@ export class GovernanceCanister {
 
   // TODO: Rename to and replace `stakeNeuron` once `stakeNeuronIcrc1` is tested
   // in NNS dapp.
+  // Note: Ledger HW does currently (2023-09-20) not support ICRC-1 transfers to
+  // the governance canister.
   /**
    * @throws {@link InsufficientAmountError}
    * @throws {@link StakeNeuronTransferError}
