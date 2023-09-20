@@ -11,7 +11,8 @@
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/ic-management"
+    "packages/ic-management",
+    "packages/ledger-icp"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -85,6 +86,17 @@
     {
       "name": "@dfinity/ledger",
       "path": "./packages/ledger/dist/index.js",
+      "limit": "4 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@dfinity/ledger-icp",
+      "path": "./packages/ledger-icp/dist/index.js",
       "limit": "4 kB",
       "ignore": [
         "@dfinity/agent",
