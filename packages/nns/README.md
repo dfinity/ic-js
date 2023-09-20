@@ -259,7 +259,7 @@ Parameters:
 
 ### :factory: LedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L27)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L32)
 
 #### Methods
 
@@ -267,6 +267,7 @@ Parameters:
 - [accountBalance](#gear-accountbalance)
 - [transactionFee](#gear-transactionfee)
 - [transfer](#gear-transfer)
+- [icrc1Transfer](#gear-icrc1transfer)
 
 ##### :gear: create
 
@@ -274,7 +275,7 @@ Parameters:
 | -------- | ----------------------------------------------------- |
 | `create` | `(options?: LedgerCanisterOptions) => LedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L38)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L43)
 
 ##### :gear: accountBalance
 
@@ -287,7 +288,7 @@ it is fetched using a query call.
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `accountBalance` | `({ accountIdentifier, certified, }: { accountIdentifier: AccountIdentifier; certified?: boolean; }) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L70)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L75)
 
 ##### :gear: transactionFee
 
@@ -297,7 +298,7 @@ Returns the transaction fee of the ledger canister
 | ---------------- | ----------------------- |
 | `transactionFee` | `() => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L94)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L99)
 
 ##### :gear: transfer
 
@@ -308,7 +309,18 @@ Returns the index of the block containing the tx if it was successful.
 | ---------- | ----------------------------------------------- |
 | `transfer` | `(request: TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L107)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L112)
+
+##### :gear: icrc1Transfer
+
+Transfer ICP from the caller to the destination `Account`.
+Returns the index of the block containing the tx if it was successful.
+
+| Method          | Type                                                 |
+| --------------- | ---------------------------------------------------- |
+| `icrc1Transfer` | `(request: Icrc1TransferRequest) => Promise<bigint>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L137)
 
 ### :factory: GovernanceCanister
 

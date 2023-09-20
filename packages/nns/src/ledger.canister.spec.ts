@@ -1,5 +1,6 @@
 import { ActorSubclass } from "@dfinity/agent";
 import { Memo, Payment, SendRequest } from "@dfinity/nns-proto";
+import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as LedgerService } from "../candid/ledger";
@@ -611,6 +612,368 @@ describe("LedgerCanister", () => {
           canisterId: ledger.canisterId,
           methodName: "send_pb",
           arg: expectedRequest.serializeBinary(),
+        });
+      });
+    });
+  });
+
+  describe("icrc1Transfer", () => {
+    describe("no hardware wallet", () => {
+      const to = {
+        owner: Principal.fromHex("abcd"),
+        subaccount: [] as [],
+      };
+      const amount = BigInt(100000);
+
+      it("fetches transaction fee if not present", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.transfer_fee.mockResolvedValue({
+          transfer_fee: { e8s: BigInt(10_000) },
+        });
+        service.icrc1_transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        await ledger.icrc1Transfer({
+          to,
+          amount,
+        });
+
+        expect(service.transfer_fee).toBeCalled();
+      });
+
+      it("calls transfer certified service with data", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const fee = BigInt(10_000);
+        const memo = new Uint8Array([3, 4, 5, 6]);
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+        await ledger.icrc1Transfer({
+          to,
+          amount,
+          fee,
+          memo,
+        });
+
+        expect(service.icrc1_transfer).toBeCalledWith({
+          to,
+          fee: [fee],
+          amount,
+          memo: [memo],
+          created_at_time: [],
+          from_subaccount: [],
+        });
+      });
+
+      it("sets a default memo if not passed", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const fee = BigInt(10_000);
+        const defaultMemo = new Uint8Array();
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+        await ledger.icrc1Transfer({
+          to,
+          amount,
+          fee,
+        });
+
+        expect(service.icrc1_transfer).toBeCalledWith({
+          to,
+          fee: [fee],
+          amount,
+          memo: [defaultMemo],
+          created_at_time: [],
+          from_subaccount: [],
+        });
+      });
+
+      it("handles createdAt parameter", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const fee = BigInt(10_000);
+        const memo = new Uint8Array([3, 4, 5, 6]);
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+        const createdAt = BigInt(123132223);
+        await ledger.icrc1Transfer({
+          to,
+          amount,
+          fee,
+          memo,
+          createdAt,
+        });
+
+        expect(service.icrc1_transfer).toBeCalledWith({
+          to,
+          fee: [fee],
+          amount,
+          memo: [memo],
+          created_at_time: [createdAt],
+          from_subaccount: [],
+        });
+      });
+
+      it("handles from subaccount", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const fee = BigInt(10_000);
+        const memo = new Uint8Array();
+        const fromSubAccount = new Uint8Array([
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 1,
+        ]);
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+        await ledger.icrc1Transfer({
+          to,
+          amount,
+          fee,
+          memo,
+          fromSubAccount,
+        });
+
+        expect(service.icrc1_transfer).toBeCalledWith({
+          to,
+          fee: [fee],
+          amount,
+          memo: [memo],
+          created_at_time: [],
+          from_subaccount: [fromSubAccount],
+        });
+      });
+
+      it("handles to subaccount", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const fee = BigInt(10_000);
+        const memo = new Uint8Array();
+        const toSubAccount = new Uint8Array([
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 1,
+        ]);
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+        await ledger.icrc1Transfer({
+          to: {
+            ...to,
+            subaccount: [toSubAccount],
+          },
+          amount,
+          fee,
+          memo,
+        });
+
+        expect(service.icrc1_transfer).toBeCalledWith({
+          to: {
+            ...to,
+            subaccount: [toSubAccount],
+          },
+          fee: [fee],
+          amount,
+          memo: [memo],
+          created_at_time: [],
+          from_subaccount: [],
+        });
+      });
+
+      it("handles duplicate transaction", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Err: {
+            Duplicate: {
+              duplicate_of: BigInt(10),
+            },
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.icrc1Transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(TxDuplicateError);
+      });
+
+      it("handles insufficient balance", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Err: {
+            InsufficientFunds: {
+              balance: BigInt(12312414),
+            },
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.icrc1Transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(InsufficientFundsError);
+      });
+
+      it("handles old tx", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Err: {
+            TooOld: null,
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.icrc1Transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(TxTooOldError);
+      });
+
+      it("handles bad fee", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Err: {
+            BadFee: {
+              expected_fee: BigInt(1234),
+            },
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.icrc1Transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(BadFeeError);
+      });
+
+      it("handles transaction created in the future", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Err: {
+            CreatedInFuture: { ledger_time: BigInt(1234) },
+          },
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+        });
+        const call = async () =>
+          await ledger.icrc1Transfer({
+            to,
+            amount,
+            fee: BigInt(10_000),
+          });
+
+        expect(call).rejects.toThrowError(TxCreatedInFutureError);
+      });
+    });
+
+    describe("for hardware wallet", () => {
+      const to = {
+        owner: Principal.fromHex("abcd"),
+        subaccount: [] as [],
+      };
+      const amount = BigInt(100000);
+
+      it("should set a default fee for a transfer", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+          hardwareWallet: true,
+        });
+
+        const memo = new Uint8Array();
+        await ledger.icrc1Transfer({
+          to,
+          amount,
+          memo,
+        });
+
+        expect(service.transfer_fee).not.toBeCalled();
+
+        expect(service.icrc1_transfer).toBeCalledWith({
+          to,
+          fee: [BigInt(10000)],
+          amount,
+          memo: [memo],
+          created_at_time: [],
+          from_subaccount: [],
+        });
+      });
+
+      it("should use custom fee for a transfer", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_transfer.mockResolvedValue({
+          Ok: BigInt(1234),
+        });
+        const ledger = LedgerCanister.create({
+          certifiedServiceOverride: service,
+          serviceOverride: service,
+          hardwareWallet: true,
+        });
+
+        const fee = BigInt(990_000);
+        const memo = new Uint8Array();
+        await ledger.icrc1Transfer({
+          to,
+          amount,
+          fee,
+          memo,
+        });
+
+        expect(service.transfer_fee).not.toBeCalled();
+
+        expect(service.icrc1_transfer).toBeCalledWith({
+          to,
+          fee: [fee],
+          amount,
+          memo: [memo],
+          created_at_time: [],
+          from_subaccount: [],
         });
       });
     });

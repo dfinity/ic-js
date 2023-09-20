@@ -1,5 +1,8 @@
 import { convertStringToE8s } from "@dfinity/utils";
-import type { TransferError as RawTransferError } from "../../candid/ledger";
+import type {
+  Icrc1TransferError as RawIcrc1TransferError,
+  TransferError as RawTransferError,
+} from "../../candid/ledger";
 import type { BlockHeight } from "../types/common";
 
 export class TransferError extends Error {}
@@ -13,7 +16,7 @@ export class InsufficientFundsError extends TransferError {
 }
 
 export class TxTooOldError extends TransferError {
-  constructor(public readonly allowed_window_secs: number) {
+  constructor(public readonly allowed_window_secs?: number | undefined) {
     super();
   }
 }
@@ -53,6 +56,32 @@ export const mapTransferError = (
   }
   if ("BadFee" in rawTransferError) {
     return new BadFeeError(rawTransferError.BadFee.expected_fee.e8s);
+  }
+  // Edge case
+  return new TransferError(
+    `Unknown error type ${JSON.stringify(rawTransferError)}`,
+  );
+};
+
+export const mapIcrc1TransferError = (
+  rawTransferError: RawIcrc1TransferError,
+): TransferError => {
+  if ("Duplicate" in rawTransferError) {
+    return new TxDuplicateError(rawTransferError.Duplicate.duplicate_of);
+  }
+  if ("InsufficientFunds" in rawTransferError) {
+    return new InsufficientFundsError(
+      rawTransferError.InsufficientFunds.balance,
+    );
+  }
+  if ("CreatedInFuture" in rawTransferError) {
+    return new TxCreatedInFutureError();
+  }
+  if ("TooOld" in rawTransferError) {
+    return new TxTooOldError();
+  }
+  if ("BadFee" in rawTransferError) {
+    return new BadFeeError(rawTransferError.BadFee.expected_fee);
   }
   // Edge case
   return new TransferError(
