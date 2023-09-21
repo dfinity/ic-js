@@ -1,5 +1,4 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
-import type { IcrcLedgerCanister } from "@dfinity/ledger";
 import type { ManageNeuron as PbManageNeuron } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
@@ -301,6 +300,8 @@ export class GovernanceCanister {
 
   // TODO: Rename to and replace `stakeNeuron` once `stakeNeuronIcrc1` is tested
   // in NNS dapp.
+  // Note: Ledger HW does currently (2023-09-20) not support ICRC-1 transfers to
+  // the governance canister.
   /**
    * @throws {@link InsufficientAmountError}
    * @throws {@link StakeNeuronTransferError}
@@ -311,14 +312,14 @@ export class GovernanceCanister {
     stake,
     principal,
     fromSubAccount,
-    icrcLedgerCanister,
+    ledgerCanister,
     createdAt,
     fee,
   }: {
     stake: bigint;
     principal: Principal;
-    fromSubAccount?: number[];
-    icrcLedgerCanister: IcrcLedgerCanister;
+    fromSubAccount?: Uint8Array;
+    ledgerCanister: LedgerCanister;
     // Used for the TransferRequest parameters.
     // Check the TransferRequest type for more information.
     createdAt?: bigint;
@@ -335,18 +336,16 @@ export class GovernanceCanister {
       principal,
     );
 
-    const from_subaccount = fromSubAccount && Uint8Array.from(fromSubAccount);
-
     // Send amount to the ledger.
-    await icrcLedgerCanister.transfer({
+    await ledgerCanister.icrc1Transfer({
       memo: nonceBytes,
       amount: stake,
-      from_subaccount,
+      fromSubAccount,
       to: {
         owner: this.canisterId,
         subaccount: [toSubAccount],
       },
-      created_at_time: createdAt,
+      createdAt,
       fee,
     });
 
