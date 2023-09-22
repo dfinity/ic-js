@@ -1,8 +1,8 @@
 import {
   ActorSubclass,
   AnonymousIdentity,
-  polling,
   SubmitResponse,
+  polling,
   type Agent,
   type RequestId,
 } from "@dfinity/agent";
@@ -16,12 +16,12 @@ import { mock } from "jest-mock-extended";
 import type {
   ClaimOrRefreshNeuronFromAccountResponse,
   GovernanceError as GovernanceErrorDetail,
+  _SERVICE as GovernanceService,
   ListKnownNeuronsResponse,
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
   Result,
   RewardEvent,
-  _SERVICE as GovernanceService,
 } from "../candid/governance";
 import { Topic, Vote } from "./enums/governance.enums";
 import {

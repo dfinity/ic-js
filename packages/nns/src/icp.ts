@@ -1,7 +1,7 @@
 import type { ICPTs } from "@dfinity/nns-proto";
 import {
-  convertStringToE8s,
   ICPToken,
+  convertStringToE8s,
   type FromStringToTokenError,
   type Token,
 } from "@dfinity/utils";

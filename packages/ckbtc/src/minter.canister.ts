@@ -5,10 +5,10 @@ import {
   type QueryParams,
 } from "@dfinity/utils";
 import type {
-  Account as WithdrawalAccount,
+  _SERVICE as CkBTCMinterService,
   MinterInfo,
   RetrieveBtcOk,
-  _SERVICE as CkBTCMinterService,
+  Account as WithdrawalAccount,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
