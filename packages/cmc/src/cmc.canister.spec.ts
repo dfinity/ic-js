@@ -3,10 +3,10 @@ import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
+  _SERVICE as CMCService,
   IcpXdrConversionRateResponse,
   NotifyCreateCanisterResult,
   NotifyTopUpResult,
-  _SERVICE as CMCService,
 } from "../candid/cmc";
 import { CMCCanister } from "./cmc.canister";
 import {
