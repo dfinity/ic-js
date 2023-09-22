@@ -63,8 +63,7 @@ export const toIcrc1TransferRawRequest = ({
   to,
   fee: toNullable(fee ?? TRANSACTION_FEE),
   amount,
-  // Always explicitly set the memo for compatibility with ledger wallet - hardware wallet
-  memo: toNullable(memo ?? new Uint8Array()),
+  memo: toNullable(memo),
   created_at_time: toNullable(createdAt),
   from_subaccount: toNullable(fromSubAccount),
 });
