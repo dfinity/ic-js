@@ -51,7 +51,7 @@ const data = await metadata();
 
 ## Features
 
-`ledger-icp-js` implements following features:
+`@dfinity/ledger-icp` implements following features:
 
 <!-- TSDOC_START -->
 
