@@ -11,6 +11,10 @@
 - utils `v0.0.23`
 - nns-proto `v0.0.9`
 
+## Breaking Changes ⚠️
+
+- ICP ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called `@dfinity/ledger-icp`
+
 ## Features
 
 - add support for `icrc2_transfer_from`, `icrc2_approve` and `icrc2_allowance` in `@dfinity/ledger`
