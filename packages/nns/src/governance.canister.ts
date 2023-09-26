@@ -1,4 +1,7 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
+import type { LedgerCanister } from "@dfinity/ledger-icp";
+import { AccountIdentifier, SubAccount } from "@dfinity/ledger-icp";
+import { E8S_PER_TOKEN } from "@dfinity/ledger-icp/src/constants/constants";
 import type { ManageNeuron as PbManageNeuron } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
@@ -25,7 +28,6 @@ import type {
 } from "../candid/governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { idlFactory } from "../candid/governance.idl";
-import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
@@ -75,7 +77,6 @@ import {
   simulateManageNeuron,
 } from "./canisters/governance/services";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
-import { E8S_PER_TOKEN } from "./constants/constants";
 import type { Vote } from "./enums/governance.enums";
 import {
   CouldNotClaimNeuronError,
@@ -84,7 +85,6 @@ import {
   InsufficientAmountError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
-import type { LedgerCanister } from "./ledger.canister";
 import type { E8s, NeuronId } from "./types/common";
 import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {

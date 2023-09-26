@@ -32,7 +32,7 @@ import {
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { GovernanceCanister } from "./governance.canister";
-import { LedgerCanister } from "./ledger.canister";
+import { LedgerCanister } from "@dfinity/ledger-icp";
 import {
   mockListNeuronsResponse,
   mockNeuron,

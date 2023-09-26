@@ -1,3 +1,4 @@
+import { AccountIdentifier, SubAccount } from "@dfinity/ledger-icp";
 import type {
   ListNeuronsResponse,
   BallotInfo as PbBallotInfo,
@@ -54,7 +55,6 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import { AccountIdentifier, SubAccount } from "../../account_identifier";
 import { NeuronState } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
