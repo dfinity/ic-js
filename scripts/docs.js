@@ -33,9 +33,7 @@ const ledgerInputFiles = [
   "./packages/ledger/src/index.canister.ts",
 ];
 
-const ledgerIcrcInputFiles = [
-  "./packages/ledger/src/ledger.canister.ts"
-];
+const ledgerIcrcInputFiles = ["./packages/ledger/src/ledger.canister.ts"];
 
 const ledgerICPInputFiles = ["./packages/ledger/src/ledger.canister.ts"];
 
