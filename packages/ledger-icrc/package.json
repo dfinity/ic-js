@@ -21,7 +21,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dfinity/ic-js.git",
-    "directory": "packages/ledger"
+    "directory": "packages/ledger-icrc"
   },
   "bugs": {
     "url": "https://github.com/dfinity/ic-js"
