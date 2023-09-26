@@ -19,9 +19,7 @@ export type {
 } from "../candid/sns_governance";
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
 export type {
-  BuyerState as SnsSwapBuyerState,
   CfParticipant,
-  DerivedState as SnsSwapDerivedState,
   FinalizeSwapResponse as SnsFinalizeSwapResponse,
   GetAutoFinalizationStatusResponse as SnsGetAutoFinalizationStatusResponse,
   GetBuyerStateRequest as SnsGetBuyerStateRequest,
@@ -30,12 +28,14 @@ export type {
   GetInitResponse as SnsGetInitResponse,
   GetLifecycleResponse as SnsGetLifecycleResponse,
   GetSaleParametersResponse as SnsGetSaleParametersResponse,
-  Init as SnsSwapInit,
   InvalidUserAmount as SnsInvalidUserAmount,
+  SnsNeuronRecipe,
   Params as SnsParams,
   RefreshBuyerTokensResponse as SnsRefreshBuyerTokensResponse,
-  SnsNeuronRecipe,
   Swap as SnsSwap,
+  BuyerState as SnsSwapBuyerState,
+  DerivedState as SnsSwapDerivedState,
+  Init as SnsSwapInit,
   Ticket as SnsSwapTicket,
   TransferableAmount as SnsTransferableAmount,
 } from "../candid/sns_swap";

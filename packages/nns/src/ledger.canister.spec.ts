@@ -678,7 +678,6 @@ describe("LedgerCanister", () => {
           Ok: BigInt(1234),
         });
         const fee = BigInt(10_000);
-        const defaultMemo = new Uint8Array();
         const ledger = LedgerCanister.create({
           certifiedServiceOverride: service,
         });
@@ -692,7 +691,7 @@ describe("LedgerCanister", () => {
           to,
           fee: [fee],
           amount,
-          memo: [defaultMemo],
+          memo: [],
           created_at_time: [],
           from_subaccount: [],
         });

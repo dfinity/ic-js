@@ -1,8 +1,8 @@
 import type {
   Command_1,
+  _SERVICE as GovernanceService,
   ManageNeuron,
   ManageNeuronResponse,
-  _SERVICE as GovernanceService,
 } from "../../../candid/governance";
 import { GovernanceError } from "../../errors/governance.errors";
 

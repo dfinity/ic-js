@@ -1,8 +1,8 @@
 import type { ICPTs, Subaccount } from "@dfinity/nns-proto";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import type {
-  Tokens,
   TransferArg as Icrc1TransferRawRequest,
+  Tokens,
   TransferArgs as TransferRawRequest,
 } from "../../../candid/ledger";
 import { TRANSACTION_FEE } from "../../constants/constants";
@@ -63,8 +63,7 @@ export const toIcrc1TransferRawRequest = ({
   to,
   fee: toNullable(fee ?? TRANSACTION_FEE),
   amount,
-  // Always explicitly set the memo for compatibility with ledger wallet - hardware wallet
-  memo: toNullable(memo ?? new Uint8Array()),
+  memo: toNullable(memo),
   created_at_time: toNullable(createdAt),
   from_subaccount: toNullable(fromSubAccount),
 });

@@ -40,7 +40,7 @@ const agent = await createAgent({
   host: HOST,
 });
 
-const { metadata } = LedgerCanister.create({
+const { metadata } = IcrcLedgerCanister.create({
   agent,
   canisterId: MY_LEDGER_CANISTER_ID,
 });

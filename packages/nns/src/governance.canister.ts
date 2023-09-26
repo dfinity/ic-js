@@ -1,5 +1,4 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
-import type { IcrcLedgerCanister } from "@dfinity/ledger";
 import type { ManageNeuron as PbManageNeuron } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
@@ -16,13 +15,13 @@ import { sha256 } from "@noble/hashes/sha256";
 import randomBytes from "randombytes";
 import type {
   Command_1,
+  _SERVICE as GovernanceService,
   ListProposalInfo,
   MergeResponse,
   Neuron as RawNeuron,
   NeuronInfo as RawNeuronInfo,
   ProposalInfo as RawProposalInfo,
   RewardEvent,
-  _SERVICE as GovernanceService,
 } from "../candid/governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { idlFactory } from "../candid/governance.idl";
@@ -168,9 +167,8 @@ export class GovernanceCanister {
       return this.listNeuronsHardwareWallet();
     }
     const rawRequest = fromListNeurons(neuronIds);
-    const raw_response = await this.getGovernanceService(
-      certified,
-    ).list_neurons(rawRequest);
+    const raw_response =
+      await this.getGovernanceService(certified).list_neurons(rawRequest);
     return toArrayOfNeuronInfo({
       response: raw_response,
       canisterId: this.canisterId,
@@ -187,9 +185,8 @@ export class GovernanceCanister {
   public listKnownNeurons = async (
     certified = true,
   ): Promise<KnownNeuron[]> => {
-    const response = await this.getGovernanceService(
-      certified,
-    ).list_known_neurons();
+    const response =
+      await this.getGovernanceService(certified).list_known_neurons();
 
     return response.known_neurons.map((n) => ({
       id: fromNullable(n.id)?.id ?? BigInt(0),
@@ -231,9 +228,8 @@ export class GovernanceCanister {
     certified?: boolean;
   }): Promise<ListProposalsResponse> => {
     const rawRequest: ListProposalInfo = fromListProposalsRequest(request);
-    const rawResponse = await this.getGovernanceService(
-      certified,
-    ).list_proposals(rawRequest);
+    const rawResponse =
+      await this.getGovernanceService(certified).list_proposals(rawRequest);
     return toListProposalsResponse(rawResponse);
   };
 
@@ -301,6 +297,8 @@ export class GovernanceCanister {
 
   // TODO: Rename to and replace `stakeNeuron` once `stakeNeuronIcrc1` is tested
   // in NNS dapp.
+  // Note: Ledger HW does currently (2023-09-20) not support ICRC-1 transfers to
+  // the governance canister.
   /**
    * @throws {@link InsufficientAmountError}
    * @throws {@link StakeNeuronTransferError}
@@ -311,14 +309,14 @@ export class GovernanceCanister {
     stake,
     principal,
     fromSubAccount,
-    icrcLedgerCanister,
+    ledgerCanister,
     createdAt,
     fee,
   }: {
     stake: bigint;
     principal: Principal;
-    fromSubAccount?: number[];
-    icrcLedgerCanister: IcrcLedgerCanister;
+    fromSubAccount?: Uint8Array;
+    ledgerCanister: LedgerCanister;
     // Used for the TransferRequest parameters.
     // Check the TransferRequest type for more information.
     createdAt?: bigint;
@@ -335,18 +333,16 @@ export class GovernanceCanister {
       principal,
     );
 
-    const from_subaccount = fromSubAccount && Uint8Array.from(fromSubAccount);
-
     // Send amount to the ledger.
-    await icrcLedgerCanister.transfer({
+    await ledgerCanister.icrc1Transfer({
       memo: nonceBytes,
       amount: stake,
-      from_subaccount,
+      fromSubAccount,
       to: {
         owner: this.canisterId,
         subaccount: [toSubAccount],
       },
-      created_at_time: createdAt,
+      createdAt,
       fee,
     });
 

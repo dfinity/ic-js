@@ -5,9 +5,9 @@ import { mock } from "jest-mock-extended";
 import type {
   Allowance,
   ApproveArgs,
+  _SERVICE as IcrcLedgerService,
   TransferArg,
   TransferFromArgs,
-  _SERVICE as IcrcLedgerService,
 } from "../candid/icrc1_ledger";
 import { IcrcTransferError } from "./errors/ledger.errors";
 import { IcrcLedgerCanister } from "./ledger.canister";

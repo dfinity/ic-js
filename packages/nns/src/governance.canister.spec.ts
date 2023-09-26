@@ -1,12 +1,11 @@
 import {
   ActorSubclass,
   AnonymousIdentity,
-  polling,
   SubmitResponse,
+  polling,
   type Agent,
   type RequestId,
 } from "@dfinity/agent";
-import type { IcrcLedgerCanister } from "@dfinity/ledger";
 import {
   ManageNeuronResponse as PbManageNeuronResponse,
   NeuronId as PbNeuronId,
@@ -17,12 +16,12 @@ import { mock } from "jest-mock-extended";
 import type {
   ClaimOrRefreshNeuronFromAccountResponse,
   GovernanceError as GovernanceErrorDetail,
+  _SERVICE as GovernanceService,
   ListKnownNeuronsResponse,
   ManageNeuronResponse,
   ProposalInfo as RawProposalInfo,
   Result,
   RewardEvent,
-  _SERVICE as GovernanceService,
 } from "../candid/governance";
 import { Topic, Vote } from "./enums/governance.enums";
 import {
@@ -303,8 +302,8 @@ describe("GovernanceCanister", () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
-      const mockLedger = mock<IcrcLedgerCanister>();
-      mockLedger.transfer.mockImplementation(
+      const mockLedger = mock<LedgerCanister>();
+      mockLedger.icrc1Transfer.mockImplementation(
         jest.fn().mockResolvedValue(BigInt(1)),
       );
 
@@ -314,10 +313,10 @@ describe("GovernanceCanister", () => {
       const response = await governance.stakeNeuronIcrc1({
         stake: BigInt(100_000_000),
         principal: new AnonymousIdentity().getPrincipal(),
-        icrcLedgerCanister: mockLedger,
+        ledgerCanister: mockLedger,
       });
 
-      expect(mockLedger.transfer).toBeCalled();
+      expect(mockLedger.icrc1Transfer).toBeCalled();
       expect(service.manage_neuron).toBeCalled();
       expect(response).toEqual(neuronId);
     });
@@ -332,8 +331,8 @@ describe("GovernanceCanister", () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
-      const mockLedger = mock<IcrcLedgerCanister>();
-      mockLedger.transfer.mockImplementation(
+      const mockLedger = mock<LedgerCanister>();
+      mockLedger.icrc1Transfer.mockImplementation(
         jest.fn().mockResolvedValue(BigInt(1)),
       );
       const fee = BigInt(10_000);
@@ -344,11 +343,11 @@ describe("GovernanceCanister", () => {
       const response = await governance.stakeNeuronIcrc1({
         stake: BigInt(100_000_000),
         principal: new AnonymousIdentity().getPrincipal(),
-        icrcLedgerCanister: mockLedger,
+        ledgerCanister: mockLedger,
         fee,
       });
 
-      expect(mockLedger.transfer).toBeCalledWith(
+      expect(mockLedger.icrc1Transfer).toBeCalledWith(
         expect.objectContaining({ fee }),
       );
     });
@@ -363,8 +362,8 @@ describe("GovernanceCanister", () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
 
-      const mockLedger = mock<IcrcLedgerCanister>();
-      mockLedger.transfer.mockImplementation(
+      const mockLedger = mock<LedgerCanister>();
+      mockLedger.icrc1Transfer.mockImplementation(
         jest.fn().mockResolvedValue(BigInt(1)),
       );
 
@@ -374,14 +373,14 @@ describe("GovernanceCanister", () => {
       const response = await governance.stakeNeuronIcrc1({
         stake: BigInt(100_000_000),
         principal: new AnonymousIdentity().getPrincipal(),
-        icrcLedgerCanister: mockLedger,
-        fromSubAccount: [
+        ledgerCanister: mockLedger,
+        fromSubAccount: new Uint8Array([
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0, 1,
-        ],
+        ]),
       });
 
-      expect(mockLedger.transfer).toBeCalled();
+      expect(mockLedger.icrc1Transfer).toBeCalled();
       expect(service.manage_neuron).toBeCalled();
       expect(response).toEqual(neuronId);
     });
@@ -396,8 +395,8 @@ describe("GovernanceCanister", () => {
         clainNeuronResponse,
       );
 
-      const mockLedger = mock<IcrcLedgerCanister>();
-      mockLedger.transfer.mockImplementation(jest.fn());
+      const mockLedger = mock<LedgerCanister>();
+      mockLedger.icrc1Transfer.mockImplementation(jest.fn());
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
@@ -407,10 +406,10 @@ describe("GovernanceCanister", () => {
         await governance.stakeNeuronIcrc1({
           stake: BigInt(10_000_000),
           principal: new AnonymousIdentity().getPrincipal(),
-          icrcLedgerCanister: mockLedger,
+          ledgerCanister: mockLedger,
         });
 
-      expect(mockLedger.transfer).not.toBeCalled();
+      expect(mockLedger.icrc1Transfer).not.toBeCalled();
       expect(service.claim_or_refresh_neuron_from_account).not.toBeCalled();
 
       await expect(call).rejects.toThrow(
