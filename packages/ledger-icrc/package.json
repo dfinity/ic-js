@@ -1,0 +1,45 @@
+{
+  "name": "@dfinity/ledger-icrc",
+  "version": "0.0.1",
+  "description": "A library for interfacing with ICRC ledgers on the Internet Computer.",
+  "license": "Apache-2.0",
+  "main": "dist/cjs/index.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "rmdir": "node ../../scripts/rmdir.mjs",
+    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
+    "build": "npm run rmdir && mkdir -p dist && cp -R candid dist && node esbuild.mjs && npm run ts-declaration",
+    "prepack": "npm run build",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfinity/ic-js.git",
+    "directory": "packages/ledger"
+  },
+  "bugs": {
+    "url": "https://github.com/dfinity/ic-js"
+  },
+  "keywords": [
+    "internet computer",
+    "internet-computer",
+    "ic",
+    "dfinity",
+    "Ledger",
+    "ICRC-1 ledger",
+    "token"
+  ],
+  "homepage": "https://github.com/dfinity/ic-js#readme",
+  "peerDependencies": {
+    "@dfinity/agent": "^0.19.2",
+    "@dfinity/candid": "^0.19.2",
+    "@dfinity/principal": "^0.19.2",
+    "@dfinity/utils": "^0.0.23"
+  }
+}
