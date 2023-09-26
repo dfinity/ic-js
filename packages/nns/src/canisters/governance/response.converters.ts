@@ -1,6 +1,6 @@
 import type {
-  ListNeuronsResponse,
   BallotInfo as PbBallotInfo,
+  ListNeuronsResponse,
   Neuron as PbNeuron,
   NeuronInfo as PbNeuronInfo,
   PrincipalId,
@@ -13,7 +13,6 @@ import {
 } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
 import type {
-  Params,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
   Amount as RawAmount,
@@ -44,6 +43,7 @@ import type {
   NeuronInfo as RawNeuronInfo,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
+  Params,
   Percentage as RawPercentage,
   Proposal as RawProposal,
   ProposalInfo as RawProposalInfo,

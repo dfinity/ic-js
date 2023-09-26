@@ -1,10 +1,9 @@
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
 import type {
-  Amount,
-  ListProposalInfo,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
+  Amount,
   By as RawBy,
   Change as RawChange,
   Command as RawCommand,
@@ -19,6 +18,7 @@ import type {
   InitialTokenDistribution as RawInitialTokenDistribution,
   LedgerParameters as RawLedgerParameters,
   ListNeurons as RawListNeurons,
+  ListProposalInfo,
   ManageNeuron as RawManageNeuron,
   NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
   NeuronDistribution as RawNeuronDistribution,

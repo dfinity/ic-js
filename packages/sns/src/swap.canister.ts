@@ -15,8 +15,8 @@ import type {
   GetStateResponse,
   RefreshBuyerTokensRequest,
   RefreshBuyerTokensResponse,
-  _SERVICE as SnsSwapService,
   Ticket,
+  _SERVICE as SnsSwapService,
 } from "../candid/sns_swap";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
 import { idlFactory } from "../candid/sns_swap.idl";

@@ -16,8 +16,8 @@ import type {
   Neuron,
   NeuronId,
   ProposalData,
-  _SERVICE as SnsGovernanceService,
   SplitResponse,
+  _SERVICE as SnsGovernanceService,
 } from "../candid/sns_governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";

@@ -261,8 +261,9 @@ export class SnsWrapper {
     fee,
   }: SnsStakeNeuronParams): Promise<NeuronId> => {
     this.assertCertified("stakeNeuron");
-    const { account: neuronAccount, index } =
-      await this.nextNeuronAccount(controller);
+    const { account: neuronAccount, index } = await this.nextNeuronAccount(
+      controller,
+    );
     // This should not happen. The neuron account is always a subaccount of the SNS governance canister.
     if (neuronAccount.subaccount === undefined) {
       throw new SnsGovernanceError(

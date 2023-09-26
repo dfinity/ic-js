@@ -910,8 +910,9 @@ describe("SnsWrapper", () => {
         .mockResolvedValueOnce(neuronMock)
         .mockResolvedValue(undefined);
 
-      const { account, index } =
-        await certifiedSnsWrapper.nextNeuronAccount(mockPrincipal);
+      const { account, index } = await certifiedSnsWrapper.nextNeuronAccount(
+        mockPrincipal,
+      );
 
       expect(mockCertifiedGovernanceCanister.queryNeuron).toHaveBeenCalledTimes(
         4,

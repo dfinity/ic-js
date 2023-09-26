@@ -1,8 +1,8 @@
 import type { ICPTs, Subaccount } from "@dfinity/nns-proto";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import type {
-  TransferArg as Icrc1TransferRawRequest,
   Tokens,
+  TransferArg as Icrc1TransferRawRequest,
   TransferArgs as TransferRawRequest,
 } from "../../../candid/ledger";
 import { TRANSACTION_FEE } from "../../constants/constants";
