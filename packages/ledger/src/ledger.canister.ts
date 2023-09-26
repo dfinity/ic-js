@@ -3,8 +3,8 @@ import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
   Allowance,
   BlockIndex,
-  Tokens,
   _SERVICE as IcrcLedgerService,
+  Tokens,
 } from "../candid/icrc1_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc1_ledger.idl";

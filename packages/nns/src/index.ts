@@ -14,6 +14,6 @@ export * from "./types/governance.options";
 export * from "./types/governance_converters";
 export * from "./types/ledger.options";
 export type { SnsWasmCanisterOptions } from "./types/sns_wasm.options";
-export * from "./utils/accounts.utils";
 export * from "./utils/account_identifier.utils";
+export * from "./utils/accounts.utils";
 export * from "./utils/neurons.utils";

@@ -10,8 +10,8 @@ import type {
   GetSaleParametersResponse,
   GetStateResponse,
   NewSaleTicketResponse,
-  Swap,
   _SERVICE as SnsSwapService,
+  Swap,
 } from "../candid/sns_swap";
 import {
   GetOpenTicketErrorType,

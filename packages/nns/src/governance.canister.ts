@@ -15,13 +15,13 @@ import { sha256 } from "@noble/hashes/sha256";
 import randomBytes from "randombytes";
 import type {
   Command_1,
+  _SERVICE as GovernanceService,
   ListProposalInfo,
   MergeResponse,
   Neuron as RawNeuron,
   NeuronInfo as RawNeuronInfo,
   ProposalInfo as RawProposalInfo,
   RewardEvent,
-  _SERVICE as GovernanceService,
 } from "../candid/governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { idlFactory } from "../candid/governance.idl";
@@ -167,9 +167,8 @@ export class GovernanceCanister {
       return this.listNeuronsHardwareWallet();
     }
     const rawRequest = fromListNeurons(neuronIds);
-    const raw_response = await this.getGovernanceService(
-      certified,
-    ).list_neurons(rawRequest);
+    const raw_response =
+      await this.getGovernanceService(certified).list_neurons(rawRequest);
     return toArrayOfNeuronInfo({
       response: raw_response,
       canisterId: this.canisterId,
@@ -186,9 +185,8 @@ export class GovernanceCanister {
   public listKnownNeurons = async (
     certified = true,
   ): Promise<KnownNeuron[]> => {
-    const response = await this.getGovernanceService(
-      certified,
-    ).list_known_neurons();
+    const response =
+      await this.getGovernanceService(certified).list_known_neurons();
 
     return response.known_neurons.map((n) => ({
       id: fromNullable(n.id)?.id ?? BigInt(0),
@@ -230,9 +228,8 @@ export class GovernanceCanister {
     certified?: boolean;
   }): Promise<ListProposalsResponse> => {
     const rawRequest: ListProposalInfo = fromListProposalsRequest(request);
-    const rawResponse = await this.getGovernanceService(
-      certified,
-    ).list_proposals(rawRequest);
+    const rawResponse =
+      await this.getGovernanceService(certified).list_proposals(rawRequest);
     return toListProposalsResponse(rawResponse);
   };
 
