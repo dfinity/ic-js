@@ -651,7 +651,7 @@ describe("LedgerCanister", () => {
           Ok: BigInt(1234),
         });
         const fee = BigInt(10_000);
-        const memo = new Uint8Array([3, 4, 5, 6]);
+        const icrc1Memo = new Uint8Array([3, 4, 5, 6]);
         const ledger = LedgerCanister.create({
           certifiedServiceOverride: service,
         });
@@ -659,14 +659,14 @@ describe("LedgerCanister", () => {
           to,
           amount,
           fee,
-          memo,
+          icrc1Memo,
         });
 
         expect(service.icrc1_transfer).toBeCalledWith({
           to,
           fee: [fee],
           amount,
-          memo: [memo],
+          memo: [icrc1Memo],
           created_at_time: [],
           from_subaccount: [],
         });
@@ -703,7 +703,7 @@ describe("LedgerCanister", () => {
           Ok: BigInt(1234),
         });
         const fee = BigInt(10_000);
-        const memo = new Uint8Array([3, 4, 5, 6]);
+        const icrc1Memo = new Uint8Array([3, 4, 5, 6]);
         const ledger = LedgerCanister.create({
           certifiedServiceOverride: service,
         });
@@ -712,7 +712,7 @@ describe("LedgerCanister", () => {
           to,
           amount,
           fee,
-          memo,
+          icrc1Memo,
           createdAt,
         });
 
@@ -720,7 +720,7 @@ describe("LedgerCanister", () => {
           to,
           fee: [fee],
           amount,
-          memo: [memo],
+          memo: [icrc1Memo],
           created_at_time: [createdAt],
           from_subaccount: [],
         });
@@ -732,7 +732,7 @@ describe("LedgerCanister", () => {
           Ok: BigInt(1234),
         });
         const fee = BigInt(10_000);
-        const memo = new Uint8Array();
+        const icrc1Memo = new Uint8Array();
         const fromSubAccount = new Uint8Array([
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -744,7 +744,7 @@ describe("LedgerCanister", () => {
           to,
           amount,
           fee,
-          memo,
+          icrc1Memo,
           fromSubAccount,
         });
 
@@ -752,7 +752,7 @@ describe("LedgerCanister", () => {
           to,
           fee: [fee],
           amount,
-          memo: [memo],
+          memo: [icrc1Memo],
           created_at_time: [],
           from_subaccount: [fromSubAccount],
         });
@@ -764,7 +764,7 @@ describe("LedgerCanister", () => {
           Ok: BigInt(1234),
         });
         const fee = BigInt(10_000);
-        const memo = new Uint8Array();
+        const icrc1Memo = new Uint8Array();
         const toSubAccount = new Uint8Array([
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -779,7 +779,7 @@ describe("LedgerCanister", () => {
           },
           amount,
           fee,
-          memo,
+          icrc1Memo,
         });
 
         expect(service.icrc1_transfer).toBeCalledWith({
@@ -789,7 +789,7 @@ describe("LedgerCanister", () => {
           },
           fee: [fee],
           amount,
-          memo: [memo],
+          memo: [icrc1Memo],
           created_at_time: [],
           from_subaccount: [],
         });
@@ -925,11 +925,11 @@ describe("LedgerCanister", () => {
           hardwareWallet: true,
         });
 
-        const memo = new Uint8Array();
+        const icrc1Memo = new Uint8Array();
         await ledger.icrc1Transfer({
           to,
           amount,
-          memo,
+          icrc1Memo,
         });
 
         expect(service.transfer_fee).not.toBeCalled();
@@ -938,7 +938,7 @@ describe("LedgerCanister", () => {
           to,
           fee: [BigInt(10000)],
           amount,
-          memo: [memo],
+          memo: [icrc1Memo],
           created_at_time: [],
           from_subaccount: [],
         });
@@ -956,12 +956,12 @@ describe("LedgerCanister", () => {
         });
 
         const fee = BigInt(990_000);
-        const memo = new Uint8Array();
+        const icrc1Memo = new Uint8Array();
         await ledger.icrc1Transfer({
           to,
           amount,
           fee,
-          memo,
+          icrc1Memo,
         });
 
         expect(service.transfer_fee).not.toBeCalled();
@@ -970,7 +970,7 @@ describe("LedgerCanister", () => {
           to,
           fee: [fee],
           amount,
-          memo: [memo],
+          memo: [icrc1Memo],
           created_at_time: [],
           from_subaccount: [],
         });
