@@ -73,8 +73,8 @@ const data = await metadata();
 
 ##### :gear: create
 
-| Method   | Type                                                                   |
-| -------- | ---------------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L28)
@@ -83,8 +83,8 @@ const data = await metadata();
 
 The token metadata (name, symbol, etc.).
 
-| Method     | Type                                                          |
-| ---------- | ------------------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `metadata` | `(params: QueryParams) => Promise<IcrcTokenMetadataResponse>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L42)
@@ -93,8 +93,8 @@ The token metadata (name, symbol, etc.).
 
 The ledger transaction fees.
 
-| Method           | Type                                       |
-| ---------------- | ------------------------------------------ |
+| Method | Type |
+| ---------- | ---------- |
 | `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L50)
@@ -103,13 +103,14 @@ The ledger transaction fees.
 
 Returns the balance for a given account provided as owner and with optional subaccount.
 
-| Method    | Type                                         |
-| --------- | -------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `balance` | `(params: BalanceParams) => Promise<bigint>` |
 
 Parameters:
 
-- `params`: The parameters to get the balance of an account.
+* `params`: The parameters to get the balance of an account.
+
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L59)
 
@@ -117,13 +118,14 @@ Parameters:
 
 Transfers tokens from the sender to the given account.
 
-| Method     | Type                                          |
-| ---------- | --------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `transfer` | `(params: TransferParams) => Promise<bigint>` |
 
 Parameters:
 
-- `params`: The parameters to transfer tokens.
+* `params`: The parameters to transfer tokens.
+
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L72)
 
@@ -131,8 +133,8 @@ Parameters:
 
 Returns the total supply of tokens.
 
-| Method              | Type                                       |
-| ------------------- | ------------------------------------------ |
+| Method | Type |
+| ---------- | ---------- |
 | `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L88)
@@ -143,13 +145,14 @@ Transfers a token amount from the `from` account to the `to` account using the a
 
 Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_transfer_from
 
-| Method         | Type                                              |
-| -------------- | ------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `transferFrom` | `(params: TransferFromParams) => Promise<bigint>` |
 
 Parameters:
 
-- `params`: The parameters to transfer tokens from to.
+* `params`: The parameters to transfer tokens from to.
+
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L101)
 
@@ -159,13 +162,14 @@ This method entitles the `spender` to transfer token `amount` on behalf of the c
 
 Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_approve
 
-| Method    | Type                                         |
-| --------- | -------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `approve` | `(params: ApproveParams) => Promise<bigint>` |
 
 Parameters:
 
-- `params`: The parameters to approve.
+* `params`: The parameters to approve.
+
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L123)
 
@@ -175,15 +179,17 @@ Returns the token allowance that the `spender` account can transfer from the spe
 
 Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_allowance
 
-| Method      | Type                                              |
-| ----------- | ------------------------------------------------- |
+| Method | Type |
+| ---------- | ---------- |
 | `allowance` | `(params: AllowanceParams) => Promise<Allowance>` |
 
 Parameters:
 
-- `params`: The parameters to call the allowance.
+* `params`: The parameters to call the allowance.
+
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L145)
+
 
 <!-- TSDOC_END -->
 
