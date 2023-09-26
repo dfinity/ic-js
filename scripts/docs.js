@@ -33,6 +33,8 @@ const ledgerInputFiles = [
   "./packages/ledger/src/index.canister.ts",
 ];
 
+const ledgerICPInputFiles = ["./packages/ledger/src/ledger.canister.ts"];
+
 const ckBTCInputFiles = [
   "./packages/ckbtc/src/minter.canister.ts",
   "./packages/ckbtc/src/utils/btc.utils.ts",
@@ -74,6 +76,13 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: ledgerInputFiles,
   outputFile: "./packages/ledger/README.md",
+  markdownOptions,
+  buildOptions,
+});
+
+generateDocumentation({
+  inputFiles: ledgerICPInputFiles,
+  outputFile: "./packages/ledger-icp/README.md",
   markdownOptions,
   buildOptions,
 });

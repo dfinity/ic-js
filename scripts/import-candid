@@ -73,6 +73,9 @@ mkdir -p packages/ledger/candid
 import_did "rs/rosetta-api/icrc1/ledger/ledger.did" "icrc1_ledger.did" "ledger"
 import_did "rs/rosetta-api/icrc1/index/index.did" "icrc1_index.did" "ledger"
 
+mkdir -p packages/ledger-icp/candid
+import_did "rs/rosetta-api/icp_ledger/ledger.did" "ledger.did" "ledger-icp"
+
 mkdir -p packages/ckbtc/candid
 import_did "rs/bitcoin/ckbtc/minter/ckbtc_minter.did" "minter.did" "ckbtc"
 

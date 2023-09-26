@@ -11,7 +11,8 @@
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/ic-management"
+    "packages/ic-management",
+    "packages/ledger-icp"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -20,7 +21,7 @@
     "protoc": "bash ./scripts/update_proto.sh",
     "test": "jest",
     "test-all": "npm ci && npm run build --workspace=packages/utils && npm run build --workspace=packages/ledger && npm run test --workspaces",
-    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md packages/ckbtc/README.md packages/ic-management/README.md",
+    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger-icp/README.md packages/ledger/README.md packages/ckbtc/README.md packages/ic-management/README.md",
     "build": "npm run build --workspaces",
     "size": "size-limit --json",
     "update:agent": "./scripts/update-agent"
@@ -85,6 +86,17 @@
     {
       "name": "@dfinity/ledger",
       "path": "./packages/ledger/dist/index.js",
+      "limit": "4 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@dfinity/ledger-icp",
+      "path": "./packages/ledger-icp/dist/index.js",
       "limit": "4 kB",
       "ignore": [
         "@dfinity/agent",
