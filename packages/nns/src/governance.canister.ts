@@ -335,7 +335,9 @@ export class GovernanceCanister {
 
     // Send amount to the ledger.
     await ledgerCanister.icrc1Transfer({
-      memo: nonceBytes,
+      // WARNING: This does not set the same memo field as the stakeNeuron
+      // function above and would need to be handled separately from that field.
+      icrc1Memo: nonceBytes,
       amount: stake,
       fromSubAccount,
       to: {
