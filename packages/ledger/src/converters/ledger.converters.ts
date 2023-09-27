@@ -19,12 +19,12 @@ export const toTransferArg = ({
   from_subaccount,
   fee,
   created_at_time,
-  icrc1Memo,
+  memo,
   ...rest
 }: TransferParams): TransferArg => ({
   ...rest,
   fee: toNullable(fee),
-  memo: toNullable(icrc1Memo),
+  memo: toNullable(memo),
   from_subaccount: toNullable(from_subaccount),
   created_at_time: toNullable(created_at_time),
 });
@@ -33,12 +33,12 @@ export const toTransferFromArgs = ({
   spender_subaccount,
   fee,
   created_at_time,
-  icrc1Memo,
+  memo,
   ...rest
 }: TransferFromParams): TransferFromArgs => ({
   ...rest,
   fee: toNullable(fee),
-  memo: toNullable(icrc1Memo),
+  memo: toNullable(memo),
   spender_subaccount: toNullable(spender_subaccount),
   created_at_time: toNullable(created_at_time),
 });
@@ -46,7 +46,7 @@ export const toTransferFromArgs = ({
 export const toApproveArgs = ({
   fee,
   created_at_time,
-  icrc1Memo,
+  memo,
   from_subaccount,
   expected_allowance,
   expires_at,
@@ -54,7 +54,7 @@ export const toApproveArgs = ({
 }: ApproveParams): ApproveArgs => ({
   ...rest,
   fee: toNullable(fee),
-  memo: toNullable(icrc1Memo),
+  memo: toNullable(memo),
   from_subaccount: toNullable(from_subaccount),
   created_at_time: toNullable(created_at_time),
   expected_allowance: toNullable(expected_allowance),

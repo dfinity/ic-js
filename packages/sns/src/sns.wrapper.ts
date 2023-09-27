@@ -276,7 +276,7 @@ export class SnsWrapper {
         subaccount: toNullable(neuronAccount.subaccount),
       },
       from_subaccount: source.subaccount,
-      icrc1Memo: bigIntToUint8Array(index),
+      memo: bigIntToUint8Array(index),
       created_at_time: createdAt,
       fee,
     });
