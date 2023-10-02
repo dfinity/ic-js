@@ -1,4 +1,3 @@
-import type { AccountIdentifier as AccountIdentifierClass } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
 import type {
@@ -34,6 +33,7 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
+import type { AccountIdentifier as AccountIdentifierClass } from "../../account_identifier";
 import type { Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
