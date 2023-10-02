@@ -5,14 +5,14 @@
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-| ------------------------ | ------- | ------------------- |
+| ------------------------ |---------| ------------------- |
 | `@dfinity/ckbtc`         | v1.0.1  | Patched             |
 | `@dfinity/cmc`           | v1.0.0  | Unchanged           |
 | `@dfinity/ic-management` | v1.0.0  | Unchanged           |
 | `@dfinity/ledger`        | v1.0.0  | Deprecated ❌       |
 | `@dfinity/ledger-icp`    | v1.0.0  | New 🚀              |
 | `@dfinity/ledger-icrc`   | v1.0.0  | New 🚀              |
-| `@dfinity/nns`           | v1.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns`           | v2.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/nns-proto`     | v1.0.0  | Unchanged           |
 | `@dfinity/sns`           | v1.0.0  | Patched             |
 | `@dfinity/utils`         | v1.0.0  | Unchanged           |
