@@ -33,8 +33,8 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Build
 
-- `@dfinity/sns` inherits the changes and requires the `@dfinity/ledger-icrc` as peer dependencies
-- `@dfinity/nns` inherits the changes and requires the `@dfinity/ledger-icp` as peer dependencies
+- `@dfinity/sns` inherits the changes and now requires `@dfinity/ledger-icrc` as a peer dependency
+- `@dfinity/nns` inherits the changes and now requires `@dfinity/ledger-icp` as a peer dependency
 
 ## Chore
 
