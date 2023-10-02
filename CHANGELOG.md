@@ -8,6 +8,7 @@
 ## Breaking Changes ⚠️
 
 - ICP ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called `@dfinity/ledger-icp`
+- remove the `ICP` class, which was deprecated a long time ago, from `@dfinity/nns`. Instead, utilize the token parsers from `@dfinity/utils`.
 
 # 1.0.0 (2023-10-02)
 
