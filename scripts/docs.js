@@ -3,8 +3,12 @@
 const { generateDocumentation } = require("tsdoc-markdown");
 
 const nnsInputFiles = [
+  "./packages/nns/src/account_identifier.ts",
   "./packages/nns/src/genesis_token.canister.ts",
   "./packages/nns/src/governance.canister.ts",
+  "./packages/nns/src/icp.ts",
+  "./packages/nns/src/token.ts",
+  "./packages/nns/src/ledger.canister.ts",
   "./packages/nns/src/sns_wasm.canister.ts",
   "./packages/nns/src/utils/neurons.utils.ts",
 ];
@@ -28,6 +32,8 @@ const ledgerInputFiles = [
   "./packages/ledger/src/utils/payment.utils.ts",
   "./packages/ledger/src/index.canister.ts",
 ];
+
+const ledgerIcrcInputFiles = ["./packages/ledger/src/ledger.canister.ts"];
 
 const ledgerICPInputFiles = [
   "./packages/nns/src/icp.ts",
@@ -76,6 +82,13 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: ledgerInputFiles,
   outputFile: "./packages/ledger/README.md",
+  markdownOptions,
+  buildOptions,
+});
+
+generateDocumentation({
+  inputFiles: ledgerIcrcInputFiles,
+  outputFile: "./packages/ledger-icrc/README.md",
   markdownOptions,
   buildOptions,
 });

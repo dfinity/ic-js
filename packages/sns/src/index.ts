@@ -30,6 +30,7 @@ export type {
   GetSaleParametersResponse as SnsGetSaleParametersResponse,
   InvalidUserAmount as SnsInvalidUserAmount,
   SnsNeuronRecipe,
+  NeuronsFundParticipationConstraints as SnsNeuronsFundParticipationConstraints,
   Params as SnsParams,
   RefreshBuyerTokensResponse as SnsRefreshBuyerTokensResponse,
   Swap as SnsSwap,

@@ -20,10 +20,15 @@ export type TransferRequest = {
   createdAt?: bigint;
 };
 
+// WARNING: When using the ICRC-1 interface of the ICP ledger, there is no
+// relationship between the memo and the icrc1Memo of a transaction. The ICRC-1
+// interface simply cannot set the memo field and the non-ICRC-1 interface
+// cannot set the icrc1Memo field, even though the icrc1Memo field is called
+// just "memo" in canister method params.
 export type Icrc1TransferRequest = {
   to: Account;
   amount: Icrc1Tokens;
-  memo?: Uint8Array;
+  icrc1Memo?: Uint8Array;
   fee?: Icrc1Tokens;
   fromSubAccount?: SubAccount;
   // Nanoseconds since unix epoc to trigger deduplication and avoid other issues
