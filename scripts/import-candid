@@ -69,10 +69,6 @@ import_did "rs/sns/governance/canister/governance_test.did" "sns_governance_test
 mkdir -p packages/cmc/candid
 import_did "rs/nns/cmc/cmc.did" "cmc.did" "cmc"
 
-mkdir -p packages/ledger/candid
-import_did "rs/rosetta-api/icrc1/ledger/ledger.did" "icrc1_ledger.did" "ledger"
-import_did "rs/rosetta-api/icrc1/index/index.did" "icrc1_index.did" "ledger"
-
 mkdir -p packages/ledger-icp/candid
 import_did "rs/rosetta-api/icp_ledger/ledger.did" "ledger.did" "ledger-icp"
 
