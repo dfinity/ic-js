@@ -8,6 +8,7 @@
 ## Breaking Changes ⚠️
 
 - ICP ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called `@dfinity/ledger-icp`
+- remove the `ICP` class, which was deprecated a long time ago, from `@dfinity/nns`. Instead, utilize the token parsers from `@dfinity/utils`.
 
 # 1.0.0 (2023-10-02)
 
@@ -26,7 +27,7 @@
 
 - add support for `icrc2_transfer_from`, `icrc2_approve` and `icrc2_allowance` in `@dfinity/ledger`
 - update index did definitions in ledger which provides more information in the transactions
-- add support for icrc1_transfer on the ICP ledger canister in `@dfinity/nss`
+- add support for icrc1_transfer on the ICP ledger canister in `@dfinity/nns`
 
 ## Build
 
