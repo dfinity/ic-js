@@ -1,4 +1,4 @@
-import type { TxId } from "../../candid/icrc1_index";
+import type { TxId } from "../../candid/icrc_index";
 import type { IcrcAccount } from "./ledger.responses";
 
 export interface GetAccountTransactionsParams {

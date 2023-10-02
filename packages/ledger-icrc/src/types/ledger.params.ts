@@ -5,7 +5,7 @@ import type {
   Subaccount,
   Timestamp,
   Tokens,
-} from "../../candid/icrc1_ledger";
+} from "../../candid/icrc_ledger";
 import type { IcrcAccount } from "./ledger.responses";
 
 /**

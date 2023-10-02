@@ -5,9 +5,9 @@ import type {
   BlockIndex,
   _SERVICE as IcrcLedgerService,
   Tokens,
-} from "../candid/icrc1_ledger";
-import { idlFactory as certifiedIdlFactory } from "../candid/icrc1_ledger.certified.idl";
-import { idlFactory } from "../candid/icrc1_ledger.idl";
+} from "../candid/icrc_ledger";
+import { idlFactory as certifiedIdlFactory } from "../candid/icrc_ledger.certified.idl";
+import { idlFactory } from "../candid/icrc_ledger.idl";
 import {
   toApproveArgs,
   toTransferArg,

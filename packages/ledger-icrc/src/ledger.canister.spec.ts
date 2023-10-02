@@ -8,7 +8,7 @@ import type {
   _SERVICE as IcrcLedgerService,
   TransferArg,
   TransferFromArgs,
-} from "../candid/icrc1_ledger";
+} from "../candid/icrc_ledger";
 import { IcrcTransferError } from "./errors/ledger.errors";
 import { IcrcLedgerCanister } from "./ledger.canister";
 import {

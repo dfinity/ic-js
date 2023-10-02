@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { MetadataValue } from "../../candid/icrc1_ledger";
+import { MetadataValue } from "../../candid/icrc_ledger";
 import { IcrcMetadataResponseEntries } from "../types/ledger.responses";
 
 export const tokeMetadataResponseMock: [

@@ -3,7 +3,7 @@ export type {
   Transaction as IcrcTransaction,
   TransactionWithId as IcrcTransactionWithId,
   TxId as IcrcTxId,
-} from "../candid/icrc1_index";
+} from "../candid/icrc_index";
 export type {
   BlockIndex as IcrcBlockIndex,
   Subaccount as IcrcSubaccount,
@@ -11,7 +11,7 @@ export type {
   TransferArg as IcrcTransferArg,
   TransferError as IcrcTransferVariatError,
   Value as IcrcValue,
-} from "../candid/icrc1_ledger";
+} from "../candid/icrc_ledger";
 export * from "./errors/index.errors";
 export * from "./errors/ledger.errors";
 export { IcrcIndexCanister } from "./index.canister";

@@ -2,7 +2,7 @@ import { toNullable } from "@dfinity/utils";
 import type {
   Account,
   GetAccountTransactionsArgs,
-} from "../../candid/icrc1_index";
+} from "../../candid/icrc_index";
 import type { GetAccountTransactionsParams } from "../types/index.params";
 import type { IcrcAccount } from "../types/ledger.responses";
 

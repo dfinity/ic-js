@@ -1,5 +1,5 @@
 import type { Principal } from "@dfinity/principal";
-import type { Subaccount, Value } from "../../candid/icrc1_ledger";
+import type { Subaccount, Value } from "../../candid/icrc_ledger";
 
 // Source: https://github.com/dfinity/icrc-1#standard-metadata-entries
 export enum IcrcMetadataResponseEntries {

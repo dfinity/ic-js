@@ -3,7 +3,7 @@ import type {
   ApproveArgs,
   TransferArg,
   TransferFromArgs,
-} from "../../candid/icrc1_ledger";
+} from "../../candid/icrc_ledger";
 import type {
   ApproveParams,
   TransferFromParams,

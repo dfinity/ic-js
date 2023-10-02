@@ -5,7 +5,7 @@ import type {
   Account,
   _SERVICE as IcrcIndexService,
   Transaction,
-} from "../candid/icrc1_index";
+} from "../candid/icrc_index";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexCanister } from "./index.canister";
 import { indexCanisterIdMock } from "./mocks/ledger.mock";
