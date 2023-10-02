@@ -13,7 +13,7 @@ function publish_npm() {
   if [ "$LOCAL_SHASUM" == "$NPM_SHASUM" ]; then
     echo "No changes in @dfinity/$lib need to be published to NPM."
   else
-    npm publish --workspace=packages/"$lib" --provenance
+    npm publish --workspace=packages/"$lib" --provenance --access public
   fi
 }
 
