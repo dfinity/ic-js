@@ -1,12 +1,11 @@
 {
   "name": "@dfinity/ic-js",
-  "version": "0.18.4",
+  "version": "2.0.0",
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
   "workspaces": [
     "packages/utils",
     "packages/nns-proto",
-    "packages/ledger",
     "packages/ledger-icp",
     "packages/ledger-icrc",
     "packages/nns",
@@ -21,7 +20,7 @@
     "format": "prettier --write .",
     "protoc": "bash ./scripts/update_proto.sh",
     "test": "jest",
-    "test-all": "npm ci && npm run build --workspace=packages/utils && npm run build --workspace=packages/ledger && npm run test --workspaces",
+    "test-all": "npm ci && npm run test --workspaces",
     "docs": "node scripts/docs.js && prettier --write packages/**/README.md",
     "build": "npm run build --workspaces",
     "size": "size-limit --json",
@@ -85,17 +84,6 @@
       ]
     },
     {
-      "name": "@dfinity/ledger",
-      "path": "./packages/ledger/dist/index.js",
-      "limit": "4 kB",
-      "ignore": [
-        "@dfinity/agent",
-        "@dfinity/candid",
-        "@dfinity/principal",
-        "@dfinity/utils"
-      ]
-    },
-    {
       "name": "@dfinity/ledger-icrc",
       "path": "./packages/ledger-icrc/dist/index.js",
       "limit": "4 kB",
@@ -144,7 +132,7 @@
         "@dfinity/candid",
         "@dfinity/principal",
         "@dfinity/utils",
-        "@dfinity/ledger"
+        "@dfinity/ledger-icrc"
       ]
     },
     {

@@ -22,13 +22,6 @@ const utilsInputFiles = ["./packages/utils/src/index.ts"];
 
 const cmcInputFiles = ["./packages/cmc/src/cmc.canister.ts"];
 
-const ledgerInputFiles = [
-  "./packages/ledger/src/ledger.canister.ts",
-  "./packages/ledger/src/utils/ledger.utils.ts",
-  "./packages/ledger/src/utils/payment.utils.ts",
-  "./packages/ledger/src/index.canister.ts",
-];
-
 const ledgerIcrcInputFiles = [
   "./packages/ledger-icrc/src/ledger.canister.ts",
   "./packages/ledger-icrc/src/utils/ledger.utils.ts",
@@ -75,13 +68,6 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: cmcInputFiles,
   outputFile: "./packages/cmc/README.md",
-  markdownOptions,
-  buildOptions,
-});
-
-generateDocumentation({
-  inputFiles: ledgerInputFiles,
-  outputFile: "./packages/ledger/README.md",
   markdownOptions,
   buildOptions,
 });

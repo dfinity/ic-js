@@ -9,7 +9,7 @@ import type {
   IcrcTokenMetadataResponse,
   IcrcTokens,
   TransferParams,
-} from "@dfinity/ledger";
+} from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
