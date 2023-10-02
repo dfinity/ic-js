@@ -1,15 +1,15 @@
-# 0.18.5 (wip)
+# 1.0.0 (2023-10-02)
 
 ## Release
 
-- nns `v0.16.8`
-- sns `v0.0.23`
-- cmc `v0.0.19`
-- ledger `v0.0.16`
-- ckBTC `v0.0.12`
-- ic-management `v0.0.9`
-- utils `v0.0.23`
-- nns-proto `v0.0.9`
+- nns `v1.0.0`
+- sns `v1.0.0`
+- cmc `v1.0.0`
+- ledger `v1.0.0`
+- ckBTC `v1.0.0`
+- ic-management `v1.0.0`
+- utils `v1.0.0`
+- nns-proto `v1.0.0`
 
 ## Features
 
@@ -20,6 +20,7 @@
 ## Build
 
 - bump did files in Cmc
+- starting from this version, we commit to adhering to [semantic versioning](https://semver.org/) for any libraries published in ic-js
 
 # 0.18.4 (2023-09-05)
 
