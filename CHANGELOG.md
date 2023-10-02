@@ -1,15 +1,44 @@
-# 2023-XX-YY
+# 2023-10-02
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v1.0.1  | Patched             |
+| `@dfinity/cmc`           | v1.0.0  | Unchanged           |
+| `@dfinity/ic-management` | v1.0.0  | Unchanged           |
+| `@dfinity/ledger`        | v1.0.0  | Deprecated ❌       |
+| `@dfinity/ledger-icp`    | v1.0.0  | New 🚀              |
+| `@dfinity/ledger-icrc`   | v1.0.0  | New 🚀              |
+| `@dfinity/nns`           | v1.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged           |
+| `@dfinity/sns`           | v1.0.0  | Patched             |
+| `@dfinity/utils`         | v1.0.0  | Unchanged           |
 
 ## Release
 
-- nns `v2.0.0`
+- ckbtc `v1.0.1`
 - ledger-icp `v1.0.0`
+- ledger-crc `v1.0.0`
+- nns `v2.0.0`
+- sns `v1.0.1`
 
 ## Breaking Changes ⚠️
 
 - **ICP** ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called `@dfinity/ledger-icp`
 - **ICRC** ledger-related features have been moved as well. The library `@dfinity/ledger` has been deprecated, renamed, and replaced by `@dfinity/ledger-icrc`
 - remove the `ICP` class, which was deprecated a long time ago, from `@dfinity/nns`. Instead, utilize the token parsers from `@dfinity/utils`
+
+## Build
+
+- `@dfinity/sns` inherits the changes and requires the `@dfinity/ledger-icrc` as peer dependencies
+- `@dfinity/nns` inherits the changes and requires the `@dfinity/ledger-icp` as peer dependencies
+
+## Chore
+
+- minter params `Subaccount` declared as `Uint8Array` instead of inheriting a type
 
 # 1.0.0 (2023-10-02)
 
