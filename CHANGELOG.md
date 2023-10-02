@@ -21,7 +21,7 @@ The current status of the libraries at the time of the release is as follows:
 
 - ckbtc `v1.0.1`
 - ledger-icp `v1.0.0`
-- ledger-crc `v1.0.0`
+- ledger-icrc `v1.0.0`
 - nns `v2.0.0`
 - sns `v1.0.1`
 
