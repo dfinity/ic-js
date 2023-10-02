@@ -1,4 +1,4 @@
-import { InvalidAccountIDError } from "../errors/governance.errors";
+import { InvalidAccountIDError } from "../errors/ledger.errors";
 import { checkAccountId } from "./accounts.utils";
 
 describe("accounts-utils", () => {
