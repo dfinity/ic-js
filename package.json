@@ -5,15 +5,15 @@
   "license": "Apache-2.0",
   "workspaces": [
     "packages/utils",
-    "packages/ledger",
     "packages/nns-proto",
+    "packages/ledger",
+    "packages/ledger-icp",
+    "packages/ledger-icrc",
     "packages/nns",
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/ic-management",
-    "packages/ledger-icp",
-    "packages/ledger-icrc"
+    "packages/ic-management"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
