@@ -17,8 +17,6 @@ export class GovernanceError extends Error {
   }
 }
 
-export class InvalidAccountIDError extends Error {}
-
 /**
  * An error used to ensure at compile-time that it's never reached.
  */

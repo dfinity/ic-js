@@ -6,7 +6,7 @@ import {
   type Agent,
   type RequestId,
 } from "@dfinity/agent";
-import { LedgerCanister } from "@dfinity/ledger-icp";
+import { InvalidAccountIDError, LedgerCanister } from "@dfinity/ledger-icp";
 import {
   ManageNeuronResponse as PbManageNeuronResponse,
   NeuronId as PbNeuronId,
@@ -29,7 +29,6 @@ import {
   FeatureNotSupportedError,
   GovernanceError,
   InsufficientAmountError,
-  InvalidAccountIDError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
 import { GovernanceCanister } from "./governance.canister";
