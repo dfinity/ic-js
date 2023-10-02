@@ -6,7 +6,6 @@ const nnsInputFiles = [
   "./packages/nns/src/account_identifier.ts",
   "./packages/nns/src/genesis_token.canister.ts",
   "./packages/nns/src/governance.canister.ts",
-  "./packages/nns/src/icp.ts",
   "./packages/nns/src/token.ts",
   "./packages/nns/src/ledger.canister.ts",
   "./packages/nns/src/sns_wasm.canister.ts",
