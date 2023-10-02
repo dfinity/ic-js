@@ -2,8 +2,6 @@ import type { Agent } from "@dfinity/agent";
 import { polling } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
-// TODO: to be removed once ICP.ts is removed as well
-
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 type ModuleType = typeof import("@dfinity/nns-proto");
 export const importNnsProto = (): Promise<ModuleType> =>
