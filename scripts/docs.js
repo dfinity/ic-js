@@ -5,7 +5,6 @@ const { generateDocumentation } = require("tsdoc-markdown");
 const nnsInputFiles = [
   "./packages/nns/src/genesis_token.canister.ts",
   "./packages/nns/src/governance.canister.ts",
-  "./packages/nns/src/icp.ts",
   "./packages/nns/src/sns_wasm.canister.ts",
   "./packages/nns/src/utils/neurons.utils.ts",
 ];
