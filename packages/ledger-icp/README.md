@@ -55,57 +55,6 @@ const data = await metadata();
 
 <!-- TSDOC_START -->
 
-### :factory: ICP
-
-We don't extend to keep `fromE8s` and `fromString` as backwards compatible.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L14)
-
-#### Methods
-
-- [fromE8s](#gear-frome8s)
-- [fromString](#gear-fromstring)
-- [toE8s](#gear-toe8s)
-- [toProto](#gear-toproto)
-
-##### :gear: fromE8s
-
-| Method    | Type                      |
-| --------- | ------------------------- |
-| `fromE8s` | `(amount: bigint) => ICP` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L20)
-
-##### :gear: fromString
-
-Initialize from a string. Accepted formats:
-
-1234567.8901
-1'234'567.8901
-1,234,567.8901
-
-| Method       | Type                                                |
-| ------------ | --------------------------------------------------- |
-| `fromString` | `(amount: string) => ICP or FromStringToTokenError` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L31)
-
-##### :gear: toE8s
-
-| Method  | Type           |
-| ------- | -------------- |
-| `toE8s` | `() => bigint` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L39)
-
-##### :gear: toProto
-
-| Method    | Type                   |
-| --------- | ---------------------- |
-| `toProto` | `() => Promise<ICPTs>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L43)
-
 ### :factory: AccountIdentifier
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L13)
