@@ -96,17 +96,6 @@
       ]
     },
     {
-      "name": "@dfinity/ledger-icp",
-      "path": "./packages/ledger-icp/dist/index.js",
-      "limit": "4 kB",
-      "ignore": [
-        "@dfinity/agent",
-        "@dfinity/candid",
-        "@dfinity/principal",
-        "@dfinity/utils"
-      ]
-    },
-    {
       "name": "@dfinity/nns",
       "path": "./packages/nns/dist/index.js",
       "limit": "32 kB",
