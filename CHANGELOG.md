@@ -1,6 +1,7 @@
 # 2023-XX-YY
 
 ## Release
+
 - nns `v2.0.0`
 - ledger-icp `v1.0.0`
 
