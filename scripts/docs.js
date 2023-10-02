@@ -30,8 +30,8 @@ const ledgerIcrcInputFiles = [
 ];
 
 const ledgerICPInputFiles = [
-  "./packages/nns/src/ledger.canister.ts",
-  "./packages/nns/src/account_identifier.ts",
+  "./packages/ledger-icp/src/ledger.canister.ts",
+  "./packages/ledger-icp/src/account_identifier.ts",
 ];
 
 const ckBTCInputFiles = [
