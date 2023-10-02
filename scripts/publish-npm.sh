@@ -8,7 +8,7 @@ function publish_npm() {
   LOCAL_SHASUM=$(npm pack -w packages/"$lib" --json  | jq '.[] | .shasum' | sed -r 's/^"|"$//g')
 
   NPM_TARBALL=$(npm show @dfinity/"$lib" dist.tarball)
-  NPM_SHASUM=$(curl -s "$NPM_TARBALL" 2>&1 | shasum  | cut -f1 -d' ')
+  NPM_SHASUM=$(curl -s "$NPM_TARBALL" 2>&1 | shasum | cut -f1 -d' ')
 
   if [ "$LOCAL_SHASUM" == "$NPM_SHASUM" ]; then
     echo "No changes in @dfinity/$lib need to be published to NPM."
@@ -20,7 +20,6 @@ function publish_npm() {
 # Tips: libs use by other libs first
 LIBS=utils,ledger,nns-proto,nns,sns,cmc,ckbtc,ic-management
 
-for lib in $(echo $LIBS | sed "s/,/ /g")
-do
-    publish_npm "$lib"
+for lib in $(echo $LIBS | sed "s/,/ /g"); do
+  publish_npm "$lib"
 done
