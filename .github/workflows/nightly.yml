@@ -24,7 +24,11 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish Ledger
-        run: npm publish --provenance --tag next --workspace=packages/ledger
+        run: npm publish --provenance --tag next --workspace=packages/ledger-icrc
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish Ledger
+        run: npm publish --provenance --tag next --workspace=packages/ledger-icp
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish NNS-proto
