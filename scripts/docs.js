@@ -3,12 +3,9 @@
 const { generateDocumentation } = require("tsdoc-markdown");
 
 const nnsInputFiles = [
-  "./packages/nns/src/account_identifier.ts",
   "./packages/nns/src/genesis_token.canister.ts",
   "./packages/nns/src/governance.canister.ts",
   "./packages/nns/src/icp.ts",
-  "./packages/nns/src/token.ts",
-  "./packages/nns/src/ledger.canister.ts",
   "./packages/nns/src/sns_wasm.canister.ts",
   "./packages/nns/src/utils/neurons.utils.ts",
 ];
@@ -35,7 +32,10 @@ const ledgerInputFiles = [
 
 const ledgerIcrcInputFiles = ["./packages/ledger/src/ledger.canister.ts"];
 
-const ledgerICPInputFiles = ["./packages/ledger/src/ledger.canister.ts"];
+const ledgerICPInputFiles = [
+  "./packages/nns/src/ledger.canister.ts",
+  "./packages/nns/src/account_identifier.ts",
+];
 
 const ckBTCInputFiles = [
   "./packages/ckbtc/src/minter.canister.ts",

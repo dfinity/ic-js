@@ -7,7 +7,6 @@ import {
   uint8ArrayToHexString,
 } from "@dfinity/utils";
 import { sha224 } from "@noble/hashes/sha256";
-import type { AccountIdentifier as AccountIdentifierCandid } from "../candid/governance";
 import { importNnsProto } from "./utils/proto.utils";
 
 export class AccountIdentifier {
@@ -66,7 +65,7 @@ export class AccountIdentifier {
     return Array.from(this.bytes);
   }
 
-  public toAccountIdentifierHash(): AccountIdentifierCandid {
+  public toAccountIdentifierHash(): { hash: Uint8Array } {
     return {
       hash: this.toUint8Array(),
     };

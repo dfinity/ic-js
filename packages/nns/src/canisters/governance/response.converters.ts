@@ -1,3 +1,9 @@
+import {
+  AccountIdentifier,
+  SubAccount,
+  accountIdentifierFromBytes,
+  principalToAccountIdentifier,
+} from "@dfinity/ledger-icp";
 import type {
   ListNeuronsResponse,
   BallotInfo as PbBallotInfo,
@@ -54,7 +60,6 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import { AccountIdentifier, SubAccount } from "../../account_identifier";
 import { NeuronState } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
@@ -99,10 +104,6 @@ import type {
   Tokens,
   VotingRewardParameters,
 } from "../../types/governance_converters";
-import {
-  accountIdentifierFromBytes,
-  principalToAccountIdentifier,
-} from "../../utils/account_identifier.utils";
 
 export const toNeuronInfo = ({
   neuronId,

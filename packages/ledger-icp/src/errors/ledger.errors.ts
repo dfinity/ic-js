@@ -9,6 +9,8 @@ export class TransferError extends Error {}
 
 export class InvalidSenderError extends TransferError {}
 
+export class InvalidAccountIDError extends Error {}
+
 export class InsufficientFundsError extends TransferError {
   constructor(public readonly balance: bigint) {
     super();

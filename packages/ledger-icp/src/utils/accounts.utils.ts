@@ -1,5 +1,5 @@
 import { bigEndianCrc32 } from "@dfinity/utils";
-import { InvalidAccountIDError } from "../errors/governance.errors";
+import { InvalidAccountIDError } from "../errors/ledger.errors";
 
 /**
  * Checks account id check sum

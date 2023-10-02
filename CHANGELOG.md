@@ -1,3 +1,14 @@
+# 2023-XX-YY
+
+## Release
+
+- nns `v2.0.0`
+- ledger-icp `v1.0.0`
+
+## Breaking Changes ⚠️
+
+- ICP ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called `@dfinity/ledger-icp`
+
 # 1.0.0 (2023-10-02)
 
 ## Release
