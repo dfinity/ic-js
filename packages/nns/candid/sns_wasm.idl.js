@@ -25,6 +25,18 @@ export const idlFactory = ({ IDL }) => {
   });
   const Canister = IDL.Record({ 'id' : IDL.Opt(IDL.Principal) });
   const DappCanisters = IDL.Record({ 'canisters' : IDL.Vec(Canister) });
+  const LinearScalingCoefficient = IDL.Record({
+    'slope_numerator' : IDL.Opt(IDL.Nat64),
+    'intercept_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'from_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'slope_denominator' : IDL.Opt(IDL.Nat64),
+    'to_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundParticipationConstraints = IDL.Record({
+    'coefficient_intervals' : IDL.Vec(LinearScalingCoefficient),
+    'max_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'min_direct_participation_threshold_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const CfNeuron = IDL.Record({
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
@@ -92,6 +104,9 @@ export const idlFactory = ({ IDL }) => {
     'wait_for_quiet_deadline_increase_seconds' : IDL.Opt(IDL.Nat64),
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'dapp_canisters' : IDL.Opt(DappCanisters),
+    'neurons_fund_participation_constraints' : IDL.Opt(
+      NeuronsFundParticipationConstraints
+    ),
     'neurons_fund_participants' : IDL.Opt(NeuronsFundParticipants),
     'max_age_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'initial_token_distribution' : IDL.Opt(InitialTokenDistribution),
