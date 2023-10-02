@@ -1,4 +1,4 @@
-import type { IcrcSubaccount } from "@dfinity/ledger";
+import type { IcrcSubaccount } from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
 import {
   arrayOfNumberToUint8Array,
