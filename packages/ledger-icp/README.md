@@ -55,135 +55,234 @@ const data = await metadata();
 
 <!-- TSDOC_START -->
 
-### :factory: IcrcLedgerCanister
+### :factory: ICP
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L27)
+We don't extend to keep `fromE8s` and `fromString` as backwards compatible.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L14)
+
+#### Methods
+
+- [fromE8s](#gear-frome8s)
+- [fromString](#gear-fromstring)
+- [toE8s](#gear-toe8s)
+- [toProto](#gear-toproto)
+
+##### :gear: fromE8s
+
+| Method    | Type                      |
+| --------- | ------------------------- |
+| `fromE8s` | `(amount: bigint) => ICP` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L20)
+
+##### :gear: fromString
+
+Initialize from a string. Accepted formats:
+
+1234567.8901
+1'234'567.8901
+1,234,567.8901
+
+| Method       | Type                                                |
+| ------------ | --------------------------------------------------- |
+| `fromString` | `(amount: string) => ICP or FromStringToTokenError` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L31)
+
+##### :gear: toE8s
+
+| Method  | Type           |
+| ------- | -------------- |
+| `toE8s` | `() => bigint` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L39)
+
+##### :gear: toProto
+
+| Method    | Type                   |
+| --------- | ---------------------- |
+| `toProto` | `() => Promise<ICPTs>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/icp.ts#L43)
+
+### :factory: AccountIdentifier
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L13)
+
+#### Methods
+
+- [fromHex](#gear-fromhex)
+- [fromPrincipal](#gear-fromprincipal)
+- [toProto](#gear-toproto)
+- [toHex](#gear-tohex)
+- [toUint8Array](#gear-touint8array)
+- [toNumbers](#gear-tonumbers)
+- [toAccountIdentifierHash](#gear-toaccountidentifierhash)
+
+##### :gear: fromHex
+
+| Method    | Type                                 |
+| --------- | ------------------------------------ |
+| `fromHex` | `(hex: string) => AccountIdentifier` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L16)
+
+##### :gear: fromPrincipal
+
+| Method          | Type                                                                                                    |
+| --------------- | ------------------------------------------------------------------------------------------------------- |
+| `fromPrincipal` | `({ principal, subAccount, }: { principal: Principal; subAccount?: SubAccount; }) => AccountIdentifier` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L20)
+
+##### :gear: toProto
+
+| Method    | Type                               |
+| --------- | ---------------------------------- |
+| `toProto` | `() => Promise<AccountIdentifier>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L49)
+
+##### :gear: toHex
+
+| Method  | Type           |
+| ------- | -------------- |
+| `toHex` | `() => string` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L57)
+
+##### :gear: toUint8Array
+
+| Method         | Type               |
+| -------------- | ------------------ |
+| `toUint8Array` | `() => Uint8Array` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L61)
+
+##### :gear: toNumbers
+
+| Method      | Type             |
+| ----------- | ---------------- |
+| `toNumbers` | `() => number[]` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L65)
+
+##### :gear: toAccountIdentifierHash
+
+| Method                    | Type                      |
+| ------------------------- | ------------------------- |
+| `toAccountIdentifierHash` | `() => AccountIdentifier` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L69)
+
+### :factory: SubAccount
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L76)
+
+#### Methods
+
+- [fromBytes](#gear-frombytes)
+- [fromPrincipal](#gear-fromprincipal)
+- [fromID](#gear-fromid)
+- [toUint8Array](#gear-touint8array)
+
+##### :gear: fromBytes
+
+| Method      | Type                                         |
+| ----------- | -------------------------------------------- |
+| `fromBytes` | `(bytes: Uint8Array) => SubAccount or Error` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L79)
+
+##### :gear: fromPrincipal
+
+| Method          | Type                                   |
+| --------------- | -------------------------------------- |
+| `fromPrincipal` | `(principal: Principal) => SubAccount` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L87)
+
+##### :gear: fromID
+
+| Method   | Type                         |
+| -------- | ---------------------------- |
+| `fromID` | `(id: number) => SubAccount` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L100)
+
+##### :gear: toUint8Array
+
+| Method         | Type               |
+| -------------- | ------------------ |
+| `toUint8Array` | `() => Uint8Array` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/account_identifier.ts#L112)
+
+### :factory: LedgerCanister
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L32)
 
 #### Methods
 
 - [create](#gear-create)
-- [metadata](#gear-metadata)
+- [accountBalance](#gear-accountbalance)
 - [transactionFee](#gear-transactionfee)
-- [balance](#gear-balance)
 - [transfer](#gear-transfer)
-- [totalTokensSupply](#gear-totaltokenssupply)
-- [transferFrom](#gear-transferfrom)
-- [approve](#gear-approve)
-- [allowance](#gear-allowance)
+- [icrc1Transfer](#gear-icrc1transfer)
 
 ##### :gear: create
 
-| Method   | Type                                                                   |
-| -------- | ---------------------------------------------------------------------- |
-| `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
+| Method   | Type                                                  |
+| -------- | ----------------------------------------------------- |
+| `create` | `(options?: LedgerCanisterOptions) => LedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L28)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L43)
 
-##### :gear: metadata
+##### :gear: accountBalance
 
-The token metadata (name, symbol, etc.).
+Returns the balance of the specified account identifier.
 
-| Method     | Type                                                          |
-| ---------- | ------------------------------------------------------------- |
-| `metadata` | `(params: QueryParams) => Promise<IcrcTokenMetadataResponse>` |
+If `certified` is true, the request is fetched as an update call, otherwise
+it is fetched using a query call.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L42)
+| Method           | Type                                                                                                                     |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `accountBalance` | `({ accountIdentifier, certified, }: { accountIdentifier: AccountIdentifier; certified?: boolean; }) => Promise<bigint>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L75)
 
 ##### :gear: transactionFee
 
-The ledger transaction fees.
+Returns the transaction fee of the ledger canister
 
-| Method           | Type                                       |
-| ---------------- | ------------------------------------------ |
-| `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
+| Method           | Type                    |
+| ---------------- | ----------------------- |
+| `transactionFee` | `() => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L50)
-
-##### :gear: balance
-
-Returns the balance for a given account provided as owner and with optional subaccount.
-
-| Method    | Type                                         |
-| --------- | -------------------------------------------- |
-| `balance` | `(params: BalanceParams) => Promise<bigint>` |
-
-Parameters:
-
-- `params`: The parameters to get the balance of an account.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L59)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L99)
 
 ##### :gear: transfer
 
-Transfers tokens from the sender to the given account.
+Transfer ICP from the caller to the destination `accountIdentifier`.
+Returns the index of the block containing the tx if it was successful.
 
-| Method     | Type                                          |
-| ---------- | --------------------------------------------- |
-| `transfer` | `(params: TransferParams) => Promise<bigint>` |
+| Method     | Type                                            |
+| ---------- | ----------------------------------------------- |
+| `transfer` | `(request: TransferRequest) => Promise<bigint>` |
 
-Parameters:
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L112)
 
-- `params`: The parameters to transfer tokens.
+##### :gear: icrc1Transfer
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L72)
+Transfer ICP from the caller to the destination `Account`.
+Returns the index of the block containing the tx if it was successful.
 
-##### :gear: totalTokensSupply
+| Method          | Type                                                 |
+| --------------- | ---------------------------------------------------- |
+| `icrc1Transfer` | `(request: Icrc1TransferRequest) => Promise<bigint>` |
 
-Returns the total supply of tokens.
-
-| Method              | Type                                       |
-| ------------------- | ------------------------------------------ |
-| `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L88)
-
-##### :gear: transferFrom
-
-Transfers a token amount from the `from` account to the `to` account using the allowance of the spender's account (`SpenderAccount = { owner = caller; subaccount = spender_subaccount }`). The ledger draws the fees from the `from` account.
-
-Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_transfer_from
-
-| Method         | Type                                              |
-| -------------- | ------------------------------------------------- |
-| `transferFrom` | `(params: TransferFromParams) => Promise<bigint>` |
-
-Parameters:
-
-- `params`: The parameters to transfer tokens from to.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L101)
-
-##### :gear: approve
-
-This method entitles the `spender` to transfer token `amount` on behalf of the caller from account `{ owner = caller; subaccount = from_subaccount }`.
-
-Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_approve
-
-| Method    | Type                                         |
-| --------- | -------------------------------------------- |
-| `approve` | `(params: ApproveParams) => Promise<bigint>` |
-
-Parameters:
-
-- `params`: The parameters to approve.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L123)
-
-##### :gear: allowance
-
-Returns the token allowance that the `spender` account can transfer from the specified `account`, and the expiration time for that allowance, if any.
-
-Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_allowance
-
-| Method      | Type                                              |
-| ----------- | ------------------------------------------------- |
-| `allowance` | `(params: AllowanceParams) => Promise<Allowance>` |
-
-Parameters:
-
-- `params`: The parameters to call the allowance.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger/src/ledger.canister.ts#L145)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/ledger.canister.ts#L142)
 
 <!-- TSDOC_END -->
 
