@@ -5,7 +5,7 @@
 function publish_npm() {
   local lib=$1
 
-  LOCAL_SHASUM=$(npm pack -w packages/"$lib" --json  | jq '.[] | .shasum' | sed -r 's/^"|"$//g')
+  LOCAL_SHASUM=$(npm pack -w packages/"$lib" --json | jq '.[] | .shasum' | sed -r 's/^"|"$//g')
 
   NPM_TARBALL=$(npm show @dfinity/"$lib" dist.tarball)
   NPM_SHASUM=$(curl -s "$NPM_TARBALL" 2>&1 | shasum | cut -f1 -d' ')
