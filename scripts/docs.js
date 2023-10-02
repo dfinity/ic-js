@@ -22,7 +22,12 @@ const utilsInputFiles = ["./packages/utils/src/index.ts"];
 
 const cmcInputFiles = ["./packages/cmc/src/cmc.canister.ts"];
 
-const ledgerIcrcInputFiles = ["./packages/ledger/src/ledger.canister.ts"];
+const ledgerIcrcInputFiles = [
+    "./packages/ledger-icrc/src/ledger.canister.ts",
+    "./packages/ledger-icrc/src/utils/ledger.utils.ts",
+    "./packages/ledger-icrc/src/utils/payment.utils.ts",
+    "./packages/ledger-icrc/src/index.canister.ts",
+];
 
 const ledgerICPInputFiles = [
   "./packages/nns/src/ledger.canister.ts",
