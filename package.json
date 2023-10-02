@@ -103,7 +103,8 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
-        "@dfinity/utils"
+        "@dfinity/utils",
+        "@dfinity/nns-proto"
       ]
     },
     {
