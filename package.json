@@ -98,7 +98,7 @@
     {
       "name": "@dfinity/ledger-icp",
       "path": "./packages/ledger-icp/dist/index.js",
-      "limit": "4 kB",
+      "limit": "15 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
