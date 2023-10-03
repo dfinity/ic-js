@@ -3,12 +3,8 @@
 const { generateDocumentation } = require("tsdoc-markdown");
 
 const nnsInputFiles = [
-  "./packages/nns/src/account_identifier.ts",
   "./packages/nns/src/genesis_token.canister.ts",
   "./packages/nns/src/governance.canister.ts",
-  "./packages/nns/src/icp.ts",
-  "./packages/nns/src/token.ts",
-  "./packages/nns/src/ledger.canister.ts",
   "./packages/nns/src/sns_wasm.canister.ts",
   "./packages/nns/src/utils/neurons.utils.ts",
 ];
@@ -26,19 +22,22 @@ const utilsInputFiles = ["./packages/utils/src/index.ts"];
 
 const cmcInputFiles = ["./packages/cmc/src/cmc.canister.ts"];
 
-const ledgerInputFiles = [
-  "./packages/ledger/src/ledger.canister.ts",
-  "./packages/ledger/src/utils/ledger.utils.ts",
-  "./packages/ledger/src/utils/payment.utils.ts",
-  "./packages/ledger/src/index.canister.ts",
+const ledgerIcrcInputFiles = [
+  "./packages/ledger-icrc/src/ledger.canister.ts",
+  "./packages/ledger-icrc/src/utils/ledger.utils.ts",
+  "./packages/ledger-icrc/src/utils/payment.utils.ts",
+  "./packages/ledger-icrc/src/index.canister.ts",
+];
+
+const ledgerICPInputFiles = [
+  "./packages/ledger-icp/src/ledger.canister.ts",
+  "./packages/ledger-icp/src/account_identifier.ts",
 ];
 
 const ckBTCInputFiles = [
   "./packages/ckbtc/src/minter.canister.ts",
   "./packages/ckbtc/src/utils/btc.utils.ts",
 ];
-
-const rosettaInputFiles = ["./packages/rosetta-client/src/index.ts"];
 
 const icMgmtInputFiles = [
   "./packages/ic-management/src/ic-management.canister.ts",
@@ -74,8 +73,15 @@ generateDocumentation({
 });
 
 generateDocumentation({
-  inputFiles: ledgerInputFiles,
-  outputFile: "./packages/ledger/README.md",
+  inputFiles: ledgerIcrcInputFiles,
+  outputFile: "./packages/ledger-icrc/README.md",
+  markdownOptions,
+  buildOptions,
+});
+
+generateDocumentation({
+  inputFiles: ledgerICPInputFiles,
+  outputFile: "./packages/ledger-icp/README.md",
   markdownOptions,
   buildOptions,
 });
@@ -92,13 +98,6 @@ generateDocumentation({
   outputFile: "./packages/utils/README.md",
   markdownOptions,
   buildOptions: { ...buildOptions, explore: true },
-});
-
-generateDocumentation({
-  inputFiles: rosettaInputFiles,
-  outputFile: "./packages/rosetta-client/README.md",
-  markdownOptions,
-  buildOptions,
 });
 
 generateDocumentation({

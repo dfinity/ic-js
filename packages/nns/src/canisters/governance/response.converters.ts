@@ -1,6 +1,12 @@
+import {
+  AccountIdentifier,
+  SubAccount,
+  accountIdentifierFromBytes,
+  principalToAccountIdentifier,
+} from "@dfinity/ledger-icp";
 import type {
-  BallotInfo as PbBallotInfo,
   ListNeuronsResponse,
+  BallotInfo as PbBallotInfo,
   Neuron as PbNeuron,
   NeuronInfo as PbNeuronInfo,
   PrincipalId,
@@ -13,6 +19,7 @@ import {
 } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
 import type {
+  Params,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
   Amount as RawAmount,
@@ -43,7 +50,6 @@ import type {
   NeuronInfo as RawNeuronInfo,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
-  Params,
   Percentage as RawPercentage,
   Proposal as RawProposal,
   ProposalInfo as RawProposalInfo,
@@ -54,7 +60,6 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import { AccountIdentifier, SubAccount } from "../../account_identifier";
 import { NeuronState } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
@@ -99,10 +104,6 @@ import type {
   Tokens,
   VotingRewardParameters,
 } from "../../types/governance_converters";
-import {
-  accountIdentifierFromBytes,
-  principalToAccountIdentifier,
-} from "../../utils/account_identifier.utils";
 
 export const toNeuronInfo = ({
   neuronId,

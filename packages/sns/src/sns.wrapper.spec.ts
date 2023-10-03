@@ -1,5 +1,5 @@
-import type { TransferParams } from "@dfinity/ledger";
-import { IcrcIndexCanister, IcrcLedgerCanister } from "@dfinity/ledger";
+import type { TransferParams } from "@dfinity/ledger-icrc";
+import { IcrcIndexCanister, IcrcLedgerCanister } from "@dfinity/ledger-icrc";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
@@ -910,9 +910,8 @@ describe("SnsWrapper", () => {
         .mockResolvedValueOnce(neuronMock)
         .mockResolvedValue(undefined);
 
-      const { account, index } = await certifiedSnsWrapper.nextNeuronAccount(
-        mockPrincipal,
-      );
+      const { account, index } =
+        await certifiedSnsWrapper.nextNeuronAccount(mockPrincipal);
 
       expect(mockCertifiedGovernanceCanister.queryNeuron).toHaveBeenCalledTimes(
         4,

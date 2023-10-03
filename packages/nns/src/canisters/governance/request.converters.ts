@@ -1,9 +1,12 @@
+import type { AccountIdentifier as AccountIdentifierClass } from "@dfinity/ledger-icp";
+import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
 import type {
+  Amount,
+  ListProposalInfo,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
-  Amount,
   By as RawBy,
   Change as RawChange,
   Command as RawCommand,
@@ -18,7 +21,6 @@ import type {
   InitialTokenDistribution as RawInitialTokenDistribution,
   LedgerParameters as RawLedgerParameters,
   ListNeurons as RawListNeurons,
-  ListProposalInfo,
   ManageNeuron as RawManageNeuron,
   NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
   NeuronDistribution as RawNeuronDistribution,
@@ -33,7 +35,6 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import type { AccountIdentifier as AccountIdentifierClass } from "../../account_identifier";
 import type { Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
@@ -70,7 +71,6 @@ import type {
   Tokens,
   VotingRewardParameters,
 } from "../../types/governance_converters";
-import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,

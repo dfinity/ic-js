@@ -9,7 +9,7 @@ import type {
   IcrcTokenMetadataResponse,
   IcrcTokens,
   TransferParams,
-} from "@dfinity/ledger";
+} from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
@@ -261,9 +261,8 @@ export class SnsWrapper {
     fee,
   }: SnsStakeNeuronParams): Promise<NeuronId> => {
     this.assertCertified("stakeNeuron");
-    const { account: neuronAccount, index } = await this.nextNeuronAccount(
-      controller,
-    );
+    const { account: neuronAccount, index } =
+      await this.nextNeuronAccount(controller);
     // This should not happen. The neuron account is always a subaccount of the SNS governance canister.
     if (neuronAccount.subaccount === undefined) {
       throw new SnsGovernanceError(

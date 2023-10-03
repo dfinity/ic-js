@@ -10,8 +10,8 @@ import type {
   GetSaleParametersResponse,
   GetStateResponse,
   NewSaleTicketResponse,
-  Swap,
   _SERVICE as SnsSwapService,
+  Swap,
 } from "../candid/sns_swap";
 import {
   GetOpenTicketErrorType,
@@ -182,6 +182,8 @@ describe("Swap canister", () => {
       cf_participant_count: [BigInt(3)],
       direct_participant_count: [BigInt(4)],
       cf_neuron_count: [BigInt(6)],
+      neurons_fund_participation_icp_e8s: [],
+      direct_participation_icp_e8s: [],
     };
 
     const service = mock<ActorSubclass<SnsSwapService>>();

@@ -9,7 +9,8 @@ The libraries are still in active development, and new features will incremental
 - [nns](/packages/nns): interfacing with the **ledger** and **governance** canisters of the Network Nervous System (NNS)
 - [sns](/packages/sns): interacting with a Service Nervous System (SNS) project
 - [cmc](/packages/cmc): interfacing with the **cmc** canister of the IC
-- [ledger](/packages/ledger): interacting with ICRC compatible **ledgers**
+- [ledger-icp](/packages/ledger-icp): interfacing with the **ICP** ledger
+- [ledger-icrc](/packages/ledger-icrc): interacting with **ICRC** compatible ledgers
 - [ckBTC](/packages/ckbtc): interfacing with **ckBTC**
 - [ic-management](/packages/ic-management): interfacing with the **IC management canister**
 - [utils](/packages/utils): a collection of utilities and constants
