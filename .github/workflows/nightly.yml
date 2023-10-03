@@ -23,11 +23,11 @@ jobs:
         run: npm publish --provenance --tag next --workspace=packages/utils
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - name: Publish Ledger
+      - name: Publish Ledger ICRC
         run: npm publish --provenance --tag next --workspace=packages/ledger-icrc
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - name: Publish Ledger
+      - name: Publish Ledger ICP
         run: npm publish --provenance --tag next --workspace=packages/ledger-icp
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
