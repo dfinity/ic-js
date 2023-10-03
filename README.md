@@ -32,7 +32,7 @@ npm i @dfinity/cmc
 npm i @dfinity/ckbtc
 ```
 
-You may be using all libraries in your project - as we do in [NNS-dapp](https://github.com/dfinity/ic-js/).
+You may be using all libraries in your project - as we do in [NNS-dapp](https://github.com/dfinity/nns-dapp/).
 That is s why, to help tree-shaking and avoid duplication of code, the libraries of this project are referencing [agent-js](https://github.com/dfinity/agent-js) and [utils](/packages/utils) as peer dependencies.
 
 Therefore, be sure that the needed `agent-js` and [utils](/packages/utils) dependencies are available in your project or install these as following:
