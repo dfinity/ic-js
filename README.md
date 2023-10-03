@@ -1,12 +1,14 @@
-# ic-js
+# 📦 ic-js
 
 A collection of library for interfacing with the Internet Computer.
 
-The libraries are still in active development, and new features will incrementally be available.
+[![Internet Computer portal](https://img.shields.io/badge/Internet-Computer-grey?logo=internet%20computer)](https://internetcomputer.org)
+[![Checks Status](https://img.shields.io/github/actions/workflow/status/dfinity/ic-js/checks.yml?logo=github&label=Build%20and%20checks)](https://github.com/dfinity/ic-js/actions/workflows/checks.yml)
+![GitHub Latest Release)](https://img.shields.io/github/v/release/dfinity/ic-js?logo=github&label=Last%20release)
 
 ## Libraries
 
-- [nns](/packages/nns): interfacing with the **ledger** and **governance** canisters of the Network Nervous System (NNS)
+- [nns](/packages/nns): interfacing with the **governance** canisters of the Network Nervous System (NNS)
 - [sns](/packages/sns): interacting with a Service Nervous System (SNS) project
 - [cmc](/packages/cmc): interfacing with the **cmc** canister of the IC
 - [ledger-icp](/packages/ledger-icp): interfacing with the **ICP** ledger
@@ -22,14 +24,15 @@ Install any library of this repo in your project from [npm](https://www.npmjs.co
 
 ```bash
 npm i @dfinity/utils
-npm i @dfinity/ledger
+npm i @dfinity/ledger-icp
+npm i @dfinity/ledger-icrc
 npm i @dfinity/nns-proto @dfinity/nns
 npm i @dfinity/sns
 npm i @dfinity/cmc
 npm i @dfinity/ckbtc
 ```
 
-You may be using all libraries in your project - as we do in [NNS-dapp](https://github.com/dfinity/nns-dapp/).
+You may be using all libraries in your project - as we do in [NNS-dapp](https://github.com/dfinity/ic-js/).
 That is s why, to help tree-shaking and avoid duplication of code, the libraries of this project are referencing [agent-js](https://github.com/dfinity/agent-js) and [utils](/packages/utils) as peer dependencies.
 
 Therefore, be sure that the needed `agent-js` and [utils](/packages/utils) dependencies are available in your project or install these as following:
