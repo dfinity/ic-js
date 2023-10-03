@@ -4,7 +4,7 @@ A collection of library for interfacing with the Internet Computer.
 
 [![Internet Computer portal](https://img.shields.io/badge/Internet-Computer-grey?logo=internet%20computer)](https://internetcomputer.org)
 [![Checks Status](https://img.shields.io/github/actions/workflow/status/dfinity/ic-js/checks.yml?logo=github&label=Build%20and%20checks)](https://github.com/dfinity/ic-js/actions/workflows/checks.yml)
-![GitHub Latest Release)](https://img.shields.io/github/v/release/dfinity/ic-js?logo=github&label=Last%20release)
+[![GitHub Latest Release)](https://img.shields.io/github/v/release/dfinity/ic-js?logo=github&label=Last%20release)](https://github.com/dfinity/ic-js/releases)
 
 ## Libraries
 
