@@ -1,3 +1,13 @@
+# 2023.XX.YY
+
+## Overview
+
+<!-- TODO: To be documented. -->
+
+## Features
+
+- expose few types - notably `BlockHeight` - for library `@dfinity/ledger-icp`
+
 # 2023.10.02-1515Z
 
 ## Overview
