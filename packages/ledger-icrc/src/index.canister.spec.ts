@@ -132,4 +132,43 @@ describe("Index canister", () => {
       expect(res).toEqual(balance);
     });
   });
+
+  describe("balance", () => {
+    it("should return the balance of main account", async () => {
+      const service = mock<ActorSubclass<IcrcIndexService>>();
+      const balance = BigInt(100);
+      service.icrc1_balance_of.mockResolvedValue(balance);
+
+      const canister = IcrcIndexCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const res = await canister.balance({
+        owner,
+      });
+      expect(service.icrc1_balance_of).toBeCalled();
+      expect(res).toEqual(balance);
+    });
+
+    it("should return the balance of subaccount", async () => {
+      const service = mock<ActorSubclass<IcrcIndexService>>();
+      const balance = BigInt(100);
+      service.icrc1_balance_of.mockResolvedValue(balance);
+
+      const canister = IcrcIndexCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
+      const res = await canister.balance({
+        owner,
+        subaccount,
+      });
+      expect(res).toEqual(balance);
+    });
+  });
 });
