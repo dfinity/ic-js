@@ -15,6 +15,8 @@ import { Principal } from "@dfinity/principal";
 import {
   fromDefinedNullable,
   fromNullable,
+  nonNullish,
+  toNullable,
   uint8ArrayToArrayOfNumber,
 } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
@@ -172,6 +174,49 @@ const toNeuron = ({
   followees: neuron.followees.map(([topic, followees]) =>
     toFollowees({ topic, followees }),
   ),
+});
+
+export const toRawNeuron = (neuron: Neuron): RawNeuron => ({
+  id: nonNullish(neuron.id) ? toNullable({ id: neuron.id }) : [],
+  staked_maturity_e8s_equivalent: toNullable(
+    neuron.stakedMaturityE8sEquivalent,
+  ),
+  controller: nonNullish(neuron.controller)
+    ? toNullable(Principal.from(neuron.controller))
+    : [],
+  recent_ballots: neuron.recentBallots.map((ballot) => ({
+    vote: ballot.vote,
+    proposal_id: nonNullish(ballot.proposalId)
+      ? toNullable({ id: ballot.proposalId })
+      : [],
+  })),
+  kyc_verified: neuron.kycVerified,
+  not_for_profit: neuron.notForProfit,
+  cached_neuron_stake_e8s: neuron.cachedNeuronStake,
+  created_timestamp_seconds: neuron.createdTimestampSeconds,
+  auto_stake_maturity: toNullable(neuron.autoStakeMaturity),
+  maturity_e8s_equivalent: neuron.maturityE8sEquivalent,
+  aging_since_timestamp_seconds: neuron.agingSinceTimestampSeconds,
+  neuron_fees_e8s: neuron.neuronFees,
+  hot_keys: neuron.hotKeys.map((p) => Principal.from(p)),
+  account: AccountIdentifier.fromHex(neuron.accountIdentifier).toUint8Array(),
+  joined_community_fund_timestamp_seconds: toNullable(
+    neuron.joinedCommunityFundTimestampSeconds,
+  ),
+  dissolve_state: nonNullish(neuron.dissolveState)
+    ? [neuron.dissolveState]
+    : [],
+  spawn_at_timestamp_seconds: toNullable(neuron.spawnAtTimesSeconds),
+  followees: neuron.followees.map((followeesTopic) => [
+    followeesTopic.topic as number,
+    {
+      followees: followeesTopic.followees.map((followee) => ({ id: followee })),
+    },
+  ]),
+  // Not kept when converted to Neuron.
+  transfer: [],
+  // Not kept when converted to Neuron.
+  known_neuron_data: [],
 });
 
 const toBallotInfo = ({ vote, proposal_id }: RawBallotInfo): BallotInfo => ({
