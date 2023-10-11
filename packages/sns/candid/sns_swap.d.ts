@@ -160,8 +160,10 @@ export interface Init {
   should_auto_finalize: [] | [boolean];
   max_participant_icp_e8s: [] | [bigint];
   sns_governance_canister_id: string;
+  min_direct_participation_icp_e8s: [] | [bigint];
   restricted_countries: [] | [Countries];
   min_icp_e8s: [] | [bigint];
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface InvalidUserAmount {
   min_amount_icp_e8s_included: bigint;
@@ -244,7 +246,9 @@ export interface Params {
   sns_token_e8s: bigint;
   sale_delay_seconds: [] | [bigint];
   max_participant_icp_e8s: bigint;
+  min_direct_participation_icp_e8s: [] | [bigint];
   min_icp_e8s: bigint;
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface Participant {
   participation: [] | [BuyerState];
