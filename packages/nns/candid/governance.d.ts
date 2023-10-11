@@ -121,6 +121,13 @@ export type Command_2 =
   | { MergeMaturity: MergeMaturity }
   | { Disburse: Disburse };
 export interface Committed {
+  total_direct_contribution_icp_e8s: [] | [bigint];
+  total_neurons_fund_contribution_icp_e8s: [] | [bigint];
+  sns_governance_canister_id: [] | [Principal];
+}
+export interface Committed_1 {
+  total_direct_participation_icp_e8s: [] | [bigint];
+  total_neurons_fund_participation_icp_e8s: [] | [bigint];
   sns_governance_canister_id: [] | [Principal];
 }
 export interface Configure {
@@ -183,12 +190,14 @@ export interface GlobalTimeOfDay {
 }
 export interface Governance {
   default_followees: Array<[number, Followees]>;
+  making_sns_proposal: [] | [MakingSnsProposal];
   most_recent_monthly_node_provider_rewards:
     | []
     | [MostRecentMonthlyNodeProviderRewards];
   maturity_modulation_last_updated_at_timestamp_seconds: [] | [bigint];
   wait_for_quiet_threshold_seconds: bigint;
   metrics: [] | [GovernanceCachedMetrics];
+  neuron_management_voting_period_seconds: [] | [bigint];
   node_providers: Array<NodeProvider>;
   cached_daily_maturity_modulation_basis_points: [] | [number];
   economics: [] | [NetworkEconomics];
@@ -196,14 +205,20 @@ export interface Governance {
   latest_reward_event: [] | [RewardEvent];
   to_claim_transfers: Array<NeuronStakeTransfer>;
   short_voting_period_seconds: bigint;
+  migrations: [] | [Migrations];
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
   neurons: Array<[bigint, Neuron]>;
   genesis_timestamp_seconds: bigint;
 }
 export interface GovernanceCachedMetrics {
+  total_maturity_e8s_equivalent: bigint;
   not_dissolving_neurons_e8s_buckets: Array<[bigint, number]>;
+  dissolving_neurons_staked_maturity_e8s_equivalent_sum: bigint;
   garbage_collectable_neurons_count: bigint;
+  dissolving_neurons_staked_maturity_e8s_equivalent_buckets: Array<
+    [bigint, number]
+  >;
   neurons_with_invalid_stake_count: bigint;
   not_dissolving_neurons_count_buckets: Array<[bigint, bigint]>;
   total_supply_icp: bigint;
@@ -213,8 +228,14 @@ export interface GovernanceCachedMetrics {
   total_staked_e8s: bigint;
   not_dissolving_neurons_count: bigint;
   total_locked_e8s: bigint;
+  neurons_fund_total_active_neurons: bigint;
+  total_staked_maturity_e8s_equivalent: bigint;
+  not_dissolving_neurons_staked_maturity_e8s_equivalent_sum: bigint;
   dissolved_neurons_e8s: bigint;
   neurons_with_less_than_6_months_dissolve_delay_e8s: bigint;
+  not_dissolving_neurons_staked_maturity_e8s_equivalent_buckets: Array<
+    [bigint, number]
+  >;
   dissolving_neurons_count_buckets: Array<[bigint, bigint]>;
   dissolving_neurons_count: bigint;
   dissolving_neurons_e8s_buckets: Array<[bigint, number]>;
@@ -236,6 +257,9 @@ export interface GovernanceParameters {
   proposal_initial_voting_period: [] | [Duration];
   proposal_rejection_fee: [] | [Tokens];
   voting_reward_parameters: [] | [VotingRewardParameters];
+}
+export interface IdealMatchedParticipationFunction {
+  serialized_representation: [] | [string];
 }
 export interface Image {
   base64_encoding: [] | [string];
@@ -278,6 +302,7 @@ export interface ListNodeProvidersResponse {
 }
 export interface ListProposalInfo {
   include_reward_status: Int32Array;
+  omit_large_fields: [] | [boolean];
   before_proposal: [] | [NeuronId];
   limit: number;
   exclude_topic: Int32Array;
@@ -289,6 +314,11 @@ export interface ListProposalInfoResponse {
 }
 export interface MakeProposalResponse {
   proposal_id: [] | [NeuronId];
+}
+export interface MakingSnsProposal {
+  proposal: [] | [Proposal];
+  caller: [] | [Principal];
+  proposer_id: [] | [NeuronId];
 }
 export interface ManageNeuron {
   id: [] | [NeuronId];
@@ -313,6 +343,15 @@ export interface MergeResponse {
   source_neuron: [] | [Neuron];
   target_neuron_info: [] | [NeuronInfo];
   source_neuron_info: [] | [NeuronInfo];
+}
+export interface Migration {
+  status: [] | [number];
+  failure_reason: [] | [string];
+  progress: [] | [Progress];
+}
+export interface Migrations {
+  neuron_indexes_migration: [] | [Migration];
+  copy_inactive_neurons_to_stable_memory_migration: [] | [Migration];
 }
 export interface MostRecentMonthlyNodeProviderRewards {
   timestamp: bigint;
@@ -399,9 +438,33 @@ export interface NeuronStakeTransfer {
   transfer_timestamp: bigint;
   block_height: bigint;
 }
+export interface NeuronsFundNeuron {
+  hotkey_principal: [] | [string];
+  is_capped: [] | [boolean];
+  nns_neuron_id: [] | [bigint];
+  amount_icp_e8s: [] | [bigint];
+}
+export interface NeuronsFundNeuron_1 {
+  hotkey_principal: [] | [Principal];
+  is_capped: [] | [boolean];
+  nns_neuron_id: [] | [bigint];
+  amount_icp_e8s: [] | [bigint];
+}
+export interface NeuronsFundParticipation {
+  neurons_fund_snapshot: [] | [NeuronsFundSnapshot];
+  ideal_matched_participation_function:
+    | []
+    | [IdealMatchedParticipationFunction];
+}
+export interface NeuronsFundSnapshot {
+  neurons_fund_neurons: Array<NeuronsFundNeuron_1>;
+}
 export interface NodeProvider {
   id: [] | [Principal];
   reward_account: [] | [AccountIdentifier];
+}
+export interface Ok {
+  neurons_fund_neurons: Array<NeuronsFundNeuron>;
 }
 export interface OpenSnsTokenSwap {
   community_fund_investment_e8s: [] | [bigint];
@@ -429,11 +492,14 @@ export interface Params {
   sns_token_e8s: bigint;
   sale_delay_seconds: [] | [bigint];
   max_participant_icp_e8s: bigint;
+  min_direct_participation_icp_e8s: [] | [bigint];
   min_icp_e8s: bigint;
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface Percentage {
   basis_points: [] | [bigint];
 }
+export type Progress = { LastNeuronId: NeuronId };
 export interface Proposal {
   url: string;
   title: [] | [string];
@@ -442,6 +508,7 @@ export interface Proposal {
 }
 export interface ProposalData {
   id: [] | [NeuronId];
+  neurons_fund_participation: [] | [NeuronsFundParticipation];
   failure_reason: [] | [GovernanceError];
   cf_participants: Array<CfParticipant>;
   ballots: Array<[bigint, Ballot]>;
@@ -495,6 +562,8 @@ export type Result_4 = { Ok: RewardNodeProviders } | { Err: GovernanceError };
 export type Result_5 = { Ok: NeuronInfo } | { Err: GovernanceError };
 export type Result_6 = { Ok: NodeProvider } | { Err: GovernanceError };
 export type Result_7 = { Committed: Committed } | { Aborted: {} };
+export type Result_8 = { Committed: Committed_1 } | { Aborted: {} };
+export type Result_9 = { Ok: Ok } | { Err: GovernanceError };
 export interface RewardEvent {
   rounds_since_last_distribution: [] | [bigint];
   day_after_genesis: bigint;
@@ -539,6 +608,13 @@ export interface SettleCommunityFundParticipation {
   result: [] | [Result_7];
   open_sns_token_swap_proposal_id: [] | [bigint];
 }
+export interface SettleNeuronsFundParticipationRequest {
+  result: [] | [Result_8];
+  nns_proposal_id: [] | [bigint];
+}
+export interface SettleNeuronsFundParticipationResponse {
+  result: [] | [Result_9];
+}
 export interface Spawn {
   percentage_to_spawn: [] | [number];
   new_controller: [] | [Principal];
@@ -579,8 +655,10 @@ export interface SwapParameters {
   confirmation_text: [] | [string];
   maximum_participant_icp: [] | [Tokens];
   minimum_icp: [] | [Tokens];
+  minimum_direct_participation_icp: [] | [Tokens];
   minimum_participant_icp: [] | [Tokens];
   start_time: [] | [GlobalTimeOfDay];
+  maximum_direct_participation_icp: [] | [Tokens];
   maximum_icp: [] | [Tokens];
   neurons_fund_investment_icp: [] | [Tokens];
   restricted_countries: [] | [Countries];
@@ -646,6 +724,10 @@ export interface _SERVICE {
   settle_community_fund_participation: ActorMethod<
     [SettleCommunityFundParticipation],
     Result
+  >;
+  settle_neurons_fund_participation: ActorMethod<
+    [SettleNeuronsFundParticipationRequest],
+    SettleNeuronsFundParticipationResponse
   >;
   simulate_manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
   transfer_gtc_neuron: ActorMethod<[NeuronId, NeuronId], Result>;

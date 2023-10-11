@@ -146,8 +146,10 @@ export const idlFactory = ({ IDL }) => {
     'confirmation_text' : IDL.Opt(IDL.Text),
     'maximum_participant_icp' : IDL.Opt(Tokens),
     'minimum_icp' : IDL.Opt(Tokens),
+    'minimum_direct_participation_icp' : IDL.Opt(Tokens),
     'minimum_participant_icp' : IDL.Opt(Tokens),
     'start_time' : IDL.Opt(GlobalTimeOfDay),
+    'maximum_direct_participation_icp' : IDL.Opt(Tokens),
     'maximum_icp' : IDL.Opt(Tokens),
     'neurons_fund_investment_icp' : IDL.Opt(Tokens),
     'restricted_countries' : IDL.Opt(Countries),
@@ -216,7 +218,9 @@ export const idlFactory = ({ IDL }) => {
     'sns_token_e8s' : IDL.Nat64,
     'sale_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_participant_icp_e8s' : IDL.Nat64,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_icp_e8s' : IDL.Nat64,
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const OpenSnsTokenSwap = IDL.Record({
     'community_fund_investment_e8s' : IDL.Opt(IDL.Nat64),
@@ -359,6 +363,24 @@ export const idlFactory = ({ IDL }) => {
     'neuron_indexes_migration' : IDL.Opt(Migration),
     'copy_inactive_neurons_to_stable_memory_migration' : IDL.Opt(Migration),
   });
+  const NeuronsFundNeuron_1 = IDL.Record({
+    'hotkey_principal' : IDL.Opt(IDL.Principal),
+    'is_capped' : IDL.Opt(IDL.Bool),
+    'nns_neuron_id' : IDL.Opt(IDL.Nat64),
+    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundSnapshot = IDL.Record({
+    'neurons_fund_neurons' : IDL.Vec(NeuronsFundNeuron_1),
+  });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
+  const NeuronsFundParticipation = IDL.Record({
+    'neurons_fund_snapshot' : IDL.Opt(NeuronsFundSnapshot),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
+  });
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
@@ -409,6 +431,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(NeuronId),
+    'neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
     'failure_reason' : IDL.Opt(GovernanceError),
     'cf_participants' : IDL.Vec(CfParticipant),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
@@ -628,6 +651,32 @@ export const idlFactory = ({ IDL }) => {
     'result' : IDL.Opt(Result_7),
     'open_sns_token_swap_proposal_id' : IDL.Opt(IDL.Nat64),
   });
+  const Committed_1 = IDL.Record({
+    'total_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'total_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'sns_governance_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const Result_8 = IDL.Variant({
+    'Committed' : Committed_1,
+    'Aborted' : IDL.Record({}),
+  });
+  const SettleNeuronsFundParticipationRequest = IDL.Record({
+    'result' : IDL.Opt(Result_8),
+    'nns_proposal_id' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundNeuron = IDL.Record({
+    'hotkey_principal' : IDL.Opt(IDL.Text),
+    'is_capped' : IDL.Opt(IDL.Bool),
+    'nns_neuron_id' : IDL.Opt(IDL.Nat64),
+    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const Ok = IDL.Record({
+    'neurons_fund_neurons' : IDL.Vec(NeuronsFundNeuron),
+  });
+  const Result_9 = IDL.Variant({ 'Ok' : Ok, 'Err' : GovernanceError });
+  const SettleNeuronsFundParticipationResponse = IDL.Record({
+    'result' : IDL.Opt(Result_9),
+  });
   const UpdateNodeProvider = IDL.Record({
     'reward_account' : IDL.Opt(AccountIdentifier),
   });
@@ -692,6 +741,11 @@ export const idlFactory = ({ IDL }) => {
     'settle_community_fund_participation' : IDL.Func(
         [SettleCommunityFundParticipation],
         [Result],
+        [],
+      ),
+    'settle_neurons_fund_participation' : IDL.Func(
+        [SettleNeuronsFundParticipationRequest],
+        [SettleNeuronsFundParticipationResponse],
         [],
       ),
     'simulate_manage_neuron' : IDL.Func(
@@ -851,8 +905,10 @@ export const init = ({ IDL }) => {
     'confirmation_text' : IDL.Opt(IDL.Text),
     'maximum_participant_icp' : IDL.Opt(Tokens),
     'minimum_icp' : IDL.Opt(Tokens),
+    'minimum_direct_participation_icp' : IDL.Opt(Tokens),
     'minimum_participant_icp' : IDL.Opt(Tokens),
     'start_time' : IDL.Opt(GlobalTimeOfDay),
+    'maximum_direct_participation_icp' : IDL.Opt(Tokens),
     'maximum_icp' : IDL.Opt(Tokens),
     'neurons_fund_investment_icp' : IDL.Opt(Tokens),
     'restricted_countries' : IDL.Opt(Countries),
@@ -921,7 +977,9 @@ export const init = ({ IDL }) => {
     'sns_token_e8s' : IDL.Nat64,
     'sale_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_participant_icp_e8s' : IDL.Nat64,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_icp_e8s' : IDL.Nat64,
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const OpenSnsTokenSwap = IDL.Record({
     'community_fund_investment_e8s' : IDL.Opt(IDL.Nat64),
@@ -1064,6 +1122,24 @@ export const init = ({ IDL }) => {
     'neuron_indexes_migration' : IDL.Opt(Migration),
     'copy_inactive_neurons_to_stable_memory_migration' : IDL.Opt(Migration),
   });
+  const NeuronsFundNeuron_1 = IDL.Record({
+    'hotkey_principal' : IDL.Opt(IDL.Principal),
+    'is_capped' : IDL.Opt(IDL.Bool),
+    'nns_neuron_id' : IDL.Opt(IDL.Nat64),
+    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundSnapshot = IDL.Record({
+    'neurons_fund_neurons' : IDL.Vec(NeuronsFundNeuron_1),
+  });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
+  const NeuronsFundParticipation = IDL.Record({
+    'neurons_fund_snapshot' : IDL.Opt(NeuronsFundSnapshot),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
+  });
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
@@ -1114,6 +1190,7 @@ export const init = ({ IDL }) => {
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(NeuronId),
+    'neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
     'failure_reason' : IDL.Opt(GovernanceError),
     'cf_participants' : IDL.Vec(CfParticipant),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
