@@ -7,6 +7,7 @@
 ## Features
 
 - expose few types - notably `BlockHeight` - for library `@dfinity/ledger-icp`
+- support new fields from swap canister response types: `min_direct_participation_icp_e8s` and `max_direct_participation_icp_e8s`
 
 # 2023.10.02-1515Z
 
