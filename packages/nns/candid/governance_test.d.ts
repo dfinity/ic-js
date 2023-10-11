@@ -125,6 +125,11 @@ export interface Committed {
   total_neurons_fund_contribution_icp_e8s: [] | [bigint];
   sns_governance_canister_id: [] | [Principal];
 }
+export interface Committed_1 {
+  total_direct_participation_icp_e8s: [] | [bigint];
+  total_neurons_fund_participation_icp_e8s: [] | [bigint];
+  sns_governance_canister_id: [] | [Principal];
+}
 export interface Configure {
   operation: [] | [Operation];
 }
@@ -252,6 +257,9 @@ export interface GovernanceParameters {
   proposal_initial_voting_period: [] | [Duration];
   proposal_rejection_fee: [] | [Tokens];
   voting_reward_parameters: [] | [VotingRewardParameters];
+}
+export interface IdealMatchedParticipationFunction {
+  serialized_representation: [] | [string];
 }
 export interface Image {
   base64_encoding: [] | [string];
@@ -430,9 +438,33 @@ export interface NeuronStakeTransfer {
   transfer_timestamp: bigint;
   block_height: bigint;
 }
+export interface NeuronsFundNeuron {
+  hotkey_principal: [] | [string];
+  is_capped: [] | [boolean];
+  nns_neuron_id: [] | [bigint];
+  amount_icp_e8s: [] | [bigint];
+}
+export interface NeuronsFundNeuron_1 {
+  hotkey_principal: [] | [Principal];
+  is_capped: [] | [boolean];
+  nns_neuron_id: [] | [bigint];
+  amount_icp_e8s: [] | [bigint];
+}
+export interface NeuronsFundParticipation {
+  neurons_fund_snapshot: [] | [NeuronsFundSnapshot];
+  ideal_matched_participation_function:
+    | []
+    | [IdealMatchedParticipationFunction];
+}
+export interface NeuronsFundSnapshot {
+  neurons_fund_neurons: Array<NeuronsFundNeuron_1>;
+}
 export interface NodeProvider {
   id: [] | [Principal];
   reward_account: [] | [AccountIdentifier];
+}
+export interface Ok {
+  neurons_fund_neurons: Array<NeuronsFundNeuron>;
 }
 export interface OpenSnsTokenSwap {
   community_fund_investment_e8s: [] | [bigint];
@@ -460,7 +492,9 @@ export interface Params {
   sns_token_e8s: bigint;
   sale_delay_seconds: [] | [bigint];
   max_participant_icp_e8s: bigint;
+  min_direct_participation_icp_e8s: [] | [bigint];
   min_icp_e8s: bigint;
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface Percentage {
   basis_points: [] | [bigint];
@@ -474,6 +508,7 @@ export interface Proposal {
 }
 export interface ProposalData {
   id: [] | [NeuronId];
+  neurons_fund_participation: [] | [NeuronsFundParticipation];
   failure_reason: [] | [GovernanceError];
   cf_participants: Array<CfParticipant>;
   ballots: Array<[bigint, Ballot]>;
@@ -527,6 +562,8 @@ export type Result_4 = { Ok: RewardNodeProviders } | { Err: GovernanceError };
 export type Result_5 = { Ok: NeuronInfo } | { Err: GovernanceError };
 export type Result_6 = { Ok: NodeProvider } | { Err: GovernanceError };
 export type Result_7 = { Committed: Committed } | { Aborted: {} };
+export type Result_8 = { Committed: Committed_1 } | { Aborted: {} };
+export type Result_9 = { Ok: Ok } | { Err: GovernanceError };
 export interface RewardEvent {
   rounds_since_last_distribution: [] | [bigint];
   day_after_genesis: bigint;
@@ -571,6 +608,13 @@ export interface SettleCommunityFundParticipation {
   result: [] | [Result_7];
   open_sns_token_swap_proposal_id: [] | [bigint];
 }
+export interface SettleNeuronsFundParticipationRequest {
+  result: [] | [Result_8];
+  nns_proposal_id: [] | [bigint];
+}
+export interface SettleNeuronsFundParticipationResponse {
+  result: [] | [Result_9];
+}
 export interface Spawn {
   percentage_to_spawn: [] | [number];
   new_controller: [] | [Principal];
@@ -611,8 +655,10 @@ export interface SwapParameters {
   confirmation_text: [] | [string];
   maximum_participant_icp: [] | [Tokens];
   minimum_icp: [] | [Tokens];
+  minimum_direct_participation_icp: [] | [Tokens];
   minimum_participant_icp: [] | [Tokens];
   start_time: [] | [GlobalTimeOfDay];
+  maximum_direct_participation_icp: [] | [Tokens];
   maximum_icp: [] | [Tokens];
   neurons_fund_investment_icp: [] | [Tokens];
   restricted_countries: [] | [Countries];
@@ -678,6 +724,10 @@ export interface _SERVICE {
   settle_community_fund_participation: ActorMethod<
     [SettleCommunityFundParticipation],
     Result
+  >;
+  settle_neurons_fund_participation: ActorMethod<
+    [SettleNeuronsFundParticipationRequest],
+    SettleNeuronsFundParticipationResponse
   >;
   simulate_manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
   transfer_gtc_neuron: ActorMethod<[NeuronId, NeuronId], Result>;

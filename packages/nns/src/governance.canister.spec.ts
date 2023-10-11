@@ -462,6 +462,87 @@ describe("GovernanceCanister", () => {
     });
   });
 
+  describe("GovernanceCanister.listProposals", () => {
+    const rawProposal = {
+      id: [{ id: 1n }],
+      ballots: [],
+      proposal: [],
+      proposer: [],
+      latest_tally: [],
+    } as unknown as RawProposalInfo;
+
+    it("list user proposals with params", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.list_proposals.mockResolvedValue({
+        proposal_info: [rawProposal],
+      });
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const limit = 2;
+      const { proposals } = await governance.listProposals({
+        certified: true,
+        request: {
+          limit,
+          beforeProposal: undefined,
+          includeRewardStatus: [],
+          includeAllManageNeuronProposals: false,
+          excludeTopic: [],
+          includeStatus: [],
+        },
+      });
+      expect(service.list_proposals).toBeCalled();
+      expect(service.list_proposals).toBeCalledWith({
+        limit,
+        include_reward_status: new Int32Array(),
+        before_proposal: [],
+        exclude_topic: new Int32Array(),
+        include_all_manage_neuron_proposals: [false],
+        include_status: new Int32Array(),
+        omit_large_fields: [],
+      });
+      expect(proposals.length).toBe(1);
+    });
+
+    it("list user proposals supports optional omitLargeFields", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.list_proposals.mockResolvedValue({
+        proposal_info: [rawProposal],
+      });
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const limit = 2;
+      const { proposals } = await governance.listProposals({
+        certified: true,
+        request: {
+          limit,
+          beforeProposal: undefined,
+          includeRewardStatus: [],
+          includeAllManageNeuronProposals: false,
+          excludeTopic: [],
+          includeStatus: [],
+          omitLargeFields: true,
+        },
+      });
+      expect(service.list_proposals).toBeCalled();
+      expect(service.list_proposals).toBeCalledWith({
+        limit,
+        include_reward_status: new Int32Array(),
+        before_proposal: [],
+        exclude_topic: new Int32Array(),
+        include_all_manage_neuron_proposals: [false],
+        include_status: new Int32Array(),
+        omit_large_fields: [true],
+      });
+      expect(proposals.length).toBe(1);
+    });
+  });
+
   describe("GovernanceCanister.registerVote", () => {
     it("registers vote successfully", async () => {
       const serviceResponse: ManageNeuronResponse = {
