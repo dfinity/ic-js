@@ -74,7 +74,7 @@ Parameters:
 - `params`: The Bitcoin address and network to parse
 - `params.network`: Optional. Default BtcNetwork is Mainnet
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L194)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L195)
 
 ### :factory: CkBTCMinterCanister
 
