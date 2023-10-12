@@ -1,4 +1,4 @@
-import type { ActorSubclass, Agent } from "@dfinity/agent";
+import type { ActorConfig, ActorSubclass, Agent } from "@dfinity/agent";
 import { Actor } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
@@ -16,11 +16,14 @@ export const createServices = <T>({
     serviceOverride,
     certifiedServiceOverride,
     agent: agentOption,
+    callTransform,
+    queryTransform,
   },
   idlFactory,
   certifiedIdlFactory,
 }: {
-  options: RequiredCanisterOptions<T>;
+  options: RequiredCanisterOptions<T> &
+    Pick<ActorConfig, "queryTransform" | "callTransform">;
   idlFactory: IDL.InterfaceFactory;
   certifiedIdlFactory: IDL.InterfaceFactory;
 }): {
@@ -36,6 +39,8 @@ export const createServices = <T>({
     Actor.createActor<T>(idlFactory, {
       agent,
       canisterId,
+      callTransform,
+      queryTransform,
     });
 
   const certifiedService: ActorSubclass<T> =
@@ -43,6 +48,8 @@ export const createServices = <T>({
     Actor.createActor<T>(certifiedIdlFactory, {
       agent,
       canisterId,
+      callTransform,
+      queryTransform,
     });
 
   return { service, certifiedService, agent, canisterId };

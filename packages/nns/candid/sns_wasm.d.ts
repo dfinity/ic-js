@@ -11,13 +11,33 @@ export interface AddWasmResponse {
 export interface AirdropDistribution {
   airdrop_neurons: Array<NeuronDistribution>;
 }
+export interface Canister {
+  id: [] | [Principal];
+}
+export interface CfNeuron {
+  nns_neuron_id: bigint;
+  amount_icp_e8s: bigint;
+}
+export interface CfParticipant {
+  hotkey_principal: string;
+  cf_neurons: Array<CfNeuron>;
+}
 export interface Countries {
   iso_codes: Array<string>;
+}
+export interface DappCanisters {
+  canisters: Array<Canister>;
+}
+export interface DappCanistersTransferResult {
+  restored_dapp_canisters: Array<Canister>;
+  nns_controlled_dapp_canisters: Array<Canister>;
+  sns_controlled_dapp_canisters: Array<Canister>;
 }
 export interface DeployNewSnsRequest {
   sns_init_payload: [] | [SnsInitPayload];
 }
 export interface DeployNewSnsResponse {
+  dapp_canisters_transfer_result: [] | [DappCanistersTransferResult];
   subnet_id: [] | [Principal];
   error: [] | [SnsWasmError];
   canisters: [] | [SnsCanisterIds];
@@ -67,6 +87,13 @@ export interface InsertUpgradePathEntriesRequest {
 export interface InsertUpgradePathEntriesResponse {
   error: [] | [SnsWasmError];
 }
+export interface LinearScalingCoefficient {
+  slope_numerator: [] | [bigint];
+  intercept_icp_e8s: [] | [bigint];
+  from_direct_participation_icp_e8s: [] | [bigint];
+  slope_denominator: [] | [bigint];
+  to_direct_participation_icp_e8s: [] | [bigint];
+}
 export interface ListDeployedSnsesResponse {
   instances: Array<DeployedSns>;
 }
@@ -82,12 +109,24 @@ export interface ListUpgradeStepsRequest {
 export interface ListUpgradeStepsResponse {
   steps: Array<ListUpgradeStep>;
 }
+export interface NeuronBasketConstructionParameters {
+  dissolve_delay_interval_seconds: bigint;
+  count: bigint;
+}
 export interface NeuronDistribution {
   controller: [] | [Principal];
   dissolve_delay_seconds: bigint;
   memo: bigint;
   stake_e8s: bigint;
   vesting_period_seconds: [] | [bigint];
+}
+export interface NeuronsFundParticipants {
+  participants: Array<CfParticipant>;
+}
+export interface NeuronsFundParticipationConstraints {
+  coefficient_intervals: Array<LinearScalingCoefficient>;
+  max_neurons_fund_participation_icp_e8s: [] | [bigint];
+  min_direct_participation_threshold_icp_e8s: [] | [bigint];
 }
 export interface PrettySnsVersion {
   archive_wasm_hash: string;
@@ -109,26 +148,45 @@ export interface SnsInitPayload {
   url: [] | [string];
   max_dissolve_delay_seconds: [] | [bigint];
   max_dissolve_delay_bonus_percentage: [] | [bigint];
+  nns_proposal_id: [] | [bigint];
+  min_participant_icp_e8s: [] | [bigint];
+  neuron_basket_construction_parameters:
+    | []
+    | [NeuronBasketConstructionParameters];
   fallback_controller_principal_ids: Array<string>;
   token_symbol: [] | [string];
   final_reward_rate_basis_points: [] | [bigint];
+  max_icp_e8s: [] | [bigint];
   neuron_minimum_stake_e8s: [] | [bigint];
   confirmation_text: [] | [string];
   logo: [] | [string];
   name: [] | [string];
+  swap_start_timestamp_seconds: [] | [bigint];
+  swap_due_timestamp_seconds: [] | [bigint];
   initial_voting_period_seconds: [] | [bigint];
   neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
   description: [] | [string];
   max_neuron_age_seconds_for_age_bonus: [] | [bigint];
+  min_participants: [] | [bigint];
   initial_reward_rate_basis_points: [] | [bigint];
   wait_for_quiet_deadline_increase_seconds: [] | [bigint];
   transaction_fee_e8s: [] | [bigint];
+  dapp_canisters: [] | [DappCanisters];
+  neurons_fund_participation_constraints:
+    | []
+    | [NeuronsFundParticipationConstraints];
+  neurons_fund_participants: [] | [NeuronsFundParticipants];
   max_age_bonus_percentage: [] | [bigint];
   initial_token_distribution: [] | [InitialTokenDistribution];
   reward_rate_transition_duration_seconds: [] | [bigint];
+  token_logo: [] | [string];
   token_name: [] | [string];
+  max_participant_icp_e8s: [] | [bigint];
+  min_direct_participation_icp_e8s: [] | [bigint];
   proposal_reject_cost_e8s: [] | [bigint];
   restricted_countries: [] | [Countries];
+  min_icp_e8s: [] | [bigint];
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface SnsUpgrade {
   next_version: [] | [SnsVersion];

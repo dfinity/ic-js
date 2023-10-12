@@ -6,12 +6,14 @@ export const debounce = (func: Function, timeout?: number) => {
     const next = () => func(...args);
 
     if (timer) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore TypeScript global and window confusion even if we are using @types/node
       clearTimeout(timer);
     }
 
     timer = setTimeout(
       next,
-      timeout !== undefined && timeout > 0 ? timeout : 300
+      timeout !== undefined && timeout > 0 ? timeout : 300,
     );
   };
 };

@@ -12,6 +12,7 @@ export * from "./utils/base32.utils";
 export * from "./utils/crc.utils";
 export * from "./utils/debounce.utils";
 export * from "./utils/did.utils";
+export * from "./utils/json.utils";
 export * from "./utils/nullish.utils";
 export * from "./utils/principal.utils";
 export * from "./utils/version.utils";

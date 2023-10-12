@@ -3,129 +3,6 @@ export const idlFactory = ({ IDL }) => {
   const Proposal = IDL.Rec();
   const NeuronId = IDL.Record({ 'id' : IDL.Nat64 });
   const Followees = IDL.Record({ 'followees' : IDL.Vec(NeuronId) });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
-  const NodeProvider = IDL.Record({
-    'id' : IDL.Opt(IDL.Principal),
-    'reward_account' : IDL.Opt(AccountIdentifier),
-  });
-  const RewardToNeuron = IDL.Record({ 'dissolve_delay_seconds' : IDL.Nat64 });
-  const RewardToAccount = IDL.Record({
-    'to_account' : IDL.Opt(AccountIdentifier),
-  });
-  const RewardMode = IDL.Variant({
-    'RewardToNeuron' : RewardToNeuron,
-    'RewardToAccount' : RewardToAccount,
-  });
-  const RewardNodeProvider = IDL.Record({
-    'node_provider' : IDL.Opt(NodeProvider),
-    'reward_mode' : IDL.Opt(RewardMode),
-    'amount_e8s' : IDL.Nat64,
-  });
-  const MostRecentMonthlyNodeProviderRewards = IDL.Record({
-    'timestamp' : IDL.Nat64,
-    'rewards' : IDL.Vec(RewardNodeProvider),
-  });
-  const GovernanceCachedMetrics = IDL.Record({
-    'not_dissolving_neurons_e8s_buckets' : IDL.Vec(
-      IDL.Tuple(IDL.Nat64, IDL.Float64)
-    ),
-    'garbage_collectable_neurons_count' : IDL.Nat64,
-    'neurons_with_invalid_stake_count' : IDL.Nat64,
-    'not_dissolving_neurons_count_buckets' : IDL.Vec(
-      IDL.Tuple(IDL.Nat64, IDL.Nat64)
-    ),
-    'total_supply_icp' : IDL.Nat64,
-    'neurons_with_less_than_6_months_dissolve_delay_count' : IDL.Nat64,
-    'dissolved_neurons_count' : IDL.Nat64,
-    'community_fund_total_maturity_e8s_equivalent' : IDL.Nat64,
-    'total_staked_e8s' : IDL.Nat64,
-    'not_dissolving_neurons_count' : IDL.Nat64,
-    'total_locked_e8s' : IDL.Nat64,
-    'dissolved_neurons_e8s' : IDL.Nat64,
-    'neurons_with_less_than_6_months_dissolve_delay_e8s' : IDL.Nat64,
-    'dissolving_neurons_count_buckets' : IDL.Vec(
-      IDL.Tuple(IDL.Nat64, IDL.Nat64)
-    ),
-    'dissolving_neurons_count' : IDL.Nat64,
-    'dissolving_neurons_e8s_buckets' : IDL.Vec(
-      IDL.Tuple(IDL.Nat64, IDL.Float64)
-    ),
-    'community_fund_total_staked_e8s' : IDL.Nat64,
-    'timestamp_seconds' : IDL.Nat64,
-  });
-  const NetworkEconomics = IDL.Record({
-    'neuron_minimum_stake_e8s' : IDL.Nat64,
-    'max_proposals_to_keep_per_topic' : IDL.Nat32,
-    'neuron_management_fee_per_proposal_e8s' : IDL.Nat64,
-    'reject_cost_e8s' : IDL.Nat64,
-    'transaction_fee_e8s' : IDL.Nat64,
-    'neuron_spawn_dissolve_delay_seconds' : IDL.Nat64,
-    'minimum_icp_xdr_rate' : IDL.Nat64,
-    'maximum_node_provider_rewards_e8s' : IDL.Nat64,
-  });
-  const RewardEvent = IDL.Record({
-    'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
-    'day_after_genesis' : IDL.Nat64,
-    'actual_timestamp_seconds' : IDL.Nat64,
-    'total_available_e8s_equivalent' : IDL.Nat64,
-    'latest_round_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
-    'distributed_e8s_equivalent' : IDL.Nat64,
-    'settled_proposals' : IDL.Vec(NeuronId),
-  });
-  const NeuronStakeTransfer = IDL.Record({
-    'to_subaccount' : IDL.Vec(IDL.Nat8),
-    'neuron_stake_e8s' : IDL.Nat64,
-    'from' : IDL.Opt(IDL.Principal),
-    'memo' : IDL.Nat64,
-    'from_subaccount' : IDL.Vec(IDL.Nat8),
-    'transfer_timestamp' : IDL.Nat64,
-    'block_height' : IDL.Nat64,
-  });
-  const GovernanceError = IDL.Record({
-    'error_message' : IDL.Text,
-    'error_type' : IDL.Int32,
-  });
-  const CfNeuron = IDL.Record({
-    'nns_neuron_id' : IDL.Nat64,
-    'amount_icp_e8s' : IDL.Nat64,
-  });
-  const CfParticipant = IDL.Record({
-    'hotkey_principal' : IDL.Text,
-    'cf_neurons' : IDL.Vec(CfNeuron),
-  });
-  const Ballot = IDL.Record({ 'vote' : IDL.Int32, 'voting_power' : IDL.Nat64 });
-  const CanisterStatusResultV2 = IDL.Record({
-    'status' : IDL.Opt(IDL.Int32),
-    'freezing_threshold' : IDL.Opt(IDL.Nat64),
-    'controllers' : IDL.Vec(IDL.Principal),
-    'memory_size' : IDL.Opt(IDL.Nat64),
-    'cycles' : IDL.Opt(IDL.Nat64),
-    'idle_cycles_burned_per_day' : IDL.Opt(IDL.Nat64),
-    'module_hash' : IDL.Vec(IDL.Nat8),
-  });
-  const CanisterSummary = IDL.Record({
-    'status' : IDL.Opt(CanisterStatusResultV2),
-    'canister_id' : IDL.Opt(IDL.Principal),
-  });
-  const SwapBackgroundInformation = IDL.Record({
-    'ledger_index_canister_summary' : IDL.Opt(CanisterSummary),
-    'fallback_controller_principal_ids' : IDL.Vec(IDL.Principal),
-    'ledger_archive_canister_summaries' : IDL.Vec(CanisterSummary),
-    'ledger_canister_summary' : IDL.Opt(CanisterSummary),
-    'swap_canister_summary' : IDL.Opt(CanisterSummary),
-    'governance_canister_summary' : IDL.Opt(CanisterSummary),
-    'root_canister_summary' : IDL.Opt(CanisterSummary),
-    'dapp_canister_summaries' : IDL.Vec(CanisterSummary),
-  });
-  const DerivedProposalInformation = IDL.Record({
-    'swap_background_information' : IDL.Opt(SwapBackgroundInformation),
-  });
-  const Tally = IDL.Record({
-    'no' : IDL.Nat64,
-    'yes' : IDL.Nat64,
-    'total' : IDL.Nat64,
-    'timestamp_seconds' : IDL.Nat64,
-  });
   const KnownNeuronData = IDL.Record({
     'name' : IDL.Text,
     'description' : IDL.Opt(IDL.Text),
@@ -195,6 +72,7 @@ export const idlFactory = ({ IDL }) => {
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
+  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
     'to_account' : IDL.Opt(AccountIdentifier),
@@ -255,15 +133,26 @@ export const idlFactory = ({ IDL }) => {
     'dissolve_delay_interval' : IDL.Opt(Duration),
     'count' : IDL.Opt(IDL.Nat64),
   });
+  const GlobalTimeOfDay = IDL.Record({
+    'seconds_after_utc_midnight' : IDL.Opt(IDL.Nat64),
+  });
+  const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const SwapParameters = IDL.Record({
     'minimum_participants' : IDL.Opt(IDL.Nat64),
+    'duration' : IDL.Opt(Duration),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
     ),
+    'confirmation_text' : IDL.Opt(IDL.Text),
     'maximum_participant_icp' : IDL.Opt(Tokens),
     'minimum_icp' : IDL.Opt(Tokens),
+    'minimum_direct_participation_icp' : IDL.Opt(Tokens),
     'minimum_participant_icp' : IDL.Opt(Tokens),
+    'start_time' : IDL.Opt(GlobalTimeOfDay),
+    'maximum_direct_participation_icp' : IDL.Opt(Tokens),
     'maximum_icp' : IDL.Opt(Tokens),
+    'neurons_fund_investment_icp' : IDL.Opt(Tokens),
+    'restricted_countries' : IDL.Opt(Countries),
   });
   const SwapDistribution = IDL.Record({ 'total' : IDL.Opt(Tokens) });
   const NeuronDistribution = IDL.Record({
@@ -297,6 +186,23 @@ export const idlFactory = ({ IDL }) => {
     'nns_function' : IDL.Int32,
     'payload' : IDL.Vec(IDL.Nat8),
   });
+  const NodeProvider = IDL.Record({
+    'id' : IDL.Opt(IDL.Principal),
+    'reward_account' : IDL.Opt(AccountIdentifier),
+  });
+  const RewardToNeuron = IDL.Record({ 'dissolve_delay_seconds' : IDL.Nat64 });
+  const RewardToAccount = IDL.Record({
+    'to_account' : IDL.Opt(AccountIdentifier),
+  });
+  const RewardMode = IDL.Variant({
+    'RewardToNeuron' : RewardToNeuron,
+    'RewardToAccount' : RewardToAccount,
+  });
+  const RewardNodeProvider = IDL.Record({
+    'node_provider' : IDL.Opt(NodeProvider),
+    'reward_mode' : IDL.Opt(RewardMode),
+    'amount_e8s' : IDL.Nat64,
+  });
   const NeuronBasketConstructionParameters_1 = IDL.Record({
     'dissolve_delay_interval_seconds' : IDL.Nat64,
     'count' : IDL.Nat64,
@@ -312,7 +218,9 @@ export const idlFactory = ({ IDL }) => {
     'sns_token_e8s' : IDL.Nat64,
     'sale_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_participant_icp_e8s' : IDL.Nat64,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_icp_e8s' : IDL.Nat64,
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const OpenSnsTokenSwap = IDL.Record({
     'community_fund_investment_e8s' : IDL.Opt(IDL.Nat64),
@@ -336,6 +244,16 @@ export const idlFactory = ({ IDL }) => {
   const RewardNodeProviders = IDL.Record({
     'use_registry_derived_rewards' : IDL.Opt(IDL.Bool),
     'rewards' : IDL.Vec(RewardNodeProvider),
+  });
+  const NetworkEconomics = IDL.Record({
+    'neuron_minimum_stake_e8s' : IDL.Nat64,
+    'max_proposals_to_keep_per_topic' : IDL.Nat32,
+    'neuron_management_fee_per_proposal_e8s' : IDL.Nat64,
+    'reject_cost_e8s' : IDL.Nat64,
+    'transaction_fee_e8s' : IDL.Nat64,
+    'neuron_spawn_dissolve_delay_seconds' : IDL.Nat64,
+    'minimum_icp_xdr_rate' : IDL.Nat64,
+    'maximum_node_provider_rewards_e8s' : IDL.Nat64,
   });
   const ApproveGenesisKyc = IDL.Record({
     'principals' : IDL.Vec(IDL.Principal),
@@ -369,11 +287,151 @@ export const idlFactory = ({ IDL }) => {
       'summary' : IDL.Text,
     })
   );
+  const MakingSnsProposal = IDL.Record({
+    'proposal' : IDL.Opt(Proposal),
+    'caller' : IDL.Opt(IDL.Principal),
+    'proposer_id' : IDL.Opt(NeuronId),
+  });
+  const MostRecentMonthlyNodeProviderRewards = IDL.Record({
+    'timestamp' : IDL.Nat64,
+    'rewards' : IDL.Vec(RewardNodeProvider),
+  });
+  const GovernanceCachedMetrics = IDL.Record({
+    'total_maturity_e8s_equivalent' : IDL.Nat64,
+    'not_dissolving_neurons_e8s_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'dissolving_neurons_staked_maturity_e8s_equivalent_sum' : IDL.Nat64,
+    'garbage_collectable_neurons_count' : IDL.Nat64,
+    'dissolving_neurons_staked_maturity_e8s_equivalent_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'neurons_with_invalid_stake_count' : IDL.Nat64,
+    'not_dissolving_neurons_count_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Nat64)
+    ),
+    'total_supply_icp' : IDL.Nat64,
+    'neurons_with_less_than_6_months_dissolve_delay_count' : IDL.Nat64,
+    'dissolved_neurons_count' : IDL.Nat64,
+    'community_fund_total_maturity_e8s_equivalent' : IDL.Nat64,
+    'total_staked_e8s' : IDL.Nat64,
+    'not_dissolving_neurons_count' : IDL.Nat64,
+    'total_locked_e8s' : IDL.Nat64,
+    'neurons_fund_total_active_neurons' : IDL.Nat64,
+    'total_staked_maturity_e8s_equivalent' : IDL.Nat64,
+    'not_dissolving_neurons_staked_maturity_e8s_equivalent_sum' : IDL.Nat64,
+    'dissolved_neurons_e8s' : IDL.Nat64,
+    'neurons_with_less_than_6_months_dissolve_delay_e8s' : IDL.Nat64,
+    'not_dissolving_neurons_staked_maturity_e8s_equivalent_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'dissolving_neurons_count_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Nat64)
+    ),
+    'dissolving_neurons_count' : IDL.Nat64,
+    'dissolving_neurons_e8s_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'community_fund_total_staked_e8s' : IDL.Nat64,
+    'timestamp_seconds' : IDL.Nat64,
+  });
+  const RewardEvent = IDL.Record({
+    'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
+    'day_after_genesis' : IDL.Nat64,
+    'actual_timestamp_seconds' : IDL.Nat64,
+    'total_available_e8s_equivalent' : IDL.Nat64,
+    'latest_round_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
+    'distributed_e8s_equivalent' : IDL.Nat64,
+    'settled_proposals' : IDL.Vec(NeuronId),
+  });
+  const NeuronStakeTransfer = IDL.Record({
+    'to_subaccount' : IDL.Vec(IDL.Nat8),
+    'neuron_stake_e8s' : IDL.Nat64,
+    'from' : IDL.Opt(IDL.Principal),
+    'memo' : IDL.Nat64,
+    'from_subaccount' : IDL.Vec(IDL.Nat8),
+    'transfer_timestamp' : IDL.Nat64,
+    'block_height' : IDL.Nat64,
+  });
+  const Progress = IDL.Variant({ 'LastNeuronId' : NeuronId });
+  const Migration = IDL.Record({
+    'status' : IDL.Opt(IDL.Int32),
+    'failure_reason' : IDL.Opt(IDL.Text),
+    'progress' : IDL.Opt(Progress),
+  });
+  const Migrations = IDL.Record({
+    'neuron_indexes_migration' : IDL.Opt(Migration),
+    'copy_inactive_neurons_to_stable_memory_migration' : IDL.Opt(Migration),
+  });
+  const NeuronsFundNeuron_1 = IDL.Record({
+    'hotkey_principal' : IDL.Opt(IDL.Principal),
+    'is_capped' : IDL.Opt(IDL.Bool),
+    'nns_neuron_id' : IDL.Opt(IDL.Nat64),
+    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundSnapshot = IDL.Record({
+    'neurons_fund_neurons' : IDL.Vec(NeuronsFundNeuron_1),
+  });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
+  const NeuronsFundParticipation = IDL.Record({
+    'neurons_fund_snapshot' : IDL.Opt(NeuronsFundSnapshot),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
+  });
+  const GovernanceError = IDL.Record({
+    'error_message' : IDL.Text,
+    'error_type' : IDL.Int32,
+  });
+  const CfNeuron = IDL.Record({
+    'nns_neuron_id' : IDL.Nat64,
+    'amount_icp_e8s' : IDL.Nat64,
+  });
+  const CfParticipant = IDL.Record({
+    'hotkey_principal' : IDL.Text,
+    'cf_neurons' : IDL.Vec(CfNeuron),
+  });
+  const Ballot = IDL.Record({ 'vote' : IDL.Int32, 'voting_power' : IDL.Nat64 });
+  const CanisterStatusResultV2 = IDL.Record({
+    'status' : IDL.Opt(IDL.Int32),
+    'freezing_threshold' : IDL.Opt(IDL.Nat64),
+    'controllers' : IDL.Vec(IDL.Principal),
+    'memory_size' : IDL.Opt(IDL.Nat64),
+    'cycles' : IDL.Opt(IDL.Nat64),
+    'idle_cycles_burned_per_day' : IDL.Opt(IDL.Nat64),
+    'module_hash' : IDL.Vec(IDL.Nat8),
+  });
+  const CanisterSummary = IDL.Record({
+    'status' : IDL.Opt(CanisterStatusResultV2),
+    'canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const SwapBackgroundInformation = IDL.Record({
+    'ledger_index_canister_summary' : IDL.Opt(CanisterSummary),
+    'fallback_controller_principal_ids' : IDL.Vec(IDL.Principal),
+    'ledger_archive_canister_summaries' : IDL.Vec(CanisterSummary),
+    'ledger_canister_summary' : IDL.Opt(CanisterSummary),
+    'swap_canister_summary' : IDL.Opt(CanisterSummary),
+    'governance_canister_summary' : IDL.Opt(CanisterSummary),
+    'root_canister_summary' : IDL.Opt(CanisterSummary),
+    'dapp_canister_summaries' : IDL.Vec(CanisterSummary),
+  });
+  const DerivedProposalInformation = IDL.Record({
+    'swap_background_information' : IDL.Opt(SwapBackgroundInformation),
+  });
+  const Tally = IDL.Record({
+    'no' : IDL.Nat64,
+    'yes' : IDL.Nat64,
+    'total' : IDL.Nat64,
+    'timestamp_seconds' : IDL.Nat64,
+  });
   const WaitForQuietState = IDL.Record({
     'current_deadline_timestamp_seconds' : IDL.Nat64,
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(NeuronId),
+    'neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
     'failure_reason' : IDL.Opt(GovernanceError),
     'cf_participants' : IDL.Vec(CfParticipant),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
@@ -440,6 +498,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Governance = IDL.Record({
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
+    'making_sns_proposal' : IDL.Opt(MakingSnsProposal),
     'most_recent_monthly_node_provider_rewards' : IDL.Opt(
       MostRecentMonthlyNodeProviderRewards
     ),
@@ -448,6 +507,7 @@ export const idlFactory = ({ IDL }) => {
     ),
     'wait_for_quiet_threshold_seconds' : IDL.Nat64,
     'metrics' : IDL.Opt(GovernanceCachedMetrics),
+    'neuron_management_voting_period_seconds' : IDL.Opt(IDL.Nat64),
     'node_providers' : IDL.Vec(NodeProvider),
     'cached_daily_maturity_modulation_basis_points' : IDL.Opt(IDL.Int32),
     'economics' : IDL.Opt(NetworkEconomics),
@@ -455,6 +515,7 @@ export const idlFactory = ({ IDL }) => {
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'to_claim_transfers' : IDL.Vec(NeuronStakeTransfer),
     'short_voting_period_seconds' : IDL.Nat64,
+    'migrations' : IDL.Opt(Migrations),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInFlightCommand)),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Nat64, Neuron)),
@@ -529,9 +590,11 @@ export const idlFactory = ({ IDL }) => {
   });
   const ListProposalInfo = IDL.Record({
     'include_reward_status' : IDL.Vec(IDL.Int32),
+    'omit_large_fields' : IDL.Opt(IDL.Bool),
     'before_proposal' : IDL.Opt(NeuronId),
     'limit' : IDL.Nat32,
     'exclude_topic' : IDL.Vec(IDL.Int32),
+    'include_all_manage_neuron_proposals' : IDL.Opt(IDL.Bool),
     'include_status' : IDL.Vec(IDL.Int32),
   });
   const ListProposalInfoResponse = IDL.Record({
@@ -576,6 +639,8 @@ export const idlFactory = ({ IDL }) => {
   });
   const ManageNeuronResponse = IDL.Record({ 'command' : IDL.Opt(Command_1) });
   const Committed = IDL.Record({
+    'total_direct_contribution_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'total_neurons_fund_contribution_icp_e8s' : IDL.Opt(IDL.Nat64),
     'sns_governance_canister_id' : IDL.Opt(IDL.Principal),
   });
   const Result_7 = IDL.Variant({
@@ -585,6 +650,32 @@ export const idlFactory = ({ IDL }) => {
   const SettleCommunityFundParticipation = IDL.Record({
     'result' : IDL.Opt(Result_7),
     'open_sns_token_swap_proposal_id' : IDL.Opt(IDL.Nat64),
+  });
+  const Committed_1 = IDL.Record({
+    'total_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'total_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'sns_governance_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const Result_8 = IDL.Variant({
+    'Committed' : Committed_1,
+    'Aborted' : IDL.Record({}),
+  });
+  const SettleNeuronsFundParticipationRequest = IDL.Record({
+    'result' : IDL.Opt(Result_8),
+    'nns_proposal_id' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundNeuron = IDL.Record({
+    'hotkey_principal' : IDL.Opt(IDL.Text),
+    'is_capped' : IDL.Opt(IDL.Bool),
+    'nns_neuron_id' : IDL.Opt(IDL.Nat64),
+    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const Ok = IDL.Record({
+    'neurons_fund_neurons' : IDL.Vec(NeuronsFundNeuron),
+  });
+  const Result_9 = IDL.Variant({ 'Ok' : Ok, 'Err' : GovernanceError });
+  const SettleNeuronsFundParticipationResponse = IDL.Record({
+    'result' : IDL.Opt(Result_9),
   });
   const UpdateNodeProvider = IDL.Record({
     'reward_account' : IDL.Opt(AccountIdentifier),
@@ -652,6 +743,11 @@ export const idlFactory = ({ IDL }) => {
         [Result],
         [],
       ),
+    'settle_neurons_fund_participation' : IDL.Func(
+        [SettleNeuronsFundParticipationRequest],
+        [SettleNeuronsFundParticipationResponse],
+        [],
+      ),
     'simulate_manage_neuron' : IDL.Func(
         [ManageNeuron],
         [ManageNeuronResponse],
@@ -665,129 +761,6 @@ export const init = ({ IDL }) => {
   const Proposal = IDL.Rec();
   const NeuronId = IDL.Record({ 'id' : IDL.Nat64 });
   const Followees = IDL.Record({ 'followees' : IDL.Vec(NeuronId) });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
-  const NodeProvider = IDL.Record({
-    'id' : IDL.Opt(IDL.Principal),
-    'reward_account' : IDL.Opt(AccountIdentifier),
-  });
-  const RewardToNeuron = IDL.Record({ 'dissolve_delay_seconds' : IDL.Nat64 });
-  const RewardToAccount = IDL.Record({
-    'to_account' : IDL.Opt(AccountIdentifier),
-  });
-  const RewardMode = IDL.Variant({
-    'RewardToNeuron' : RewardToNeuron,
-    'RewardToAccount' : RewardToAccount,
-  });
-  const RewardNodeProvider = IDL.Record({
-    'node_provider' : IDL.Opt(NodeProvider),
-    'reward_mode' : IDL.Opt(RewardMode),
-    'amount_e8s' : IDL.Nat64,
-  });
-  const MostRecentMonthlyNodeProviderRewards = IDL.Record({
-    'timestamp' : IDL.Nat64,
-    'rewards' : IDL.Vec(RewardNodeProvider),
-  });
-  const GovernanceCachedMetrics = IDL.Record({
-    'not_dissolving_neurons_e8s_buckets' : IDL.Vec(
-      IDL.Tuple(IDL.Nat64, IDL.Float64)
-    ),
-    'garbage_collectable_neurons_count' : IDL.Nat64,
-    'neurons_with_invalid_stake_count' : IDL.Nat64,
-    'not_dissolving_neurons_count_buckets' : IDL.Vec(
-      IDL.Tuple(IDL.Nat64, IDL.Nat64)
-    ),
-    'total_supply_icp' : IDL.Nat64,
-    'neurons_with_less_than_6_months_dissolve_delay_count' : IDL.Nat64,
-    'dissolved_neurons_count' : IDL.Nat64,
-    'community_fund_total_maturity_e8s_equivalent' : IDL.Nat64,
-    'total_staked_e8s' : IDL.Nat64,
-    'not_dissolving_neurons_count' : IDL.Nat64,
-    'total_locked_e8s' : IDL.Nat64,
-    'dissolved_neurons_e8s' : IDL.Nat64,
-    'neurons_with_less_than_6_months_dissolve_delay_e8s' : IDL.Nat64,
-    'dissolving_neurons_count_buckets' : IDL.Vec(
-      IDL.Tuple(IDL.Nat64, IDL.Nat64)
-    ),
-    'dissolving_neurons_count' : IDL.Nat64,
-    'dissolving_neurons_e8s_buckets' : IDL.Vec(
-      IDL.Tuple(IDL.Nat64, IDL.Float64)
-    ),
-    'community_fund_total_staked_e8s' : IDL.Nat64,
-    'timestamp_seconds' : IDL.Nat64,
-  });
-  const NetworkEconomics = IDL.Record({
-    'neuron_minimum_stake_e8s' : IDL.Nat64,
-    'max_proposals_to_keep_per_topic' : IDL.Nat32,
-    'neuron_management_fee_per_proposal_e8s' : IDL.Nat64,
-    'reject_cost_e8s' : IDL.Nat64,
-    'transaction_fee_e8s' : IDL.Nat64,
-    'neuron_spawn_dissolve_delay_seconds' : IDL.Nat64,
-    'minimum_icp_xdr_rate' : IDL.Nat64,
-    'maximum_node_provider_rewards_e8s' : IDL.Nat64,
-  });
-  const RewardEvent = IDL.Record({
-    'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
-    'day_after_genesis' : IDL.Nat64,
-    'actual_timestamp_seconds' : IDL.Nat64,
-    'total_available_e8s_equivalent' : IDL.Nat64,
-    'latest_round_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
-    'distributed_e8s_equivalent' : IDL.Nat64,
-    'settled_proposals' : IDL.Vec(NeuronId),
-  });
-  const NeuronStakeTransfer = IDL.Record({
-    'to_subaccount' : IDL.Vec(IDL.Nat8),
-    'neuron_stake_e8s' : IDL.Nat64,
-    'from' : IDL.Opt(IDL.Principal),
-    'memo' : IDL.Nat64,
-    'from_subaccount' : IDL.Vec(IDL.Nat8),
-    'transfer_timestamp' : IDL.Nat64,
-    'block_height' : IDL.Nat64,
-  });
-  const GovernanceError = IDL.Record({
-    'error_message' : IDL.Text,
-    'error_type' : IDL.Int32,
-  });
-  const CfNeuron = IDL.Record({
-    'nns_neuron_id' : IDL.Nat64,
-    'amount_icp_e8s' : IDL.Nat64,
-  });
-  const CfParticipant = IDL.Record({
-    'hotkey_principal' : IDL.Text,
-    'cf_neurons' : IDL.Vec(CfNeuron),
-  });
-  const Ballot = IDL.Record({ 'vote' : IDL.Int32, 'voting_power' : IDL.Nat64 });
-  const CanisterStatusResultV2 = IDL.Record({
-    'status' : IDL.Opt(IDL.Int32),
-    'freezing_threshold' : IDL.Opt(IDL.Nat64),
-    'controllers' : IDL.Vec(IDL.Principal),
-    'memory_size' : IDL.Opt(IDL.Nat64),
-    'cycles' : IDL.Opt(IDL.Nat64),
-    'idle_cycles_burned_per_day' : IDL.Opt(IDL.Nat64),
-    'module_hash' : IDL.Vec(IDL.Nat8),
-  });
-  const CanisterSummary = IDL.Record({
-    'status' : IDL.Opt(CanisterStatusResultV2),
-    'canister_id' : IDL.Opt(IDL.Principal),
-  });
-  const SwapBackgroundInformation = IDL.Record({
-    'ledger_index_canister_summary' : IDL.Opt(CanisterSummary),
-    'fallback_controller_principal_ids' : IDL.Vec(IDL.Principal),
-    'ledger_archive_canister_summaries' : IDL.Vec(CanisterSummary),
-    'ledger_canister_summary' : IDL.Opt(CanisterSummary),
-    'swap_canister_summary' : IDL.Opt(CanisterSummary),
-    'governance_canister_summary' : IDL.Opt(CanisterSummary),
-    'root_canister_summary' : IDL.Opt(CanisterSummary),
-    'dapp_canister_summaries' : IDL.Vec(CanisterSummary),
-  });
-  const DerivedProposalInformation = IDL.Record({
-    'swap_background_information' : IDL.Opt(SwapBackgroundInformation),
-  });
-  const Tally = IDL.Record({
-    'no' : IDL.Nat64,
-    'yes' : IDL.Nat64,
-    'total' : IDL.Nat64,
-    'timestamp_seconds' : IDL.Nat64,
-  });
   const KnownNeuronData = IDL.Record({
     'name' : IDL.Text,
     'description' : IDL.Opt(IDL.Text),
@@ -857,6 +830,7 @@ export const init = ({ IDL }) => {
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
+  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
     'to_account' : IDL.Opt(AccountIdentifier),
@@ -917,15 +891,26 @@ export const init = ({ IDL }) => {
     'dissolve_delay_interval' : IDL.Opt(Duration),
     'count' : IDL.Opt(IDL.Nat64),
   });
+  const GlobalTimeOfDay = IDL.Record({
+    'seconds_after_utc_midnight' : IDL.Opt(IDL.Nat64),
+  });
+  const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const SwapParameters = IDL.Record({
     'minimum_participants' : IDL.Opt(IDL.Nat64),
+    'duration' : IDL.Opt(Duration),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
     ),
+    'confirmation_text' : IDL.Opt(IDL.Text),
     'maximum_participant_icp' : IDL.Opt(Tokens),
     'minimum_icp' : IDL.Opt(Tokens),
+    'minimum_direct_participation_icp' : IDL.Opt(Tokens),
     'minimum_participant_icp' : IDL.Opt(Tokens),
+    'start_time' : IDL.Opt(GlobalTimeOfDay),
+    'maximum_direct_participation_icp' : IDL.Opt(Tokens),
     'maximum_icp' : IDL.Opt(Tokens),
+    'neurons_fund_investment_icp' : IDL.Opt(Tokens),
+    'restricted_countries' : IDL.Opt(Countries),
   });
   const SwapDistribution = IDL.Record({ 'total' : IDL.Opt(Tokens) });
   const NeuronDistribution = IDL.Record({
@@ -959,6 +944,23 @@ export const init = ({ IDL }) => {
     'nns_function' : IDL.Int32,
     'payload' : IDL.Vec(IDL.Nat8),
   });
+  const NodeProvider = IDL.Record({
+    'id' : IDL.Opt(IDL.Principal),
+    'reward_account' : IDL.Opt(AccountIdentifier),
+  });
+  const RewardToNeuron = IDL.Record({ 'dissolve_delay_seconds' : IDL.Nat64 });
+  const RewardToAccount = IDL.Record({
+    'to_account' : IDL.Opt(AccountIdentifier),
+  });
+  const RewardMode = IDL.Variant({
+    'RewardToNeuron' : RewardToNeuron,
+    'RewardToAccount' : RewardToAccount,
+  });
+  const RewardNodeProvider = IDL.Record({
+    'node_provider' : IDL.Opt(NodeProvider),
+    'reward_mode' : IDL.Opt(RewardMode),
+    'amount_e8s' : IDL.Nat64,
+  });
   const NeuronBasketConstructionParameters_1 = IDL.Record({
     'dissolve_delay_interval_seconds' : IDL.Nat64,
     'count' : IDL.Nat64,
@@ -974,7 +976,9 @@ export const init = ({ IDL }) => {
     'sns_token_e8s' : IDL.Nat64,
     'sale_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_participant_icp_e8s' : IDL.Nat64,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_icp_e8s' : IDL.Nat64,
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const OpenSnsTokenSwap = IDL.Record({
     'community_fund_investment_e8s' : IDL.Opt(IDL.Nat64),
@@ -998,6 +1002,16 @@ export const init = ({ IDL }) => {
   const RewardNodeProviders = IDL.Record({
     'use_registry_derived_rewards' : IDL.Opt(IDL.Bool),
     'rewards' : IDL.Vec(RewardNodeProvider),
+  });
+  const NetworkEconomics = IDL.Record({
+    'neuron_minimum_stake_e8s' : IDL.Nat64,
+    'max_proposals_to_keep_per_topic' : IDL.Nat32,
+    'neuron_management_fee_per_proposal_e8s' : IDL.Nat64,
+    'reject_cost_e8s' : IDL.Nat64,
+    'transaction_fee_e8s' : IDL.Nat64,
+    'neuron_spawn_dissolve_delay_seconds' : IDL.Nat64,
+    'minimum_icp_xdr_rate' : IDL.Nat64,
+    'maximum_node_provider_rewards_e8s' : IDL.Nat64,
   });
   const ApproveGenesisKyc = IDL.Record({
     'principals' : IDL.Vec(IDL.Principal),
@@ -1031,11 +1045,151 @@ export const init = ({ IDL }) => {
       'summary' : IDL.Text,
     })
   );
+  const MakingSnsProposal = IDL.Record({
+    'proposal' : IDL.Opt(Proposal),
+    'caller' : IDL.Opt(IDL.Principal),
+    'proposer_id' : IDL.Opt(NeuronId),
+  });
+  const MostRecentMonthlyNodeProviderRewards = IDL.Record({
+    'timestamp' : IDL.Nat64,
+    'rewards' : IDL.Vec(RewardNodeProvider),
+  });
+  const GovernanceCachedMetrics = IDL.Record({
+    'total_maturity_e8s_equivalent' : IDL.Nat64,
+    'not_dissolving_neurons_e8s_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'dissolving_neurons_staked_maturity_e8s_equivalent_sum' : IDL.Nat64,
+    'garbage_collectable_neurons_count' : IDL.Nat64,
+    'dissolving_neurons_staked_maturity_e8s_equivalent_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'neurons_with_invalid_stake_count' : IDL.Nat64,
+    'not_dissolving_neurons_count_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Nat64)
+    ),
+    'total_supply_icp' : IDL.Nat64,
+    'neurons_with_less_than_6_months_dissolve_delay_count' : IDL.Nat64,
+    'dissolved_neurons_count' : IDL.Nat64,
+    'community_fund_total_maturity_e8s_equivalent' : IDL.Nat64,
+    'total_staked_e8s' : IDL.Nat64,
+    'not_dissolving_neurons_count' : IDL.Nat64,
+    'total_locked_e8s' : IDL.Nat64,
+    'neurons_fund_total_active_neurons' : IDL.Nat64,
+    'total_staked_maturity_e8s_equivalent' : IDL.Nat64,
+    'not_dissolving_neurons_staked_maturity_e8s_equivalent_sum' : IDL.Nat64,
+    'dissolved_neurons_e8s' : IDL.Nat64,
+    'neurons_with_less_than_6_months_dissolve_delay_e8s' : IDL.Nat64,
+    'not_dissolving_neurons_staked_maturity_e8s_equivalent_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'dissolving_neurons_count_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Nat64)
+    ),
+    'dissolving_neurons_count' : IDL.Nat64,
+    'dissolving_neurons_e8s_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'community_fund_total_staked_e8s' : IDL.Nat64,
+    'timestamp_seconds' : IDL.Nat64,
+  });
+  const RewardEvent = IDL.Record({
+    'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
+    'day_after_genesis' : IDL.Nat64,
+    'actual_timestamp_seconds' : IDL.Nat64,
+    'total_available_e8s_equivalent' : IDL.Nat64,
+    'latest_round_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
+    'distributed_e8s_equivalent' : IDL.Nat64,
+    'settled_proposals' : IDL.Vec(NeuronId),
+  });
+  const NeuronStakeTransfer = IDL.Record({
+    'to_subaccount' : IDL.Vec(IDL.Nat8),
+    'neuron_stake_e8s' : IDL.Nat64,
+    'from' : IDL.Opt(IDL.Principal),
+    'memo' : IDL.Nat64,
+    'from_subaccount' : IDL.Vec(IDL.Nat8),
+    'transfer_timestamp' : IDL.Nat64,
+    'block_height' : IDL.Nat64,
+  });
+  const Progress = IDL.Variant({ 'LastNeuronId' : NeuronId });
+  const Migration = IDL.Record({
+    'status' : IDL.Opt(IDL.Int32),
+    'failure_reason' : IDL.Opt(IDL.Text),
+    'progress' : IDL.Opt(Progress),
+  });
+  const Migrations = IDL.Record({
+    'neuron_indexes_migration' : IDL.Opt(Migration),
+    'copy_inactive_neurons_to_stable_memory_migration' : IDL.Opt(Migration),
+  });
+  const NeuronsFundNeuron_1 = IDL.Record({
+    'hotkey_principal' : IDL.Opt(IDL.Principal),
+    'is_capped' : IDL.Opt(IDL.Bool),
+    'nns_neuron_id' : IDL.Opt(IDL.Nat64),
+    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundSnapshot = IDL.Record({
+    'neurons_fund_neurons' : IDL.Vec(NeuronsFundNeuron_1),
+  });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
+  const NeuronsFundParticipation = IDL.Record({
+    'neurons_fund_snapshot' : IDL.Opt(NeuronsFundSnapshot),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
+  });
+  const GovernanceError = IDL.Record({
+    'error_message' : IDL.Text,
+    'error_type' : IDL.Int32,
+  });
+  const CfNeuron = IDL.Record({
+    'nns_neuron_id' : IDL.Nat64,
+    'amount_icp_e8s' : IDL.Nat64,
+  });
+  const CfParticipant = IDL.Record({
+    'hotkey_principal' : IDL.Text,
+    'cf_neurons' : IDL.Vec(CfNeuron),
+  });
+  const Ballot = IDL.Record({ 'vote' : IDL.Int32, 'voting_power' : IDL.Nat64 });
+  const CanisterStatusResultV2 = IDL.Record({
+    'status' : IDL.Opt(IDL.Int32),
+    'freezing_threshold' : IDL.Opt(IDL.Nat64),
+    'controllers' : IDL.Vec(IDL.Principal),
+    'memory_size' : IDL.Opt(IDL.Nat64),
+    'cycles' : IDL.Opt(IDL.Nat64),
+    'idle_cycles_burned_per_day' : IDL.Opt(IDL.Nat64),
+    'module_hash' : IDL.Vec(IDL.Nat8),
+  });
+  const CanisterSummary = IDL.Record({
+    'status' : IDL.Opt(CanisterStatusResultV2),
+    'canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const SwapBackgroundInformation = IDL.Record({
+    'ledger_index_canister_summary' : IDL.Opt(CanisterSummary),
+    'fallback_controller_principal_ids' : IDL.Vec(IDL.Principal),
+    'ledger_archive_canister_summaries' : IDL.Vec(CanisterSummary),
+    'ledger_canister_summary' : IDL.Opt(CanisterSummary),
+    'swap_canister_summary' : IDL.Opt(CanisterSummary),
+    'governance_canister_summary' : IDL.Opt(CanisterSummary),
+    'root_canister_summary' : IDL.Opt(CanisterSummary),
+    'dapp_canister_summaries' : IDL.Vec(CanisterSummary),
+  });
+  const DerivedProposalInformation = IDL.Record({
+    'swap_background_information' : IDL.Opt(SwapBackgroundInformation),
+  });
+  const Tally = IDL.Record({
+    'no' : IDL.Nat64,
+    'yes' : IDL.Nat64,
+    'total' : IDL.Nat64,
+    'timestamp_seconds' : IDL.Nat64,
+  });
   const WaitForQuietState = IDL.Record({
     'current_deadline_timestamp_seconds' : IDL.Nat64,
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(NeuronId),
+    'neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
     'failure_reason' : IDL.Opt(GovernanceError),
     'cf_participants' : IDL.Vec(CfParticipant),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
@@ -1102,6 +1256,7 @@ export const init = ({ IDL }) => {
   });
   const Governance = IDL.Record({
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
+    'making_sns_proposal' : IDL.Opt(MakingSnsProposal),
     'most_recent_monthly_node_provider_rewards' : IDL.Opt(
       MostRecentMonthlyNodeProviderRewards
     ),
@@ -1110,6 +1265,7 @@ export const init = ({ IDL }) => {
     ),
     'wait_for_quiet_threshold_seconds' : IDL.Nat64,
     'metrics' : IDL.Opt(GovernanceCachedMetrics),
+    'neuron_management_voting_period_seconds' : IDL.Opt(IDL.Nat64),
     'node_providers' : IDL.Vec(NodeProvider),
     'cached_daily_maturity_modulation_basis_points' : IDL.Opt(IDL.Int32),
     'economics' : IDL.Opt(NetworkEconomics),
@@ -1117,6 +1273,7 @@ export const init = ({ IDL }) => {
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'to_claim_transfers' : IDL.Vec(NeuronStakeTransfer),
     'short_voting_period_seconds' : IDL.Nat64,
+    'migrations' : IDL.Opt(Migrations),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInFlightCommand)),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Nat64, Neuron)),

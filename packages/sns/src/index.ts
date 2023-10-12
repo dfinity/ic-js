@@ -19,29 +19,35 @@ export type {
 } from "../candid/sns_governance";
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
 export type {
-  BuyerState as SnsSwapBuyerState,
   CfParticipant,
-  DerivedState as SnsSwapDerivedState,
+  FinalizeSwapResponse as SnsFinalizeSwapResponse,
+  GetAutoFinalizationStatusResponse as SnsGetAutoFinalizationStatusResponse,
   GetBuyerStateRequest as SnsGetBuyerStateRequest,
   GetBuyerStateResponse as SnsGetBuyerStateResponse,
   GetDerivedStateResponse as SnsGetDerivedStateResponse,
+  GetInitResponse as SnsGetInitResponse,
   GetLifecycleResponse as SnsGetLifecycleResponse,
   GetSaleParametersResponse as SnsGetSaleParametersResponse,
-  Init as SnsSwapInit,
   InvalidUserAmount as SnsInvalidUserAmount,
+  SnsNeuronRecipe,
+  NeuronsFundParticipationConstraints as SnsNeuronsFundParticipationConstraints,
   Params as SnsParams,
   RefreshBuyerTokensResponse as SnsRefreshBuyerTokensResponse,
-  SnsNeuronRecipe,
   Swap as SnsSwap,
+  BuyerState as SnsSwapBuyerState,
+  DerivedState as SnsSwapDerivedState,
+  Init as SnsSwapInit,
   Ticket as SnsSwapTicket,
   TransferableAmount as SnsTransferableAmount,
 } from "../candid/sns_swap";
 export { fromCandidAction } from "./converters/governance.converters";
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";
+export * from "./errors/common.errors";
 export * from "./errors/governance.errors";
 export * from "./errors/swap.errors";
 export { SnsGovernanceCanister } from "./governance.canister";
+export { SnsGovernanceTestCanister } from "./governance_test.canister";
 export { SnsRootCanister } from "./root.canister";
 export * from "./sns";
 export * from "./sns.wrapper";

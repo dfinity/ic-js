@@ -44,13 +44,13 @@ describe("BTC utils", () => {
     const address = "17VZNX1SN5NtKa8UFFxwQbFeFc3iqRYhem";
 
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Mainnet })
+      parseBtcAddress({ address, network: BtcNetwork.Mainnet }),
     ).toThrow(ParseBtcAddressMalformedAddressError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Testnet })
+      parseBtcAddress({ address, network: BtcNetwork.Testnet }),
     ).toThrow(ParseBtcAddressMalformedAddressError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Regtest })
+      parseBtcAddress({ address, network: BtcNetwork.Regtest }),
     ).toThrow(ParseBtcAddressMalformedAddressError);
   });
 
@@ -91,13 +91,13 @@ describe("BTC utils", () => {
     const address = "17VZNX1SN5NtKa8UFFxwQbFFFc3iqRYhem";
 
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Mainnet })
+      parseBtcAddress({ address, network: BtcNetwork.Mainnet }),
     ).toThrow(ParseBtcAddressMalformedAddressError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Testnet })
+      parseBtcAddress({ address, network: BtcNetwork.Testnet }),
     ).toThrow(ParseBtcAddressMalformedAddressError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Regtest })
+      parseBtcAddress({ address, network: BtcNetwork.Regtest }),
     ).toThrow(ParseBtcAddressMalformedAddressError);
   });
 
@@ -105,13 +105,13 @@ describe("BTC utils", () => {
     const address = "x";
 
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Mainnet })
+      parseBtcAddress({ address, network: BtcNetwork.Mainnet }),
     ).toThrow(ParseBtcAddressUnsupportedAddressTypeError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Testnet })
+      parseBtcAddress({ address, network: BtcNetwork.Testnet }),
     ).toThrow(ParseBtcAddressUnsupportedAddressTypeError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Regtest })
+      parseBtcAddress({ address, network: BtcNetwork.Regtest }),
     ).toThrow(ParseBtcAddressUnsupportedAddressTypeError);
   });
 
@@ -119,13 +119,13 @@ describe("BTC utils", () => {
     const address = "";
 
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Mainnet })
+      parseBtcAddress({ address, network: BtcNetwork.Mainnet }),
     ).toThrow(ParseBtcAddressNoDataError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Testnet })
+      parseBtcAddress({ address, network: BtcNetwork.Testnet }),
     ).toThrow(ParseBtcAddressNoDataError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Regtest })
+      parseBtcAddress({ address, network: BtcNetwork.Regtest }),
     ).toThrow(ParseBtcAddressNoDataError);
   });
 
@@ -136,7 +136,7 @@ describe("BTC utils", () => {
     ];
 
     expect(
-      parseBtcAddress({ address: a, network: BtcNetwork.Mainnet })
+      parseBtcAddress({ address: a, network: BtcNetwork.Mainnet }),
     ).toEqual({
       address: a,
       network: BtcNetwork.Mainnet,
@@ -144,7 +144,7 @@ describe("BTC utils", () => {
       parser: "bip-173",
     });
     expect(
-      parseBtcAddress({ address: b, network: BtcNetwork.Mainnet })
+      parseBtcAddress({ address: b, network: BtcNetwork.Mainnet }),
     ).toEqual({
       address: b,
       network: BtcNetwork.Mainnet,
@@ -179,13 +179,13 @@ describe("BTC utils", () => {
     const address = "bc1qw508d6qejxtdg4y5r3zrrvary0c5xw7kv8f3t4";
 
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Mainnet })
+      parseBtcAddress({ address, network: BtcNetwork.Mainnet }),
     ).toThrow(ParseBtcAddressMalformedAddressError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Testnet })
+      parseBtcAddress({ address, network: BtcNetwork.Testnet }),
     ).toThrow(ParseBtcAddressMalformedAddressError);
     expect(() =>
-      parseBtcAddress({ address, network: BtcNetwork.Regtest })
+      parseBtcAddress({ address, network: BtcNetwork.Regtest }),
     ).toThrow(ParseBtcAddressMalformedAddressError);
   });
 
@@ -197,7 +197,7 @@ describe("BTC utils", () => {
       ];
 
       expect(
-        parseBtcAddress({ address: a, network: BtcNetwork.Mainnet })
+        parseBtcAddress({ address: a, network: BtcNetwork.Mainnet }),
       ).toEqual({
         address: a,
         network: BtcNetwork.Mainnet,
@@ -206,7 +206,7 @@ describe("BTC utils", () => {
       });
 
       expect(
-        parseBtcAddress({ address: b, network: BtcNetwork.Mainnet })
+        parseBtcAddress({ address: b, network: BtcNetwork.Mainnet }),
       ).toEqual({
         address: b,
         network: BtcNetwork.Mainnet,
@@ -228,7 +228,7 @@ describe("BTC utils", () => {
     it("Mainnet Bech32 P2WSH", () => {
       const address =
         "bc1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qccfmv3";
-
+      
       expect(parseBtcAddress({ address, network: BtcNetwork.Mainnet })).toEqual(
         {
           address,

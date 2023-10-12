@@ -56,7 +56,7 @@ THIS_SCRIPT_NAME="$(basename "$0")"
 : Import canisters
 mkdir -p packages/nns/candid
 import_did "rs/nns/governance/canister/governance.did" "governance.did" "nns"
-import_did "rs/rosetta-api/icp_ledger/ledger.did" "ledger.did" "nns"
+import_did "rs/nns/governance/canister/governance_test.did" "governance_test.did" "nns"
 import_did "rs/nns/gtc/canister/gtc.did" "genesis_token.did" "nns"
 import_did "rs/nns/sns-wasm/canister/sns-wasm.did" "sns_wasm.did" "nns"
 
@@ -64,17 +64,21 @@ mkdir -p packages/sns/candid
 import_did "rs/sns/swap/canister/swap.did" "sns_swap.did" "sns"
 import_did "rs/sns/root/canister/root.did" "sns_root.did" "sns"
 import_did "rs/sns/governance/canister/governance.did" "sns_governance.did" "sns"
+import_did "rs/sns/governance/canister/governance_test.did" "sns_governance_test.did" "sns"
 
 mkdir -p packages/cmc/candid
 import_did "rs/nns/cmc/cmc.did" "cmc.did" "cmc"
 
-mkdir -p packages/ledger/candid
-import_did "rs/rosetta-api/icrc1/ledger/ledger.did" "icrc1_ledger.did" "ledger"
-import_did "rs/rosetta-api/icrc1/index/index.did" "icrc1_index.did" "ledger"
+mkdir -p packages/ledger-icp/candid
+import_did "rs/rosetta-api/icp_ledger/ledger.did" "ledger.did" "ledger-icp"
+
+mkdir -p packages/ledger-icrc/candid
+import_did "rs/rosetta-api/icrc1/ledger/ledger.did" "icrc_ledger.did" "ledger-icrc"
+import_did "rs/rosetta-api/icrc1/index/index.did" "icrc_index.did" "ledger-icrc"
 
 mkdir -p packages/ckbtc/candid
 import_did "rs/bitcoin/ckbtc/minter/ckbtc_minter.did" "minter.did" "ckbtc"
 
 mkdir -p packages/ic-management/candid
-curl https://raw.githubusercontent.com/dfinity/interface-spec/master/spec/ic.did -o packages/ic-management/candid/ic-management.did
+curl https://raw.githubusercontent.com/dfinity/interface-spec/master/spec/_attachments/ic.did -o packages/ic-management/candid/ic-management.did
 : Fin

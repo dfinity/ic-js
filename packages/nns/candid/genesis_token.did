@@ -1,4 +1,4 @@
-// Generated from IC repo commit b9fc66eafca530e997313aa68aaac31d41e6a875 'rs/nns/gtc/canister/gtc.did' by import-candid
+// Generated from IC repo commit 15e69667ae983fa92c33794a3954d9ca87518af6 'rs/nns/gtc/canister/gtc.did' by import-candid
 type AccountState = record {
   authenticated_principal_id : opt principal;
   successfully_transferred_neurons : vec TransferredNeuron;

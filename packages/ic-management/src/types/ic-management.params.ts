@@ -1,8 +1,8 @@
 import { Principal } from "@dfinity/principal";
 import { toNullable, type ServiceParam } from "@dfinity/utils";
 import type {
-  canister_settings,
   _SERVICE as IcManagementService,
+  canister_settings,
 } from "../../candid/ic-management";
 
 export interface CanisterSettings {
@@ -75,4 +75,15 @@ export interface UninstallCodeParams {
 export interface CanisterInfoParams {
   canisterId: Principal;
   numRequestChanges?: bigint;
+}
+
+export interface ProvisionalCreateCanisterWithCyclesParams {
+  amount?: bigint;
+  settings?: CanisterSettings;
+  canisterId?: Principal;
+}
+
+export interface ProvisionalTopUpCanisterParams {
+  canisterId: Principal;
+  amount: bigint;
 }

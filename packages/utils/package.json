@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/utils",
-  "version": "0.0.18",
+  "version": "1.0.0",
   "description": "A collection of utilities and constants for NNS/SNS projects.",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.cjs.js",
@@ -47,8 +47,8 @@
     "service-nervous-system"
   ],
   "peerDependencies": {
-    "@dfinity/agent": "^0.15.4",
-    "@dfinity/candid": "^0.15.4",
-    "@dfinity/principal": "^0.15.4"
+    "@dfinity/agent": "^0.19.2",
+    "@dfinity/candid": "^0.19.2",
+    "@dfinity/principal": "^0.19.2"
   }
 }

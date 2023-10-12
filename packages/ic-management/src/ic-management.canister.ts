@@ -1,3 +1,4 @@
+import type { CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { createServices, toNullable } from "@dfinity/utils";
 import type { _SERVICE as IcManagementService } from "../candid/ic-management";
@@ -7,6 +8,7 @@ import type { ICManagementCanisterOptions } from "./types/canister.options";
 import type {
   CanisterInfoParams,
   CreateCanisterParams,
+  ProvisionalCreateCanisterWithCyclesParams,
   UninstallCodeParams,
 } from "./types/ic-management.params";
 import {
@@ -26,10 +28,29 @@ export class ICManagementCanister {
   }
 
   public static create(options: ICManagementCanisterOptions) {
+    // Source getManagementCanister in agent-js.
+    // Allow usage of the ICManagementCanister wrapper locally.
+    const transform = (
+      _methodName: string,
+      args: unknown[],
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _callConfig: CallConfig,
+    ) => {
+      const first = args[0] as { canister_id: string };
+      let effectiveCanisterId = Principal.fromHex("");
+      if (first && typeof first === "object" && first.canister_id) {
+        effectiveCanisterId = Principal.from(first.canister_id as unknown);
+      }
+      return { effectiveCanisterId };
+    };
+
     const { service } = createServices<IcManagementService>({
       options: {
         ...options,
-        canisterId: Principal.fromText("aaaaa-aa"),
+        // Resolve to "aaaaa-aa" on mainnet
+        canisterId: Principal.fromHex(""),
+        callTransform: transform,
+        queryTransform: transform,
       },
       idlFactory,
       certifiedIdlFactory,
@@ -175,4 +196,29 @@ export class ICManagementCanister {
    */
   deleteCanister = (canisterId: Principal): Promise<void> =>
     this.service.delete_canister({ canister_id: canisterId });
+
+  /**
+   * Creates a canister. Only available on development instances.
+   *
+   * @param {Object} params
+   * @param {Principal} params.canisterId
+   * @param {BigInt} params.amount
+   * @param {CanisterSettings} params.settings
+   * @returns {Promise<Principal>}
+   */
+  provisionalCreateCanisterWithCycles = async ({
+    settings,
+    amount,
+    canisterId,
+  }: ProvisionalCreateCanisterWithCyclesParams = {}): Promise<Principal> => {
+    const { canister_id } =
+      await this.service.provisional_create_canister_with_cycles({
+        settings: toNullable(toCanisterSettings(settings)),
+        amount: toNullable(amount),
+        specified_id: toNullable(canisterId),
+        sender_canister_version: [],
+      });
+
+    return canister_id;
+  };
 }

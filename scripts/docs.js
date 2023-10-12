@@ -3,12 +3,8 @@
 const { generateDocumentation } = require("tsdoc-markdown");
 
 const nnsInputFiles = [
-  "./packages/nns/src/account_identifier.ts",
   "./packages/nns/src/genesis_token.canister.ts",
   "./packages/nns/src/governance.canister.ts",
-  "./packages/nns/src/icp.ts",
-  "./packages/nns/src/token.ts",
-  "./packages/nns/src/ledger.canister.ts",
   "./packages/nns/src/sns_wasm.canister.ts",
   "./packages/nns/src/utils/neurons.utils.ts",
 ];
@@ -26,11 +22,16 @@ const utilsInputFiles = ["./packages/utils/src/index.ts"];
 
 const cmcInputFiles = ["./packages/cmc/src/cmc.canister.ts"];
 
-const ledgerInputFiles = [
-  "./packages/ledger/src/ledger.canister.ts",
-  "./packages/ledger/src/utils/ledger.utils.ts",
-  "./packages/ledger/src/utils/payment.utils.ts",
-  "./packages/ledger/src/index.canister.ts",
+const ledgerIcrcInputFiles = [
+  "./packages/ledger-icrc/src/ledger.canister.ts",
+  "./packages/ledger-icrc/src/utils/ledger.utils.ts",
+  "./packages/ledger-icrc/src/utils/payment.utils.ts",
+  "./packages/ledger-icrc/src/index.canister.ts",
+];
+
+const ledgerICPInputFiles = [
+  "./packages/ledger-icp/src/ledger.canister.ts",
+  "./packages/ledger-icp/src/account_identifier.ts",
 ];
 
 const ckBTCInputFiles = [
@@ -38,57 +39,70 @@ const ckBTCInputFiles = [
   "./packages/ckbtc/src/utils/btc.utils.ts",
 ];
 
-const rosettaInputFiles = ["./packages/rosetta-client/src/index.ts"];
-
 const icMgmtInputFiles = [
   "./packages/ic-management/src/ic-management.canister.ts",
 ];
 
+const buildOptions = {
+  repo: { url: "https://github.com/dfinity/ic-js" },
+};
+
+const markdownOptions = {
+  headingLevel: "###",
+};
+
 generateDocumentation({
   inputFiles: nnsInputFiles,
   outputFile: "./packages/nns/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
+  buildOptions,
 });
 
 generateDocumentation({
   inputFiles: snsInputFiles,
   outputFile: "./packages/sns/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
+  buildOptions,
 });
 
 generateDocumentation({
   inputFiles: cmcInputFiles,
   outputFile: "./packages/cmc/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
+  buildOptions,
 });
 
 generateDocumentation({
-  inputFiles: ledgerInputFiles,
-  outputFile: "./packages/ledger/README.md",
-  markdownOptions: { headingLevel: "###" },
+  inputFiles: ledgerIcrcInputFiles,
+  outputFile: "./packages/ledger-icrc/README.md",
+  markdownOptions,
+  buildOptions,
+});
+
+generateDocumentation({
+  inputFiles: ledgerICPInputFiles,
+  outputFile: "./packages/ledger-icp/README.md",
+  markdownOptions,
+  buildOptions,
 });
 
 generateDocumentation({
   inputFiles: ckBTCInputFiles,
   outputFile: "./packages/ckbtc/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
+  buildOptions,
 });
 
 generateDocumentation({
   inputFiles: utilsInputFiles,
   outputFile: "./packages/utils/README.md",
-  markdownOptions: { headingLevel: "###" },
-  buildOptions: { explore: true },
-});
-
-generateDocumentation({
-  inputFiles: rosettaInputFiles,
-  outputFile: "./packages/rosetta-client/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
+  buildOptions: { ...buildOptions, explore: true },
 });
 
 generateDocumentation({
   inputFiles: icMgmtInputFiles,
   outputFile: "./packages/ic-management/README.md",
-  markdownOptions: { headingLevel: "###" },
+  markdownOptions,
+  buildOptions,
 });

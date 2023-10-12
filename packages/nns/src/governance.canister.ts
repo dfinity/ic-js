@@ -1,7 +1,14 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
+import type { LedgerCanister } from "@dfinity/ledger-icp";
+import {
+  AccountIdentifier,
+  SubAccount,
+  checkAccountId,
+} from "@dfinity/ledger-icp";
 import type { ManageNeuron as PbManageNeuron } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
+  arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   assertPercentageNumber,
   createServices,
@@ -10,21 +17,20 @@ import {
   nonNullish,
   uint8ArrayToBigInt,
 } from "@dfinity/utils";
-import { sha256 } from "js-sha256";
+import { sha256 } from "@noble/hashes/sha256";
 import randomBytes from "randombytes";
 import type {
   Command_1,
+  _SERVICE as GovernanceService,
   ListProposalInfo,
   MergeResponse,
   Neuron as RawNeuron,
   NeuronInfo as RawNeuronInfo,
   ProposalInfo as RawProposalInfo,
   RewardEvent,
-  _SERVICE as GovernanceService,
 } from "../candid/governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { idlFactory } from "../candid/governance.idl";
-import { AccountIdentifier, SubAccount } from "./account_identifier";
 import {
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
@@ -83,7 +89,6 @@ import {
   InsufficientAmountError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
-import type { LedgerCanister } from "./ledger.canister";
 import type { E8s, NeuronId } from "./types/common";
 import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
@@ -100,7 +105,6 @@ import type {
   ProposalInfo,
   SpawnRequest,
 } from "./types/governance_converters";
-import { checkAccountId } from "./utils/accounts.utils";
 import { importNnsProto, updateCall } from "./utils/proto.utils";
 
 export class GovernanceCanister {
@@ -109,7 +113,7 @@ export class GovernanceCanister {
     private readonly service: ActorSubclass<GovernanceService>,
     private readonly certifiedService: ActorSubclass<GovernanceService>,
     private readonly agent: Agent,
-    private readonly hardwareWallet: boolean = false
+    private readonly hardwareWallet: boolean = false,
   ) {
     this.canisterId = canisterId;
     this.service = service;
@@ -137,7 +141,7 @@ export class GovernanceCanister {
       service,
       certifiedService,
       agent,
-      options.hardwareWallet
+      options.hardwareWallet,
     );
   }
 
@@ -166,9 +170,8 @@ export class GovernanceCanister {
       return this.listNeuronsHardwareWallet();
     }
     const rawRequest = fromListNeurons(neuronIds);
-    const raw_response = await this.getGovernanceService(
-      certified
-    ).list_neurons(rawRequest);
+    const raw_response =
+      await this.getGovernanceService(certified).list_neurons(rawRequest);
     return toArrayOfNeuronInfo({
       response: raw_response,
       canisterId: this.canisterId,
@@ -183,17 +186,16 @@ export class GovernanceCanister {
    * it is fetched using a query call.
    */
   public listKnownNeurons = async (
-    certified = true
+    certified = true,
   ): Promise<KnownNeuron[]> => {
-    const response = await this.getGovernanceService(
-      certified
-    ).list_known_neurons();
+    const response =
+      await this.getGovernanceService(certified).list_known_neurons();
 
     return response.known_neurons.map((n) => ({
       id: fromNullable(n.id)?.id ?? BigInt(0),
       name: fromNullable(n.known_neuron_data)?.name ?? "",
       description: fromNullable(
-        fromNullable(n.known_neuron_data)?.description ?? []
+        fromNullable(n.known_neuron_data)?.description ?? [],
       ),
     }));
   };
@@ -206,7 +208,7 @@ export class GovernanceCanister {
    *
    */
   public getLastestRewardEvent = async (
-    certified = true
+    certified = true,
   ): Promise<RewardEvent> => {
     return this.getGovernanceService(certified).get_latest_reward_event();
   };
@@ -229,9 +231,8 @@ export class GovernanceCanister {
     certified?: boolean;
   }): Promise<ListProposalsResponse> => {
     const rawRequest: ListProposalInfo = fromListProposalsRequest(request);
-    const rawResponse = await this.getGovernanceService(
-      certified
-    ).list_proposals(rawRequest);
+    const rawResponse =
+      await this.getGovernanceService(certified).list_proposals(rawRequest);
     return toListProposalsResponse(rawResponse);
   };
 
@@ -276,6 +277,76 @@ export class GovernanceCanister {
       amount: stake,
       fromSubAccount,
       to: accountIdentifier,
+      createdAt,
+      fee,
+    });
+
+    // Notify the governance of the transaction so that the neuron is created.
+    const neuronId: NeuronId | undefined =
+      await this.claimOrRefreshNeuronFromAccount({
+        controller: principal,
+        memo: nonce,
+      });
+
+    // Typescript was complaining with `neuronId || new NeuronNotFound()`:
+    // "Type 'undefined' is not assignable to type 'bigint | StakeNeuronError | TransferError'"
+    // hence the explicit check.
+    if (isNullish(neuronId)) {
+      throw new CouldNotClaimNeuronError();
+    }
+
+    return neuronId;
+  };
+
+  // TODO: Rename to and replace `stakeNeuron` once `stakeNeuronIcrc1` is tested
+  // in NNS dapp.
+  // Note: Ledger HW does currently (2023-09-20) not support ICRC-1 transfers to
+  // the governance canister.
+  /**
+   * @throws {@link InsufficientAmountError}
+   * @throws {@link StakeNeuronTransferError}
+   * @throws {@link CouldNotClaimNeuronError}
+   * @throws {@link TransferError}
+   */
+  public stakeNeuronIcrc1 = async ({
+    stake,
+    principal,
+    fromSubAccount,
+    ledgerCanister,
+    createdAt,
+    fee,
+  }: {
+    stake: bigint;
+    principal: Principal;
+    fromSubAccount?: Uint8Array;
+    ledgerCanister: LedgerCanister;
+    // Used for the TransferRequest parameters.
+    // Check the TransferRequest type for more information.
+    createdAt?: bigint;
+    fee?: E8s;
+  }): Promise<NeuronId> => {
+    if (stake < E8S_PER_TOKEN) {
+      throw new InsufficientAmountError(stake);
+    }
+
+    const nonceBytes = new Uint8Array(randomBytes(8));
+    const nonce = uint8ArrayToBigInt(nonceBytes);
+    const toSubAccount = this.getNeuronStakeSubAccountBytes(
+      nonceBytes,
+      principal,
+    );
+
+    // Send amount to the ledger.
+    await ledgerCanister.icrc1Transfer({
+      // WARNING: This does not set the same memo field as the stakeNeuron
+      // function above and would need to be handled separately from that field.
+      icrc1Memo: nonceBytes,
+      amount: stake,
+      fromSubAccount,
+      to: {
+        owner: this.canisterId,
+        subaccount: [toSubAccount],
+      },
       createdAt,
       fee,
     });
@@ -445,7 +516,7 @@ export class GovernanceCanister {
    * @throws {@link InvalidAccountIDError}
    */
   public setNodeProviderAccount = async (
-    accountIdentifier: string
+    accountIdentifier: string,
   ): Promise<void> => {
     // Might throw InvalidAccountIDError
     checkAccountId(accountIdentifier);
@@ -515,8 +586,8 @@ export class GovernanceCanister {
     // Edge case
     throw new UnrecognizedTypeError(
       `simulateMergeNeurons: Unrecognized Merge error in ${JSON.stringify(
-        command
-      )}`
+        command,
+      )}`,
     );
   };
 
@@ -556,7 +627,7 @@ export class GovernanceCanister {
 
     // Edge case
     throw new UnrecognizedTypeError(
-      `Unrecognized Split error in ${JSON.stringify(response)}`
+      `Unrecognized Split error in ${JSON.stringify(response)}`,
     );
   };
 
@@ -766,7 +837,7 @@ export class GovernanceCanister {
     if (
       "Spawn" in command &&
       nonNullish(
-        (createdNeuronId = fromNullable(command.Spawn.created_neuron_id)?.id)
+        (createdNeuronId = fromNullable(command.Spawn.created_neuron_id)?.id),
       )
     ) {
       return createdNeuronId;
@@ -774,7 +845,7 @@ export class GovernanceCanister {
 
     // Edge case
     throw new UnrecognizedTypeError(
-      `Unrecognized Spawn error in ${JSON.stringify(response)}`
+      `Unrecognized Spawn error in ${JSON.stringify(response)}`,
     );
   };
 
@@ -849,7 +920,7 @@ export class GovernanceCanister {
     }
 
     throw new UnrecognizedTypeError(
-      `Unrecognized ClaimOrRefresh error in ${JSON.stringify(rawResponse)}`
+      `Unrecognized ClaimOrRefresh error in ${JSON.stringify(rawResponse)}`,
     );
   };
 
@@ -860,7 +931,7 @@ export class GovernanceCanister {
    * @throws {@link UnrecognizedTypeError}
    */
   public claimOrRefreshNeuron = async (
-    request: ClaimOrRefreshNeuronRequest
+    request: ClaimOrRefreshNeuronRequest,
   ): Promise<NeuronId | undefined> => {
     const rawRequest = fromClaimOrRefreshNeuronRequest(request);
     const rawResponse = await this.service.manage_neuron(rawRequest);
@@ -873,18 +944,34 @@ export class GovernanceCanister {
     }
 
     throw new UnrecognizedTypeError(
-      `Unrecognized ClaimOrRefresh error in ${JSON.stringify(rawResponse)}`
+      `Unrecognized ClaimOrRefresh error in ${JSON.stringify(rawResponse)}`,
     );
   };
 
   private buildNeuronStakeSubAccount = (
     nonce: Uint8Array,
-    principal: Principal
+    principal: Principal,
   ): SubAccount => {
+    return SubAccount.fromBytes(
+      this.getNeuronStakeSubAccountBytes(nonce, principal),
+    ) as SubAccount;
+  };
+
+  private getNeuronStakeSubAccountBytes = (
+    nonce: Uint8Array,
+    principal: Principal,
+  ): Uint8Array => {
     const padding = asciiStringToByteArray("neuron-stake");
     const shaObj = sha256.create();
-    shaObj.update([0x0c, ...padding, ...principal.toUint8Array(), ...nonce]);
-    return SubAccount.fromBytes(new Uint8Array(shaObj.array())) as SubAccount;
+    shaObj.update(
+      arrayOfNumberToUint8Array([
+        0x0c,
+        ...padding,
+        ...principal.toUint8Array(),
+        ...nonce,
+      ]),
+    );
+    return shaObj.digest();
   };
 
   private getGovernanceService(certified: boolean): GovernanceService {
@@ -935,12 +1022,12 @@ export class GovernanceCanister {
     return response
       .getNeuronIdsList()
       .map(
-        convertPbNeuronToNeuronInfo({ pbNeurons, canisterId: this.canisterId })
+        convertPbNeuronToNeuronInfo({ pbNeurons, canisterId: this.canisterId }),
       );
   };
 
   private manageNeuronUpdateCall = async (
-    rawRequest: PbManageNeuron
+    rawRequest: PbManageNeuron,
   ): Promise<void> => {
     const rawResponse = await updateCall({
       agent: this.agent,
@@ -995,42 +1082,42 @@ export class GovernanceCanister {
   };
 
   private startDissolvingHardwareWallet = async (
-    neuronId: NeuronId
+    neuronId: NeuronId,
   ): Promise<void> => {
     const rawRequest = await fromStartDissolvingRequest(neuronId);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private stopDissolvingHardwareWallet = async (
-    neuronId: NeuronId
+    neuronId: NeuronId,
   ): Promise<void> => {
     const rawRequest = await fromStopDissolvingRequest(neuronId);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private joinCommunityFundHardwareWallet = async (
-    neuronId: NeuronId
+    neuronId: NeuronId,
   ): Promise<void> => {
     const rawRequest = await fromCommunityFundRequest(neuronId);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private disburseHardwareWallet = async (
-    request: DisburseRequest
+    request: DisburseRequest,
   ): Promise<void> => {
     const rawRequest = await fromDisburseRequest(request);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private mergeMaturityHardwareWallet = async (
-    request: MergeMaturityRequest
+    request: MergeMaturityRequest,
   ): Promise<void> => {
     const rawRequest = await fromMergeMaturityRequest(request);
     await this.manageNeuronUpdateCall(rawRequest);
   };
 
   private spawnHardwareWallet = async (
-    request: SpawnRequest
+    request: SpawnRequest,
   ): Promise<NeuronId> => {
     const rawRequest = await fromSpawnRequest(request);
     const rawResponse = await updateCall({
@@ -1057,7 +1144,7 @@ export class GovernanceCanister {
       return BigInt(createdNeuronId.getId());
     }
     throw new UnrecognizedTypeError(
-      `Unrecognized Spawn error in ${JSON.stringify(response)}`
+      `Unrecognized Spawn error in ${JSON.stringify(response)}`,
     );
   };
 }

@@ -1,4 +1,170 @@
-# 0.18.0 (wip)
+# 2023.XX.YY
+
+## Overview
+
+<!-- TODO: To be documented. -->
+
+## Features
+
+- expose few types - notably `BlockHeight` - for library `@dfinity/ledger-icp`
+- support new fields from swap canister response types: `min_direct_participation_icp_e8s` and `max_direct_participation_icp_e8s`
+- support new fields in the `CreateServiceNervousSystem` proposal action `maximum_direct_participation_icp` and `minimum_direct_participation_icp`.
+- support new filter field `omit_large_fields` in `list_proposals`.
+
+# 2023.10.02-1515Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v1.0.1  | Patched             |
+| `@dfinity/cmc`           | v1.0.0  | Unchanged           |
+| `@dfinity/ic-management` | v1.0.0  | Unchanged           |
+| `@dfinity/ledger`        | v1.0.0  | Deprecated ❌       |
+| `@dfinity/ledger-icp`    | v1.0.0  | New 🚀              |
+| `@dfinity/ledger-icrc`   | v1.0.0  | New 🚀              |
+| `@dfinity/nns`           | v2.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged           |
+| `@dfinity/sns`           | v1.0.0  | Patched             |
+| `@dfinity/utils`         | v1.0.0  | Unchanged           |
+
+## Release
+
+- ckbtc `v1.0.1`
+- ledger-icp `v1.0.0`
+- ledger-icrc `v1.0.0`
+- nns `v2.0.0`
+- sns `v1.0.1`
+
+## Breaking Changes ⚠️
+
+- **ICP** ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called `@dfinity/ledger-icp`
+- **ICRC** ledger-related features have been moved as well. The library `@dfinity/ledger` has been deprecated, renamed, and replaced by `@dfinity/ledger-icrc`
+- remove the `ICP` class, which was deprecated a long time ago, from `@dfinity/nns`. Instead, utilize the token parsers from `@dfinity/utils`
+
+## Build
+
+- `@dfinity/sns` inherits the changes and now requires `@dfinity/ledger-icrc` as a peer dependency
+- `@dfinity/nns` inherits the changes and now requires `@dfinity/ledger-icp` as a peer dependency
+
+## Chore
+
+- minter params `Subaccount` declared as `Uint8Array` instead of inheriting a type
+
+# 1.0.0 (2023-10-02)
+
+## Release
+
+- nns `v1.0.0`
+- sns `v1.0.0`
+- cmc `v1.0.0`
+- ledger `v1.0.0`
+- ckBTC `v1.0.0`
+- ic-management `v1.0.0`
+- utils `v1.0.0`
+- nns-proto `v1.0.0`
+
+## Features
+
+- add support for `icrc2_transfer_from`, `icrc2_approve` and `icrc2_allowance` in `@dfinity/ledger`
+- update index did definitions in ledger which provides more information in the transactions
+- add support for icrc1_transfer on the ICP ledger canister in `@dfinity/nns`
+
+## Build
+
+- bump did files in Cmc
+- starting from this version, we commit to adhering to [semantic versioning](https://semver.org/) for any libraries published in ic-js
+
+# 0.18.4 (2023-09-05)
+
+## Release
+
+- nns `v0.16.7`
+- sns `v0.0.22`
+- cmc `v0.0.18`
+- ledger `v0.0.15`
+- ckBTC `v0.0.11`
+- ic-management `v0.0.8`
+- utils `v0.0.22`
+- nns-proto `v0.0.8`
+
+## Features
+
+- replaces the `js-sha256` library with `@noble/hashes`
+
+# 0.18.3 (2023-09-04)
+
+## Release
+
+- nns `v0.16.6`
+- sns `v0.0.21`
+- cmc `v0.0.17`
+- ledger `v0.0.14`
+- ckBTC `v0.0.10`
+- ic-management `v0.0.7`
+- utils `v0.0.21`
+- nns-proto `v0.0.7`
+
+## Fix
+
+- bump agent-js `v0.19.2` to fix evaluation of subdomain when `host` is not specified
+
+## Build
+
+- remove unused dependencies in `@dfinity/ic-management`
+
+# 0.18.2 (2023-08-24)
+
+## Release
+
+- nns `v0.16.5`
+- sns `v0.0.20`
+- cmc `v0.0.16`
+- ledger `v0.0.13`
+- ckBTC `v0.0.9`
+- ic-management `v0.0.6`
+- utils `v0.0.20`
+- nns-proto `v0.0.6`
+
+## Features
+
+- Reviver and replacer to interpret `BigInt`, `Principal`, and `Uint8Array` in `JSON.stringify|parse`
+- Add Sns disburse maturity function
+
+## Build
+
+- bump agent-js `v0.19.1`
+
+# 0.18.1 (2023-08-07)
+
+## Release
+
+- nns `v0.16.4`
+- sns `v0.0.19`
+- cmc `v0.0.15`
+- ledger `v0.0.12`
+- ckBTC `v0.0.8`
+- ic-management `v0.0.5`
+- utils `v0.0.19`
+- nns-proto `v0.0.5`
+
+## Features
+
+- update `nns/governance.did` and `sns_wasm.did` for 1-proposal
+- update `ic.did` for `@dfinity/ic-management`
+- update `icrc1_ledger.did`
+
+## Build
+
+- bump agent-js `v0.18.1`
+
+## Docs
+
+- add mention that ICRC-22 is currently a draft
+
+# 0.18.0 (2023-07-03)
 
 ## Release
 
@@ -19,6 +185,13 @@
 ## Features
 
 - add a new utils function `decodePayment` to the `@dfinity/ledger` library. Useful to decode payment through QR code that contains target address and amount
+- add provisional create canister with cycles method
+- `CreateServiceNervousSystem` <-> `RawCreateServiceNervousSystem` transformations for Nns proposal
+- decode payment code (early support and not yet specified. see ICRC-22)
+
+## Build
+
+- bump `semver`
 
 # 0.17.2 (2023-06-21)
 

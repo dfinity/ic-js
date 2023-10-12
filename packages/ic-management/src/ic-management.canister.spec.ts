@@ -151,7 +151,7 @@ describe("ICManagementCanister", () => {
           arg: params.arg,
           sender_canister_version: [],
         });
-      }
+      },
     );
 
     it("throws Error", async () => {
@@ -357,6 +357,50 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () => icManagement.deleteCanister(mockCanisterId);
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
+
+  describe("provisionalCreateCanisterWithCycles", () => {
+    it("calls provisional_create_canister_with_cycles", async () => {
+      const response: ServiceResponse<
+        IcManagementService,
+        "provisional_create_canister_with_cycles"
+      > = {
+        canister_id: mockCanisterId,
+      };
+      const service = mock<IcManagementService>();
+      service.provisional_create_canister_with_cycles.mockResolvedValue(
+        response,
+      );
+
+      const icManagement = await createICManagement(service);
+
+      await icManagement.provisionalCreateCanisterWithCycles({
+        amount: BigInt(100_000),
+        canisterId: mockCanisterId,
+        settings: mockCanisterSettings,
+      });
+
+      expect(
+        service.provisional_create_canister_with_cycles,
+      ).toHaveBeenCalledWith({
+        amount: [BigInt(100_000)],
+        settings: [mappedMockCanisterSettings],
+        specified_id: [mockCanisterId],
+        sender_canister_version: [],
+      });
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.delete_canister.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.provisionalCreateCanisterWithCycles();
 
       expect(call).rejects.toThrowError(Error);
     });

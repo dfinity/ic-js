@@ -1,6 +1,5 @@
 import type { DerEncodedPublicKey } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
-import type { CreateServiceNervousSystem } from "../../candid/governance";
 import type {
   NeuronState,
   ProposalRewardStatus,
@@ -22,7 +21,6 @@ export type Action =
   | {
       ExecuteNnsFunction: ExecuteNnsFunction;
     }
-  // TODO: Create new CreateServiceNervousSystem type (don't use array for optional fields)
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ManageNeuron: ManageNeuron }
   | { ApproveGenesisKyc: ApproveGenesisKyc }
@@ -157,10 +155,21 @@ export interface ListProposalsRequest {
   // seeing
   excludeTopic: Array<Topic>;
 
+  // Include all ManageNeuron proposals regardless of the visibility of the
+  // proposal to the caller principal. Note that exclude_topic is still
+  // respected even when this option is set to true.
+  includeAllManageNeuronProposals: boolean;
+
   // Include proposals that have a status in this list (see
   // [ProposalStatus] for more information). If this list is empty, no
   // restriction is applied.
   includeStatus: Array<ProposalStatus>;
+
+  // Omits "large fields" from the response. Currently only omits the
+  // `logo` and `token_logo` field of CreateServiceNervousSystem proposals. This
+  // is useful to improve download times and to ensure that the response to the
+  // request doesn't exceed the message size limit.
+  omitLargeFields?: boolean;
 }
 export interface ListProposalsResponse {
   proposals: Array<ProposalInfo>;
@@ -224,6 +233,8 @@ export interface OpenSnsTokenSwap {
       dissolve_delay_interval_seconds: bigint;
       count: bigint;
     };
+    maxDirectParticipationIcpE8s?: bigint;
+    minDirectParticipationIcpE8s?: bigint;
   };
 }
 export interface SetSnsTokenSwapOpenTimeWindow {
@@ -489,4 +500,109 @@ export interface MakeExecuteNnsFunctionProposalRequest {
 
 export interface ListNodeProvidersResponse {
   nodeProviders: NodeProvider[];
+}
+
+export interface Percentage {
+  basisPoints?: bigint;
+}
+
+export interface Duration {
+  seconds?: bigint;
+}
+
+export interface GlobalTimeOfDay {
+  secondsAfterUtcMidnight?: bigint;
+}
+
+export interface Countries {
+  isoCodes: Array<string>;
+}
+
+export interface Tokens {
+  e8s?: bigint;
+}
+
+export interface Image {
+  base64Encoding?: string;
+}
+
+export interface LedgerParameters {
+  transactionFee?: Tokens;
+  tokenSymbol?: string;
+  tokenLogo?: Image;
+  tokenName?: string;
+}
+
+export interface VotingRewardParameters {
+  rewardRateTransitionDuration?: Duration;
+  initialRewardRate?: Percentage;
+  finalRewardRate?: Percentage;
+}
+
+export interface GovernanceParameters {
+  neuronMaximumDissolveDelayBonus?: Percentage;
+  neuronMaximumAgeForAgeBonus?: Duration;
+  neuronMaximumDissolveDelay?: Duration;
+  neuronMinimumDissolveDelayToVote?: Duration;
+  neuronMaximumAgeBonus?: Percentage;
+  neuronMinimumStake?: Tokens;
+  proposalWaitForQuietDeadlineIncrease?: Duration;
+  proposalInitialVotingPeriod?: Duration;
+  proposalRejectionFee?: Tokens;
+  votingRewardParameters?: VotingRewardParameters;
+}
+
+export interface NeuronBasketConstructionParameters {
+  dissolveDelayInterval?: Duration;
+  count?: bigint;
+}
+export interface SwapParameters {
+  minimumParticipants?: bigint;
+  duration?: Duration;
+  neuronBasketConstructionParameters?: NeuronBasketConstructionParameters;
+  confirmationText?: string;
+  maximumParticipantIcp?: Tokens;
+  neuronsFundInvestmentIcp?: Tokens;
+  minimumIcp?: Tokens;
+  minimumParticipantIcp?: Tokens;
+  startTime?: GlobalTimeOfDay;
+  maximumIcp?: Tokens;
+  restrictedCountries?: Countries;
+  maxDirectParticipationIcp?: Tokens;
+  minDirectParticipationIcp?: Tokens;
+}
+
+export interface SwapDistribution {
+  total?: Tokens;
+}
+
+export interface NeuronDistribution {
+  controller?: PrincipalString;
+  dissolveDelay?: Duration;
+  memo?: bigint;
+  vestingPeriod?: Duration;
+  stake?: Tokens;
+}
+
+export interface DeveloperDistribution {
+  developerNeurons: Array<NeuronDistribution>;
+}
+
+export interface InitialTokenDistribution {
+  treasuryDistribution?: SwapDistribution;
+  developerDistribution?: DeveloperDistribution;
+  swapDistribution?: SwapDistribution;
+}
+
+export interface CreateServiceNervousSystem {
+  url?: string;
+  governanceParameters?: GovernanceParameters;
+  fallbackControllerPrincipalIds: Array<PrincipalString>;
+  logo?: Image;
+  name?: string;
+  ledgerParameters?: LedgerParameters;
+  description?: string;
+  dappCanisters: Array<CanisterIdString>;
+  swapParameters?: SwapParameters;
+  initialTokenDistribution?: InitialTokenDistribution;
 }

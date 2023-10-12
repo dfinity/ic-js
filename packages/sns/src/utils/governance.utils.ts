@@ -1,7 +1,11 @@
-import type { IcrcSubaccount } from "@dfinity/ledger";
+import type { IcrcSubaccount } from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
-import { asciiStringToByteArray, numberToUint8Array } from "@dfinity/utils";
-import { sha256 } from "js-sha256";
+import {
+  arrayOfNumberToUint8Array,
+  asciiStringToByteArray,
+  numberToUint8Array,
+} from "@dfinity/utils";
+import { sha256 } from "@noble/hashes/sha256";
 
 /**
  * Neuron subaccount is calculated as "sha256(0x0c . “neuron-stake” . controller . i)"
@@ -27,6 +31,6 @@ export const neuronSubaccount = ({
   ];
   // TODO(#238): Implement without library and make it compatible with NodeJS and browser
   const shaObj = sha256.create();
-  shaObj.update(data);
-  return new Uint8Array(shaObj.array());
+  shaObj.update(arrayOfNumberToUint8Array(data));
+  return shaObj.digest();
 };
