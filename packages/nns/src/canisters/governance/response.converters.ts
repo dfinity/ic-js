@@ -1,8 +1,8 @@
 import {
   AccountIdentifier,
-  SubAccount,
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
+  SubAccount,
 } from "@dfinity/ledger-icp";
 import type {
   ListNeuronsResponse,
