@@ -26,7 +26,7 @@ const rootPeerDependencies = () => {
 
 const commonPeerDependencies = rootPeerDependencies();
 const workspacePeerDependencies = peerDependencies(
-  join(process.cwd(), "package.json"),
+  join(process.cwd(), "package.json")
 );
 
 const dist = join(process.cwd(), "dist");
@@ -44,7 +44,7 @@ const buildEsmCjs = () => {
         !file.includes("test") &&
         !file.includes("spec") &&
         !file.endsWith(".swp") &&
-        statSync(join(process.cwd(), "src", file)).isFile(),
+        statSync(join(process.cwd(), "src", file)).isFile()
     )
     .map((file) => `src/${file}`);
 
@@ -94,7 +94,7 @@ const writeEntries = () => {
   // an entry file for esm at the root of the bundle
   writeFileSync(
     join(dist, "index.cjs.js"),
-    "module.exports = require('./cjs/index.cjs.js');",
+    "module.exports = require('./cjs/index.cjs.js');"
   );
 };
 

@@ -52,7 +52,7 @@ export class CMCCanister {
    * @throws RefundedError, InvalidaTransactionError, ProcessingError, TransactionTooOldError, CMCError
    */
   public notifyCreateCanister = async (
-    request: NotifyCreateCanisterArg,
+    request: NotifyCreateCanisterArg
   ): Promise<Principal> => {
     const response = await this.service.notify_create_canister(request);
     if ("Err" in response) {
@@ -64,8 +64,8 @@ export class CMCCanister {
     // Edge case
     throw new Error(
       `Unsupported response type in notifyCreateCanister ${JSON.stringify(
-        response,
-      )}`,
+        response
+      )}`
     );
   };
 
@@ -89,7 +89,7 @@ export class CMCCanister {
     }
     // Edge case
     throw new Error(
-      `Unsupported response type in notifyTopUp ${JSON.stringify(response)}`,
+      `Unsupported response type in notifyTopUp ${JSON.stringify(response)}`
     );
   };
 }

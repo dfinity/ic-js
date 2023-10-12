@@ -10,7 +10,7 @@ import { MAINNET_SNS_WASM_CANISTER_ID } from "./constants/canister_ids";
 export class SnsWasmCanister {
   private constructor(
     private readonly service: SnsWasmService,
-    private readonly certifiedService: SnsWasmService,
+    private readonly certifiedService: SnsWasmService
   ) {}
 
   public static create(options: CanisterOptions<SnsWasmService> = {}) {

@@ -37,7 +37,7 @@ export const updateCall = async ({
         `  Request ID: ${submitResponse.requestId}`,
         `  HTTP status code: ${submitResponse.response.status}`,
         `  HTTP status text: ${submitResponse.response.statusText}`,
-      ].join("\n"),
+      ].join("\n")
     );
   }
 
@@ -45,7 +45,7 @@ export const updateCall = async ({
     agent,
     canisterId,
     submitResponse.requestId,
-    polling.defaultStrategy(),
+    polling.defaultStrategy()
   );
 
   return new Uint8Array(blob);
@@ -79,7 +79,7 @@ export const queryCall = async ({
         `  Canister ID: ${canisterId}`,
         `  HTTP status code: ${queryResponse.reject_code}`,
         `  HTTP status text: ${queryResponse.reject_message}`,
-      ].join("\n"),
+      ].join("\n")
     );
   }
 

@@ -8,7 +8,7 @@ import type { NeuronId } from "./types/common";
 
 export class GenesisTokenCanister {
   private constructor(
-    private readonly service: ActorSubclass<GenesisTokenService>,
+    private readonly service: ActorSubclass<GenesisTokenService>
   ) {}
 
   public static create(options: CanisterOptions<GenesisTokenService> = {}) {

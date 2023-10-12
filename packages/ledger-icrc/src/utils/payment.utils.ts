@@ -24,7 +24,7 @@ import { isNullish, nonNullish } from "@dfinity/utils";
  * @returns { token: string; identifier: string; amount?: number } | undefined
  */
 export const decodePayment = (
-  code: string,
+  code: string
 ): { token: string; identifier: string; amount?: number } | undefined => {
   const regex =
     /^([a-zA-Z]+):([A-Za-z0-9:\-.]+).*?(?:[?&](?:amount|value)=(\d+(?:\.\d+)?))?$/;

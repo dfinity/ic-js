@@ -47,7 +47,7 @@ describe("SnsWrapper", () => {
 
   const mockCertifiedLedgerCanister = mock<IcrcLedgerCanister>();
   mockCertifiedLedgerCanister.metadata.mockResolvedValue(
-    tokenMetadataResponseMock,
+    tokenMetadataResponseMock
   );
 
   const mockIndexCanister = mock<IcrcIndexCanister>();
@@ -117,13 +117,13 @@ describe("SnsWrapper", () => {
   it("should call list of nervous system functions with query or update", async () => {
     await snsWrapper.listNervousSystemFunctions({});
     expect(
-      mockGovernanceCanister.listNervousSystemFunctions,
+      mockGovernanceCanister.listNervousSystemFunctions
     ).toHaveBeenCalledWith({
       certified: false,
     });
     await certifiedSnsWrapper.listNervousSystemFunctions({});
     expect(
-      mockCertifiedGovernanceCanister.listNervousSystemFunctions,
+      mockCertifiedGovernanceCanister.listNervousSystemFunctions
     ).toHaveBeenCalledWith({
       certified: true,
     });
@@ -175,7 +175,7 @@ describe("SnsWrapper", () => {
         neuronId,
         permissions,
         principal,
-      },
+      }
     );
   });
 
@@ -223,10 +223,10 @@ describe("SnsWrapper", () => {
     expect(mockGovernanceCanister.nervousSystemParameters).toHaveBeenCalledWith(
       {
         certified: false,
-      },
+      }
     );
     expect(
-      mockCertifiedGovernanceCanister.nervousSystemParameters,
+      mockCertifiedGovernanceCanister.nervousSystemParameters
     ).toHaveBeenCalledWith({
       certified: true,
     });
@@ -294,7 +294,7 @@ describe("SnsWrapper", () => {
     await certifiedSnsWrapper.transfer(transferParams);
 
     expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalledWith(
-      transferParams,
+      transferParams
     );
   });
 
@@ -352,7 +352,7 @@ describe("SnsWrapper", () => {
     });
     await certifiedSnsWrapper.getFinalizationStatus({});
     expect(
-      mockCertifiedSwapCanister.getFinalizationStatus,
+      mockCertifiedSwapCanister.getFinalizationStatus
     ).toHaveBeenCalledWith({
       certified: true,
     });
@@ -451,7 +451,7 @@ describe("SnsWrapper", () => {
     await snsWrapper.startDissolving(neuronId);
 
     expect(mockGovernanceCanister.startDissolving).toHaveBeenCalledWith(
-      neuronId,
+      neuronId
     );
   });
 
@@ -463,7 +463,7 @@ describe("SnsWrapper", () => {
     await snsWrapper.stopDissolving(neuronId);
 
     expect(mockGovernanceCanister.stopDissolving).toHaveBeenCalledWith(
-      neuronId,
+      neuronId
     );
   });
 
@@ -577,7 +577,7 @@ describe("SnsWrapper", () => {
     await certifiedSnsWrapper.refreshNeuron(neuronId);
 
     expect(mockCertifiedGovernanceCanister.refreshNeuron).toHaveBeenCalledWith(
-      neuronId,
+      neuronId
     );
   });
 
@@ -591,7 +591,7 @@ describe("SnsWrapper", () => {
     await certifiedSnsWrapper.claimNeuron(params);
 
     expect(mockCertifiedGovernanceCanister.claimNeuron).toHaveBeenCalledWith(
-      params,
+      params
     );
   });
 
@@ -680,7 +680,7 @@ describe("SnsWrapper", () => {
     describe("stakeNeuron", () => {
       describe("when transfer and claim work", () => {
         mockCertifiedGovernanceCanister.manageNeuron.mockResolvedValue(
-          mockCommandResult,
+          mockCommandResult
         );
         mockCertifiedLedgerCanister.transfer.mockResolvedValue(stakeE8s);
 
@@ -700,23 +700,23 @@ describe("SnsWrapper", () => {
           });
 
           expect(
-            mockCertifiedGovernanceCanister.queryNeuron,
+            mockCertifiedGovernanceCanister.queryNeuron
           ).toHaveBeenCalledTimes(4);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[0][0]
-              .certified,
+              .certified
           ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[1][0]
-              .certified,
+              .certified
           ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[2][0]
-              .certified,
+              .certified
           ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[3][0]
-              .certified,
+              .certified
           ).toBe(true);
         });
 
@@ -736,29 +736,29 @@ describe("SnsWrapper", () => {
           });
 
           expect(
-            mockCertifiedGovernanceCanister.queryNeuron,
+            mockCertifiedGovernanceCanister.queryNeuron
           ).toHaveBeenCalledTimes(6);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[2][0]
-              .certified,
+              .certified
           ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[3][0]
-              .certified,
+              .certified
           ).toBe(true);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[4][0]
-              .certified,
+              .certified
           ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[5][0]
-              .certified,
+              .certified
           ).toBe(true);
         });
 
         it("should make a transfer and claim the neuron", async () => {
           mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(
-            undefined,
+            undefined
           );
 
           await certifiedSnsWrapper.stakeNeuron({
@@ -768,11 +768,11 @@ describe("SnsWrapper", () => {
           });
 
           expect(
-            mockCertifiedGovernanceCanister.queryNeuron,
+            mockCertifiedGovernanceCanister.queryNeuron
           ).toHaveBeenCalledTimes(2);
           expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
           expect(
-            mockCertifiedGovernanceCanister.claimNeuron,
+            mockCertifiedGovernanceCanister.claimNeuron
           ).toHaveBeenCalled();
         });
       });
@@ -780,10 +780,10 @@ describe("SnsWrapper", () => {
       describe("when it fails", () => {
         it("should not claim the neuron if the transfer fails", async () => {
           mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(
-            undefined,
+            undefined
           );
           mockCertifiedLedgerCanister.transfer.mockRejectedValue(
-            new Error("error"),
+            new Error("error")
           );
 
           const call = () =>
@@ -795,22 +795,22 @@ describe("SnsWrapper", () => {
 
           await expect(call).rejects.toThrowError("error");
           expect(
-            mockCertifiedGovernanceCanister.queryNeuron,
+            mockCertifiedGovernanceCanister.queryNeuron
           ).toHaveBeenCalledTimes(2);
           expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
           expect(
-            mockCertifiedGovernanceCanister.claimNeuron,
+            mockCertifiedGovernanceCanister.claimNeuron
           ).not.toHaveBeenCalled();
         });
 
         it("should fail if claim fails", async () => {
           mockCertifiedGovernanceCanister.queryNeuron.mockResolvedValue(
-            undefined,
+            undefined
           );
           mockCertifiedLedgerCanister.transfer.mockResolvedValue(BigInt(10));
 
           mockCertifiedGovernanceCanister.claimNeuron.mockRejectedValue(
-            new SnsGovernanceError("error"),
+            new SnsGovernanceError("error")
           );
 
           const call = () =>
@@ -822,11 +822,11 @@ describe("SnsWrapper", () => {
 
           await expect(call).rejects.toThrow(SnsGovernanceError);
           expect(
-            mockCertifiedGovernanceCanister.queryNeuron,
+            mockCertifiedGovernanceCanister.queryNeuron
           ).toHaveBeenCalledTimes(2);
           expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
           expect(
-            mockCertifiedGovernanceCanister.claimNeuron,
+            mockCertifiedGovernanceCanister.claimNeuron
           ).toHaveBeenCalled();
         });
       });
@@ -835,7 +835,7 @@ describe("SnsWrapper", () => {
     describe("increaseStakeNeuron", () => {
       describe("on success", () => {
         mockCertifiedGovernanceCanister.manageNeuron.mockResolvedValue(
-          mockCommandResult,
+          mockCommandResult
         );
         mockCertifiedLedgerCanister.transfer.mockResolvedValue(stakeE8s);
 
@@ -850,7 +850,7 @@ describe("SnsWrapper", () => {
 
           expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
           expect(
-            mockCertifiedGovernanceCanister.refreshNeuron,
+            mockCertifiedGovernanceCanister.refreshNeuron
           ).toHaveBeenCalled();
         });
       });
@@ -858,7 +858,7 @@ describe("SnsWrapper", () => {
       describe("when it fails", () => {
         it("should not refresh the neuron if the transfer fails", async () => {
           mockCertifiedLedgerCanister.transfer.mockRejectedValue(
-            new Error("error"),
+            new Error("error")
           );
 
           const call = () =>
@@ -873,7 +873,7 @@ describe("SnsWrapper", () => {
           expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
 
           expect(
-            mockCertifiedGovernanceCanister.refreshNeuron,
+            mockCertifiedGovernanceCanister.refreshNeuron
           ).not.toHaveBeenCalled();
         });
 
@@ -881,7 +881,7 @@ describe("SnsWrapper", () => {
           mockCertifiedLedgerCanister.transfer.mockResolvedValue(BigInt(10));
 
           mockCertifiedGovernanceCanister.refreshNeuron.mockRejectedValue(
-            new SnsGovernanceError("error"),
+            new SnsGovernanceError("error")
           );
 
           const call = () =>
@@ -896,7 +896,7 @@ describe("SnsWrapper", () => {
           expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
 
           expect(
-            mockCertifiedGovernanceCanister.refreshNeuron,
+            mockCertifiedGovernanceCanister.refreshNeuron
           ).toHaveBeenCalled();
         });
       });
@@ -910,14 +910,15 @@ describe("SnsWrapper", () => {
         .mockResolvedValueOnce(neuronMock)
         .mockResolvedValue(undefined);
 
-      const { account, index } =
-        await certifiedSnsWrapper.nextNeuronAccount(mockPrincipal);
+      const { account, index } = await certifiedSnsWrapper.nextNeuronAccount(
+        mockPrincipal
+      );
 
       expect(mockCertifiedGovernanceCanister.queryNeuron).toHaveBeenCalledTimes(
-        4,
+        4
       );
       expect(account.owner).toEqual(
-        certifiedSnsWrapper.canisterIds.governanceCanisterId,
+        certifiedSnsWrapper.canisterIds.governanceCanisterId
       );
       expect(index).toEqual(BigInt(2));
     });
@@ -928,7 +929,7 @@ describe("SnsWrapper", () => {
       const call = () => certifiedSnsWrapper.nextNeuronAccount(mockPrincipal);
 
       await expect(call).rejects.toThrowError(
-        "No more neuron accounts available",
+        "No more neuron accounts available"
       );
     });
   });

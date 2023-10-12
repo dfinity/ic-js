@@ -31,7 +31,7 @@ export class IcrcIndexCanister extends Canister<IcrcIndexService> {
    * Index Canister only holds the transactions ids in state, not the whole transaction data.
    */
   getTransactions = async (
-    params: GetAccountTransactionsParams,
+    params: GetAccountTransactionsParams
   ): Promise<GetTransactions> => {
     const response = await this.caller({
       certified: true,

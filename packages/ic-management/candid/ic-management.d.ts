@@ -121,7 +121,7 @@ export interface _SERVICE {
       {
         settings: [] | [canister_settings];
         sender_canister_version: [] | [bigint];
-      },
+      }
     ],
     { canister_id: canister_id }
   >;
@@ -133,7 +133,7 @@ export interface _SERVICE {
         key_id: { name: string; curve: ecdsa_curve };
         canister_id: [] | [canister_id];
         derivation_path: Array<Uint8Array>;
-      },
+      }
     ],
     { public_key: Uint8Array; chain_code: Uint8Array }
   >;
@@ -148,7 +148,7 @@ export interface _SERVICE {
           | []
           | [{ function: [Principal, string]; context: Uint8Array }];
         headers: Array<http_header>;
-      },
+      }
     ],
     http_response
   >;
@@ -160,7 +160,7 @@ export interface _SERVICE {
         mode: { reinstall: null } | { upgrade: null } | { install: null };
         canister_id: canister_id;
         sender_canister_version: [] | [bigint];
-      },
+      }
     ],
     undefined
   >;
@@ -171,7 +171,7 @@ export interface _SERVICE {
         specified_id: [] | [canister_id];
         amount: [] | [bigint];
         sender_canister_version: [] | [bigint];
-      },
+      }
     ],
     { canister_id: canister_id }
   >;
@@ -186,7 +186,7 @@ export interface _SERVICE {
         key_id: { name: string; curve: ecdsa_curve };
         derivation_path: Array<Uint8Array>;
         message_hash: Uint8Array;
-      },
+      }
     ],
     { signature: Uint8Array }
   >;
@@ -197,7 +197,7 @@ export interface _SERVICE {
       {
         canister_id: canister_id;
         sender_canister_version: [] | [bigint];
-      },
+      }
     ],
     undefined
   >;
@@ -207,7 +207,7 @@ export interface _SERVICE {
         canister_id: Principal;
         settings: canister_settings;
         sender_canister_version: [] | [bigint];
-      },
+      }
     ],
     undefined
   >;

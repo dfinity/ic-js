@@ -151,7 +151,7 @@ describe("ICManagementCanister", () => {
           arg: params.arg,
           sender_canister_version: [],
         });
-      },
+      }
     );
 
     it("throws Error", async () => {
@@ -372,7 +372,7 @@ describe("ICManagementCanister", () => {
       };
       const service = mock<IcManagementService>();
       service.provisional_create_canister_with_cycles.mockResolvedValue(
-        response,
+        response
       );
 
       const icManagement = await createICManagement(service);
@@ -384,7 +384,7 @@ describe("ICManagementCanister", () => {
       });
 
       expect(
-        service.provisional_create_canister_with_cycles,
+        service.provisional_create_canister_with_cycles
       ).toHaveBeenCalledWith({
         amount: [BigInt(100_000)],
         settings: [mappedMockCanisterSettings],

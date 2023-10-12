@@ -13,10 +13,10 @@ import { TransferFn } from "./ledger.idl";
 import { createBlob, writeToJson } from "./utils";
 
 const mockAccountIdentifier = AccountIdentifier.fromHex(
-  "646f4d2d6fcb6fab5ba1547647526b666553467ecb5cb28c8d9ddf451c8f4c21",
+  "646f4d2d6fcb6fab5ba1547647526b666553467ecb5cb28c8d9ddf451c8f4c21"
 );
 const mockTo = AccountIdentifier.fromHex(
-  "b1cebc8480a0afc91198a87ddf52c6ca7eb7ccddb0cb398064f71d2bbaf2f72b",
+  "b1cebc8480a0afc91198a87ddf52c6ca7eb7ccddb0cb398064f71d2bbaf2f72b"
 );
 const arrayBufferToNumber = (buffer: ArrayBuffer): number => {
   const view = new DataView(buffer);

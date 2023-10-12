@@ -46,7 +46,7 @@ const main = async () => {
   const ledger = LedgerCanister.create();
 
   const accountIdentifier = AccountIdentifier.fromHex(
-    "efa01544f509c56dd85449edf2381244a48fad1ede5183836229c00ab00d52df",
+    "efa01544f509c56dd85449edf2381244a48fad1ede5183836229c00ab00d52df"
   );
 
   const balance = await ledger.accountBalance({ accountIdentifier });

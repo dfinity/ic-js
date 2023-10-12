@@ -41,7 +41,7 @@ const mockNeuronId2 = BigInt(8836564053576662908);
 const mockAccountId =
   "d4685b31b51450508aff0331584df7692a84467b680326f5c5f7d30ae711682f";
 const mockPrincipal = Principal.fromText(
-  "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe",
+  "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe"
 );
 
 const createListNeuronsVector = () => {

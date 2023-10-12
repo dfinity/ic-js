@@ -31,7 +31,7 @@ describe("ledger-utils", () => {
       };
 
       expect(encodeIcrcAccount(account)).toEqual(
-        `${ownerText}-${checksum}.${subaccountHex}`,
+        `${ownerText}-${checksum}.${subaccountHex}`
       );
     });
   });
@@ -50,7 +50,7 @@ describe("ledger-utils", () => {
 
     it("should return the account for owner and subaccount as string", () => {
       expect(
-        decodeIcrcAccount(`${ownerText}-${checksum}.${subaccountHex}`),
+        decodeIcrcAccount(`${ownerText}-${checksum}.${subaccountHex}`)
       ).toEqual({
         owner,
         subaccount,
@@ -60,7 +60,7 @@ describe("ledger-utils", () => {
     it("should raise an error if invalid input", () => {
       const call1 = () => decodeIcrcAccount("");
       expect(call1).toThrowError(
-        new Error("Invalid account. No string provided."),
+        new Error("Invalid account. No string provided.")
       );
 
       const call2 = () => decodeIcrcAccount("aaa");

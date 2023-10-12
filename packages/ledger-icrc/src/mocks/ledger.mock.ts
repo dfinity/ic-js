@@ -4,7 +4,7 @@ import { IcrcMetadataResponseEntries } from "../types/ledger.responses";
 
 export const tokeMetadataResponseMock: [
   string | IcrcMetadataResponseEntries,
-  MetadataValue,
+  MetadataValue
 ][] = [
   [IcrcMetadataResponseEntries.DECIMALS, { Nat: BigInt(8) }],
   [IcrcMetadataResponseEntries.NAME, { Text: "Beta Test" }],
@@ -22,9 +22,9 @@ export const mockPrincipalText =
 export const mockPrincipal = Principal.fromText(mockPrincipalText);
 
 export const ledgerCanisterIdMock: Principal = Principal.fromText(
-  "ktxdj-qiaaa-aaaaa-aacqa-cai",
+  "ktxdj-qiaaa-aaaaa-aacqa-cai"
 );
 
 export const indexCanisterIdMock: Principal = Principal.fromText(
-  "qjdve-lqaaa-aaaaa-aaaeq-cai",
+  "qjdve-lqaaa-aaaaa-aaaeq-cai"
 );

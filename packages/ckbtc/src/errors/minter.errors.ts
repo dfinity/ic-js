@@ -14,7 +14,7 @@ export class MinterAmountTooLowError extends MinterRetrieveBtcError {}
 export class MinterInsufficientFundsError extends MinterRetrieveBtcError {}
 
 const mapGenericError = (
-  Err: UpdateBalanceError | RetrieveBtcError,
+  Err: UpdateBalanceError | RetrieveBtcError
 ): MinterGenericError | undefined => {
   if ("GenericError" in Err) {
     const {
@@ -35,7 +35,7 @@ const mapGenericError = (
 };
 
 export const createUpdateBalanceError = (
-  Err: UpdateBalanceError,
+  Err: UpdateBalanceError
 ): MinterGenericError => {
   const error = mapGenericError(Err);
 
@@ -49,12 +49,12 @@ export const createUpdateBalanceError = (
 
   // Handle types added in the backend but not yet added in the frontend
   return new MinterUpdateBalanceError(
-    `Unsupported response type in minter.updateBalance ${JSON.stringify(Err)}`,
+    `Unsupported response type in minter.updateBalance ${JSON.stringify(Err)}`
   );
 };
 
 export const createRetrieveBtcError = (
-  Err: RetrieveBtcError,
+  Err: RetrieveBtcError
 ): MinterGenericError => {
   const error = mapGenericError(Err);
 
@@ -76,6 +76,6 @@ export const createRetrieveBtcError = (
 
   // Handle types added in the backend but not yet added in the frontend
   return new MinterRetrieveBtcError(
-    `Unsupported response type in minter.retrieveBtc ${JSON.stringify(Err)}`,
+    `Unsupported response type in minter.retrieveBtc ${JSON.stringify(Err)}`
   );
 };

@@ -8,7 +8,7 @@ import { FromStringToTokenError } from "../enums/token.enums";
  * @returns bigint | FromStringToTokenError
  */
 export const convertStringToE8s = (
-  value: string,
+  value: string
 ): bigint | FromStringToTokenError => {
   // replace exponential format (1e-4) with plain (0.0001)
   // doesn't support decimals for values >= ~1e16
@@ -71,10 +71,7 @@ export const ICPToken: Token = {
  * @param token - The token type.
  */
 export class TokenAmount {
-  private constructor(
-    protected e8s: bigint,
-    public token: Token,
-  ) {}
+  private constructor(protected e8s: bigint, public token: Token) {}
 
   /**
    * Initialize from a bigint. Bigint are considered e8s.

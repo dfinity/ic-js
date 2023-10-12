@@ -25,7 +25,7 @@ import { UpdateBalanceOk } from "./types/minter.responses";
 
 describe("ckBTC minter canister", () => {
   const minter = (
-    service: ActorSubclass<CkBTCMinterService>,
+    service: ActorSubclass<CkBTCMinterService>
   ): CkBTCMinterCanister =>
     CkBTCMinterCanister.create({
       canisterId: minterCanisterIdMock,
@@ -75,7 +75,7 @@ describe("ckBTC minter canister", () => {
       expect(() =>
         canister.getBtcAddress({
           owner,
-        }),
+        })
       ).toThrowError();
     });
   });
@@ -140,8 +140,8 @@ describe("ckBTC minter canister", () => {
 
       await expect(call).rejects.toThrowError(
         new MinterGenericError(
-          `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`,
-        ),
+          `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`
+        )
       );
     });
 
@@ -161,7 +161,7 @@ describe("ckBTC minter canister", () => {
         });
 
       await expect(call).rejects.toThrowError(
-        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable)
       );
     });
 
@@ -181,7 +181,7 @@ describe("ckBTC minter canister", () => {
         });
 
       await expect(call).rejects.toThrowError(
-        new MinterAlreadyProcessingError(),
+        new MinterAlreadyProcessingError()
       );
     });
 
@@ -228,9 +228,9 @@ describe("ckBTC minter canister", () => {
       await expect(call).rejects.toThrowError(
         new MinterUpdateBalanceError(
           `Unsupported response type in minter.updateBalance ${JSON.stringify(
-            error.Err,
-          )}`,
-        ),
+            error.Err
+          )}`
+        )
       );
     });
   });
@@ -305,8 +305,8 @@ describe("ckBTC minter canister", () => {
 
       await expect(call).rejects.toThrowError(
         new MinterGenericError(
-          `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`,
-        ),
+          `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`
+        )
       );
     });
 
@@ -321,7 +321,7 @@ describe("ckBTC minter canister", () => {
       const call = () => canister.retrieveBtc(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable)
       );
     });
 
@@ -336,7 +336,7 @@ describe("ckBTC minter canister", () => {
       const call = () => canister.retrieveBtc(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterAlreadyProcessingError(),
+        new MinterAlreadyProcessingError()
       );
     });
 
@@ -351,7 +351,7 @@ describe("ckBTC minter canister", () => {
       const call = () => canister.retrieveBtc(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterMalformedAddressError(error.Err.MalformedAddress),
+        new MinterMalformedAddressError(error.Err.MalformedAddress)
       );
     });
 
@@ -366,7 +366,7 @@ describe("ckBTC minter canister", () => {
       const call = () => canister.retrieveBtc(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterAmountTooLowError(`${error.Err.AmountTooLow}`),
+        new MinterAmountTooLowError(`${error.Err.AmountTooLow}`)
       );
     });
 
@@ -382,8 +382,8 @@ describe("ckBTC minter canister", () => {
 
       await expect(call).rejects.toThrowError(
         new MinterInsufficientFundsError(
-          `${error.Err.InsufficientFunds.balance}`,
-        ),
+          `${error.Err.InsufficientFunds.balance}`
+        )
       );
     });
 
@@ -400,9 +400,9 @@ describe("ckBTC minter canister", () => {
       await expect(call).rejects.toThrowError(
         new MinterRetrieveBtcError(
           `Unsupported response type in minter.retrieveBtc ${JSON.stringify(
-            error.Err,
-          )}`,
-        ),
+            error.Err
+          )}`
+        )
       );
     });
   });
@@ -434,7 +434,7 @@ describe("ckBTC minter canister", () => {
       const canister = minter(service);
 
       expect(() =>
-        canister.estimateWithdrawalFee({ certified: true, amount: undefined }),
+        canister.estimateWithdrawalFee({ certified: true, amount: undefined })
       ).rejects.toThrowError();
     });
   });
@@ -469,7 +469,7 @@ describe("ckBTC minter canister", () => {
       const canister = minter(service);
 
       expect(() =>
-        canister.getMinterInfo({ certified: true }),
+        canister.getMinterInfo({ certified: true })
       ).rejects.toThrowError();
     });
   });

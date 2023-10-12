@@ -34,11 +34,11 @@ export const smallerVersion = ({
 }): boolean => {
   const minVersionStandarized = addZeros(
     minVersion.split(".").map(convertToNumber),
-    AMOUNT_VERSION_PARTS,
+    AMOUNT_VERSION_PARTS
   ).join(".");
   const currentVersionStandarized = addZeros(
     currentVersion.split(".").map(convertToNumber),
-    AMOUNT_VERSION_PARTS,
+    AMOUNT_VERSION_PARTS
   ).join(".");
   // Versions need to have the same number of parts to be comparable
   // Source: https://stackoverflow.com/a/65687141

@@ -27,12 +27,12 @@ const MostRecentMonthlyNodeProviderRewards = IDL.Record({
 });
 const GovernanceCachedMetrics = IDL.Record({
   not_dissolving_neurons_e8s_buckets: IDL.Vec(
-    IDL.Tuple(IDL.Nat64, IDL.Float64),
+    IDL.Tuple(IDL.Nat64, IDL.Float64)
   ),
   garbage_collectable_neurons_count: IDL.Nat64,
   neurons_with_invalid_stake_count: IDL.Nat64,
   not_dissolving_neurons_count_buckets: IDL.Vec(
-    IDL.Tuple(IDL.Nat64, IDL.Nat64),
+    IDL.Tuple(IDL.Nat64, IDL.Nat64)
   ),
   total_supply_icp: IDL.Nat64,
   neurons_with_less_than_6_months_dissolve_delay_count: IDL.Nat64,
@@ -222,7 +222,7 @@ Proposal.fill(
     title: IDL.Opt(IDL.Text),
     action: IDL.Opt(Action),
     summary: IDL.Text,
-  }),
+  })
 );
 const WaitForQuietState = IDL.Record({
   current_deadline_timestamp_seconds: IDL.Nat64,
@@ -287,7 +287,7 @@ const Neuron = IDL.Record({
 const Governance = IDL.Record({
   default_followees: IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
   most_recent_monthly_node_provider_rewards: IDL.Opt(
-    MostRecentMonthlyNodeProviderRewards,
+    MostRecentMonthlyNodeProviderRewards
   ),
   wait_for_quiet_threshold_seconds: IDL.Nat64,
   metrics: IDL.Opt(GovernanceCachedMetrics),
@@ -409,5 +409,5 @@ const UpdateNodeProvider = IDL.Record({
 export const ManageNeuronFn = IDL.Func(
   [ManageNeuron],
   [ManageNeuronResponse],
-  [],
+  []
 );

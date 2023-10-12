@@ -10,7 +10,7 @@ describe("Cycles Minting Canister utils", () => {
         0, 0, 0, 0, 0, 0, 0, 0,
       ]);
       const somePrincipal = Principal.fromText(
-        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe",
+        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe"
       );
       const someExpected = new Uint8Array([
         29, 78, 150, 68, 71, 62, 255, 180, 205, 67, 110, 236, 26, 156, 140, 8,

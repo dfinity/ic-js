@@ -7,12 +7,12 @@ describe("base32-utils", () => {
 
   it("should encode base32", () => {
     const owner = Principal.fromText(
-      "k2t6j-2nvnp-4zjm3-25dtz-6xhaa-c7boj-5gayf-oj3xs-i43lp-teztq-6ae",
+      "k2t6j-2nvnp-4zjm3-25dtz-6xhaa-c7boj-5gayf-oj3xs-i43lp-teztq-6ae"
     );
     const subaccount = Uint8Array.from([...Array(32)].map((_, i) => i + 1));
 
     const crc = bigEndianCrc32(
-      Uint8Array.from([...owner.toUint8Array(), ...subaccount]),
+      Uint8Array.from([...owner.toUint8Array(), ...subaccount])
     );
 
     expect(encodeBase32(crc)).toEqual(checksum);

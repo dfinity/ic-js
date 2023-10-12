@@ -16,7 +16,7 @@ import { importNnsProto } from "../../utils/proto.utils";
 // https://github.com/dfinity/nns-dapp/blob/main/frontend/ts/src/canisters/governance/RequestConverters.ts
 
 export const fromAddHotKeyRequest = async (
-  request: AddHotKeyRequest,
+  request: AddHotKeyRequest
 ): Promise<PbManageNeuron> => {
   const {
     PrincipalId: PrincipalIdConstructor,
@@ -26,7 +26,7 @@ export const fromAddHotKeyRequest = async (
 
   const hotkeyPrincipal = new PrincipalIdConstructor();
   hotkeyPrincipal.setSerializedId(
-    Principal.fromText(request.principal).toUint8Array(),
+    Principal.fromText(request.principal).toUint8Array()
   );
 
   const hotkey = new ManageNeuronConstructor.AddHotKey();
@@ -45,7 +45,7 @@ export const fromAddHotKeyRequest = async (
 };
 
 export const fromRemoveHotKeyRequest = async (
-  request: RemoveHotKeyRequest,
+  request: RemoveHotKeyRequest
 ): Promise<PbManageNeuron> => {
   const {
     PrincipalId: PrincipalIdConstructor,
@@ -55,7 +55,7 @@ export const fromRemoveHotKeyRequest = async (
 
   const hotkeyPrincipal = new PrincipalIdConstructor();
   hotkeyPrincipal.setSerializedId(
-    Principal.fromText(request.principal).toUint8Array(),
+    Principal.fromText(request.principal).toUint8Array()
   );
 
   const command = new ManageNeuronConstructor.RemoveHotKey();
@@ -103,7 +103,7 @@ export const fromIncreaseDissolveDelayRequest = async ({
 };
 
 export const fromStartDissolvingRequest = async (
-  neuronId: NeuronId,
+  neuronId: NeuronId
 ): Promise<PbManageNeuron> => {
   const {
     ManageNeuron: ManageNeuronConstructor,
@@ -124,7 +124,7 @@ export const fromStartDissolvingRequest = async (
 };
 
 export const fromStopDissolvingRequest = async (
-  neuronId: NeuronId,
+  neuronId: NeuronId
 ): Promise<PbManageNeuron> => {
   const {
     ManageNeuron: ManageNeuronConstructor,
@@ -145,7 +145,7 @@ export const fromStopDissolvingRequest = async (
 };
 
 export const fromCommunityFundRequest = async (
-  neuronId: NeuronId,
+  neuronId: NeuronId
 ): Promise<PbManageNeuron> => {
   const {
     ManageNeuron: ManageNeuronConstructor,
@@ -154,7 +154,7 @@ export const fromCommunityFundRequest = async (
 
   const configure = new ManageNeuronConstructor.Configure();
   configure.setJoinCommunityFund(
-    new ManageNeuronConstructor.JoinCommunityFund(),
+    new ManageNeuronConstructor.JoinCommunityFund()
   );
 
   const result = new ManageNeuronConstructor();
@@ -168,7 +168,7 @@ export const fromCommunityFundRequest = async (
 };
 
 export const fromDisburseRequest = async (
-  request: DisburseRequest,
+  request: DisburseRequest
 ): Promise<PbManageNeuron> => {
   const {
     ManageNeuron: ManageNeuronConstructor,
@@ -181,7 +181,7 @@ export const fromDisburseRequest = async (
   if (request.toAccountId) {
     const toAccountIdentifier = new AccountIdentifierConstructor();
     toAccountIdentifier.setHash(
-      Uint8Array.from(Buffer.from(request.toAccountId, "hex")),
+      Uint8Array.from(Buffer.from(request.toAccountId, "hex"))
     );
     disburse.setToAccount(toAccountIdentifier);
   }
@@ -202,7 +202,7 @@ export const fromDisburseRequest = async (
 };
 
 export const fromMergeMaturityRequest = async (
-  request: MergeMaturityRequest,
+  request: MergeMaturityRequest
 ): Promise<PbManageNeuron> => {
   const {
     ManageNeuron: ManageNeuronConstructor,
@@ -220,7 +220,7 @@ export const fromMergeMaturityRequest = async (
 };
 
 export const fromSpawnRequest = async (
-  request: SpawnRequest,
+  request: SpawnRequest
 ): Promise<PbManageNeuron> => {
   const {
     ManageNeuron: ManageNeuronConstructor,
@@ -233,7 +233,7 @@ export const fromSpawnRequest = async (
   if (request.newController) {
     const newController = new PrincipalIdConstructor();
     newController.setSerializedId(
-      Principal.fromText(request.newController).toUint8Array().slice(4),
+      Principal.fromText(request.newController).toUint8Array().slice(4)
     );
     spawn.setNewController(newController);
   }
@@ -252,7 +252,7 @@ export const fromSpawnRequest = async (
 };
 
 export const fromFollowRequest = async (
-  request: FollowRequest,
+  request: FollowRequest
 ): Promise<PbManageNeuron> => {
   const {
     ManageNeuron: ManageNeuronConstructor,
@@ -266,7 +266,7 @@ export const fromFollowRequest = async (
       const neuronId = new NeuronIdConstructor();
       neuronId.setId(followee.toString());
       return neuronId;
-    }),
+    })
   );
   const manageNeuron = new ManageNeuronConstructor();
   const neuronId = new NeuronIdConstructor();

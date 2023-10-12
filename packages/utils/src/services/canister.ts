@@ -5,7 +5,7 @@ export abstract class Canister<T> {
   protected constructor(
     private readonly id: Principal,
     protected readonly service: T,
-    protected readonly certifiedService: T,
+    protected readonly certifiedService: T
   ) {}
 
   get canisterId(): Principal {

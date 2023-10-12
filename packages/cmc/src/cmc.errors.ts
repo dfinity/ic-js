@@ -26,7 +26,7 @@ export const throwNotifyError = ({
   }
   if ("Other" in error) {
     throw new CMCError(
-      `Error in CMC with code ${error.Other.error_code}: ${error.Other.error_message}`,
+      `Error in CMC with code ${error.Other.error_code}: ${error.Other.error_message}`
     );
   }
   // Edge case

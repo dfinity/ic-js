@@ -64,7 +64,7 @@ const parseBase58Address = ({
 
   if (length !== 25) {
     throw new ParseBtcAddressMalformedAddressError(
-      `Expected the address to be 25 bytes, got ${length}.`,
+      `Expected the address to be 25 bytes, got ${length}.`
     );
   }
 
@@ -82,11 +82,11 @@ const parseBase58Address = ({
 
     if (
       expectedChecksum.some(
-        (value: number, index: number) => value !== checksum[index],
+        (value: number, index: number) => value !== checksum[index]
       )
     ) {
       throw new ParseBtcAddressMalformedAddressError(
-        `Checksum mismatch expected ${expectedChecksum}, got ${checksum}.`,
+        `Checksum mismatch expected ${expectedChecksum}, got ${checksum}.`
       );
     }
   };

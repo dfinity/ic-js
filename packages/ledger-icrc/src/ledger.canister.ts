@@ -3,8 +3,8 @@ import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
   Allowance,
   BlockIndex,
-  _SERVICE as IcrcLedgerService,
   Tokens,
+  _SERVICE as IcrcLedgerService,
 } from "../candid/icrc_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc_ledger.idl";
@@ -71,7 +71,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    */
   transfer = async (params: TransferParams): Promise<BlockIndex> => {
     const response = await this.caller({ certified: true }).icrc1_transfer(
-      toTransferArg(params),
+      toTransferArg(params)
     );
     if ("Err" in response) {
       throw new IcrcTransferError({
@@ -100,7 +100,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    */
   transferFrom = async (params: TransferFromParams): Promise<BlockIndex> => {
     const response = await this.caller({ certified: true }).icrc2_transfer_from(
-      toTransferFromArgs(params),
+      toTransferFromArgs(params)
     );
     if ("Err" in response) {
       throw new IcrcTransferError({
@@ -122,7 +122,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    */
   approve = async (params: ApproveParams): Promise<BlockIndex> => {
     const response = await this.caller({ certified: true }).icrc2_approve(
-      toApproveArgs(params),
+      toApproveArgs(params)
     );
     if ("Err" in response) {
       throw new IcrcTransferError({

@@ -13,7 +13,7 @@ export const debounce = (func: Function, timeout?: number) => {
 
     timer = setTimeout(
       next,
-      timeout !== undefined && timeout > 0 ? timeout : 300,
+      timeout !== undefined && timeout > 0 ? timeout : 300
     );
   };
 };

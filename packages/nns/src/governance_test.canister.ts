@@ -10,7 +10,7 @@ import type { Neuron } from "./types/governance_converters";
 
 export class GovernanceTestCanister {
   private constructor(
-    private readonly certifiedService: ActorSubclass<GovernanceService>,
+    private readonly certifiedService: ActorSubclass<GovernanceService>
   ) {
     this.certifiedService = certifiedService;
   }

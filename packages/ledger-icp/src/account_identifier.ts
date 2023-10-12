@@ -32,7 +32,7 @@ export class AccountIdentifier {
         ...padding,
         ...principal.toUint8Array(),
         ...subAccount.toUint8Array(),
-      ]),
+      ])
     );
     const hash = shaObj.digest();
 

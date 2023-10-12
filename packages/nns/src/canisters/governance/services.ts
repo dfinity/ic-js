@@ -1,8 +1,8 @@
 import type {
   Command_1,
-  _SERVICE as GovernanceService,
   ManageNeuron,
   ManageNeuronResponse,
+  _SERVICE as GovernanceService,
 } from "../../../candid/governance";
 import { GovernanceError } from "../../errors/governance.errors";
 
@@ -12,7 +12,7 @@ import { GovernanceError } from "../../errors/governance.errors";
  * @throws {@link GovernanceError}
  */
 export const getSuccessfulCommandFromResponse = (
-  response: ManageNeuronResponse,
+  response: ManageNeuronResponse
 ): Command_1 => {
   const { command } = response;
   const data = command[0];
