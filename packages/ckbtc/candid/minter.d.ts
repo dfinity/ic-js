@@ -6,6 +6,8 @@ export interface Account {
   subaccount: [] | [Uint8Array];
 }
 export type BitcoinAddress =
+  | { p2wsh_v0: Uint8Array }
+  | { p2tr_v1: Uint8Array }
   | { p2sh: Uint8Array }
   | { p2wpkh_v0: Uint8Array }
   | { p2pkh: Uint8Array };
@@ -13,9 +15,39 @@ export type BtcNetwork =
   | { Mainnet: null }
   | { Regtest: null }
   | { Testnet: null };
+export interface CanisterStatusResponse {
+  status: CanisterStatusType;
+  memory_size: bigint;
+  cycles: bigint;
+  settings: DefiniteCanisterSettings;
+  idle_cycles_burned_per_day: bigint;
+  module_hash: [] | [Uint8Array];
+}
+export type CanisterStatusType =
+  | { stopped: null }
+  | { stopping: null }
+  | { running: null };
+export interface DefiniteCanisterSettings {
+  freezing_threshold: bigint;
+  controllers: Array<Principal>;
+  memory_allocation: bigint;
+  compute_allocation: bigint;
+}
 export type Event =
   | {
-      received_utxos: { to_account: Account; utxos: Array<Utxo> };
+      received_utxos: {
+        to_account: Account;
+        mint_txid: [] | [bigint];
+        utxos: Array<Utxo>;
+      };
+    }
+  | {
+      schedule_deposit_reimbursement: {
+        burn_block_index: bigint;
+        account: Account;
+        amount: bigint;
+        reason: ReimbursementReason;
+      };
     }
   | {
       sent_transaction: {
@@ -39,6 +71,7 @@ export type Event =
   | {
       retrieve_btc_kyt_failed: {
         block_index: bigint;
+        owner: Principal;
         uuid: string;
         address: string;
         amount: bigint;
@@ -73,7 +106,13 @@ export type Event =
         submitted_at: bigint;
       };
     }
-  | { ignored_utxo: { utxo: Utxo } };
+  | { ignored_utxo: { utxo: Utxo } }
+  | {
+      reimbursed_failed_deposit: {
+        burn_block_index: bigint;
+        mint_block_index: bigint;
+      };
+    };
 export interface InitArgs {
   kyt_principal: [] | [Principal];
   ecdsa_key_name: string;
@@ -96,6 +135,9 @@ export type Mode =
   | { DepositsRestrictedTo: Array<Principal> }
   | { ReadOnly: null }
   | { GeneralAvailability: null };
+export type ReimbursementReason =
+  | { CallFailed: null }
+  | { TaintedDestination: { kyt_fee: bigint; kyt_provider: Principal } };
 export interface RetrieveBtcArgs {
   address: string;
   amount: bigint;
@@ -118,6 +160,19 @@ export type RetrieveBtcStatus =
   | { Unknown: null }
   | { Submitted: { txid: Uint8Array } }
   | { Pending: null };
+export interface RetrieveBtcWithApprovalArgs {
+  from_subaccount: [] | [Uint8Array];
+  address: string;
+  amount: bigint;
+}
+export type RetrieveBtcWithApprovalError =
+  | { MalformedAddress: string }
+  | { GenericError: { error_message: string; error_code: bigint } }
+  | { TemporarilyUnavailable: string }
+  | { InsufficientAllowance: { allowance: bigint } }
+  | { AlreadyProcessing: null }
+  | { AmountTooLow: bigint }
+  | { InsufficientFunds: { balance: bigint } };
 export type UpdateBalanceError =
   | {
       GenericError: { error_message: string; error_code: bigint };
@@ -163,6 +218,7 @@ export interface _SERVICE {
     [{ owner: [] | [Principal]; subaccount: [] | [Uint8Array] }],
     string
   >;
+  get_canister_status: ActorMethod<[], CanisterStatusResponse>;
   get_deposit_fee: ActorMethod<[], bigint>;
   get_events: ActorMethod<[{ start: bigint; length: bigint }], Array<Event>>;
   get_minter_info: ActorMethod<[], MinterInfo>;
@@ -174,6 +230,10 @@ export interface _SERVICE {
   retrieve_btc_status: ActorMethod<
     [{ block_index: bigint }],
     RetrieveBtcStatus
+  >;
+  retrieve_btc_with_approval: ActorMethod<
+    [RetrieveBtcWithApprovalArgs],
+    { Ok: RetrieveBtcOk } | { Err: RetrieveBtcWithApprovalError }
   >;
   update_balance: ActorMethod<
     [{ owner: [] | [Principal]; subaccount: [] | [Uint8Array] }],
