@@ -7,10 +7,10 @@ describe("json-utils", () => {
   describe("stringify", () => {
     it("should stringify bigint with a custom representation", () => {
       expect(JSON.stringify(123n, jsonReplacer)).toEqual(
-        '{"__bigint__":"123"}'
+        '{"__bigint__":"123"}',
       );
       expect(JSON.stringify({ value: 123n }, jsonReplacer)).toEqual(
-        '{"value":{"__bigint__":"123"}}'
+        '{"value":{"__bigint__":"123"}}',
       );
     });
 
@@ -18,21 +18,21 @@ describe("json-utils", () => {
       const principal = new AnonymousIdentity().getPrincipal();
 
       expect(JSON.stringify(principal, jsonReplacer)).toEqual(
-        '{"__principal__":"2vxsx-fae"}'
+        '{"__principal__":"2vxsx-fae"}',
       );
       expect(JSON.stringify({ principal }, jsonReplacer)).toEqual(
-        '{"principal":{"__principal__":"2vxsx-fae"}}'
+        '{"principal":{"__principal__":"2vxsx-fae"}}',
       );
 
       const rootCanisterId = Principal.fromText("tmxop-wyaaa-aaaaa-aaapa-cai");
 
       expect(JSON.stringify(rootCanisterId, jsonReplacer)).toEqual(
-        '{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}'
+        '{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}',
       );
       expect(
-        JSON.stringify({ principal: rootCanisterId }, jsonReplacer)
+        JSON.stringify({ principal: rootCanisterId }, jsonReplacer),
       ).toEqual(
-        '{"principal":{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}}'
+        '{"principal":{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}}',
       );
     });
 
@@ -40,10 +40,10 @@ describe("json-utils", () => {
       const arr = arrayOfNumberToUint8Array([1, 2, 3]);
 
       expect(JSON.stringify(arr, jsonReplacer)).toEqual(
-        '{"__uint8array__":[1,2,3]}'
+        '{"__uint8array__":[1,2,3]}',
       );
       expect(JSON.stringify({ arr }, jsonReplacer)).toEqual(
-        '{"arr":{"__uint8array__":[1,2,3]}}'
+        '{"arr":{"__uint8array__":[1,2,3]}}',
       );
     });
   });
@@ -52,7 +52,7 @@ describe("json-utils", () => {
     it("should parse bigint from a custom representation", () => {
       expect(JSON.parse('{"__bigint__":"123"}', jsonReviver)).toEqual(123n);
       expect(JSON.parse('{"value":{"__bigint__":"123"}}', jsonReviver)).toEqual(
-        { value: 123n }
+        { value: 123n },
       );
     });
 
@@ -60,10 +60,10 @@ describe("json-utils", () => {
       const principal = new AnonymousIdentity().getPrincipal();
 
       expect(JSON.parse('{"__principal__":"2vxsx-fae"}', jsonReviver)).toEqual(
-        principal
+        principal,
       );
       expect(
-        JSON.parse('{"principal":{"__principal__":"2vxsx-fae"}}', jsonReviver)
+        JSON.parse('{"principal":{"__principal__":"2vxsx-fae"}}', jsonReviver),
       ).toEqual({ principal });
 
       const rootCanisterId = Principal.fromText("tmxop-wyaaa-aaaaa-aaapa-cai");
@@ -71,25 +71,25 @@ describe("json-utils", () => {
       expect(
         JSON.parse(
           '{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}',
-          jsonReviver
-        )
+          jsonReviver,
+        ),
       ).toEqual(rootCanisterId);
       expect(
         JSON.parse(
           '{"principal":{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}}',
-          jsonReviver
-        )
+          jsonReviver,
+        ),
       ).toEqual({ principal: rootCanisterId });
     });
 
     it("should parse principal to object", () => {
       const obj = JSON.parse(
         '{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}',
-        jsonReviver
+        jsonReviver,
       );
       expect(obj instanceof Principal).toBeTruthy();
       expect((obj as Principal).toText()).toEqual(
-        "tmxop-wyaaa-aaaaa-aaapa-cai"
+        "tmxop-wyaaa-aaaaa-aaapa-cai",
       );
     });
 
@@ -97,10 +97,10 @@ describe("json-utils", () => {
       const arr = arrayOfNumberToUint8Array([1, 2, 3]);
 
       expect(JSON.parse('{"__uint8array__":[1,2,3]}', jsonReviver)).toEqual(
-        arr
+        arr,
       );
       expect(
-        JSON.parse('{"arr":{"__uint8array__":[1,2,3]}}', jsonReviver)
+        JSON.parse('{"arr":{"__uint8array__":[1,2,3]}}', jsonReviver),
       ).toEqual({ arr });
     });
   });

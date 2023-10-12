@@ -20,7 +20,7 @@ import { E8s } from "./types/common";
 
 describe("LedgerCanister", () => {
   const accountIdentifier = AccountIdentifier.fromHex(
-    "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958"
+    "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958",
   );
   describe("accountBalance", () => {
     describe("no hardware wallet", () => {
@@ -423,7 +423,7 @@ describe("LedgerCanister", () => {
           });
 
         await expect(call).rejects.toThrow(
-          new TxDuplicateError(BigInt(1235123))
+          new TxDuplicateError(BigInt(1235123)),
         );
       });
 
@@ -443,7 +443,7 @@ describe("LedgerCanister", () => {
           });
 
         await expect(call).rejects.toThrow(
-          new InsufficientFundsError(BigInt(12346789123))
+          new InsufficientFundsError(BigInt(12346789123)),
         );
       });
 

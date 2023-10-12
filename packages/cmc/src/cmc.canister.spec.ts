@@ -3,10 +3,10 @@ import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
+  _SERVICE as CMCService,
   IcpXdrConversionRateResponse,
   NotifyCreateCanisterResult,
   NotifyTopUpResult,
-  _SERVICE as CMCService,
 } from "../candid/cmc";
 import { CMCCanister } from "./cmc.canister";
 import {
@@ -56,7 +56,7 @@ describe("CyclesMintingCanister", () => {
   describe("CMCCanister.notifyCreateCanister", () => {
     it("returns principal of the new canister", async () => {
       const canisterId = Principal.fromText(
-        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe"
+        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe",
       );
       const response: NotifyCreateCanisterResult = {
         Ok: canisterId,

@@ -3,9 +3,10 @@ import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
 import type {
+  Amount,
+  ListProposalInfo,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
-  Amount,
   By as RawBy,
   Change as RawChange,
   Command as RawCommand,
@@ -20,7 +21,6 @@ import type {
   InitialTokenDistribution as RawInitialTokenDistribution,
   LedgerParameters as RawLedgerParameters,
   ListNeurons as RawListNeurons,
-  ListProposalInfo,
   ManageNeuron as RawManageNeuron,
   NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
   NeuronDistribution as RawNeuronDistribution,
@@ -85,7 +85,7 @@ const fromFollowees = (followees: Array<NeuronId>): RawFollowees => ({
 });
 
 const fromNeuronIdOrSubaccount = (
-  neuronIdOrSubaccount: NeuronIdOrSubaccount
+  neuronIdOrSubaccount: NeuronIdOrSubaccount,
 ): RawNeuronIdOrSubaccount => {
   if ("NeuronId" in neuronIdOrSubaccount) {
     return { NeuronId: { id: neuronIdOrSubaccount.NeuronId } };
@@ -124,7 +124,7 @@ const fromImage = (image: Image): RawImage =>
     : { base64_encoding: [] };
 
 const fromVotingRewardParameters = (
-  votingRewardParameters: VotingRewardParameters
+  votingRewardParameters: VotingRewardParameters,
 ): RawVotingRewardParameters => ({
   reward_rate_transition_duration:
     votingRewardParameters.rewardRateTransitionDuration !== undefined
@@ -141,7 +141,7 @@ const fromVotingRewardParameters = (
 });
 
 const fromLedgerParameters = (
-  ledgerParameters: LedgerParameters
+  ledgerParameters: LedgerParameters,
 ): RawLedgerParameters => ({
   transaction_fee:
     ledgerParameters.transactionFee !== undefined
@@ -162,7 +162,7 @@ const fromLedgerParameters = (
 });
 
 const fromSwapParameters = (
-  swapParameters: SwapParameters
+  swapParameters: SwapParameters,
 ): RawSwapParameters => ({
   minimum_participants:
     swapParameters.minimumParticipants !== undefined
@@ -176,7 +176,7 @@ const fromSwapParameters = (
     swapParameters.neuronBasketConstructionParameters !== undefined
       ? [
           fromNeuronBasketConstructionParameters(
-            swapParameters.neuronBasketConstructionParameters
+            swapParameters.neuronBasketConstructionParameters,
           ),
         ]
       : [],
@@ -223,7 +223,7 @@ const fromSwapParameters = (
 });
 
 const fromNeuronBasketConstructionParameters = (
-  neuronBasketConstructionParameters: NeuronBasketConstructionParameters
+  neuronBasketConstructionParameters: NeuronBasketConstructionParameters,
 ): RawNeuronBasketConstructionParameters => ({
   dissolve_delay_interval:
     neuronBasketConstructionParameters.dissolveDelayInterval !== undefined
@@ -236,7 +236,7 @@ const fromNeuronBasketConstructionParameters = (
 });
 
 const fromGovernanceParameters = (
-  governanceParameters: GovernanceParameters
+  governanceParameters: GovernanceParameters,
 ): RawGovernanceParameters => ({
   neuron_maximum_dissolve_delay_bonus:
     governanceParameters.neuronMaximumDissolveDelayBonus !== undefined
@@ -266,7 +266,7 @@ const fromGovernanceParameters = (
     governanceParameters.proposalWaitForQuietDeadlineIncrease !== undefined
       ? [
           fromDuration(
-            governanceParameters.proposalWaitForQuietDeadlineIncrease
+            governanceParameters.proposalWaitForQuietDeadlineIncrease,
           ),
         ]
       : [],
@@ -282,14 +282,14 @@ const fromGovernanceParameters = (
     governanceParameters.votingRewardParameters !== undefined
       ? [
           fromVotingRewardParameters(
-            governanceParameters.votingRewardParameters
+            governanceParameters.votingRewardParameters,
           ),
         ]
       : [],
 });
 
 const fromSwapDistribution = (
-  swapDistribution: SwapDistribution
+  swapDistribution: SwapDistribution,
 ): RawSwapDistribution => ({
   total:
     swapDistribution.total !== undefined
@@ -298,7 +298,7 @@ const fromSwapDistribution = (
 });
 
 const fromInitialTokenDistribution = (
-  initialTokenDistribution: InitialTokenDistribution
+  initialTokenDistribution: InitialTokenDistribution,
 ): RawInitialTokenDistribution => ({
   treasury_distribution:
     initialTokenDistribution.treasuryDistribution !== undefined
@@ -308,7 +308,7 @@ const fromInitialTokenDistribution = (
     initialTokenDistribution.developerDistribution !== undefined
       ? [
           fromDeveloperDistribution(
-            initialTokenDistribution.developerDistribution
+            initialTokenDistribution.developerDistribution,
           ),
         ]
       : [],
@@ -319,7 +319,7 @@ const fromInitialTokenDistribution = (
 });
 
 const fromNeuronDistribution = (
-  neuronDistribution: NeuronDistribution
+  neuronDistribution: NeuronDistribution,
 ): RawNeuronDistribution => ({
   controller:
     neuronDistribution.controller !== undefined
@@ -341,15 +341,15 @@ const fromNeuronDistribution = (
 });
 
 const fromDeveloperDistribution = (
-  developerDistribution: DeveloperDistribution
+  developerDistribution: DeveloperDistribution,
 ): RawDeveloperDistribution => ({
   developer_neurons: developerDistribution.developerNeurons.map(
-    fromNeuronDistribution
+    fromNeuronDistribution,
   ),
 });
 
 const fromCreateServiceNervousSystem = (
-  createServiceNervousSystem: CreateServiceNervousSystem
+  createServiceNervousSystem: CreateServiceNervousSystem,
 ): RawCreateServiceNervousSystem => ({
   url:
     createServiceNervousSystem.url !== undefined
@@ -359,13 +359,13 @@ const fromCreateServiceNervousSystem = (
     createServiceNervousSystem.governanceParameters !== undefined
       ? [
           fromGovernanceParameters(
-            createServiceNervousSystem.governanceParameters
+            createServiceNervousSystem.governanceParameters,
           ),
         ]
       : [],
   fallback_controller_principal_ids:
     createServiceNervousSystem.fallbackControllerPrincipalIds.map(
-      Principal.fromText
+      Principal.fromText,
     ),
   logo:
     createServiceNervousSystem.logo !== undefined
@@ -386,7 +386,7 @@ const fromCreateServiceNervousSystem = (
   dapp_canisters: createServiceNervousSystem.dappCanisters.map(
     (principalId) => ({
       id: [Principal.fromText(principalId)],
-    })
+    }),
   ),
   swap_parameters:
     createServiceNervousSystem.swapParameters !== undefined
@@ -396,7 +396,7 @@ const fromCreateServiceNervousSystem = (
     createServiceNervousSystem.initialTokenDistribution !== undefined
       ? [
           fromInitialTokenDistribution(
-            createServiceNervousSystem.initialTokenDistribution
+            createServiceNervousSystem.initialTokenDistribution,
           ),
         ]
       : [],
@@ -587,13 +587,13 @@ const fromAction = (action: Action): RawAction => {
                   min_icp_e8s: params.minIcpE8s,
                   sale_delay_seconds: toNullable(params.saleDelaySeconds),
                   neuron_basket_construction_parameters: toNullable(
-                    params.neuronBasketConstructionParameters
+                    params.neuronBasketConstructionParameters,
                   ),
                   max_direct_participation_icp_e8s: toNullable(
-                    params.maxDirectParticipationIcpE8s
+                    params.maxDirectParticipationIcpE8s,
                   ),
                   min_direct_participation_icp_e8s: toNullable(
-                    params.minDirectParticipationIcpE8s
+                    params.minDirectParticipationIcpE8s,
                   ),
                 },
               ],
@@ -604,7 +604,7 @@ const fromAction = (action: Action): RawAction => {
   if ("CreateServiceNervousSystem" in action) {
     return {
       CreateServiceNervousSystem: fromCreateServiceNervousSystem(
-        action.CreateServiceNervousSystem
+        action.CreateServiceNervousSystem,
       ),
     };
   }
@@ -842,7 +842,7 @@ const fromAmount = (amount: E8s): Amount => ({
 });
 
 const fromAccountIdentifier = (
-  accountIdentifier: AccountIdentifier
+  accountIdentifier: AccountIdentifier,
 ): RawAccountIdentifier => ({
   hash: accountIdentifierToBytes(accountIdentifier),
 });
@@ -957,7 +957,7 @@ export const fromAddHotKeyRequest = (request: AddHotKeyRequest): PbManageNeuron 
 */
 
 export const fromClaimOrRefreshNeuronRequest = (
-  request: ClaimOrRefreshNeuronRequest
+  request: ClaimOrRefreshNeuronRequest,
 ): RawManageNeuron => {
   const rawCommand: RawCommand = {
     ClaimOrRefresh: { by: [{ NeuronIdOrSubaccount: {} }] },
@@ -1194,7 +1194,7 @@ export const fromDisburseRequest = (request: DisburseRequest): PbManageNeuron =>
 */
 
 export const fromDisburseToNeuronRequest = (
-  request: DisburseToNeuronRequest
+  request: DisburseToNeuronRequest,
 ): RawManageNeuron => {
   const rawCommand: RawCommand = {
     DisburseToNeuron: {
@@ -1217,7 +1217,7 @@ export const fromDisburseToNeuronRequest = (
 };
 
 export const fromMakeProposalRequest = (
-  request: MakeProposalRequest
+  request: MakeProposalRequest,
 ): RawManageNeuron => {
   const rawCommand: RawCommand = {
     MakeProposal: {
@@ -1255,7 +1255,7 @@ export const toRegisterVoteRequest = ({
   });
 
 export const toMakeProposalRawRequest = (
-  request: MakeProposalRequest
+  request: MakeProposalRequest,
 ): RawManageNeuron => {
   const rawCommand: RawCommand = {
     MakeProposal: {
@@ -1429,7 +1429,7 @@ export const toSetDissolveDelayRequest = ({
   });
 
 export const toJoinCommunityFundRequest = (
-  neuronId: NeuronId
+  neuronId: NeuronId,
 ): RawManageNeuron =>
   toConfigureOperation({
     neuronId,
@@ -1455,7 +1455,7 @@ export const toAutoStakeMaturityRequest = ({
   });
 
 export const toLeaveCommunityFundRequest = (
-  neuronId: NeuronId
+  neuronId: NeuronId,
 ): RawManageNeuron =>
   toConfigureOperation({
     neuronId,

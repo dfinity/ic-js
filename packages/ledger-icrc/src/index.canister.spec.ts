@@ -3,8 +3,8 @@ import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
 import type {
   Account,
-  Transaction,
   _SERVICE as IcrcIndexService,
+  Transaction,
 } from "../candid/icrc_index";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexCanister } from "./index.canister";

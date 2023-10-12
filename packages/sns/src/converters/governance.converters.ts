@@ -151,7 +151,7 @@ export const toDisburseNeuronRequest = ({
   });
 
 export const toStartDissolvingNeuronRequest = (
-  neuronId: NeuronId
+  neuronId: NeuronId,
 ): ManageNeuron =>
   toManageNeuronConfigureCommand({
     neuronId,
@@ -159,7 +159,7 @@ export const toStartDissolvingNeuronRequest = (
   });
 
 export const toStopDissolvingNeuronRequest = (
-  neuronId: NeuronId
+  neuronId: NeuronId,
 ): ManageNeuron =>
   toManageNeuronConfigureCommand({
     neuronId,
@@ -307,7 +307,7 @@ export const fromCandidAction = (action: ActionCandid): Action => {
   if ("ManageNervousSystemParameters" in action) {
     return {
       ManageNervousSystemParameters: convertNervousSystemParams(
-        action.ManageNervousSystemParameters
+        action.ManageNervousSystemParameters,
       ),
     };
   }
@@ -315,7 +315,7 @@ export const fromCandidAction = (action: ActionCandid): Action => {
   if ("AddGenericNervousSystemFunction" in action) {
     return {
       AddGenericNervousSystemFunction: convertNervousSystemFunction(
-        action.AddGenericNervousSystemFunction
+        action.AddGenericNervousSystemFunction,
       ),
     };
   }
@@ -338,7 +338,7 @@ export const fromCandidAction = (action: ActionCandid): Action => {
   if ("TransferSnsTreasuryFunds" in action) {
     return {
       TransferSnsTreasuryFunds: convertTransferSnsTreasuryFunds(
-        action.TransferSnsTreasuryFunds
+        action.TransferSnsTreasuryFunds,
       ),
     };
   }
@@ -346,7 +346,7 @@ export const fromCandidAction = (action: ActionCandid): Action => {
   if ("UpgradeSnsControlledCanister" in action) {
     return {
       UpgradeSnsControlledCanister: convertUpgradeSnsControlledCanister(
-        action.UpgradeSnsControlledCanister
+        action.UpgradeSnsControlledCanister,
       ),
     };
   }
@@ -380,7 +380,7 @@ export const fromCandidAction = (action: ActionCandid): Action => {
 };
 
 const convertManageSnsMetadata = (
-  params: ManageSnsMetadataCandid
+  params: ManageSnsMetadataCandid,
 ): ManageSnsMetadata => ({
   url: fromNullable(params.url),
   logo: fromNullable(params.logo),
@@ -389,7 +389,7 @@ const convertManageSnsMetadata = (
 });
 
 const convertUpgradeSnsControlledCanister = (
-  params: UpgradeSnsControlledCanisterCandid
+  params: UpgradeSnsControlledCanisterCandid,
 ): UpgradeSnsControlledCanister => ({
   new_canister_wasm: params.new_canister_wasm,
   canister_id: fromNullable(params.canister_id),
@@ -398,7 +398,7 @@ const convertUpgradeSnsControlledCanister = (
 });
 
 const convertTransferSnsTreasuryFunds = (
-  params: TransferSnsTreasuryFundsCandid
+  params: TransferSnsTreasuryFundsCandid,
 ): TransferSnsTreasuryFunds => ({
   from_treasury: params.from_treasury,
   to_principal: fromNullable(params.to_principal),
@@ -408,7 +408,7 @@ const convertTransferSnsTreasuryFunds = (
 });
 
 const convertGenericNervousSystemFunction = (
-  params: GenericNervousSystemFunctionCandid
+  params: GenericNervousSystemFunctionCandid,
 ): GenericNervousSystemFunction => ({
   validator_canister_id: fromNullable(params.validator_canister_id),
   target_canister_id: fromNullable(params.target_canister_id),
@@ -417,7 +417,7 @@ const convertGenericNervousSystemFunction = (
 });
 
 const convertFunctionType = (
-  params: FunctionTypeCandid | undefined
+  params: FunctionTypeCandid | undefined,
 ): FunctionType | undefined => {
   if (params === undefined) {
     return undefined;
@@ -430,7 +430,7 @@ const convertFunctionType = (
   if ("GenericNervousSystemFunction" in params) {
     return {
       GenericNervousSystemFunction: convertGenericNervousSystemFunction(
-        params.GenericNervousSystemFunction
+        params.GenericNervousSystemFunction,
       ),
     };
   }
@@ -439,7 +439,7 @@ const convertFunctionType = (
 };
 
 const convertNervousSystemFunction = (
-  params: NervousSystemFunctionCandid
+  params: NervousSystemFunctionCandid,
 ): NervousSystemFunction => ({
   id: params.id,
   name: params.name,
@@ -448,61 +448,61 @@ const convertNervousSystemFunction = (
 });
 
 const convertVotingRewardsParameters = (
-  params: VotingRewardsParametersCandid | undefined
+  params: VotingRewardsParametersCandid | undefined,
 ): VotingRewardsParameters | undefined =>
   params && {
     final_reward_rate_basis_points: fromNullable(
-      params.final_reward_rate_basis_points
+      params.final_reward_rate_basis_points,
     ),
     initial_reward_rate_basis_points: fromNullable(
-      params.initial_reward_rate_basis_points
+      params.initial_reward_rate_basis_points,
     ),
     reward_rate_transition_duration_seconds: fromNullable(
-      params.reward_rate_transition_duration_seconds
+      params.reward_rate_transition_duration_seconds,
     ),
     round_duration_seconds: fromNullable(params.round_duration_seconds),
   };
 
 const convertNervousSystemParams = (
-  params: NervousSystemParametersCandid
+  params: NervousSystemParametersCandid,
 ): NervousSystemParameters => ({
   default_followees: fromNullable(params.default_followees),
   max_dissolve_delay_seconds: fromNullable(params.max_dissolve_delay_seconds),
   max_dissolve_delay_bonus_percentage: fromNullable(
-    params.max_dissolve_delay_bonus_percentage
+    params.max_dissolve_delay_bonus_percentage,
   ),
   max_followees_per_function: fromNullable(params.max_followees_per_function),
   neuron_claimer_permissions: fromNullable(params.neuron_claimer_permissions),
   neuron_minimum_stake_e8s: fromNullable(params.neuron_minimum_stake_e8s),
   max_neuron_age_for_age_bonus: fromNullable(
-    params.max_neuron_age_for_age_bonus
+    params.max_neuron_age_for_age_bonus,
   ),
   initial_voting_period_seconds: fromNullable(
-    params.initial_voting_period_seconds
+    params.initial_voting_period_seconds,
   ),
   neuron_minimum_dissolve_delay_to_vote_seconds: fromNullable(
-    params.neuron_minimum_dissolve_delay_to_vote_seconds
+    params.neuron_minimum_dissolve_delay_to_vote_seconds,
   ),
   reject_cost_e8s: fromNullable(params.reject_cost_e8s),
   max_proposals_to_keep_per_action: fromNullable(
-    params.max_proposals_to_keep_per_action
+    params.max_proposals_to_keep_per_action,
   ),
   wait_for_quiet_deadline_increase_seconds: fromNullable(
-    params.wait_for_quiet_deadline_increase_seconds
+    params.wait_for_quiet_deadline_increase_seconds,
   ),
   max_number_of_neurons: fromNullable(params.max_number_of_neurons),
   transaction_fee_e8s: fromNullable(params.transaction_fee_e8s),
   max_number_of_proposals_with_ballots: fromNullable(
-    params.max_number_of_proposals_with_ballots
+    params.max_number_of_proposals_with_ballots,
   ),
   max_age_bonus_percentage: fromNullable(params.max_age_bonus_percentage),
   neuron_grantable_permissions: fromNullable(
-    params.neuron_grantable_permissions
+    params.neuron_grantable_permissions,
   ),
   voting_rewards_parameters: convertVotingRewardsParameters(
-    fromNullable(params.voting_rewards_parameters)
+    fromNullable(params.voting_rewards_parameters),
   ),
   max_number_of_principals_per_neuron: fromNullable(
-    params.max_number_of_principals_per_neuron
+    params.max_number_of_principals_per_neuron,
   ),
 });

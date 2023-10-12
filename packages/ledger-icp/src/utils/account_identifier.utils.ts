@@ -10,17 +10,17 @@ import { Buffer } from "buffer";
 import type { AccountIdentifier } from "../types/common";
 
 export const accountIdentifierToBytes = (
-  accountIdentifier: AccountIdentifier
+  accountIdentifier: AccountIdentifier,
 ): Uint8Array =>
   Uint8Array.from(Buffer.from(accountIdentifier, "hex")).subarray(4);
 
 export const accountIdentifierFromBytes = (
-  accountIdentifier: Uint8Array
+  accountIdentifier: Uint8Array,
 ): AccountIdentifier => Buffer.from(accountIdentifier).toString("hex");
 
 export const principalToAccountIdentifier = (
   principal: Principal,
-  subAccount?: Uint8Array
+  subAccount?: Uint8Array,
 ): string => {
   // Hash (sha224) the principal, the subAccount and some padding
   const padding = asciiStringToByteArray("\x0Aaccount-id");
@@ -31,7 +31,7 @@ export const principalToAccountIdentifier = (
       ...padding,
       ...principal.toUint8Array(),
       ...(subAccount ?? Array(32).fill(0)),
-    ])
+    ]),
   );
   const hash = shaObj.digest();
 

@@ -10,8 +10,8 @@ import type {
   GetSaleParametersResponse,
   GetStateResponse,
   NewSaleTicketResponse,
-  Swap,
   _SERVICE as SnsSwapService,
+  Swap,
 } from "../candid/sns_swap";
 import {
   GetOpenTicketErrorType,
@@ -99,7 +99,7 @@ describe("Swap canister", () => {
     const call = () => canister.getOpenTicket({});
 
     expect(call).rejects.toThrow(
-      new SnsSwapGetOpenTicketError(GetOpenTicketErrorType.TYPE_SALE_CLOSED)
+      new SnsSwapGetOpenTicketError(GetOpenTicketErrorType.TYPE_SALE_CLOSED),
     );
   });
 
@@ -171,7 +171,7 @@ describe("Swap canister", () => {
           min_amount_icp_e8s_included,
           max_amount_icp_e8s_included,
         },
-      })
+      }),
     );
   });
 
@@ -273,7 +273,7 @@ describe("Swap canister", () => {
 
       const service = mock<ActorSubclass<SnsSwapService>>();
       service.get_auto_finalization_status.mockRejectedValue(
-        new Error(errorMessage)
+        new Error(errorMessage),
       );
 
       const canister = SnsSwapCanister.create({
@@ -282,7 +282,7 @@ describe("Swap canister", () => {
       });
       const call = () => canister.getFinalizationStatus({});
       expect(call).rejects.toThrow(
-        new UnsupportedMethodError("getFinalizationStatus")
+        new UnsupportedMethodError("getFinalizationStatus"),
       );
     });
 

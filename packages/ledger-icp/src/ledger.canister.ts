@@ -37,7 +37,7 @@ export class LedgerCanister {
     private readonly certifiedService: ActorSubclass<LedgerService>,
     private readonly updateFetcher: LedgerCanisterCall,
     private readonly queryFetcher: LedgerCanisterCall,
-    private readonly hardwareWallet: boolean = false
+    private readonly hardwareWallet: boolean = false,
   ) {}
 
   public static create(options: LedgerCanisterOptions = {}) {
@@ -60,7 +60,7 @@ export class LedgerCanister {
       certifiedService,
       options.updateCallOverride ?? updateCall,
       options.queryCallOverride ?? queryCall,
-      options.hardwareWallet
+      options.hardwareWallet,
     );
   }
 
@@ -140,7 +140,7 @@ export class LedgerCanister {
    * @throws {@link TransferError}
    */
   public icrc1Transfer = async (
-    request: Icrc1TransferRequest
+    request: Icrc1TransferRequest,
   ): Promise<BlockHeight> => {
     // The transaction fee method is not supported by Ledger App yet.
     if (request.fee === undefined) {
@@ -179,7 +179,7 @@ export class LedgerCanister {
     });
 
     return BigInt(
-      ICPTs.deserializeBinary(new Uint8Array(responseBytes)).getE8s()
+      ICPTs.deserializeBinary(new Uint8Array(responseBytes)).getE8s(),
     );
   };
 
@@ -216,7 +216,7 @@ export class LedgerCanister {
 
     if (fromSubAccount !== undefined) {
       request.setFromSubaccount(
-        await subAccountNumbersToSubaccount(fromSubAccount)
+        await subAccountNumbersToSubaccount(fromSubAccount),
       );
     }
 

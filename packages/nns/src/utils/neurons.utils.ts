@@ -19,7 +19,7 @@ const voteForProposal = ({
   }
 
   const ballot: BallotInfo | undefined = recentBallots.find(
-    ({ proposalId: id }: BallotInfo) => id === proposalId
+    ({ proposalId: id }: BallotInfo) => id === proposalId,
   );
   return ballot?.vote;
 };
@@ -51,7 +51,7 @@ export const ineligibleNeurons = ({
 
     const dissolveTooShort: boolean =
       ballots.find(
-        ({ neuronId: ballotNeuronId }: Ballot) => ballotNeuronId === neuronId
+        ({ neuronId: ballotNeuronId }: Ballot) => ballotNeuronId === neuronId,
       ) === undefined;
 
     return createdSinceProposal || dissolveTooShort;
@@ -79,8 +79,8 @@ export const votableNeurons = ({
       voteForProposal({ recentBallots, proposalId }) === undefined &&
       ineligibleNeurons({ neurons, proposal }).find(
         ({ neuronId: ineligibleNeuronId }: NeuronInfo) =>
-          ineligibleNeuronId === neuronId
-      ) === undefined
+          ineligibleNeuronId === neuronId,
+      ) === undefined,
   );
 };
 
@@ -100,5 +100,5 @@ export const votedNeurons = ({
 }): NeuronInfo[] =>
   neurons.filter(
     ({ recentBallots }: NeuronInfo) =>
-      voteForProposal({ recentBallots, proposalId }) !== undefined
+      voteForProposal({ recentBallots, proposalId }) !== undefined,
   );
