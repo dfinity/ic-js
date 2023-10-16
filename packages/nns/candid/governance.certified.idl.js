@@ -139,6 +139,7 @@ export const idlFactory = ({ IDL }) => {
   const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const SwapParameters = IDL.Record({
     'minimum_participants' : IDL.Opt(IDL.Nat64),
+    'neurons_fund_participation' : IDL.Opt(IDL.Bool),
     'duration' : IDL.Opt(Duration),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
@@ -486,6 +487,7 @@ export const idlFactory = ({ IDL }) => {
     'created_timestamp_seconds' : IDL.Nat64,
     'auto_stake_maturity' : IDL.Opt(IDL.Bool),
     'aging_since_timestamp_seconds' : IDL.Nat64,
+    'is_genesis' : IDL.Opt(IDL.Bool),
     'hot_keys' : IDL.Vec(IDL.Principal),
     'account' : IDL.Vec(IDL.Nat8),
     'joined_community_fund_timestamp_seconds' : IDL.Opt(IDL.Nat64),
@@ -543,6 +545,7 @@ export const idlFactory = ({ IDL }) => {
     'recent_ballots' : IDL.Vec(BallotInfo),
     'created_timestamp_seconds' : IDL.Nat64,
     'state' : IDL.Int32,
+    'is_genesis' : IDL.Opt(IDL.Bool),
     'stake_e8s' : IDL.Nat64,
     'joined_community_fund_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'retrieved_at_timestamp_seconds' : IDL.Nat64,
@@ -885,6 +888,7 @@ export const init = ({ IDL }) => {
   const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const SwapParameters = IDL.Record({
     'minimum_participants' : IDL.Opt(IDL.Nat64),
+    'neurons_fund_participation' : IDL.Opt(IDL.Bool),
     'duration' : IDL.Opt(Duration),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
@@ -1232,6 +1236,7 @@ export const init = ({ IDL }) => {
     'created_timestamp_seconds' : IDL.Nat64,
     'auto_stake_maturity' : IDL.Opt(IDL.Bool),
     'aging_since_timestamp_seconds' : IDL.Nat64,
+    'is_genesis' : IDL.Opt(IDL.Bool),
     'hot_keys' : IDL.Vec(IDL.Principal),
     'account' : IDL.Vec(IDL.Nat8),
     'joined_community_fund_timestamp_seconds' : IDL.Opt(IDL.Nat64),
