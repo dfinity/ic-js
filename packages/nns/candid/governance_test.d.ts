@@ -382,6 +382,7 @@ export interface Neuron {
   created_timestamp_seconds: bigint;
   auto_stake_maturity: [] | [boolean];
   aging_since_timestamp_seconds: bigint;
+  is_genesis: [] | [boolean];
   hot_keys: Array<Principal>;
   account: Uint8Array;
   joined_community_fund_timestamp_seconds: [] | [bigint];
@@ -422,6 +423,7 @@ export interface NeuronInfo {
   recent_ballots: Array<BallotInfo>;
   created_timestamp_seconds: bigint;
   state: number;
+  is_genesis: [] | [boolean];
   stake_e8s: bigint;
   joined_community_fund_timestamp_seconds: [] | [bigint];
   retrieved_at_timestamp_seconds: bigint;
@@ -648,6 +650,7 @@ export interface SwapDistribution {
 }
 export interface SwapParameters {
   minimum_participants: [] | [bigint];
+  neurons_fund_participation: [] | [boolean];
   duration: [] | [Duration];
   neuron_basket_construction_parameters:
     | []

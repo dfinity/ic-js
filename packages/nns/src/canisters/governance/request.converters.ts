@@ -220,6 +220,9 @@ const fromSwapParameters = (
     swapParameters.minDirectParticipationIcp !== undefined
       ? [fromTokens(swapParameters.minDirectParticipationIcp)]
       : [],
+  neurons_fund_participation: toNullable(
+    swapParameters.neuronsFundParticipation,
+  ),
 });
 
 const fromNeuronBasketConstructionParameters = (
