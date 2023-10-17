@@ -14,6 +14,7 @@ import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.id
 import { idlFactory } from "../candid/minter.idl";
 import {
   createRetrieveBtcError,
+  createRetrieveBtcWithApprovalError,
   createUpdateBalanceError,
 } from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
@@ -26,6 +27,7 @@ import type {
 import type {
   EstimateWithdrawalFee,
   RetrieveBtcResponse,
+  RetrieveBtcWithApprovalResponse,
   UpdateBalanceOk,
   UpdateBalanceResponse,
 } from "./types/minter.responses";
@@ -49,7 +51,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    *
    * @param {GetBTCAddressParams} params The parameters for which a BTC address should be resolved.
    * @param {Principal} params.owner The owner for which the BTC address should be generated. If not provided, the `caller` will be use instead.
-   * @param {Principal} params.subaccount An optional subaccount to compute the address.
+   * @param {Uint8Array} params.subaccount An optional subaccount to compute the address.
    * @returns {Promise<string>} The BTC address of the given account.
    */
   getBtcAddress = ({
@@ -120,6 +122,48 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
 
     if ("Err" in response) {
       throw createRetrieveBtcError(response.Err);
+    }
+
+    return response.Ok;
+  };
+
+  /**
+   * Submits a request to convert ckBTC to BTC after making an ICRC-2 approval.
+   *
+   * # Note
+   *
+   * The BTC retrieval process is slow. Instead of synchronously waiting for a BTC transaction to settle, this method returns a request ([block_index]) that the caller can use to query the request status.
+   *
+   * # Preconditions
+   *
+   * The caller allowed the minter's principal to spend its funds using
+   * [icrc2_approve] on the ckBTC ledger.
+   *
+   * @param {string} params.address The bitcoin address.
+   * @param {bigint} params.amount The ckBTC amount.
+   * @param {Uint8Array} params.fromSubaccount An optional subaccount from which
+   *     the ckBTC should be transferred.
+   * @returns {Promise<RetrieveBtcOk>} The result or the operation.
+   */
+  retrieveBtcWithApproval = async ({
+    address,
+    amount,
+    fromSubaccount,
+  }: {
+    address: string;
+    amount: bigint;
+    fromSubaccount?: Uint8Array;
+  }): Promise<RetrieveBtcOk> => {
+    const response: RetrieveBtcWithApprovalResponse = await this.caller({
+      certified: true,
+    }).retrieve_btc_with_approval({
+      address,
+      amount,
+      from_subaccount: toNullable(fromSubaccount),
+    });
+
+    if ("Err" in response) {
+      throw createRetrieveBtcWithApprovalError(response.Err);
     }
 
     return response.Ok;
