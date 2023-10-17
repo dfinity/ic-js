@@ -10,6 +10,7 @@
 - support new fields from swap canister response types: `min_direct_participation_icp_e8s` and `max_direct_participation_icp_e8s`
 - support new fields in the `CreateServiceNervousSystem` proposal action `maximum_direct_participation_icp` and `minimum_direct_participation_icp`.
 - support new filter field `omit_large_fields` in `list_proposals`.
+- add support for `retrieve_btc_with_approval` in `@dfinity/ckbtc`.
 
 # 2023.10.02-1515Z
 
