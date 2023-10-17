@@ -275,6 +275,7 @@ export interface Neuron {
   joinedCommunityFundTimestampSeconds: Option<bigint>;
   dissolveState: Option<DissolveState>;
   followees: Array<Followees>;
+  isGenesis?: boolean;
 }
 export type NeuronIdOrSubaccount =
   | { Subaccount: Array<number> }
@@ -289,6 +290,7 @@ export interface NeuronInfo {
   retrievedAtTimestampSeconds: bigint;
   votingPower: bigint;
   ageSeconds: bigint;
+  isGenesis?: boolean;
   fullNeuron: Option<Neuron>;
 }
 
@@ -570,6 +572,7 @@ export interface SwapParameters {
   restrictedCountries?: Countries;
   maxDirectParticipationIcp?: Tokens;
   minDirectParticipationIcp?: Tokens;
+  neuronsFundParticipation?: boolean;
 }
 
 export interface SwapDistribution {

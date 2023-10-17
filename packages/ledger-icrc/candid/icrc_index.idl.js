@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/ledger/candid/icrc1_index.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/ledger-icrc/candid/icrc_index.did */
 export const idlFactory = ({ IDL }) => {
   const InitArgs = IDL.Record({ 'ledger_id' : IDL.Principal });
   const TxId = IDL.Nat;

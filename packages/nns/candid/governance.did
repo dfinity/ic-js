@@ -1,4 +1,4 @@
-// Generated from IC repo commit 15e69667ae983fa92c33794a3954d9ca87518af6 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 2d57e93dabc5f13258d0dee1ffb2363ddce7fe62 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -317,6 +317,7 @@ type Neuron = record {
   created_timestamp_seconds : nat64;
   auto_stake_maturity : opt bool;
   aging_since_timestamp_seconds : nat64;
+  is_genesis : opt bool;
   hot_keys : vec principal;
   account : vec nat8;
   joined_community_fund_timestamp_seconds : opt nat64;
@@ -356,6 +357,7 @@ type NeuronInfo = record {
   recent_ballots : vec BallotInfo;
   created_timestamp_seconds : nat64;
   state : int32;
+  is_genesis : opt bool;
   stake_e8s : nat64;
   joined_community_fund_timestamp_seconds : opt nat64;
   retrieved_at_timestamp_seconds : nat64;
@@ -551,6 +553,7 @@ type SwapBackgroundInformation = record {
 type SwapDistribution = record { total : opt Tokens };
 type SwapParameters = record {
   minimum_participants : opt nat64;
+  neurons_fund_participation : opt bool;
   duration : opt Duration;
   neuron_basket_construction_parameters : opt NeuronBasketConstructionParameters;
   confirmation_text : opt text;

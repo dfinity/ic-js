@@ -155,29 +155,30 @@ const parseBip173Address = ({
 
   const [witnessVersion, ...rest] = words;
 
-  if (witnessVersion !== 0) {
+  if (witnessVersion > 1) {
     throw new ParseBtcAddressUnsupportedWitnessVersionError();
   }
 
   const data = bech32.fromWords(rest);
 
-  if (data.length !== 20) {
-    // Note: We throw an error for other length because the Minter canister applies such a policy and does not support P2tr and P2wsh yet.
-    // else if (witnessVersion === 1) {
-    //     type = BtcAddressType.P2tr;
-    //   } else {
-    //     type = BtcAddressType.P2wsh;
-    //   }
-
-    throw new ParseBtcAddressBadWitnessLengthError();
+  switch (data.length) {
+    case 20:
+      return {
+        address,
+        network,
+        type: BtcAddressType.P2wpkhV0,
+        parser: "bip-173",
+      };
+    case 32:
+      return {
+        address,
+        network,
+        type: witnessVersion === 0 ? BtcAddressType.P2wsh : BtcAddressType.P2tr,
+        parser: "bip-173",
+      };
+    default:
+      throw new ParseBtcAddressBadWitnessLengthError();
   }
-
-  return {
-    address,
-    network,
-    type: BtcAddressType.P2wpkhV0,
-    parser: "bip-173",
-  };
 };
 
 /**
