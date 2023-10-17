@@ -12,6 +12,7 @@ import {
   MinterAlreadyProcessingError,
   MinterAmountTooLowError,
   MinterGenericError,
+  MinterInsufficientAllowanceError,
   MinterInsufficientFundsError,
   MinterMalformedAddressError,
   MinterNoNewUtxosError,
@@ -265,6 +266,145 @@ describe("ckBTC minter canister", () => {
       const canister = minter(service);
 
       expect(() => canister.getWithdrawalAccount()).toThrowError();
+    });
+  });
+
+  describe("Retrieve BTC", () => {
+    const success: RetrieveBtcOk = {
+      block_index: 1n,
+    };
+    const ok = { Ok: success };
+
+    const params = {
+      address: bitcoinAddressMock,
+      amount: 123n,
+    };
+
+    it("should return Ok", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const res = await canister.retrieveBtc(params);
+
+      expect(service.retrieve_btc).toBeCalled();
+      expect(res).toEqual(success);
+    });
+
+    it("should throw MinterGenericError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = {
+        Err: { GenericError: { error_message: "message", error_code: 1n } },
+      };
+      service.retrieve_btc.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtc(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterGenericError(
+          `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`,
+        ),
+      );
+    });
+
+    it("should throw MinterTemporarilyUnavailable", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { TemporarilyUnavailable: "unavailable" } };
+      service.retrieve_btc.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtc(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+      );
+    });
+
+    it("should throw MinterAlreadyProcessingError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { AlreadyProcessing: null } };
+      service.retrieve_btc.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtc(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterAlreadyProcessingError(),
+      );
+    });
+
+    it("should throw MinterMalformedAddress", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { MalformedAddress: "malformated" } };
+      service.retrieve_btc.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtc(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterMalformedAddressError(error.Err.MalformedAddress),
+      );
+    });
+
+    it("should throw MinterAmountTooLowError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { AmountTooLow: 123n } };
+      service.retrieve_btc.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtc(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterAmountTooLowError(`${error.Err.AmountTooLow}`),
+      );
+    });
+
+    it("should throw MinterInsufficientFundsError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { InsufficientFunds: { balance: 123n } } };
+      service.retrieve_btc.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtc(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterInsufficientFundsError(
+          `${error.Err.InsufficientFunds.balance}`,
+        ),
+      );
+    });
+
+    it("should throw unsupported response", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { Test: null } as unknown as RetrieveBtcError };
+      service.retrieve_btc.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtc(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterRetrieveBtcError(
+          `Unsupported response type in minter.retrieveBtc ${JSON.stringify(
+            error.Err,
+          )}`,
+        ),
+      );
     });
   });
 
