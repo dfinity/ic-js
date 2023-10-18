@@ -364,29 +364,12 @@ export const idlFactory = ({ IDL }) => {
     'neuron_indexes_migration' : IDL.Opt(Migration),
     'copy_inactive_neurons_to_stable_memory_migration' : IDL.Opt(Migration),
   });
-  const NeuronsFundNeuron_1 = IDL.Record({
-    'hotkey_principal' : IDL.Opt(IDL.Principal),
-    'is_capped' : IDL.Opt(IDL.Bool),
-    'nns_neuron_id' : IDL.Opt(IDL.Nat64),
-    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
-  });
-  const NeuronsFundSnapshot = IDL.Record({
-    'neurons_fund_neurons' : IDL.Vec(NeuronsFundNeuron_1),
-  });
-  const IdealMatchedParticipationFunction = IDL.Record({
-    'serialized_representation' : IDL.Opt(IDL.Text),
-  });
-  const NeuronsFundParticipation = IDL.Record({
-    'neurons_fund_snapshot' : IDL.Opt(NeuronsFundSnapshot),
-    'ideal_matched_participation_function' : IDL.Opt(
-      IdealMatchedParticipationFunction
-    ),
-  });
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
   });
   const CfNeuron = IDL.Record({
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
@@ -395,6 +378,41 @@ export const idlFactory = ({ IDL }) => {
     'cf_neurons' : IDL.Vec(CfNeuron),
   });
   const Ballot = IDL.Record({ 'vote' : IDL.Int32, 'voting_power' : IDL.Nat64 });
+  const SwapParticipationLimits = IDL.Record({
+    'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundNeuronPortion = IDL.Record({
+    'hotkey_principal' : IDL.Opt(IDL.Principal),
+    'is_capped' : IDL.Opt(IDL.Bool),
+    'maturity_equivalent_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'nns_neuron_id' : IDL.Opt(NeuronId),
+    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundSnapshot = IDL.Record({
+    'neurons_fund_neuron_portions' : IDL.Vec(NeuronsFundNeuronPortion),
+  });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
+  const NeuronsFundParticipation = IDL.Record({
+    'total_maturity_equivalent_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'intended_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'swap_participation_limits' : IDL.Opt(SwapParticipationLimits),
+    'max_neurons_fund_swap_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'neurons_fund_reserves' : IDL.Opt(NeuronsFundSnapshot),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
+  });
+  const NeuronsFundData = IDL.Record({
+    'final_neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
+    'initial_neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
+    'neurons_fund_refunds' : IDL.Opt(NeuronsFundSnapshot),
+  });
   const CanisterStatusResultV2 = IDL.Record({
     'status' : IDL.Opt(IDL.Int32),
     'freezing_threshold' : IDL.Opt(IDL.Nat64),
@@ -432,13 +450,13 @@ export const idlFactory = ({ IDL }) => {
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(NeuronId),
-    'neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
     'failure_reason' : IDL.Opt(GovernanceError),
     'cf_participants' : IDL.Vec(CfParticipant),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,
     'reward_event_round' : IDL.Nat64,
     'failed_timestamp_seconds' : IDL.Nat64,
+    'neurons_fund_data' : IDL.Opt(NeuronsFundData),
     'reject_cost_e8s' : IDL.Nat64,
     'derived_proposal_information' : IDL.Opt(DerivedProposalInformation),
     'latest_tally' : IDL.Opt(Tally),
@@ -487,7 +505,6 @@ export const idlFactory = ({ IDL }) => {
     'created_timestamp_seconds' : IDL.Nat64,
     'auto_stake_maturity' : IDL.Opt(IDL.Bool),
     'aging_since_timestamp_seconds' : IDL.Nat64,
-    'is_genesis' : IDL.Opt(IDL.Bool),
     'hot_keys' : IDL.Vec(IDL.Principal),
     'account' : IDL.Vec(IDL.Nat8),
     'joined_community_fund_timestamp_seconds' : IDL.Opt(IDL.Nat64),
@@ -545,7 +562,6 @@ export const idlFactory = ({ IDL }) => {
     'recent_ballots' : IDL.Vec(BallotInfo),
     'created_timestamp_seconds' : IDL.Nat64,
     'state' : IDL.Int32,
-    'is_genesis' : IDL.Opt(IDL.Bool),
     'stake_e8s' : IDL.Nat64,
     'joined_community_fund_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'retrieved_at_timestamp_seconds' : IDL.Nat64,
@@ -674,7 +690,7 @@ export const idlFactory = ({ IDL }) => {
     'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const Ok = IDL.Record({
-    'neurons_fund_neurons' : IDL.Vec(NeuronsFundNeuron),
+    'neurons_fund_neuron_portions' : IDL.Vec(NeuronsFundNeuron),
   });
   const Result_9 = IDL.Variant({ 'Ok' : Ok, 'Err' : GovernanceError });
   const SettleNeuronsFundParticipationResponse = IDL.Record({
@@ -1125,29 +1141,12 @@ export const init = ({ IDL }) => {
     'neuron_indexes_migration' : IDL.Opt(Migration),
     'copy_inactive_neurons_to_stable_memory_migration' : IDL.Opt(Migration),
   });
-  const NeuronsFundNeuron_1 = IDL.Record({
-    'hotkey_principal' : IDL.Opt(IDL.Principal),
-    'is_capped' : IDL.Opt(IDL.Bool),
-    'nns_neuron_id' : IDL.Opt(IDL.Nat64),
-    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
-  });
-  const NeuronsFundSnapshot = IDL.Record({
-    'neurons_fund_neurons' : IDL.Vec(NeuronsFundNeuron_1),
-  });
-  const IdealMatchedParticipationFunction = IDL.Record({
-    'serialized_representation' : IDL.Opt(IDL.Text),
-  });
-  const NeuronsFundParticipation = IDL.Record({
-    'neurons_fund_snapshot' : IDL.Opt(NeuronsFundSnapshot),
-    'ideal_matched_participation_function' : IDL.Opt(
-      IdealMatchedParticipationFunction
-    ),
-  });
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
   });
   const CfNeuron = IDL.Record({
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
@@ -1156,6 +1155,41 @@ export const init = ({ IDL }) => {
     'cf_neurons' : IDL.Vec(CfNeuron),
   });
   const Ballot = IDL.Record({ 'vote' : IDL.Int32, 'voting_power' : IDL.Nat64 });
+  const SwapParticipationLimits = IDL.Record({
+    'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundNeuronPortion = IDL.Record({
+    'hotkey_principal' : IDL.Opt(IDL.Principal),
+    'is_capped' : IDL.Opt(IDL.Bool),
+    'maturity_equivalent_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'nns_neuron_id' : IDL.Opt(NeuronId),
+    'amount_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundSnapshot = IDL.Record({
+    'neurons_fund_neuron_portions' : IDL.Vec(NeuronsFundNeuronPortion),
+  });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
+  const NeuronsFundParticipation = IDL.Record({
+    'total_maturity_equivalent_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'intended_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'swap_participation_limits' : IDL.Opt(SwapParticipationLimits),
+    'max_neurons_fund_swap_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'neurons_fund_reserves' : IDL.Opt(NeuronsFundSnapshot),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
+  });
+  const NeuronsFundData = IDL.Record({
+    'final_neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
+    'initial_neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
+    'neurons_fund_refunds' : IDL.Opt(NeuronsFundSnapshot),
+  });
   const CanisterStatusResultV2 = IDL.Record({
     'status' : IDL.Opt(IDL.Int32),
     'freezing_threshold' : IDL.Opt(IDL.Nat64),
@@ -1193,13 +1227,13 @@ export const init = ({ IDL }) => {
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(NeuronId),
-    'neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
     'failure_reason' : IDL.Opt(GovernanceError),
     'cf_participants' : IDL.Vec(CfParticipant),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,
     'reward_event_round' : IDL.Nat64,
     'failed_timestamp_seconds' : IDL.Nat64,
+    'neurons_fund_data' : IDL.Opt(NeuronsFundData),
     'reject_cost_e8s' : IDL.Nat64,
     'derived_proposal_information' : IDL.Opt(DerivedProposalInformation),
     'latest_tally' : IDL.Opt(Tally),
@@ -1248,7 +1282,6 @@ export const init = ({ IDL }) => {
     'created_timestamp_seconds' : IDL.Nat64,
     'auto_stake_maturity' : IDL.Opt(IDL.Bool),
     'aging_since_timestamp_seconds' : IDL.Nat64,
-    'is_genesis' : IDL.Opt(IDL.Bool),
     'hot_keys' : IDL.Vec(IDL.Principal),
     'account' : IDL.Vec(IDL.Nat8),
     'joined_community_fund_timestamp_seconds' : IDL.Opt(IDL.Nat64),

@@ -59,6 +59,7 @@ export interface CanisterSummary {
   canister_id: [] | [Principal];
 }
 export interface CfNeuron {
+  has_created_neuron_recipes: [] | [boolean];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
@@ -382,7 +383,6 @@ export interface Neuron {
   created_timestamp_seconds: bigint;
   auto_stake_maturity: [] | [boolean];
   aging_since_timestamp_seconds: bigint;
-  is_genesis: [] | [boolean];
   hot_keys: Array<Principal>;
   account: Uint8Array;
   joined_community_fund_timestamp_seconds: [] | [bigint];
@@ -423,7 +423,6 @@ export interface NeuronInfo {
   recent_ballots: Array<BallotInfo>;
   created_timestamp_seconds: bigint;
   state: number;
-  is_genesis: [] | [boolean];
   stake_e8s: bigint;
   joined_community_fund_timestamp_seconds: [] | [bigint];
   retrieved_at_timestamp_seconds: bigint;
@@ -440,33 +439,44 @@ export interface NeuronStakeTransfer {
   transfer_timestamp: bigint;
   block_height: bigint;
 }
+export interface NeuronsFundData {
+  final_neurons_fund_participation: [] | [NeuronsFundParticipation];
+  initial_neurons_fund_participation: [] | [NeuronsFundParticipation];
+  neurons_fund_refunds: [] | [NeuronsFundSnapshot];
+}
 export interface NeuronsFundNeuron {
   hotkey_principal: [] | [string];
   is_capped: [] | [boolean];
   nns_neuron_id: [] | [bigint];
   amount_icp_e8s: [] | [bigint];
 }
-export interface NeuronsFundNeuron_1 {
+export interface NeuronsFundNeuronPortion {
   hotkey_principal: [] | [Principal];
   is_capped: [] | [boolean];
-  nns_neuron_id: [] | [bigint];
+  maturity_equivalent_icp_e8s: [] | [bigint];
+  nns_neuron_id: [] | [NeuronId];
   amount_icp_e8s: [] | [bigint];
 }
 export interface NeuronsFundParticipation {
-  neurons_fund_snapshot: [] | [NeuronsFundSnapshot];
+  total_maturity_equivalent_icp_e8s: [] | [bigint];
+  intended_neurons_fund_participation_icp_e8s: [] | [bigint];
+  direct_participation_icp_e8s: [] | [bigint];
+  swap_participation_limits: [] | [SwapParticipationLimits];
+  max_neurons_fund_swap_participation_icp_e8s: [] | [bigint];
+  neurons_fund_reserves: [] | [NeuronsFundSnapshot];
   ideal_matched_participation_function:
     | []
     | [IdealMatchedParticipationFunction];
 }
 export interface NeuronsFundSnapshot {
-  neurons_fund_neurons: Array<NeuronsFundNeuron_1>;
+  neurons_fund_neuron_portions: Array<NeuronsFundNeuronPortion>;
 }
 export interface NodeProvider {
   id: [] | [Principal];
   reward_account: [] | [AccountIdentifier];
 }
 export interface Ok {
-  neurons_fund_neurons: Array<NeuronsFundNeuron>;
+  neurons_fund_neuron_portions: Array<NeuronsFundNeuron>;
 }
 export interface OpenSnsTokenSwap {
   community_fund_investment_e8s: [] | [bigint];
@@ -510,13 +520,13 @@ export interface Proposal {
 }
 export interface ProposalData {
   id: [] | [NeuronId];
-  neurons_fund_participation: [] | [NeuronsFundParticipation];
   failure_reason: [] | [GovernanceError];
   cf_participants: Array<CfParticipant>;
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
   reward_event_round: bigint;
   failed_timestamp_seconds: bigint;
+  neurons_fund_data: [] | [NeuronsFundData];
   reject_cost_e8s: bigint;
   derived_proposal_information: [] | [DerivedProposalInformation];
   latest_tally: [] | [Tally];
@@ -665,6 +675,12 @@ export interface SwapParameters {
   maximum_icp: [] | [Tokens];
   neurons_fund_investment_icp: [] | [Tokens];
   restricted_countries: [] | [Countries];
+}
+export interface SwapParticipationLimits {
+  min_participant_icp_e8s: [] | [bigint];
+  max_participant_icp_e8s: [] | [bigint];
+  min_direct_participation_icp_e8s: [] | [bigint];
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface Tally {
   no: bigint;
