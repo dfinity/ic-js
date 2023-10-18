@@ -135,7 +135,6 @@ export const toNeuronInfo = ({
     votingPower: neuronInfo.voting_power,
     ageSeconds: neuronInfo.age_seconds,
     fullNeuron: fullNeuron,
-    isGenesis: fromNullable(neuronInfo.is_genesis),
   };
 };
 
@@ -218,7 +217,6 @@ export const toRawNeuron = (neuron: Neuron): RawNeuron => ({
   transfer: [],
   // Not kept when converted to Neuron.
   known_neuron_data: [],
-  is_genesis: toNullable(neuron.isGenesis),
 });
 
 const toBallotInfo = ({ vote, proposal_id }: RawBallotInfo): BallotInfo => ({
