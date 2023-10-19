@@ -3,6 +3,7 @@ import type { Principal } from "@dfinity/principal";
 
 export interface BuyerState {
   icp: [] | [TransferableAmount];
+  has_created_neuron_recipes: [] | [boolean];
 }
 export interface CanisterCallError {
   code: [] | [number];
@@ -25,6 +26,7 @@ export interface CfInvestment {
   nns_neuron_id: bigint;
 }
 export interface CfNeuron {
+  has_created_neuron_recipes: [] | [boolean];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
@@ -137,6 +139,7 @@ export interface Icrc1Account {
 export interface Init {
   nns_proposal_id: [] | [bigint];
   sns_root_canister_id: string;
+  neurons_fund_participation: [] | [boolean];
   min_participant_icp_e8s: [] | [bigint];
   neuron_basket_construction_parameters:
     | []
