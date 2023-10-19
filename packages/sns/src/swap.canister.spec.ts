@@ -330,6 +330,7 @@ describe("Swap canister", () => {
           amount_transferred_e8s: [BigInt(99900000)],
         },
       ],
+      has_created_neuron_recipes: [false],
     };
     const service = mock<ActorSubclass<SnsSwapService>>();
     service.get_buyer_state.mockResolvedValue({
