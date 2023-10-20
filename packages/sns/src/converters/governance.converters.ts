@@ -1,4 +1,4 @@
-import type { IcrcAccount } from "@dfinity/ledger";
+import type { IcrcAccount } from "@dfinity/ledger-icrc";
 import { fromNullable, toNullable } from "@dfinity/utils";
 import type {
   Account,

@@ -1,5 +1,9 @@
 import { nonNullish } from "@dfinity/utils";
-import type { RetrieveBtcError, UpdateBalanceError } from "../../candid/minter";
+import type {
+  RetrieveBtcError,
+  RetrieveBtcWithApprovalError,
+  UpdateBalanceError,
+} from "../../candid/minter";
 
 export class MinterGenericError extends Error {}
 export class MinterTemporaryUnavailableError extends MinterGenericError {}
@@ -12,9 +16,10 @@ export class MinterRetrieveBtcError extends MinterGenericError {}
 export class MinterMalformedAddressError extends MinterRetrieveBtcError {}
 export class MinterAmountTooLowError extends MinterRetrieveBtcError {}
 export class MinterInsufficientFundsError extends MinterRetrieveBtcError {}
+export class MinterInsufficientAllowanceError extends MinterRetrieveBtcError {}
 
 const mapGenericError = (
-  Err: UpdateBalanceError | RetrieveBtcError,
+  Err: UpdateBalanceError | RetrieveBtcError | RetrieveBtcWithApprovalError,
 ): MinterGenericError | undefined => {
   if ("GenericError" in Err) {
     const {
@@ -78,4 +83,22 @@ export const createRetrieveBtcError = (
   return new MinterRetrieveBtcError(
     `Unsupported response type in minter.retrieveBtc ${JSON.stringify(Err)}`,
   );
+};
+
+export const createRetrieveBtcWithApprovalError = (
+  Err: RetrieveBtcWithApprovalError,
+): MinterGenericError => {
+  const error = mapGenericError(Err);
+
+  if (nonNullish(error)) {
+    return error;
+  }
+
+  if ("InsufficientAllowance" in Err) {
+    return new MinterInsufficientAllowanceError(
+      `${Err.InsufficientAllowance.allowance}`,
+    );
+  }
+
+  return createRetrieveBtcError(Err);
 };

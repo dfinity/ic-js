@@ -1,15 +1,82 @@
-# 0.18.5 (wip)
+# 2023.XX.YY
+
+## Overview
+
+<!-- TODO: To be documented. -->
+
+## Features
+
+- expose few types - notably `BlockHeight` - for library `@dfinity/ledger-icp`
+- support new fields from swap canister response types: `min_direct_participation_icp_e8s`, `max_direct_participation_icp_e8s` and `neurons_fund_participation`.
+- support new fields in the `CreateServiceNervousSystem` proposal action `maximum_direct_participation_icp`, `minimum_direct_participation_icp` and `neurons_fund_participation`.
+- support new filter field `omit_large_fields` in `list_proposals`.
+- add support for `retrieve_btc_with_approval` in `@dfinity/ckbtc`.
+
+# 2023.10.02-1515Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v1.0.1  | Patched             |
+| `@dfinity/cmc`           | v1.0.0  | Unchanged           |
+| `@dfinity/ic-management` | v1.0.0  | Unchanged           |
+| `@dfinity/ledger`        | v1.0.0  | Deprecated ❌       |
+| `@dfinity/ledger-icp`    | v1.0.0  | New 🚀              |
+| `@dfinity/ledger-icrc`   | v1.0.0  | New 🚀              |
+| `@dfinity/nns`           | v2.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged           |
+| `@dfinity/sns`           | v1.0.0  | Patched             |
+| `@dfinity/utils`         | v1.0.0  | Unchanged           |
 
 ## Release
 
-- nns `v0.16.8`
-- sns `v0.0.23`
-- cmc `v0.0.19`
-- ledger `v0.0.16`
-- ckBTC `v0.0.12`
-- ic-management `v0.0.9`
-- utils `v0.0.23`
-- nns-proto `v0.0.9`
+- ckbtc `v1.0.1`
+- ledger-icp `v1.0.0`
+- ledger-icrc `v1.0.0`
+- nns `v2.0.0`
+- sns `v1.0.1`
+
+## Breaking Changes ⚠️
+
+- **ICP** ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called `@dfinity/ledger-icp`
+- **ICRC** ledger-related features have been moved as well. The library `@dfinity/ledger` has been deprecated, renamed, and replaced by `@dfinity/ledger-icrc`
+- remove the `ICP` class, which was deprecated a long time ago, from `@dfinity/nns`. Instead, utilize the token parsers from `@dfinity/utils`
+
+## Build
+
+- `@dfinity/sns` inherits the changes and now requires `@dfinity/ledger-icrc` as a peer dependency
+- `@dfinity/nns` inherits the changes and now requires `@dfinity/ledger-icp` as a peer dependency
+
+## Chore
+
+- minter params `Subaccount` declared as `Uint8Array` instead of inheriting a type
+
+# 1.0.0 (2023-10-02)
+
+## Release
+
+- nns `v1.0.0`
+- sns `v1.0.0`
+- cmc `v1.0.0`
+- ledger `v1.0.0`
+- ckBTC `v1.0.0`
+- ic-management `v1.0.0`
+- utils `v1.0.0`
+- nns-proto `v1.0.0`
+
+## Features
+
+- add support for `icrc2_transfer_from`, `icrc2_approve` and `icrc2_allowance` in `@dfinity/ledger`
+- update index did definitions in ledger which provides more information in the transactions
+- add support for icrc1_transfer on the ICP ledger canister in `@dfinity/nns`
+
+## Build
+
+- bump did files in Cmc
+- starting from this version, we commit to adhering to [semantic versioning](https://semver.org/) for any libraries published in ic-js
 
 # 0.18.4 (2023-09-05)
 

@@ -87,6 +87,13 @@ export interface InsertUpgradePathEntriesRequest {
 export interface InsertUpgradePathEntriesResponse {
   error: [] | [SnsWasmError];
 }
+export interface LinearScalingCoefficient {
+  slope_numerator: [] | [bigint];
+  intercept_icp_e8s: [] | [bigint];
+  from_direct_participation_icp_e8s: [] | [bigint];
+  slope_denominator: [] | [bigint];
+  to_direct_participation_icp_e8s: [] | [bigint];
+}
 export interface ListDeployedSnsesResponse {
   instances: Array<DeployedSns>;
 }
@@ -115,6 +122,11 @@ export interface NeuronDistribution {
 }
 export interface NeuronsFundParticipants {
   participants: Array<CfParticipant>;
+}
+export interface NeuronsFundParticipationConstraints {
+  coefficient_intervals: Array<LinearScalingCoefficient>;
+  max_neurons_fund_participation_icp_e8s: [] | [bigint];
+  min_direct_participation_threshold_icp_e8s: [] | [bigint];
 }
 export interface PrettySnsVersion {
   archive_wasm_hash: string;
@@ -160,6 +172,9 @@ export interface SnsInitPayload {
   wait_for_quiet_deadline_increase_seconds: [] | [bigint];
   transaction_fee_e8s: [] | [bigint];
   dapp_canisters: [] | [DappCanisters];
+  neurons_fund_participation_constraints:
+    | []
+    | [NeuronsFundParticipationConstraints];
   neurons_fund_participants: [] | [NeuronsFundParticipants];
   max_age_bonus_percentage: [] | [bigint];
   initial_token_distribution: [] | [InitialTokenDistribution];
@@ -167,9 +182,11 @@ export interface SnsInitPayload {
   token_logo: [] | [string];
   token_name: [] | [string];
   max_participant_icp_e8s: [] | [bigint];
+  min_direct_participation_icp_e8s: [] | [bigint];
   proposal_reject_cost_e8s: [] | [bigint];
   restricted_countries: [] | [Countries];
   min_icp_e8s: [] | [bigint];
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface SnsUpgrade {
   next_version: [] | [SnsVersion];

@@ -1165,7 +1165,14 @@ describe("Governance canister", () => {
 
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue({
-        command: [{ DisburseMaturity: { amount_disbursed_e8s: BigInt(0) } }],
+        command: [
+          {
+            DisburseMaturity: {
+              amount_disbursed_e8s: BigInt(0),
+              amount_deducted_e8s: [BigInt(0)],
+            },
+          },
+        ],
       });
 
       const canister = SnsGovernanceCanister.create({

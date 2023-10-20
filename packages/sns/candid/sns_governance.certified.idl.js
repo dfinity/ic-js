@@ -442,6 +442,7 @@ export const idlFactory = ({ IDL }) => {
   const SplitResponse = IDL.Record({ 'created_neuron_id' : IDL.Opt(NeuronId) });
   const DisburseMaturityResponse = IDL.Record({
     'amount_disbursed_e8s' : IDL.Nat64,
+    'amount_deducted_e8s' : IDL.Opt(IDL.Nat64),
   });
   const ClaimOrRefreshResponse = IDL.Record({
     'refreshed_neuron_id' : IDL.Opt(NeuronId),

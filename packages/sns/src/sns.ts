@@ -1,5 +1,5 @@
 import type { Agent } from "@dfinity/agent";
-import { IcrcIndexCanister, IcrcLedgerCanister } from "@dfinity/ledger";
+import { IcrcIndexCanister, IcrcLedgerCanister } from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import { assertNonNullish, fromNullable } from "@dfinity/utils";

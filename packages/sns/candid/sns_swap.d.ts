@@ -3,6 +3,7 @@ import type { Principal } from "@dfinity/principal";
 
 export interface BuyerState {
   icp: [] | [TransferableAmount];
+  has_created_neuron_recipes: [] | [boolean];
 }
 export interface CanisterCallError {
   code: [] | [number];
@@ -25,6 +26,7 @@ export interface CfInvestment {
   nns_neuron_id: bigint;
 }
 export interface CfNeuron {
+  has_created_neuron_recipes: [] | [boolean];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
@@ -45,6 +47,8 @@ export interface DerivedState {
   sns_tokens_per_icp: number;
   buyer_total_icp_e8s: bigint;
   cf_participant_count: [] | [bigint];
+  neurons_fund_participation_icp_e8s: [] | [bigint];
+  direct_participation_icp_e8s: [] | [bigint];
   direct_participant_count: [] | [bigint];
   cf_neuron_count: [] | [bigint];
 }
@@ -102,6 +106,8 @@ export interface GetDerivedStateResponse {
   sns_tokens_per_icp: [] | [number];
   buyer_total_icp_e8s: [] | [bigint];
   cf_participant_count: [] | [bigint];
+  neurons_fund_participation_icp_e8s: [] | [bigint];
+  direct_participation_icp_e8s: [] | [bigint];
   direct_participant_count: [] | [bigint];
   cf_neuron_count: [] | [bigint];
 }
@@ -133,6 +139,7 @@ export interface Icrc1Account {
 export interface Init {
   nns_proposal_id: [] | [bigint];
   sns_root_canister_id: string;
+  neurons_fund_participation: [] | [boolean];
   min_participant_icp_e8s: [] | [bigint];
   neuron_basket_construction_parameters:
     | []
@@ -149,12 +156,17 @@ export interface Init {
   transaction_fee_e8s: [] | [bigint];
   icp_ledger_canister_id: string;
   sns_ledger_canister_id: string;
+  neurons_fund_participation_constraints:
+    | []
+    | [NeuronsFundParticipationConstraints];
   neurons_fund_participants: [] | [NeuronsFundParticipants];
   should_auto_finalize: [] | [boolean];
   max_participant_icp_e8s: [] | [bigint];
   sns_governance_canister_id: string;
+  min_direct_participation_icp_e8s: [] | [bigint];
   restricted_countries: [] | [Countries];
   min_icp_e8s: [] | [bigint];
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface InvalidUserAmount {
   min_amount_icp_e8s_included: bigint;
@@ -163,6 +175,13 @@ export interface InvalidUserAmount {
 export type Investor =
   | { CommunityFund: CfInvestment }
   | { Direct: DirectInvestment };
+export interface LinearScalingCoefficient {
+  slope_numerator: [] | [bigint];
+  intercept_icp_e8s: [] | [bigint];
+  from_direct_participation_icp_e8s: [] | [bigint];
+  slope_denominator: [] | [bigint];
+  to_direct_participation_icp_e8s: [] | [bigint];
+}
 export interface ListCommunityFundParticipantsRequest {
   offset: [] | [bigint];
   limit: [] | [number];
@@ -196,6 +215,11 @@ export interface NeuronId {
 export interface NeuronsFundParticipants {
   cf_participants: Array<CfParticipant>;
 }
+export interface NeuronsFundParticipationConstraints {
+  coefficient_intervals: Array<LinearScalingCoefficient>;
+  max_neurons_fund_participation_icp_e8s: [] | [bigint];
+  min_direct_participation_threshold_icp_e8s: [] | [bigint];
+}
 export interface NewSaleTicketRequest {
   subaccount: [] | [Uint8Array];
   amount_icp_e8s: bigint;
@@ -225,7 +249,9 @@ export interface Params {
   sns_token_e8s: bigint;
   sale_delay_seconds: [] | [bigint];
   max_participant_icp_e8s: bigint;
+  min_direct_participation_icp_e8s: [] | [bigint];
   min_icp_e8s: bigint;
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface Participant {
   participation: [] | [BuyerState];
@@ -277,7 +303,9 @@ export interface Swap {
   cf_participants: Array<CfParticipant>;
   init: [] | [Init];
   already_tried_to_auto_finalize: [] | [boolean];
+  neurons_fund_participation_icp_e8s: [] | [bigint];
   purge_old_tickets_last_completion_timestamp_nanoseconds: [] | [bigint];
+  direct_participation_icp_e8s: [] | [bigint];
   lifecycle: number;
   purge_old_tickets_next_principal: [] | [Uint8Array];
   buyers: Array<[string, BuyerState]>;

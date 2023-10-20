@@ -1,5 +1,8 @@
-// Generated from IC repo commit 726b1529fd34a47fcf0627a72301d62a282c788d 'rs/sns/swap/canister/swap.did' by import-candid
-type BuyerState = record { icp : opt TransferableAmount };
+// Generated from IC repo commit dd51544944987556c978e774aa7a1992e5c11542 'rs/sns/swap/canister/swap.did' by import-candid
+type BuyerState = record {
+  icp : opt TransferableAmount;
+  has_created_neuron_recipes : opt bool;
+};
 type CanisterCallError = record { code : opt int32; description : text };
 type CanisterStatusResultV2 = record {
   status : CanisterStatusType;
@@ -11,7 +14,11 @@ type CanisterStatusResultV2 = record {
 };
 type CanisterStatusType = variant { stopped; stopping; running };
 type CfInvestment = record { hotkey_principal : text; nns_neuron_id : nat64 };
-type CfNeuron = record { nns_neuron_id : nat64; amount_icp_e8s : nat64 };
+type CfNeuron = record {
+  has_created_neuron_recipes : opt bool;
+  nns_neuron_id : nat64;
+  amount_icp_e8s : nat64;
+};
 type CfParticipant = record {
   hotkey_principal : text;
   cf_neurons : vec CfNeuron;
@@ -27,6 +34,8 @@ type DerivedState = record {
   sns_tokens_per_icp : float32;
   buyer_total_icp_e8s : nat64;
   cf_participant_count : opt nat64;
+  neurons_fund_participation_icp_e8s : opt nat64;
+  direct_participation_icp_e8s : opt nat64;
   direct_participant_count : opt nat64;
   cf_neuron_count : opt nat64;
 };
@@ -65,6 +74,8 @@ type GetDerivedStateResponse = record {
   sns_tokens_per_icp : opt float64;
   buyer_total_icp_e8s : opt nat64;
   cf_participant_count : opt nat64;
+  neurons_fund_participation_icp_e8s : opt nat64;
+  direct_participation_icp_e8s : opt nat64;
   direct_participant_count : opt nat64;
   cf_neuron_count : opt nat64;
 };
@@ -81,6 +92,7 @@ type Icrc1Account = record { owner : opt principal; subaccount : opt vec nat8 };
 type Init = record {
   nns_proposal_id : opt nat64;
   sns_root_canister_id : text;
+  neurons_fund_participation : opt bool;
   min_participant_icp_e8s : opt nat64;
   neuron_basket_construction_parameters : opt NeuronBasketConstructionParameters;
   fallback_controller_principal_ids : vec text;
@@ -95,12 +107,15 @@ type Init = record {
   transaction_fee_e8s : opt nat64;
   icp_ledger_canister_id : text;
   sns_ledger_canister_id : text;
+  neurons_fund_participation_constraints : opt NeuronsFundParticipationConstraints;
   neurons_fund_participants : opt NeuronsFundParticipants;
   should_auto_finalize : opt bool;
   max_participant_icp_e8s : opt nat64;
   sns_governance_canister_id : text;
+  min_direct_participation_icp_e8s : opt nat64;
   restricted_countries : opt Countries;
   min_icp_e8s : opt nat64;
+  max_direct_participation_icp_e8s : opt nat64;
 };
 type InvalidUserAmount = record {
   min_amount_icp_e8s_included : nat64;
@@ -109,6 +124,13 @@ type InvalidUserAmount = record {
 type Investor = variant {
   CommunityFund : CfInvestment;
   Direct : DirectInvestment;
+};
+type LinearScalingCoefficient = record {
+  slope_numerator : opt nat64;
+  intercept_icp_e8s : opt nat64;
+  from_direct_participation_icp_e8s : opt nat64;
+  slope_denominator : opt nat64;
+  to_direct_participation_icp_e8s : opt nat64;
 };
 type ListCommunityFundParticipantsRequest = record {
   offset : opt nat64;
@@ -137,6 +159,11 @@ type NeuronBasketConstructionParameters = record {
 };
 type NeuronId = record { id : vec nat8 };
 type NeuronsFundParticipants = record { cf_participants : vec CfParticipant };
+type NeuronsFundParticipationConstraints = record {
+  coefficient_intervals : vec LinearScalingCoefficient;
+  max_neurons_fund_participation_icp_e8s : opt nat64;
+  min_direct_participation_threshold_icp_e8s : opt nat64;
+};
 type NewSaleTicketRequest = record {
   subaccount : opt vec nat8;
   amount_icp_e8s : nat64;
@@ -158,7 +185,9 @@ type Params = record {
   sns_token_e8s : nat64;
   sale_delay_seconds : opt nat64;
   max_participant_icp_e8s : nat64;
+  min_direct_participation_icp_e8s : opt nat64;
   min_icp_e8s : nat64;
+  max_direct_participation_icp_e8s : opt nat64;
 };
 type Participant = record {
   participation : opt BuyerState;
@@ -203,7 +232,9 @@ type Swap = record {
   cf_participants : vec CfParticipant;
   init : opt Init;
   already_tried_to_auto_finalize : opt bool;
+  neurons_fund_participation_icp_e8s : opt nat64;
   purge_old_tickets_last_completion_timestamp_nanoseconds : opt nat64;
+  direct_participation_icp_e8s : opt nat64;
   lifecycle : int32;
   purge_old_tickets_next_principal : opt vec nat8;
   buyers : vec record { text; BuyerState };

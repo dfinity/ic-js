@@ -1,9 +1,12 @@
+import type { AccountIdentifier as AccountIdentifierClass } from "@dfinity/ledger-icp";
+import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
 import type {
+  Amount,
+  ListProposalInfo,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
-  Amount,
   By as RawBy,
   Change as RawChange,
   Command as RawCommand,
@@ -18,7 +21,6 @@ import type {
   InitialTokenDistribution as RawInitialTokenDistribution,
   LedgerParameters as RawLedgerParameters,
   ListNeurons as RawListNeurons,
-  ListProposalInfo,
   ManageNeuron as RawManageNeuron,
   NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
   NeuronDistribution as RawNeuronDistribution,
@@ -33,7 +35,6 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import type { AccountIdentifier as AccountIdentifierClass } from "../../account_identifier";
 import type { Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
@@ -70,7 +71,6 @@ import type {
   Tokens,
   VotingRewardParameters,
 } from "../../types/governance_converters";
-import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
@@ -212,6 +212,17 @@ const fromSwapParameters = (
     swapParameters.restrictedCountries !== undefined
       ? [fromCountries(swapParameters.restrictedCountries)]
       : [],
+  maximum_direct_participation_icp:
+    swapParameters.maxDirectParticipationIcp !== undefined
+      ? [fromTokens(swapParameters.maxDirectParticipationIcp)]
+      : [],
+  minimum_direct_participation_icp:
+    swapParameters.minDirectParticipationIcp !== undefined
+      ? [fromTokens(swapParameters.minDirectParticipationIcp)]
+      : [],
+  neurons_fund_participation: toNullable(
+    swapParameters.neuronsFundParticipation,
+  ),
 });
 
 const fromNeuronBasketConstructionParameters = (
@@ -581,6 +592,12 @@ const fromAction = (action: Action): RawAction => {
                   neuron_basket_construction_parameters: toNullable(
                     params.neuronBasketConstructionParameters,
                   ),
+                  max_direct_participation_icp_e8s: toNullable(
+                    params.maxDirectParticipationIcpE8s,
+                  ),
+                  min_direct_participation_icp_e8s: toNullable(
+                    params.minDirectParticipationIcpE8s,
+                  ),
                 },
               ],
       },
@@ -903,6 +920,7 @@ export const fromListProposalsRequest = ({
   includeStatus,
   limit,
   includeAllManageNeuronProposals,
+  omitLargeFields,
 }: ListProposalsRequest): ListProposalInfo => {
   return {
     include_reward_status: Int32Array.from(includeRewardStatus),
@@ -914,6 +932,7 @@ export const fromListProposalsRequest = ({
         ? [includeAllManageNeuronProposals]
         : [],
     include_status: Int32Array.from(includeStatus),
+    omit_large_fields: toNullable(omitLargeFields),
   };
 };
 

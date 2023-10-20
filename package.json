@@ -1,17 +1,17 @@
 {
   "name": "@dfinity/ic-js",
-  "version": "0.18.4",
+  "version": "2023.10.02-1515Z",
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
   "workspaces": [
     "packages/utils",
-    "packages/ledger",
     "packages/nns-proto",
+    "packages/ledger-icp",
+    "packages/ledger-icrc",
     "packages/nns",
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/rosetta-client",
     "packages/ic-management"
   ],
   "scripts": {
@@ -20,8 +20,8 @@
     "format": "prettier --write .",
     "protoc": "bash ./scripts/update_proto.sh",
     "test": "jest",
-    "test-all": "npm ci && npm run build --workspace=packages/utils && npm run build --workspace=packages/ledger && npm run test --workspaces",
-    "docs": "node scripts/docs.js && prettier --write packages/nns/README.md packages/sns/README.md packages/cmc/README.md packages/utils/README.md packages/ledger/README.md packages/ckbtc/README.md packages/rosetta-client/README.md packages/ic-management/README.md",
+    "test-all": "npm ci && npm run test --workspaces",
+    "docs": "node scripts/docs.js && prettier --write packages/**/README.md",
     "build": "npm run build --workspaces",
     "size": "size-limit --json",
     "update:agent": "./scripts/update-agent"
@@ -34,31 +34,31 @@
     "url": "https://github.com/dfinity/ic-js"
   },
   "devDependencies": {
-    "@size-limit/esbuild": "^8.2.4",
-    "@size-limit/preset-small-lib": "^8.2.4",
-    "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.11",
-    "@types/text-encoding": "^0.0.36",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "esbuild": "^0.17.15",
-    "eslint": "^8.37.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.27.5",
+    "@size-limit/esbuild": "^9.0.0",
+    "@size-limit/preset-small-lib": "^9.0.0",
+    "@types/jest": "^29.5.5",
+    "@types/node": "^20.6.3",
+    "@types/text-encoding": "^0.0.37",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "esbuild": "^0.19.3",
+    "eslint": "^8.49.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
-    "jest": "^29.5.0",
-    "jest-mock-extended": "^3.0.4",
-    "node-fetch": "^3.3.1",
-    "prettier": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-mock-extended": "^3.0.5",
+    "node-fetch": "^3.3.2",
+    "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.3",
-    "semver": "^7.5.3",
-    "size-limit": "^8.2.4",
+    "semver": "^7.5.4",
+    "size-limit": "^9.0.0",
     "text-encoding": "^0.7.0",
-    "ts-jest": "^29.1.0",
+    "ts-jest": "^29.1.1",
     "ts-protoc-gen": "^0.15.0",
-    "tsdoc-markdown": "^0.0.4",
-    "typescript": "^4.9.5",
-    "whatwg-fetch": "^3.6.2"
+    "tsdoc-markdown": "^0.1.0",
+    "typescript": "^5.2.2",
+    "whatwg-fetch": "^3.6.19"
   },
   "size-limit": [
     {
@@ -75,7 +75,7 @@
     {
       "name": "@dfinity/cmc",
       "path": "./packages/cmc/dist/index.js",
-      "limit": "1 kB",
+      "limit": "2 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -84,20 +84,32 @@
       ]
     },
     {
-      "name": "@dfinity/ledger",
-      "path": "./packages/ledger/dist/index.js",
-      "limit": "3 kB",
+      "name": "@dfinity/ledger-icrc",
+      "path": "./packages/ledger-icrc/dist/index.js",
+      "limit": "4 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
         "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@dfinity/ledger-icp",
+      "path": "./packages/ledger-icp/dist/index.js",
+      "limit": "15 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils",
+        "@dfinity/nns-proto"
       ]
     },
     {
       "name": "@dfinity/nns",
       "path": "./packages/nns/dist/index.js",
-      "limit": "32 kB",
+      "limit": "35 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -120,7 +132,7 @@
         "@dfinity/candid",
         "@dfinity/principal",
         "@dfinity/utils",
-        "@dfinity/ledger"
+        "@dfinity/ledger-icrc"
       ]
     },
     {
@@ -132,12 +144,6 @@
         "@dfinity/candid",
         "@dfinity/principal"
       ]
-    },
-    {
-      "name": "@dfinity/rosetta-client",
-      "path": "./packages/rosetta-client/dist/index.js",
-      "limit": "1 kB",
-      "ignore": []
     },
     {
       "name": "@dfinity/ic-management",
@@ -152,6 +158,6 @@
     }
   ],
   "overrides": {
-    "semver": "^7.5.3"
+    "semver": "^7.5.4"
   }
 }

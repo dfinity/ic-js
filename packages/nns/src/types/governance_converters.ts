@@ -164,6 +164,12 @@ export interface ListProposalsRequest {
   // [ProposalStatus] for more information). If this list is empty, no
   // restriction is applied.
   includeStatus: Array<ProposalStatus>;
+
+  // Omits "large fields" from the response. Currently only omits the
+  // `logo` and `token_logo` field of CreateServiceNervousSystem proposals. This
+  // is useful to improve download times and to ensure that the response to the
+  // request doesn't exceed the message size limit.
+  omitLargeFields?: boolean;
 }
 export interface ListProposalsResponse {
   proposals: Array<ProposalInfo>;
@@ -227,6 +233,8 @@ export interface OpenSnsTokenSwap {
       dissolve_delay_interval_seconds: bigint;
       count: bigint;
     };
+    maxDirectParticipationIcpE8s?: bigint;
+    minDirectParticipationIcpE8s?: bigint;
   };
 }
 export interface SetSnsTokenSwapOpenTimeWindow {
@@ -560,6 +568,9 @@ export interface SwapParameters {
   startTime?: GlobalTimeOfDay;
   maximumIcp?: Tokens;
   restrictedCountries?: Countries;
+  maxDirectParticipationIcp?: Tokens;
+  minDirectParticipationIcp?: Tokens;
+  neuronsFundParticipation?: boolean;
 }
 
 export interface SwapDistribution {

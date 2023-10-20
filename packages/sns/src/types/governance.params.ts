@@ -1,4 +1,8 @@
-import type { IcrcAccount, IcrcSubaccount, IcrcTokens } from "@dfinity/ledger";
+import type {
+  IcrcAccount,
+  IcrcSubaccount,
+  IcrcTokens,
+} from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import type { NeuronId, ProposalId } from "../../candid/sns_governance";

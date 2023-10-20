@@ -12,6 +12,7 @@ import {
   MinterAlreadyProcessingError,
   MinterAmountTooLowError,
   MinterGenericError,
+  MinterInsufficientAllowanceError,
   MinterInsufficientFundsError,
   MinterMalformedAddressError,
   MinterNoNewUtxosError,
@@ -396,6 +397,186 @@ describe("ckBTC minter canister", () => {
       const canister = minter(service);
 
       const call = () => canister.retrieveBtc(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterRetrieveBtcError(
+          `Unsupported response type in minter.retrieveBtc ${JSON.stringify(
+            error.Err,
+          )}`,
+        ),
+      );
+    });
+  });
+
+  describe("Retrieve BTC with approval", () => {
+    const success: RetrieveBtcOk = {
+      block_index: 1n,
+    };
+    const ok = { Ok: success };
+
+    const params = {
+      address: bitcoinAddressMock,
+      amount: 123_000n,
+    };
+
+    it("should return Ok", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_with_approval.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const res = await canister.retrieveBtcWithApproval(params);
+
+      expect(service.retrieve_btc_with_approval).toBeCalledTimes(1);
+      expect(service.retrieve_btc_with_approval).toBeCalledWith({
+        ...params,
+        from_subaccount: [],
+      });
+      expect(res).toEqual(success);
+    });
+
+    it("should return Ok with fromSubaccount", async () => {
+      const fromSubaccount = new Uint8Array([3, 4, 5]);
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_with_approval.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const res = await canister.retrieveBtcWithApproval({
+        ...params,
+        fromSubaccount,
+      });
+
+      expect(service.retrieve_btc_with_approval).toBeCalledTimes(1);
+      expect(service.retrieve_btc_with_approval).toBeCalledWith({
+        ...params,
+        from_subaccount: [fromSubaccount],
+      });
+      expect(res).toEqual(success);
+    });
+
+    it("should throw MinterGenericError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = {
+        Err: { GenericError: { error_message: "message", error_code: 1n } },
+      };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterGenericError(
+          `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`,
+        ),
+      );
+    });
+
+    it("should throw MinterTemporarilyUnavailable", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { TemporarilyUnavailable: "unavailable" } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+      );
+    });
+
+    it("should throw MinterAlreadyProcessingError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { AlreadyProcessing: null } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterAlreadyProcessingError(),
+      );
+    });
+
+    it("should throw MinterMalformedAddress", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { MalformedAddress: "malformated" } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterMalformedAddressError(error.Err.MalformedAddress),
+      );
+    });
+
+    it("should throw MinterAmountTooLowError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { AmountTooLow: 123n } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterAmountTooLowError(`${error.Err.AmountTooLow}`),
+      );
+    });
+
+    it("should throw MinterInsufficientFundsError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { InsufficientFunds: { balance: 123n } } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterInsufficientFundsError(
+          `${error.Err.InsufficientFunds.balance}`,
+        ),
+      );
+    });
+
+    it("should throw MinterInsufficientAllowanceError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { InsufficientAllowance: { allowance: 123n } } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterInsufficientAllowanceError(
+          `${error.Err.InsufficientAllowance.allowance}`,
+        ),
+      );
+    });
+
+    it("should throw unsupported response", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { Test: null } as unknown as RetrieveBtcError };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
 
       await expect(call).rejects.toThrowError(
         new MinterRetrieveBtcError(

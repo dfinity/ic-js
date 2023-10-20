@@ -4,7 +4,20 @@ export const idlFactory = ({ IDL }) => {
     'dissolve_delay_interval_seconds' : IDL.Nat64,
     'count' : IDL.Nat64,
   });
+  const LinearScalingCoefficient = IDL.Record({
+    'slope_numerator' : IDL.Opt(IDL.Nat64),
+    'intercept_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'from_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'slope_denominator' : IDL.Opt(IDL.Nat64),
+    'to_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundParticipationConstraints = IDL.Record({
+    'coefficient_intervals' : IDL.Vec(LinearScalingCoefficient),
+    'max_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'min_direct_participation_threshold_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const CfNeuron = IDL.Record({
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
@@ -19,6 +32,7 @@ export const idlFactory = ({ IDL }) => {
   const Init = IDL.Record({
     'nns_proposal_id' : IDL.Opt(IDL.Nat64),
     'sns_root_canister_id' : IDL.Text,
+    'neurons_fund_participation' : IDL.Opt(IDL.Bool),
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
@@ -35,12 +49,17 @@ export const idlFactory = ({ IDL }) => {
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'icp_ledger_canister_id' : IDL.Text,
     'sns_ledger_canister_id' : IDL.Text,
+    'neurons_fund_participation_constraints' : IDL.Opt(
+      NeuronsFundParticipationConstraints
+    ),
     'neurons_fund_participants' : IDL.Opt(NeuronsFundParticipants),
     'should_auto_finalize' : IDL.Opt(IDL.Bool),
     'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'sns_governance_canister_id' : IDL.Text,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'restricted_countries' : IDL.Opt(Countries),
     'min_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const ErrorRefundIcpRequest = IDL.Record({
     'source_principal_id' : IDL.Opt(IDL.Principal),
@@ -124,7 +143,10 @@ export const idlFactory = ({ IDL }) => {
     'amount_transferred_e8s' : IDL.Opt(IDL.Nat64),
     'transfer_success_timestamp_seconds' : IDL.Nat64,
   });
-  const BuyerState = IDL.Record({ 'icp' : IDL.Opt(TransferableAmount) });
+  const BuyerState = IDL.Record({
+    'icp' : IDL.Opt(TransferableAmount),
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
+  });
   const GetBuyerStateResponse = IDL.Record({
     'buyer_state' : IDL.Opt(BuyerState),
   });
@@ -152,6 +174,8 @@ export const idlFactory = ({ IDL }) => {
     'sns_tokens_per_icp' : IDL.Opt(IDL.Float64),
     'buyer_total_icp_e8s' : IDL.Opt(IDL.Nat64),
     'cf_participant_count' : IDL.Opt(IDL.Nat64),
+    'neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'direct_participant_count' : IDL.Opt(IDL.Nat64),
     'cf_neuron_count' : IDL.Opt(IDL.Nat64),
   });
@@ -185,7 +209,9 @@ export const idlFactory = ({ IDL }) => {
     'sns_token_e8s' : IDL.Nat64,
     'sale_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_participant_icp_e8s' : IDL.Nat64,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_icp_e8s' : IDL.Nat64,
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const GetSaleParametersResponse = IDL.Record({ 'params' : IDL.Opt(Params) });
   const NeuronId = IDL.Record({ 'id' : IDL.Vec(IDL.Nat8) });
@@ -218,9 +244,11 @@ export const idlFactory = ({ IDL }) => {
     'cf_participants' : IDL.Vec(CfParticipant),
     'init' : IDL.Opt(Init),
     'already_tried_to_auto_finalize' : IDL.Opt(IDL.Bool),
+    'neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'purge_old_tickets_last_completion_timestamp_nanoseconds' : IDL.Opt(
       IDL.Nat64
     ),
+    'direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'lifecycle' : IDL.Int32,
     'purge_old_tickets_next_principal' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'buyers' : IDL.Vec(IDL.Tuple(IDL.Text, BuyerState)),
@@ -231,6 +259,8 @@ export const idlFactory = ({ IDL }) => {
     'sns_tokens_per_icp' : IDL.Float32,
     'buyer_total_icp_e8s' : IDL.Nat64,
     'cf_participant_count' : IDL.Opt(IDL.Nat64),
+    'neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'direct_participant_count' : IDL.Opt(IDL.Nat64),
     'cf_neuron_count' : IDL.Opt(IDL.Nat64),
   });
@@ -376,7 +406,20 @@ export const init = ({ IDL }) => {
     'dissolve_delay_interval_seconds' : IDL.Nat64,
     'count' : IDL.Nat64,
   });
+  const LinearScalingCoefficient = IDL.Record({
+    'slope_numerator' : IDL.Opt(IDL.Nat64),
+    'intercept_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'from_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'slope_denominator' : IDL.Opt(IDL.Nat64),
+    'to_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronsFundParticipationConstraints = IDL.Record({
+    'coefficient_intervals' : IDL.Vec(LinearScalingCoefficient),
+    'max_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'min_direct_participation_threshold_icp_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const CfNeuron = IDL.Record({
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
@@ -391,6 +434,7 @@ export const init = ({ IDL }) => {
   const Init = IDL.Record({
     'nns_proposal_id' : IDL.Opt(IDL.Nat64),
     'sns_root_canister_id' : IDL.Text,
+    'neurons_fund_participation' : IDL.Opt(IDL.Bool),
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
@@ -407,12 +451,17 @@ export const init = ({ IDL }) => {
     'transaction_fee_e8s' : IDL.Opt(IDL.Nat64),
     'icp_ledger_canister_id' : IDL.Text,
     'sns_ledger_canister_id' : IDL.Text,
+    'neurons_fund_participation_constraints' : IDL.Opt(
+      NeuronsFundParticipationConstraints
+    ),
     'neurons_fund_participants' : IDL.Opt(NeuronsFundParticipants),
     'should_auto_finalize' : IDL.Opt(IDL.Bool),
     'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'sns_governance_canister_id' : IDL.Text,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'restricted_countries' : IDL.Opt(Countries),
     'min_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   return [Init];
 };

@@ -140,6 +140,7 @@ export interface DisburseMaturityInProgress {
 }
 export interface DisburseMaturityResponse {
   amount_disbursed_e8s: bigint;
+  amount_deducted_e8s: [] | [bigint];
 }
 export interface DisburseResponse {
   transfer_block_height: bigint;
