@@ -122,4 +122,6 @@ export enum NnsFunction {
   InsertSnsWasmUpgradePathEntries = 37,
   UpdateElectedReplicaVersions = 38,
   BitcoinSetConfig = 39,
+  UpdateElectedHostosVersions = 40,
+  UpdateNodesHostosVersion = 41,
 }
