@@ -1,4 +1,4 @@
-// Generated from IC repo commit dd51544944987556c978e774aa7a1992e5c11542 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit 3d6ce2d092aa34f66212d703adb06aef13911e6c 'rs/sns/root/canister/root.did' by import-candid
 type AuthzChangeOp = variant {
   Authorize : record { add_self : bool };
   Deauthorize;

@@ -376,6 +376,9 @@ export type Operation =
   | { StartDissolving: {} }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
+export interface Percentage {
+  basis_points: [] | [bigint];
+}
 export interface Proposal {
   url: string;
   title: string;
@@ -388,6 +391,7 @@ export interface ProposalData {
   action: bigint;
   failure_reason: [] | [GovernanceError];
   ballots: Array<[string, Ballot]>;
+  minimum_yes_proportion_of_total: [] | [Percentage];
   reward_event_round: bigint;
   failed_timestamp_seconds: bigint;
   reward_event_end_timestamp_seconds: [] | [bigint];
