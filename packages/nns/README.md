@@ -42,7 +42,7 @@ const { listNeurons } = GovernanceCanister.create({
   canisterId: MY_GOVERNANCE_CANISTER_ID,
 });
 
-const myNeurons = await listNeurons();
+const myNeurons = await listNeurons({ certified: false });
 ```
 
 ## Features
