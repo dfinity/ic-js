@@ -9,13 +9,6 @@ A library for interfacing with the Internet Computer's Network Nervous System.
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
-  - [AccountIdentifier](#factory-accountidentifier)
-  - [SubAccount](#factory-subaccount)
-  - [GenesisTokenCanister](#factory-genesistokencanister)
-  - [ICP](#factory-icp)
-  - [LedgerCanister](#factory-ledgercanister)
-  - [GovernanceCanister](#factory-governancecanister)
-  - [SnsWasmCanister](#factory-snswasmcanister)
 
 ## Installation
 
@@ -33,28 +26,23 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils @dfinity/
 
 ## Usage
 
-Most features are provided through the use of classes. e.g. querying the `ledger` for an account balance in a NodeJS context can be developed as following:
+Most features are provided through the use of classes. For example, querying the list of neurons controlled by the caller with the `governance` canister:
 
 ```ts
-import { AccountIdentifier, LedgerCanister } from "@dfinity/nns";
+import { GovernanceCanister } from "@dfinity/ledger-icrc";
+import { createAgent } from "@dfinity/utils";
 
-// If not running in browser, add polyfill of `window.fetch` for agent-js to work.
-import fetch from "cross-fetch";
-global.fetch = fetch;
+const agent = await createAgent({
+  identity,
+  host: HOST,
+});
 
-const main = async () => {
-  const ledger = LedgerCanister.create();
+const { listNeurons } = GovernanceCanister.create({
+  agent,
+  canisterId: MY_GOVERNANCE_CANISTER_ID,
+});
 
-  const accountIdentifier = AccountIdentifier.fromHex(
-    "efa01544f509c56dd85449edf2381244a48fad1ede5183836229c00ab00d52df",
-  );
-
-  const balance = await ledger.accountBalance({ accountIdentifier });
-
-  console.log(`Balance: ${balance}`);
-};
-
-await main();
+const myNeurons = await listNeurons();
 ```
 
 ## Features
