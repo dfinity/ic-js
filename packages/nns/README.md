@@ -29,7 +29,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils @dfinity/
 Most features are provided through the use of classes. For example, querying the list of neurons controlled by the caller with the `governance` canister:
 
 ```ts
-import { GovernanceCanister } from "@dfinity/ledger-icrc";
+import { GovernanceCanister } from "@dfinity/nns";
 import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({
