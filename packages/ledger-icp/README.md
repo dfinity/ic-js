@@ -233,6 +233,22 @@ Returns the index of the block containing the tx if it was successful.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L142)
 
+### :factory: IndexCanister
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L7)
+
+#### Methods
+
+- [create](#gear-create)
+
+##### :gear: create
+
+| Method   | Type                                                                                          |
+| -------- | --------------------------------------------------------------------------------------------- |
+| `create` | `({ canisterId: optionsCanisterId, ...options }: CanisterOptions<_SERVICE>) => IndexCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L8)
+
 <!-- TSDOC_END -->
 
 ## Resources
