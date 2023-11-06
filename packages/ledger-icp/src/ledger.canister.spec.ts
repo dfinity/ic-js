@@ -16,12 +16,10 @@ import {
   TxTooOldError,
 } from "./errors/ledger.errors";
 import { LedgerCanister } from "./ledger.canister";
+import { mockAccountIdentifier } from "./mocks/ledger.mock";
 import { E8s } from "./types/common";
 
 describe("LedgerCanister", () => {
-  const accountIdentifier = AccountIdentifier.fromHex(
-    "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958",
-  );
   describe("accountBalance", () => {
     describe("no hardware wallet", () => {
       const tokens = {
@@ -35,7 +33,7 @@ describe("LedgerCanister", () => {
         });
 
         const balance = await ledger.accountBalance({
-          accountIdentifier,
+          accountIdentifier: mockAccountIdentifier,
           certified: false,
         });
         expect(balance).toEqual(tokens.e8s);
@@ -50,8 +48,23 @@ describe("LedgerCanister", () => {
         });
 
         const balance = await ledger.accountBalance({
-          accountIdentifier,
+          accountIdentifier: mockAccountIdentifier,
           certified: true,
+        });
+        expect(balance).toEqual(tokens.e8s);
+        expect(service.account_balance).toBeCalled();
+      });
+
+      it("returns account balance with account identifier as hex", async () => {
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.account_balance.mockResolvedValue(tokens);
+        const ledger = LedgerCanister.create({
+          serviceOverride: service,
+        });
+
+        const balance = await ledger.accountBalance({
+          accountIdentifier: mockAccountIdentifier.toHex(),
+          certified: false,
         });
         expect(balance).toEqual(tokens.e8s);
         expect(service.account_balance).toBeCalled();
@@ -87,7 +100,7 @@ describe("LedgerCanister", () => {
           hardwareWallet: true,
         });
         const balance = await ledger.accountBalance({
-          accountIdentifier,
+          accountIdentifier: mockAccountIdentifier,
           certified: false,
         });
         expect(typeof balance).toEqual("bigint");
@@ -103,7 +116,7 @@ describe("LedgerCanister", () => {
           hardwareWallet: true,
         });
         const balance = await ledger.accountBalance({
-          accountIdentifier,
+          accountIdentifier: mockAccountIdentifier,
           certified: true,
         });
         expect(typeof balance).toEqual("bigint");
@@ -114,7 +127,7 @@ describe("LedgerCanister", () => {
 
   describe("transfer", () => {
     describe("no hardware wallet", () => {
-      const to = accountIdentifier;
+      const to = mockAccountIdentifier;
       const amount = BigInt(100000);
 
       it("fetches transaction fee if not present", async () => {
@@ -386,7 +399,7 @@ describe("LedgerCanister", () => {
     });
 
     describe("for hardware wallet", () => {
-      const to = accountIdentifier;
+      const to = mockAccountIdentifier;
       const amount = BigInt(100000);
 
       it("handles invalid sender", async () => {
