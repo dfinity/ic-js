@@ -5,5 +5,5 @@ export const MAINNET_LEDGER_CANISTER_ID = Principal.fromText(
 );
 
 export const MAINNET_INDEX_CANISTER_ID = Principal.fromText(
-    "qhbym-qaaaa-aaaaa-aaafq-cai",
+  "qhbym-qaaaa-aaaaa-aaafq-cai",
 );
