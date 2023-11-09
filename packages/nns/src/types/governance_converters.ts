@@ -557,20 +557,20 @@ export interface NeuronBasketConstructionParameters {
   count?: bigint;
 }
 export interface SwapParameters {
-  minimumParticipants?: bigint;
-  duration?: Duration;
-  neuronBasketConstructionParameters?: NeuronBasketConstructionParameters;
-  confirmationText?: string;
-  maximumParticipantIcp?: Tokens;
-  neuronsFundInvestmentIcp?: Tokens;
-  minimumIcp?: Tokens;
-  minimumParticipantIcp?: Tokens;
-  startTime?: GlobalTimeOfDay;
-  maximumIcp?: Tokens;
-  restrictedCountries?: Countries;
-  maxDirectParticipationIcp?: Tokens;
-  minDirectParticipationIcp?: Tokens;
-  neuronsFundParticipation?: boolean;
+  minimumParticipants: Option<bigint>;
+  duration: Option<Duration>;
+  neuronBasketConstructionParameters: Option<NeuronBasketConstructionParameters>;
+  confirmationText: Option<string>;
+  maximumParticipantIcp: Option<Tokens>;
+  neuronsFundInvestmentIcp: Option<Tokens>;
+  minimumIcp: Option<Tokens>;
+  minimumParticipantIcp: Option<Tokens>;
+  startTime: Option<GlobalTimeOfDay>;
+  maximumIcp: Option<Tokens>;
+  restrictedCountries: Option<Countries>;
+  maxDirectParticipationIcp: Option<Tokens>;
+  minDirectParticipationIcp: Option<Tokens>;
+  neuronsFundParticipation: Option<boolean>;
 }
 
 export interface SwapDistribution {

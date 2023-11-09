@@ -1213,6 +1213,15 @@ const toSwapParameters = (
         restrictedCountries: toCountries(
           fromNullable(swapParameters.restricted_countries),
         ),
+        maxDirectParticipationIcp: toTokens(
+          fromNullable(swapParameters.maximum_direct_participation_icp),
+        ),
+        minDirectParticipationIcp: toTokens(
+          fromNullable(swapParameters.minimum_direct_participation_icp),
+        ),
+        neuronsFundParticipation: fromNullable(
+          swapParameters.neurons_fund_participation,
+        ),
       };
 };
 
