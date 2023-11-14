@@ -49,6 +49,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [encodeBase32](#gear-encodebase32)
 - [decodeBase32](#gear-decodebase32)
 - [bigEndianCrc32](#gear-bigendiancrc32)
+- [secondsToDuration](#gear-secondstoduration)
 - [debounce](#gear-debounce)
 - [isNullish](#gear-isnullish)
 - [nonNullish](#gear-nonnullish)
@@ -233,6 +234,20 @@ Parameters:
 | `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
+
+#### :gear: secondsToDuration
+
+Convert seconds to a human-readable duration, such as "6 days, 10 hours."
+
+| Function            | Type                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `secondsToDuration` | `({ seconds, i18n, }: { seconds: bigint; i18n?: I18nSecondsToDuration; }) => string` |
+
+Parameters:
+
+- `options`: - The options object.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L43)
 
 #### :gear: debounce
 
