@@ -3,11 +3,50 @@ const MINUTES_IN_HOUR = 60;
 const HOURS_IN_DAY = 24;
 const DAYS_IN_NON_LEAP_YEAR = 365;
 
+export interface I18nSecondsToDuration {
+  year: string;
+  year_plural: string;
+  month: string;
+  month_plural: string;
+  day: string;
+  day_plural: string;
+  hour: string;
+  hour_plural: string;
+  minute: string;
+  minute_plural: string;
+  second: string;
+  second_plural: string;
+}
+
+const EN_TIME: I18nSecondsToDuration = {
+  year: "year",
+  year_plural: "years",
+  month: "month",
+  month_plural: "months",
+  day: "day",
+  day_plural: "days",
+  hour: "hour",
+  hour_plural: "hours",
+  minute: "minute",
+  minute_plural: "minutes",
+  second: "second",
+  second_plural: "seconds",
+};
+
 /**
  * Convert seconds to a human-readable duration, such as "6 days, 10 hours."
- * @param {number} seconds - The number of seconds to convert.
+ * @param {Object} options - The options object.
+ * @param {bigint} options.seconds - The number of seconds to convert.
+ * @param {I18nSecondsToDuration} [options.i18n] - The i18n object for customizing language and units. Defaults to English.
+ * @returns {string} The human-readable duration string.
  */
-export const secondsToDuration = (seconds: bigint): string => {
+export const secondsToDuration = ({
+  seconds,
+  i18n = EN_TIME,
+}: {
+  seconds: bigint;
+  i18n?: I18nSecondsToDuration;
+}): string => {
   let minutes = seconds / BigInt(SECONDS_IN_MINUTE);
 
   let hours = minutes / BigInt(MINUTES_IN_HOUR);
@@ -18,21 +57,6 @@ export const secondsToDuration = (seconds: bigint): string => {
 
   const years = fullYearsInDays(days);
   days -= daysInYears(years);
-
-  const time: Record<string, string> = {
-    year: "year",
-    year_plural: "years",
-    month: "month",
-    month_plural: "months",
-    day: "day",
-    day_plural: "days",
-    hour: "hour",
-    hour_plural: "hours",
-    minute: "minute",
-    minute_plural: "minutes",
-    second: "second",
-    second_plural: "seconds",
-  };
 
   const periods = [
     createLabel("year", years),
@@ -51,8 +75,8 @@ export const secondsToDuration = (seconds: bigint): string => {
       (labelInfo) =>
         `${labelInfo.amount} ${
           labelInfo.amount === 1
-            ? time[labelInfo.labelKey]
-            : time[`${labelInfo.labelKey}_plural`]
+            ? i18n[labelInfo.labelKey]
+            : i18n[`${labelInfo.labelKey}_plural`]
         }`,
     )
     .join(", ");
