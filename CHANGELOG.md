@@ -6,7 +6,7 @@
 
 ## Features
 
-- add support for ICP Index canister to library `@dfinity/ledger-icp`. New `IndexCanister` functions: `accountBalance`.
+- add support for ICP Index canister to library `@dfinity/ledger-icp`. New `IndexCanister` functions: `accountBalance` and `getTransactions`.
 - expose few types - notably `BlockHeight` - for library `@dfinity/ledger-icp`.
 - support new fields from swap canister response types: `min_direct_participation_icp_e8s`, `max_direct_participation_icp_e8s` and `neurons_fund_participation`.
 - support new fields in the `CreateServiceNervousSystem` proposal action `maximum_direct_participation_icp`, `minimum_direct_participation_icp` and `neurons_fund_participation`.
