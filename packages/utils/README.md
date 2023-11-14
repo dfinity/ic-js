@@ -239,15 +239,15 @@ Parameters:
 
 Convert seconds to a human-readable duration, such as "6 days, 10 hours."
 
-| Function            | Type                          |
-| ------------------- | ----------------------------- |
-| `secondsToDuration` | `(seconds: bigint) => string` |
+| Function            | Type                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `secondsToDuration` | `({ seconds, i18n, }: { seconds: bigint; i18n?: I18nSecondsToDuration; }) => string` |
 
 Parameters:
 
-- `seconds`: - The number of seconds to convert.
+- `options`: - The options object.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L10)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L43)
 
 #### :gear: debounce
 
