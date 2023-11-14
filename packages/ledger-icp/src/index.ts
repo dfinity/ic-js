@@ -1,3 +1,4 @@
+export type * from "../candid/index";
 export { AccountIdentifier, SubAccount } from "./account_identifier";
 export * from "./errors/ledger.errors";
 export { IndexCanister } from "./index.canister";
