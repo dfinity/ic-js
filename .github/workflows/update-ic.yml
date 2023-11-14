@@ -6,13 +6,13 @@ on:
     # Checks for new IC commit weekly
     - cron: '30 3 * * MON'
   workflow_dispatch:
-    # Provides an option to run this manually.
+    # Provides an option to run this manually
     ic_ref:
       description: "The IC commit or tag to update to."
       required: false
   push:
     branches:
-      # Runs if there is a change to the development branch for this workflow:
+      # Runs if there is a change to the development branch for this workflow
       - "update-ic"
 jobs:
   update-ic:
@@ -30,6 +30,10 @@ jobs:
         id: update
         run: |
           set -euxo pipefail
+          # Gets didc
+          echo "$PATH" | tr : "\n"
+          mkdir -p "$HOME/.local/bin"
+          curl -Lf https://github.com/dfinity/candid/releases/download/2022-08-09/didc-linux64 | install -m 755 /dev/stdin "$HOME/.local/bin/didc"
           # Gets prettier in a minute
           npm ci
           # Gets candid
@@ -43,6 +47,8 @@ jobs:
             echo "API changes detected!"
             echo "updated=1" >> "$GITHUB_OUTPUT"
           else
+            commit="$(cd ic && git rev-parse --short HEAD)"
+            echo "No signficant differences found in IC ref ${{ inputs.ic_ref }} (commit $commit)."
             echo "updated=0" >> "$GITHUB_OUTPUT"
           fi
       - name: Create Pull Request
