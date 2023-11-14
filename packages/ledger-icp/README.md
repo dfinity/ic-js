@@ -241,12 +241,13 @@ Returns the index of the block containing the tx if it was successful.
 
 ### :factory: IndexCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L9)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L19)
 
 #### Methods
 
 - [create](#gear-create)
 - [accountBalance](#gear-accountbalance)
+- [getTransactions](#gear-gettransactions)
 
 ##### :gear: create
 
@@ -254,7 +255,7 @@ Returns the index of the block containing the tx if it was successful.
 | -------- | --------------------------------------------------------------------------------------------- |
 | `create` | `({ canisterId: optionsCanisterId, ...options }: CanisterOptions<_SERVICE>) => IndexCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L10)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L20)
 
 ##### :gear: accountBalance
 
@@ -270,7 +271,25 @@ Parameters:
 - `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
 - `params.certified`: query or update call.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L35)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L45)
+
+##### :gear: getTransactions
+
+Returns the transactions and balance of an ICP account.
+
+| Method            | Type                                                                                                                                              |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `getTransactions` | `({ certified, accountIdentifier, start, maxResults: max_results, }: GetTransactionsParams) => Promise<GetAccountIdentifierTransactionsResponse>` |
+
+Parameters:
+
+- `params`: The parameters to get the transactions.
+- `params.certified`: query or update call.
+- `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
+- `params.start`: If set then the results will start from the next most recent transaction id after start (start won't be included). If not provided, then the results will start from the most recent transaction id.
+- `params.maxResults`: Maximum number of transactions to fetch.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L64)
 
 <!-- TSDOC_END -->
 
