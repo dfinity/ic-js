@@ -42,15 +42,18 @@ jobs:
           ./scripts/compile-idl-js
           # Checks whether it was all for nothing.
           # ... Note: Ignores how we got here.
-          if git diff -I '\/\/ Generated from IC repo.*' | grep -q .
+          set +x
+          DIFF_IGNORING_PROVENANCE="$(git diff -I '\/\/ Generated from IC repo.*')"
+          set -x
+          if [[ "${DIFF_IGNORING_PROVENANCE:-}" == "" ]]
           then
-            echo "API changes detected!"
-            echo "updated=1" >> "$GITHUB_OUTPUT"
-          else
             commit="$(cd ic && git rev-parse --short HEAD)"
             echo "No signficant differences found in IC ref ${{ inputs.ic_ref }} (commit $commit)."
-            git diff
             echo "updated=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "API changes detected!"
+            git status
+            echo "updated=1" >> "$GITHUB_OUTPUT"
           fi
       - name: Create Pull Request
         if: ${{ (steps.update.outputs.updated == '1') && false }}
