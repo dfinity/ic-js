@@ -42,9 +42,8 @@ jobs:
           ./scripts/compile-idl-js
           # Checks whether it was all for nothing.
           # ... Note: Ignores how we got here.
-          set +x
+          set +x # Printing the diff to stderr repeatedly can be very noisy.
           DIFF_IGNORING_PROVENANCE="$(git diff -I '\/\/ Generated from IC repo.*')"
-          set -x
           if [[ "${DIFF_IGNORING_PROVENANCE:-}" == "" ]]
           then
             commit="$(cd ic && git rev-parse --short HEAD)"
@@ -56,17 +55,20 @@ jobs:
             echo "updated=1" >> "$GITHUB_OUTPUT"
           fi
       - name: Create Pull Request
-        if: ${{ (steps.update.outputs.updated == '1') && false }}
+        if: ${{ steps.update.outputs.updated == '1' }}
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GIX_SNSDEMO_BOT_GH_TOKEN }}
           base: main
           add-paths: |
-            bin/versions.bash
+            /packages/**/*.did
+            /packages/**/*.js
+            /packages/**/*.ts
           commit-message: Update IC commit
           committer: GitHub <noreply@github.com>
           author: gix-bot <gix-bot@users.noreply.github.com>
           branch: bot-ic-update
+          branch-suffix: timestamp # Creates a new branch & PR with every run.  If this gets spammy, please delete this line and instead block the PR from making a PR if there is already an open one.
           delete-branch: true
           title: 'Update IC commit'
           # Since the this is a scheduled job, a failure won't be shown on any
