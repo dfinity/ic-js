@@ -67,7 +67,7 @@ jobs:
         if: ${{ steps.update.outputs.updated == '1' }}
         uses: peter-evans/create-pull-request@v4
         with:
-          token: ${{ secrets.GIX_SNSDEMO_BOT_GH_TOKEN }}
+          token: ${{ secrets.GIX_ICJS_BOT_GH_TOKEN }}
           base: main
           add-paths: |
             /packages/**/*.did
