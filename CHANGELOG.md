@@ -1,3 +1,8 @@
+# Unreleased
+
+## Features
+- Include timestamp and tags in the candid provenance record.
+
 # 2023.10.15-0600Z
 
 ## Overview
