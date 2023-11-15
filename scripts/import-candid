@@ -18,7 +18,7 @@ import_did() {
   local out_path="packages/${pkg}/candid/${out_filename}"
   echo "Copying ${in_fullpath} -> REPO_ROOT/${out_path}"
   {
-    echo "// Generated from IC repo commit ${IC_COMMIT}${IC_TAGS:+ (tags: $IC_TAGS)} '${in_path}' by $(basename "${0}")"
+    echo "// Generated from IC repo commit ${IC_COMMIT} '${in_path}' by $(basename "${0}")"
     cat "$in_fullpath"
   } >"${out_path}"
 }
@@ -51,7 +51,6 @@ test -n "${IC_DIR:-}" || {
   exit 1
 } >&2
 IC_COMMIT="$(cd "${IC_DIR}" && git rev-parse HEAD)"
-IC_TAGS="$(cd "${IC_DIR}" && git tag --points-at HEAD | tr "\n" " ")"
 THIS_SCRIPT_NAME="$(basename "$0")"
 
 : Import canisters
