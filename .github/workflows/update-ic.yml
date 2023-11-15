@@ -20,11 +20,20 @@ jobs:
     steps:
       - name: Checkout ic-js
         uses: actions/checkout@v3
+      - name: Choose IC ref
+        id: choose_ic_ref
+        run: |
+           ref="${{ inputs.ic_ref }}"
+           if [[ "${requested_ref:-}" == "" ]]
+           then # Use the latest release
+                ref="$(gh release --repo dfinity/ic view --json tagName -q .tagName)"
+           fi
+           echo "ic_ref=$ref" >> "$GITHUB_OUTPUT"
       - name: Checkout ic repo
         uses: actions/checkout@v3
         with:
           repository: dfinity/ic
-          ref: ${{ inputs.ic_ref }} # Defaults to the default IC branch, currently "master".
+          ref: ${{ steps.choose_ic_ref.outputs.ic_ref }}
           path: ic
       - name: Check new IC commit
         id: update
