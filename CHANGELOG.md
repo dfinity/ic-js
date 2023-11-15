@@ -1,17 +1,32 @@
-# 2023.XX.YY
+# 2023.10.15-0600Z
 
 ## Overview
 
-<!-- TODO: To be documented. -->
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status          |
+| ------------------------ |---------|-----------------|
+| `@dfinity/ckbtc`         | v1.1.0  | Enhanced 🔧     |
+| `@dfinity/cmc`           | v1.0.0  | Unchanged       |
+| `@dfinity/ic-management` | v1.0.0  | Unchanged       |
+| `@dfinity/ledger-icp`    | v1.0.0  | Enhanced 🔧     |
+| `@dfinity/ledger-icrc`   | v1.0.1  | Patched 🩹      |
+| `@dfinity/nns`           | v2.0.0  | Enhanced 🔧     |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged       |
+| `@dfinity/sns`           | v1.0.2  | Patched 🩹      |
+| `@dfinity/utils`         | v1.1.0  | Enhanced 🔧     |
 
 ## Features
 
-- add support for ICP Index canister to library `@dfinity/ledger-icp`. New `IndexCanister` functions: `accountBalance` and `getTransactions`.
-- expose few types - notably `BlockHeight` - for library `@dfinity/ledger-icp`.
-- support new fields from swap canister response types: `min_direct_participation_icp_e8s`, `max_direct_participation_icp_e8s` and `neurons_fund_participation`.
-- support new fields in the `CreateServiceNervousSystem` proposal action `maximum_direct_participation_icp`, `minimum_direct_participation_icp` and `neurons_fund_participation`.
-- support new filter field `omit_large_fields` in `list_proposals`.
-- add support for `retrieve_btc_with_approval` in `@dfinity/ckbtc`.
+- add support for ICP Index canister to library `@dfinity/ledger-icp`. New `IndexCanister` functions: `accountBalance` and `getTransactions`
+- expose few types - notably `BlockHeight` - for library `@dfinity/ledger-icp`
+- support new fields from swap canister response types: `min_direct_participation_icp_e8s`, `max_direct_participation_icp_e8s` and `neurons_fund_participation`
+- support new fields in the `CreateServiceNervousSystem` proposal action `maximum_direct_participation_icp`, `minimum_direct_participation_icp` and `neurons_fund_participation`
+- support new filter field `omit_large_fields` in `list_proposals`
+- add support for `retrieve_btc_with_approval` in `@dfinity/ckbtc`
+- new utility to convert seconds to a human-readable duration
+- update `@dfinity/ledger-icrc` did files
+- update `@dfinity/sns` did files
 
 # 2023.10.02-1515Z
 
