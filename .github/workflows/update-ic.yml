@@ -49,6 +49,7 @@ jobs:
           else
             commit="$(cd ic && git rev-parse --short HEAD)"
             echo "No signficant differences found in IC ref ${{ inputs.ic_ref }} (commit $commit)."
+            git diff
             echo "updated=0" >> "$GITHUB_OUTPUT"
           fi
       - name: Create Pull Request
