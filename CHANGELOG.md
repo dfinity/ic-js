@@ -4,17 +4,17 @@
 
 The current status of the libraries at the time of the release is as follows:
 
-| Library                  | Version | Status          |
-| ------------------------ |---------|-----------------|
-| `@dfinity/ckbtc`         | v1.1.0  | Enhanced 🔧     |
-| `@dfinity/cmc`           | v1.0.0  | Unchanged       |
-| `@dfinity/ic-management` | v1.0.0  | Unchanged       |
-| `@dfinity/ledger-icp`    | v1.1.0  | Enhanced 🔧     |
-| `@dfinity/ledger-icrc`   | v1.0.1  | Patched 🩹      |
-| `@dfinity/nns`           | v2.1.0  | Enhanced 🔧     |
-| `@dfinity/nns-proto`     | v1.0.0  | Unchanged       |
-| `@dfinity/sns`           | v1.0.2  | Patched 🩹      |
-| `@dfinity/utils`         | v1.1.0  | Enhanced 🔧     |
+| Library                  | Version | Status      |
+| ------------------------ | ------- | ----------- |
+| `@dfinity/ckbtc`         | v1.1.0  | Enhanced 🔧 |
+| `@dfinity/cmc`           | v1.0.0  | Unchanged   |
+| `@dfinity/ic-management` | v1.0.0  | Unchanged   |
+| `@dfinity/ledger-icp`    | v1.0.0  | Enhanced 🔧 |
+| `@dfinity/ledger-icrc`   | v1.0.1  | Patched 🩹  |
+| `@dfinity/nns`           | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged   |
+| `@dfinity/sns`           | v1.0.2  | Patched 🩹  |
+| `@dfinity/utils`         | v1.1.0  | Enhanced 🔧 |
 
 ## Features
 
