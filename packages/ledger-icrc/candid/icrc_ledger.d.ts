@@ -16,7 +16,7 @@ export interface AllowanceArgs {
 export interface Approve {
   fee: [] | [bigint];
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [Timestamp];
   amount: bigint;
   expected_allowance: [] | [bigint];
@@ -25,8 +25,8 @@ export interface Approve {
 }
 export interface ApproveArgs {
   fee: [] | [bigint];
-  memo: [] | [Uint8Array];
-  from_subaccount: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
+  from_subaccount: [] | [Uint8Array | number[]];
   created_at_time: [] | [Timestamp];
   amount: bigint;
   expected_allowance: [] | [bigint];
@@ -53,15 +53,15 @@ export interface BlockRange {
 }
 export interface Burn {
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [Timestamp];
   amount: bigint;
   spender: [] | [Account];
 }
 export type ChangeFeeCollector = { SetTo: Account } | { Unset: null };
 export interface DataCertificate {
-  certificate: [] | [Uint8Array];
-  hash_tree: Uint8Array;
+  certificate: [] | [Uint8Array | number[]];
+  hash_tree: Uint8Array | number[];
 }
 export type Duration = bigint;
 export interface FeatureFlags {
@@ -72,7 +72,7 @@ export interface GetBlocksArgs {
   length: bigint;
 }
 export interface GetBlocksResponse {
-  certificate: [] | [Uint8Array];
+  certificate: [] | [Uint8Array | number[]];
   first_index: BlockIndex;
   blocks: Array<Block>;
   chain_length: bigint;
@@ -99,11 +99,11 @@ export interface GetTransactionsResponse {
 export interface HttpRequest {
   url: string;
   method: string;
-  body: Uint8Array;
+  body: Uint8Array | number[];
   headers: Array<[string, string]>;
 }
 export interface HttpResponse {
-  body: Uint8Array;
+  body: Uint8Array | number[];
   headers: Array<[string, string]>;
   status_code: number;
 }
@@ -135,11 +135,11 @@ export type Map = Array<[string, Value]>;
 export type MetadataValue =
   | { Int: bigint }
   | { Nat: bigint }
-  | { Blob: Uint8Array }
+  | { Blob: Uint8Array | number[] }
   | { Text: string };
 export interface Mint {
   to: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [Timestamp];
   amount: bigint;
 }
@@ -152,7 +152,7 @@ export interface StandardRecord {
   url: string;
   name: string;
 }
-export type Subaccount = Uint8Array;
+export type Subaccount = Uint8Array | number[];
 export type Timestamp = bigint;
 export type Tokens = bigint;
 export interface Transaction {
@@ -170,7 +170,7 @@ export interface Transfer {
   to: Account;
   fee: [] | [bigint];
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [Timestamp];
   amount: bigint;
   spender: [] | [Account];
@@ -178,7 +178,7 @@ export interface Transfer {
 export interface TransferArg {
   to: Account;
   fee: [] | [Tokens];
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   from_subaccount: [] | [Subaccount];
   created_at_time: [] | [Timestamp];
   amount: Tokens;
@@ -199,7 +199,7 @@ export interface TransferFromArgs {
   fee: [] | [Tokens];
   spender_subaccount: [] | [Subaccount];
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [Timestamp];
   amount: Tokens;
 }
@@ -236,7 +236,7 @@ export type Value =
   | { Map: Map }
   | { Nat: bigint }
   | { Nat64: bigint }
-  | { Blob: Uint8Array }
+  | { Blob: Uint8Array | number[] }
   | { Text: string }
   | { Array: Array<Value> };
 export interface _SERVICE {

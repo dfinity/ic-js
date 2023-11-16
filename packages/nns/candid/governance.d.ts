@@ -2,7 +2,7 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
 export interface AccountIdentifier {
-  hash: Uint8Array;
+  hash: Uint8Array | number[];
 }
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
@@ -52,7 +52,7 @@ export interface CanisterStatusResultV2 {
   memory_size: [] | [bigint];
   cycles: [] | [bigint];
   idle_cycles_burned_per_day: [] | [bigint];
-  module_hash: Uint8Array;
+  module_hash: Uint8Array | number[];
 }
 export interface CanisterSummary {
   status: [] | [CanisterStatusResultV2];
@@ -177,7 +177,7 @@ export interface Duration {
 }
 export interface ExecuteNnsFunction {
   nns_function: number;
-  payload: Uint8Array;
+  payload: Uint8Array | number[];
 }
 export interface Follow {
   topic: number;
@@ -291,7 +291,7 @@ export interface ListKnownNeuronsResponse {
   known_neurons: Array<KnownNeuron>;
 }
 export interface ListNeurons {
-  neuron_ids: BigUint64Array;
+  neuron_ids: BigUint64Array | bigint[];
   include_neurons_readable_by_caller: boolean;
 }
 export interface ListNeuronsResponse {
@@ -302,13 +302,13 @@ export interface ListNodeProvidersResponse {
   node_providers: Array<NodeProvider>;
 }
 export interface ListProposalInfo {
-  include_reward_status: Int32Array;
+  include_reward_status: Int32Array | number[];
   omit_large_fields: [] | [boolean];
   before_proposal: [] | [NeuronId];
   limit: number;
-  exclude_topic: Int32Array;
+  exclude_topic: Int32Array | number[];
   include_all_manage_neuron_proposals: [] | [boolean];
-  include_status: Int32Array;
+  include_status: Int32Array | number[];
 }
 export interface ListProposalInfoResponse {
   proposal_info: Array<ProposalInfo>;
@@ -384,7 +384,7 @@ export interface Neuron {
   auto_stake_maturity: [] | [boolean];
   aging_since_timestamp_seconds: bigint;
   hot_keys: Array<Principal>;
-  account: Uint8Array;
+  account: Uint8Array | number[];
   joined_community_fund_timestamp_seconds: [] | [bigint];
   dissolve_state: [] | [DissolveState];
   followees: Array<[number, Followees]>;
@@ -412,7 +412,7 @@ export interface NeuronId {
   id: bigint;
 }
 export type NeuronIdOrSubaccount =
-  | { Subaccount: Uint8Array }
+  | { Subaccount: Uint8Array | number[] }
   | { NeuronId: NeuronId };
 export interface NeuronInFlightCommand {
   command: [] | [Command_2];
@@ -431,11 +431,11 @@ export interface NeuronInfo {
   age_seconds: bigint;
 }
 export interface NeuronStakeTransfer {
-  to_subaccount: Uint8Array;
+  to_subaccount: Uint8Array | number[];
   neuron_stake_e8s: bigint;
   from: [] | [Principal];
   memo: bigint;
-  from_subaccount: Uint8Array;
+  from_subaccount: Uint8Array | number[];
   transfer_timestamp: bigint;
   block_height: bigint;
 }
@@ -726,7 +726,7 @@ export interface _SERVICE {
     [] | [MostRecentMonthlyNodeProviderRewards]
   >;
   get_network_economics_parameters: ActorMethod<[], NetworkEconomics>;
-  get_neuron_ids: ActorMethod<[], BigUint64Array>;
+  get_neuron_ids: ActorMethod<[], BigUint64Array | bigint[]>;
   get_neuron_info: ActorMethod<[bigint], Result_5>;
   get_neuron_info_by_id_or_subaccount: ActorMethod<
     [NeuronIdOrSubaccount],
