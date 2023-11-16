@@ -11,10 +11,16 @@ export const idlFactory = ({ IDL }) => {
     'slope_denominator' : IDL.Opt(IDL.Nat64),
     'to_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
   const NeuronsFundParticipationConstraints = IDL.Record({
     'coefficient_intervals' : IDL.Vec(LinearScalingCoefficient),
     'max_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_direct_participation_threshold_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
   });
   const CfNeuron = IDL.Record({
     'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
@@ -89,6 +95,13 @@ export const idlFactory = ({ IDL }) => {
   const SetDappControllersCallResult = IDL.Record({
     'possibility' : IDL.Opt(Possibility),
   });
+  const SweepResult = IDL.Record({
+    'failure' : IDL.Nat32,
+    'skipped' : IDL.Nat32,
+    'invalid' : IDL.Nat32,
+    'success' : IDL.Nat32,
+    'global_failures' : IDL.Nat32,
+  });
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
@@ -103,26 +116,32 @@ export const idlFactory = ({ IDL }) => {
   const SettleCommunityFundParticipationResult = IDL.Record({
     'possibility' : IDL.Opt(Possibility_1),
   });
-  const Possibility_2 = IDL.Variant({
+  const Ok_1 = IDL.Record({
+    'neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'neurons_fund_neurons_count' : IDL.Opt(IDL.Nat64),
+  });
+  const Error = IDL.Record({ 'message' : IDL.Opt(IDL.Text) });
+  const Possibility_2 = IDL.Variant({ 'Ok' : Ok_1, 'Err' : Error });
+  const SettleNeuronsFundParticipationResult = IDL.Record({
+    'possibility' : IDL.Opt(Possibility_2),
+  });
+  const Possibility_3 = IDL.Variant({
     'Ok' : IDL.Record({}),
     'Err' : CanisterCallError,
   });
   const SetModeCallResult = IDL.Record({
-    'possibility' : IDL.Opt(Possibility_2),
-  });
-  const SweepResult = IDL.Record({
-    'failure' : IDL.Nat32,
-    'skipped' : IDL.Nat32,
-    'invalid' : IDL.Nat32,
-    'success' : IDL.Nat32,
-    'global_failures' : IDL.Nat32,
+    'possibility' : IDL.Opt(Possibility_3),
   });
   const FinalizeSwapResponse = IDL.Record({
     'set_dapp_controllers_call_result' : IDL.Opt(SetDappControllersCallResult),
+    'create_sns_neuron_recipes_result' : IDL.Opt(SweepResult),
     'settle_community_fund_participation_result' : IDL.Opt(
       SettleCommunityFundParticipationResult
     ),
     'error_message' : IDL.Opt(IDL.Text),
+    'settle_neurons_fund_participation_result' : IDL.Opt(
+      SettleNeuronsFundParticipationResult
+    ),
     'set_mode_call_result' : IDL.Opt(SetModeCallResult),
     'sweep_icp_result' : IDL.Opt(SweepResult),
     'claim_neuron_result' : IDL.Opt(SweepResult),
@@ -194,9 +213,9 @@ export const idlFactory = ({ IDL }) => {
     'account' : IDL.Opt(Icrc1Account),
     'amount_icp_e8s' : IDL.Nat64,
   });
-  const Ok_1 = IDL.Record({ 'ticket' : IDL.Opt(Ticket) });
+  const Ok_2 = IDL.Record({ 'ticket' : IDL.Opt(Ticket) });
   const Err_1 = IDL.Record({ 'error_type' : IDL.Opt(IDL.Int32) });
-  const Result_1 = IDL.Variant({ 'Ok' : Ok_1, 'Err' : Err_1 });
+  const Result_1 = IDL.Variant({ 'Ok' : Ok_2, 'Err' : Err_1 });
   const GetOpenTicketResponse = IDL.Record({ 'result' : IDL.Opt(Result_1) });
   const Params = IDL.Record({
     'min_participant_icp_e8s' : IDL.Nat64,
@@ -303,7 +322,7 @@ export const idlFactory = ({ IDL }) => {
     'existing_ticket' : IDL.Opt(Ticket),
     'error_type' : IDL.Int32,
   });
-  const Result_2 = IDL.Variant({ 'Ok' : Ok_1, 'Err' : Err_2 });
+  const Result_2 = IDL.Variant({ 'Ok' : Ok_2, 'Err' : Err_2 });
   const NewSaleTicketResponse = IDL.Record({ 'result' : IDL.Opt(Result_2) });
   const OpenRequest = IDL.Record({
     'cf_participants' : IDL.Vec(CfParticipant),
@@ -387,7 +406,7 @@ export const idlFactory = ({ IDL }) => {
         [NewSaleTicketResponse],
         [],
       ),
-    'notify_payment_failure' : IDL.Func([IDL.Record({})], [Ok_1], []),
+    'notify_payment_failure' : IDL.Func([IDL.Record({})], [Ok_2], []),
     'open' : IDL.Func([OpenRequest], [IDL.Record({})], []),
     'refresh_buyer_tokens' : IDL.Func(
         [RefreshBuyerTokensRequest],
@@ -413,10 +432,16 @@ export const init = ({ IDL }) => {
     'slope_denominator' : IDL.Opt(IDL.Nat64),
     'to_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
   const NeuronsFundParticipationConstraints = IDL.Record({
     'coefficient_intervals' : IDL.Vec(LinearScalingCoefficient),
     'max_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_direct_participation_threshold_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
   });
   const CfNeuron = IDL.Record({
     'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),

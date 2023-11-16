@@ -5,6 +5,26 @@ export interface AccountIdentifier {
   bytes: Uint8Array;
 }
 export type BlockIndex = bigint;
+export interface CanisterSettings {
+  freezing_threshold: [] | [bigint];
+  controllers: [] | [Array<Principal>];
+  reserved_cycles_limit: [] | [bigint];
+  memory_allocation: [] | [bigint];
+  compute_allocation: [] | [bigint];
+}
+export interface CreateCanisterArg {
+  subnet_selection: [] | [SubnetSelection];
+  settings: [] | [CanisterSettings];
+  subnet_type: [] | [string];
+}
+export type CreateCanisterError =
+  | {
+      Refunded: { create_error: string; refund_amount: bigint };
+    }
+  | { RefundFailed: { create_error: string; refund_error: string } };
+export type CreateCanisterResult =
+  | { Ok: Principal }
+  | { Err: CreateCanisterError };
 export type Cycles = bigint;
 export interface CyclesCanisterInitPayload {
   exchange_rate_canister: [] | [ExchangeRateCanister];
@@ -26,6 +46,8 @@ export interface IcpXdrConversionRateResponse {
 export interface NotifyCreateCanisterArg {
   controller: Principal;
   block_index: BlockIndex;
+  subnet_selection: [] | [Array<SubnetSelection>];
+  settings: [] | [CanisterSettings];
   subnet_type: [] | [string];
 }
 export type NotifyCreateCanisterResult =
@@ -47,10 +69,17 @@ export type NotifyTopUpResult = { Ok: Cycles } | { Err: NotifyError };
 export interface PrincipalsAuthorizedToCreateCanistersToSubnetsResponse {
   data: Array<[Principal, Array<Principal>]>;
 }
+export interface SubnetFilter {
+  subnet_type: [] | [string];
+}
+export type SubnetSelection =
+  | { Filter: SubnetFilter }
+  | { Subnet: { subnet: Principal } };
 export interface SubnetTypesToSubnetsResponse {
   data: Array<[string, Array<Principal>]>;
 }
 export interface _SERVICE {
+  create_canister: ActorMethod<[CreateCanisterArg], CreateCanisterResult>;
   get_icp_xdr_conversion_rate: ActorMethod<[], IcpXdrConversionRateResponse>;
   get_principals_authorized_to_create_canisters_to_subnets: ActorMethod<
     [],

@@ -37,6 +37,7 @@ export type change_origin =
         canister_id: Principal;
       };
     };
+export type chunk_hash = Uint8Array;
 export interface definite_canister_settings {
   freezing_threshold: bigint;
   controllers: Array<Principal>;
@@ -90,11 +91,13 @@ export interface utxo {
 export type wasm_module = Uint8Array;
 export interface _SERVICE {
   bitcoin_get_balance: ActorMethod<[get_balance_request], satoshi>;
+  bitcoin_get_balance_query: ActorMethod<[get_balance_request], satoshi>;
   bitcoin_get_current_fee_percentiles: ActorMethod<
     [get_current_fee_percentiles_request],
     BigUint64Array
   >;
   bitcoin_get_utxos: ActorMethod<[get_utxos_request], get_utxos_response>;
+  bitcoin_get_utxos_query: ActorMethod<[get_utxos_request], get_utxos_response>;
   bitcoin_send_transaction: ActorMethod<[send_transaction_request], undefined>;
   canister_info: ActorMethod<
     [{ canister_id: canister_id; num_requested_changes: [] | [bigint] }],
@@ -116,6 +119,7 @@ export interface _SERVICE {
       module_hash: [] | [Uint8Array];
     }
   >;
+  clear_chunk_store: ActorMethod<[{ canister_id: canister_id }], undefined>;
   create_canister: ActorMethod<
     [
       {
@@ -152,12 +156,32 @@ export interface _SERVICE {
     ],
     http_response
   >;
+  install_chunked_code: ActorMethod<
+    [
+      {
+        arg: Uint8Array;
+        wasm_module_hash: Uint8Array;
+        mode:
+          | { reinstall: null }
+          | { upgrade: [] | [{ skip_pre_upgrade: [] | [boolean] }] }
+          | { install: null };
+        chunk_hashes_list: Array<chunk_hash>;
+        target_canister: canister_id;
+        sender_canister_version: [] | [bigint];
+        storage_canister: [] | [canister_id];
+      },
+    ],
+    undefined
+  >;
   install_code: ActorMethod<
     [
       {
         arg: Uint8Array;
         wasm_module: wasm_module;
-        mode: { reinstall: null } | { upgrade: null } | { install: null };
+        mode:
+          | { reinstall: null }
+          | { upgrade: [] | [{ skip_pre_upgrade: [] | [boolean] }] }
+          | { install: null };
         canister_id: canister_id;
         sender_canister_version: [] | [bigint];
       },
@@ -192,6 +216,7 @@ export interface _SERVICE {
   >;
   start_canister: ActorMethod<[{ canister_id: canister_id }], undefined>;
   stop_canister: ActorMethod<[{ canister_id: canister_id }], undefined>;
+  stored_chunks: ActorMethod<[{ canister_id: canister_id }], Array<chunk_hash>>;
   uninstall_code: ActorMethod<
     [
       {
@@ -210,5 +235,9 @@ export interface _SERVICE {
       },
     ],
     undefined
+  >;
+  upload_chunk: ActorMethod<
+    [{ chunk: Uint8Array; canister_id: Principal }],
+    chunk_hash
   >;
 }
