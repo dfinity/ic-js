@@ -81,10 +81,20 @@ jobs:
           branch: bot-ic-update
           branch-suffix: timestamp # Creates a new branch & PR with every run.  If this gets spammy, please delete this line and instead block the PR from making a PR if there is already an open one.
           delete-branch: true
-          title: 'Update IC commit'
-          # Since the this is a scheduled job, a failure won't be shown on any
-          # PR status. To notify the team, we send a message to our Slack channel on failure.
+          title: 'Update IC Candid Files'
+          body: |
+            # Motivation
+            The Internet Computer APIs have updated.
+
+            # Changes
+            * Updated the interface description files for the Internet Computer.
+            * Updated the javascript bindings for the latest IC interface.
+
+            # Tests
+              - [ ] Please check the API updates for any breaking changes that affect our code.
       - name: Notify Slack on failure
+        # Since the this is a scheduled job, a failure won't be shown on any
+        # PR status. To notify the team, we send a message to our Slack channel on failure.
         uses: dfinity/internet-identity/.github/actions/slack@release-2023-08-28
         if: ${{ failure() }}
         with:
