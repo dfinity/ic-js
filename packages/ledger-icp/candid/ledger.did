@@ -1,4 +1,4 @@
-// Generated from IC repo commit 117db5eb586321cf0a1a49ff03106a0e55502715 'rs/rosetta-api/icp_ledger/ledger.did' by import-candid
+// Generated from IC repo commit ec140b74dc4fef2f4bee3fad936e315380fa5af3 'rs/rosetta-api/icp_ledger/ledger.did' by import-candid
 // This is the official Ledger interface that is guaranteed to be backward compatible.
 
 // Amount of tokens, measured in 10^-8 of a token.
@@ -113,6 +113,7 @@ type Operation = variant {
         to : AccountIdentifier;
         amount : Tokens;
         fee : Tokens;
+        spender : opt vec nat8;
     };
     Approve : record {
         from : AccountIdentifier;
@@ -122,13 +123,7 @@ type Operation = variant {
         allowance: Tokens;
         fee : Tokens;
         expires_at : opt TimeStamp;
-    };
-    TransferFrom : record {
-        from : AccountIdentifier;
-        to : AccountIdentifier;
-        spender : AccountIdentifier;
-        amount : Tokens;
-        fee : Tokens;
+        expected_allowance : opt Tokens;
     };
 };
 
@@ -267,10 +262,11 @@ type Duration = record {
 type ArchiveOptions = record {
     trigger_threshold : nat64;
     num_blocks_to_archive : nat64;
-    node_max_memory_size_bytes: opt nat64;
-    max_message_size_bytes: opt nat64;
-    controller_id: principal;
-    cycles_for_archive_creation: opt nat64;
+    node_max_memory_size_bytes : opt nat64;
+    max_message_size_bytes : opt nat64;
+    controller_id : principal;
+    cycles_for_archive_creation : opt nat64;
+    max_transactions_per_response : opt nat64;
 };
 
 // Account identifier encoded as a 64-byte ASCII hex string.
@@ -369,10 +365,10 @@ type ApproveArgs = record {
     spender : Account;
     amount : Icrc1Tokens;
     expected_allowance : opt Icrc1Tokens;
-    expires_at : opt TimeStamp;
+    expires_at : opt Icrc1Timestamp;
     fee : opt Icrc1Tokens;
     memo : opt blob;
-    created_at_time: opt TimeStamp;
+    created_at_time: opt Icrc1Timestamp;
 };
 
 type ApproveError = variant {
@@ -399,7 +395,34 @@ type AllowanceArgs = record {
 
 type Allowance = record {
     allowance : Icrc1Tokens;
-    expires_at : opt TimeStamp;
+    expires_at : opt Icrc1Timestamp;
+};
+
+type TransferFromArgs = record {
+    spender_subaccount : opt SubAccount;
+    from : Account;
+    to : Account;
+    amount : Icrc1Tokens;
+    fee : opt Icrc1Tokens;
+    memo : opt blob;
+    created_at_time: opt Icrc1Timestamp;
+};
+
+type TransferFromResult = variant {
+    Ok : Icrc1BlockIndex;
+    Err : TransferFromError;
+};
+
+type TransferFromError = variant {
+    BadFee : record { expected_fee : Icrc1Tokens };
+    BadBurn : record { min_burn_amount : Icrc1Tokens };
+    InsufficientFunds : record { balance : Icrc1Tokens };
+    InsufficientAllowance : record { allowance : Icrc1Tokens };
+    TooOld;
+    CreatedInFuture : record { ledger_time : Icrc1Timestamp };
+    Duplicate : record { duplicate_of : Icrc1BlockIndex };
+    TemporarilyUnavailable;
+    GenericError : record { error_code : nat; message : text };
 };
 
 service: (LedgerCanisterPayload) -> {
@@ -452,4 +475,5 @@ service: (LedgerCanisterPayload) -> {
     icrc1_supported_standards : () -> (vec record { name : text; url : text }) query;
     icrc2_approve : (ApproveArgs) -> (ApproveResult);
     icrc2_allowance : (AllowanceArgs) -> (Allowance) query;
+    icrc2_transfer_from : (TransferFromArgs) -> (TransferFromResult);
 }

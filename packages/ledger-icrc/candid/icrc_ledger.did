@@ -1,4 +1,4 @@
-// Generated from IC repo commit 695f05aacf69371fc5743fa6d1619f7d9993ea87 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
+// Generated from IC repo commit ec140b74dc4fef2f4bee3fad936e315380fa5af3 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
 type BlockIndex = nat;
 type Subaccount = blob;
 // Number of nanoseconds since the UNIX epoch in UTC timezone.
