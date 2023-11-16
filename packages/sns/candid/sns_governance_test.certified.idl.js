@@ -113,6 +113,7 @@ export const idlFactory = ({ IDL }) => {
     'cast_timestamp_seconds' : IDL.Nat64,
     'voting_power' : IDL.Nat64,
   });
+  const Percentage = IDL.Record({ 'basis_points' : IDL.Opt(IDL.Nat64) });
   const Tally = IDL.Record({
     'no' : IDL.Nat64,
     'yes' : IDL.Nat64,
@@ -180,6 +181,7 @@ export const idlFactory = ({ IDL }) => {
     'action' : IDL.Nat64,
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Text, Ballot)),
+    'minimum_yes_proportion_of_total' : IDL.Opt(Percentage),
     'reward_event_round' : IDL.Nat64,
     'failed_timestamp_seconds' : IDL.Nat64,
     'reward_event_end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
@@ -654,6 +656,7 @@ export const init = ({ IDL }) => {
     'cast_timestamp_seconds' : IDL.Nat64,
     'voting_power' : IDL.Nat64,
   });
+  const Percentage = IDL.Record({ 'basis_points' : IDL.Opt(IDL.Nat64) });
   const Tally = IDL.Record({
     'no' : IDL.Nat64,
     'yes' : IDL.Nat64,
@@ -721,6 +724,7 @@ export const init = ({ IDL }) => {
     'action' : IDL.Nat64,
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Text, Ballot)),
+    'minimum_yes_proportion_of_total' : IDL.Opt(Percentage),
     'reward_event_round' : IDL.Nat64,
     'failed_timestamp_seconds' : IDL.Nat64,
     'reward_event_end_timestamp_seconds' : IDL.Opt(IDL.Nat64),

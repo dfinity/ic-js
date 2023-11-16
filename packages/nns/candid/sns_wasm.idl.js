@@ -32,12 +32,19 @@ export const idlFactory = ({ IDL }) => {
     'slope_denominator' : IDL.Opt(IDL.Nat64),
     'to_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
   const NeuronsFundParticipationConstraints = IDL.Record({
     'coefficient_intervals' : IDL.Vec(LinearScalingCoefficient),
     'max_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_direct_participation_threshold_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
   });
   const CfNeuron = IDL.Record({
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
@@ -81,6 +88,7 @@ export const idlFactory = ({ IDL }) => {
     'max_dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_dissolve_delay_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'nns_proposal_id' : IDL.Opt(IDL.Nat64),
+    'neurons_fund_participation' : IDL.Opt(IDL.Bool),
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
