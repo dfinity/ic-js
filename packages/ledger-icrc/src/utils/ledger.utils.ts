@@ -28,7 +28,9 @@ export const encodeIcrcAccount = ({
 
   const removeLeadingZeros = (text: string): string => text.replace(/^0+/, "");
 
-  const subaccountText = removeLeadingZeros(uint8ArrayToHexString(subaccount));
+  const subaccountText = removeLeadingZeros(
+    uint8ArrayToHexString(Uint8Array.from(subaccount)),
+  );
 
   if (subaccountText.length === 0) {
     return owner.toText();

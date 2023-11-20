@@ -162,7 +162,10 @@ const toNeuron = ({
   agingSinceTimestampSeconds: neuron.aging_since_timestamp_seconds,
   neuronFees: neuron.neuron_fees_e8s,
   hotKeys: neuron.hot_keys.map((p) => p.toString()),
-  accountIdentifier: principalToAccountIdentifier(canisterId, neuron.account),
+  accountIdentifier: principalToAccountIdentifier(
+    canisterId,
+    Uint8Array.from(neuron.account),
+  ),
   joinedCommunityFundTimestampSeconds: neuron
     .joined_community_fund_timestamp_seconds.length
     ? neuron.joined_community_fund_timestamp_seconds[0]
@@ -258,7 +261,9 @@ const toNeuronIdOrSubaccount = (
   }
   if ("Subaccount" in neuronIdOrSubaccount) {
     return {
-      Subaccount: uint8ArrayToArrayOfNumber(neuronIdOrSubaccount.Subaccount),
+      Subaccount: uint8ArrayToArrayOfNumber(
+        Uint8Array.from(neuronIdOrSubaccount.Subaccount),
+      ),
     };
   }
   throw new UnsupportedValueError(neuronIdOrSubaccount);

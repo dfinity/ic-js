@@ -3,7 +3,7 @@ import type { Principal } from "@dfinity/principal";
 
 export interface Account {
   owner: Principal;
-  subaccount: [] | [Uint8Array];
+  subaccount: [] | [Uint8Array | number[]];
 }
 export interface GetAccountIdentifierTransactionsArgs {
   max_results: bigint;
@@ -33,17 +33,17 @@ export interface GetBlocksRequest {
   length: bigint;
 }
 export interface GetBlocksResponse {
-  blocks: Array<Uint8Array>;
+  blocks: Array<Uint8Array | number[]>;
   chain_length: bigint;
 }
 export interface HttpRequest {
   url: string;
   method: string;
-  body: Uint8Array;
+  body: Uint8Array | number[];
   headers: Array<[string, string]>;
 }
 export interface HttpResponse {
-  body: Uint8Array;
+  body: Uint8Array | number[];
   headers: Array<[string, string]>;
   status_code: number;
 }
@@ -90,7 +90,7 @@ export interface Tokens {
 }
 export interface Transaction {
   memo: bigint;
-  icrc1_memo: [] | [Uint8Array];
+  icrc1_memo: [] | [Uint8Array | number[]];
   operation: Operation;
   created_at_time: [] | [TimeStamp];
 }

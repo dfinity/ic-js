@@ -3,6 +3,7 @@
 ## Features
 
 - Include timestamp and tags in the candid provenance record.
+- Upgrade `didc` to `0.3.5`.
 
 # 2023.10.15-0600Z
 
