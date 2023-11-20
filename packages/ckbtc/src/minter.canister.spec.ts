@@ -194,8 +194,9 @@ describe("ckBTC minter canister", () => {
           NoNewUtxos: {
             required_confirmations: 123,
             current_confirmations: toNullable(456),
+            pending_utxos: [],
           },
-        },
+        } as UpdateBalanceError,
       };
       service.update_balance.mockResolvedValue(error);
 
