@@ -4,6 +4,7 @@
 
 - Include timestamp and tags in the candid provenance record.
 - Upgrade `didc` to `0.3.5`.
+- Update ckbtc candid to ic commit `4de99bc27be74048f80d13200f3c75cf2a43438c`.
 
 # 2023.10.15-0600Z
 
