@@ -198,6 +198,11 @@ export const idlFactory = ({ IDL }) => {
     }),
     'Checked' : Utxo,
   });
+  const PendingUtxo = IDL.Record({
+    'confirmations' : IDL.Nat32,
+    'value' : IDL.Nat64,
+    'outpoint' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8), 'vout' : IDL.Nat32 }),
+  });
   const UpdateBalanceError = IDL.Variant({
     'GenericError' : IDL.Record({
       'error_message' : IDL.Text,
@@ -207,6 +212,7 @@ export const idlFactory = ({ IDL }) => {
     'AlreadyProcessing' : IDL.Null,
     'NoNewUtxos' : IDL.Record({
       'required_confirmations' : IDL.Nat32,
+      'pending_utxos' : IDL.Opt(IDL.Vec(PendingUtxo)),
       'current_confirmations' : IDL.Opt(IDL.Nat32),
     }),
   });
