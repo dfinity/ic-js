@@ -53,7 +53,7 @@
   "peerDependencies": {
     "@dfinity/agent": "^0.19.2",
     "@dfinity/candid": "^0.19.2",
-    "@dfinity/ledger-icp": "^1.0.0",
+    "@dfinity/ledger-icp": "^2.0.0",
     "@dfinity/nns-proto": "^1.0.0",
     "@dfinity/principal": "^0.19.2",
     "@dfinity/utils": "^1.0.0"
