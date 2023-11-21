@@ -225,6 +225,36 @@ describe("ckBTC minter canister", () => {
       );
     });
 
+    it("should throw MinterNoNewUtxosError without pending UTXOs", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      const error = {
+        Err: {
+          NoNewUtxos: {
+            required_confirmations: 123,
+            current_confirmations: toNullable(456),
+            pending_utxos: [],
+          },
+        } as UpdateBalanceError,
+      };
+      service.update_balance.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+
+      const call = () =>
+        canister.updateBalance({
+          owner,
+        });
+
+      await expect(call).rejects.toThrowError(
+        new MinterNoNewUtxosError({
+          pending_utxos: [],
+          required_confirmations: 12,
+        }),
+      );
+    });
+
     it("should throw unsupported response", async () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
 
