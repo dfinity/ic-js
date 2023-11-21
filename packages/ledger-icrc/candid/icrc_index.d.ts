@@ -3,12 +3,12 @@ import type { Principal } from "@dfinity/principal";
 
 export interface Account {
   owner: Principal;
-  subaccount: [] | [Uint8Array];
+  subaccount: [] | [Uint8Array | number[]];
 }
 export interface Approve {
   fee: [] | [bigint];
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
   amount: bigint;
   expected_allowance: [] | [bigint];
@@ -17,7 +17,7 @@ export interface Approve {
 }
 export interface Burn {
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
   amount: bigint;
   spender: [] | [Account];
@@ -46,11 +46,11 @@ export interface ListSubaccountsArgs {
 }
 export interface Mint {
   to: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
   amount: bigint;
 }
-export type SubAccount = Uint8Array;
+export type SubAccount = Uint8Array | number[];
 export interface Transaction {
   burn: [] | [Burn];
   kind: string;
@@ -67,7 +67,7 @@ export interface Transfer {
   to: Account;
   fee: [] | [bigint];
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
   amount: bigint;
   spender: [] | [Account];

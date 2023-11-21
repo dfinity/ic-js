@@ -1,5 +1,6 @@
 export type {
   MinterInfo,
+  PendingUtxo,
   RetrieveBtcOk,
   Account as WithdrawalAccount,
 } from "../candid/minter";

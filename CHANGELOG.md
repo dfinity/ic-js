@@ -1,8 +1,33 @@
-# Unreleased
+# Release.XX.YY
+
+## Overview
+
+## Features
+
+# Release.2023.11.21-1400Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status      |
+| ------------------------ | ------- | ----------- |
+| `@dfinity/ckbtc`         | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/cmc`           | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/ic-management` | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/ledger-icp`    | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/ledger-icrc`   | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/nns`           | v3.0.0  | Enhanced 🔧 |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged   |
+| `@dfinity/sns`           | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/utils`         | v1.1.0  | Unchanged   |
 
 ## Features
 
 - Include timestamp and tags in the candid provenance record.
+- Update ckbtc candid to ic commit `4de99bc27be74048f80d13200f3c75cf2a43438c`.
+- Include pending UTXOs in MinterNoNewUtxosError.
+- Upgrade `didc` to `0.3.5` that converts candid files into JS and TS.
 
 # 2023.10.15-0600Z
 

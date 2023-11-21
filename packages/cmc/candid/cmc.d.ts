@@ -2,7 +2,7 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
 export interface AccountIdentifier {
-  bytes: Uint8Array;
+  bytes: Uint8Array | number[];
 }
 export type BlockIndex = bigint;
 export type Cycles = bigint;
@@ -19,9 +19,9 @@ export interface IcpXdrConversionRate {
   timestamp_seconds: bigint;
 }
 export interface IcpXdrConversionRateResponse {
-  certificate: Uint8Array;
+  certificate: Uint8Array | number[];
   data: IcpXdrConversionRate;
-  hash_tree: Uint8Array;
+  hash_tree: Uint8Array | number[];
 }
 export interface NotifyCreateCanisterArg {
   controller: Principal;

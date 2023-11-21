@@ -20,7 +20,7 @@ export interface CanisterStatusResult {
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettings;
-  module_hash: [] | [Uint8Array];
+  module_hash: [] | [Uint8Array | number[]];
 }
 export interface CanisterStatusResultV2 {
   status: CanisterStatusType;
@@ -28,7 +28,7 @@ export interface CanisterStatusResultV2 {
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array];
+  module_hash: [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -39,8 +39,8 @@ export interface CanisterSummary {
   canister_id: [] | [Principal];
 }
 export interface ChangeCanisterProposal {
-  arg: Uint8Array;
-  wasm_module: Uint8Array;
+  arg: Uint8Array | number[];
+  wasm_module: Uint8Array | number[];
   stop_before_installing: boolean;
   mode: CanisterInstallMode;
   canister_id: Principal;

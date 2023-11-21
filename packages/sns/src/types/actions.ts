@@ -84,9 +84,9 @@ export interface TransferSnsTreasuryFunds {
 }
 
 export interface UpgradeSnsControlledCanister {
-  new_canister_wasm: Uint8Array;
+  new_canister_wasm: Uint8Array | number[];
   canister_id: Option<Principal>;
-  canister_upgrade_arg: Option<Uint8Array>;
+  canister_upgrade_arg: Option<Uint8Array | number[]>;
   mode: Option<number>;
 }
 

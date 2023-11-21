@@ -188,14 +188,23 @@ describe("ckBTC minter canister", () => {
 
     it("should throw MinterNoNewUtxosError", async () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
+      const pendingUtxo = {
+        confirmations: 3,
+        value: 3_2000_000n,
+        outpoint: {
+          txid: new Uint8Array([6, 5, 2, 7]),
+          vout: 1,
+        },
+      };
 
       const error = {
         Err: {
           NoNewUtxos: {
             required_confirmations: 123,
             current_confirmations: toNullable(456),
+            pending_utxos: [[pendingUtxo]],
           },
-        },
+        } as UpdateBalanceError,
       };
       service.update_balance.mockResolvedValue(error);
 
@@ -208,7 +217,42 @@ describe("ckBTC minter canister", () => {
           owner,
         });
 
-      await expect(call).rejects.toThrowError(new MinterNoNewUtxosError());
+      await expect(call).rejects.toThrowError(
+        new MinterNoNewUtxosError({
+          pending_utxos: [[pendingUtxo]],
+          required_confirmations: 12,
+        }),
+      );
+    });
+
+    it("should throw MinterNoNewUtxosError without pending UTXOs", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      const error = {
+        Err: {
+          NoNewUtxos: {
+            required_confirmations: 123,
+            current_confirmations: toNullable(456),
+            pending_utxos: [],
+          },
+        } as UpdateBalanceError,
+      };
+      service.update_balance.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+
+      const call = () =>
+        canister.updateBalance({
+          owner,
+        });
+
+      await expect(call).rejects.toThrowError(
+        new MinterNoNewUtxosError({
+          pending_utxos: [],
+          required_confirmations: 12,
+        }),
+      );
     });
 
     it("should throw unsupported response", async () => {

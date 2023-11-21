@@ -15,7 +15,7 @@ export interface CanisterStatusResultV2 {
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array];
+  module_hash: [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -134,7 +134,7 @@ export interface GovernanceError {
 }
 export interface Icrc1Account {
   owner: [] | [Principal];
-  subaccount: [] | [Uint8Array];
+  subaccount: [] | [Uint8Array | number[]];
 }
 export interface Init {
   nns_proposal_id: [] | [bigint];
@@ -210,7 +210,7 @@ export interface NeuronBasketConstructionParameters {
   count: bigint;
 }
 export interface NeuronId {
-  id: Uint8Array;
+  id: Uint8Array | number[];
 }
 export interface NeuronsFundParticipants {
   cf_participants: Array<CfParticipant>;
@@ -221,7 +221,7 @@ export interface NeuronsFundParticipationConstraints {
   min_direct_participation_threshold_icp_e8s: [] | [bigint];
 }
 export interface NewSaleTicketRequest {
-  subaccount: [] | [Uint8Array];
+  subaccount: [] | [Uint8Array | number[]];
   amount_icp_e8s: bigint;
 }
 export interface NewSaleTicketResponse {
@@ -307,7 +307,7 @@ export interface Swap {
   purge_old_tickets_last_completion_timestamp_nanoseconds: [] | [bigint];
   direct_participation_icp_e8s: [] | [bigint];
   lifecycle: number;
-  purge_old_tickets_next_principal: [] | [Uint8Array];
+  purge_old_tickets_next_principal: [] | [Uint8Array | number[]];
   buyers: Array<[string, BuyerState]>;
   params: [] | [Params];
   open_sns_token_swap_proposal_id: [] | [bigint];

@@ -3,14 +3,14 @@ import type { Principal } from "@dfinity/principal";
 
 export interface Account {
   owner: Principal;
-  subaccount: [] | [Uint8Array];
+  subaccount: [] | [Uint8Array | number[]];
 }
 export type BitcoinAddress =
-  | { p2wsh_v0: Uint8Array }
-  | { p2tr_v1: Uint8Array }
-  | { p2sh: Uint8Array }
-  | { p2wpkh_v0: Uint8Array }
-  | { p2pkh: Uint8Array };
+  | { p2wsh_v0: Uint8Array | number[] }
+  | { p2tr_v1: Uint8Array | number[] }
+  | { p2sh: Uint8Array | number[] }
+  | { p2wpkh_v0: Uint8Array | number[] }
+  | { p2pkh: Uint8Array | number[] };
 export type BtcNetwork =
   | { Mainnet: null }
   | { Regtest: null }
@@ -21,7 +21,7 @@ export interface CanisterStatusResponse {
   cycles: bigint;
   settings: DefiniteCanisterSettings;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array];
+  module_hash: [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -53,9 +53,9 @@ export type Event =
       sent_transaction: {
         fee: [] | [bigint];
         change_output: [] | [{ value: bigint; vout: number }];
-        txid: Uint8Array;
+        txid: Uint8Array | number[];
         utxos: Array<Utxo>;
-        requests: BigUint64Array;
+        requests: BigUint64Array | bigint[];
         submitted_at: bigint;
       };
     }
@@ -96,13 +96,13 @@ export type Event =
       };
     }
   | { removed_retrieve_btc_request: { block_index: bigint } }
-  | { confirmed_transaction: { txid: Uint8Array } }
+  | { confirmed_transaction: { txid: Uint8Array | number[] } }
   | {
       replaced_transaction: {
         fee: bigint;
         change_output: { value: bigint; vout: number };
-        old_txid: Uint8Array;
-        new_txid: Uint8Array;
+        old_txid: Uint8Array | number[];
+        new_txid: Uint8Array | number[];
         submitted_at: bigint;
       };
     }
@@ -135,6 +135,11 @@ export type Mode =
   | { DepositsRestrictedTo: Array<Principal> }
   | { ReadOnly: null }
   | { GeneralAvailability: null };
+export interface PendingUtxo {
+  confirmations: number;
+  value: bigint;
+  outpoint: { txid: Uint8Array | number[]; vout: number };
+}
 export type ReimbursementReason =
   | { CallFailed: null }
   | { TaintedDestination: { kyt_fee: bigint; kyt_provider: Principal } };
@@ -154,14 +159,14 @@ export interface RetrieveBtcOk {
 }
 export type RetrieveBtcStatus =
   | { Signing: null }
-  | { Confirmed: { txid: Uint8Array } }
-  | { Sending: { txid: Uint8Array } }
+  | { Confirmed: { txid: Uint8Array | number[] } }
+  | { Sending: { txid: Uint8Array | number[] } }
   | { AmountTooLow: null }
   | { Unknown: null }
-  | { Submitted: { txid: Uint8Array } }
+  | { Submitted: { txid: Uint8Array | number[] } }
   | { Pending: null };
 export interface RetrieveBtcWithApprovalArgs {
-  from_subaccount: [] | [Uint8Array];
+  from_subaccount: [] | [Uint8Array | number[]];
   address: string;
   amount: bigint;
 }
@@ -182,6 +187,7 @@ export type UpdateBalanceError =
   | {
       NoNewUtxos: {
         required_confirmations: number;
+        pending_utxos: [] | [Array<PendingUtxo>];
         current_confirmations: [] | [number];
       };
     };
@@ -196,7 +202,7 @@ export interface UpgradeArgs {
 export interface Utxo {
   height: number;
   value: bigint;
-  outpoint: { txid: Uint8Array; vout: number };
+  outpoint: { txid: Uint8Array | number[]; vout: number };
 }
 export type UtxoStatus =
   | { ValueTooSmall: Utxo }
@@ -215,7 +221,12 @@ export interface _SERVICE {
     { minter_fee: bigint; bitcoin_fee: bigint }
   >;
   get_btc_address: ActorMethod<
-    [{ owner: [] | [Principal]; subaccount: [] | [Uint8Array] }],
+    [
+      {
+        owner: [] | [Principal];
+        subaccount: [] | [Uint8Array | number[]];
+      },
+    ],
     string
   >;
   get_canister_status: ActorMethod<[], CanisterStatusResponse>;
@@ -236,7 +247,12 @@ export interface _SERVICE {
     { Ok: RetrieveBtcOk } | { Err: RetrieveBtcWithApprovalError }
   >;
   update_balance: ActorMethod<
-    [{ owner: [] | [Principal]; subaccount: [] | [Uint8Array] }],
+    [
+      {
+        owner: [] | [Principal];
+        subaccount: [] | [Uint8Array | number[]];
+      },
+    ],
     { Ok: Array<UtxoStatus> } | { Err: UpdateBalanceError }
   >;
 }
