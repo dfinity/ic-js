@@ -76,6 +76,21 @@ Add new library to "nightly" and "publish" CI [workflows](https://github.com/dfi
 
 ## Release
 
-To release a version to npm, create a release in GitHub. This will start an action that build and publish the libraries.
+Steps to release new versions of the libraries.
+
+1. Create a PR bumping versions
+
+- Upgrade `"version"` in all needed packages.
+- Update intra-library dependencies.
+- Run `npm install` from root directory
+- Update Changelog
+
+Example PR: https://github.com/dfinity/ic-js/pull/475
+
+2. Create a new release in Github page.
+
+This will start an action that build and publish the libraries.
+
+3. Create a new PR
 
 To open next version afterward, bump the libraries' version and add a note in [CHANGELOG](./CHANGELOG.md).
