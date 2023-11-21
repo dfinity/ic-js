@@ -135,11 +135,6 @@ export type Mode =
   | { DepositsRestrictedTo: Array<Principal> }
   | { ReadOnly: null }
   | { GeneralAvailability: null };
-export interface PendingUtxo {
-  confirmations: number;
-  value: bigint;
-  outpoint: { txid: Uint8Array | number[]; vout: number };
-}
 export type ReimbursementReason =
   | { CallFailed: null }
   | { TaintedDestination: { kyt_fee: bigint; kyt_provider: Principal } };
@@ -187,7 +182,6 @@ export type UpdateBalanceError =
   | {
       NoNewUtxos: {
         required_confirmations: number;
-        pending_utxos: [] | [Array<PendingUtxo>];
         current_confirmations: [] | [number];
       };
     };
