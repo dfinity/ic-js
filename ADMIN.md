@@ -80,14 +80,14 @@ Steps to release new versions of the libraries.
 
 1. Create a PR bumping versions
 
-- Upgrade `"version"` in all needed packages.
-- Update intra-library dependencies.
-- Run `npm install` from root directory
-- Update Changelog
+- Upgrade `"version"` in the various library `packages.json`. If package depends on another package of ic-js, update the reference as well.
+- Update `"version"` in the root `packages.json` of the project.
+- Run `npm i` from root directory.
+- Update Changelog.
 
 Example PR: https://github.com/dfinity/ic-js/pull/475
 
-2. Create a new release in Github page.
+2. Create a new Github [release](https://github.com/dfinity/ic-js/releases).
 
 This will start an action that build and publish the libraries.
 
