@@ -4,6 +4,8 @@
 
 ## Features
 
+- Add retrieveBtcStatus to ckbtc minter canister.
+
 # Release.2023.11.21-1400Z
 
 ## Overview
