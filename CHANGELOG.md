@@ -4,6 +4,8 @@
 
 ## Features
 
+- Substitute `?` fields with `Option` fields in the converters related to NNS proposals.
+
 # Release.2023.11.21-1400Z
 
 ## Overview

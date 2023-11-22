@@ -190,7 +190,7 @@ export interface MergeRequest {
   targetNeuronId: NeuronId;
 }
 export interface StakeMaturity {
-  percentageToStake?: number;
+  percentageToStake: Option<number>;
 }
 export interface MergeMaturity {
   percentageToMerge: number;
@@ -217,9 +217,9 @@ export interface Motion {
   motionText: string;
 }
 export interface OpenSnsTokenSwap {
-  communityFundInvestmentE8s?: bigint;
-  targetSwapCanisterId?: Principal;
-  params?: {
+  communityFundInvestmentE8s: Option<bigint>;
+  targetSwapCanisterId: Option<Principal>;
+  params: Option<{
     minParticipantIcpE8s: bigint;
     maxIcpE8s: bigint;
     swapDueTimestampSeconds: bigint;
@@ -227,24 +227,24 @@ export interface OpenSnsTokenSwap {
     snsTokenE8s: bigint;
     maxParticipantIcpE8s: bigint;
     minIcpE8s: bigint;
-    saleDelaySeconds?: bigint;
-    neuronBasketConstructionParameters?: {
+    saleDelaySeconds: Option<bigint>;
+    neuronBasketConstructionParameters: Option<{
       // Keep snake case to avoid having to convert back and forth.
       dissolve_delay_interval_seconds: bigint;
       count: bigint;
-    };
-    maxDirectParticipationIcpE8s?: bigint;
-    minDirectParticipationIcpE8s?: bigint;
-  };
+    }>;
+    maxDirectParticipationIcpE8s: Option<bigint>;
+    minDirectParticipationIcpE8s: Option<bigint>;
+  }>;
 }
 export interface SetSnsTokenSwapOpenTimeWindow {
-  request?: {
-    openTimeWindow?: {
+  request: Option<{
+    openTimeWindow: Option<{
       startTimestampSeconds: bigint;
       endTimestampSeconds: bigint;
-    };
-  };
-  swapCanisterId?: string;
+    }>;
+  }>;
+  swapCanisterId: Option<string>;
 }
 export interface NetworkEconomics {
   neuronMinimumStake: E8s;
@@ -503,15 +503,15 @@ export interface ListNodeProvidersResponse {
 }
 
 export interface Percentage {
-  basisPoints?: bigint;
+  basisPoints: Option<bigint>;
 }
 
 export interface Duration {
-  seconds?: bigint;
+  seconds: Option<bigint>;
 }
 
 export interface GlobalTimeOfDay {
-  secondsAfterUtcMidnight?: bigint;
+  secondsAfterUtcMidnight: Option<bigint>;
 }
 
 export interface Countries {
@@ -519,42 +519,42 @@ export interface Countries {
 }
 
 export interface Tokens {
-  e8s?: bigint;
+  e8s: Option<bigint>;
 }
 
 export interface Image {
-  base64Encoding?: string;
+  base64Encoding: Option<string>;
 }
 
 export interface LedgerParameters {
-  transactionFee?: Tokens;
-  tokenSymbol?: string;
-  tokenLogo?: Image;
-  tokenName?: string;
+  transactionFee: Option<Tokens>;
+  tokenSymbol: Option<string>;
+  tokenLogo: Option<Image>;
+  tokenName: Option<string>;
 }
 
 export interface VotingRewardParameters {
-  rewardRateTransitionDuration?: Duration;
-  initialRewardRate?: Percentage;
-  finalRewardRate?: Percentage;
+  rewardRateTransitionDuration: Option<Duration>;
+  initialRewardRate: Option<Percentage>;
+  finalRewardRate: Option<Percentage>;
 }
 
 export interface GovernanceParameters {
-  neuronMaximumDissolveDelayBonus?: Percentage;
-  neuronMaximumAgeForAgeBonus?: Duration;
-  neuronMaximumDissolveDelay?: Duration;
-  neuronMinimumDissolveDelayToVote?: Duration;
-  neuronMaximumAgeBonus?: Percentage;
-  neuronMinimumStake?: Tokens;
-  proposalWaitForQuietDeadlineIncrease?: Duration;
-  proposalInitialVotingPeriod?: Duration;
-  proposalRejectionFee?: Tokens;
-  votingRewardParameters?: VotingRewardParameters;
+  neuronMaximumDissolveDelayBonus: Option<Percentage>;
+  neuronMaximumAgeForAgeBonus: Option<Duration>;
+  neuronMaximumDissolveDelay: Option<Duration>;
+  neuronMinimumDissolveDelayToVote: Option<Duration>;
+  neuronMaximumAgeBonus: Option<Percentage>;
+  neuronMinimumStake: Option<Tokens>;
+  proposalWaitForQuietDeadlineIncrease: Option<Duration>;
+  proposalInitialVotingPeriod: Option<Duration>;
+  proposalRejectionFee: Option<Tokens>;
+  votingRewardParameters: Option<VotingRewardParameters>;
 }
 
 export interface NeuronBasketConstructionParameters {
-  dissolveDelayInterval?: Duration;
-  count?: bigint;
+  dissolveDelayInterval: Option<Duration>;
+  count: Option<bigint>;
 }
 export interface SwapParameters {
   minimumParticipants: Option<bigint>;
@@ -574,15 +574,15 @@ export interface SwapParameters {
 }
 
 export interface SwapDistribution {
-  total?: Tokens;
+  total: Option<Tokens>;
 }
 
 export interface NeuronDistribution {
-  controller?: PrincipalString;
-  dissolveDelay?: Duration;
-  memo?: bigint;
-  vestingPeriod?: Duration;
-  stake?: Tokens;
+  controller: Option<PrincipalString>;
+  dissolveDelay: Option<Duration>;
+  memo: Option<bigint>;
+  vestingPeriod: Option<Duration>;
+  stake: Option<Tokens>;
 }
 
 export interface DeveloperDistribution {
@@ -590,20 +590,20 @@ export interface DeveloperDistribution {
 }
 
 export interface InitialTokenDistribution {
-  treasuryDistribution?: SwapDistribution;
-  developerDistribution?: DeveloperDistribution;
-  swapDistribution?: SwapDistribution;
+  treasuryDistribution: Option<SwapDistribution>;
+  developerDistribution: Option<DeveloperDistribution>;
+  swapDistribution: Option<SwapDistribution>;
 }
 
 export interface CreateServiceNervousSystem {
-  url?: string;
-  governanceParameters?: GovernanceParameters;
+  url: Option<string>;
+  governanceParameters: Option<GovernanceParameters>;
   fallbackControllerPrincipalIds: Array<PrincipalString>;
-  logo?: Image;
-  name?: string;
-  ledgerParameters?: LedgerParameters;
-  description?: string;
+  logo: Option<Image>;
+  name: Option<string>;
+  ledgerParameters: Option<LedgerParameters>;
+  description: Option<string>;
   dappCanisters: Array<CanisterIdString>;
-  swapParameters?: SwapParameters;
-  initialTokenDistribution?: InitialTokenDistribution;
+  swapParameters: Option<SwapParameters>;
+  initialTokenDistribution: Option<InitialTokenDistribution>;
 }
