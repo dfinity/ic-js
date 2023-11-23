@@ -460,21 +460,25 @@ const toAction = (action: RawAction): Action => {
         targetSwapCanisterId: fromNullable(
           OpenSnsTokenSwap.target_swap_canister_id,
         ),
-        ...(params !== undefined && {
-          params: {
-            minParticipantIcpE8s: params.min_participant_icp_e8s,
-            maxIcpE8s: params.max_icp_e8s,
-            swapDueTimestampSeconds: params.swap_due_timestamp_seconds,
-            minParticipants: params.min_participants,
-            snsTokenE8s: params.sns_token_e8s,
-            maxParticipantIcpE8s: params.max_participant_icp_e8s,
-            minIcpE8s: params.min_icp_e8s,
-            saleDelaySeconds: fromNullable(params.sale_delay_seconds),
-            neuronBasketConstructionParameters: fromNullable(
-              params.neuron_basket_construction_parameters,
-            ),
-          },
-        }),
+        params: params && {
+          minParticipantIcpE8s: params.min_participant_icp_e8s,
+          maxIcpE8s: params.max_icp_e8s,
+          swapDueTimestampSeconds: params.swap_due_timestamp_seconds,
+          minParticipants: params.min_participants,
+          snsTokenE8s: params.sns_token_e8s,
+          maxParticipantIcpE8s: params.max_participant_icp_e8s,
+          minIcpE8s: params.min_icp_e8s,
+          saleDelaySeconds: fromNullable(params.sale_delay_seconds),
+          neuronBasketConstructionParameters: fromNullable(
+            params.neuron_basket_construction_parameters,
+          ),
+          maxDirectParticipationIcpE8s: fromNullable(
+            params.max_direct_participation_icp_e8s,
+          ),
+          minDirectParticipationIcpE8s: fromNullable(
+            params.min_direct_participation_icp_e8s,
+          ),
+        },
       },
     };
   }
