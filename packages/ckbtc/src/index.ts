@@ -2,6 +2,7 @@ export type {
   MinterInfo,
   PendingUtxo,
   RetrieveBtcOk,
+  RetrieveBtcStatus,
   Account as WithdrawalAccount,
 } from "../candid/minter";
 export * from "./enums/btc.enums";

@@ -8,6 +8,7 @@ import type {
   _SERVICE as CkBTCMinterService,
   MinterInfo,
   RetrieveBtcOk,
+  RetrieveBtcStatus,
   Account as WithdrawalAccount,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
@@ -168,6 +169,24 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
 
     return response.Ok;
   };
+
+  /**
+   * Returns the status of a specific BTC withdrawal based on the transaction ID
+   * of the corresponding burn transaction.
+   *
+   * @param {bigint} transactionId The ID of the corresponding burn transaction.
+   * @param {boolean} certified query or update call
+   */
+  retrieveBtcStatus = async ({
+    transactionId,
+    certified,
+  }: {
+    transactionId: bigint;
+    certified: boolean;
+  }): Promise<RetrieveBtcStatus> =>
+    this.caller({
+      certified,
+    }).retrieve_btc_status({ block_index: transactionId });
 
   /**
    * Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network and the fee related to the minter.
