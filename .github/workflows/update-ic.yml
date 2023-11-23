@@ -37,7 +37,7 @@ jobs:
           repository: dfinity/ic
           ref: ${{ steps.choose_ic_ref.outputs.ic_ref }}
           path: ic
-      - name: Check new IC commit
+      - name: Update candid and related JS and TS files
         id: update
         run: |
           set -euxo pipefail
