@@ -376,6 +376,9 @@ export type Operation =
   | { StartDissolving: {} }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
+export interface Percentage {
+  basis_points: [] | [bigint];
+}
 export interface Proposal {
   url: string;
   title: string;
@@ -388,6 +391,7 @@ export interface ProposalData {
   action: bigint;
   failure_reason: [] | [GovernanceError];
   ballots: Array<[string, Ballot]>;
+  minimum_yes_proportion_of_total: [] | [Percentage];
   reward_event_round: bigint;
   failed_timestamp_seconds: bigint;
   reward_event_end_timestamp_seconds: [] | [bigint];
@@ -400,6 +404,7 @@ export interface ProposalData {
   proposal: [] | [Proposal];
   proposer: [] | [NeuronId];
   wait_for_quiet_state: [] | [WaitForQuietState];
+  minimum_yes_proportion_of_exercised: [] | [Percentage];
   is_eligible_for_rewards: boolean;
   executed_timestamp_seconds: bigint;
 }
@@ -423,6 +428,7 @@ export interface RewardEvent {
   rounds_since_last_distribution: [] | [bigint];
   actual_timestamp_seconds: bigint;
   end_timestamp_seconds: [] | [bigint];
+  total_available_e8s_equivalent: [] | [bigint];
   distributed_e8s_equivalent: bigint;
   round: bigint;
   settled_proposals: Array<ProposalId>;
