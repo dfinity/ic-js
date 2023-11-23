@@ -7,6 +7,10 @@
 - Substitute `?` fields with `Option` fields in the converters related to NNS proposals.
 - Add retrieveBtcStatus to ckbtc minter canister.
 
+## Operations
+
+- Add a cron job to periodically update IC candid files and typescript bindings.
+
 # Release.2023.11.21-1400Z
 
 ## Overview
