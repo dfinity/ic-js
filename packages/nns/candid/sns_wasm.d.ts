@@ -15,6 +15,7 @@ export interface Canister {
   id: [] | [Principal];
 }
 export interface CfNeuron {
+  has_created_neuron_recipes: [] | [boolean];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
@@ -77,6 +78,9 @@ export interface GetWasmRequest {
 export interface GetWasmResponse {
   wasm: [] | [SnsWasm];
 }
+export interface IdealMatchedParticipationFunction {
+  serialized_representation: [] | [string];
+}
 export type InitialTokenDistribution = {
   FractionalDeveloperVotingPower: FractionalDeveloperVotingPower;
 };
@@ -127,6 +131,9 @@ export interface NeuronsFundParticipationConstraints {
   coefficient_intervals: Array<LinearScalingCoefficient>;
   max_neurons_fund_participation_icp_e8s: [] | [bigint];
   min_direct_participation_threshold_icp_e8s: [] | [bigint];
+  ideal_matched_participation_function:
+    | []
+    | [IdealMatchedParticipationFunction];
 }
 export interface PrettySnsVersion {
   archive_wasm_hash: string;
@@ -149,6 +156,7 @@ export interface SnsInitPayload {
   max_dissolve_delay_seconds: [] | [bigint];
   max_dissolve_delay_bonus_percentage: [] | [bigint];
   nns_proposal_id: [] | [bigint];
+  neurons_fund_participation: [] | [boolean];
   min_participant_icp_e8s: [] | [bigint];
   neuron_basket_construction_parameters:
     | []

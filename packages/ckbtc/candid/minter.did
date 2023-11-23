@@ -1,4 +1,4 @@
-// Generated from IC repo commit 4de99bc27b (2023-11-20) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit d73659a (2023-11-17 tags: release-2023-11-15_23-00) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -101,19 +101,11 @@ type UtxoStatus = variant {
     };
 };
 
-// Utxos that don't have enough confirmations to be processed.
-type PendingUtxo = record {
-    outpoint : record { txid : vec nat8; vout : nat32 };
-    value : nat64;
-    confirmations: nat32;
-};
-
 type UpdateBalanceError = variant {
     // There are no new UTXOs to process.
     NoNewUtxos : record {
         current_confirmations: opt nat32;
-        required_confirmations: nat32;
-        pending_utxos: opt vec PendingUtxo;
+        required_confirmations: nat32
     };
     // The minter is already processing another update balance request for the caller.
     AlreadyProcessing;
