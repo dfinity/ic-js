@@ -1,0 +1,102 @@
+# A GitHub Actions workflow that regularly makes a PR to update
+# the IC candid and code bindings.
+name: Update IC
+on:
+  schedule:
+    # Checks for new IC commit weekly
+    - cron: '30 3 * * MON'
+  workflow_dispatch:
+    # Provides an option to run this manually
+    ic_ref:
+      description: "The IC commit or tag to update to."
+      required: false
+  push:
+    branches:
+      # Runs if there is a change to the development branch for this workflow
+      - "update-ic"
+jobs:
+  update-ic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ic-js
+        uses: actions/checkout@v3
+      - name: Choose IC ref
+        id: choose_ic_ref
+        run: |
+           ref="${{ inputs.ic_ref }}"
+           if [[ "${requested_ref:-}" == "" ]]
+           then # Use the latest release
+                ref="$(gh release --repo dfinity/ic view --json tagName -q .tagName)"
+           fi
+           echo "ic_ref=$ref" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Checkout ic repo
+        uses: actions/checkout@v3
+        with:
+          repository: dfinity/ic
+          ref: ${{ steps.choose_ic_ref.outputs.ic_ref }}
+          path: ic
+      - name: Update candid and related JS and TS files
+        id: update
+        run: |
+          set -euxo pipefail
+          # Gets didc
+          echo "$PATH" | tr : "\n"
+          mkdir -p "$HOME/.local/bin"
+          curl -Lf https://github.com/dfinity/candid/releases/download/2023-09-27/didc-linux64 | install -m 755 /dev/stdin "$HOME/.local/bin/didc"
+          # Gets prettier in a minute
+          npm ci
+          # Gets candid
+          ./scripts/import-candid ic
+          # Derives consequences
+          ./scripts/compile-idl-js
+          # Checks whether it was all for nothing.
+          # ... Note: Ignores how we got here.
+          set +x # Printing the diff to stderr repeatedly can be very noisy.
+          DIFF_IGNORING_PROVENANCE="$(git diff -I '\/\/ Generated from IC repo.*')"
+          if [[ "${DIFF_IGNORING_PROVENANCE:-}" == "" ]]
+          then
+            commit="$(cd ic && git rev-parse --short HEAD)"
+            echo "No signficant differences found in IC ref ${{ inputs.ic_ref }} (commit $commit)."
+            echo "updated=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "API changes detected!"
+            git status
+            echo "updated=1" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create Pull Request
+        if: ${{ steps.update.outputs.updated == '1' }}
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GIX_CREATE_PR_PAT }}
+          base: main
+          add-paths: |
+            packages/**/*.did
+            packages/**/*.js
+            packages/**/*.ts
+          commit-message: Update IC commit
+          committer: GitHub <noreply@github.com>
+          author: gix-bot <gix-bot@users.noreply.github.com>
+          branch: bot-ic-update
+          branch-suffix: timestamp # Creates a new branch & PR with every run.  If this gets spammy, please delete this line and instead block the PR from making a PR if there is already an open one.
+          delete-branch: true
+          title: 'Update IC Candid Files'
+          body: |
+            # Motivation
+            The Internet Computer APIs have updated.
+
+            # Changes
+            * Updated the interface description files for the Internet Computer.
+            * Updated the javascript bindings for the latest IC interface.
+
+            # Tests
+              - [ ] Please check the API updates for any breaking changes that affect our code.
+      - name: Notify Slack on failure
+        # Since the this is a scheduled job, a failure won't be shown on any
+        # PR status. To notify the team, we send a message to our Slack channel on failure.
+        uses: dfinity/internet-identity/.github/actions/slack@release-2023-08-28
+        if: ${{ failure() }}
+        with:
+          WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          MESSAGE: "IC commit update failed"
