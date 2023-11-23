@@ -6,6 +6,7 @@ import type { Account, _SERVICE as CkBTCMinterService } from "../candid/minter";
 import {
   RetrieveBtcError,
   RetrieveBtcOk,
+  RetrieveBtcStatus,
   UpdateBalanceError,
 } from "../candid/minter";
 import {
@@ -31,6 +32,14 @@ describe("ckBTC minter canister", () => {
     CkBTCMinterCanister.create({
       canisterId: minterCanisterIdMock,
       certifiedServiceOverride: service,
+    });
+
+  const nonCertifiedMinter = (
+    service: ActorSubclass<CkBTCMinterService>,
+  ): CkBTCMinterCanister =>
+    CkBTCMinterCanister.create({
+      canisterId: minterCanisterIdMock,
+      serviceOverride: service,
     });
 
   describe("BTC address", () => {
@@ -629,6 +638,54 @@ describe("ckBTC minter canister", () => {
           )}`,
         ),
       );
+    });
+  });
+
+  describe("Retrieve BTC status", () => {
+    it("should return status", async () => {
+      const submittedStatus = {
+        Submitted: { txid: new Uint8Array([3, 2, 6]) },
+      } as RetrieveBtcStatus;
+
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status.mockResolvedValue(submittedStatus);
+      const transactionId = 481n;
+
+      const canister = minter(service);
+
+      const res = await canister.retrieveBtcStatus({
+        transactionId,
+        certified: true,
+      });
+
+      expect(service.retrieve_btc_status).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status).toBeCalledWith({
+        block_index: transactionId,
+      });
+      expect(res).toEqual(submittedStatus);
+    });
+
+    it("should use non-certified service", async () => {
+      const submittedStatus = {
+        Submitted: { txid: new Uint8Array([9, 7, 5]) },
+      } as RetrieveBtcStatus;
+
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status.mockResolvedValue(submittedStatus);
+      const transactionId = 382n;
+
+      const canister = nonCertifiedMinter(service);
+
+      const res = await canister.retrieveBtcStatus({
+        transactionId,
+        certified: false,
+      });
+
+      expect(service.retrieve_btc_status).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status).toBeCalledWith({
+        block_index: transactionId,
+      });
+      expect(res).toEqual(submittedStatus);
     });
   });
 
