@@ -71,4 +71,8 @@ describe("arrays-utils", () => {
   it("should convert hex uint8array to string", () => {
     expect(uint8ArrayToHexString(hexArray)).toEqual(hex);
   });
+
+  it("should convert array of numbers to string", () => {
+    expect(uint8ArrayToHexString(Array.from(hexArray))).toEqual(hex);
+  });
 });
