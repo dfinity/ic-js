@@ -192,9 +192,9 @@ Parameters:
 
 #### :gear: uint8ArrayToHexString
 
-| Function                | Type                            |
-| ----------------------- | ------------------------------- |
-| `uint8ArrayToHexString` | `(bytes: Uint8Array) => string` |
+| Function                | Type                                        |
+| ----------------------- | ------------------------------------------- |
+| `uint8ArrayToHexString` | `(bytes: Uint8Array or number[]) => string` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L60)
 
