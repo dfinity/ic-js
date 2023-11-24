@@ -6,6 +6,7 @@
 
 - Substitute `?` fields with `Option` fields in the converters related to NNS proposals.
 - Add retrieveBtcStatus to ckbtc minter canister.
+- Make uint8ArrayToHexString also accept `number[]` as input.
 
 ## Operations
 
