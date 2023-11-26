@@ -1822,8 +1822,10 @@ describe("GovernanceCanister", () => {
       },
     };
     it("successfully creates a proposal", async () => {
+      const proposalId = 10n;
+
       const serviceResponse: ManageNeuronResponse = {
-        command: [{ MakeProposal: { proposal_id: [{ id: BigInt(10) }] } }],
+        command: [{ MakeProposal: { proposal_id: [{ id: proposalId }] } }],
       };
       const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
@@ -1833,6 +1835,22 @@ describe("GovernanceCanister", () => {
       });
       const response = await governance.makeProposal(makeProposalRequest);
       expect(service.manage_neuron).toBeCalled();
+      expect(response).toEqual(proposalId);
+    });
+
+    it("successfully creates a proposal but return undefined", async () => {
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ RegisterVote: {} }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const response = await governance.makeProposal(makeProposalRequest);
+      expect(service.manage_neuron).toBeCalled();
+      expect(response).toEqual(undefined);
     });
 
     it("throws error if response is error", async () => {

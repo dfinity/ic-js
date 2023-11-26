@@ -38,10 +38,10 @@ export const manageNeuron = async ({
 }: {
   request: ManageNeuron;
   service: GovernanceService;
-}): Promise<void> => {
+}): Promise<Command_1> => {
   const response = await service.manage_neuron(request);
   // We use it only to assert that there are no errors
-  getSuccessfulCommandFromResponse(response);
+  return getSuccessfulCommandFromResponse(response);
 };
 
 /**
