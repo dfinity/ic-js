@@ -1,4 +1,4 @@
-// Generated from IC repo commit 57f0e39e3 (2023-11-22) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 69e1408 (2023-11-23 tags: release-2023-11-23_23-01) 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;

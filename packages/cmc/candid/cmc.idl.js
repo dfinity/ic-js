@@ -12,6 +12,37 @@ export const idlFactory = ({ IDL }) => {
     'minting_account_id' : IDL.Opt(AccountIdentifier),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
   });
+  const SubnetFilter = IDL.Record({ 'subnet_type' : IDL.Opt(IDL.Text) });
+  const SubnetSelection = IDL.Variant({
+    'Filter' : SubnetFilter,
+    'Subnet' : IDL.Record({ 'subnet' : IDL.Principal }),
+  });
+  const CanisterSettings = IDL.Record({
+    'freezing_threshold' : IDL.Opt(IDL.Nat),
+    'controllers' : IDL.Opt(IDL.Vec(IDL.Principal)),
+    'reserved_cycles_limit' : IDL.Opt(IDL.Nat),
+    'memory_allocation' : IDL.Opt(IDL.Nat),
+    'compute_allocation' : IDL.Opt(IDL.Nat),
+  });
+  const CreateCanisterArg = IDL.Record({
+    'subnet_selection' : IDL.Opt(SubnetSelection),
+    'settings' : IDL.Opt(CanisterSettings),
+    'subnet_type' : IDL.Opt(IDL.Text),
+  });
+  const CreateCanisterError = IDL.Variant({
+    'Refunded' : IDL.Record({
+      'create_error' : IDL.Text,
+      'refund_amount' : IDL.Nat,
+    }),
+    'RefundFailed' : IDL.Record({
+      'create_error' : IDL.Text,
+      'refund_error' : IDL.Text,
+    }),
+  });
+  const CreateCanisterResult = IDL.Variant({
+    'Ok' : IDL.Principal,
+    'Err' : CreateCanisterError,
+  });
   const IcpXdrConversionRate = IDL.Record({
     'xdr_permyriad_per_icp' : IDL.Nat64,
     'timestamp_seconds' : IDL.Nat64,
@@ -31,6 +62,8 @@ export const idlFactory = ({ IDL }) => {
   const NotifyCreateCanisterArg = IDL.Record({
     'controller' : IDL.Principal,
     'block_index' : BlockIndex,
+    'subnet_selection' : IDL.Opt(IDL.Vec(SubnetSelection)),
+    'settings' : IDL.Opt(CanisterSettings),
     'subnet_type' : IDL.Opt(IDL.Text),
   });
   const NotifyError = IDL.Variant({
@@ -57,6 +90,11 @@ export const idlFactory = ({ IDL }) => {
   const Cycles = IDL.Nat;
   const NotifyTopUpResult = IDL.Variant({ 'Ok' : Cycles, 'Err' : NotifyError });
   return IDL.Service({
+    'create_canister' : IDL.Func(
+        [CreateCanisterArg],
+        [CreateCanisterResult],
+        [],
+      ),
     'get_icp_xdr_conversion_rate' : IDL.Func(
         [],
         [IcpXdrConversionRateResponse],
