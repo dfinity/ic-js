@@ -391,7 +391,7 @@ export class GovernanceCanister {
       additionalDissolveDelaySeconds,
     });
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -417,7 +417,7 @@ export class GovernanceCanister {
       dissolveDelaySeconds,
     });
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -434,7 +434,7 @@ export class GovernanceCanister {
     }
     const request = toStartDissolvingRequest(neuronId);
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -451,7 +451,7 @@ export class GovernanceCanister {
     }
     const request = toStopDissolvingRequest(neuronId);
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -469,7 +469,7 @@ export class GovernanceCanister {
 
     const request = toJoinCommunityFundRequest(neuronId);
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -484,14 +484,15 @@ export class GovernanceCanister {
    *
    * @throws {@link GovernanceError}
    */
-  public autoStakeMaturity = (params: {
+  public autoStakeMaturity = async (params: {
     neuronId: NeuronId;
     autoStake: boolean;
-  }): Promise<void> =>
-    manageNeuron({
+  }): Promise<void> => {
+    await manageNeuron({
       request: toAutoStakeMaturityRequest(params),
       service: this.certifiedService,
     });
+  };
 
   /**
    * Neuron leaves the community fund
@@ -501,7 +502,7 @@ export class GovernanceCanister {
   public leaveCommunityFund = async (neuronId: NeuronId): Promise<void> => {
     const request = toLeaveCommunityFundRequest(neuronId);
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -541,7 +542,7 @@ export class GovernanceCanister {
   }): Promise<void> => {
     const rawRequest = toMergeRequest(request);
 
-    return manageNeuron({
+    await manageNeuron({
       request: rawRequest,
       service: this.certifiedService,
     });
@@ -652,15 +653,22 @@ export class GovernanceCanister {
   /**
    * Create new proposal
    *
+   * @returns The newly created proposal ID or undefined if the success response returned by the Governance canister does not provide such information.
    * @throws {@link GovernanceError}
    */
-  public makeProposal = async (request: MakeProposalRequest): Promise<void> => {
+  public makeProposal = async (
+    request: MakeProposalRequest,
+  ): Promise<NeuronId | undefined> => {
     const rawRequest = toMakeProposalRawRequest(request);
 
-    return manageNeuron({
+    const cmd = await manageNeuron({
       request: rawRequest,
       service: this.certifiedService,
     });
+
+    return "MakeProposal" in cmd
+      ? fromNullable(cmd.MakeProposal.proposal_id)?.id
+      : undefined;
   };
 
   /**
@@ -680,7 +688,7 @@ export class GovernanceCanister {
   }): Promise<void> => {
     const request = toRegisterVoteRequest({ neuronId, vote, proposalId });
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -694,7 +702,7 @@ export class GovernanceCanister {
   public setFollowees = async (followRequest: FollowRequest): Promise<void> => {
     const request = toManageNeuronsFollowRequest(followRequest);
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -732,7 +740,7 @@ export class GovernanceCanister {
       amount,
     });
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -761,7 +769,7 @@ export class GovernanceCanister {
 
     const request = toMergeMaturityRequest({ neuronId, percentageToMerge });
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -867,7 +875,7 @@ export class GovernanceCanister {
 
     const request = toAddHotkeyRequest({ neuronId, principal });
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
@@ -890,7 +898,7 @@ export class GovernanceCanister {
     }
     const request = toRemoveHotkeyRequest({ neuronId, principal });
 
-    return manageNeuron({
+    await manageNeuron({
       request,
       service: this.certifiedService,
     });
