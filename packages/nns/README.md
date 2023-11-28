@@ -45,6 +45,27 @@ const { listNeurons } = GovernanceCanister.create({
 const myNeurons = await listNeurons({ certified: false });
 ```
 
+To execute this on a local environment, you will need to fetch the root key when initializing the agent. Additionally, you might need to adapt the port. The following snippet also demonstrates how you can inline a canister ID as well.
+
+```typescript
+import { GovernanceCanister } from "@dfinity/nns";
+import { createAgent } from "@dfinity/utils";
+import { Principal } from "@dfinity/principal";
+
+const agent = await createAgent({
+  identity,
+  host: "http://localhost:8000",
+  fetchRootKey: true,
+});
+
+const { listNeurons } = GovernanceCanister.create({
+  agent,
+  canisterId: Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"),
+});
+
+const myNeurons = await listNeurons({ certified: false });
+```
+
 ## Features
 
 `nns-js` implements following features:
