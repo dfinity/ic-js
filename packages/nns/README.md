@@ -49,8 +49,8 @@ To execute this on a local environment, you will need to fetch the root key when
 
 ```typescript
 import { GovernanceCanister } from "@dfinity/nns";
-import { createAgent } from "@dfinity/utils";
 import { Principal } from "@dfinity/principal";
+import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({
   identity,
