@@ -1,4 +1,3 @@
-import { E8S_PER_TOKEN } from "../constants/constants";
 import { FromStringToTokenError } from "../enums/token.enums";
 
 /**
@@ -9,6 +8,7 @@ import { FromStringToTokenError } from "../enums/token.enums";
  */
 export const convertStringToE8s = (
   value: string,
+  decimals = 8n,
 ): bigint | FromStringToTokenError => {
   // replace exponential format (1e-4) with plain (0.0001)
   // doesn't support decimals for values >= ~1e16
@@ -34,18 +34,18 @@ export const convertStringToE8s = (
 
   if (integral) {
     try {
-      e8s += BigInt(integral) * E8S_PER_TOKEN;
+      e8s += BigInt(integral) * 10n ** decimals;
     } catch {
       return FromStringToTokenError.InvalidFormat;
     }
   }
 
   if (fractional) {
-    if (fractional.length > 8) {
+    if (fractional.length > decimals) {
       return FromStringToTokenError.FractionalMoreThan8Decimals;
     }
     try {
-      e8s += BigInt(fractional.padEnd(8, "0"));
+      e8s += BigInt(fractional.padEnd(Number(decimals), "0"));
     } catch {
       return FromStringToTokenError.InvalidFormat;
     }
@@ -57,11 +57,13 @@ export const convertStringToE8s = (
 export interface Token {
   symbol: string;
   name: string;
+  decimals?: bigint;
 }
 
 export const ICPToken: Token = {
   symbol: "ICP",
   name: "Internet Computer",
+  decimals: BigInt(8),
 };
 
 /**
@@ -111,7 +113,7 @@ export class TokenAmount {
     amount: string;
     token: Token;
   }): TokenAmount | FromStringToTokenError {
-    const e8s = convertStringToE8s(amount);
+    const e8s = convertStringToE8s(amount, token.decimals ?? 8n);
 
     if (typeof e8s === "bigint") {
       return new TokenAmount(e8s, token);
@@ -143,7 +145,9 @@ export class TokenAmount {
       return tokenAmount;
     }
     if (tokenAmount === FromStringToTokenError.FractionalMoreThan8Decimals) {
-      throw new Error(`Number ${amount} has more than 8 decimals`);
+      throw new Error(
+        `Number ${amount} has more than ${token.decimals ?? 8} decimals`,
+      );
     }
 
     // This should never happen

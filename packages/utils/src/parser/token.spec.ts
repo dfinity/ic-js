@@ -128,4 +128,26 @@ describe("ICP", () => {
       FromStringToTokenError.InvalidFormat,
     );
   });
+
+  it("supports multiple decimals", () => {
+    const ckETHToken = {
+      symbol: "ckETH",
+      name: "Internet Computer Ethereum",
+      decimals: BigInt(18),
+    };
+    expect(TokenAmount.fromString({ token: ckETHToken, amount: "1" })).toEqual(
+      TokenAmount.fromE8s({
+        token: ckETHToken,
+        amount: BigInt(1000000000000000000),
+      }),
+    );
+    expect(
+      TokenAmount.fromString({ token: ckETHToken, amount: "0.1" }),
+    ).toEqual(
+      TokenAmount.fromE8s({
+        token: ckETHToken,
+        amount: BigInt(100000000000000000),
+      }),
+    );
+  });
 });
