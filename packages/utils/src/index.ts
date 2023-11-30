@@ -1,3 +1,4 @@
+export * from "./constants/constants";
 export * from "./enums/token.enums";
 export * from "./parser/token";
 export * from "./services/canister";
