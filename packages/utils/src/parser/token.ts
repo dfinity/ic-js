@@ -1,3 +1,4 @@
+import { DEFAULT_DECIMALS_PER_TOKEN } from "../constants/constants";
 import { FromStringToTokenError } from "../enums/token.enums";
 
 /**
@@ -8,7 +9,7 @@ import { FromStringToTokenError } from "../enums/token.enums";
  */
 export const convertStringToE8s = (
   value: string,
-  decimals = 8n,
+  decimals = DEFAULT_DECIMALS_PER_TOKEN,
 ): bigint | FromStringToTokenError => {
   // replace exponential format (1e-4) with plain (0.0001)
   // doesn't support decimals for values >= ~1e16
@@ -63,7 +64,7 @@ export interface Token {
 export const ICPToken: Token = {
   symbol: "ICP",
   name: "Internet Computer",
-  decimals: BigInt(8),
+  decimals: DEFAULT_DECIMALS_PER_TOKEN,
 };
 
 /**
@@ -113,7 +114,10 @@ export class TokenAmount {
     amount: string;
     token: Token;
   }): TokenAmount | FromStringToTokenError {
-    const e8s = convertStringToE8s(amount, token.decimals ?? 8n);
+    const e8s = convertStringToE8s(
+      amount,
+      token.decimals ?? DEFAULT_DECIMALS_PER_TOKEN,
+    );
 
     if (typeof e8s === "bigint") {
       return new TokenAmount(e8s, token);
