@@ -128,7 +128,7 @@ export class TokenAmount {
   /**
    * Initialize from a number.
    *
-   * 1 integer is considered E8S_PER_TOKEN
+   * 1 integer is considered (10 ** token.decimals)
    *
    * @param {amount: number; token?: Token;} params
    * @param {string} params.amount The amount in number format.
