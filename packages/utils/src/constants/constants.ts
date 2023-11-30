@@ -1,1 +1,1 @@
-export const DEFAULT_DECIMALS_PER_TOKEN = 8n;
+export const DEFAULT_DECIMALS_PER_TOKEN = 8;

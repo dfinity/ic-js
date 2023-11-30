@@ -35,7 +35,7 @@ export const convertStringToE8s = (
 
   if (integral) {
     try {
-      e8s += BigInt(integral) * 10n ** decimals;
+      e8s += BigInt(integral) * BigInt(10 ** decimals);
     } catch {
       return FromStringToTokenError.InvalidFormat;
     }
@@ -46,7 +46,7 @@ export const convertStringToE8s = (
       return FromStringToTokenError.FractionalMoreThan8Decimals;
     }
     try {
-      e8s += BigInt(fractional.padEnd(Number(decimals), "0"));
+      e8s += BigInt(fractional.padEnd(decimals, "0"));
     } catch {
       return FromStringToTokenError.InvalidFormat;
     }
@@ -58,7 +58,7 @@ export const convertStringToE8s = (
 export interface Token {
   symbol: string;
   name: string;
-  decimals?: bigint;
+  decimals?: number;
 }
 
 export const ICPToken: Token = {
@@ -148,6 +148,7 @@ export class TokenAmount {
     if (tokenAmount instanceof TokenAmount) {
       return tokenAmount;
     }
+    // TODO: GIX-2150 Change error name
     if (tokenAmount === FromStringToTokenError.FractionalMoreThan8Decimals) {
       throw new Error(
         `Number ${amount} has more than ${

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { FromStringToTokenError } from "../enums/token.enums";
-import { ICPToken, TokenAmount } from "./token";
+import { ICPToken, Token, TokenAmount } from "./token";
 
 describe("ICP", () => {
   it("can be initialized from a whole number string", () => {
@@ -130,10 +130,10 @@ describe("ICP", () => {
   });
 
   it("supports multiple decimals", () => {
-    const ckETHToken = {
+    const ckETHToken: Token = {
       symbol: "ckETH",
       name: "Internet Computer Ethereum",
-      decimals: BigInt(18),
+      decimals: 18,
     };
     expect(TokenAmount.fromString({ token: ckETHToken, amount: "1" })).toEqual(
       TokenAmount.fromE8s({
