@@ -150,7 +150,9 @@ export class TokenAmount {
     }
     if (tokenAmount === FromStringToTokenError.FractionalMoreThan8Decimals) {
       throw new Error(
-        `Number ${amount} has more than ${token.decimals ?? 8} decimals`,
+        `Number ${amount} has more than ${
+          token.decimals ?? DEFAULT_DECIMALS_PER_TOKEN
+        } decimals`,
       );
     }
 
