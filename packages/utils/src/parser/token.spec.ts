@@ -149,5 +149,12 @@ describe("ICP", () => {
         amount: BigInt(100000000000000000),
       }),
     );
+
+    expect(TokenAmount.fromNumber({ token: ckETHToken, amount: 2.2 })).toEqual(
+      TokenAmount.fromE8s({
+        token: ckETHToken,
+        amount: BigInt(2200000000000000000),
+      }),
+    );
   });
 });
