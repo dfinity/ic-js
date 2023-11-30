@@ -68,7 +68,7 @@ Receives a string representing a number and returns the big int or error.
 
 | Function             | Type                                                                     |
 | -------------------- | ------------------------------------------------------------------------ |
-| `convertStringToE8s` | `(value: string, decimals?: bigint) => bigint or FromStringToTokenError` |
+| `convertStringToE8s` | `(value: string, decimals?: number) => bigint or FromStringToTokenError` |
 
 Parameters:
 
@@ -366,7 +366,7 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 
 | Constant                     | Type |
 | ---------------------------- | ---- |
-| `DEFAULT_DECIMALS_PER_TOKEN` | `8n` |
+| `DEFAULT_DECIMALS_PER_TOKEN` | `8`  |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/constants/constants.ts#L1)
 
@@ -448,7 +448,7 @@ Parameters:
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L167)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L168)
 
 ### :factory: Canister
 
