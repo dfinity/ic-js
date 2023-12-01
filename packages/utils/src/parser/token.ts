@@ -6,7 +6,7 @@ import { FromStringToTokenError } from "../enums/token.enums";
  * @param amount - in string format
  * @returns bigint | FromStringToTokenError
  */
-export const convertStringToE8s = (
+const convertStringToUlps = (
   value: string,
   decimals: number,
 ): bigint | FromStringToTokenError => {
@@ -30,11 +30,11 @@ export const convertStringToE8s = (
 
   const [integral, fractional] = amount.split(".");
 
-  let e8s = BigInt(0);
+  let ulp = BigInt(0);
 
   if (integral) {
     try {
-      e8s += BigInt(integral) * BigInt(10 ** decimals);
+      ulp += BigInt(integral) * BigInt(10 ** decimals);
     } catch {
       return FromStringToTokenError.InvalidFormat;
     }
@@ -45,13 +45,13 @@ export const convertStringToE8s = (
       return FromStringToTokenError.FractionalMoreThanExpectedDecimals;
     }
     try {
-      e8s += BigInt(fractional.padEnd(decimals, "0"));
+      ulp += BigInt(fractional.padEnd(decimals, "0"));
     } catch {
       return FromStringToTokenError.InvalidFormat;
     }
   }
 
-  return e8s;
+  return ulp;
 };
 
 export interface Token {
@@ -75,6 +75,7 @@ export const ICPToken: Token = {
  */
 export class TokenAmount {
   private constructor(
+    // TODO: GIX-2150 Rename to ulp
     protected e8s: bigint,
     public token: Token,
   ) {}
@@ -114,12 +115,12 @@ export class TokenAmount {
     amount: string;
     token: Token;
   }): TokenAmount | FromStringToTokenError {
-    const e8s = convertStringToE8s(amount, token.decimals);
+    const ulp = convertStringToUlps(amount, token.decimals);
 
-    if (typeof e8s === "bigint") {
-      return new TokenAmount(e8s, token);
+    if (typeof ulp === "bigint") {
+      return new TokenAmount(ulp, token);
     }
-    return e8s;
+    return ulp;
   }
 
   /**
@@ -145,7 +146,6 @@ export class TokenAmount {
     if (tokenAmount instanceof TokenAmount) {
       return tokenAmount;
     }
-    // TODO: GIX-2150 Change error name
     if (
       tokenAmount === FromStringToTokenError.FractionalMoreThanExpectedDecimals
     ) {

@@ -138,7 +138,7 @@ describe("ICP", () => {
     expect(TokenAmount.fromString({ token: ckETHToken, amount: "1" })).toEqual(
       TokenAmount.fromE8s({
         token: ckETHToken,
-        amount: BigInt(1000000000000000000),
+        amount: 1000000000000000000n,
       }),
     );
     expect(
@@ -146,14 +146,37 @@ describe("ICP", () => {
     ).toEqual(
       TokenAmount.fromE8s({
         token: ckETHToken,
-        amount: BigInt(100000000000000000),
+        amount: 100000000000000000n,
+      }),
+    );
+    expect(
+      TokenAmount.fromString({
+        token: ckETHToken,
+        amount: "100000000",
+      }),
+    ).toEqual(
+      TokenAmount.fromE8s({
+        token: ckETHToken,
+        amount: 100000000000000000000000000n,
+      }),
+    );
+
+    expect(
+      TokenAmount.fromString({
+        token: ckETHToken,
+        amount: "100000000.000000000000000001",
+      }),
+    ).toEqual(
+      TokenAmount.fromE8s({
+        token: ckETHToken,
+        amount: 100000000000000000000000001n,
       }),
     );
 
     expect(TokenAmount.fromNumber({ token: ckETHToken, amount: 2.2 })).toEqual(
       TokenAmount.fromE8s({
         token: ckETHToken,
-        amount: BigInt(2200000000000000000),
+        amount: 2200000000000000000n,
       }),
     );
   });

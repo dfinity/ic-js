@@ -1,4 +1,4 @@
-import { ICPToken, convertStringToE8s } from "@dfinity/utils";
+import { ICPToken, TokenAmount } from "@dfinity/utils";
 import type {
   Icrc1TransferError as RawIcrc1TransferError,
   TransferError as RawTransferError,
@@ -115,9 +115,12 @@ export const mapTransferProtoError = (responseBytes: Error): TransferError => {
         /debit account.*, current balance: (\d*(\.\d*)?)/,
       );
       if (m && m.length > 1) {
-        const balance = convertStringToE8s(m[1], ICPToken.decimals);
-        if (typeof balance === "bigint") {
-          return new InsufficientFundsError(balance);
+        const balance = TokenAmount.fromString({
+          amount: m[1],
+          token: ICPToken,
+        });
+        if (balance instanceof TokenAmount) {
+          return new InsufficientFundsError(balance.toE8s());
         }
       }
     }
