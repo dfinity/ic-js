@@ -58,7 +58,7 @@ export const convertStringToE8s = (
 export interface Token {
   symbol: string;
   name: string;
-  decimals?: number;
+  decimals: number;
 }
 
 export const ICPToken: Token = {

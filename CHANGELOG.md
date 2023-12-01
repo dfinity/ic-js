@@ -2,6 +2,10 @@
 
 ## Overview
 
+## Breaking changes
+
+- `decimals` mandatory field in `Token`.
+
 ## Features
 
 - Substitute `?` fields with `Option` fields in the converters related to NNS proposals.
