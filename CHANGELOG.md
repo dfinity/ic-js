@@ -2,11 +2,17 @@
 
 ## Overview
 
+## Breaking changes
+
+- `decimals` mandatory field in `Token`.
+- `TokenAmount` rejects tokens with `decimals !== 8`.
+
 ## Features
 
 - Substitute `?` fields with `Option` fields in the converters related to NNS proposals.
 - Add retrieveBtcStatus to ckbtc minter canister.
 - Make uint8ArrayToHexString also accept `number[]` as input.
+- Add a new type TokenAmountV2 which supports `decimals !== 8`.
 
 ## Operations
 
