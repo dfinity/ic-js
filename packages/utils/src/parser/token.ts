@@ -1,4 +1,3 @@
-import { DEFAULT_DECIMALS_PER_TOKEN } from "../constants/constants";
 import { FromStringToTokenError } from "../enums/token.enums";
 
 /**
@@ -9,7 +8,7 @@ import { FromStringToTokenError } from "../enums/token.enums";
  */
 export const convertStringToE8s = (
   value: string,
-  decimals = DEFAULT_DECIMALS_PER_TOKEN,
+  decimals: number,
 ): bigint | FromStringToTokenError => {
   // replace exponential format (1e-4) with plain (0.0001)
   // doesn't support decimals for values >= ~1e16
@@ -43,7 +42,7 @@ export const convertStringToE8s = (
 
   if (fractional) {
     if (fractional.length > decimals) {
-      return FromStringToTokenError.FractionalMoreThan8Decimals;
+      return FromStringToTokenError.FractionalMoreThanExpectedDecimals;
     }
     try {
       e8s += BigInt(fractional.padEnd(decimals, "0"));
@@ -61,10 +60,11 @@ export interface Token {
   decimals: number;
 }
 
+// TODO: Remove this token and use the value for ICP ledger
 export const ICPToken: Token = {
   symbol: "ICP",
   name: "Internet Computer",
-  decimals: DEFAULT_DECIMALS_PER_TOKEN,
+  decimals: 8,
 };
 
 /**
@@ -114,10 +114,7 @@ export class TokenAmount {
     amount: string;
     token: Token;
   }): TokenAmount | FromStringToTokenError {
-    const e8s = convertStringToE8s(
-      amount,
-      token.decimals ?? DEFAULT_DECIMALS_PER_TOKEN,
-    );
+    const e8s = convertStringToE8s(amount, token.decimals);
 
     if (typeof e8s === "bigint") {
       return new TokenAmount(e8s, token);
@@ -149,11 +146,11 @@ export class TokenAmount {
       return tokenAmount;
     }
     // TODO: GIX-2150 Change error name
-    if (tokenAmount === FromStringToTokenError.FractionalMoreThan8Decimals) {
+    if (
+      tokenAmount === FromStringToTokenError.FractionalMoreThanExpectedDecimals
+    ) {
       throw new Error(
-        `Number ${amount} has more than ${
-          token.decimals ?? DEFAULT_DECIMALS_PER_TOKEN
-        } decimals`,
+        `Number ${amount} has more than ${token.decimals} decimals`,
       );
     }
 

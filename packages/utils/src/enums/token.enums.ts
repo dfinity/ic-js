@@ -1,4 +1,4 @@
 export enum FromStringToTokenError {
-  FractionalMoreThan8Decimals,
+  FractionalMoreThanExpectedDecimals,
   InvalidFormat,
 }

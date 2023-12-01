@@ -67,7 +67,7 @@ describe("ICP", () => {
     ).toEqual(TokenAmount.fromE8s({ token: ICPToken, amount: BigInt(1) }));
     expect(
       TokenAmount.fromString({ token: ICPToken, amount: "0.0000000001" }),
-    ).toEqual(FromStringToTokenError.FractionalMoreThan8Decimals);
+    ).toEqual(FromStringToTokenError.FractionalMoreThanExpectedDecimals);
     expect(TokenAmount.fromString({ token: ICPToken, amount: ".01" })).toEqual(
       TokenAmount.fromE8s({ token: ICPToken, amount: BigInt(1000000) }),
     );
