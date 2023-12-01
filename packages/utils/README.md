@@ -460,18 +460,18 @@ Represents an amount of tokens.
 
 #### Methods
 
-- [fromE8s](#gear-frome8s)
+- [fromUlps](#gear-fromulps)
 - [fromString](#gear-fromstring)
 - [fromNumber](#gear-fromnumber)
 - [toUlps](#gear-toulps)
 
-##### :gear: fromE8s
+##### :gear: fromUlps
 
 Initialize from a bigint. Bigint are considered ulps.
 
-| Method    | Type                                                                       |
-| --------- | -------------------------------------------------------------------------- |
-| `fromE8s` | `({ amount, token, }: { amount: bigint; token: Token; }) => TokenAmountV2` |
+| Method     | Type                                                                       |
+| ---------- | -------------------------------------------------------------------------- |
+| `fromUlps` | `({ amount, token, }: { amount: bigint; token: Token; }) => TokenAmountV2` |
 
 Parameters:
 
