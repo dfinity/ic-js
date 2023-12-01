@@ -243,7 +243,7 @@ export class TokenAmountV2 {
    * @param {bigint} params.amount The amount in bigint format.
    * @param {Token} params.token The token type.
    */
-  public static fromE8s({
+  public static fromUlps({
     amount,
     token,
   }: {
