@@ -334,7 +334,9 @@ describe("TokenAmountV2 with 18 decimals", () => {
     expect(
       TokenAmountV2.fromString({ token: token, amount: "123asdf$#@~!" }),
     ).toBe(FromStringToTokenError.InvalidFormat);
+  });
 
+  it("does not support scientific notation", () => {
     const callToNumber = () =>
       TokenAmountV2.fromNumber({ token: token, amount: 1e-9 });
     expect(callToNumber).toThrow(
