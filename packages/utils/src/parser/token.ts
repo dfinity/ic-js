@@ -60,18 +60,13 @@ export const convertStringToE8s = (
  * @param amount - in string format
  * @returns bigint | FromStringToTokenError
  */
-export const convertStringToE8s = (
-  value: string,
-): bigint | FromStringToTokenError => {
-  // replace exponential format (1e-4) with plain (0.0001)
-  // doesn't support decimals for values >= ~1e16
-  let amount = value.includes("e")
-    ? Number(value).toLocaleString("en", {
-        useGrouping: false,
-        maximumFractionDigits: 20,
-      })
-    : value;
-
+const convertStringToUlps = ({
+  amount,
+  decimals,
+}: {
+  amount: string;
+  decimals: number;
+}): bigint | FromStringToTokenError => {
   // Remove all instances of "," and "'".
   amount = amount.trim().replace(/[,']/g, "");
 
@@ -83,41 +78,47 @@ export const convertStringToE8s = (
 
   const [integral, fractional] = amount.split(".");
 
-  let e8s = BigInt(0);
+  let ulps = 0n;
+  const ulpsPerToken = 10n ** BigInt(decimals);
 
   if (integral) {
     try {
-      e8s += BigInt(integral) * E8S_PER_TOKEN;
+      ulps += BigInt(integral) * ulpsPerToken;
     } catch {
       return FromStringToTokenError.InvalidFormat;
     }
   }
 
   if (fractional) {
-    if (fractional.length > 8) {
-      return FromStringToTokenError.FractionalMoreThan8Decimals;
+    if (fractional.length > decimals) {
+      return FromStringToTokenError.FractionalTooManyDecimals;
     }
     try {
-      e8s += BigInt(fractional.padEnd(8, "0"));
+      ulps += BigInt(fractional.padEnd(decimals, "0"));
     } catch {
       return FromStringToTokenError.InvalidFormat;
     }
   }
 
-  return e8s;
+  return ulps;
 };
 
 export interface Token {
   symbol: string;
   name: string;
+  decimals: number;
 }
 
+// TODO: Remove this token and use the value from ICP ledger
 export const ICPToken: Token = {
   symbol: "ICP",
   name: "Internet Computer",
+  decimals: 8,
 };
 
 /**
+ * Deprecated. Use TokenAmountV2 instead which supports decimals !== 8.
+ *
  * Represents an amount of tokens.
  *
  * @param e8s - The amount of tokens in bigint.
@@ -127,7 +128,11 @@ export class TokenAmount {
   private constructor(
     protected e8s: bigint,
     public token: Token,
-  ) {}
+  ) {
+    if (token.decimals !== 8) {
+      throw new Error("Use TokenAmountV2 for number of decimals other than 8");
+    }
+  }
 
   /**
    * Initialize from a bigint. Bigint are considered e8s.
@@ -164,6 +169,12 @@ export class TokenAmount {
     amount: string;
     token: Token;
   }): TokenAmount | FromStringToTokenError {
+    // If parsing the number fails because of the number of decimals, we still
+    // want the error to be about the number of decimals and not about the
+    // parsing.
+    if (token.decimals !== 8) {
+      throw new Error("Use TokenAmountV2 for number of decimals other than 8");
+    }
     const e8s = convertStringToE8s(amount);
 
     if (typeof e8s === "bigint") {
@@ -215,17 +226,18 @@ export class TokenAmount {
 /**
  * Represents an amount of tokens.
  *
- * @param e8s - The amount of tokens in bigint.
+ * @param upls - The amount of tokens in units in the last place. If the token
+ *               supports N decimals, 10^N ulp = 1 token.
  * @param token - The token type.
  */
-export class TokenAmount {
+export class TokenAmountV2 {
   private constructor(
-    protected e8s: bigint,
+    protected ulps: bigint,
     public token: Token,
   ) {}
 
   /**
-   * Initialize from a bigint. Bigint are considered e8s.
+   * Initialize from a bigint. Bigint are considered ulps.
    *
    * @param {amount: bigint; token?: Token;} params
    * @param {bigint} params.amount The amount in bigint format.
@@ -237,8 +249,8 @@ export class TokenAmount {
   }: {
     amount: bigint;
     token: Token;
-  }): TokenAmount {
-    return new TokenAmount(amount, token);
+  }): TokenAmountV2 {
+    return new TokenAmountV2(amount, token);
   }
 
   /**
@@ -258,19 +270,19 @@ export class TokenAmount {
   }: {
     amount: string;
     token: Token;
-  }): TokenAmount | FromStringToTokenError {
-    const e8s = convertStringToE8s(amount);
+  }): TokenAmountV2 | FromStringToTokenError {
+    const ulps = convertStringToUlps({ amount, decimals: token.decimals });
 
-    if (typeof e8s === "bigint") {
-      return new TokenAmount(e8s, token);
+    if (typeof ulps === "bigint") {
+      return new TokenAmountV2(ulps, token);
     }
-    return e8s;
+    return ulps;
   }
 
   /**
    * Initialize from a number.
    *
-   * 1 integer is considered E8S_PER_TOKEN
+   * 1 integer is considered 10^{token.decimals} ulps
    *
    * @param {amount: number; token?: Token;} params
    * @param {string} params.amount The amount in number format.
@@ -282,16 +294,18 @@ export class TokenAmount {
   }: {
     amount: number;
     token: Token;
-  }): TokenAmount {
-    const tokenAmount = TokenAmount.fromString({
+  }): TokenAmountV2 {
+    const tokenAmount = TokenAmountV2.fromString({
       amount: amount.toString(),
       token,
     });
-    if (tokenAmount instanceof TokenAmount) {
+    if (tokenAmount instanceof TokenAmountV2) {
       return tokenAmount;
     }
-    if (tokenAmount === FromStringToTokenError.FractionalMoreThan8Decimals) {
-      throw new Error(`Number ${amount} has more than 8 decimals`);
+    if (tokenAmount === FromStringToTokenError.FractionalTooManyDecimals) {
+      throw new Error(
+        `Number ${amount} has more than ${token.decimals} decimals`,
+      );
     }
 
     // This should never happen
@@ -300,9 +314,9 @@ export class TokenAmount {
 
   /**
    *
-   * @returns The amount of e8s.
+   * @returns The amount of ulps.
    */
-  public toE8s(): bigint {
-    return this.e8s;
+  public toUlps(): bigint {
+    return this.ulps;
   }
 }
