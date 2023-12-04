@@ -93,15 +93,22 @@ export const idlFactory = ({ IDL }) => {
     'body' : IDL.Vec(IDL.Nat8),
     'headers' : IDL.Vec(http_header),
   });
+  const chunk_hash = IDL.Vec(IDL.Nat8);
   const wasm_module = IDL.Vec(IDL.Nat8);
   return IDL.Service({
     'bitcoin_get_balance' : IDL.Func([get_balance_request], [satoshi], []),
+    'bitcoin_get_balance_' : IDL.Func([get_balance_request], [satoshi], []),
     'bitcoin_get_current_fee_percentiles' : IDL.Func(
         [get_current_fee_percentiles_request],
         [IDL.Vec(millisatoshi_per_byte)],
         [],
       ),
     'bitcoin_get_utxos' : IDL.Func(
+        [get_utxos_request],
+        [get_utxos_response],
+        [],
+      ),
+    'bitcoin_get_utxos_' : IDL.Func(
         [get_utxos_request],
         [get_utxos_response],
         [],
@@ -140,6 +147,11 @@ export const idlFactory = ({ IDL }) => {
             'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
           }),
         ],
+        [],
+      ),
+    'clear_chunk_store' : IDL.Func(
+        [IDL.Record({ 'canister_id' : canister_id })],
+        [],
         [],
       ),
     'create_canister' : IDL.Func(
@@ -210,6 +222,27 @@ export const idlFactory = ({ IDL }) => {
         [http_response],
         [],
       ),
+    'install_chunked_code' : IDL.Func(
+        [
+          IDL.Record({
+            'arg' : IDL.Vec(IDL.Nat8),
+            'wasm_module_hash' : IDL.Vec(IDL.Nat8),
+            'mode' : IDL.Variant({
+              'reinstall' : IDL.Null,
+              'upgrade' : IDL.Opt(
+                IDL.Record({ 'skip_pre_upgrade' : IDL.Opt(IDL.Bool) })
+              ),
+              'install' : IDL.Null,
+            }),
+            'chunk_hashes_list' : IDL.Vec(chunk_hash),
+            'target_canister' : canister_id,
+            'sender_canister_version' : IDL.Opt(IDL.Nat64),
+            'storage_canister' : IDL.Opt(canister_id),
+          }),
+        ],
+        [],
+        [],
+      ),
     'install_code' : IDL.Func(
         [
           IDL.Record({
@@ -217,7 +250,9 @@ export const idlFactory = ({ IDL }) => {
             'wasm_module' : wasm_module,
             'mode' : IDL.Variant({
               'reinstall' : IDL.Null,
-              'upgrade' : IDL.Null,
+              'upgrade' : IDL.Opt(
+                IDL.Record({ 'skip_pre_upgrade' : IDL.Opt(IDL.Bool) })
+              ),
               'install' : IDL.Null,
             }),
             'canister_id' : canister_id,
@@ -266,6 +301,11 @@ export const idlFactory = ({ IDL }) => {
         [],
         [],
       ),
+    'stored_chunks' : IDL.Func(
+        [IDL.Record({ 'canister_id' : canister_id })],
+        [IDL.Vec(chunk_hash)],
+        [],
+      ),
     'uninstall_code' : IDL.Func(
         [
           IDL.Record({
@@ -285,6 +325,16 @@ export const idlFactory = ({ IDL }) => {
           }),
         ],
         [],
+        [],
+      ),
+    'upload_chunk' : IDL.Func(
+        [
+          IDL.Record({
+            'chunk' : IDL.Vec(IDL.Nat8),
+            'canister_id' : IDL.Principal,
+          }),
+        ],
+        [chunk_hash],
         [],
       ),
   });
