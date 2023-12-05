@@ -336,9 +336,9 @@ describe("TokenAmountV2 with 18 decimals", () => {
     ).toBe(FromStringToTokenError.InvalidFormat);
   });
 
-  it("truncates scientific notation to 8 decimals", () => {
-    expect(TokenAmountV2.fromNumber({ token: token, amount: 1e-9 })).toEqual(
-      TokenAmountV2.fromUlps({ token: token, amount: 0n }),
+  it("does not support scientific notation as string", () => {
+    expect(TokenAmountV2.fromString({ token: token, amount: "1e-9" })).toEqual(
+      FromStringToTokenError.InvalidFormat,
     );
   });
 
@@ -456,6 +456,12 @@ describe("TokenAmountV2 with 8 decimals", () => {
         token: token,
         amount: 2n,
       }),
+    );
+  });
+
+  it("truncates small numbers to 8 decimals", () => {
+    expect(TokenAmountV2.fromNumber({ token: token, amount: 1e-9 })).toEqual(
+      TokenAmountV2.fromUlps({ token: token, amount: 0n }),
     );
   });
 });
