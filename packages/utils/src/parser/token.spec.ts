@@ -433,3 +433,33 @@ describe("TokenAmountV2 with 0 decimals", () => {
     ).toEqual(FromStringToTokenError.FractionalTooManyDecimals);
   });
 });
+
+describe("TokenAmountV2 with 8 decimals", () => {
+  const token = {
+    symbol: "ICP",
+    name: "ICP",
+    decimals: 8,
+  };
+  it("can be initialized from a number", () => {
+    expect(TokenAmountV2.fromNumber({ token: token, amount: 1 })).toEqual(
+      TokenAmountV2.fromUlps({
+        token: token,
+        amount: 100000000n,
+      }),
+    );
+    expect(TokenAmountV2.fromNumber({ token: token, amount: 1234 })).toEqual(
+      TokenAmountV2.fromUlps({
+        token: token,
+        amount: 123400000000n,
+      }),
+    );
+    expect(
+      TokenAmountV2.fromNumber({ token: token, amount: 0.00000002 }),
+    ).toEqual(
+      TokenAmountV2.fromUlps({
+        token: token,
+        amount: 2n,
+      }),
+    );
+  });
+});
