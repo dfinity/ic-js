@@ -13,6 +13,7 @@
 - Add retrieveBtcStatus to ckbtc minter canister.
 - Make uint8ArrayToHexString also accept `number[]` as input.
 - Add a new type TokenAmountV2 which supports `decimals !== 8`.
+- Fix issue when converting token amount from small numbers with `TokenAmountV2`.
 
 ## Operations
 
