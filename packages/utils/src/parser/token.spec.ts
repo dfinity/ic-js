@@ -457,6 +457,14 @@ describe("TokenAmountV2 with 8 decimals", () => {
         amount: 2n,
       }),
     );
+    expect(
+      TokenAmountV2.fromNumber({ token: token, amount: 0.00000001 }),
+    ).toEqual(
+      TokenAmountV2.fromUlps({
+        token: token,
+        amount: 1n,
+      }),
+    );
   });
 
   it("truncates small numbers to 8 decimals", () => {
