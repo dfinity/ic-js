@@ -62,7 +62,7 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import { NeuronState } from "../../enums/governance.enums";
+import { NeuronState, type NeuronType } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
   AccountIdentifier as AccountIdentifierString,
@@ -125,6 +125,7 @@ export const toNeuronInfo = ({
     neuronId: neuronId,
     dissolveDelaySeconds: neuronInfo.dissolve_delay_seconds,
     recentBallots: neuronInfo.recent_ballots.map(toBallotInfo),
+    neuronType: fromNullable(neuronInfo.neuron_type) as NeuronType | undefined,
     createdTimestampSeconds: neuronInfo.created_timestamp_seconds,
     state: neuronInfo.state,
     joinedCommunityFundTimestampSeconds: neuronInfo
@@ -153,6 +154,7 @@ const toNeuron = ({
     ? neuron.controller[0].toString()
     : undefined,
   recentBallots: neuron.recent_ballots.map(toBallotInfo),
+  neuronType: fromNullable(neuron.neuron_type) as NeuronType | undefined,
   kycVerified: neuron.kyc_verified,
   notForProfit: neuron.not_for_profit,
   cachedNeuronStake: neuron.cached_neuron_stake_e8s,
@@ -194,6 +196,7 @@ export const toRawNeuron = (neuron: Neuron): RawNeuron => ({
       : [],
   })),
   kyc_verified: neuron.kycVerified,
+  neuron_type: toNullable(neuron.neuronType),
   not_for_profit: neuron.notForProfit,
   cached_neuron_stake_e8s: neuron.cachedNeuronStake,
   created_timestamp_seconds: neuron.createdTimestampSeconds,
@@ -965,6 +968,8 @@ const convertPbNeuronToFullNeuron = ({
     stakedMaturityE8sEquivalent: undefined,
     controller,
     recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
+    // TODO: add to protobuf when needed
+    neuronType: undefined,
     kycVerified: pbNeuron.getKycVerified(),
     notForProfit: pbNeuron.getNotForProfit(),
     cachedNeuronStake: BigInt(pbNeuron.getCachedNeuronStakeE8s()),
@@ -1015,6 +1020,10 @@ export const convertPbNeuronToNeuronInfo =
       neuronId: BigInt(pbNeuronMapEntry.getKey()),
       dissolveDelaySeconds: BigInt(pbNeuronInfo.getDissolveDelaySeconds()),
       recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
+
+      // TODO: add to protobuf when needed
+      neuronType: undefined,
+
       createdTimestampSeconds: BigInt(
         pbNeuronInfo.getCreatedTimestampSeconds(),
       ),

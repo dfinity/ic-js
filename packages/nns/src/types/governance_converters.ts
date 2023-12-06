@@ -7,6 +7,7 @@ import type {
   Topic,
   Vote,
 } from "../enums/governance.enums";
+import { NeuronType } from "../enums/governance.enums";
 import type {
   AccountIdentifier,
   CanisterIdString,
@@ -258,6 +259,7 @@ export interface NetworkEconomics {
 }
 export interface Neuron {
   id: Option<NeuronId>;
+  neuronType: Option<NeuronType>;
   stakedMaturityE8sEquivalent: Option<bigint>;
   controller: Option<PrincipalString>;
   recentBallots: Array<BallotInfo>;
@@ -283,6 +285,7 @@ export interface NeuronInfo {
   neuronId: NeuronId;
   dissolveDelaySeconds: bigint;
   recentBallots: Array<BallotInfo>;
+  neuronType: Option<NeuronType>;
   createdTimestampSeconds: bigint;
   state: NeuronState;
   joinedCommunityFundTimestampSeconds: Option<bigint>;
