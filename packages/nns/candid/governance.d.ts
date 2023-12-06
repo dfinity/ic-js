@@ -186,12 +186,25 @@ export interface Follow {
 export interface Followees {
   followees: Array<NeuronId>;
 }
+export interface Followers {
+  followers: Array<NeuronId>;
+}
+export interface FollowersMap {
+  followers_map: Array<[bigint, Followers]>;
+}
+export interface GetNeuronsFundAuditInfoRequest {
+  nns_proposal_id: [] | [NeuronId];
+}
+export interface GetNeuronsFundAuditInfoResponse {
+  result: [] | [Result_6];
+}
 export interface GlobalTimeOfDay {
   seconds_after_utc_midnight: [] | [bigint];
 }
 export interface Governance {
   default_followees: Array<[number, Followees]>;
   making_sns_proposal: [] | [MakingSnsProposal];
+  seed_accounts: [] | [SeedAccounts];
   most_recent_monthly_node_provider_rewards:
     | []
     | [MostRecentMonthlyNodeProviderRewards];
@@ -206,6 +219,7 @@ export interface Governance {
   latest_reward_event: [] | [RewardEvent];
   to_claim_transfers: Array<NeuronStakeTransfer>;
   short_voting_period_seconds: bigint;
+  topic_followee_index: Array<[number, FollowersMap]>;
   migrations: [] | [Migrations];
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
@@ -222,26 +236,36 @@ export interface GovernanceCachedMetrics {
   >;
   neurons_with_invalid_stake_count: bigint;
   not_dissolving_neurons_count_buckets: Array<[bigint, bigint]>;
+  ect_neuron_count: bigint;
   total_supply_icp: bigint;
   neurons_with_less_than_6_months_dissolve_delay_count: bigint;
   dissolved_neurons_count: bigint;
   community_fund_total_maturity_e8s_equivalent: bigint;
+  total_staked_e8s_seed: bigint;
+  total_staked_maturity_e8s_equivalent_ect: bigint;
   total_staked_e8s: bigint;
   not_dissolving_neurons_count: bigint;
   total_locked_e8s: bigint;
   neurons_fund_total_active_neurons: bigint;
   total_staked_maturity_e8s_equivalent: bigint;
+  not_dissolving_neurons_e8s_buckets_ect: Array<[bigint, number]>;
+  total_staked_e8s_ect: bigint;
   not_dissolving_neurons_staked_maturity_e8s_equivalent_sum: bigint;
   dissolved_neurons_e8s: bigint;
+  dissolving_neurons_e8s_buckets_seed: Array<[bigint, number]>;
   neurons_with_less_than_6_months_dissolve_delay_e8s: bigint;
   not_dissolving_neurons_staked_maturity_e8s_equivalent_buckets: Array<
     [bigint, number]
   >;
   dissolving_neurons_count_buckets: Array<[bigint, bigint]>;
+  dissolving_neurons_e8s_buckets_ect: Array<[bigint, number]>;
   dissolving_neurons_count: bigint;
   dissolving_neurons_e8s_buckets: Array<[bigint, number]>;
+  total_staked_maturity_e8s_equivalent_seed: bigint;
   community_fund_total_staked_e8s: bigint;
+  not_dissolving_neurons_e8s_buckets_seed: Array<[bigint, number]>;
   timestamp_seconds: bigint;
+  seed_neuron_count: bigint;
 }
 export interface GovernanceError {
   error_message: string;
@@ -377,6 +401,7 @@ export interface Neuron {
   controller: [] | [Principal];
   recent_ballots: Array<BallotInfo>;
   kyc_verified: boolean;
+  neuron_type: [] | [number];
   not_for_profit: boolean;
   maturity_e8s_equivalent: bigint;
   cached_neuron_stake_e8s: bigint;
@@ -421,6 +446,7 @@ export interface NeuronInFlightCommand {
 export interface NeuronInfo {
   dissolve_delay_seconds: bigint;
   recent_ballots: Array<BallotInfo>;
+  neuron_type: [] | [number];
   created_timestamp_seconds: bigint;
   state: number;
   stake_e8s: bigint;
@@ -438,6 +464,11 @@ export interface NeuronStakeTransfer {
   from_subaccount: Uint8Array | number[];
   transfer_timestamp: bigint;
   block_height: bigint;
+}
+export interface NeuronsFundAuditInfo {
+  final_neurons_fund_participation: [] | [NeuronsFundParticipation];
+  initial_neurons_fund_participation: [] | [NeuronsFundParticipation];
+  neurons_fund_refunds: [] | [NeuronsFundSnapshot];
 }
 export interface NeuronsFundData {
   final_neurons_fund_participation: [] | [NeuronsFundParticipation];
@@ -467,6 +498,7 @@ export interface NeuronsFundParticipation {
   ideal_matched_participation_function:
     | []
     | [IdealMatchedParticipationFunction];
+  allocated_neurons_fund_participation_icp_e8s: [] | [bigint];
 }
 export interface NeuronsFundSnapshot {
   neurons_fund_neuron_portions: Array<NeuronsFundNeuronPortion>;
@@ -476,6 +508,9 @@ export interface NodeProvider {
   reward_account: [] | [AccountIdentifier];
 }
 export interface Ok {
+  neurons_fund_audit_info: [] | [NeuronsFundAuditInfo];
+}
+export interface Ok_1 {
   neurons_fund_neuron_portions: Array<NeuronsFundNeuron>;
 }
 export interface OpenSnsTokenSwap {
@@ -566,16 +601,17 @@ export interface RemoveHotKey {
 }
 export type Result = { Ok: null } | { Err: GovernanceError };
 export type Result_1 = { Error: GovernanceError } | { NeuronId: NeuronId };
+export type Result_10 = { Ok: Ok_1 } | { Err: GovernanceError };
 export type Result_2 = { Ok: Neuron } | { Err: GovernanceError };
 export type Result_3 =
   | { Ok: GovernanceCachedMetrics }
   | { Err: GovernanceError };
 export type Result_4 = { Ok: RewardNodeProviders } | { Err: GovernanceError };
 export type Result_5 = { Ok: NeuronInfo } | { Err: GovernanceError };
-export type Result_6 = { Ok: NodeProvider } | { Err: GovernanceError };
-export type Result_7 = { Committed: Committed } | { Aborted: {} };
-export type Result_8 = { Committed: Committed_1 } | { Aborted: {} };
-export type Result_9 = { Ok: Ok } | { Err: GovernanceError };
+export type Result_6 = { Ok: Ok } | { Err: GovernanceError };
+export type Result_7 = { Ok: NodeProvider } | { Err: GovernanceError };
+export type Result_8 = { Committed: Committed } | { Aborted: {} };
+export type Result_9 = { Committed: Committed_1 } | { Aborted: {} };
 export interface RewardEvent {
   rounds_since_last_distribution: [] | [bigint];
   day_after_genesis: bigint;
@@ -603,6 +639,16 @@ export interface RewardToAccount {
 export interface RewardToNeuron {
   dissolve_delay_seconds: bigint;
 }
+export interface SeedAccount {
+  error_count: bigint;
+  account_id: string;
+  neuron_type: number;
+  tag_end_timestamp_seconds: [] | [bigint];
+  tag_start_timestamp_seconds: [] | [bigint];
+}
+export interface SeedAccounts {
+  accounts: Array<SeedAccount>;
+}
 export interface SetDefaultFollowees {
   default_followees: Array<[number, Followees]>;
 }
@@ -617,15 +663,15 @@ export interface SetSnsTokenSwapOpenTimeWindow {
   swap_canister_id: [] | [Principal];
 }
 export interface SettleCommunityFundParticipation {
-  result: [] | [Result_7];
+  result: [] | [Result_8];
   open_sns_token_swap_proposal_id: [] | [bigint];
 }
 export interface SettleNeuronsFundParticipationRequest {
-  result: [] | [Result_8];
+  result: [] | [Result_9];
   nns_proposal_id: [] | [bigint];
 }
 export interface SettleNeuronsFundParticipationResponse {
-  result: [] | [Result_9];
+  result: [] | [Result_10];
 }
 export interface Spawn {
   percentage_to_spawn: [] | [number];
@@ -732,7 +778,11 @@ export interface _SERVICE {
     [NeuronIdOrSubaccount],
     Result_5
   >;
-  get_node_provider_by_caller: ActorMethod<[null], Result_6>;
+  get_neurons_fund_audit_info: ActorMethod<
+    [GetNeuronsFundAuditInfoRequest],
+    GetNeuronsFundAuditInfoResponse
+  >;
+  get_node_provider_by_caller: ActorMethod<[null], Result_7>;
   get_pending_proposals: ActorMethod<[], Array<ProposalInfo>>;
   get_proposal_info: ActorMethod<[bigint], [] | [ProposalInfo]>;
   list_known_neurons: ActorMethod<[], ListKnownNeuronsResponse>;
