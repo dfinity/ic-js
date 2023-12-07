@@ -62,7 +62,7 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import { NeuronState, type NeuronType } from "../../enums/governance.enums";
+import { NeuronState, NeuronType } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
   AccountIdentifier as AccountIdentifierString,
@@ -125,7 +125,11 @@ export const toNeuronInfo = ({
     neuronId: neuronId,
     dissolveDelaySeconds: neuronInfo.dissolve_delay_seconds,
     recentBallots: neuronInfo.recent_ballots.map(toBallotInfo),
-    neuronType: fromNullable(neuronInfo.neuron_type) as NeuronType | undefined,
+
+    // TODO: replace the mock
+    neuronType: mockNeuronType(toNeuronId({ id: neuronId ?? 0n })),
+    // neuronType: fromNullable(neuronInfo.neuron_type) as NeuronType | undefined,
+
     createdTimestampSeconds: neuronInfo.created_timestamp_seconds,
     state: neuronInfo.state,
     joinedCommunityFundTimestampSeconds: neuronInfo
@@ -137,6 +141,12 @@ export const toNeuronInfo = ({
     ageSeconds: neuronInfo.age_seconds,
     fullNeuron: fullNeuron,
   };
+};
+
+const mockNeuronType = (neuronId: bigint): NeuronType | undefined => {
+  const id = Number(neuronId.toString().substring(0, 8));
+  if (id % 3 === 0) return NeuronType.Seed;
+  if (id % 5 === 0) return NeuronType.Ect;
 };
 
 const toNeuron = ({
@@ -154,7 +164,11 @@ const toNeuron = ({
     ? neuron.controller[0].toString()
     : undefined,
   recentBallots: neuron.recent_ballots.map(toBallotInfo),
-  neuronType: fromNullable(neuron.neuron_type) as NeuronType | undefined,
+
+  // TODO: replace the mock
+  neuronType: mockNeuronType(toNeuronId(neuron?.id[0] ?? { id: 0n })),
+  // neuronType: fromNullable(neuron.neuron_type) as NeuronType | undefined,
+
   kycVerified: neuron.kyc_verified,
   notForProfit: neuron.not_for_profit,
   cachedNeuronStake: neuron.cached_neuron_stake_e8s,

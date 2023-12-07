@@ -7,7 +7,7 @@ import type {
   Topic,
   Vote,
 } from "../enums/governance.enums";
-import { NeuronType } from "../enums/governance.enums";
+import type { NeuronType } from "../enums/governance.enums";
 import type {
   AccountIdentifier,
   CanisterIdString,
