@@ -125,3 +125,16 @@ export enum NnsFunction {
   UpdateElectedHostosVersions = 40,
   UpdateNodesHostosVersion = 41,
 }
+
+// Reference: https://github.com/dfinity/ic/blob/f4b2e28525ae9b030bd9edfc982e796417db2b80/rs/nns/governance/src/gen/ic_nns_governance.pb.v1.rs#L3286-L3287
+export enum NeuronType {
+  // Placeholder value due to the proto3 requirement for a zero default.
+  // This is an invalid type; neurons should not be assigned this value.
+  Unspecified = 0,
+  // Represents neurons initially created for Seed accounts in the
+  // Genesis Token Canister, or those descended from such neurons.
+  Seed = 1,
+  // Represents neurons initially created for Early Contributor Token (ECT)
+  // accounts in the Genesis Token Canister, or those descended from such neurons.
+  Ect = 2,
+}

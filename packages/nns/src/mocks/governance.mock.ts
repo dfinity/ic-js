@@ -10,6 +10,7 @@ export const mockNeuronId = BigInt(14567);
 export const mockNeuronInfo: NeuronInfo = {
   dissolve_delay_seconds: one,
   recent_ballots: [],
+  neuron_type: [],
   created_timestamp_seconds: one,
   state: 2,
   stake_e8s: one,
@@ -24,6 +25,7 @@ export const mockNeuron: Neuron = {
   staked_maturity_e8s_equivalent: [one],
   controller: [Principal.fromHex("1f")],
   recent_ballots: [],
+  neuron_type: [],
   kyc_verified: false,
   not_for_profit: false,
   maturity_e8s_equivalent: one,
