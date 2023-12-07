@@ -126,6 +126,7 @@ export enum NnsFunction {
   UpdateNodesHostosVersion = 41,
 }
 
+// Reference: https://github.com/dfinity/ic/blob/f4b2e28525ae9b030bd9edfc982e796417db2b80/rs/nns/governance/src/gen/ic_nns_governance.pb.v1.rs#L3286-L3287
 export enum NeuronType {
   // Placeholder value due to the proto3 requirement for a zero default.
   // This is an invalid type; neurons should not be assigned this value.
