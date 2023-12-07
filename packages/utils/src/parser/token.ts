@@ -1,6 +1,8 @@
 import { E8S_PER_TOKEN } from "../constants/constants";
 import { FromStringToTokenError } from "../enums/token.enums";
 
+const DECIMALS_CONVERSION_SUPPORTED = 8;
+
 /**
  * Receives a string representing a number and returns the big int or error.
  *
@@ -296,7 +298,7 @@ export class TokenAmountV2 {
     token: Token;
   }): TokenAmountV2 {
     const tokenAmount = TokenAmountV2.fromString({
-      amount: amount.toString(),
+      amount: amount.toFixed(DECIMALS_CONVERSION_SUPPORTED),
       token,
     });
     if (tokenAmount instanceof TokenAmountV2) {
