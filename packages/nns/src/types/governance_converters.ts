@@ -2,12 +2,12 @@ import type { DerEncodedPublicKey } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 import type {
   NeuronState,
+  NeuronType,
   ProposalRewardStatus,
   ProposalStatus,
   Topic,
   Vote,
 } from "../enums/governance.enums";
-import type { NeuronType } from "../enums/governance.enums";
 import type {
   AccountIdentifier,
   CanisterIdString,
