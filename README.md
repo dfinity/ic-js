@@ -46,5 +46,3 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 Here are some useful links:
 
 - See the [HACKING](/HACKING.md) document for some information about local development
-
-Test change
