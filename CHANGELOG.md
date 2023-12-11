@@ -14,6 +14,7 @@
 - Make uint8ArrayToHexString also accept `number[]` as input.
 - Add a new type TokenAmountV2 which supports `decimals !== 8`.
 - Fix issue when converting token amount from small numbers with `TokenAmountV2`.
+- Replace `https://ic0.app` by `https://icp-api.io` as the default host for the default anonymous agent provided by `defaultAgent`. 
 
 ## Operations
 
