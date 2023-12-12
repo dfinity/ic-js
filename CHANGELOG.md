@@ -17,7 +17,7 @@
 
 ## Fix
 
-- Utilize ICP Index `accountBalance` and `getTransactions` with account identifier hex directly, eliminating the need for conversion with Buffer and resolving usage in non-polyfilled environments. 
+- Utilize ICP Index `accountBalance` and `getTransactions` with account identifier hex directly, eliminating the need for conversion with Buffer and resolving usage in non-polyfilled environments.
 
 ## Operations
 
