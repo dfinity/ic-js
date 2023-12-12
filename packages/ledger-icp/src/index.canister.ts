@@ -14,7 +14,7 @@ import { MAINNET_INDEX_CANISTER_ID } from "./constants/canister_ids";
 import { IndexError } from "./errors/index.errors";
 import type { GetTransactionsParams } from "./types/index.params";
 import type { AccountBalanceParams } from "./types/ledger.params";
-import { paramToAccountIdentifier } from "./utils/params.utils";
+import { paramToAccountIdentifierHex } from "./utils/params.utils";
 
 export class IndexCanister extends Canister<IndexService> {
   static create({
@@ -47,7 +47,7 @@ export class IndexCanister extends Canister<IndexService> {
     accountIdentifier,
   }: AccountBalanceParams): Promise<bigint> =>
     this.caller({ certified }).get_account_identifier_balance(
-      paramToAccountIdentifier(accountIdentifier).toHex(),
+      paramToAccountIdentifierHex(accountIdentifier),
     );
 
   /**
@@ -70,7 +70,7 @@ export class IndexCanister extends Canister<IndexService> {
     const response = await this.caller({
       certified,
     }).get_account_identifier_transactions({
-      account_identifier: paramToAccountIdentifier(accountIdentifier).toHex(),
+      account_identifier: paramToAccountIdentifierHex(accountIdentifier),
       start: toNullable(start),
       max_results,
     });

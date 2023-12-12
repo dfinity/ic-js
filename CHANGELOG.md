@@ -16,6 +16,10 @@
 - Fix issue when converting token amount from small numbers with `TokenAmountV2`.
 - Bump agent-js to v0.20.2 in a non-breaking manner by introducing `verifyQuerySignatures` as an opt-in feature (for the time being).
 
+## Fix
+
+- Utilize ICP Index `accountBalance` and `getTransactions` with account identifier hex directly, eliminating the need for conversion with Buffer and resolving usage in non-polyfilled environments.
+
 ## Operations
 
 - Add a cron job to periodically update IC candid files and typescript bindings.
