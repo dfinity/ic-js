@@ -15,6 +15,10 @@
 - Add a new type TokenAmountV2 which supports `decimals !== 8`.
 - Fix issue when converting token amount from small numbers with `TokenAmountV2`.
 
+## Fix
+
+- Utilize ICP Index `accountBalance` and `getTransactions` with account identifier hex directly, eliminating the need for conversion with Buffer and resolving usage in non-polyfilled environments. 
+
 ## Operations
 
 - Add a cron job to periodically update IC candid files and typescript bindings.
