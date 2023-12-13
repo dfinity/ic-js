@@ -83,6 +83,7 @@ export type Event =
         received_at: bigint;
         block_index: bigint;
         address: BitcoinAddress;
+        reimbursement_account: [] | [Account];
         amount: bigint;
         kyt_provider: [] | [Principal];
       };
@@ -140,9 +141,20 @@ export interface PendingUtxo {
   value: bigint;
   outpoint: { txid: Uint8Array | number[]; vout: number };
 }
+export interface ReimbursedDeposit {
+  account: Account;
+  mint_block_index: bigint;
+  amount: bigint;
+  reason: ReimbursementReason;
+}
 export type ReimbursementReason =
   | { CallFailed: null }
   | { TaintedDestination: { kyt_fee: bigint; kyt_provider: Principal } };
+export interface ReimbursementRequest {
+  account: Account;
+  amount: bigint;
+  reason: ReimbursementReason;
+}
 export interface RetrieveBtcArgs {
   address: string;
   amount: bigint;
@@ -164,6 +176,16 @@ export type RetrieveBtcStatus =
   | { AmountTooLow: null }
   | { Unknown: null }
   | { Submitted: { txid: Uint8Array | number[] } }
+  | { Pending: null };
+export type RetrieveBtcStatusV2 =
+  | { Signing: null }
+  | { Confirmed: { txid: Uint8Array | number[] } }
+  | { Sending: { txid: Uint8Array | number[] } }
+  | { AmountTooLow: null }
+  | { WillReimburse: ReimbursementRequest }
+  | { Unknown: null }
+  | { Submitted: { txid: Uint8Array | number[] } }
+  | { Reimbursed: ReimbursedDeposit }
   | { Pending: null };
 export interface RetrieveBtcWithApprovalArgs {
   from_subaccount: [] | [Uint8Array | number[]];
@@ -241,6 +263,14 @@ export interface _SERVICE {
   retrieve_btc_status: ActorMethod<
     [{ block_index: bigint }],
     RetrieveBtcStatus
+  >;
+  retrieve_btc_status_v2: ActorMethod<
+    [{ block_index: bigint }],
+    RetrieveBtcStatusV2
+  >;
+  retrieve_btc_status_v2_by_account: ActorMethod<
+    [[] | [Account]],
+    Array<{ block_index: bigint; status_v2: [] | [RetrieveBtcStatusV2] }>
   >;
   retrieve_btc_with_approval: ActorMethod<
     [RetrieveBtcWithApprovalArgs],
