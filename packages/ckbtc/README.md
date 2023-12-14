@@ -211,7 +211,7 @@ Parameters:
 - `transactionId`: The ID of the corresponding burn transaction.
 - `certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L182)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L183)
 
 ##### :gear: retrieveBtcStatusV2ByAccount
 
@@ -223,10 +223,9 @@ Returns the status of all BTC withdrawals for the user's main account.
 
 Parameters:
 
-- `transactionId`: The ID of the corresponding burn transaction.
 - `certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L199)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L200)
 
 ##### :gear: estimateWithdrawalFee
 
@@ -242,7 +241,7 @@ Parameters:
 - `params.certified`: query or update call
 - `params.amount`: The optional amount for which the fee should be estimated.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L220)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L221)
 
 ##### :gear: getMinterInfo
 
@@ -257,7 +256,7 @@ Parameters:
 - `params`: The parameters to get the deposit fee.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L234)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L235)
 
 <!-- TSDOC_END -->
 
