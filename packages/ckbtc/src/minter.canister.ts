@@ -178,6 +178,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    *
    * @param {bigint} transactionId The ID of the corresponding burn transaction.
    * @param {boolean} certified query or update call
+   * @returns {Promise<RetrieveBtcStatus>} The status of the BTC retrieval request.
    */
   retrieveBtcStatus = async ({
     transactionId,
@@ -193,8 +194,8 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   /**
    * Returns the status of all BTC withdrawals for the user's main account.
    *
-   * @param {bigint} transactionId The ID of the corresponding burn transaction.
    * @param {boolean} certified query or update call
+   * @returns {Promise<RetrieveBtcStatusV2WithId[]>} The statuses of the BTC retrieval requests.
    */
   retrieveBtcStatusV2ByAccount = async ({
     certified,
