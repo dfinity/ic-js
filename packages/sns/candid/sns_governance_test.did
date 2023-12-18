@@ -1,4 +1,4 @@
-// Generated from IC repo commit 57f0e39e3 (2023-11-22) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 91d71f0 (2023-12-13 tags: release-2023-12-13_23-01) 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -9,6 +9,7 @@ type Action = variant {
   TransferSnsTreasuryFunds : TransferSnsTreasuryFunds;
   UpgradeSnsControlledCanister : UpgradeSnsControlledCanister;
   DeregisterDappCanisters : DeregisterDappCanisters;
+  MintSnsTokens : MintSnsTokens;
   Unspecified : record {};
   ManageSnsMetadata : ManageSnsMetadata;
   ExecuteGenericNervousSystemFunction : ExecuteGenericNervousSystemFunction;
@@ -244,6 +245,12 @@ type MergeMaturity = record { percentage_to_merge : nat32 };
 type MergeMaturityResponse = record {
   merged_maturity_e8s : nat64;
   new_stake_e8s : nat64;
+};
+type MintSnsTokens = record {
+  to_principal : opt principal;
+  to_subaccount : opt Subaccount;
+  memo : opt nat64;
+  amount_e8s : opt nat64;
 };
 type MintTokensRequest = record {
   recipient : opt Account;
