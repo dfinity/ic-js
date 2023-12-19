@@ -90,17 +90,18 @@ Get a default agent that connects to mainnet with the anonymous identity.
 
 Create an agent for a given identity
 
-| Function      | Type                                                                                                                        |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `createAgent` | `({ identity, host, fetchRootKey, }: { identity: Identity; host?: string; fetchRootKey?: boolean; }) => Promise<HttpAgent>` |
+| Function      | Type                                                                                                                                                                                |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, }: { identity: Identity; host?: string; fetchRootKey?: boolean; verifyQuerySignatures?: boolean; }) => Promise<HttpAgent>` |
 
 Parameters:
 
 - `identity`: A mandatory identity to use for the agent
 - `host`: An optional host to connect to
 - `fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
+- `verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L20)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L21)
 
 #### :gear: createServices
 

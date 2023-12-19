@@ -16,19 +16,24 @@ export const defaultAgent = (): Agent =>
  * @param identity A mandatory identity to use for the agent
  * @param host An optional host to connect to
  * @param fetchRootKey Fetch root key for certificate validation during local development or on testnet
+ * @param verifyQuerySignatures Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
  */
 export const createAgent = async ({
   identity,
   host,
   fetchRootKey = false,
+  verifyQuerySignatures = false,
 }: {
   identity: Identity;
   host?: string;
   fetchRootKey?: boolean;
+  // @deprecated Shipped as an opt-in feature but, will become the default in next major version
+  verifyQuerySignatures?: boolean;
 }): Promise<HttpAgent> => {
   const agent: HttpAgent = new HttpAgent({
     identity,
     ...(host !== undefined && { host }),
+    verifyQuerySignatures,
   });
 
   if (fetchRootKey) {

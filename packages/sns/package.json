@@ -36,10 +36,10 @@
     "sns"
   ],
   "peerDependencies": {
-    "@dfinity/agent": "^0.19.2",
-    "@dfinity/candid": "^0.19.2",
+    "@dfinity/agent": "^0.20.2",
+    "@dfinity/candid": "^0.20.2",
     "@dfinity/ledger-icrc": "^2.0.0",
-    "@dfinity/principal": "^0.19.2",
+    "@dfinity/principal": "^0.20.2",
     "@dfinity/utils": "^1.0.0"
   },
   "dependencies": {
