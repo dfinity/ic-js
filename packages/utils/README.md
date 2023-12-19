@@ -362,9 +362,6 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 
 - [E8S_PER_TOKEN](#gear-e8s_per_token)
 - [ICPToken](#gear-icptoken)
-- [JSON_KEY_BIGINT](#gear-json_key_bigint)
-- [JSON_KEY_PRINCIPAL](#gear-json_key_principal)
-- [JSON_KEY_UINT8ARRAY](#gear-json_key_uint8array)
 
 #### :gear: E8S_PER_TOKEN
 
@@ -381,30 +378,6 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 | `ICPToken` | `Token` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L115)
-
-#### :gear: JSON_KEY_BIGINT
-
-| Constant          | Type           |
-| ----------------- | -------------- |
-| `JSON_KEY_BIGINT` | `"__bigint__"` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L4)
-
-#### :gear: JSON_KEY_PRINCIPAL
-
-| Constant             | Type              |
-| -------------------- | ----------------- |
-| `JSON_KEY_PRINCIPAL` | `"__principal__"` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L5)
-
-#### :gear: JSON_KEY_UINT8ARRAY
-
-| Constant              | Type               |
-| --------------------- | ------------------ |
-| `JSON_KEY_UINT8ARRAY` | `"__uint8array__"` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L6)
 
 ### :factory: TokenAmount
 
