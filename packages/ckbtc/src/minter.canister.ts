@@ -1,6 +1,7 @@
 import {
   Canister,
   createServices,
+  fromNullable,
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
@@ -28,6 +29,7 @@ import type {
 import type {
   EstimateWithdrawalFee,
   RetrieveBtcResponse,
+  RetrieveBtcStatusV2WithId,
   RetrieveBtcWithApprovalResponse,
   UpdateBalanceOk,
   UpdateBalanceResponse,
@@ -176,6 +178,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    *
    * @param {bigint} transactionId The ID of the corresponding burn transaction.
    * @param {boolean} certified query or update call
+   * @returns {Promise<RetrieveBtcStatus>} The status of the BTC retrieval request.
    */
   retrieveBtcStatus = async ({
     transactionId,
@@ -187,6 +190,26 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
     this.caller({
       certified,
     }).retrieve_btc_status({ block_index: transactionId });
+
+  /**
+   * Returns the status of all BTC withdrawals for the user's main account.
+   *
+   * @param {boolean} certified query or update call
+   * @returns {Promise<RetrieveBtcStatusV2WithId[]>} The statuses of the BTC retrieval requests.
+   */
+  retrieveBtcStatusV2ByAccount = async ({
+    certified,
+  }: {
+    certified: boolean;
+  }): Promise<RetrieveBtcStatusV2WithId[]> => {
+    const statuses = await this.caller({
+      certified,
+    }).retrieve_btc_status_v2_by_account([]);
+    return statuses.map(({ block_index, status_v2 }) => ({
+      id: block_index,
+      status: fromNullable(status_v2),
+    }));
+  };
 
   /**
    * Returns an estimation of the user's fee (in Satoshi) for a retrieve_btc request based on the current status of the Bitcoin network and the fee related to the minter.

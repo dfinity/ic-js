@@ -117,6 +117,7 @@ export const idlFactory = ({ IDL }) => {
       'received_at' : IDL.Nat64,
       'block_index' : IDL.Nat64,
       'address' : BitcoinAddress,
+      'reimbursement_account' : IDL.Opt(Account),
       'amount' : IDL.Nat64,
       'kyt_provider' : IDL.Opt(IDL.Principal),
     }),
@@ -169,6 +170,28 @@ export const idlFactory = ({ IDL }) => {
     'AmountTooLow' : IDL.Null,
     'Unknown' : IDL.Null,
     'Submitted' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8) }),
+    'Pending' : IDL.Null,
+  });
+  const ReimbursementRequest = IDL.Record({
+    'account' : Account,
+    'amount' : IDL.Nat64,
+    'reason' : ReimbursementReason,
+  });
+  const ReimbursedDeposit = IDL.Record({
+    'account' : Account,
+    'mint_block_index' : IDL.Nat64,
+    'amount' : IDL.Nat64,
+    'reason' : ReimbursementReason,
+  });
+  const RetrieveBtcStatusV2 = IDL.Variant({
+    'Signing' : IDL.Null,
+    'Confirmed' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8) }),
+    'Sending' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8) }),
+    'AmountTooLow' : IDL.Null,
+    'WillReimburse' : ReimbursementRequest,
+    'Unknown' : IDL.Null,
+    'Submitted' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8) }),
+    'Reimbursed' : ReimbursedDeposit,
     'Pending' : IDL.Null,
   });
   const RetrieveBtcWithApprovalArgs = IDL.Record({
@@ -249,6 +272,23 @@ export const idlFactory = ({ IDL }) => {
     'retrieve_btc_status' : IDL.Func(
         [IDL.Record({ 'block_index' : IDL.Nat64 })],
         [RetrieveBtcStatus],
+        ['query'],
+      ),
+    'retrieve_btc_status_v2' : IDL.Func(
+        [IDL.Record({ 'block_index' : IDL.Nat64 })],
+        [RetrieveBtcStatusV2],
+        ['query'],
+      ),
+    'retrieve_btc_status_v2_by_account' : IDL.Func(
+        [IDL.Opt(Account)],
+        [
+          IDL.Vec(
+            IDL.Record({
+              'block_index' : IDL.Nat64,
+              'status_v2' : IDL.Opt(RetrieveBtcStatusV2),
+            })
+          ),
+        ],
         ['query'],
       ),
     'retrieve_btc_with_approval' : IDL.Func(
