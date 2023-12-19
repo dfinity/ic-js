@@ -1,9 +1,9 @@
 import { Principal } from "@dfinity/principal";
 import { nonNullish } from "./nullish.utils";
 
-const JSON_KEY_BIGINT = "__bigint__";
-const JSON_KEY_PRINCIPAL = "__principal__";
-const JSON_KEY_UINT8ARRAY = "__uint8array__";
+export const JSON_KEY_BIGINT = "__bigint__";
+export const JSON_KEY_PRINCIPAL = "__principal__";
+export const JSON_KEY_UINT8ARRAY = "__uint8array__";
 
 /**
  * A parser that interprets revived BigInt, Principal, and Uint8Array when constructing JavaScript values or objects.
