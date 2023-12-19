@@ -3,6 +3,7 @@ export type {
   PendingUtxo,
   RetrieveBtcOk,
   RetrieveBtcStatus,
+  RetrieveBtcStatusV2,
   Account as WithdrawalAccount,
 } from "../candid/minter";
 export * from "./enums/btc.enums";

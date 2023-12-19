@@ -2,7 +2,11 @@ import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type { Account, _SERVICE as CkBTCMinterService } from "../candid/minter";
+import type {
+  Account,
+  _SERVICE as CkBTCMinterService,
+  RetrieveBtcStatusV2,
+} from "../candid/minter";
 import {
   RetrieveBtcError,
   RetrieveBtcOk,
@@ -686,6 +690,77 @@ describe("ckBTC minter canister", () => {
         block_index: transactionId,
       });
       expect(res).toEqual(submittedStatus);
+    });
+  });
+
+  describe("Retrieve BTC status V2 by account", () => {
+    const owner = Principal.fromHex("4321");
+    const status1 = {
+      Submitted: { txid: new Uint8Array([3, 2, 6]) },
+    } as RetrieveBtcStatusV2;
+    const status2 = {
+      Reimbursed: {
+        account: { owner, subaccount: [] },
+        mint_block_index: 103n,
+        amount: 123_000n,
+        reason: {
+          CallFailed: null,
+        },
+      },
+    } as RetrieveBtcStatusV2;
+    const response = [
+      {
+        block_index: 101n,
+        status_v2: [status1],
+      },
+      {
+        block_index: 102n,
+        status_v2: [status2],
+      },
+    ] as {
+      block_index: bigint;
+      status_v2: [] | [RetrieveBtcStatusV2];
+    }[];
+
+    const expectedResponse = [
+      {
+        id: 101n,
+        status: status1,
+      },
+      {
+        id: 102n,
+        status: status2,
+      },
+    ];
+
+    it("should return statuses", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status_v2_by_account.mockResolvedValue(response);
+
+      const canister = minter(service);
+
+      const res = await canister.retrieveBtcStatusV2ByAccount({
+        certified: true,
+      });
+
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([]);
+      expect(res).toEqual(expectedResponse);
+    });
+
+    it("should use non-certified service", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status_v2_by_account.mockResolvedValue(response);
+
+      const canister = nonCertifiedMinter(service);
+
+      const res = await canister.retrieveBtcStatusV2ByAccount({
+        certified: false,
+      });
+
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([]);
+      expect(res).toEqual(expectedResponse);
     });
   });
 

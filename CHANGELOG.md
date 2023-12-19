@@ -11,6 +11,7 @@
 
 - Substitute `?` fields with `Option` fields in the converters related to NNS proposals.
 - Add retrieveBtcStatus to ckbtc minter canister.
+- Add retrieveBtcStatusV2ByAccount to ckbtc minter canister.
 - Make uint8ArrayToHexString also accept `number[]` as input.
 - Add a new type TokenAmountV2 which supports `decimals !== 8`.
 - Fix issue when converting token amount from small numbers with `TokenAmountV2`.
