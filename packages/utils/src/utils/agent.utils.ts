@@ -7,7 +7,7 @@ import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
  */
 export const defaultAgent = (): Agent =>
   new HttpAgent({
-    host: "https://ic0.app",
+    host: "https://icp-api.io",
     identity: new AnonymousIdentity(),
   });
 

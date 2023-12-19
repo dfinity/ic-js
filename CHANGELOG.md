@@ -16,6 +16,7 @@
 - Add a new type TokenAmountV2 which supports `decimals !== 8`.
 - Fix issue when converting token amount from small numbers with `TokenAmountV2`.
 - Bump agent-js to v0.20.2 in a non-breaking manner by introducing `verifyQuerySignatures` as an opt-in feature (for the time being).
+- Replace `https://ic0.app` by `https://icp-api.io` as the default host for the default anonymous agent provided by `defaultAgent`.
 
 ## Fix
 
