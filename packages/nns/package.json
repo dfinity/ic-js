@@ -56,6 +56,6 @@
     "@dfinity/ledger-icp": "^2.0.0",
     "@dfinity/nns-proto": "^1.0.0",
     "@dfinity/principal": "^0.20.2",
-    "@dfinity/utils": "^1.0.0"
+    "@dfinity/utils": "^2.0.0"
   }
 }
