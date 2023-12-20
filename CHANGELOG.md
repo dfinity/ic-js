@@ -5,7 +5,7 @@
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-| ------------------------ | ------- | ------------------- |
+| ------------------------ |---------| ------------------- |
 | `@dfinity/ckbtc`         | v2.1.0  | Enhanced 🔧         |
 | `@dfinity/cmc`           | v2.1.0  | Enhanced 🔧         |
 | `@dfinity/ic-management` | v2.1.0  | Enhanced 🔧         |
@@ -14,7 +14,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/nns`           | v3.1.0  | Enhanced 🔧         |
 | `@dfinity/nns-proto`     | v1.0.0  | Unchanged           |
 | `@dfinity/sns`           | v2.1.0  | Enhanced 🔧         |
-| `@dfinity/utils`         | v1.1.0  | Breaking Changes ⚠️ |
+| `@dfinity/utils`         | v2.0.0  | Breaking Changes ⚠️ |
 
 ## Breaking changes
 
