@@ -5,7 +5,7 @@
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-| ------------------------ |---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.1.0  | Enhanced 🔧         |
 | `@dfinity/cmc`           | v2.1.0  | Enhanced 🔧         |
 | `@dfinity/ic-management` | v2.1.0  | Enhanced 🔧         |
