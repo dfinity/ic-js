@@ -16,6 +16,7 @@ export type Action =
   | { TransferSnsTreasuryFunds: TransferSnsTreasuryFunds }
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { DeregisterDappCanisters: DeregisterDappCanisters }
+  | { MintSnsTokens: MintSnsTokens }
   | { Unspecified: {} }
   | { ManageSnsMetadata: ManageSnsMetadata }
   | {
@@ -296,6 +297,12 @@ export interface MergeMaturity {
 export interface MergeMaturityResponse {
   merged_maturity_e8s: bigint;
   new_stake_e8s: bigint;
+}
+export interface MintSnsTokens {
+  to_principal: [] | [Principal];
+  to_subaccount: [] | [Subaccount];
+  memo: [] | [bigint];
+  amount_e8s: [] | [bigint];
 }
 export interface Motion {
   motion_text: string;

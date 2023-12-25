@@ -142,6 +142,12 @@ export const idlFactory = ({ IDL }) => {
     'canister_ids' : IDL.Vec(IDL.Principal),
     'new_controllers' : IDL.Vec(IDL.Principal),
   });
+  const MintSnsTokens = IDL.Record({
+    'to_principal' : IDL.Opt(IDL.Principal),
+    'to_subaccount' : IDL.Opt(Subaccount),
+    'memo' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const ManageSnsMetadata = IDL.Record({
     'url' : IDL.Opt(IDL.Text),
     'logo' : IDL.Opt(IDL.Text),
@@ -162,6 +168,7 @@ export const idlFactory = ({ IDL }) => {
     'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'DeregisterDappCanisters' : DeregisterDappCanisters,
+    'MintSnsTokens' : MintSnsTokens,
     'Unspecified' : IDL.Record({}),
     'ManageSnsMetadata' : ManageSnsMetadata,
     'ExecuteGenericNervousSystemFunction' : ExecuteGenericNervousSystemFunction,
@@ -695,6 +702,12 @@ export const init = ({ IDL }) => {
     'canister_ids' : IDL.Vec(IDL.Principal),
     'new_controllers' : IDL.Vec(IDL.Principal),
   });
+  const MintSnsTokens = IDL.Record({
+    'to_principal' : IDL.Opt(IDL.Principal),
+    'to_subaccount' : IDL.Opt(Subaccount),
+    'memo' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const ManageSnsMetadata = IDL.Record({
     'url' : IDL.Opt(IDL.Text),
     'logo' : IDL.Opt(IDL.Text),
@@ -715,6 +728,7 @@ export const init = ({ IDL }) => {
     'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'DeregisterDappCanisters' : DeregisterDappCanisters,
+    'MintSnsTokens' : MintSnsTokens,
     'Unspecified' : IDL.Record({}),
     'ManageSnsMetadata' : ManageSnsMetadata,
     'ExecuteGenericNervousSystemFunction' : ExecuteGenericNervousSystemFunction,
