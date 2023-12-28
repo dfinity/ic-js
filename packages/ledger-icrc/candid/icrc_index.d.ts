@@ -8,7 +8,7 @@ export interface Account {
 export interface Approve {
   fee: [] | [bigint];
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
   amount: bigint;
   expected_allowance: [] | [bigint];
@@ -19,7 +19,7 @@ export type Block = Value;
 export type BlockIndex = bigint;
 export interface Burn {
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
   amount: bigint;
   spender: [] | [Account];
@@ -62,14 +62,14 @@ export interface ListSubaccountsArgs {
 export type Map = Array<[string, Value]>;
 export interface Mint {
   to: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
   amount: bigint;
 }
 export interface Status {
   num_blocks_synced: BlockIndex;
 }
-export type SubAccount = Uint8Array;
+export type SubAccount = Uint8Array | number[];
 export type Tokens = bigint;
 export interface Transaction {
   burn: [] | [Burn];
@@ -87,7 +87,7 @@ export interface Transfer {
   to: Account;
   fee: [] | [bigint];
   from: Account;
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
   amount: bigint;
   spender: [] | [Account];
@@ -100,7 +100,7 @@ export type Value =
   | { Map: Map }
   | { Nat: bigint }
   | { Nat64: bigint }
-  | { Blob: Uint8Array }
+  | { Blob: Uint8Array | number[] }
   | { Text: string }
   | { Array: Array<Value> };
 export interface _SERVICE {
