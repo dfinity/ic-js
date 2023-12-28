@@ -1,5 +1,4 @@
-import { Canister } from "@dfinity/utils";
-import { toNullable } from "@dfinity/utils/src";
+import { Canister, toNullable } from "@dfinity/utils";
 import type { _SERVICE as IcrcIndexService } from "../candid/icrc_index";
 import type {
   _SERVICE as IcrcLedgerService,

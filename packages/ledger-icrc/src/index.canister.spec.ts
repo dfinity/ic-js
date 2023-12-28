@@ -1,6 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { arrayOfNumberToUint8Array } from "@dfinity/utils/src";
+import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   Account,
