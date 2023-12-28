@@ -212,6 +212,17 @@ const fromSwapParameters = (
     swapParameters.restrictedCountries !== undefined
       ? [fromCountries(swapParameters.restrictedCountries)]
       : [],
+  maximum_direct_participation_icp:
+    swapParameters.maxDirectParticipationIcp !== undefined
+      ? [fromTokens(swapParameters.maxDirectParticipationIcp)]
+      : [],
+  minimum_direct_participation_icp:
+    swapParameters.minDirectParticipationIcp !== undefined
+      ? [fromTokens(swapParameters.minDirectParticipationIcp)]
+      : [],
+  neurons_fund_participation: toNullable(
+    swapParameters.neuronsFundParticipation,
+  ),
 });
 
 const fromNeuronBasketConstructionParameters = (
@@ -581,6 +592,12 @@ const fromAction = (action: Action): RawAction => {
                   neuron_basket_construction_parameters: toNullable(
                     params.neuronBasketConstructionParameters,
                   ),
+                  max_direct_participation_icp_e8s: toNullable(
+                    params.maxDirectParticipationIcpE8s,
+                  ),
+                  min_direct_participation_icp_e8s: toNullable(
+                    params.minDirectParticipationIcpE8s,
+                  ),
                 },
               ],
       },
@@ -903,6 +920,7 @@ export const fromListProposalsRequest = ({
   includeStatus,
   limit,
   includeAllManageNeuronProposals,
+  omitLargeFields,
 }: ListProposalsRequest): ListProposalInfo => {
   return {
     include_reward_status: Int32Array.from(includeRewardStatus),
@@ -914,6 +932,7 @@ export const fromListProposalsRequest = ({
         ? [includeAllManageNeuronProposals]
         : [],
     include_status: Int32Array.from(includeStatus),
+    omit_large_fields: toNullable(omitLargeFields),
   };
 };
 

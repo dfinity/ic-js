@@ -94,6 +94,7 @@ export const idlFactory = ({ IDL }) => {
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'actual_timestamp_seconds' : IDL.Nat64,
     'end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'total_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'distributed_e8s_equivalent' : IDL.Nat64,
     'round' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(ProposalId),
@@ -113,6 +114,7 @@ export const idlFactory = ({ IDL }) => {
     'cast_timestamp_seconds' : IDL.Nat64,
     'voting_power' : IDL.Nat64,
   });
+  const Percentage = IDL.Record({ 'basis_points' : IDL.Opt(IDL.Nat64) });
   const Tally = IDL.Record({
     'no' : IDL.Nat64,
     'yes' : IDL.Nat64,
@@ -180,6 +182,7 @@ export const idlFactory = ({ IDL }) => {
     'action' : IDL.Nat64,
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Text, Ballot)),
+    'minimum_yes_proportion_of_total' : IDL.Opt(Percentage),
     'reward_event_round' : IDL.Nat64,
     'failed_timestamp_seconds' : IDL.Nat64,
     'reward_event_end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
@@ -192,6 +195,7 @@ export const idlFactory = ({ IDL }) => {
     'proposal' : IDL.Opt(Proposal),
     'proposer' : IDL.Opt(NeuronId),
     'wait_for_quiet_state' : IDL.Opt(WaitForQuietState),
+    'minimum_yes_proportion_of_exercised' : IDL.Opt(Percentage),
     'is_eligible_for_rewards' : IDL.Bool,
     'executed_timestamp_seconds' : IDL.Nat64,
   });
@@ -635,6 +639,7 @@ export const init = ({ IDL }) => {
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'actual_timestamp_seconds' : IDL.Nat64,
     'end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'total_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'distributed_e8s_equivalent' : IDL.Nat64,
     'round' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(ProposalId),
@@ -654,6 +659,7 @@ export const init = ({ IDL }) => {
     'cast_timestamp_seconds' : IDL.Nat64,
     'voting_power' : IDL.Nat64,
   });
+  const Percentage = IDL.Record({ 'basis_points' : IDL.Opt(IDL.Nat64) });
   const Tally = IDL.Record({
     'no' : IDL.Nat64,
     'yes' : IDL.Nat64,
@@ -721,6 +727,7 @@ export const init = ({ IDL }) => {
     'action' : IDL.Nat64,
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Text, Ballot)),
+    'minimum_yes_proportion_of_total' : IDL.Opt(Percentage),
     'reward_event_round' : IDL.Nat64,
     'failed_timestamp_seconds' : IDL.Nat64,
     'reward_event_end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
@@ -733,6 +740,7 @@ export const init = ({ IDL }) => {
     'proposal' : IDL.Opt(Proposal),
     'proposer' : IDL.Opt(NeuronId),
     'wait_for_quiet_state' : IDL.Opt(WaitForQuietState),
+    'minimum_yes_proportion_of_exercised' : IDL.Opt(Percentage),
     'is_eligible_for_rewards' : IDL.Bool,
     'executed_timestamp_seconds' : IDL.Nat64,
   });

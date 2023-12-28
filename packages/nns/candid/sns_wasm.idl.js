@@ -114,9 +114,11 @@ export const idlFactory = ({ IDL }) => {
     'token_logo' : IDL.Opt(IDL.Text),
     'token_name' : IDL.Opt(IDL.Text),
     'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'proposal_reject_cost_e8s' : IDL.Opt(IDL.Nat64),
     'restricted_countries' : IDL.Opt(Countries),
     'min_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const DeployNewSnsRequest = IDL.Record({
     'sns_init_payload' : IDL.Opt(SnsInitPayload),

@@ -11,7 +11,7 @@ export interface AccountBalanceArgs {
 export interface AccountBalanceArgsDfx {
   account: TextAccountIdentifier;
 }
-export type AccountIdentifier = Uint8Array;
+export type AccountIdentifier = Uint8Array | number[];
 export interface Allowance {
   allowance: Icrc1Tokens;
   expires_at: [] | [TimeStamp];
@@ -22,7 +22,7 @@ export interface AllowanceArgs {
 }
 export interface ApproveArgs {
   fee: [] | [Icrc1Tokens];
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   from_subaccount: [] | [SubAccount];
   created_at_time: [] | [TimeStamp];
   amount: Icrc1Tokens;
@@ -70,7 +70,7 @@ export interface Archives {
 export interface Block {
   transaction: Transaction;
   timestamp: TimeStamp;
-  parent_hash: [] | [Uint8Array];
+  parent_hash: [] | [Uint8Array | number[]];
 }
 export type BlockIndex = bigint;
 export interface BlockRange {
@@ -172,15 +172,15 @@ export type QueryArchiveResult =
   | { Ok: BlockRange }
   | { Err: QueryArchiveError };
 export interface QueryBlocksResponse {
-  certificate: [] | [Uint8Array];
+  certificate: [] | [Uint8Array | number[]];
   blocks: Array<Block>;
   chain_length: bigint;
   first_block_index: BlockIndex;
   archived_blocks: Array<ArchivedBlocksRange>;
 }
 export interface QueryEncodedBlocksResponse {
-  certificate: [] | [Uint8Array];
-  blocks: Array<Uint8Array>;
+  certificate: [] | [Uint8Array | number[]];
+  blocks: Array<Uint8Array | number[]>;
   chain_length: bigint;
   first_block_index: bigint;
   archived_blocks: Array<ArchivedEncodedBlocksRange>;
@@ -193,7 +193,7 @@ export interface SendArgs {
   created_at_time: [] | [TimeStamp];
   amount: Tokens;
 }
-export type SubAccount = Uint8Array;
+export type SubAccount = Uint8Array | number[];
 export type TextAccountIdentifier = string;
 export interface TimeStamp {
   timestamp_nanos: bigint;
@@ -203,14 +203,14 @@ export interface Tokens {
 }
 export interface Transaction {
   memo: Memo;
-  icrc1_memo: [] | [Uint8Array];
+  icrc1_memo: [] | [Uint8Array | number[]];
   operation: [] | [Operation];
   created_at_time: TimeStamp;
 }
 export interface TransferArg {
   to: Account;
   fee: [] | [Icrc1Tokens];
-  memo: [] | [Uint8Array];
+  memo: [] | [Uint8Array | number[]];
   from_subaccount: [] | [SubAccount];
   created_at_time: [] | [Icrc1Timestamp];
   amount: Icrc1Tokens;
@@ -244,7 +244,7 @@ export interface UpgradeArgs {
 export type Value =
   | { Int: bigint }
   | { Nat: bigint }
-  | { Blob: Uint8Array }
+  | { Blob: Uint8Array | number[] }
   | { Text: string };
 export interface _SERVICE {
   account_balance: ActorMethod<[AccountBalanceArgs], Tokens>;

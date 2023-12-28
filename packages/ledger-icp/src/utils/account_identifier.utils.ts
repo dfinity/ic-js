@@ -7,16 +7,16 @@ import {
 } from "@dfinity/utils";
 import { sha224 } from "@noble/hashes/sha256";
 import { Buffer } from "buffer";
-import type { AccountIdentifier } from "../types/common";
+import type { AccountIdentifierHex } from "../types/common";
 
 export const accountIdentifierToBytes = (
-  accountIdentifier: AccountIdentifier,
+  accountIdentifier: AccountIdentifierHex,
 ): Uint8Array =>
   Uint8Array.from(Buffer.from(accountIdentifier, "hex")).subarray(4);
 
 export const accountIdentifierFromBytes = (
   accountIdentifier: Uint8Array,
-): AccountIdentifier => Buffer.from(accountIdentifier).toString("hex");
+): AccountIdentifierHex => Buffer.from(accountIdentifier).toString("hex");
 
 export const principalToAccountIdentifier = (
   principal: Principal,

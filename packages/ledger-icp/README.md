@@ -170,7 +170,7 @@ const data = await metadata();
 
 ### :factory: LedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L32)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L34)
 
 #### Methods
 
@@ -186,7 +186,7 @@ const data = await metadata();
 | -------- | ----------------------------------------------------- |
 | `create` | `(options?: LedgerCanisterOptions) => LedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L43)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L45)
 
 ##### :gear: accountBalance
 
@@ -195,11 +195,17 @@ Returns the balance of the specified account identifier.
 If `certified` is true, the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method           | Type                                                                                                                     |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `accountBalance` | `({ accountIdentifier, certified, }: { accountIdentifier: AccountIdentifier; certified?: boolean; }) => Promise<bigint>` |
+| Method           | Type                                                                                                   |
+| ---------------- | ------------------------------------------------------------------------------------------------------ |
+| `accountBalance` | `({ accountIdentifier: accountIdentifierParam, certified, }: AccountBalanceParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L75)
+Parameters:
+
+- `params`: The parameters to get the balance of an account.
+- `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
+- `params.certified`: query or update call.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L81)
 
 ##### :gear: transactionFee
 
@@ -209,7 +215,7 @@ Returns the transaction fee of the ledger canister
 | ---------------- | ----------------------- |
 | `transactionFee` | `() => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L99)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L104)
 
 ##### :gear: transfer
 
@@ -220,7 +226,7 @@ Returns the index of the block containing the tx if it was successful.
 | ---------- | ----------------------------------------------- |
 | `transfer` | `(request: TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L112)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L117)
 
 ##### :gear: icrc1Transfer
 
@@ -231,7 +237,59 @@ Returns the index of the block containing the tx if it was successful.
 | --------------- | ---------------------------------------------------- |
 | `icrc1Transfer` | `(request: Icrc1TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L142)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L147)
+
+### :factory: IndexCanister
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L19)
+
+#### Methods
+
+- [create](#gear-create)
+- [accountBalance](#gear-accountbalance)
+- [getTransactions](#gear-gettransactions)
+
+##### :gear: create
+
+| Method   | Type                                                                                          |
+| -------- | --------------------------------------------------------------------------------------------- |
+| `create` | `({ canisterId: optionsCanisterId, ...options }: CanisterOptions<_SERVICE>) => IndexCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L20)
+
+##### :gear: accountBalance
+
+Returns the balance of the specified account identifier.
+
+| Method           | Type                                                                           |
+| ---------------- | ------------------------------------------------------------------------------ |
+| `accountBalance` | `({ certified, accountIdentifier, }: AccountBalanceParams) => Promise<bigint>` |
+
+Parameters:
+
+- `params`: The parameters to get the balance of an account.
+- `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
+- `params.certified`: query or update call.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L45)
+
+##### :gear: getTransactions
+
+Returns the transactions and balance of an ICP account.
+
+| Method            | Type                                                                                                                                              |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `getTransactions` | `({ certified, accountIdentifier, start, maxResults: max_results, }: GetTransactionsParams) => Promise<GetAccountIdentifierTransactionsResponse>` |
+
+Parameters:
+
+- `params`: The parameters to get the transactions.
+- `params.certified`: query or update call.
+- `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
+- `params.start`: If set then the results will start from the next most recent transaction id after start (start won't be included). If not provided, then the results will start from the most recent transaction id.
+- `params.maxResults`: Maximum number of transactions to fetch.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L64)
 
 <!-- TSDOC_END -->
 

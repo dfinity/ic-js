@@ -12,6 +12,7 @@ export type {
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
   NeuronPermissionList as SnsNeuronPermissionList,
+  Percentage as SnsPercentage,
   ProposalData as SnsProposalData,
   ProposalId as SnsProposalId,
   Tally as SnsTally,

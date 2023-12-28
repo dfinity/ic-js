@@ -311,7 +311,7 @@ export class SnsWrapper {
       amount: stakeE8s,
       to: {
         ...this.owner,
-        subaccount: toNullable(neuronId.id),
+        subaccount: toNullable(Uint8Array.from(neuronId.id)),
       },
       from_subaccount: source.subaccount,
     });
@@ -322,7 +322,7 @@ export class SnsWrapper {
   getNeuronBalance = async (neuronId: NeuronId): Promise<IcrcTokens> => {
     const account = {
       ...this.owner,
-      subaccount: neuronId.id,
+      subaccount: Uint8Array.from(neuronId.id),
     };
     return this.ledger.balance({ ...account, certified: this.certified });
   };

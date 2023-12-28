@@ -18,7 +18,7 @@ import_did() {
   local out_path="packages/${pkg}/candid/${out_filename}"
   echo "Copying ${in_fullpath} -> REPO_ROOT/${out_path}"
   {
-    echo "// Generated from IC repo commit ${IC_COMMIT} '${in_path}' by $(basename "${0}")"
+    echo "// Generated from IC repo commit ${IC_COMMIT} (${IC_DATE}${IC_TAGS:+ tags: ${IC_TAGS% }}) '${in_path}' by $(basename "${0}")"
     cat "$in_fullpath"
   } >"${out_path}"
 }
@@ -50,7 +50,9 @@ test -n "${IC_DIR:-}" || {
   echo "       Use --help for usage."
   exit 1
 } >&2
-IC_COMMIT="$(cd "${IC_DIR}" && git rev-parse HEAD)"
+IC_COMMIT="$(cd "${IC_DIR}" && git rev-parse --short HEAD)"
+IC_DATE="$(cd "${IC_DIR}" && git show -s --format=%as)"
+IC_TAGS="$(cd "${IC_DIR}" && git tag --points-at HEAD | tr "\n" " ")"
 THIS_SCRIPT_NAME="$(basename "$0")"
 
 : Import canisters
@@ -71,6 +73,7 @@ import_did "rs/nns/cmc/cmc.did" "cmc.did" "cmc"
 
 mkdir -p packages/ledger-icp/candid
 import_did "rs/rosetta-api/icp_ledger/ledger.did" "ledger.did" "ledger-icp"
+import_did "rs/rosetta-api/icp_ledger/index/index.did" "index.did" "ledger-icp"
 
 mkdir -p packages/ledger-icrc/candid
 import_did "rs/rosetta-api/icrc1/ledger/ledger.did" "icrc_ledger.did" "ledger-icrc"

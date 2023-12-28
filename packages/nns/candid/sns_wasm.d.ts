@@ -2,7 +2,7 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
 export interface AddWasmRequest {
-  hash: Uint8Array;
+  hash: Uint8Array | number[];
   wasm: [] | [SnsWasm];
 }
 export interface AddWasmResponse {
@@ -72,7 +72,7 @@ export interface GetSnsSubnetIdsResponse {
   sns_subnet_ids: Array<Principal>;
 }
 export interface GetWasmRequest {
-  hash: Uint8Array;
+  hash: Uint8Array | number[];
 }
 export interface GetWasmResponse {
   wasm: [] | [SnsWasm];
@@ -136,7 +136,7 @@ export interface PrettySnsVersion {
   governance_wasm_hash: string;
   index_wasm_hash: string;
 }
-export type Result = { Error: SnsWasmError } | { Hash: Uint8Array };
+export type Result = { Error: SnsWasmError } | { Hash: Uint8Array | number[] };
 export interface SnsCanisterIds {
   root: [] | [Principal];
   swap: [] | [Principal];
@@ -182,24 +182,26 @@ export interface SnsInitPayload {
   token_logo: [] | [string];
   token_name: [] | [string];
   max_participant_icp_e8s: [] | [bigint];
+  min_direct_participation_icp_e8s: [] | [bigint];
   proposal_reject_cost_e8s: [] | [bigint];
   restricted_countries: [] | [Countries];
   min_icp_e8s: [] | [bigint];
+  max_direct_participation_icp_e8s: [] | [bigint];
 }
 export interface SnsUpgrade {
   next_version: [] | [SnsVersion];
   current_version: [] | [SnsVersion];
 }
 export interface SnsVersion {
-  archive_wasm_hash: Uint8Array;
-  root_wasm_hash: Uint8Array;
-  swap_wasm_hash: Uint8Array;
-  ledger_wasm_hash: Uint8Array;
-  governance_wasm_hash: Uint8Array;
-  index_wasm_hash: Uint8Array;
+  archive_wasm_hash: Uint8Array | number[];
+  root_wasm_hash: Uint8Array | number[];
+  swap_wasm_hash: Uint8Array | number[];
+  ledger_wasm_hash: Uint8Array | number[];
+  governance_wasm_hash: Uint8Array | number[];
+  index_wasm_hash: Uint8Array | number[];
 }
 export interface SnsWasm {
-  wasm: Uint8Array;
+  wasm: Uint8Array | number[];
   canister_type: number;
 }
 export interface SnsWasmCanisterInitPayload {

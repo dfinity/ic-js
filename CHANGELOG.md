@@ -1,3 +1,100 @@
+# 2023.12.20-1000Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v2.1.0  | Enhanced 🔧         |
+| `@dfinity/cmc`           | v2.1.0  | Enhanced 🔧         |
+| `@dfinity/ic-management` | v2.1.0  | Enhanced 🔧         |
+| `@dfinity/ledger-icp`    | v2.1.0  | Enhanced 🔧         |
+| `@dfinity/ledger-icrc`   | v2.1.0  | Enhanced 🔧         |
+| `@dfinity/nns`           | v3.1.0  | Enhanced 🔧         |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged           |
+| `@dfinity/sns`           | v2.1.0  | Enhanced 🔧         |
+| `@dfinity/utils`         | v2.0.0  | Breaking Changes ⚠️ |
+
+## Breaking changes
+
+- `decimals` mandatory field in `Token`.
+- `TokenAmount` rejects tokens with `decimals !== 8`.
+
+## Features
+
+- Substitute `?` fields with `Option` fields in the converters related to NNS proposals.
+- Add retrieveBtcStatus to ckbtc minter canister.
+- Add retrieveBtcStatusV2ByAccount to ckbtc minter canister.
+- Make uint8ArrayToHexString also accept `number[]` as input.
+- Add a new type TokenAmountV2 which supports `decimals !== 8`.
+- Fix issue when converting token amount from small numbers with `TokenAmountV2`.
+- Bump agent-js to v0.20.2 in a non-breaking manner by introducing `verifyQuerySignatures` as an opt-in feature (for the time being).
+- Replace `https://ic0.app` by `https://icp-api.io` as the default host for the default anonymous agent provided by `defaultAgent`.
+
+## Fix
+
+- Utilize ICP Index `accountBalance` and `getTransactions` with account identifier hex directly, eliminating the need for conversion with Buffer and resolving usage in non-polyfilled environments.
+
+## Operations
+
+- Add a cron job to periodically update IC candid files and typescript bindings.
+
+# Release.2023.11.21-1400Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status      |
+| ------------------------ | ------- | ----------- |
+| `@dfinity/ckbtc`         | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/cmc`           | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/ic-management` | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/ledger-icp`    | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/ledger-icrc`   | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/nns`           | v3.0.0  | Enhanced 🔧 |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged   |
+| `@dfinity/sns`           | v2.0.0  | Enhanced 🔧 |
+| `@dfinity/utils`         | v1.1.0  | Unchanged   |
+
+## Features
+
+- Include timestamp and tags in the candid provenance record.
+- Update ckbtc candid to ic commit `4de99bc27be74048f80d13200f3c75cf2a43438c`.
+- Include pending UTXOs in MinterNoNewUtxosError.
+- Upgrade `didc` to `0.3.5` that converts candid files into JS and TS.
+
+# 2023.10.15-0600Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status      |
+| ------------------------ | ------- | ----------- |
+| `@dfinity/ckbtc`         | v1.1.0  | Enhanced 🔧 |
+| `@dfinity/cmc`           | v1.0.0  | Unchanged   |
+| `@dfinity/ic-management` | v1.0.0  | Unchanged   |
+| `@dfinity/ledger-icp`    | v1.1.0  | Enhanced 🔧 |
+| `@dfinity/ledger-icrc`   | v1.0.1  | Patched 🩹  |
+| `@dfinity/nns`           | v2.1.0  | Enhanced 🔧 |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged   |
+| `@dfinity/sns`           | v1.0.2  | Patched 🩹  |
+| `@dfinity/utils`         | v1.1.0  | Enhanced 🔧 |
+
+## Features
+
+- add support for ICP Index canister to library `@dfinity/ledger-icp`. New `IndexCanister` functions: `accountBalance` and `getTransactions`
+- expose few types - notably `BlockHeight` - for library `@dfinity/ledger-icp`
+- support new fields from swap canister response types: `min_direct_participation_icp_e8s`, `max_direct_participation_icp_e8s` and `neurons_fund_participation`
+- support new fields in the `CreateServiceNervousSystem` proposal action: `maximum_direct_participation_icp`, `minimum_direct_participation_icp` and `neurons_fund_participation`
+- support new filter field `omit_large_fields` in `list_proposals`
+- add support for `retrieve_btc_with_approval` in `@dfinity/ckbtc`
+- new utility to convert seconds to a human-readable duration
+- update `@dfinity/ledger-icrc` did files
+- update `@dfinity/sns` did files
+
 # 2023.10.02-1515Z
 
 ## Overview

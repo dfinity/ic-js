@@ -1,8 +1,8 @@
 import {
   AccountIdentifier,
-  SubAccount,
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
+  SubAccount,
 } from "@dfinity/ledger-icp";
 import type {
   ListNeuronsResponse,
@@ -15,6 +15,8 @@ import { Principal } from "@dfinity/principal";
 import {
   fromDefinedNullable,
   fromNullable,
+  nonNullish,
+  toNullable,
   uint8ArrayToArrayOfNumber,
 } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
@@ -60,7 +62,7 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import { NeuronState } from "../../enums/governance.enums";
+import { NeuronState, type NeuronType } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
   AccountIdentifier as AccountIdentifierString,
@@ -123,6 +125,7 @@ export const toNeuronInfo = ({
     neuronId: neuronId,
     dissolveDelaySeconds: neuronInfo.dissolve_delay_seconds,
     recentBallots: neuronInfo.recent_ballots.map(toBallotInfo),
+    neuronType: fromNullable(neuronInfo.neuron_type) as NeuronType | undefined,
     createdTimestampSeconds: neuronInfo.created_timestamp_seconds,
     state: neuronInfo.state,
     joinedCommunityFundTimestampSeconds: neuronInfo
@@ -151,6 +154,7 @@ const toNeuron = ({
     ? neuron.controller[0].toString()
     : undefined,
   recentBallots: neuron.recent_ballots.map(toBallotInfo),
+  neuronType: fromNullable(neuron.neuron_type) as NeuronType | undefined,
   kycVerified: neuron.kyc_verified,
   notForProfit: neuron.not_for_profit,
   cachedNeuronStake: neuron.cached_neuron_stake_e8s,
@@ -160,7 +164,10 @@ const toNeuron = ({
   agingSinceTimestampSeconds: neuron.aging_since_timestamp_seconds,
   neuronFees: neuron.neuron_fees_e8s,
   hotKeys: neuron.hot_keys.map((p) => p.toString()),
-  accountIdentifier: principalToAccountIdentifier(canisterId, neuron.account),
+  accountIdentifier: principalToAccountIdentifier(
+    canisterId,
+    Uint8Array.from(neuron.account),
+  ),
   joinedCommunityFundTimestampSeconds: neuron
     .joined_community_fund_timestamp_seconds.length
     ? neuron.joined_community_fund_timestamp_seconds[0]
@@ -172,6 +179,50 @@ const toNeuron = ({
   followees: neuron.followees.map(([topic, followees]) =>
     toFollowees({ topic, followees }),
   ),
+});
+
+export const toRawNeuron = (neuron: Neuron): RawNeuron => ({
+  id: nonNullish(neuron.id) ? toNullable({ id: neuron.id }) : [],
+  staked_maturity_e8s_equivalent: toNullable(
+    neuron.stakedMaturityE8sEquivalent,
+  ),
+  controller: nonNullish(neuron.controller)
+    ? toNullable(Principal.from(neuron.controller))
+    : [],
+  recent_ballots: neuron.recentBallots.map((ballot) => ({
+    vote: ballot.vote,
+    proposal_id: nonNullish(ballot.proposalId)
+      ? toNullable({ id: ballot.proposalId })
+      : [],
+  })),
+  kyc_verified: neuron.kycVerified,
+  neuron_type: toNullable(neuron.neuronType),
+  not_for_profit: neuron.notForProfit,
+  cached_neuron_stake_e8s: neuron.cachedNeuronStake,
+  created_timestamp_seconds: neuron.createdTimestampSeconds,
+  auto_stake_maturity: toNullable(neuron.autoStakeMaturity),
+  maturity_e8s_equivalent: neuron.maturityE8sEquivalent,
+  aging_since_timestamp_seconds: neuron.agingSinceTimestampSeconds,
+  neuron_fees_e8s: neuron.neuronFees,
+  hot_keys: neuron.hotKeys.map((p) => Principal.from(p)),
+  account: AccountIdentifier.fromHex(neuron.accountIdentifier).toUint8Array(),
+  joined_community_fund_timestamp_seconds: toNullable(
+    neuron.joinedCommunityFundTimestampSeconds,
+  ),
+  dissolve_state: nonNullish(neuron.dissolveState)
+    ? [neuron.dissolveState]
+    : [],
+  spawn_at_timestamp_seconds: toNullable(neuron.spawnAtTimesSeconds),
+  followees: neuron.followees.map((followeesTopic) => [
+    followeesTopic.topic as number,
+    {
+      followees: followeesTopic.followees.map((followee) => ({ id: followee })),
+    },
+  ]),
+  // Not kept when converted to Neuron.
+  transfer: [],
+  // Not kept when converted to Neuron.
+  known_neuron_data: [],
 });
 
 const toBallotInfo = ({ vote, proposal_id }: RawBallotInfo): BallotInfo => ({
@@ -213,7 +264,9 @@ const toNeuronIdOrSubaccount = (
   }
   if ("Subaccount" in neuronIdOrSubaccount) {
     return {
-      Subaccount: uint8ArrayToArrayOfNumber(neuronIdOrSubaccount.Subaccount),
+      Subaccount: uint8ArrayToArrayOfNumber(
+        Uint8Array.from(neuronIdOrSubaccount.Subaccount),
+      ),
     };
   }
   throw new UnsupportedValueError(neuronIdOrSubaccount);
@@ -410,21 +463,25 @@ const toAction = (action: RawAction): Action => {
         targetSwapCanisterId: fromNullable(
           OpenSnsTokenSwap.target_swap_canister_id,
         ),
-        ...(params !== undefined && {
-          params: {
-            minParticipantIcpE8s: params.min_participant_icp_e8s,
-            maxIcpE8s: params.max_icp_e8s,
-            swapDueTimestampSeconds: params.swap_due_timestamp_seconds,
-            minParticipants: params.min_participants,
-            snsTokenE8s: params.sns_token_e8s,
-            maxParticipantIcpE8s: params.max_participant_icp_e8s,
-            minIcpE8s: params.min_icp_e8s,
-            saleDelaySeconds: fromNullable(params.sale_delay_seconds),
-            neuronBasketConstructionParameters: fromNullable(
-              params.neuron_basket_construction_parameters,
-            ),
-          },
-        }),
+        params: params && {
+          minParticipantIcpE8s: params.min_participant_icp_e8s,
+          maxIcpE8s: params.max_icp_e8s,
+          swapDueTimestampSeconds: params.swap_due_timestamp_seconds,
+          minParticipants: params.min_participants,
+          snsTokenE8s: params.sns_token_e8s,
+          maxParticipantIcpE8s: params.max_participant_icp_e8s,
+          minIcpE8s: params.min_icp_e8s,
+          saleDelaySeconds: fromNullable(params.sale_delay_seconds),
+          neuronBasketConstructionParameters: fromNullable(
+            params.neuron_basket_construction_parameters,
+          ),
+          maxDirectParticipationIcpE8s: fromNullable(
+            params.max_direct_participation_icp_e8s,
+          ),
+          minDirectParticipationIcpE8s: fromNullable(
+            params.min_direct_participation_icp_e8s,
+          ),
+        },
       },
     };
   }
@@ -911,6 +968,8 @@ const convertPbNeuronToFullNeuron = ({
     stakedMaturityE8sEquivalent: undefined,
     controller,
     recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
+    // TODO: add to protobuf when needed
+    neuronType: undefined,
     kycVerified: pbNeuron.getKycVerified(),
     notForProfit: pbNeuron.getNotForProfit(),
     cachedNeuronStake: BigInt(pbNeuron.getCachedNeuronStakeE8s()),
@@ -961,6 +1020,10 @@ export const convertPbNeuronToNeuronInfo =
       neuronId: BigInt(pbNeuronMapEntry.getKey()),
       dissolveDelaySeconds: BigInt(pbNeuronInfo.getDissolveDelaySeconds()),
       recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
+
+      // TODO: add to protobuf when needed
+      neuronType: undefined,
+
       createdTimestampSeconds: BigInt(
         pbNeuronInfo.getCreatedTimestampSeconds(),
       ),
@@ -1167,6 +1230,15 @@ const toSwapParameters = (
         maximumIcp: toTokens(fromNullable(swapParameters.maximum_icp)),
         restrictedCountries: toCountries(
           fromNullable(swapParameters.restricted_countries),
+        ),
+        maxDirectParticipationIcp: toTokens(
+          fromNullable(swapParameters.maximum_direct_participation_icp),
+        ),
+        minDirectParticipationIcp: toTokens(
+          fromNullable(swapParameters.minimum_direct_participation_icp),
+        ),
+        neuronsFundParticipation: fromNullable(
+          swapParameters.neurons_fund_participation,
         ),
       };
 };

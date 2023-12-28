@@ -210,6 +210,8 @@ describe("Swap canister", () => {
           sale_delay_seconds: [],
           max_participant_icp_e8s: BigInt(500_000_000),
           min_icp_e8s: BigInt(200_000_000),
+          min_direct_participation_icp_e8s: [1_000_000_000n],
+          max_direct_participation_icp_e8s: [2_000_000_000n],
         },
       ],
     };
@@ -328,6 +330,7 @@ describe("Swap canister", () => {
           amount_transferred_e8s: [BigInt(99900000)],
         },
       ],
+      has_created_neuron_recipes: [false],
     };
     const service = mock<ActorSubclass<SnsSwapService>>();
     service.get_buyer_state.mockResolvedValue({

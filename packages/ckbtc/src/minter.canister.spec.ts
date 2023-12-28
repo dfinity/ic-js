@@ -2,16 +2,22 @@ import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type { Account, _SERVICE as CkBTCMinterService } from "../candid/minter";
+import type {
+  Account,
+  _SERVICE as CkBTCMinterService,
+  RetrieveBtcStatusV2,
+} from "../candid/minter";
 import {
   RetrieveBtcError,
   RetrieveBtcOk,
+  RetrieveBtcStatus,
   UpdateBalanceError,
 } from "../candid/minter";
 import {
   MinterAlreadyProcessingError,
   MinterAmountTooLowError,
   MinterGenericError,
+  MinterInsufficientAllowanceError,
   MinterInsufficientFundsError,
   MinterMalformedAddressError,
   MinterNoNewUtxosError,
@@ -30,6 +36,14 @@ describe("ckBTC minter canister", () => {
     CkBTCMinterCanister.create({
       canisterId: minterCanisterIdMock,
       certifiedServiceOverride: service,
+    });
+
+  const nonCertifiedMinter = (
+    service: ActorSubclass<CkBTCMinterService>,
+  ): CkBTCMinterCanister =>
+    CkBTCMinterCanister.create({
+      canisterId: minterCanisterIdMock,
+      serviceOverride: service,
     });
 
   describe("BTC address", () => {
@@ -187,14 +201,23 @@ describe("ckBTC minter canister", () => {
 
     it("should throw MinterNoNewUtxosError", async () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
+      const pendingUtxo = {
+        confirmations: 3,
+        value: 3_2000_000n,
+        outpoint: {
+          txid: new Uint8Array([6, 5, 2, 7]),
+          vout: 1,
+        },
+      };
 
       const error = {
         Err: {
           NoNewUtxos: {
             required_confirmations: 123,
             current_confirmations: toNullable(456),
+            pending_utxos: [[pendingUtxo]],
           },
-        },
+        } as UpdateBalanceError,
       };
       service.update_balance.mockResolvedValue(error);
 
@@ -207,7 +230,42 @@ describe("ckBTC minter canister", () => {
           owner,
         });
 
-      await expect(call).rejects.toThrowError(new MinterNoNewUtxosError());
+      await expect(call).rejects.toThrowError(
+        new MinterNoNewUtxosError({
+          pending_utxos: [[pendingUtxo]],
+          required_confirmations: 12,
+        }),
+      );
+    });
+
+    it("should throw MinterNoNewUtxosError without pending UTXOs", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      const error = {
+        Err: {
+          NoNewUtxos: {
+            required_confirmations: 123,
+            current_confirmations: toNullable(456),
+            pending_utxos: [],
+          },
+        } as UpdateBalanceError,
+      };
+      service.update_balance.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+
+      const call = () =>
+        canister.updateBalance({
+          owner,
+        });
+
+      await expect(call).rejects.toThrowError(
+        new MinterNoNewUtxosError({
+          pending_utxos: [],
+          required_confirmations: 12,
+        }),
+      );
     });
 
     it("should throw unsupported response", async () => {
@@ -404,6 +462,305 @@ describe("ckBTC minter canister", () => {
           )}`,
         ),
       );
+    });
+  });
+
+  describe("Retrieve BTC with approval", () => {
+    const success: RetrieveBtcOk = {
+      block_index: 1n,
+    };
+    const ok = { Ok: success };
+
+    const params = {
+      address: bitcoinAddressMock,
+      amount: 123_000n,
+    };
+
+    it("should return Ok", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_with_approval.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const res = await canister.retrieveBtcWithApproval(params);
+
+      expect(service.retrieve_btc_with_approval).toBeCalledTimes(1);
+      expect(service.retrieve_btc_with_approval).toBeCalledWith({
+        ...params,
+        from_subaccount: [],
+      });
+      expect(res).toEqual(success);
+    });
+
+    it("should return Ok with fromSubaccount", async () => {
+      const fromSubaccount = new Uint8Array([3, 4, 5]);
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_with_approval.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const res = await canister.retrieveBtcWithApproval({
+        ...params,
+        fromSubaccount,
+      });
+
+      expect(service.retrieve_btc_with_approval).toBeCalledTimes(1);
+      expect(service.retrieve_btc_with_approval).toBeCalledWith({
+        ...params,
+        from_subaccount: [fromSubaccount],
+      });
+      expect(res).toEqual(success);
+    });
+
+    it("should throw MinterGenericError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = {
+        Err: { GenericError: { error_message: "message", error_code: 1n } },
+      };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterGenericError(
+          `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`,
+        ),
+      );
+    });
+
+    it("should throw MinterTemporarilyUnavailable", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { TemporarilyUnavailable: "unavailable" } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+      );
+    });
+
+    it("should throw MinterAlreadyProcessingError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { AlreadyProcessing: null } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterAlreadyProcessingError(),
+      );
+    });
+
+    it("should throw MinterMalformedAddress", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { MalformedAddress: "malformated" } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterMalformedAddressError(error.Err.MalformedAddress),
+      );
+    });
+
+    it("should throw MinterAmountTooLowError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { AmountTooLow: 123n } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterAmountTooLowError(`${error.Err.AmountTooLow}`),
+      );
+    });
+
+    it("should throw MinterInsufficientFundsError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { InsufficientFunds: { balance: 123n } } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterInsufficientFundsError(
+          `${error.Err.InsufficientFunds.balance}`,
+        ),
+      );
+    });
+
+    it("should throw MinterInsufficientAllowanceError", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { InsufficientAllowance: { allowance: 123n } } };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterInsufficientAllowanceError(
+          `${error.Err.InsufficientAllowance.allowance}`,
+        ),
+      );
+    });
+
+    it("should throw unsupported response", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+
+      const error = { Err: { Test: null } as unknown as RetrieveBtcError };
+      service.retrieve_btc_with_approval.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveBtcWithApproval(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterRetrieveBtcError(
+          `Unsupported response type in minter.retrieveBtc ${JSON.stringify(
+            error.Err,
+          )}`,
+        ),
+      );
+    });
+  });
+
+  describe("Retrieve BTC status", () => {
+    it("should return status", async () => {
+      const submittedStatus = {
+        Submitted: { txid: new Uint8Array([3, 2, 6]) },
+      } as RetrieveBtcStatus;
+
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status.mockResolvedValue(submittedStatus);
+      const transactionId = 481n;
+
+      const canister = minter(service);
+
+      const res = await canister.retrieveBtcStatus({
+        transactionId,
+        certified: true,
+      });
+
+      expect(service.retrieve_btc_status).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status).toBeCalledWith({
+        block_index: transactionId,
+      });
+      expect(res).toEqual(submittedStatus);
+    });
+
+    it("should use non-certified service", async () => {
+      const submittedStatus = {
+        Submitted: { txid: new Uint8Array([9, 7, 5]) },
+      } as RetrieveBtcStatus;
+
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status.mockResolvedValue(submittedStatus);
+      const transactionId = 382n;
+
+      const canister = nonCertifiedMinter(service);
+
+      const res = await canister.retrieveBtcStatus({
+        transactionId,
+        certified: false,
+      });
+
+      expect(service.retrieve_btc_status).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status).toBeCalledWith({
+        block_index: transactionId,
+      });
+      expect(res).toEqual(submittedStatus);
+    });
+  });
+
+  describe("Retrieve BTC status V2 by account", () => {
+    const owner = Principal.fromHex("4321");
+    const status1 = {
+      Submitted: { txid: new Uint8Array([3, 2, 6]) },
+    } as RetrieveBtcStatusV2;
+    const status2 = {
+      Reimbursed: {
+        account: { owner, subaccount: [] },
+        mint_block_index: 103n,
+        amount: 123_000n,
+        reason: {
+          CallFailed: null,
+        },
+      },
+    } as RetrieveBtcStatusV2;
+    const response = [
+      {
+        block_index: 101n,
+        status_v2: [status1],
+      },
+      {
+        block_index: 102n,
+        status_v2: [status2],
+      },
+    ] as {
+      block_index: bigint;
+      status_v2: [] | [RetrieveBtcStatusV2];
+    }[];
+
+    const expectedResponse = [
+      {
+        id: 101n,
+        status: status1,
+      },
+      {
+        id: 102n,
+        status: status2,
+      },
+    ];
+
+    it("should return statuses", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status_v2_by_account.mockResolvedValue(response);
+
+      const canister = minter(service);
+
+      const res = await canister.retrieveBtcStatusV2ByAccount({
+        certified: true,
+      });
+
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([]);
+      expect(res).toEqual(expectedResponse);
+    });
+
+    it("should use non-certified service", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status_v2_by_account.mockResolvedValue(response);
+
+      const canister = nonCertifiedMinter(service);
+
+      const res = await canister.retrieveBtcStatusV2ByAccount({
+        certified: false,
+      });
+
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([]);
+      expect(res).toEqual(expectedResponse);
     });
   });
 

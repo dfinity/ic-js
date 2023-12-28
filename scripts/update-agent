@@ -12,7 +12,7 @@ function install_agent() {
   npm i @dfinity/agent@latest @dfinity/candid@latest @dfinity/principal@latest --workspace=packages/"$package" --save-peer
 }
 
-PACKAGES=utils,ckbtc,cmc,ic-management,ledger,nns,sns
+PACKAGES=utils,ckbtc,cmc,ic-management,ledger-icp,ledger-icrc,nns,sns
 
 # Remove agent-js libraries from all packages first to avoid resolve conflicts between those
 for package in $(echo $PACKAGES | sed "s/,/ /g"); do

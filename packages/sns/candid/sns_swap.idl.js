@@ -17,6 +17,7 @@ export const idlFactory = ({ IDL }) => {
     'min_direct_participation_threshold_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const CfNeuron = IDL.Record({
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
@@ -31,6 +32,7 @@ export const idlFactory = ({ IDL }) => {
   const Init = IDL.Record({
     'nns_proposal_id' : IDL.Opt(IDL.Nat64),
     'sns_root_canister_id' : IDL.Text,
+    'neurons_fund_participation' : IDL.Opt(IDL.Bool),
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
@@ -54,8 +56,10 @@ export const idlFactory = ({ IDL }) => {
     'should_auto_finalize' : IDL.Opt(IDL.Bool),
     'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'sns_governance_canister_id' : IDL.Text,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'restricted_countries' : IDL.Opt(Countries),
     'min_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const ErrorRefundIcpRequest = IDL.Record({
     'source_principal_id' : IDL.Opt(IDL.Principal),
@@ -139,7 +143,10 @@ export const idlFactory = ({ IDL }) => {
     'amount_transferred_e8s' : IDL.Opt(IDL.Nat64),
     'transfer_success_timestamp_seconds' : IDL.Nat64,
   });
-  const BuyerState = IDL.Record({ 'icp' : IDL.Opt(TransferableAmount) });
+  const BuyerState = IDL.Record({
+    'icp' : IDL.Opt(TransferableAmount),
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
+  });
   const GetBuyerStateResponse = IDL.Record({
     'buyer_state' : IDL.Opt(BuyerState),
   });
@@ -202,7 +209,9 @@ export const idlFactory = ({ IDL }) => {
     'sns_token_e8s' : IDL.Nat64,
     'sale_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_participant_icp_e8s' : IDL.Nat64,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_icp_e8s' : IDL.Nat64,
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const GetSaleParametersResponse = IDL.Record({ 'params' : IDL.Opt(Params) });
   const NeuronId = IDL.Record({ 'id' : IDL.Vec(IDL.Nat8) });
@@ -410,6 +419,7 @@ export const init = ({ IDL }) => {
     'min_direct_participation_threshold_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   const CfNeuron = IDL.Record({
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
@@ -424,6 +434,7 @@ export const init = ({ IDL }) => {
   const Init = IDL.Record({
     'nns_proposal_id' : IDL.Opt(IDL.Nat64),
     'sns_root_canister_id' : IDL.Text,
+    'neurons_fund_participation' : IDL.Opt(IDL.Bool),
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
@@ -447,8 +458,10 @@ export const init = ({ IDL }) => {
     'should_auto_finalize' : IDL.Opt(IDL.Bool),
     'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'sns_governance_canister_id' : IDL.Text,
+    'min_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'restricted_countries' : IDL.Opt(Countries),
     'min_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'max_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
   return [Init];
 };

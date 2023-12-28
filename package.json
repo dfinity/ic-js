@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/ic-js",
-  "version": "2023.10.02-1515Z",
+  "version": "2023.12.20-1000Z",
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
   "workspaces": [
@@ -50,7 +50,7 @@
     "jest-mock-extended": "^3.0.5",
     "node-fetch": "^3.3.2",
     "prettier": "^3.0.3",
-    "prettier-plugin-organize-imports": "^3.2.3",
+    "prettier-plugin-organize-imports": "^3.2.4",
     "semver": "^7.5.4",
     "size-limit": "^9.0.0",
     "text-encoding": "^0.7.0",
@@ -97,7 +97,7 @@
     {
       "name": "@dfinity/ledger-icp",
       "path": "./packages/ledger-icp/dist/index.js",
-      "limit": "15 kB",
+      "limit": "20 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -109,7 +109,7 @@
     {
       "name": "@dfinity/nns",
       "path": "./packages/nns/dist/index.js",
-      "limit": "32 kB",
+      "limit": "40 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -138,7 +138,7 @@
     {
       "name": "@dfinity/utils",
       "path": "./packages/utils/dist/index.js",
-      "limit": "4 kB",
+      "limit": "5 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",

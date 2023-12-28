@@ -23,10 +23,12 @@ import type {
   LedgerCanisterCall,
   LedgerCanisterOptions,
 } from "./types/ledger.options";
+import type { AccountBalanceParams } from "./types/ledger.params";
 import type {
   Icrc1TransferRequest,
   TransferRequest,
 } from "./types/ledger_converters";
+import { paramToAccountIdentifier } from "./utils/params.utils";
 import { importNnsProto, queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
@@ -70,15 +72,18 @@ export class LedgerCanister {
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it is fetched using a query call.
    *
+   * @param {AccountBalanceParams} params The parameters to get the balance of an account.
+   * @param {AccountIdentifierParam} params.accountIdentifier The account identifier provided either as hex string or as an AccountIdentifier.
+   * @param {boolean} params.certified query or update call.
+   * @returns {Promise<bigint>} The balance of the given account.
    * @throws {@link Error}
    */
   public accountBalance = async ({
-    accountIdentifier,
+    accountIdentifier: accountIdentifierParam,
     certified = true,
-  }: {
-    accountIdentifier: AccountIdentifier;
-    certified?: boolean;
-  }): Promise<bigint> => {
+  }: AccountBalanceParams): Promise<bigint> => {
+    const accountIdentifier = paramToAccountIdentifier(accountIdentifierParam);
+
     if (this.hardwareWallet) {
       return this.accountBalanceHardwareWallet({
         accountIdentifier,

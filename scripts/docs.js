@@ -31,6 +31,7 @@ const ledgerIcrcInputFiles = [
 
 const ledgerICPInputFiles = [
   "./packages/ledger-icp/src/ledger.canister.ts",
+  "./packages/ledger-icp/src/index.canister.ts",
   "./packages/ledger-icp/src/account_identifier.ts",
 ];
 

@@ -1,4 +1,4 @@
-// Generated from IC repo commit 557b532805beb8d63c5ab65146d4e338849a50e1 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 57f0e39e3 (2023-11-22) 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -315,6 +315,7 @@ type Operation = variant {
   IncreaseDissolveDelay : IncreaseDissolveDelay;
   SetDissolveTimestamp : SetDissolveTimestamp;
 };
+type Percentage = record { basis_points : opt nat64 };
 type Proposal = record {
   url : text;
   title : text;
@@ -327,6 +328,7 @@ type ProposalData = record {
   action : nat64;
   failure_reason : opt GovernanceError;
   ballots : vec record { text; Ballot };
+  minimum_yes_proportion_of_total : opt Percentage;
   reward_event_round : nat64;
   failed_timestamp_seconds : nat64;
   reward_event_end_timestamp_seconds : opt nat64;
@@ -339,6 +341,7 @@ type ProposalData = record {
   proposal : opt Proposal;
   proposer : opt NeuronId;
   wait_for_quiet_state : opt WaitForQuietState;
+  minimum_yes_proportion_of_exercised : opt Percentage;
   is_eligible_for_rewards : bool;
   executed_timestamp_seconds : nat64;
 };
@@ -355,6 +358,7 @@ type RewardEvent = record {
   rounds_since_last_distribution : opt nat64;
   actual_timestamp_seconds : nat64;
   end_timestamp_seconds : opt nat64;
+  total_available_e8s_equivalent : opt nat64;
   distributed_e8s_equivalent : nat64;
   round : nat64;
   settled_proposals : vec ProposalId;

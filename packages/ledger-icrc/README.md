@@ -45,7 +45,7 @@ const { metadata } = IcrcLedgerCanister.create({
   canisterId: MY_LEDGER_CANISTER_ID,
 });
 
-const data = await metadata();
+const data = await metadata({});
 ```
 
 ## Features
@@ -88,7 +88,7 @@ Parameters:
 
 - `accountString`: string
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L59)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L61)
 
 #### :gear: decodePayment
 

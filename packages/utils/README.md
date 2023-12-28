@@ -49,6 +49,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [encodeBase32](#gear-encodebase32)
 - [decodeBase32](#gear-decodebase32)
 - [bigEndianCrc32](#gear-bigendiancrc32)
+- [secondsToDuration](#gear-secondstoduration)
 - [debounce](#gear-debounce)
 - [isNullish](#gear-isnullish)
 - [nonNullish](#gear-nonnullish)
@@ -73,7 +74,7 @@ Parameters:
 
 - `amount`: - in string format
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L10)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L12)
 
 #### :gear: defaultAgent
 
@@ -89,17 +90,18 @@ Get a default agent that connects to mainnet with the anonymous identity.
 
 Create an agent for a given identity
 
-| Function      | Type                                                                                                                        |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `createAgent` | `({ identity, host, fetchRootKey, }: { identity: Identity; host?: string; fetchRootKey?: boolean; }) => Promise<HttpAgent>` |
+| Function      | Type                                                                                                                                                                                |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, }: { identity: Identity; host?: string; fetchRootKey?: boolean; verifyQuerySignatures?: boolean; }) => Promise<HttpAgent>` |
 
 Parameters:
 
 - `identity`: A mandatory identity to use for the agent
 - `host`: An optional host to connect to
 - `fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
+- `verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L20)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L21)
 
 #### :gear: createServices
 
@@ -191,9 +193,9 @@ Parameters:
 
 #### :gear: uint8ArrayToHexString
 
-| Function                | Type                            |
-| ----------------------- | ------------------------------- |
-| `uint8ArrayToHexString` | `(bytes: Uint8Array) => string` |
+| Function                | Type                                        |
+| ----------------------- | ------------------------------------------- |
+| `uint8ArrayToHexString` | `(bytes: Uint8Array or number[]) => string` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L60)
 
@@ -233,6 +235,20 @@ Parameters:
 | `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
+
+#### :gear: secondsToDuration
+
+Convert seconds to a human-readable duration, such as "6 days, 10 hours."
+
+| Function            | Type                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `secondsToDuration` | `({ seconds, i18n, }: { seconds: bigint; i18n?: I18nSecondsToDuration; }) => string` |
+
+Parameters:
+
+- `options`: - The options object.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L43)
 
 #### :gear: debounce
 
@@ -361,13 +377,15 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 | ---------- | ------- |
 | `ICPToken` | `Token` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L62)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L115)
 
 ### :factory: TokenAmount
 
+Deprecated. Use TokenAmountV2 instead which supports decimals !== 8.
+
 Represents an amount of tokens.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L73)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L129)
 
 #### Methods
 
@@ -389,7 +407,7 @@ Parameters:
 - `params.amount`: The amount in bigint format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L86)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L146)
 
 ##### :gear: fromString
 
@@ -408,7 +426,7 @@ Parameters:
 - `params.amount`: The amount in string format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L107)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L167)
 
 ##### :gear: fromNumber
 
@@ -425,7 +443,7 @@ Parameters:
 - `params.amount`: The amount in number format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L131)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L197)
 
 ##### :gear: toE8s
 
@@ -433,7 +451,79 @@ Parameters:
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L157)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L223)
+
+### :factory: TokenAmountV2
+
+Represents an amount of tokens.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L235)
+
+#### Methods
+
+- [fromUlps](#gear-fromulps)
+- [fromString](#gear-fromstring)
+- [fromNumber](#gear-fromnumber)
+- [toUlps](#gear-toulps)
+
+##### :gear: fromUlps
+
+Initialize from a bigint. Bigint are considered ulps.
+
+| Method     | Type                                                                       |
+| ---------- | -------------------------------------------------------------------------- |
+| `fromUlps` | `({ amount, token, }: { amount: bigint; token: Token; }) => TokenAmountV2` |
+
+Parameters:
+
+- `params.amount`: The amount in bigint format.
+- `params.token`: The token type.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L248)
+
+##### :gear: fromString
+
+Initialize from a string. Accepted formats:
+
+1234567.8901
+1'234'567.8901
+1,234,567.8901
+
+| Method       | Type                                                                                                 |
+| ------------ | ---------------------------------------------------------------------------------------------------- |
+| `fromString` | `({ amount, token, }: { amount: string; token: Token; }) => FromStringToTokenError or TokenAmountV2` |
+
+Parameters:
+
+- `params.amount`: The amount in string format.
+- `params.token`: The token type.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L269)
+
+##### :gear: fromNumber
+
+Initialize from a number.
+
+1 integer is considered 10^{token.decimals} ulps
+
+| Method       | Type                                                                       |
+| ------------ | -------------------------------------------------------------------------- |
+| `fromNumber` | `({ amount, token, }: { amount: number; token: Token; }) => TokenAmountV2` |
+
+Parameters:
+
+- `params.amount`: The amount in number format.
+- `params.token`: The token type.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L293)
+
+##### :gear: toUlps
+
+| Method   | Type           |
+| -------- | -------------- |
+| `toUlps` | `() => bigint` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L321)
 
 ### :factory: Canister
 
