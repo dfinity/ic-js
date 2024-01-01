@@ -14,7 +14,7 @@ export interface AccountBalanceArgsDfx {
 export type AccountIdentifier = Uint8Array | number[];
 export interface Allowance {
   allowance: Icrc1Tokens;
-  expires_at: [] | [TimeStamp];
+  expires_at: [] | [Icrc1Timestamp];
 }
 export interface AllowanceArgs {
   account: Account;
@@ -24,10 +24,10 @@ export interface ApproveArgs {
   fee: [] | [Icrc1Tokens];
   memo: [] | [Uint8Array | number[]];
   from_subaccount: [] | [SubAccount];
-  created_at_time: [] | [TimeStamp];
+  created_at_time: [] | [Icrc1Timestamp];
   amount: Icrc1Tokens;
   expected_allowance: [] | [Icrc1Tokens];
-  expires_at: [] | [TimeStamp];
+  expires_at: [] | [Icrc1Timestamp];
   spender: Account;
 }
 export type ApproveError =
@@ -48,6 +48,7 @@ export interface Archive {
 }
 export interface ArchiveOptions {
   num_blocks_to_archive: bigint;
+  max_transactions_per_response: [] | [bigint];
   trigger_threshold: bigint;
   max_message_size_bytes: [] | [bigint];
   cycles_for_archive_creation: [] | [bigint];
@@ -130,6 +131,7 @@ export type Operation =
         from: AccountIdentifier;
         allowance_e8s: bigint;
         allowance: Tokens;
+        expected_allowance: [] | [Tokens];
         expires_at: [] | [TimeStamp];
         spender: AccountIdentifier;
       };
@@ -148,15 +150,7 @@ export type Operation =
         fee: Tokens;
         from: AccountIdentifier;
         amount: Tokens;
-      };
-    }
-  | {
-      TransferFrom: {
-        to: AccountIdentifier;
-        fee: Tokens;
-        from: AccountIdentifier;
-        amount: Tokens;
-        spender: AccountIdentifier;
+        spender: [] | [Uint8Array | number[]];
       };
     };
 export type QueryArchiveError =
@@ -235,6 +229,30 @@ export interface TransferFee {
   transfer_fee: Tokens;
 }
 export type TransferFeeArg = {};
+export interface TransferFromArgs {
+  to: Account;
+  fee: [] | [Icrc1Tokens];
+  spender_subaccount: [] | [SubAccount];
+  from: Account;
+  memo: [] | [Uint8Array | number[]];
+  created_at_time: [] | [Icrc1Timestamp];
+  amount: Icrc1Tokens;
+}
+export type TransferFromError =
+  | {
+      GenericError: { message: string; error_code: bigint };
+    }
+  | { TemporarilyUnavailable: null }
+  | { InsufficientAllowance: { allowance: Icrc1Tokens } }
+  | { BadBurn: { min_burn_amount: Icrc1Tokens } }
+  | { Duplicate: { duplicate_of: Icrc1BlockIndex } }
+  | { BadFee: { expected_fee: Icrc1Tokens } }
+  | { CreatedInFuture: { ledger_time: Icrc1Timestamp } }
+  | { TooOld: null }
+  | { InsufficientFunds: { balance: Icrc1Tokens } };
+export type TransferFromResult =
+  | { Ok: Icrc1BlockIndex }
+  | { Err: TransferFromError };
 export type TransferResult = { Ok: BlockIndex } | { Err: TransferError };
 export interface UpgradeArgs {
   maximum_number_of_accounts: [] | [bigint];
@@ -267,6 +285,7 @@ export interface _SERVICE {
   icrc1_transfer: ActorMethod<[TransferArg], Icrc1TransferResult>;
   icrc2_allowance: ActorMethod<[AllowanceArgs], Allowance>;
   icrc2_approve: ActorMethod<[ApproveArgs], ApproveResult>;
+  icrc2_transfer_from: ActorMethod<[TransferFromArgs], TransferFromResult>;
   name: ActorMethod<[], { name: string }>;
   query_blocks: ActorMethod<[GetBlocksArgs], QueryBlocksResponse>;
   query_encoded_blocks: ActorMethod<
