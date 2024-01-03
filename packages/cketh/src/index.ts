@@ -1,1 +1,1 @@
-export {};
+export { CkETHMinterCanister } from "./minter.canister";
