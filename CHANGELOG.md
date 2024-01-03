@@ -1,3 +1,26 @@
+# 2024.01.03-1300Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status           |
+|--------------------------|---------|------------------|
+| `@dfinity/ckbtc`         | v2.1.0  | Unchanged        |
+| `@dfinity/cketh`         | v0.0.1  | New 🚀           |
+| `@dfinity/cmc`           | v2.1.0  | Unchanged        |
+| `@dfinity/ic-management` | v2.1.0  | Unchanged        |
+| `@dfinity/ledger-icp`    | v2.1.0  | Unchanged        |
+| `@dfinity/ledger-icrc`   | v2.1.0  | Unchanged        |
+| `@dfinity/nns`           | v3.1.0  | Unchanged        |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged        |
+| `@dfinity/sns`           | v2.1.0  | Unchanged        |
+| `@dfinity/utils`         | v2.0.0  | Unchanged️        |
+
+## Features
+
+- Introduces an early first version of `@dfinity/cketh`, which is meant to provide functions for interfacing with ckETH. The library doesn't do much at the moment, but we're releasing it to integrate it into our pipelines, and features will be added iteratively as required.
+
 # 2023.12.20-1000Z
 
 ## Overview
@@ -40,7 +63,7 @@ The current status of the libraries at the time of the release is as follows:
 
 - Add a cron job to periodically update IC candid files and typescript bindings.
 
-# Release.2023.11.21-1400Z
+# 2023.11.21-1400Z
 
 ## Overview
 
