@@ -53,11 +53,12 @@ const address = await getSmartContractAddress({});
 
 ### :factory: CkETHMinterCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L7)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L8)
 
 #### Methods
 
 - [create](#gear-create)
+- [getSmartContractAddress](#gear-getsmartcontractaddress)
 
 ##### :gear: create
 
@@ -65,7 +66,22 @@ const address = await getSmartContractAddress({});
 | -------- | ------------------------------------------------------------------------ |
 | `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L8)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L9)
+
+##### :gear: getSmartContractAddress
+
+The address of the helper smart contract may change in the future when the minter is upgraded. Please verify the address of the helper contract before any important transfer by querying the minter as follows.
+
+| Method                    | Type                                                |
+| ------------------------- | --------------------------------------------------- |
+| `getSmartContractAddress` | `({ certified, }?: QueryParams) => Promise<string>` |
+
+Parameters:
+
+- `params`: The parameters to resolve the ckETH smart contract address.
+- `params.certified`: query or update call
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L27)
 
 <!-- TSDOC_END -->
 
