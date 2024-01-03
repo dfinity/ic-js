@@ -12,7 +12,8 @@
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/ic-management"
+    "packages/ic-management",
+    "packages/cketh"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
