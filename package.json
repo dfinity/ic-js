@@ -74,6 +74,17 @@
       ]
     },
     {
+      "name": "@dfinity/cketh",
+      "path": "./packages/ckbtc/dist/index.js",
+      "limit": "5 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils"
+      ]
+    },
+    {
       "name": "@dfinity/cmc",
       "path": "./packages/cmc/dist/index.js",
       "limit": "2 kB",
