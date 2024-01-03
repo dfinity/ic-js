@@ -51,6 +51,22 @@ const address = await getSmartContractAddress({});
 
 <!-- TSDOC_START -->
 
+### :factory: CkETHMinterCanister
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L7)
+
+#### Methods
+
+- [create](#gear-create)
+
+##### :gear: create
+
+| Method   | Type                                                                     |
+| -------- | ------------------------------------------------------------------------ |
+| `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L8)
+
 <!-- TSDOC_END -->
 
 ## Resources
