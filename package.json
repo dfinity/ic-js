@@ -75,7 +75,7 @@
     },
     {
       "name": "@dfinity/cketh",
-      "path": "./packages/ckbtc/dist/index.js",
+      "path": "./packages/cketh/dist/index.js",
       "limit": "9 kB",
       "ignore": [
         "@dfinity/agent",
