@@ -40,6 +40,8 @@ const ckBTCInputFiles = [
   "./packages/ckbtc/src/utils/btc.utils.ts",
 ];
 
+const ckETHInputFiles = ["./packages/cketh/src/minter.canister.ts"];
+
 const icMgmtInputFiles = [
   "./packages/ic-management/src/ic-management.canister.ts",
 ];
@@ -90,6 +92,13 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: ckBTCInputFiles,
   outputFile: "./packages/ckbtc/README.md",
+  markdownOptions,
+  buildOptions,
+});
+
+generateDocumentation({
+  inputFiles: ckETHInputFiles,
+  outputFile: "./packages/cketh/README.md",
   markdownOptions,
   buildOptions,
 });

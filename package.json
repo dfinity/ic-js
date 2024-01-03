@@ -12,7 +12,8 @@
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/ic-management"
+    "packages/ic-management",
+    "packages/cketh"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -65,6 +66,17 @@
       "name": "@dfinity/ckbtc",
       "path": "./packages/ckbtc/dist/index.js",
       "limit": "9 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@dfinity/cketh",
+      "path": "./packages/cketh/dist/index.js",
+      "limit": "5 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",

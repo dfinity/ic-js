@@ -28,8 +28,6 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 The features are available through the class `CkBTCCanister`. It has to be instantiated with a canister ID.
 
-e.g. fetching a token metadata.
-
 ```ts
 import { CkBTCCanister } from "@dfinity/ckbtc";
 import { createAgent } from "@dfinity/utils";
