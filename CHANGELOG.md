@@ -4,18 +4,18 @@
 
 The current status of the libraries at the time of the release is as follows:
 
-| Library                  | Version | Status           |
-|--------------------------|---------|------------------|
-| `@dfinity/ckbtc`         | v2.1.0  | Unchanged        |
-| `@dfinity/cketh`         | v0.0.1  | New 🚀           |
-| `@dfinity/cmc`           | v2.1.0  | Unchanged        |
-| `@dfinity/ic-management` | v2.1.0  | Unchanged        |
-| `@dfinity/ledger-icp`    | v2.1.0  | Unchanged        |
-| `@dfinity/ledger-icrc`   | v2.1.0  | Unchanged        |
-| `@dfinity/nns`           | v3.1.0  | Unchanged        |
-| `@dfinity/nns-proto`     | v1.0.0  | Unchanged        |
-| `@dfinity/sns`           | v2.1.0  | Unchanged        |
-| `@dfinity/utils`         | v2.0.0  | Unchanged️        |
+| Library                  | Version | Status     |
+| ------------------------ | ------- | ---------- |
+| `@dfinity/ckbtc`         | v2.1.0  | Unchanged  |
+| `@dfinity/cketh`         | v0.0.1  | New 🚀     |
+| `@dfinity/cmc`           | v2.1.0  | Unchanged  |
+| `@dfinity/ic-management` | v2.1.0  | Unchanged  |
+| `@dfinity/ledger-icp`    | v2.1.0  | Unchanged  |
+| `@dfinity/ledger-icrc`   | v2.1.0  | Unchanged  |
+| `@dfinity/nns`           | v3.1.0  | Unchanged  |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged  |
+| `@dfinity/sns`           | v2.1.0  | Unchanged  |
+| `@dfinity/utils`         | v2.0.0  | Unchanged️ |
 
 ## Features
 
