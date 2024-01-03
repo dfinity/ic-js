@@ -88,4 +88,5 @@ Parameters:
 ## Resources
 
 - [ckETH Minter](https://github.com/dfinity/ic/tree/master/rs/ethereum/cketh/minter)
+- ckETH [testnet deployment arguments](https://github.com/dfinity/ic/tree/master/rs/ethereum/cketh/testnet)
 - [How to Acquire ckETH](https://medium.com/dfinity/how-to-acquire-cketh-02d863c835fc) blog post by [Jennifer Tran](https://twitter.com/JKim_Tran)
