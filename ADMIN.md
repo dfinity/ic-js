@@ -51,10 +51,7 @@ describe("my-lib", () => {
 
 You need an `import` to avoid considering it a global script file.
 
-6. Docs
-
-- Add new library to [docs](./scripts/docs.js) generator
-- Add readme file of the new library in `package.json` script `docs` to format the generated docs with prettier.
+6. Add new library to [docs](./scripts/docs.js) generator.
 
 7. Add the new library to the [build-next](./scripts/build-next) script to tweak version and make dependencies less restrictive when the "next" version is published.
 
