@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/ic-js",
-  "version": "2023.12.20-1000Z",
+  "version": "2024.01.03-1115Z",
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
   "workspaces": [
@@ -12,7 +12,8 @@
     "packages/sns",
     "packages/cmc",
     "packages/ckbtc",
-    "packages/ic-management"
+    "packages/ic-management",
+    "packages/cketh"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -65,6 +66,17 @@
       "name": "@dfinity/ckbtc",
       "path": "./packages/ckbtc/dist/index.js",
       "limit": "9 kB",
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@dfinity/cketh",
+      "path": "./packages/cketh/dist/index.js",
+      "limit": "5 kB",
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",

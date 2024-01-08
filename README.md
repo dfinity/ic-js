@@ -14,6 +14,7 @@ A collection of library for interfacing with the Internet Computer.
 - [ledger-icp](/packages/ledger-icp): interfacing with the **ICP** ledger
 - [ledger-icrc](/packages/ledger-icrc): interacting with **ICRC** compatible ledgers
 - [ckBTC](/packages/ckbtc): interfacing with **ckBTC**
+- [ckETH](/packages/cketh): interfacing with **ckETH**
 - [ic-management](/packages/ic-management): interfacing with the **IC management canister**
 - [utils](/packages/utils): a collection of utilities and constants
 - [nns-proto](/packages/nns-proto): the protobuf source used by `nns-js` to support hardware wallets
