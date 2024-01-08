@@ -6,6 +6,7 @@ type canister_settings = record {
   compute_allocation : opt nat;
   memory_allocation : opt nat;
   freezing_threshold : opt nat;
+  reserved_cycles_limit : opt nat;
 };
 
 type definite_canister_settings = record {
@@ -13,6 +14,7 @@ type definite_canister_settings = record {
   compute_allocation : nat;
   memory_allocation : nat;
   freezing_threshold : nat;
+  reserved_cycles_limit : nat;
 };
 
 type change_origin = variant {
@@ -45,6 +47,8 @@ type change = record {
   origin : change_origin;
   details : change_details;
 };
+
+type chunk_hash = blob;
 
 type http_header = record { name: text; value: text };
 
@@ -111,6 +115,12 @@ type send_transaction_request = record {
 
 type millisatoshi_per_byte = nat64;
 
+type node_metrics = record {
+    node_id : principal;
+    num_blocks_total : nat64;
+    num_block_failures_total : nat64;
+};
+
 service ic : {
   create_canister : (record {
     settings : opt canister_settings;
@@ -121,10 +131,37 @@ service ic : {
     settings : canister_settings;
     sender_canister_version : opt nat64;
   }) -> ();
+  upload_chunk : (record {
+    canister_id : principal;
+    chunk : blob;
+  }) -> (chunk_hash);
+  clear_chunk_store: (record {canister_id : canister_id}) -> ();
+  stored_chunks: (record {canister_id : canister_id}) -> (vec chunk_hash);
   install_code : (record {
-    mode : variant {install; reinstall; upgrade};
+    mode : variant {
+      install;
+      reinstall;
+      upgrade : opt record {
+        skip_pre_upgrade: opt bool;
+      }
+    };
     canister_id : canister_id;
     wasm_module : wasm_module;
+    arg : blob;
+    sender_canister_version : opt nat64;
+  }) -> ();
+  install_chunked_code: (record {
+    mode : variant {
+      install;
+      reinstall;
+      upgrade : opt record {
+        skip_pre_upgrade: opt bool;
+      };
+    };
+    target_canister: canister_id;
+    storage_canister: opt canister_id;
+    chunk_hashes_list: vec chunk_hash;
+    wasm_module_hash: blob;
     arg : blob;
     sender_canister_version : opt nat64;
   }) -> ();
@@ -141,6 +178,7 @@ service ic : {
       memory_size: nat;
       cycles: nat;
       idle_cycles_burned_per_day: nat;
+      reserved_cycles: nat;
   });
   canister_info : (record {
       canister_id : canister_id;
@@ -180,9 +218,20 @@ service ic : {
 
   // bitcoin interface
   bitcoin_get_balance: (get_balance_request) -> (satoshi);
+  bitcoin_get_balance_query: (get_balance_request) -> (satoshi) query;
   bitcoin_get_utxos: (get_utxos_request) -> (get_utxos_response);
+  bitcoin_get_utxos_query: (get_utxos_request) -> (get_utxos_response) query;
   bitcoin_send_transaction: (send_transaction_request) -> ();
   bitcoin_get_current_fee_percentiles: (get_current_fee_percentiles_request) -> (vec millisatoshi_per_byte);
+
+  // metrics interface
+  node_metrics_history : (record {
+    subnet_id : principal;
+    start_at_timestamp_nanos: nat64;
+  }) -> (vec record {
+    timestamp_nanos : nat64;
+    node_metrics : vec node_metrics;
+  });
 
   // provisional interfaces for the pre-ledger world
   provisional_create_canister_with_cycles : (record {
