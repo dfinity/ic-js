@@ -1,3 +1,26 @@
+# 2024.01.09-1115Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status     |
+| ------------------------ | ------- | ---------- |
+| `@dfinity/ckbtc`         | v2.1.0  | Unchanged  |
+| `@dfinity/cketh`         | v0.0.1  | Unchanged  |
+| `@dfinity/cmc`           | v2.1.0  | Unchanged  |
+| `@dfinity/ic-management` | v2.1.0  | Unchanged  |
+| `@dfinity/ledger-icp`    | v2.1.1  | Patched 🤕 |
+| `@dfinity/ledger-icrc`   | v2.1.0  | Unchanged  |
+| `@dfinity/nns`           | v3.1.0  | Unchanged  |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged  |
+| `@dfinity/sns`           | v2.1.0  | Unchanged  |
+| `@dfinity/utils`         | v2.0.0  | Unchanged️ |
+
+## Fix
+
+- When `@dfinity/ledger-icp` is bundled with Rollup v4, it leads to an incompatibility issue with iOS 15.
+
 # 2024.01.03-1115Z
 
 ## Overview

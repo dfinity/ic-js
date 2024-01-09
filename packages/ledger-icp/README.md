@@ -166,7 +166,7 @@ const data = await metadata();
 | -------------- | ------------------ |
 | `toUint8Array` | `() => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L111)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L109)
 
 ### :factory: LedgerCanister
 

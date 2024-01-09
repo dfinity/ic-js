@@ -18,7 +18,7 @@ export class AccountIdentifier {
 
   public static fromPrincipal({
     principal,
-    subAccount = SubAccount.ZERO,
+    subAccount = SubAccount.fromID(0),
   }: {
     principal: Principal;
     subAccount?: SubAccount;
@@ -105,8 +105,6 @@ export class SubAccount {
     bytes[31] = id;
     return new SubAccount(bytes);
   }
-
-  public static ZERO: SubAccount = this.fromID(0);
 
   public toUint8Array(): Uint8Array {
     return this.bytes;
