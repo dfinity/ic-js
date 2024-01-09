@@ -11,7 +11,9 @@ describe("SubAccount", () => {
   });
 
   it("defines ZERO as a 32-byte zeroed array", () => {
-    expect(SubAccount.ZERO.toUint8Array()).toEqual(new Uint8Array(32).fill(0));
+    expect(SubAccount.fromID(0).toUint8Array()).toEqual(
+      new Uint8Array(32).fill(0),
+    );
   });
 
   it("can be initialized from a principal", () => {
@@ -96,7 +98,7 @@ describe("AccountIdentifier", () => {
         principal: Principal.fromText(
           "bwz3t-ercuj-owo6s-4adfr-sbu4o-l72hg-kfhc5-5sapm-tj6bn-3scho-uqe",
         ),
-        subAccount: SubAccount.ZERO,
+        subAccount: SubAccount.fromID(0),
       }).toHex(),
     ).toBe("df4ad42194201b15ecbbe66ff68559a126854d8141fd935c5bd53433c2fb28d4");
   });
