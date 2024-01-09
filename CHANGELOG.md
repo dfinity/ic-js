@@ -2,7 +2,7 @@
 
 ## Fix
 
-- `@dfinity/ledger-icp` bundled with Rollup v4 leads to an incompatibility with iOS 15  
+- `@dfinity/ledger-icp` bundled with Rollup v4 leads to an incompatibility with iOS 15
 
 # 2024.01.03-1115Z
 
