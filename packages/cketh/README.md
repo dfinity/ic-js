@@ -53,12 +53,13 @@ const address = await getSmartContractAddress({});
 
 ### :factory: CkETHMinterCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L8)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L12)
 
 #### Methods
 
 - [create](#gear-create)
 - [getSmartContractAddress](#gear-getsmartcontractaddress)
+- [withdrawEth](#gear-withdraweth)
 
 ##### :gear: create
 
@@ -66,7 +67,7 @@ const address = await getSmartContractAddress({});
 | -------- | ------------------------------------------------------------------------ |
 | `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L9)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L13)
 
 ##### :gear: getSmartContractAddress
 
@@ -81,7 +82,26 @@ Parameters:
 - `params`: The parameters to resolve the ckETH smart contract address.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L27)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L31)
+
+##### :gear: withdrawEth
+
+Submits a request to convert ckETH to ETH after making an ICRC-2 approval.
+
+Preconditions:
+
+The caller allowed the minter's principal to spend its funds using
+[icrc2_approve] on the ckETH ledger.
+
+| Method        | Type                                                                                          |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| `withdrawEth` | `({ address, ...rest }: { address: string; amount: bigint; }) => Promise<RetrieveEthRequest>` |
+
+Parameters:
+
+- `params`: The parameters to withdrawal ckETH to ETH.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L51)
 
 <!-- TSDOC_END -->
 
