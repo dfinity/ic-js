@@ -1,5 +1,5 @@
-import { idlFactory as certifiedIdlFactory } from "@dfinity/ckbtc/candid/minter.certified.idl";
-import { idlFactory } from "@dfinity/ckbtc/candid/minter.idl";
+import { idlFactory as certifiedIdlFactory } from "@dfinity/cketh/candid/minter.certified.idl";
+import { idlFactory } from "@dfinity/cketh/candid/minter.idl";
 import type { QueryParams } from "@dfinity/utils";
 import { Canister, createServices } from "@dfinity/utils";
 import type {
