@@ -1,3 +1,9 @@
+# XXXX.XX
+
+## Added
+
+- Upgrade candid files for ic-managmenet canister and support new field `reserved_cycles_limit`.
+
 # 2024.01.09-1115Z
 
 ## Overview
