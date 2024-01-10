@@ -1,11 +1,11 @@
-import { idlFactory as certifiedIdlFactory } from "@dfinity/cketh/candid/minter.certified.idl";
-import { idlFactory } from "@dfinity/cketh/candid/minter.idl";
 import type { QueryParams } from "@dfinity/utils";
 import { Canister, createServices } from "@dfinity/utils";
 import type {
   _SERVICE as CkETHMinterService,
   RetrieveEthRequest,
 } from "../candid/minter";
+import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
+import { idlFactory } from "../candid/minter.idl";
 import { createWithdrawEthError } from "./errors/minter.errors";
 import type { CkETHMinterCanisterOptions } from "./types/canister.options";
 
