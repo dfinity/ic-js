@@ -2,7 +2,11 @@ import { idlFactory as certifiedIdlFactory } from "@dfinity/ckbtc/candid/minter.
 import { idlFactory } from "@dfinity/ckbtc/candid/minter.idl";
 import type { QueryParams } from "@dfinity/utils";
 import { Canister, createServices } from "@dfinity/utils";
-import type { _SERVICE as CkETHMinterService } from "../candid/minter";
+import type {
+  _SERVICE as CkETHMinterService,
+  RetrieveEthRequest,
+} from "../candid/minter";
+import { createWithdrawEthError } from "./errors/minter.errors";
 import type { CkETHMinterCanisterOptions } from "./types/canister.options";
 
 export class CkETHMinterCanister extends Canister<CkETHMinterService> {
@@ -29,5 +33,41 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
   }: QueryParams = {}): Promise<string> => {
     const { smart_contract_address } = this.caller({ certified });
     return smart_contract_address();
+  };
+
+  /**
+   * Submits a request to convert ckETH to ETH after making an ICRC-2 approval.
+   *
+   * Preconditions:
+   *
+   * The caller allowed the minter's principal to spend its funds using
+   * [icrc2_approve] on the ckETH ledger.
+   *
+   * @param {Object} params The parameters to withdrawal ckETH to ETH.
+   * @param {string} params.address The destination ETH address.
+   * @param {bigint} params.amount The ETH amount in wei.
+   * @returns {Promise<RetrieveEthRequest>} The successful result or the operation.
+   */
+  withdrawEth = async ({
+    address,
+    ...rest
+  }: {
+    address: string;
+    amount: bigint;
+  }): Promise<RetrieveEthRequest> => {
+    const { withdraw_eth } = this.caller({
+      certified: true,
+    });
+
+    const response = await withdraw_eth({
+      recipient: address,
+      ...rest,
+    });
+
+    if ("Err" in response) {
+      throw createWithdrawEthError(response.Err);
+    }
+
+    return response.Ok;
   };
 }
