@@ -53,12 +53,14 @@ const address = await getSmartContractAddress({});
 
 ### :factory: CkETHMinterCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L8)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L13)
 
 #### Methods
 
 - [create](#gear-create)
 - [getSmartContractAddress](#gear-getsmartcontractaddress)
+- [withdrawEth](#gear-withdraweth)
+- [eip1559TransactionPrice](#gear-eip1559transactionprice)
 
 ##### :gear: create
 
@@ -66,7 +68,7 @@ const address = await getSmartContractAddress({});
 | -------- | ------------------------------------------------------------------------ |
 | `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L9)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L14)
 
 ##### :gear: getSmartContractAddress
 
@@ -81,7 +83,36 @@ Parameters:
 - `params`: The parameters to resolve the ckETH smart contract address.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L27)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L32)
+
+##### :gear: withdrawEth
+
+Submits a request to convert ckETH to ETH after making an ICRC-2 approval.
+
+Preconditions:
+
+The caller allowed the minter's principal to spend its funds using
+[icrc2_approve] on the ckETH ledger.
+
+| Method        | Type                                                                                          |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| `withdrawEth` | `({ address, ...rest }: { address: string; amount: bigint; }) => Promise<RetrieveEthRequest>` |
+
+Parameters:
+
+- `params`: The parameters to withdrawal ckETH to ETH.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L52)
+
+##### :gear: eip1559TransactionPrice
+
+Estimate the price of a transaction issued by the minter when converting ckETH to ETH.
+
+| Method                    | Type                                     |
+| ------------------------- | ---------------------------------------- |
+| `eip1559TransactionPrice` | `() => Promise<Eip1559TransactionPrice>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L80)
 
 <!-- TSDOC_END -->
 

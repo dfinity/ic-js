@@ -149,11 +149,11 @@ Returns the account to which the caller should deposit ckBTC before withdrawing 
 
 Submits a request to convert ckBTC to BTC.
 
-# Note
+Note:
 
 The BTC retrieval process is slow. Instead of synchronously waiting for a BTC transaction to settle, this method returns a request ([block_index]) that the caller can use to query the request status.
 
-# Preconditions
+Preconditions:
 
 The caller deposited the requested amount in ckBTC to the account that the [getWithdrawalAccount] endpoint returns.
 
