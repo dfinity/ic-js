@@ -10,6 +10,7 @@ export interface CanisterSettings {
   freezingThreshold?: bigint;
   memoryAllocation?: bigint;
   computeAllocation?: bigint;
+  reservedCyclesLimit?: bigint;
 }
 
 export const toCanisterSettings = ({
@@ -17,12 +18,14 @@ export const toCanisterSettings = ({
   freezingThreshold,
   memoryAllocation,
   computeAllocation,
+  reservedCyclesLimit,
 }: CanisterSettings = {}): canister_settings => {
   return {
     controllers: toNullable(controllers?.map((c) => Principal.fromText(c))),
     freezing_threshold: toNullable(freezingThreshold),
     memory_allocation: toNullable(memoryAllocation),
     compute_allocation: toNullable(computeAllocation),
+    reserved_cycles_limit: toNullable(reservedCyclesLimit),
   };
 };
 
@@ -55,7 +58,9 @@ export const toInstallMode = (installMode: InstallMode): InstallModeParam => {
     case InstallMode.Reinstall:
       return { reinstall: null };
     case InstallMode.Upgrade:
-      return { upgrade: null };
+      // TODO: Support Upgrade mode skipping pre-upgrade
+      // `upgrade` can also have `[{ skip_pre_upgrade: [] | [boolean] }]`
+      return { upgrade: [] };
   }
 };
 

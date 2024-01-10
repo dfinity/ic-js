@@ -106,6 +106,7 @@ describe("ICManagementCanister", () => {
           controllers: [[mockPrincipal]],
           freezing_threshold: [],
           memory_allocation: [],
+          reserved_cycles_limit: [],
         },
       });
     });
@@ -263,6 +264,7 @@ describe("ICManagementCanister", () => {
         controllers: [mockPrincipal],
         memory_allocation: BigInt(4),
         compute_allocation: BigInt(10),
+        reserved_cycles_limit: BigInt(11),
       };
       const response: CanisterStatusResponse = {
         status: { running: null },
@@ -271,6 +273,7 @@ describe("ICManagementCanister", () => {
         settings,
         idle_cycles_burned_per_day: BigInt(0),
         module_hash: [],
+        reserved_cycles: BigInt(11),
       };
       const service = mock<IcManagementService>();
       service.canister_status.mockResolvedValue(response);
