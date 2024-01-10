@@ -143,8 +143,8 @@ Stop a canister
 Get canister details (memory size, status, etc.)
 
 | Method           | Type                                                                                    |
-| ---------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| `canisterStatus` | `(canisterId: Principal) => Promise<{ status: { stopped: null; } or { stopping: null; } | { running: null; }; memory_size: bigint; cycles: bigint; settings: definite_canister_settings; idle_cycles_burned_per_day: bigint; module_hash: [] | [...]; }>` |
+| ---------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `canisterStatus` | `(canisterId: Principal) => Promise<{ status: { stopped: null; } or { stopping: null; } | { running: null; }; memory_size: bigint; cycles: bigint; settings: definite_canister_settings; idle_cycles_burned_per_day: bigint; module_hash: [] | [...]; reserved_cycles: bigint; }>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L169)
 
