@@ -2,6 +2,7 @@ import type { QueryParams } from "@dfinity/utils";
 import { Canister, createServices } from "@dfinity/utils";
 import type {
   _SERVICE as CkETHMinterService,
+  Eip1559TransactionPrice,
   RetrieveEthRequest,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
@@ -69,5 +70,17 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
     }
 
     return response.Ok;
+  };
+
+  /**
+   * Estimate the price of a transaction issued by the minter when converting ckETH to ETH.
+   *
+   * @returns {Promise<Eip1559TransactionPrice>} The estimated gas fee and limit
+   */
+  eip1559TransactionPrice = (): Promise<Eip1559TransactionPrice> => {
+    const { eip_1559_transaction_price } = this.caller({
+      certified: true,
+    });
+    return eip_1559_transaction_price();
   };
 }

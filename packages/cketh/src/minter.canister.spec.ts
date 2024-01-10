@@ -199,4 +199,36 @@ describe("ckETH minter canister", () => {
       );
     });
   });
+
+  describe("Estimate withdrawal fee", () => {
+    it("should return estimated fee", async () => {
+      const result = {
+        max_priority_fee_per_gas: 123n,
+        max_fee_per_gas: 456n,
+        max_transaction_fee: 7n,
+        gas_limit: 89n,
+      };
+
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.eip_1559_transaction_price.mockResolvedValue(result);
+
+      const canister = minter(service);
+
+      const res = await canister.eip1559TransactionPrice();
+
+      expect(service.eip_1559_transaction_price).toBeCalled();
+      expect(res).toEqual(result);
+    });
+
+    it("should bubble errors", () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.eip_1559_transaction_price.mockRejectedValue(new Error());
+
+      const canister = minter(service);
+
+      const call = () => canister.eip1559TransactionPrice();
+
+      expect(call).rejects.toThrowError();
+    });
+  });
 });
