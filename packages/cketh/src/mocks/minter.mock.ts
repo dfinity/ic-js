@@ -6,3 +6,5 @@ export const minterCanisterIdMock: Principal = Principal.fromText(
 
 export const ckETHSmartContractAddressMock =
   "0x7574eB42cA208A4f6960ECCAfDF186D627dCC175";
+
+export const ethAddressMock = "0x6D1b7ceAd24FBaf153a3a18f09395Fd2f9C64912";
