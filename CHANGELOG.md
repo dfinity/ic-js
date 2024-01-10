@@ -1,6 +1,6 @@
 # XXXX.XX
 
-## Added
+## Features
 
 - Upgrade candid files for ic-managmenet canister and support new field `reserved_cycles_limit`.
 
