@@ -3,6 +3,7 @@
 ## Features
 
 - Upgrade candid files for ic-managmenet canister and support new field `reserved_cycles_limit`.
+- Add "API Boundary Node Management" topic support.
 
 # 2024.01.09-1115Z
 
