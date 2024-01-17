@@ -40,7 +40,10 @@ const ckBTCInputFiles = [
   "./packages/ckbtc/src/utils/btc.utils.ts",
 ];
 
-const ckETHInputFiles = ["./packages/cketh/src/minter.canister.ts"];
+const ckETHInputFiles = [
+  "./packages/cketh/src/minter.canister.ts",
+  "./packages/ledger-icrc/src/utils/minter.utils.ts",
+];
 
 const icMgmtInputFiles = [
   "./packages/ic-management/src/ic-management.canister.ts",
