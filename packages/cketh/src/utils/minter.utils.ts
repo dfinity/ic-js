@@ -10,18 +10,7 @@ import { decodeBase32 } from "@dfinity/utils";
  * @param principal The principal to encode into a fixed 32-byte representation suitable for calling Ethereum smart contracts.
  */
 export const encodePrincipalToEthAddress = (principal: Principal): string => {
-  const rawBytes = decodeBase32(
-    principal.toText().toLowerCase().replace(/-/g, ""),
-  );
-
-  if (rawBytes.length < 4) {
-    throw new Error("Invalid principal: too short");
-  }
-
-  if (rawBytes.length > 33) {
-    throw new Error("Invalid principal: too long");
-  }
-
+  const rawBytes = decodeBase32(principal.toText().replace(/-/g, ""));
   return bytes32Encode(rawBytes.slice(4));
 };
 
