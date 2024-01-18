@@ -97,12 +97,18 @@ export class SubAccount {
   }
 
   public static fromID(id: number): SubAccount {
-    if (id < 0 || id > 255) {
-      throw "Subaccount ID must be >= 0 and <= 255";
+    if (id < 0) throw new Error("Number cannot be negative");
+
+    if (id > Number.MAX_SAFE_INTEGER) {
+      throw new Error("Number is too large to fit in 32 bytes.");
     }
 
-    const bytes: Uint8Array = new Uint8Array(32).fill(0);
-    bytes[31] = id;
+    const buffer = Buffer.alloc(32);
+
+    // Using 24 as the offset since BigInt64BE uses 8 bytes
+    buffer.writeBigInt64BE(BigInt(id), 24);
+
+    const bytes = new Uint8Array(buffer);
     return new SubAccount(bytes);
   }
 
