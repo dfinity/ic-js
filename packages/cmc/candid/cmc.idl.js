@@ -4,13 +4,46 @@ export const idlFactory = ({ IDL }) => {
     'Set' : IDL.Principal,
     'Unset' : IDL.Null,
   });
-  const AccountIdentifier = IDL.Record({ 'bytes' : IDL.Vec(IDL.Nat8) });
+  const AccountIdentifier = IDL.Text;
   const CyclesCanisterInitPayload = IDL.Record({
     'exchange_rate_canister' : IDL.Opt(ExchangeRateCanister),
+    'cycles_ledger_canister_id' : IDL.Opt(IDL.Principal),
     'last_purged_notification' : IDL.Opt(IDL.Nat64),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
     'minting_account_id' : IDL.Opt(AccountIdentifier),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const SubnetFilter = IDL.Record({ 'subnet_type' : IDL.Opt(IDL.Text) });
+  const SubnetSelection = IDL.Variant({
+    'Filter' : SubnetFilter,
+    'Subnet' : IDL.Record({ 'subnet' : IDL.Principal }),
+  });
+  const CanisterSettings = IDL.Record({
+    'controller' : IDL.Opt(IDL.Principal),
+    'freezing_threshold' : IDL.Opt(IDL.Nat),
+    'controllers' : IDL.Opt(IDL.Vec(IDL.Principal)),
+    'reserved_cycles_limit' : IDL.Opt(IDL.Nat),
+    'memory_allocation' : IDL.Opt(IDL.Nat),
+    'compute_allocation' : IDL.Opt(IDL.Nat),
+  });
+  const CreateCanisterArg = IDL.Record({
+    'subnet_selection' : IDL.Opt(SubnetSelection),
+    'settings' : IDL.Opt(CanisterSettings),
+    'subnet_type' : IDL.Opt(IDL.Text),
+  });
+  const CreateCanisterError = IDL.Variant({
+    'Refunded' : IDL.Record({
+      'create_error' : IDL.Text,
+      'refund_amount' : IDL.Nat,
+    }),
+    'RefundFailed' : IDL.Record({
+      'create_error' : IDL.Text,
+      'refund_error' : IDL.Text,
+    }),
+  });
+  const CreateCanisterResult = IDL.Variant({
+    'Ok' : IDL.Principal,
+    'Err' : CreateCanisterError,
   });
   const IcpXdrConversionRate = IDL.Record({
     'xdr_permyriad_per_icp' : IDL.Nat64,
@@ -31,6 +64,8 @@ export const idlFactory = ({ IDL }) => {
   const NotifyCreateCanisterArg = IDL.Record({
     'controller' : IDL.Principal,
     'block_index' : BlockIndex,
+    'subnet_selection' : IDL.Opt(SubnetSelection),
+    'settings' : IDL.Opt(CanisterSettings),
     'subnet_type' : IDL.Opt(IDL.Text),
   });
   const NotifyError = IDL.Variant({
@@ -50,6 +85,22 @@ export const idlFactory = ({ IDL }) => {
     'Ok' : IDL.Principal,
     'Err' : NotifyError,
   });
+  const Memo = IDL.Opt(IDL.Vec(IDL.Nat8));
+  const Subaccount = IDL.Opt(IDL.Vec(IDL.Nat8));
+  const NotifyMintCyclesArg = IDL.Record({
+    'block_index' : BlockIndex,
+    'deposit_memo' : Memo,
+    'to_subaccount' : Subaccount,
+  });
+  const NotifyMintCyclesSuccess = IDL.Record({
+    'balance' : IDL.Nat,
+    'block_index' : IDL.Nat,
+    'minted' : IDL.Nat,
+  });
+  const NotifyMintCyclesResult = IDL.Variant({
+    'Ok' : NotifyMintCyclesSuccess,
+    'Err' : NotifyError,
+  });
   const NotifyTopUpArg = IDL.Record({
     'block_index' : BlockIndex,
     'canister_id' : IDL.Principal,
@@ -57,6 +108,12 @@ export const idlFactory = ({ IDL }) => {
   const Cycles = IDL.Nat;
   const NotifyTopUpResult = IDL.Variant({ 'Ok' : Cycles, 'Err' : NotifyError });
   return IDL.Service({
+    'create_canister' : IDL.Func(
+        [CreateCanisterArg],
+        [CreateCanisterResult],
+        [],
+      ),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
     'get_icp_xdr_conversion_rate' : IDL.Func(
         [],
         [IcpXdrConversionRateResponse],
@@ -77,6 +134,11 @@ export const idlFactory = ({ IDL }) => {
         [NotifyCreateCanisterResult],
         [],
       ),
+    'notify_mint_cycles' : IDL.Func(
+        [NotifyMintCyclesArg],
+        [NotifyMintCyclesResult],
+        [],
+      ),
     'notify_top_up' : IDL.Func([NotifyTopUpArg], [NotifyTopUpResult], []),
   });
 };
@@ -85,9 +147,10 @@ export const init = ({ IDL }) => {
     'Set' : IDL.Principal,
     'Unset' : IDL.Null,
   });
-  const AccountIdentifier = IDL.Record({ 'bytes' : IDL.Vec(IDL.Nat8) });
+  const AccountIdentifier = IDL.Text;
   const CyclesCanisterInitPayload = IDL.Record({
     'exchange_rate_canister' : IDL.Opt(ExchangeRateCanister),
+    'cycles_ledger_canister_id' : IDL.Opt(IDL.Principal),
     'last_purged_notification' : IDL.Opt(IDL.Nat64),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
     'minting_account_id' : IDL.Opt(AccountIdentifier),
