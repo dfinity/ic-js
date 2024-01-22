@@ -377,7 +377,7 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 | ---------- | ------- |
 | `ICPToken` | `Token` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L115)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L116)
 
 ### :factory: TokenAmount
 
@@ -385,7 +385,7 @@ Deprecated. Use TokenAmountV2 instead which supports decimals !== 8.
 
 Represents an amount of tokens.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L129)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L130)
 
 #### Methods
 
@@ -407,7 +407,7 @@ Parameters:
 - `params.amount`: The amount in bigint format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L146)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L147)
 
 ##### :gear: fromString
 
@@ -426,7 +426,7 @@ Parameters:
 - `params.amount`: The amount in string format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L167)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L168)
 
 ##### :gear: fromNumber
 
@@ -443,7 +443,7 @@ Parameters:
 - `params.amount`: The amount in number format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L197)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L198)
 
 ##### :gear: toE8s
 
@@ -451,13 +451,13 @@ Parameters:
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L223)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L224)
 
 ### :factory: TokenAmountV2
 
 Represents an amount of tokens.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L235)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L236)
 
 #### Methods
 
@@ -479,7 +479,7 @@ Parameters:
 - `params.amount`: The amount in bigint format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L248)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L249)
 
 ##### :gear: fromString
 
@@ -498,7 +498,7 @@ Parameters:
 - `params.amount`: The amount in string format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L269)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L270)
 
 ##### :gear: fromNumber
 
@@ -515,7 +515,7 @@ Parameters:
 - `params.amount`: The amount in number format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L293)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L294)
 
 ##### :gear: toUlps
 
@@ -523,7 +523,7 @@ Parameters:
 | -------- | -------------- |
 | `toUlps` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L321)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L322)
 
 ### :factory: Canister
 

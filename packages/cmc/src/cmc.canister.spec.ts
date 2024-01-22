@@ -70,6 +70,8 @@ describe("CyclesMintingCanister", () => {
         controller: Principal.fromText("aaaaa-aa"),
         block_index: BigInt(10),
         subnet_type: [],
+        subnet_selection: [],
+        settings: [],
       });
 
       expect(res).toEqual(canisterId);
@@ -89,6 +91,8 @@ describe("CyclesMintingCanister", () => {
           controller: Principal.fromText("aaaaa-aa"),
           block_index: BigInt(10),
           subnet_type: [],
+          subnet_selection: [],
+          settings: [],
         });
 
       expect(call).rejects.toThrowError(RefundedError);
@@ -108,6 +112,8 @@ describe("CyclesMintingCanister", () => {
           controller: Principal.fromText("aaaaa-aa"),
           block_index: BigInt(10),
           subnet_type: [],
+          subnet_selection: [],
+          settings: [],
         });
 
       expect(call).rejects.toThrowError(InvalidaTransactionError);
@@ -127,6 +133,8 @@ describe("CyclesMintingCanister", () => {
           controller: Principal.fromText("aaaaa-aa"),
           block_index: BigInt(10),
           subnet_type: [],
+          subnet_selection: [],
+          settings: [],
         });
 
       expect(call).rejects.toThrowError(ProcessingError);
@@ -146,6 +154,8 @@ describe("CyclesMintingCanister", () => {
           controller: Principal.fromText("aaaaa-aa"),
           block_index: BigInt(10),
           subnet_type: [],
+          subnet_selection: [],
+          settings: [],
         });
 
       expect(call).rejects.toThrowError(TransactionTooOldError);
@@ -165,6 +175,8 @@ describe("CyclesMintingCanister", () => {
           controller: Principal.fromText("aaaaa-aa"),
           block_index: BigInt(10),
           subnet_type: [],
+          subnet_selection: [],
+          settings: [],
         });
 
       expect(call).rejects.toThrowError(CMCError);

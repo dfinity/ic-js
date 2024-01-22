@@ -3,6 +3,12 @@
 ## Features
 
 - Upgrade candid files for ic-managmenet canister and support new field `reserved_cycles_limit`.
+- Add "API Boundary Node Management" topic support.
+- Add optional field `logo` to `Token` type.
+
+## Breaking changes
+
+- Upgrade candid files for cmc canister with new fields `subnet_selection` and `settings`.
 
 # 2024.01.09-1115Z
 
