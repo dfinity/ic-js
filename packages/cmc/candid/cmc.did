@@ -1,4 +1,4 @@
-// Generated from IC repo commit d970aa69a9 (2024-01-17) 'rs/nns/cmc/cmc.did' by import-candid
+// Generated from IC repo commit 324eb99 (2024-01-19 tags: release-2024-01-18_23-01+p2p-con) 'rs/nns/cmc/cmc.did' by import-candid
 type Cycles = nat;
 type BlockIndex = nat64;
 type CanisterSettings = record {

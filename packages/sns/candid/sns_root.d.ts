@@ -1,9 +1,6 @@
 import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
-export type AuthzChangeOp =
-  | { Authorize: { add_self: boolean } }
-  | { Deauthorize: null };
 export interface CanisterCallError {
   code: [] | [number];
   description: string;
@@ -38,14 +35,13 @@ export interface CanisterSummary {
   status: [] | [CanisterStatusResultV2];
   canister_id: [] | [Principal];
 }
-export interface ChangeCanisterProposal {
+export interface ChangeCanisterRequest {
   arg: Uint8Array | number[];
   wasm_module: Uint8Array | number[];
   stop_before_installing: boolean;
   mode: CanisterInstallMode;
   canister_id: Principal;
   query_allocation: [] | [bigint];
-  authz_changes: Array<MethodAuthzChange>;
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
@@ -83,12 +79,6 @@ export interface ListSnsCanistersResponse {
   dapps: Array<Principal>;
   archives: Array<Principal>;
 }
-export interface MethodAuthzChange {
-  principal: [] | [Principal];
-  method_name: string;
-  canister: Principal;
-  operation: AuthzChangeOp;
-}
 export interface RegisterDappCanisterRequest {
   canister_id: [] | [Principal];
 }
@@ -114,7 +104,7 @@ export interface SnsRootCanister {
 }
 export interface _SERVICE {
   canister_status: ActorMethod<[CanisterIdRecord], CanisterStatusResult>;
-  change_canister: ActorMethod<[ChangeCanisterProposal], undefined>;
+  change_canister: ActorMethod<[ChangeCanisterRequest], undefined>;
   get_build_metadata: ActorMethod<[], string>;
   get_sns_canisters_summary: ActorMethod<
     [GetSnsCanistersSummaryRequest],

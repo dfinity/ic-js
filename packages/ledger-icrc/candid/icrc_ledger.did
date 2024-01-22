@@ -1,4 +1,4 @@
-// Generated from IC repo commit 695f05aacf69371fc5743fa6d1619f7d9993ea87 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
+// Generated from IC repo commit 324eb99 (2024-01-19 tags: release-2024-01-18_23-01+p2p-con) 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
 type BlockIndex = nat;
 type Subaccount = blob;
 // Number of nanoseconds since the UNIX epoch in UTC timezone.
@@ -358,7 +358,14 @@ type TransferFromError = variant {
     GenericError : record { error_code : nat; message : text };
 };
 
+type ArchiveInfo = record {
+    canister_id: principal;
+    block_range_start: BlockIndex;
+    block_range_end: BlockIndex;
+};
+
 service : (ledger_arg : LedgerArg) -> {
+    archives : () -> (vec ArchiveInfo) query;
     get_transactions : (GetTransactionsRequest) -> (GetTransactionsResponse) query;
     get_blocks : (GetBlocksArgs) -> (GetBlocksResponse) query;  
     get_data_certificate : () -> (DataCertificate) query; 
