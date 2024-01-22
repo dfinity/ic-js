@@ -94,7 +94,6 @@ export const idlFactory = ({ IDL }) => {
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'actual_timestamp_seconds' : IDL.Nat64,
     'end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
-    'total_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'distributed_e8s_equivalent' : IDL.Nat64,
     'round' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(ProposalId),
@@ -142,6 +141,12 @@ export const idlFactory = ({ IDL }) => {
     'canister_ids' : IDL.Vec(IDL.Principal),
     'new_controllers' : IDL.Vec(IDL.Principal),
   });
+  const MintSnsTokens = IDL.Record({
+    'to_principal' : IDL.Opt(IDL.Principal),
+    'to_subaccount' : IDL.Opt(Subaccount),
+    'memo' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const ManageSnsMetadata = IDL.Record({
     'url' : IDL.Opt(IDL.Text),
     'logo' : IDL.Opt(IDL.Text),
@@ -151,6 +156,9 @@ export const idlFactory = ({ IDL }) => {
   const ExecuteGenericNervousSystemFunction = IDL.Record({
     'function_id' : IDL.Nat64,
     'payload' : IDL.Vec(IDL.Nat8),
+  });
+  const ManageLedgerParameters = IDL.Record({
+    'transfer_fee' : IDL.Opt(IDL.Nat64),
   });
   const Motion = IDL.Record({ 'motion_text' : IDL.Text });
   const Action = IDL.Variant({
@@ -162,9 +170,11 @@ export const idlFactory = ({ IDL }) => {
     'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'DeregisterDappCanisters' : DeregisterDappCanisters,
+    'MintSnsTokens' : MintSnsTokens,
     'Unspecified' : IDL.Record({}),
     'ManageSnsMetadata' : ManageSnsMetadata,
     'ExecuteGenericNervousSystemFunction' : ExecuteGenericNervousSystemFunction,
+    'ManageLedgerParameters' : ManageLedgerParameters,
     'Motion' : Motion,
   });
   const Proposal = IDL.Record({
@@ -291,6 +301,7 @@ export const idlFactory = ({ IDL }) => {
     'timestamp_of_disbursement_seconds' : IDL.Nat64,
     'amount_e8s' : IDL.Nat64,
     'account_to_disburse_to' : IDL.Opt(Account),
+    'finalize_disbursement_timestamp_seconds' : IDL.Opt(IDL.Nat64),
   });
   const Neuron = IDL.Record({
     'id' : IDL.Opt(NeuronId),
@@ -639,7 +650,6 @@ export const init = ({ IDL }) => {
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'actual_timestamp_seconds' : IDL.Nat64,
     'end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
-    'total_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'distributed_e8s_equivalent' : IDL.Nat64,
     'round' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(ProposalId),
@@ -687,6 +697,12 @@ export const init = ({ IDL }) => {
     'canister_ids' : IDL.Vec(IDL.Principal),
     'new_controllers' : IDL.Vec(IDL.Principal),
   });
+  const MintSnsTokens = IDL.Record({
+    'to_principal' : IDL.Opt(IDL.Principal),
+    'to_subaccount' : IDL.Opt(Subaccount),
+    'memo' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const ManageSnsMetadata = IDL.Record({
     'url' : IDL.Opt(IDL.Text),
     'logo' : IDL.Opt(IDL.Text),
@@ -696,6 +712,9 @@ export const init = ({ IDL }) => {
   const ExecuteGenericNervousSystemFunction = IDL.Record({
     'function_id' : IDL.Nat64,
     'payload' : IDL.Vec(IDL.Nat8),
+  });
+  const ManageLedgerParameters = IDL.Record({
+    'transfer_fee' : IDL.Opt(IDL.Nat64),
   });
   const Motion = IDL.Record({ 'motion_text' : IDL.Text });
   const Action = IDL.Variant({
@@ -707,9 +726,11 @@ export const init = ({ IDL }) => {
     'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'DeregisterDappCanisters' : DeregisterDappCanisters,
+    'MintSnsTokens' : MintSnsTokens,
     'Unspecified' : IDL.Record({}),
     'ManageSnsMetadata' : ManageSnsMetadata,
     'ExecuteGenericNervousSystemFunction' : ExecuteGenericNervousSystemFunction,
+    'ManageLedgerParameters' : ManageLedgerParameters,
     'Motion' : Motion,
   });
   const Proposal = IDL.Record({
@@ -836,6 +857,7 @@ export const init = ({ IDL }) => {
     'timestamp_of_disbursement_seconds' : IDL.Nat64,
     'amount_e8s' : IDL.Nat64,
     'account_to_disburse_to' : IDL.Opt(Account),
+    'finalize_disbursement_timestamp_seconds' : IDL.Opt(IDL.Nat64),
   });
   const Neuron = IDL.Record({
     'id' : IDL.Opt(NeuronId),
