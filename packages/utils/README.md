@@ -465,6 +465,7 @@ Represents an amount of tokens.
 - [fromString](#gear-fromstring)
 - [fromNumber](#gear-fromnumber)
 - [toUlps](#gear-toulps)
+- [toE8s](#gear-toe8s)
 
 ##### :gear: fromUlps
 
@@ -524,6 +525,14 @@ Parameters:
 | `toUlps` | `() => bigint` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L322)
+
+##### :gear: toE8s
+
+| Method  | Type           |
+| ------- | -------------- |
+| `toE8s` | `() => bigint` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L330)
 
 ### :factory: Canister
 

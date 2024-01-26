@@ -322,4 +322,18 @@ export class TokenAmountV2 {
   public toUlps(): bigint {
     return this.ulps;
   }
+
+  /**
+   *
+   * @returns The amount of ulps in e8s precision
+   */
+  public toE8s(): bigint {
+    if (this.token.decimals < 8) {
+      return this.ulps * 10n ** BigInt(8 - this.token.decimals);
+    } else if (this.token.decimals === 8) {
+      return this.ulps;
+    } else {
+      return this.ulps / 10n ** BigInt(this.token.decimals - 8);
+    }
+  }
 }

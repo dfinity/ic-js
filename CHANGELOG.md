@@ -6,6 +6,7 @@
 - Add "API Boundary Node Management" topic support.
 - Add optional field `logo` to `Token` type.
 - Update `sns-js` candid files with new fields in sns canisters.
+- Add public method `toE8s` to `TokenAmountV2`.
 
 ## Breaking changes
 
