@@ -103,13 +103,12 @@ export class SubAccount {
       throw new Error("Number is too large to fit in 32 bytes.");
     }
 
-    const buffer = Buffer.alloc(32);
+    const view = new DataView(new ArrayBuffer(32));
 
-    // Using 24 as the offset since BigInt64BE uses 8 bytes
-    buffer.writeBigInt64BE(BigInt(id), 24);
+    view.setBigUint64(24, BigInt(id), false);
 
-    const bytes = new Uint8Array(buffer);
-    return new SubAccount(bytes);
+    const uint8Arary = new Uint8Array(view.buffer);
+    return new SubAccount(uint8Arary);
   }
 
   public toUint8Array(): Uint8Array {
