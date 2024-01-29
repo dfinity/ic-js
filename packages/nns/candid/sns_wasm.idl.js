@@ -32,12 +32,19 @@ export const idlFactory = ({ IDL }) => {
     'slope_denominator' : IDL.Opt(IDL.Nat64),
     'to_direct_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
   });
+  const IdealMatchedParticipationFunction = IDL.Record({
+    'serialized_representation' : IDL.Opt(IDL.Text),
+  });
   const NeuronsFundParticipationConstraints = IDL.Record({
     'coefficient_intervals' : IDL.Vec(LinearScalingCoefficient),
     'max_neurons_fund_participation_icp_e8s' : IDL.Opt(IDL.Nat64),
     'min_direct_participation_threshold_icp_e8s' : IDL.Opt(IDL.Nat64),
+    'ideal_matched_participation_function' : IDL.Opt(
+      IdealMatchedParticipationFunction
+    ),
   });
   const CfNeuron = IDL.Record({
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
@@ -81,6 +88,7 @@ export const idlFactory = ({ IDL }) => {
     'max_dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_dissolve_delay_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'nns_proposal_id' : IDL.Opt(IDL.Nat64),
+    'neurons_fund_participation' : IDL.Opt(IDL.Bool),
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'neuron_basket_construction_parameters' : IDL.Opt(
       NeuronBasketConstructionParameters
@@ -144,6 +152,25 @@ export const idlFactory = ({ IDL }) => {
   const GetAllowedPrincipalsResponse = IDL.Record({
     'allowed_principals' : IDL.Vec(IDL.Principal),
   });
+  const GetDeployedSnsByProposalIdRequest = IDL.Record({
+    'proposal_id' : IDL.Nat64,
+  });
+  const DeployedSns = IDL.Record({
+    'root_canister_id' : IDL.Opt(IDL.Principal),
+    'governance_canister_id' : IDL.Opt(IDL.Principal),
+    'index_canister_id' : IDL.Opt(IDL.Principal),
+    'swap_canister_id' : IDL.Opt(IDL.Principal),
+    'ledger_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const GetDeployedSnsByProposalIdResult = IDL.Variant({
+    'Error' : SnsWasmError,
+    'DeployedSns' : DeployedSns,
+  });
+  const GetDeployedSnsByProposalIdResponse = IDL.Record({
+    'get_deployed_sns_by_proposal_id_result' : IDL.Opt(
+      GetDeployedSnsByProposalIdResult
+    ),
+  });
   const SnsVersion = IDL.Record({
     'archive_wasm_hash' : IDL.Vec(IDL.Nat8),
     'root_wasm_hash' : IDL.Vec(IDL.Nat8),
@@ -174,13 +201,6 @@ export const idlFactory = ({ IDL }) => {
   });
   const InsertUpgradePathEntriesResponse = IDL.Record({
     'error' : IDL.Opt(SnsWasmError),
-  });
-  const DeployedSns = IDL.Record({
-    'root_canister_id' : IDL.Opt(IDL.Principal),
-    'governance_canister_id' : IDL.Opt(IDL.Principal),
-    'index_canister_id' : IDL.Opt(IDL.Principal),
-    'swap_canister_id' : IDL.Opt(IDL.Principal),
-    'ledger_canister_id' : IDL.Opt(IDL.Principal),
   });
   const ListDeployedSnsesResponse = IDL.Record({
     'instances' : IDL.Vec(DeployedSns),
@@ -233,6 +253,11 @@ export const idlFactory = ({ IDL }) => {
     'get_allowed_principals' : IDL.Func(
         [IDL.Record({})],
         [GetAllowedPrincipalsResponse],
+        ['query'],
+      ),
+    'get_deployed_sns_by_proposal_id' : IDL.Func(
+        [GetDeployedSnsByProposalIdRequest],
+        [GetDeployedSnsByProposalIdResponse],
         ['query'],
       ),
     'get_latest_sns_version_pretty' : IDL.Func(

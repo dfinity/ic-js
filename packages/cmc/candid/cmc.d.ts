@@ -8,6 +8,7 @@ export interface CanisterSettings {
   freezing_threshold: [] | [bigint];
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];
+  log_visibility: [] | [log_visibility];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
@@ -93,6 +94,7 @@ export type SubnetSelection =
 export interface SubnetTypesToSubnetsResponse {
   data: Array<[string, Array<Principal>]>;
 }
+export type log_visibility = { controllers: null } | { public: null };
 export interface _SERVICE {
   create_canister: ActorMethod<[CreateCanisterArg], CreateCanisterResult>;
   get_build_metadata: ActorMethod<[], string>;

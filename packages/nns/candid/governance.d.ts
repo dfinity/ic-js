@@ -204,7 +204,6 @@ export interface GlobalTimeOfDay {
 export interface Governance {
   default_followees: Array<[number, Followees]>;
   making_sns_proposal: [] | [MakingSnsProposal];
-  seed_accounts: [] | [SeedAccounts];
   most_recent_monthly_node_provider_rewards:
     | []
     | [MostRecentMonthlyNodeProviderRewards];
@@ -638,16 +637,6 @@ export interface RewardToAccount {
 }
 export interface RewardToNeuron {
   dissolve_delay_seconds: bigint;
-}
-export interface SeedAccount {
-  error_count: bigint;
-  account_id: string;
-  neuron_type: number;
-  tag_end_timestamp_seconds: [] | [bigint];
-  tag_start_timestamp_seconds: [] | [bigint];
-}
-export interface SeedAccounts {
-  accounts: Array<SeedAccount>;
 }
 export interface SetDefaultFollowees {
   default_followees: Array<[number, Followees]>;

@@ -15,6 +15,7 @@ export interface Canister {
   id: [] | [Principal];
 }
 export interface CfNeuron {
+  has_created_neuron_recipes: [] | [boolean];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
@@ -61,6 +62,17 @@ export interface FractionalDeveloperVotingPower {
 export interface GetAllowedPrincipalsResponse {
   allowed_principals: Array<Principal>;
 }
+export interface GetDeployedSnsByProposalIdRequest {
+  proposal_id: bigint;
+}
+export interface GetDeployedSnsByProposalIdResponse {
+  get_deployed_sns_by_proposal_id_result:
+    | []
+    | [GetDeployedSnsByProposalIdResult];
+}
+export type GetDeployedSnsByProposalIdResult =
+  | { Error: SnsWasmError }
+  | { DeployedSns: DeployedSns };
 export interface GetNextSnsVersionRequest {
   governance_canister_id: [] | [Principal];
   current_version: [] | [SnsVersion];
@@ -76,6 +88,9 @@ export interface GetWasmRequest {
 }
 export interface GetWasmResponse {
   wasm: [] | [SnsWasm];
+}
+export interface IdealMatchedParticipationFunction {
+  serialized_representation: [] | [string];
 }
 export type InitialTokenDistribution = {
   FractionalDeveloperVotingPower: FractionalDeveloperVotingPower;
@@ -127,6 +142,9 @@ export interface NeuronsFundParticipationConstraints {
   coefficient_intervals: Array<LinearScalingCoefficient>;
   max_neurons_fund_participation_icp_e8s: [] | [bigint];
   min_direct_participation_threshold_icp_e8s: [] | [bigint];
+  ideal_matched_participation_function:
+    | []
+    | [IdealMatchedParticipationFunction];
 }
 export interface PrettySnsVersion {
   archive_wasm_hash: string;
@@ -149,6 +167,7 @@ export interface SnsInitPayload {
   max_dissolve_delay_seconds: [] | [bigint];
   max_dissolve_delay_bonus_percentage: [] | [bigint];
   nns_proposal_id: [] | [bigint];
+  neurons_fund_participation: [] | [boolean];
   min_participant_icp_e8s: [] | [bigint];
   neuron_basket_construction_parameters:
     | []
@@ -240,6 +259,10 @@ export interface _SERVICE {
   add_wasm: ActorMethod<[AddWasmRequest], AddWasmResponse>;
   deploy_new_sns: ActorMethod<[DeployNewSnsRequest], DeployNewSnsResponse>;
   get_allowed_principals: ActorMethod<[{}], GetAllowedPrincipalsResponse>;
+  get_deployed_sns_by_proposal_id: ActorMethod<
+    [GetDeployedSnsByProposalIdRequest],
+    GetDeployedSnsByProposalIdResponse
+  >;
   get_latest_sns_version_pretty: ActorMethod<[null], Array<[string, string]>>;
   get_next_sns_version: ActorMethod<
     [GetNextSnsVersionRequest],
