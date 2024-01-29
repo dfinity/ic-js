@@ -46,6 +46,11 @@ export type ApproveError =
   | { Expired: { ledger_time: Timestamp } }
   | { InsufficientFunds: { balance: bigint } };
 export type ApproveResult = { Ok: BlockIndex } | { Err: ApproveError };
+export interface ArchiveInfo {
+  block_range_end: BlockIndex;
+  canister_id: Principal;
+  block_range_start: BlockIndex;
+}
 export type Block = Value;
 export type BlockIndex = bigint;
 export interface BlockRange {
@@ -240,6 +245,7 @@ export type Value =
   | { Text: string }
   | { Array: Array<Value> };
 export interface _SERVICE {
+  archives: ActorMethod<[], Array<ArchiveInfo>>;
   get_blocks: ActorMethod<[GetBlocksArgs], GetBlocksResponse>;
   get_data_certificate: ActorMethod<[], DataCertificate>;
   get_transactions: ActorMethod<

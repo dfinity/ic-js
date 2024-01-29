@@ -293,14 +293,6 @@ export const idlFactory = ({ IDL }) => {
     'caller' : IDL.Opt(IDL.Principal),
     'proposer_id' : IDL.Opt(NeuronId),
   });
-  const SeedAccount = IDL.Record({
-    'error_count' : IDL.Nat64,
-    'account_id' : IDL.Text,
-    'neuron_type' : IDL.Int32,
-    'tag_end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
-    'tag_start_timestamp_seconds' : IDL.Opt(IDL.Nat64),
-  });
-  const SeedAccounts = IDL.Record({ 'accounts' : IDL.Vec(SeedAccount) });
   const MostRecentMonthlyNodeProviderRewards = IDL.Record({
     'timestamp' : IDL.Nat64,
     'rewards' : IDL.Vec(RewardNodeProvider),
@@ -550,7 +542,6 @@ export const idlFactory = ({ IDL }) => {
   const Governance = IDL.Record({
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
     'making_sns_proposal' : IDL.Opt(MakingSnsProposal),
-    'seed_accounts' : IDL.Opt(SeedAccounts),
     'most_recent_monthly_node_provider_rewards' : IDL.Opt(
       MostRecentMonthlyNodeProviderRewards
     ),
@@ -1113,14 +1104,6 @@ export const init = ({ IDL }) => {
     'caller' : IDL.Opt(IDL.Principal),
     'proposer_id' : IDL.Opt(NeuronId),
   });
-  const SeedAccount = IDL.Record({
-    'error_count' : IDL.Nat64,
-    'account_id' : IDL.Text,
-    'neuron_type' : IDL.Int32,
-    'tag_end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
-    'tag_start_timestamp_seconds' : IDL.Opt(IDL.Nat64),
-  });
-  const SeedAccounts = IDL.Record({ 'accounts' : IDL.Vec(SeedAccount) });
   const MostRecentMonthlyNodeProviderRewards = IDL.Record({
     'timestamp' : IDL.Nat64,
     'rewards' : IDL.Vec(RewardNodeProvider),
@@ -1370,7 +1353,6 @@ export const init = ({ IDL }) => {
   const Governance = IDL.Record({
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
     'making_sns_proposal' : IDL.Opt(MakingSnsProposal),
-    'seed_accounts' : IDL.Opt(SeedAccounts),
     'most_recent_monthly_node_provider_rewards' : IDL.Opt(
       MostRecentMonthlyNodeProviderRewards
     ),

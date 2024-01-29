@@ -1,6 +1,10 @@
-// Generated from IC repo commit d970aa69a9 (2024-01-17) 'rs/nns/cmc/cmc.did' by import-candid
+// Generated from IC repo commit 044cfd5 (2024-01-25 tags: release-2024-01-25_14-09+p2p-con) 'rs/nns/cmc/cmc.did' by import-candid
 type Cycles = nat;
 type BlockIndex = nat64;
+type log_visibility = variant {
+  controllers;
+  public;
+};
 type CanisterSettings = record {
   controller : opt principal;
   controllers : opt vec principal;
@@ -8,6 +12,7 @@ type CanisterSettings = record {
   memory_allocation : opt nat;
   freezing_threshold : opt nat;
   reserved_cycles_limit: opt nat;
+  log_visibility : opt log_visibility;
 };
 type Subaccount = opt blob;
 type Memo = opt blob;
