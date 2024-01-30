@@ -30,6 +30,14 @@ The current status of the libraries at the time of the release is as follows:
 - Update `sns-js` candid files with new fields in sns canisters.
 - Add public method `toE8s` to `TokenAmountV2`.
 
+## Fix
+
+- Various certified Candid IDL functions had their names trimmed of the keyword "query".
+
+## Build
+
+- Fixed script to generate certified IDL factory files to respect the keyword "query" when used in functions' names.
+
 # 2024.01.09-1115Z
 
 ## Overview

@@ -104,7 +104,11 @@ export const idlFactory = ({ IDL }) => {
   });
   return IDL.Service({
     'bitcoin_get_balance' : IDL.Func([get_balance_request], [satoshi], []),
-    'bitcoin_get_balance_' : IDL.Func([get_balance_request], [satoshi], []),
+    'bitcoin_get_balance_query' : IDL.Func(
+        [get_balance_request],
+        [satoshi],
+        [],
+      ),
     'bitcoin_get_current_fee_percentiles' : IDL.Func(
         [get_current_fee_percentiles_request],
         [IDL.Vec(millisatoshi_per_byte)],
@@ -115,7 +119,7 @@ export const idlFactory = ({ IDL }) => {
         [get_utxos_response],
         [],
       ),
-    'bitcoin_get_utxos_' : IDL.Func(
+    'bitcoin_get_utxos_query' : IDL.Func(
         [get_utxos_request],
         [get_utxos_response],
         [],
