@@ -4,6 +4,7 @@ import type {
   _SERVICE as CkETHMinterService,
   Eip1559TransactionPrice,
   RetrieveEthRequest,
+  RetrieveEthStatus,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
@@ -82,5 +83,17 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
       certified: true,
     });
     return eip_1559_transaction_price();
+  };
+
+  /**
+   * Retrieve the status of a withdrawal request.
+   *
+   * @returns {Promise<RetrieveEthStatus>} The current status of an Ethereum transaction for a block index resulting from a withdrawal.
+   */
+  retrieveEthStatus = (blockIndex: bigint): Promise<RetrieveEthStatus> => {
+    const { retrieve_eth_status } = this.caller({
+      certified: true,
+    });
+    return retrieve_eth_status(blockIndex);
   };
 }
