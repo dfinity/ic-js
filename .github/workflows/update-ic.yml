@@ -84,11 +84,11 @@ jobs:
           title: 'Update IC Candid Files'
           body: |
             # Motivation
-            The Internet Computer APIs have updated.
+            The canisters APIs have been updated.
 
             # Changes
-            * Updated the interface description files for the Internet Computer.
-            * Updated the javascript bindings for the latest IC interface.
+            * Updated the candid interface files for the canisters used in this library.
+            * Updated the javascript bindings for the latest candid interfaces.
 
             # Tests
               - [ ] Please check the API updates for any breaking changes that affect our code.
