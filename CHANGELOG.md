@@ -1,16 +1,34 @@
 # XXXX.XX
 
-## Features
+## Overview
 
-- Upgrade candid files for ic-managmenet canister and support new field `reserved_cycles_limit`.
-- Add "API Boundary Node Management" topic support.
-- Add optional field `logo` to `Token` type.
-- Update `sns-js` candid files with new fields in sns canisters.
-- Add public method `toE8s` to `TokenAmountV2`.
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status     |
+| ------------------------ | ------- | ---------- |
+| `@dfinity/ckbtc`         | v2.1.0  | Unchanged  |
+| `@dfinity/cketh`         | v0.0.1  | Unchanged  |
+| `@dfinity/cmc`           | v2.1.0  | Unchanged  |
+| `@dfinity/ic-management` | v2.1.0  | Unchanged  |
+| `@dfinity/ledger-icp`    | v2.1.1  | Patched 🤕 |
+| `@dfinity/ledger-icrc`   | v2.1.0  | Unchanged  |
+| `@dfinity/nns`           | v3.1.0  | Unchanged  |
+| `@dfinity/nns-proto`     | v1.0.0  | Unchanged  |
+| `@dfinity/sns`           | v2.1.0  | Unchanged  |
+| `@dfinity/utils`         | v2.0.0  | Unchanged️ |
 
 ## Breaking changes
 
 - Upgrade candid files for cmc canister with new fields `subnet_selection` and `settings`.
+
+## Features
+
+- Add support for converting ckETH to ETH through the `withdrawEth` function and integrate useful features such as `eip1559TransactionPrice`, `encodePrincipalToEthAddress`, and `retrieve_eth_status`.
+- Upgrade candid files for `ic-management` canister and support new field `reserved_cycles_limit`.
+- Add "API Boundary Node Management" topic support.
+- Add optional field `logo` to `Token` type.
+- Update `sns-js` candid files with new fields in sns canisters.
+- Add public method `toE8s` to `TokenAmountV2`.
 
 # 2024.01.09-1115Z
 
