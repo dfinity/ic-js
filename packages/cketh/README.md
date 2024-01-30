@@ -53,7 +53,7 @@ const address = await getSmartContractAddress({});
 
 ### :factory: CkETHMinterCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L13)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L14)
 
 #### Methods
 
@@ -61,6 +61,7 @@ const address = await getSmartContractAddress({});
 - [getSmartContractAddress](#gear-getsmartcontractaddress)
 - [withdrawEth](#gear-withdraweth)
 - [eip1559TransactionPrice](#gear-eip1559transactionprice)
+- [retrieveEthStatus](#gear-retrieveethstatus)
 
 ##### :gear: create
 
@@ -68,7 +69,7 @@ const address = await getSmartContractAddress({});
 | -------- | ------------------------------------------------------------------------ |
 | `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L14)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L15)
 
 ##### :gear: getSmartContractAddress
 
@@ -83,7 +84,7 @@ Parameters:
 - `params`: The parameters to resolve the ckETH smart contract address.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L32)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L33)
 
 ##### :gear: withdrawEth
 
@@ -102,7 +103,7 @@ Parameters:
 
 - `params`: The parameters to withdrawal ckETH to ETH.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L52)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L53)
 
 ##### :gear: eip1559TransactionPrice
 
@@ -112,7 +113,17 @@ Estimate the price of a transaction issued by the minter when converting ckETH t
 | ------------------------- | ---------------------------------------- |
 | `eip1559TransactionPrice` | `() => Promise<Eip1559TransactionPrice>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L80)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L81)
+
+##### :gear: retrieveEthStatus
+
+Retrieve the status of a withdrawal request.
+
+| Method              | Type                                                 |
+| ------------------- | ---------------------------------------------------- |
+| `retrieveEthStatus` | `(blockIndex: bigint) => Promise<RetrieveEthStatus>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L93)
 
 <!-- TSDOC_END -->
 
