@@ -1,21 +1,21 @@
-# XXXX.XX
+# 2024.01.30-1500Z
 
 ## Overview
 
 The current status of the libraries at the time of the release is as follows:
 
-| Library                  | Version | Status     |
-| ------------------------ | ------- | ---------- |
-| `@dfinity/ckbtc`         | v2.1.0  | Unchanged  |
-| `@dfinity/cketh`         | v0.0.1  | Unchanged  |
-| `@dfinity/cmc`           | v2.1.0  | Unchanged  |
-| `@dfinity/ic-management` | v2.1.0  | Unchanged  |
-| `@dfinity/ledger-icp`    | v2.1.1  | Patched 🤕 |
-| `@dfinity/ledger-icrc`   | v2.1.0  | Unchanged  |
-| `@dfinity/nns`           | v3.1.0  | Unchanged  |
-| `@dfinity/nns-proto`     | v1.0.0  | Unchanged  |
-| `@dfinity/sns`           | v2.1.0  | Unchanged  |
-| `@dfinity/utils`         | v2.0.0  | Unchanged️ |
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v2.1.1  | Patched 🩹          |
+| `@dfinity/cketh`         | v1.0.0  | Launched 🚀         |
+| `@dfinity/cmc`           | v3.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ic-management` | v2.2.0  | Enhanced 🔧         |
+| `@dfinity/ledger-icp`    | v2.1.2  | Patched 🩹          |
+| `@dfinity/ledger-icrc`   | v2.1.1  | Patched ⚙️          |
+| `@dfinity/nns`           | v3.1.1  | Patched ⚙️          |
+| `@dfinity/nns-proto`     | v1.0.1  | Patched ⚙️          |
+| `@dfinity/sns`           | v2.1.1  | Patched 🩹          |
+| `@dfinity/utils`         | v2.1.0  | Enhanced 🔧         |
 
 ## Breaking changes
 
