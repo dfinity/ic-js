@@ -12,6 +12,14 @@
 
 - Upgrade candid files for cmc canister with new fields `subnet_selection` and `settings`.
 
+## Fix
+
+- Various certified Candid IDL functions had their names trimmed of the keyword "query".
+
+## Build
+
+- Fixed script to generate certified IDL factory files to respect the keyword "query" when used in functions' names.
+
 # 2024.01.09-1115Z
 
 ## Overview

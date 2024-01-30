@@ -58,8 +58,8 @@ compile_certified_did() {
   local jsFactoryFile="$(echo "$didfile" | sed 's/did$/certified.idl.js/g')"
   local tsFactoryFile="$(echo "$didfile" | sed 's/did$/certified.idl.d.ts/g')"
 
-  QUERY_ARG='query'
-  sed "s/$QUERY_ARG//g" "$didfile" >"$certified_didfile"
+  QUERY_ARG='query;'
+  sed "s/$QUERY_ARG/;/g" "$didfile" >"$certified_didfile"
 
   {
     echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
