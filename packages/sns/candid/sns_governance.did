@@ -1,4 +1,4 @@
-// Generated from IC repo commit 57f0e39e3 (2023-11-22) 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 044cfd5 (2024-01-25 tags: release-2024-01-25_14-09+p2p-con) 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -9,9 +9,11 @@ type Action = variant {
   TransferSnsTreasuryFunds : TransferSnsTreasuryFunds;
   UpgradeSnsControlledCanister : UpgradeSnsControlledCanister;
   DeregisterDappCanisters : DeregisterDappCanisters;
+  MintSnsTokens : MintSnsTokens;
   Unspecified : record {};
   ManageSnsMetadata : ManageSnsMetadata;
   ExecuteGenericNervousSystemFunction : ExecuteGenericNervousSystemFunction;
+  ManageLedgerParameters : ManageLedgerParameters;
   Motion : Motion;
 };
 type AddNeuronPermissions = record {
@@ -115,6 +117,7 @@ type DisburseMaturityInProgress = record {
   timestamp_of_disbursement_seconds : nat64;
   amount_e8s : nat64;
   account_to_disburse_to : opt Account;
+  finalize_disbursement_timestamp_seconds : opt nat64;
 };
 type DisburseMaturityResponse = record {
   amount_disbursed_e8s : nat64;
@@ -225,6 +228,7 @@ type ListProposals = record {
   include_status : vec int32;
 };
 type ListProposalsResponse = record { proposals : vec ProposalData };
+type ManageLedgerParameters = record { transfer_fee : opt nat64 };
 type ManageNeuron = record { subaccount : vec nat8; command : opt Command };
 type ManageNeuronResponse = record { command : opt Command_1 };
 type ManageSnsMetadata = record {
@@ -242,6 +246,12 @@ type MergeMaturity = record { percentage_to_merge : nat32 };
 type MergeMaturityResponse = record {
   merged_maturity_e8s : nat64;
   new_stake_e8s : nat64;
+};
+type MintSnsTokens = record {
+  to_principal : opt principal;
+  to_subaccount : opt Subaccount;
+  memo : opt nat64;
+  amount_e8s : opt nat64;
 };
 type Motion = record { motion_text : text };
 type NervousSystemFunction = record {
@@ -358,7 +368,6 @@ type RewardEvent = record {
   rounds_since_last_distribution : opt nat64;
   actual_timestamp_seconds : nat64;
   end_timestamp_seconds : opt nat64;
-  total_available_e8s_equivalent : opt nat64;
   distributed_e8s_equivalent : nat64;
   round : nat64;
   settled_proposals : vec ProposalId;

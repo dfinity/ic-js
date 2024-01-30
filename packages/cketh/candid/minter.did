@@ -1,4 +1,4 @@
-// Generated from IC repo commit 19e3dc486 (2024-01-02) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit 044cfd5 (2024-01-25 tags: release-2024-01-25_14-09+p2p-con) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -7,6 +7,7 @@ type EthereumNetwork = variant {
 };
 
 type CanisterStatusResponse = record {
+  query_stats : QueryStats;
   status : CanisterStatusType;
   memory_size : nat;
   cycles : nat;
@@ -22,6 +23,13 @@ type DefiniteCanisterSettings = record {
   controllers : vec principal;
   memory_allocation : nat;
   compute_allocation : nat;
+};
+
+type QueryStats = record {
+  response_payload_bytes_total : nat;
+  num_instructions_total : nat;
+  num_calls_total : nat;
+  request_payload_bytes_total : nat;
 };
 
 type BlockTag = variant {

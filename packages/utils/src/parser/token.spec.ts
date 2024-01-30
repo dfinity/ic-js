@@ -347,6 +347,32 @@ describe("TokenAmountV2 with 18 decimals", () => {
       FromStringToTokenError.InvalidFormat,
     );
   });
+
+  it("returns the value in e8s", () => {
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "2", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(200_000_000n);
+
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "0.21", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(21_000_000n);
+
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "0.00021", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(21_000n);
+
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "2000", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(200_000_000_000n);
+  });
 });
 
 describe("TokenAmountV2 with 2 decimals", () => {
@@ -392,6 +418,26 @@ describe("TokenAmountV2 with 2 decimals", () => {
         amount: 10000000091n,
       }),
     );
+  });
+
+  it("returns the value in e8s", () => {
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "2", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(200_000_000n);
+
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "0.21", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(21_000_000n);
+
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "2000", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(200_000_000_000n);
   });
 });
 
@@ -471,5 +517,31 @@ describe("TokenAmountV2 with 8 decimals", () => {
     expect(TokenAmountV2.fromNumber({ token: token, amount: 1e-9 })).toEqual(
       TokenAmountV2.fromUlps({ token: token, amount: 0n }),
     );
+  });
+
+  it("returns the value in e8s", () => {
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "2", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(200_000_000n);
+
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "0.21", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(21_000_000n);
+
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "0.00021", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(21_000n);
+
+    expect(
+      (
+        TokenAmountV2.fromString({ amount: "2000", token }) as TokenAmountV2
+      ).toE8s(),
+    ).toEqual(200_000_000_000n);
   });
 });

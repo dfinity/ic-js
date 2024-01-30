@@ -16,11 +16,13 @@ export type Action =
   | { TransferSnsTreasuryFunds: TransferSnsTreasuryFunds }
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { DeregisterDappCanisters: DeregisterDappCanisters }
+  | { MintSnsTokens: MintSnsTokens }
   | { Unspecified: {} }
   | { ManageSnsMetadata: ManageSnsMetadata }
   | {
       ExecuteGenericNervousSystemFunction: ExecuteGenericNervousSystemFunction;
     }
+  | { ManageLedgerParameters: ManageLedgerParameters }
   | { Motion: Motion };
 export interface AddNeuronPermissions {
   permissions_to_add: [] | [NeuronPermissionList];
@@ -137,6 +139,7 @@ export interface DisburseMaturityInProgress {
   timestamp_of_disbursement_seconds: bigint;
   amount_e8s: bigint;
   account_to_disburse_to: [] | [Account];
+  finalize_disbursement_timestamp_seconds: [] | [bigint];
 }
 export interface DisburseMaturityResponse {
   amount_disbursed_e8s: bigint;
@@ -269,6 +272,9 @@ export interface ListProposals {
 export interface ListProposalsResponse {
   proposals: Array<ProposalData>;
 }
+export interface ManageLedgerParameters {
+  transfer_fee: [] | [bigint];
+}
 export interface ManageNeuron {
   subaccount: Uint8Array | number[];
   command: [] | [Command];
@@ -296,6 +302,12 @@ export interface MergeMaturity {
 export interface MergeMaturityResponse {
   merged_maturity_e8s: bigint;
   new_stake_e8s: bigint;
+}
+export interface MintSnsTokens {
+  to_principal: [] | [Principal];
+  to_subaccount: [] | [Subaccount];
+  memo: [] | [bigint];
+  amount_e8s: [] | [bigint];
 }
 export interface Motion {
   motion_text: string;
@@ -428,7 +440,6 @@ export interface RewardEvent {
   rounds_since_last_distribution: [] | [bigint];
   actual_timestamp_seconds: bigint;
   end_timestamp_seconds: [] | [bigint];
-  total_available_e8s_equivalent: [] | [bigint];
   distributed_e8s_equivalent: bigint;
   round: bigint;
   settled_proposals: Array<ProposalId>;
