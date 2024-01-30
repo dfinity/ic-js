@@ -1,4 +1,4 @@
-// Generated from IC repo commit 3b17c3649 (2023-12-28) 'rs/rosetta-api/icrc1/index-ng/index-ng.did' by import-candid
+// Generated from IC repo commit f3198ee10 (2024-01-30) 'rs/rosetta-api/icrc1/index-ng/index-ng.did' by import-candid
 type Tokens = nat;
 
 type InitArg = record {
