@@ -231,4 +231,35 @@ describe("ckETH minter canister", () => {
       expect(call).rejects.toThrowError();
     });
   });
+
+  describe("Retrieve Eth status", () => {
+    it("should return status", async () => {
+      const result = {
+        TxCreated: null,
+      };
+
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.retrieve_eth_status.mockResolvedValue(result);
+
+      const canister = minter(service);
+
+      const params = 123n;
+
+      const res = await canister.retrieveEthStatus(params);
+
+      expect(service.retrieve_eth_status).toBeCalledWith(params);
+      expect(res).toEqual(result);
+    });
+
+    it("should bubble errors", () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.retrieve_eth_status.mockRejectedValue(new Error());
+
+      const canister = minter(service);
+
+      const call = () => canister.retrieveEthStatus(123n);
+
+      expect(call).rejects.toThrowError();
+    });
+  });
 });
