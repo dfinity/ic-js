@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/cketh",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A library for interfacing with ckETH.",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.cjs.js",
@@ -41,6 +41,6 @@
     "@dfinity/agent": "^0.20.2",
     "@dfinity/candid": "^0.20.2",
     "@dfinity/principal": "^0.20.2",
-    "@dfinity/utils": "^2.0.0"
+    "@dfinity/utils": "^2.1.0"
   }
 }
