@@ -37,7 +37,7 @@ export const idlFactory = ({ IDL }) => {
     'stop_before_installing' : IDL.Bool,
     'mode' : CanisterInstallMode,
     'canister_id' : IDL.Principal,
-    '_allocation' : IDL.Opt(IDL.Nat),
+    'query_allocation' : IDL.Opt(IDL.Nat),
     'memory_allocation' : IDL.Opt(IDL.Nat),
     'compute_allocation' : IDL.Opt(IDL.Nat),
   });
