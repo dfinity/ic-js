@@ -14,7 +14,7 @@
 
 ## Fix
 
-- Various certified Candid IDL functions had their names trimmed of the keyword "query". 
+- Various certified Candid IDL functions had their names trimmed of the keyword "query".
 
 ## Build
 
