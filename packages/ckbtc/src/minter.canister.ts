@@ -2,6 +2,7 @@ import {
   Canister,
   createServices,
   fromNullable,
+  isNullish,
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
@@ -24,6 +25,7 @@ import type {
   EstimateWithdrawalFeeParams,
   GetBTCAddressParams,
   RetrieveBtcParams,
+  RetrieveBtcStatusV2ByAccountParams,
   UpdateBalanceParams,
 } from "./types/minter.params";
 import type {
@@ -192,19 +194,33 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
     }).retrieve_btc_status({ block_index: transactionId });
 
   /**
-   * Returns the status of all BTC withdrawals for the user's main account.
+   * Returns the status of all BTC withdrawals for an account.
    *
    * @param {boolean} certified query or update call
+   * @param {MinterAccount} account an optional account to retrieve the statuses. If not provided, statuses for the caller are retrieved.
    * @returns {Promise<RetrieveBtcStatusV2WithId[]>} The statuses of the BTC retrieval requests.
    */
   retrieveBtcStatusV2ByAccount = async ({
+    account,
     certified,
-  }: {
-    certified: boolean;
-  }): Promise<RetrieveBtcStatusV2WithId[]> => {
-    const statuses = await this.caller({
+  }: RetrieveBtcStatusV2ByAccountParams): Promise<
+    RetrieveBtcStatusV2WithId[]
+  > => {
+    const { retrieve_btc_status_v2_by_account } = this.caller({
       certified,
-    }).retrieve_btc_status_v2_by_account([]);
+    });
+
+    const statuses = await retrieve_btc_status_v2_by_account(
+      isNullish(account)
+        ? []
+        : [
+            {
+              owner: account.owner,
+              subaccount: toNullable(account.subaccount),
+            },
+          ],
+    );
+
     return statuses.map(({ block_index, status_v2 }) => ({
       id: block_index,
       status: fromNullable(status_v2),

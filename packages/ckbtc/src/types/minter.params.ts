@@ -2,10 +2,13 @@ import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import type { RetrieveBtcArgs } from "../../candid/minter";
 
-export interface MinterParams extends Omit<QueryParams, "certified"> {
-  owner?: Principal;
+export interface MinterAccount {
+  owner: Principal;
   subaccount?: Uint8Array;
 }
+
+export type MinterParams = Omit<QueryParams, "certified"> &
+  Partial<MinterAccount>;
 
 /**
  * Params to get a BTC address.
@@ -28,4 +31,11 @@ export type RetrieveBtcParams = RetrieveBtcArgs &
  */
 export type EstimateWithdrawalFeeParams = QueryParams & {
   amount: bigint | undefined;
+};
+
+/**
+ * Params to retrieve the status of all BTC withdrawals for an account.
+ */
+export type RetrieveBtcStatusV2ByAccountParams = QueryParams & {
+  account?: MinterAccount;
 };
