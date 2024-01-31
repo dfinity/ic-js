@@ -12,7 +12,7 @@ export const MINT_MEMO_TYPE_KYT_FAIL = 2;
 // * Kyt: [1]
 // * KytFail: [2, [ kyt_fee, kyt_status, block_index]]
 // Source: https://github.com/dfinity/ic/blob/c22a5aebd4f26ae2e4016de55e3f7aa00d086479/rs/bitcoin/ckbtc/minter/src/memo.rs#L25
-type MintMemo =
+export type MintMemo =
   | [typeof MINT_MEMO_TYPE_UTXO_TO_CKBTC, [Uint8Array?, number?, number?]]
   | [typeof MINT_MEMO_TYPE_ACCUMULATED_KYT_FEES]
   | [typeof MINT_MEMO_TYPE_KYT_FAIL, [number, number?, number?]];
