@@ -1,3 +1,9 @@
+# XXXX.XX
+
+## Features
+
+- Extend ckBTC `retrieveBtcStatusV2ByAccount` with optional `account` parameter.
+
 # 2024.01.30-1600Z
 
 ## Overview
