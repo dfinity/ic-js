@@ -14,3 +14,4 @@ export * from "./types/btc";
 export * from "./types/minter.params";
 export * from "./types/minter.responses";
 export * from "./utils/btc.utils";
+export * from "./utils/minter.utils";
