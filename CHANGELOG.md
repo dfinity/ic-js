@@ -1,3 +1,9 @@
+# XXXX.XX
+
+## Features
+
+- Add a new decode ckBTC mint memo utility.
+
 # 2024.01.30-1600Z
 
 ## Overview
