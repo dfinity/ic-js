@@ -54,6 +54,7 @@ const btcAddress = await getBtcAddress({});
 ### :toolbox: Functions
 
 - [parseBtcAddress](#gear-parsebtcaddress)
+- [decodeMintMemo](#gear-decodemintmemo)
 
 #### :gear: parseBtcAddress
 
@@ -73,6 +74,50 @@ Parameters:
 - `params.network`: Optional. Default BtcNetwork is Mainnet
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L195)
+
+#### :gear: decodeMintMemo
+
+Helper that decodes the memo of a ckBTC mint transaction to an object.
+
+| Function         | Type                                         |
+| ---------------- | -------------------------------------------- |
+| `decodeMintMemo` | `(memo: Uint8Array or number[]) => MintMemo` |
+
+Parameters:
+
+- `memo`: a Cbor encoded memo.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L29)
+
+### :wrench: Constants
+
+- [MINT_MEMO_TYPE_UTXO_TO_CKBTC](#gear-mint_memo_type_utxo_to_ckbtc)
+- [MINT_MEMO_TYPE_ACCUMULATED_KYT_FEES](#gear-mint_memo_type_accumulated_kyt_fees)
+- [MINT_MEMO_TYPE_KYT_FAIL](#gear-mint_memo_type_kyt_fail)
+
+#### :gear: MINT_MEMO_TYPE_UTXO_TO_CKBTC
+
+| Constant                       | Type |
+| ------------------------------ | ---- |
+| `MINT_MEMO_TYPE_UTXO_TO_CKBTC` | `0`  |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L4)
+
+#### :gear: MINT_MEMO_TYPE_ACCUMULATED_KYT_FEES
+
+| Constant                              | Type |
+| ------------------------------------- | ---- |
+| `MINT_MEMO_TYPE_ACCUMULATED_KYT_FEES` | `1`  |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L6)
+
+#### :gear: MINT_MEMO_TYPE_KYT_FAIL
+
+| Constant                  | Type |
+| ------------------------- | ---- |
+| `MINT_MEMO_TYPE_KYT_FAIL` | `2`  |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L8)
 
 ### :factory: CkBTCMinterCanister
 
@@ -255,6 +300,10 @@ Parameters:
 - `params.certified`: query or update call
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L235)
+
+### :factory: LegacyMintMemoError
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L20)
 
 <!-- TSDOC_END -->
 
