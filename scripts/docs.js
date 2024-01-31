@@ -38,6 +38,7 @@ const ledgerICPInputFiles = [
 const ckBTCInputFiles = [
   "./packages/ckbtc/src/minter.canister.ts",
   "./packages/ckbtc/src/utils/btc.utils.ts",
+  "./packages/ckbtc/src/utils/minter.utils.ts",
 ];
 
 const ckETHInputFiles = [
