@@ -19,6 +19,13 @@ type MintMemo =
 
 export class LegacyMintMemoError extends Error {}
 
+/**
+ * Helper that decodes the memo of a ckBTC mint transaction to an object.
+ *
+ * @param memo a Cbor encoded memo.
+ * @throws LegacyMintMemoError when the memo length is 0 or 32 which identifying a legacy memo which are not supported by this help.
+ * @returns {MintMemo} the decoded memo object.
+ */
 export const decodeMintMemo = (memo: Uint8Array | number[]): MintMemo => {
   // Legacy minting transaction have a memo of length 0 or 32.
   // We ignore them - those are not supported by this decoder.
