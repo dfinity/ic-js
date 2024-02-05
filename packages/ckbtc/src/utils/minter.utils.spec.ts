@@ -1,4 +1,5 @@
 import { Cbor } from "@dfinity/agent";
+import { hexStringToUint8Array } from "@dfinity/utils";
 import { decodeMintMemo, LegacyMintMemoError } from "./minter.utils";
 
 describe("Transactions utils", () => {
@@ -18,7 +19,9 @@ describe("Transactions utils", () => {
   });
 
   it("should decode memo as a single UTXO to ckBTC", () => {
-    const btcWithdrawalAddress = "1ASLxsAMbbt4gcrNc6v6qDBW4JkeWAtTeh";
+    const btcWithdrawalAddress = hexStringToUint8Array(
+      "1ASLxsAMbbt4gcrNc6v6qDBW4JkeWAtTeh",
+    );
     const kytFee = 1333;
     const decodedMemo = [0, [btcWithdrawalAddress, kytFee, undefined]];
     const memo = new Uint8Array(Cbor.encode(decodedMemo));

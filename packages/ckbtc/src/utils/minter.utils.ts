@@ -1,4 +1,7 @@
 import { Cbor } from "@dfinity/agent";
+import { z } from "zod";
+
+export class LegacyMintMemoError extends Error {}
 
 // The minter converted a single UTXO to ckBTC.
 export const MINT_MEMO_TYPE_UTXO_TO_CKBTC = 0;
@@ -7,17 +10,32 @@ export const MINT_MEMO_TYPE_ACCUMULATED_KYT_FEES = 1;
 // The minter failed to check retrieve btc destination address or the destination address is tainted.
 export const MINT_MEMO_TYPE_KYT_FAIL = 2;
 
+const MemoUtxoToCkBTC = z.tuple([
+  z.literal(MINT_MEMO_TYPE_UTXO_TO_CKBTC),
+  z.tuple([
+    z.instanceof(Uint8Array).nullish(),
+    z.number().nullish(),
+    z.number().nullish(),
+  ]),
+]);
+
+const MemoAccumulatedKytFees = z.tuple([
+  z.literal(MINT_MEMO_TYPE_ACCUMULATED_KYT_FEES),
+]);
+
+const MemoTypeKytFail = z.tuple([
+  z.literal(MINT_MEMO_TYPE_KYT_FAIL),
+  z.tuple([z.number(), z.number().nullish(), z.number().nullish()]),
+]);
+
 // The memo will decode to either:
 // * Convert: [0, [ tx_id, vout, kyt_fee]]
 // * Kyt: [1]
 // * KytFail: [2, [ kyt_fee, kyt_status, block_index]]
 // Source: https://github.com/dfinity/ic/blob/c22a5aebd4f26ae2e4016de55e3f7aa00d086479/rs/bitcoin/ckbtc/minter/src/memo.rs#L25
-export type MintMemo =
-  | [typeof MINT_MEMO_TYPE_UTXO_TO_CKBTC, [Uint8Array?, number?, number?]]
-  | [typeof MINT_MEMO_TYPE_ACCUMULATED_KYT_FEES]
-  | [typeof MINT_MEMO_TYPE_KYT_FAIL, [number, number?, number?]];
+const Memo = MemoUtxoToCkBTC.or(MemoAccumulatedKytFees.or(MemoTypeKytFail));
 
-export class LegacyMintMemoError extends Error {}
+export type MintMemo = z.infer<typeof Memo>;
 
 /**
  * Helper that decodes the memo of a ckBTC mint transaction to an object.
@@ -33,5 +51,5 @@ export const decodeMintMemo = (memo: Uint8Array | number[]): MintMemo => {
     throw new LegacyMintMemoError();
   }
 
-  return Cbor.decode(new Uint8Array(memo)) as MintMemo;
+  return Memo.parse(Cbor.decode(new Uint8Array(memo)));
 };
