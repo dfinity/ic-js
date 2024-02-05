@@ -121,7 +121,7 @@ Parameters:
 
 ### :factory: CkBTCMinterCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L38)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L40)
 
 #### Methods
 
@@ -142,7 +142,7 @@ Parameters:
 | -------- | ------------------------------------------------------------------------ |
 | `create` | `(options: CkBTCMinterCanisterOptions<_SERVICE>) => CkBTCMinterCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L39)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L41)
 
 ##### :gear: getBtcAddress
 
@@ -160,7 +160,7 @@ Parameters:
 - `params.owner`: The owner for which the BTC address should be generated. If not provided, the `caller` will be use instead.
 - `params.subaccount`: An optional subaccount to compute the address.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L60)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L62)
 
 ##### :gear: updateBalance
 
@@ -178,7 +178,7 @@ Parameters:
 - `params.owner`: The owner of the address. If not provided, the `caller` will be use instead.
 - `params.subaccount`: An optional subaccount of the address.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L79)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L81)
 
 ##### :gear: getWithdrawalAccount
 
@@ -188,7 +188,7 @@ Returns the account to which the caller should deposit ckBTC before withdrawing 
 | ---------------------- | ------------------------ |
 | `getWithdrawalAccount` | `() => Promise<Account>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L102)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L104)
 
 ##### :gear: retrieveBtc
 
@@ -212,7 +212,7 @@ Parameters:
 - `params.address`: The bitcoin address.
 - `params.amount`: The ckBTC amount.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L121)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L123)
 
 ##### :gear: retrieveBtcWithApproval
 
@@ -238,7 +238,7 @@ Parameters:
 - `params.fromSubaccount`: An optional subaccount from which
   the ckBTC should be transferred.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L151)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L153)
 
 ##### :gear: retrieveBtcStatus
 
@@ -254,21 +254,22 @@ Parameters:
 - `transactionId`: The ID of the corresponding burn transaction.
 - `certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L183)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L185)
 
 ##### :gear: retrieveBtcStatusV2ByAccount
 
-Returns the status of all BTC withdrawals for the user's main account.
+Returns the status of all BTC withdrawals for an account.
 
-| Method                         | Type                                                                                |
-| ------------------------------ | ----------------------------------------------------------------------------------- |
-| `retrieveBtcStatusV2ByAccount` | `({ certified, }: { certified: boolean; }) => Promise<RetrieveBtcStatusV2WithId[]>` |
+| Method                         | Type                                                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `retrieveBtcStatusV2ByAccount` | `({ account, certified, }: RetrieveBtcStatusV2ByAccountParams) => Promise<RetrieveBtcStatusV2WithId[]>` |
 
 Parameters:
 
 - `certified`: query or update call
+- `account`: an optional account to retrieve the statuses. If not provided, statuses for the caller are retrieved.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L200)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L203)
 
 ##### :gear: estimateWithdrawalFee
 
@@ -284,7 +285,7 @@ Parameters:
 - `params.certified`: query or update call
 - `params.amount`: The optional amount for which the fee should be estimated.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L221)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L237)
 
 ##### :gear: getMinterInfo
 
@@ -299,7 +300,7 @@ Parameters:
 - `params`: The parameters to get the deposit fee.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L235)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L251)
 
 ### :factory: LegacyMintMemoError
 

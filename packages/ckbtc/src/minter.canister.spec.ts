@@ -748,6 +748,62 @@ describe("ckBTC minter canister", () => {
       expect(res).toEqual(expectedResponse);
     });
 
+    it("should return statuses for account owner", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status_v2_by_account.mockResolvedValue(response);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+
+      const account = {
+        owner,
+      };
+
+      const res = await canister.retrieveBtcStatusV2ByAccount({
+        certified: true,
+        account,
+      });
+
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([
+        {
+          owner,
+          subaccount: [],
+        },
+      ]);
+      expect(res).toEqual(expectedResponse);
+    });
+
+    it("should return statuses for account with subaccount", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.retrieve_btc_status_v2_by_account.mockResolvedValue(response);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
+
+      const account = {
+        owner,
+        subaccount,
+      };
+
+      const res = await canister.retrieveBtcStatusV2ByAccount({
+        certified: true,
+        account,
+      });
+
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
+      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([
+        {
+          owner,
+          subaccount: [subaccount],
+        },
+      ]);
+      expect(res).toEqual(expectedResponse);
+    });
+
     it("should use non-certified service", async () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
       service.retrieve_btc_status_v2_by_account.mockResolvedValue(response);

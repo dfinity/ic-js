@@ -2,6 +2,7 @@
 
 ## Features
 
+- Extend ckBTC `retrieveBtcStatusV2ByAccount` with optional `account` parameter.
 - Add a new decode ckBTC mint memo utility.
 
 # 2024.01.30-1600Z

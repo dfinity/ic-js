@@ -1,4 +1,5 @@
 export type {
+  Account,
   MinterInfo,
   PendingUtxo,
   RetrieveBtcOk,
