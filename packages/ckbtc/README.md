@@ -79,15 +79,15 @@ Parameters:
 
 Helper that decodes the memo of a ckBTC mint transaction to an object.
 
-| Function         | Type                                         |
-| ---------------- | -------------------------------------------- |
-| `decodeMintMemo` | `(memo: Uint8Array or number[]) => MintMemo` |
+| Function         | Type                                                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------------ | ----------------- | ---------------------------------------------------------- |
+| `decodeMintMemo` | `(memo: Uint8Array or number[]) => [0, [Uint8Array, number, number, ...unknown[]], ...unknown[]] | [1, ...unknown[]] | [2, [number, number, number, ...unknown[]], ...unknown[]]` |
 
 Parameters:
 
 - `memo`: a Cbor encoded memo.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L29)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L47)
 
 ### :wrench: Constants
 
@@ -101,7 +101,7 @@ Parameters:
 | ------------------------------ | ---- |
 | `MINT_MEMO_TYPE_UTXO_TO_CKBTC` | `0`  |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L4)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L7)
 
 #### :gear: MINT_MEMO_TYPE_ACCUMULATED_KYT_FEES
 
@@ -109,7 +109,7 @@ Parameters:
 | ------------------------------------- | ---- |
 | `MINT_MEMO_TYPE_ACCUMULATED_KYT_FEES` | `1`  |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L6)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L9)
 
 #### :gear: MINT_MEMO_TYPE_KYT_FAIL
 
@@ -117,7 +117,7 @@ Parameters:
 | ------------------------- | ---- |
 | `MINT_MEMO_TYPE_KYT_FAIL` | `2`  |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L8)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L11)
 
 ### :factory: CkBTCMinterCanister
 
@@ -304,7 +304,7 @@ Parameters:
 
 ### :factory: LegacyMintMemoError
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L20)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/minter.utils.ts#L4)
 
 <!-- TSDOC_END -->
 
