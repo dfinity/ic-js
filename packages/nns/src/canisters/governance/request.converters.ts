@@ -1,4 +1,7 @@
-import type { AccountIdentifier as AccountIdentifierClass } from "@dfinity/ledger-icp";
+import type {
+  AccountIdentifier as AccountIdentifierClass,
+  AccountIdentifierHex,
+} from "@dfinity/ledger-icp";
 import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
@@ -37,7 +40,7 @@ import type {
 } from "../../../candid/governance";
 import type { Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import type { AccountIdentifier, E8s, NeuronId } from "../../types/common";
+import type { E8s, NeuronId } from "../../types/common";
 import type {
   Action,
   By,
@@ -845,7 +848,7 @@ const fromAmount = (amount: E8s): Amount => ({
 });
 
 const fromAccountIdentifier = (
-  accountIdentifier: AccountIdentifier,
+  accountIdentifier: AccountIdentifierHex,
 ): RawAccountIdentifier => ({
   hash: accountIdentifierToBytes(accountIdentifier),
 });
