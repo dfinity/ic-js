@@ -192,6 +192,18 @@ export interface Followers {
 export interface FollowersMap {
   followers_map: Array<[bigint, Followers]>;
 }
+export interface GenesisNeuronAccount {
+  id: bigint;
+  error_count: bigint;
+  neuron_type: number;
+  account_ids: Array<string>;
+  tag_end_timestamp_seconds: [] | [bigint];
+  amount_icp_e8s: bigint;
+  tag_start_timestamp_seconds: [] | [bigint];
+}
+export interface GenesisNeuronAccounts {
+  genesis_neuron_accounts: Array<GenesisNeuronAccount>;
+}
 export interface GetNeuronsFundAuditInfoRequest {
   nns_proposal_id: [] | [NeuronId];
 }
@@ -208,6 +220,7 @@ export interface Governance {
     | []
     | [MostRecentMonthlyNodeProviderRewards];
   maturity_modulation_last_updated_at_timestamp_seconds: [] | [bigint];
+  genesis_neuron_accounts: [] | [GenesisNeuronAccounts];
   wait_for_quiet_threshold_seconds: bigint;
   metrics: [] | [GovernanceCachedMetrics];
   neuron_management_voting_period_seconds: [] | [bigint];
@@ -337,6 +350,7 @@ export interface ListProposalInfoResponse {
   proposal_info: Array<ProposalInfo>;
 }
 export interface MakeProposalResponse {
+  message: [] | [string];
   proposal_id: [] | [NeuronId];
 }
 export interface MakingSnsProposal {

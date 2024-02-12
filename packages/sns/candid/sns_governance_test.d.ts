@@ -10,6 +10,7 @@ export type Action =
       ManageNervousSystemParameters: NervousSystemParameters;
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
+  | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { UpgradeSnsToNextVersion: {} }
   | { RegisterDappCanisters: RegisterDappCanisters }
@@ -278,6 +279,14 @@ export interface ListProposals {
 }
 export interface ListProposalsResponse {
   proposals: Array<ProposalData>;
+}
+export interface ManageDappCanisterSettings {
+  freezing_threshold: [] | [bigint];
+  canister_ids: Array<Principal>;
+  reserved_cycles_limit: [] | [bigint];
+  log_visibility: [] | [number];
+  memory_allocation: [] | [bigint];
+  compute_allocation: [] | [bigint];
 }
 export interface ManageLedgerParameters {
   transfer_fee: [] | [bigint];
