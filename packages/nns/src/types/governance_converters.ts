@@ -1,4 +1,5 @@
 import type { DerEncodedPublicKey } from "@dfinity/agent";
+import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
 import type {
   NeuronState,
@@ -9,7 +10,6 @@ import type {
   Vote,
 } from "../enums/governance.enums";
 import type {
-  AccountIdentifier,
   CanisterIdString,
   E8s,
   NeuronId,
@@ -88,7 +88,7 @@ export interface Configure {
   operation: Option<Operation>;
 }
 export interface Disburse {
-  toAccountId: Option<AccountIdentifier>;
+  toAccountId: Option<AccountIdentifierHex>;
   amount: Option<E8s>;
 }
 export interface DisburseResponse {
@@ -273,7 +273,7 @@ export interface Neuron {
   spawnAtTimesSeconds: Option<bigint>;
   neuronFees: E8s;
   hotKeys: Array<PrincipalString>;
-  accountIdentifier: AccountIdentifier;
+  accountIdentifier: AccountIdentifierHex;
   joinedCommunityFundTimestampSeconds: Option<bigint>;
   dissolveState: Option<DissolveState>;
   followees: Array<Followees>;
@@ -297,7 +297,7 @@ export interface NeuronInfo {
 
 export interface NodeProvider {
   id: Option<PrincipalString>;
-  rewardAccount: Option<AccountIdentifier>;
+  rewardAccount: Option<AccountIdentifierHex>;
 }
 export type Operation =
   | { RemoveHotKey: RemoveHotKey }
@@ -350,7 +350,7 @@ export type RewardNodeProviders = {
   rewards: Array<RewardNodeProvider>;
 };
 export interface RewardToAccount {
-  toAccount: Option<AccountIdentifier>;
+  toAccount: Option<AccountIdentifierHex>;
 }
 export interface RewardToNeuron {
   dissolveDelaySeconds: bigint;
@@ -433,7 +433,7 @@ export interface SplitRequest {
 
 export interface DisburseRequest {
   neuronId: NeuronId;
-  toAccountId?: AccountIdentifier;
+  toAccountId?: AccountIdentifierHex;
   amount?: E8s;
 }
 

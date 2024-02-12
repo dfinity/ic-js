@@ -1,3 +1,4 @@
+import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import {
   AccountIdentifier,
   accountIdentifierFromBytes,
@@ -64,12 +65,7 @@ import type {
 } from "../../../candid/governance";
 import { NeuronState, type NeuronType } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import type {
-  AccountIdentifier as AccountIdentifierString,
-  CanisterIdString,
-  E8s,
-  NeuronId,
-} from "../../types/common";
+import type { CanisterIdString, E8s, NeuronId } from "../../types/common";
 import type {
   Action,
   Ballot,
@@ -760,7 +756,7 @@ const toAmount = (amount: RawAmount): E8s => {
 
 const toAccountIdentifier = (
   accountIdentifier: RawAccountIdentifier,
-): AccountIdentifierString =>
+): AccountIdentifierHex =>
   accountIdentifierFromBytes(new Uint8Array(accountIdentifier.hash));
 
 const toRewardMode = (rewardMode: RawRewardMode): RewardMode => {
