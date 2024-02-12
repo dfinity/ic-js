@@ -105,7 +105,14 @@ export class SubAccount {
 
     const view = new DataView(new ArrayBuffer(32));
 
-    view.setBigUint64(24, BigInt(id), false);
+    // Fix for IOS < 14.8 setBigUint64 absence
+    if (typeof view.setBigUint64 === "function") {
+      view.setBigUint64(24, BigInt(id));
+    } else {
+      const TWO_TO_THE_32 = BigInt(1) << BigInt(32);
+      view.setUint32(24, Number(BigInt(id) >> BigInt(32)));
+      view.setUint32(28, Number(BigInt(id) % TWO_TO_THE_32));
+    }
 
     const uint8Arary = new Uint8Array(view.buffer);
     return new SubAccount(uint8Arary);
