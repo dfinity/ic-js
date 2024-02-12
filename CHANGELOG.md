@@ -6,6 +6,10 @@
 - Replace duplicate string type `AccountIdentifier` in `@dfinity/nns` with `AccountIdentifierHex` of `@dfinity/ledger-icp`.
 - Remove unused Uint8Array type `SubAccount` in `@dfinity/nns`.
 
+## Build
+
+- Bump all dev dependencies of the ic-js workspace.
+
 # 2024.01.30-1600Z
 
 ## Overview
