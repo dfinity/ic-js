@@ -3,6 +3,5 @@ export type NeuronId = bigint;
 export type E8s = bigint;
 export type Memo = bigint;
 export type PrincipalString = string;
-export type SubAccount = Uint8Array;
 
 export type Option<T> = T | undefined;
