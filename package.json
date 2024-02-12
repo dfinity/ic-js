@@ -58,8 +58,7 @@
     "ts-jest": "^29.1.2",
     "ts-protoc-gen": "^0.15.0",
     "tsdoc-markdown": "^0.1.0",
-    "typescript": "^5.2.2",
-    "whatwg-fetch": "^3.6.19"
+    "typescript": "^5.2.2"
   },
   "size-limit": [
     {
