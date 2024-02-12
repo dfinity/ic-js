@@ -1096,8 +1096,8 @@ const toCanisterIdString = (
   return canister === undefined
     ? undefined
     : canister.id.length === 0
-    ? undefined
-    : fromDefinedNullable(canister.id).toString();
+      ? undefined
+      : fromDefinedNullable(canister.id).toString();
 };
 
 const toImage = (image: RawImage | undefined): Image | undefined => {
