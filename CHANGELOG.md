@@ -4,6 +4,10 @@
 
 - Extend ckBTC `retrieveBtcStatusV2ByAccount` with optional `account` parameter.
 
+## Build
+
+- Bump all dev dependencies of the ic-js workspace.
+
 # 2024.01.30-1600Z
 
 ## Overview
