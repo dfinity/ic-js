@@ -66,6 +66,7 @@
       "name": "@dfinity/ckbtc",
       "path": "./packages/ckbtc/dist/index.js",
       "limit": "9 kB",
+      "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -77,6 +78,7 @@
       "name": "@dfinity/cketh",
       "path": "./packages/cketh/dist/index.js",
       "limit": "5 kB",
+      "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -88,6 +90,7 @@
       "name": "@dfinity/cmc",
       "path": "./packages/cmc/dist/index.js",
       "limit": "2 kB",
+      "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -99,6 +102,7 @@
       "name": "@dfinity/ledger-icrc",
       "path": "./packages/ledger-icrc/dist/index.js",
       "limit": "4 kB",
+      "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -110,6 +114,7 @@
       "name": "@dfinity/ledger-icp",
       "path": "./packages/ledger-icp/dist/index.js",
       "limit": "20 kB",
+      "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -122,6 +127,7 @@
       "name": "@dfinity/nns",
       "path": "./packages/nns/dist/index.js",
       "limit": "40 kB",
+      "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -133,12 +139,14 @@
     {
       "name": "@dfinity/nns-proto",
       "path": "./packages/nns-proto/dist/index.js",
-      "limit": "80 kB"
+      "limit": "80 kB",
+      "gzip": true
     },
     {
       "name": "@dfinity/sns",
       "path": "./packages/sns/dist/index.js",
       "limit": "16 kB",
+      "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -151,6 +159,7 @@
       "name": "@dfinity/utils",
       "path": "./packages/utils/dist/index.js",
       "limit": "5 kB",
+      "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
@@ -161,6 +170,7 @@
       "name": "@dfinity/ic-management",
       "path": "./packages/ic-management/dist/index.js",
       "limit": "3 kB",
+      "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
