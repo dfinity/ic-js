@@ -5,7 +5,7 @@
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-| ------------------------ |---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.2.0  | Enhanced 🔧         |
 | `@dfinity/cketh`         | v1.0.1  | Maintained ⚙️       |
 | `@dfinity/cmc`           | v3.0.1  | Maintained ⚙️       |
@@ -13,7 +13,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/ledger-icp`    | v2.2.0  | Enhanced 🔧         |
 | `@dfinity/ledger-icrc`   | v2.1.2  | Maintained ⚙️       |
 | `@dfinity/nns`           | v4.0.0  | Breaking Changes ⚠️ |
-| `@dfinity/nns-proto`     | v1.0.1  | Unchanged️           |
+| `@dfinity/nns-proto`     | v1.0.1  | Unchanged️          |
 | `@dfinity/sns`           | v2.1.2  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.1.1  | Maintained ⚙️       |
 
