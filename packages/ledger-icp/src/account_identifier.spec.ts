@@ -60,6 +60,15 @@ describe("SubAccount", () => {
     expect(SubAccount.fromID(1)).toEqual(SubAccount.fromBytes(bytes));
     bytes[31] = 255;
     expect(SubAccount.fromID(255)).toEqual(SubAccount.fromBytes(bytes));
+
+    // Number 18791 in big endian 32 bytes
+    const numberInBytes = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 73, 103,
+    ];
+    expect(SubAccount.fromID(18791)).toEqual(
+      SubAccount.fromBytes(new Uint8Array(numberInBytes)),
+    );
   });
 
   it("throws an exception if initialized with an ID < 0", () => {
@@ -68,9 +77,9 @@ describe("SubAccount", () => {
     }).toThrow();
   });
 
-  it("throws an exception if initialized with an ID > 255", () => {
+  it("throws an exception if initialized with an ID > max int", () => {
     expect(() => {
-      SubAccount.fromID(256);
+      SubAccount.fromID(Number.MAX_SAFE_INTEGER + 1);
     }).toThrow();
   });
 });

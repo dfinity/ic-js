@@ -97,13 +97,25 @@ export class SubAccount {
   }
 
   public static fromID(id: number): SubAccount {
-    if (id < 0 || id > 255) {
-      throw "Subaccount ID must be >= 0 and <= 255";
+    if (id < 0) throw new Error("Number cannot be negative");
+
+    if (id > Number.MAX_SAFE_INTEGER) {
+      throw new Error("Number is too large to fit in 32 bytes.");
     }
 
-    const bytes: Uint8Array = new Uint8Array(32).fill(0);
-    bytes[31] = id;
-    return new SubAccount(bytes);
+    const view = new DataView(new ArrayBuffer(32));
+
+    // Fix for IOS < 14.8 setBigUint64 absence
+    if (typeof view.setBigUint64 === "function") {
+      view.setBigUint64(24, BigInt(id));
+    } else {
+      const TWO_TO_THE_32 = BigInt(1) << BigInt(32);
+      view.setUint32(24, Number(BigInt(id) >> BigInt(32)));
+      view.setUint32(28, Number(BigInt(id) % TWO_TO_THE_32));
+    }
+
+    const uint8Arary = new Uint8Array(view.buffer);
+    return new SubAccount(uint8Arary);
   }
 
   public toUint8Array(): Uint8Array {
