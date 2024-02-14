@@ -15,8 +15,8 @@ jobs:
         if: github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/checkout@v2
         with:
-            # Must be used in order to allow Commit Formatting changes to create a new PR
-            token: ${{ secrets.GIX_CREATE_PR_PAT }}
+          # Must be used in order to allow Commit Formatting changes to create a new PR
+          token: ${{ secrets.GIX_CREATE_PR_PAT }}
       - name: Checkout Fork
         # in forks the token is not available
         if: github.event.pull_request.head.repo.full_name != github.repository
