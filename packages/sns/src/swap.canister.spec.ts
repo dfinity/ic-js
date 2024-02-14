@@ -231,6 +231,7 @@ describe("Swap canister", () => {
     const mockResponse: GetLifecycleResponse = {
       decentralization_sale_open_timestamp_seconds: [BigInt(2)],
       lifecycle: [SnsSwapLifecycle.Adopted],
+      decentralization_swap_termination_timestamp_seconds: [],
     };
 
     const service = mock<ActorSubclass<SnsSwapService>>();

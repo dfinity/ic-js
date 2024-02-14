@@ -56,6 +56,11 @@ export const idlFactory = ({ IDL }) => {
     'Init' : InitArgs,
   });
   const BlockIndex = IDL.Nat;
+  const ArchiveInfo = IDL.Record({
+    'block_range_end' : BlockIndex,
+    'canister_id' : IDL.Principal,
+    'block_range_start' : BlockIndex,
+  });
   const GetBlocksArgs = IDL.Record({
     'start' : BlockIndex,
     'length' : IDL.Nat,
@@ -253,6 +258,7 @@ export const idlFactory = ({ IDL }) => {
     'Err' : TransferFromError,
   });
   return IDL.Service({
+    'archives' : IDL.Func([], [IDL.Vec(ArchiveInfo)], ['query']),
     'get_blocks' : IDL.Func([GetBlocksArgs], [GetBlocksResponse], ['query']),
     'get_data_certificate' : IDL.Func([], [DataCertificate], ['query']),
     'get_transactions' : IDL.Func(

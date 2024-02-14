@@ -1,4 +1,4 @@
-// Generated from IC repo commit a8e25a31a (2023-12-12) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit 044cfd5 (2024-01-25 tags: release-2024-01-25_14-09+p2p-con) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -9,6 +9,14 @@ type CanisterStatusResponse = record {
   settings : DefiniteCanisterSettings;
   idle_cycles_burned_per_day : nat;
   module_hash : opt vec nat8;
+  query_stats : QueryStats;
+};
+
+type QueryStats = record {
+  response_payload_bytes_total : nat;
+  num_instructions_total : nat;
+  num_calls_total : nat;
+  request_payload_bytes_total : nat;
 };
 
 type CanisterStatusType = variant { stopped; stopping; running };
@@ -23,14 +31,14 @@ type DefiniteCanisterSettings = record {
 type RetrieveBtcArgs = record {
     // The address to which the ckBTC minter should deposit BTC.
     address : text;
-    // The amount of BTC in Satoshis that the client wants to withdraw.
+    // The amount of ckBTC in Satoshis that the client wants to withdraw.
     amount : nat64;
 };
 
 type RetrieveBtcWithApprovalArgs = record {
     // The address to which the ckBTC minter should deposit BTC.
     address : text;
-    // The amount of BTC in Satoshis that the client wants to withdraw.
+    // The amount of ckBTC in Satoshis that the client wants to withdraw.
     amount : nat64;
     // The subaccount to burn ckBTC from.
     from_subaccount : opt blob;

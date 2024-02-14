@@ -81,14 +81,14 @@ jobs:
           branch: bot-ic-update
           branch-suffix: timestamp # Creates a new branch & PR with every run.  If this gets spammy, please delete this line and instead block the PR from making a PR if there is already an open one.
           delete-branch: true
-          title: 'Update IC Candid Files'
+          title: 'Update Candid Files'
           body: |
             # Motivation
-            The Internet Computer APIs have updated.
+            The canisters APIs have been updated.
 
             # Changes
-            * Updated the interface description files for the Internet Computer.
-            * Updated the javascript bindings for the latest IC interface.
+            * Updated the candid interface files for the canisters used in this library.
+            * Updated the javascript bindings for the latest candid interfaces.
 
             # Tests
               - [ ] Please check the API updates for any breaking changes that affect our code.

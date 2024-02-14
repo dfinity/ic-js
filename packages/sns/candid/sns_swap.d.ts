@@ -67,6 +67,9 @@ export interface Err_2 {
   existing_ticket: [] | [Ticket];
   error_type: number;
 }
+export interface Error {
+  message: [] | [string];
+}
 export interface ErrorRefundIcpRequest {
   source_principal_id: [] | [Principal];
 }
@@ -79,10 +82,14 @@ export interface FailedUpdate {
 }
 export interface FinalizeSwapResponse {
   set_dapp_controllers_call_result: [] | [SetDappControllersCallResult];
+  create_sns_neuron_recipes_result: [] | [SweepResult];
   settle_community_fund_participation_result:
     | []
     | [SettleCommunityFundParticipationResult];
   error_message: [] | [string];
+  settle_neurons_fund_participation_result:
+    | []
+    | [SettleNeuronsFundParticipationResult];
   set_mode_call_result: [] | [SetModeCallResult];
   sweep_icp_result: [] | [SweepResult];
   claim_neuron_result: [] | [SweepResult];
@@ -117,6 +124,7 @@ export interface GetInitResponse {
 export interface GetLifecycleResponse {
   decentralization_sale_open_timestamp_seconds: [] | [bigint];
   lifecycle: [] | [number];
+  decentralization_swap_termination_timestamp_seconds: [] | [bigint];
 }
 export interface GetOpenTicketResponse {
   result: [] | [Result_1];
@@ -135,6 +143,9 @@ export interface GovernanceError {
 export interface Icrc1Account {
   owner: [] | [Principal];
   subaccount: [] | [Uint8Array | number[]];
+}
+export interface IdealMatchedParticipationFunction {
+  serialized_representation: [] | [string];
 }
 export interface Init {
   nns_proposal_id: [] | [bigint];
@@ -219,6 +230,9 @@ export interface NeuronsFundParticipationConstraints {
   coefficient_intervals: Array<LinearScalingCoefficient>;
   max_neurons_fund_participation_icp_e8s: [] | [bigint];
   min_direct_participation_threshold_icp_e8s: [] | [bigint];
+  ideal_matched_participation_function:
+    | []
+    | [IdealMatchedParticipationFunction];
 }
 export interface NewSaleTicketRequest {
   subaccount: [] | [Uint8Array | number[]];
@@ -231,6 +245,10 @@ export interface Ok {
   block_height: [] | [bigint];
 }
 export interface Ok_1 {
+  neurons_fund_participation_icp_e8s: [] | [bigint];
+  neurons_fund_neurons_count: [] | [bigint];
+}
+export interface Ok_2 {
   ticket: [] | [Ticket];
 }
 export interface OpenRequest {
@@ -261,7 +279,8 @@ export type Possibility =
   | { Ok: SetDappControllersResponse }
   | { Err: CanisterCallError };
 export type Possibility_1 = { Ok: Response } | { Err: CanisterCallError };
-export type Possibility_2 = { Ok: {} } | { Err: CanisterCallError };
+export type Possibility_2 = { Ok: Ok_1 } | { Err: Error };
+export type Possibility_3 = { Ok: {} } | { Err: CanisterCallError };
 export interface RefreshBuyerTokensRequest {
   confirmation_text: [] | [string];
   buyer: string;
@@ -274,8 +293,8 @@ export interface Response {
   governance_error: [] | [GovernanceError];
 }
 export type Result = { Ok: Ok } | { Err: Err };
-export type Result_1 = { Ok: Ok_1 } | { Err: Err_1 };
-export type Result_2 = { Ok: Ok_1 } | { Err: Err_2 };
+export type Result_1 = { Ok: Ok_2 } | { Err: Err_1 };
+export type Result_2 = { Ok: Ok_2 } | { Err: Err_2 };
 export interface SetDappControllersCallResult {
   possibility: [] | [Possibility];
 }
@@ -283,10 +302,13 @@ export interface SetDappControllersResponse {
   failed_updates: Array<FailedUpdate>;
 }
 export interface SetModeCallResult {
-  possibility: [] | [Possibility_2];
+  possibility: [] | [Possibility_3];
 }
 export interface SettleCommunityFundParticipationResult {
   possibility: [] | [Possibility_1];
+}
+export interface SettleNeuronsFundParticipationResult {
+  possibility: [] | [Possibility_2];
 }
 export interface SnsNeuronRecipe {
   sns: [] | [TransferableAmount];
@@ -308,6 +330,7 @@ export interface Swap {
   direct_participation_icp_e8s: [] | [bigint];
   lifecycle: number;
   purge_old_tickets_next_principal: [] | [Uint8Array | number[]];
+  decentralization_swap_termination_timestamp_seconds: [] | [bigint];
   buyers: Array<[string, BuyerState]>;
   params: [] | [Params];
   open_sns_token_swap_proposal_id: [] | [bigint];
@@ -364,7 +387,7 @@ export interface _SERVICE {
     ListSnsNeuronRecipesResponse
   >;
   new_sale_ticket: ActorMethod<[NewSaleTicketRequest], NewSaleTicketResponse>;
-  notify_payment_failure: ActorMethod<[{}], Ok_1>;
+  notify_payment_failure: ActorMethod<[{}], Ok_2>;
   open: ActorMethod<[OpenRequest], {}>;
   refresh_buyer_tokens: ActorMethod<
     [RefreshBuyerTokensRequest],
