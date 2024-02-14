@@ -15,7 +15,7 @@ jobs:
         if: github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/checkout@v2
         with:
-          # Must be used in order to allow Commit Formatting changes trigger the CLA when it creates a new commit
+          # Must be used in order to allow Commit Formatting changes to trigger the CLA when it creates a new commit
           token: ${{ secrets.GIX_CREATE_PR_PAT }}
       - name: Checkout Fork
         # in forks the token is not available
