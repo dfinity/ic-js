@@ -229,7 +229,8 @@ describe("Governance canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const {proposals, include_ballots_by_caller} = await canister.listCallerProposals({});
+      const { proposals, include_ballots_by_caller } =
+        await canister.listCallerProposals({});
       expect(mockListProposals).toBeCalled();
       expect(proposals).toEqual(proposalsMock);
       expect(include_ballots_by_caller).toEqual([true]);
