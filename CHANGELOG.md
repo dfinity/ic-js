@@ -14,7 +14,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/ledger-icrc`   | v2.1.2  | Unchanged️️   |
 | `@dfinity/nns`           | v4.0.0  | Unchanged️️   |
 | `@dfinity/nns-proto`     | v1.0.1  | Unchanged️    |
-| `@dfinity/sns`           | v2.1.2  | Maintained ⚙️ |
+| `@dfinity/sns`           | v2.1.3  | Maintained ⚙️ |
 | `@dfinity/utils`         | v2.1.1  | Unchanged️    |
 
 ## Breaking changes
