@@ -58,6 +58,7 @@ import type {
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
+import {ListProposalsResponse} from "../candid/sns_governance";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
@@ -102,6 +103,22 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
       toListProposalRequest(params),
     );
     return proposals;
+  };
+
+  /**
+   * List the proposals of the Sns including `include_ballots_by_caller` flag.
+   * When the flag is true, we know that the sns governance canister returns real ballots information.
+   * When the flag is false, there is always an empty list of ballots.
+   */
+  listCallerProposals = async (
+    params: SnsListProposalsParams,
+  ): Promise<ListProposalsResponse> => {
+    const { certified } = params;
+
+    const response = await this.caller({ certified }).list_proposals(
+      toListProposalRequest(params),
+    );
+    return response;
   };
 
   /**
