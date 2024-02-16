@@ -20,7 +20,6 @@ import type {
   _SERVICE as SnsGovernanceService,
   SplitResponse,
 } from "../candid/sns_governance";
-import { ListProposalsResponse } from "../candid/sns_governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
