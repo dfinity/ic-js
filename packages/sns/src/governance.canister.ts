@@ -10,6 +10,7 @@ import {
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
+  ListProposalsResponse,
   ManageNeuron,
   ManageNeuronResponse,
   NervousSystemParameters,
@@ -58,7 +59,6 @@ import type {
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
-import {ListProposalsResponse} from "../candid/sns_governance";
 
 export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   /**
