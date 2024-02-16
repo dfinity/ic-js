@@ -120,6 +120,14 @@ export const idlFactory = ({ IDL }) => {
     'total' : IDL.Nat64,
     'timestamp_seconds' : IDL.Nat64,
   });
+  const ManageDappCanisterSettings = IDL.Record({
+    'freezing_threshold' : IDL.Opt(IDL.Nat64),
+    'canister_ids' : IDL.Vec(IDL.Principal),
+    'reserved_cycles_limit' : IDL.Opt(IDL.Nat64),
+    'log_visibility' : IDL.Opt(IDL.Int32),
+    'memory_allocation' : IDL.Opt(IDL.Nat64),
+    'compute_allocation' : IDL.Opt(IDL.Nat64),
+  });
   const RegisterDappCanisters = IDL.Record({
     'canister_ids' : IDL.Vec(IDL.Principal),
   });
@@ -164,6 +172,7 @@ export const idlFactory = ({ IDL }) => {
   const Action = IDL.Variant({
     'ManageNervousSystemParameters' : NervousSystemParameters,
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
+    'ManageDappCanisterSettings' : ManageDappCanisterSettings,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'UpgradeSnsToNextVersion' : IDL.Record({}),
     'RegisterDappCanisters' : RegisterDappCanisters,
@@ -438,6 +447,7 @@ export const idlFactory = ({ IDL }) => {
     'include_status' : IDL.Vec(IDL.Int32),
   });
   const ListProposalsResponse = IDL.Record({
+    'include_ballots_by_caller' : IDL.Opt(IDL.Bool),
     'proposals' : IDL.Vec(ProposalData),
   });
   const StakeMaturity = IDL.Record({
@@ -676,6 +686,14 @@ export const init = ({ IDL }) => {
     'total' : IDL.Nat64,
     'timestamp_seconds' : IDL.Nat64,
   });
+  const ManageDappCanisterSettings = IDL.Record({
+    'freezing_threshold' : IDL.Opt(IDL.Nat64),
+    'canister_ids' : IDL.Vec(IDL.Principal),
+    'reserved_cycles_limit' : IDL.Opt(IDL.Nat64),
+    'log_visibility' : IDL.Opt(IDL.Int32),
+    'memory_allocation' : IDL.Opt(IDL.Nat64),
+    'compute_allocation' : IDL.Opt(IDL.Nat64),
+  });
   const RegisterDappCanisters = IDL.Record({
     'canister_ids' : IDL.Vec(IDL.Principal),
   });
@@ -720,6 +738,7 @@ export const init = ({ IDL }) => {
   const Action = IDL.Variant({
     'ManageNervousSystemParameters' : NervousSystemParameters,
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
+    'ManageDappCanisterSettings' : ManageDappCanisterSettings,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'UpgradeSnsToNextVersion' : IDL.Record({}),
     'RegisterDappCanisters' : RegisterDappCanisters,
