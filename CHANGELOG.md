@@ -1,3 +1,30 @@
+# 2024.02.16-1100Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v2.2.0  | Unchanged️    |
+| `@dfinity/cketh`         | v1.0.1  | Unchanged️️   |
+| `@dfinity/cmc`           | v3.0.1  | Unchanged️️   |
+| `@dfinity/ic-management` | v2.2.1  | Unchanged️️   |
+| `@dfinity/ledger-icp`    | v2.2.0  | Unchanged️    |
+| `@dfinity/ledger-icrc`   | v2.1.2  | Unchanged️️   |
+| `@dfinity/nns`           | v4.0.0  | Unchanged️️   |
+| `@dfinity/nns-proto`     | v1.0.1  | Unchanged️    |
+| `@dfinity/sns`           | v2.1.2  | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.1.1  | Unchanged️    |
+
+## Breaking changes
+
+## Features
+
+- Extend sns governance canister with a `listCallerProposals` for `include_ballots_by_caller` flag.
+
+## Build
+
 # 2024.02.14-1600Z
 
 ## Overview
