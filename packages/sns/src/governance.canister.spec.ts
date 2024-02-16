@@ -108,6 +108,7 @@ describe("Governance canister", () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
+        include_ballots_by_caller: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -124,6 +125,7 @@ describe("Governance canister", () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
+        include_ballots_by_caller: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -145,6 +147,7 @@ describe("Governance canister", () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
+        include_ballots_by_caller: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -175,6 +178,7 @@ describe("Governance canister", () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
+        include_ballots_by_caller: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -208,6 +212,120 @@ describe("Governance canister", () => {
       });
 
       const call = () => canister.listProposals({});
+      expect(call).rejects.toThrowError("error");
+    });
+  });
+
+  describe("listCallerProposals", () => {
+    it("should return the flag and the list of proposals", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+        include_ballots_by_caller: [true],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const {proposals, include_ballots_by_caller} = await canister.listCallerProposals({});
+      expect(mockListProposals).toBeCalled();
+      expect(proposals).toEqual(proposalsMock);
+      expect(include_ballots_by_caller).toEqual([true]);
+    });
+
+    it("should add default limit", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+        include_ballots_by_caller: [true],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.listCallerProposals({});
+      expect(mockListProposals).toBeCalledWith({
+        exclude_type: BigUint64Array.from([]),
+        before_proposal: [],
+        include_reward_status: Int32Array.from([]),
+        include_status: Int32Array.from([]),
+        limit: DEFAULT_PROPOSALS_LIMIT,
+      });
+    });
+
+    it("should add convert list of enums", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+        include_ballots_by_caller: [true],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const params = {
+        includeStatus: [
+          SnsProposalDecisionStatus.PROPOSAL_DECISION_STATUS_OPEN,
+        ],
+        excludeType: [BigInt(2)],
+        includeRewardStatus: [
+          SnsProposalRewardStatus.PROPOSAL_REWARD_STATUS_ACCEPT_VOTES,
+        ],
+      };
+      await canister.listCallerProposals(params);
+      expect(mockListProposals).toBeCalledWith({
+        exclude_type: BigUint64Array.from(params.excludeType),
+        before_proposal: [],
+        include_reward_status: Int32Array.from(params.includeRewardStatus),
+        include_status: Int32Array.from(params.includeStatus),
+        limit: DEFAULT_PROPOSALS_LIMIT,
+      });
+    });
+
+    it("should use pagination params", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+        include_ballots_by_caller: [true],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const params = {
+        limit: 100,
+        beforeProposal: { id: BigInt(2) },
+      };
+      await canister.listCallerProposals(params);
+      expect(mockListProposals).toBeCalledWith({
+        exclude_type: BigUint64Array.from([]),
+        before_proposal: [params.beforeProposal],
+        include_reward_status: Int32Array.from([]),
+        include_status: Int32Array.from([]),
+        limit: params.limit,
+      });
+    });
+
+    it("should raise an error if call fails", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockRejectedValue(
+        new Error("error"),
+      );
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const call = () => canister.listCallerProposals({});
       expect(call).rejects.toThrowError("error");
     });
   });
