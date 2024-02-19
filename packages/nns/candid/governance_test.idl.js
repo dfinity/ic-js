@@ -297,6 +297,18 @@ export const idlFactory = ({ IDL }) => {
     'timestamp' : IDL.Nat64,
     'rewards' : IDL.Vec(RewardNodeProvider),
   });
+  const GenesisNeuronAccount = IDL.Record({
+    'id' : IDL.Nat64,
+    'error_count' : IDL.Nat64,
+    'neuron_type' : IDL.Int32,
+    'account_ids' : IDL.Vec(IDL.Text),
+    'tag_end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'amount_icp_e8s' : IDL.Nat64,
+    'tag_start_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const GenesisNeuronAccounts = IDL.Record({
+    'genesis_neuron_accounts' : IDL.Vec(GenesisNeuronAccount),
+  });
   const GovernanceCachedMetrics = IDL.Record({
     'total_maturity_e8s_equivalent' : IDL.Nat64,
     'not_dissolving_neurons_e8s_buckets' : IDL.Vec(
@@ -548,6 +560,7 @@ export const idlFactory = ({ IDL }) => {
     'maturity_modulation_last_updated_at_timestamp_seconds' : IDL.Opt(
       IDL.Nat64
     ),
+    'genesis_neuron_accounts' : IDL.Opt(GenesisNeuronAccounts),
     'wait_for_quiet_threshold_seconds' : IDL.Nat64,
     'metrics' : IDL.Opt(GovernanceCachedMetrics),
     'neuron_management_voting_period_seconds' : IDL.Opt(IDL.Nat64),
@@ -671,6 +684,7 @@ export const idlFactory = ({ IDL }) => {
     'source_neuron_info' : IDL.Opt(NeuronInfo),
   });
   const MakeProposalResponse = IDL.Record({
+    'message' : IDL.Opt(IDL.Text),
     'proposal_id' : IDL.Opt(NeuronId),
   });
   const StakeMaturityResponse = IDL.Record({
@@ -1121,6 +1135,18 @@ export const init = ({ IDL }) => {
     'timestamp' : IDL.Nat64,
     'rewards' : IDL.Vec(RewardNodeProvider),
   });
+  const GenesisNeuronAccount = IDL.Record({
+    'id' : IDL.Nat64,
+    'error_count' : IDL.Nat64,
+    'neuron_type' : IDL.Int32,
+    'account_ids' : IDL.Vec(IDL.Text),
+    'tag_end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'amount_icp_e8s' : IDL.Nat64,
+    'tag_start_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const GenesisNeuronAccounts = IDL.Record({
+    'genesis_neuron_accounts' : IDL.Vec(GenesisNeuronAccount),
+  });
   const GovernanceCachedMetrics = IDL.Record({
     'total_maturity_e8s_equivalent' : IDL.Nat64,
     'not_dissolving_neurons_e8s_buckets' : IDL.Vec(
@@ -1372,6 +1398,7 @@ export const init = ({ IDL }) => {
     'maturity_modulation_last_updated_at_timestamp_seconds' : IDL.Opt(
       IDL.Nat64
     ),
+    'genesis_neuron_accounts' : IDL.Opt(GenesisNeuronAccounts),
     'wait_for_quiet_threshold_seconds' : IDL.Nat64,
     'metrics' : IDL.Opt(GovernanceCachedMetrics),
     'neuron_management_voting_period_seconds' : IDL.Opt(IDL.Nat64),
