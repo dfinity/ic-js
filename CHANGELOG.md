@@ -1,10 +1,39 @@
-# XXXX.XX
+## Breaking changes
+
+- Update `listProposals` return type in sns governance canister.
+
+## Features
+
+## Build
+
+# 2024.02.14-1600Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v2.2.0  | Enhanced 🔧         |
+| `@dfinity/cketh`         | v1.0.1  | Maintained ⚙️       |
+| `@dfinity/cmc`           | v3.0.1  | Maintained ⚙️       |
+| `@dfinity/ic-management` | v2.2.1  | Maintained ⚙️       |
+| `@dfinity/ledger-icp`    | v2.2.0  | Enhanced 🔧         |
+| `@dfinity/ledger-icrc`   | v2.1.2  | Maintained ⚙️       |
+| `@dfinity/nns`           | v4.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns-proto`     | v1.0.1  | Unchanged️          |
+| `@dfinity/sns`           | v2.1.2  | Maintained ⚙️       |
+| `@dfinity/utils`         | v2.1.1  | Maintained ⚙️       |
+
+## Breaking changes
+
+- Replace duplicate string type `AccountIdentifier` in `@dfinity/nns` with `AccountIdentifierHex` of `@dfinity/ledger-icp`.
 
 ## Features
 
 - Extend ckBTC `retrieveBtcStatusV2ByAccount` with optional `account` parameter.
-- Replace duplicate string type `AccountIdentifier` in `@dfinity/nns` with `AccountIdentifierHex` of `@dfinity/ledger-icp`.
 - Remove unused Uint8Array type `SubAccount` in `@dfinity/nns`.
+- Modify the `@dfinity/ledger-icp` package's `SubAccount.formID` function to support more than 256 subaccounts, enabling it to handle larger numbers.
 
 ## Build
 
