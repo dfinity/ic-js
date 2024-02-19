@@ -1,3 +1,11 @@
+## Breaking changes
+
+- Update `listProposals` return type in sns governance canister.
+
+## Features
+
+## Build
+
 # 2024.02.14-1600Z
 
 ## Overview
