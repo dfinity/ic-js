@@ -21,6 +21,7 @@ import type {
   NeuronId,
   ProposalData,
 } from "../candid/sns_governance";
+import { ListProposalsResponse } from "../candid/sns_governance";
 import type {
   BuyerState,
   GetAutoFinalizationStatusResponse,
@@ -59,7 +60,6 @@ import type {
 } from "./types/governance.params";
 import type { NewSaleTicketParams } from "./types/swap.params";
 import { neuronSubaccount } from "./utils/governance.utils";
-import {ListProposalsResponse} from "../candid/sns_governance";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
