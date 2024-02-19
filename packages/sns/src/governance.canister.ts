@@ -10,6 +10,7 @@ import {
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
+  ListProposalsResponse,
   ManageNeuron,
   ManageNeuronResponse,
   NervousSystemParameters,
@@ -95,13 +96,13 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    */
   listProposals = async (
     params: SnsListProposalsParams,
-  ): Promise<ProposalData[]> => {
+  ): Promise<ListProposalsResponse> => {
     const { certified } = params;
 
-    const { proposals } = await this.caller({ certified }).list_proposals(
+    const response = await this.caller({ certified }).list_proposals(
       toListProposalRequest(params),
     );
-    return proposals;
+    return response;
   };
 
   /**

@@ -59,6 +59,7 @@ import type {
 } from "./types/governance.params";
 import type { NewSaleTicketParams } from "./types/swap.params";
 import { neuronSubaccount } from "./utils/governance.utils";
+import {ListProposalsResponse} from "../candid/sns_governance";
 
 interface SnsWrapperOptions {
   /** The wrapper for the "root" canister of the particular Sns */
@@ -133,7 +134,7 @@ export class SnsWrapper {
 
   listProposals = (
     params: Omit<SnsListProposalsParams, "certified">,
-  ): Promise<ProposalData[]> =>
+  ): Promise<ListProposalsResponse> =>
     this.governance.listProposals(this.mergeParams(params));
 
   getProposal = (
