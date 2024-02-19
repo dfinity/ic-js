@@ -5,6 +5,7 @@ export type {
   FunctionType as SnsFunctionType,
   GetMetadataResponse as SnsGetMetadataResponse,
   ListNervousSystemFunctionsResponse as SnsListNervousSystemFunctionsResponse,
+  ListProposalsResponse as SnsListProposalsResponse,
   ManageNeuron as SnsManageNeuron,
   ManageNeuronResponse as SnsManageNeuronResponse,
   NervousSystemFunction as SnsNervousSystemFunction,
