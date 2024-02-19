@@ -16,12 +16,12 @@ import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
+  ListProposalsResponse,
   NervousSystemParameters,
   Neuron,
   NeuronId,
   ProposalData,
 } from "../candid/sns_governance";
-import { ListProposalsResponse } from "../candid/sns_governance";
 import type {
   BuyerState,
   GetAutoFinalizationStatusResponse,
