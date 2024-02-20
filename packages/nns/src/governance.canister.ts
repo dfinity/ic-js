@@ -272,7 +272,10 @@ export class GovernanceCanister {
 
     const nonceBytes = new Uint8Array(randomBytes(8));
     const nonce = uint8ArrayToBigInt(nonceBytes);
-    const toSubAccount = this.buildNeuronStakeSubAccount(nonceBytes, principal);
+    const toSubAccount = GovernanceCanister.buildNeuronStakeSubAccount(
+      nonceBytes,
+      principal,
+    );
     const accountIdentifier = AccountIdentifier.fromPrincipal({
       principal: this.canisterId,
       subAccount: toSubAccount,
