@@ -8,8 +8,6 @@ import {
 import type { ManageNeuron as PbManageNeuron } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
-  arrayOfNumberToUint8Array,
-  asciiStringToByteArray,
   assertPercentageNumber,
   createServices,
   fromNullable,
@@ -17,7 +15,6 @@ import {
   nonNullish,
   uint8ArrayToBigInt,
 } from "@dfinity/utils";
-import { sha256 } from "@noble/hashes/sha256";
 import randomBytes from "randombytes";
 import type {
   Command_1,
@@ -105,6 +102,7 @@ import type {
   ProposalInfo,
   SpawnRequest,
 } from "./types/governance_converters";
+import { getNeuronStakeSubAccountBytes } from "./utils/neurons.utils";
 import { importNnsProto, updateCall } from "./utils/proto.utils";
 
 export class GovernanceCanister {
@@ -144,6 +142,15 @@ export class GovernanceCanister {
       options.hardwareWallet,
     );
   }
+
+  public static buildNeuronStakeSubAccount = (
+    nonce: Uint8Array,
+    principal: Principal,
+  ): SubAccount => {
+    return SubAccount.fromBytes(
+      getNeuronStakeSubAccountBytes(nonce, principal),
+    ) as SubAccount;
+  };
 
   /**
    * Returns the list of neurons controlled by the caller.
@@ -331,10 +338,7 @@ export class GovernanceCanister {
 
     const nonceBytes = new Uint8Array(randomBytes(8));
     const nonce = uint8ArrayToBigInt(nonceBytes);
-    const toSubAccount = this.getNeuronStakeSubAccountBytes(
-      nonceBytes,
-      principal,
-    );
+    const toSubAccount = getNeuronStakeSubAccountBytes(nonceBytes, principal);
 
     // Send amount to the ledger.
     await ledgerCanister.icrc1Transfer({
@@ -954,32 +958,6 @@ export class GovernanceCanister {
     throw new UnrecognizedTypeError(
       `Unrecognized ClaimOrRefresh error in ${JSON.stringify(rawResponse)}`,
     );
-  };
-
-  private buildNeuronStakeSubAccount = (
-    nonce: Uint8Array,
-    principal: Principal,
-  ): SubAccount => {
-    return SubAccount.fromBytes(
-      this.getNeuronStakeSubAccountBytes(nonce, principal),
-    ) as SubAccount;
-  };
-
-  private getNeuronStakeSubAccountBytes = (
-    nonce: Uint8Array,
-    principal: Principal,
-  ): Uint8Array => {
-    const padding = asciiStringToByteArray("neuron-stake");
-    const shaObj = sha256.create();
-    shaObj.update(
-      arrayOfNumberToUint8Array([
-        0x0c,
-        ...padding,
-        ...principal.toUint8Array(),
-        ...nonce,
-      ]),
-    );
-    return shaObj.digest();
   };
 
   private getGovernanceService(certified: boolean): GovernanceService {

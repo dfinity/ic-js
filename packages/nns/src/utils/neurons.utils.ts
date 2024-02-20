@@ -1,3 +1,9 @@
+import type { Principal } from "@dfinity/principal";
+import {
+  arrayOfNumberToUint8Array,
+  asciiStringToByteArray,
+} from "@dfinity/utils";
+import { sha256 } from "@noble/hashes/sha256";
 import type { Vote } from "../enums/governance.enums";
 import type {
   Ballot,
@@ -102,3 +108,20 @@ export const votedNeurons = ({
     ({ recentBallots }: NeuronInfo) =>
       voteForProposal({ recentBallots, proposalId }) !== undefined,
   );
+
+export const getNeuronStakeSubAccountBytes = (
+  nonce: Uint8Array,
+  principal: Principal,
+): Uint8Array => {
+  const padding = asciiStringToByteArray("neuron-stake");
+  const shaObj = sha256.create();
+  shaObj.update(
+    arrayOfNumberToUint8Array([
+      0x0c,
+      ...padding,
+      ...principal.toUint8Array(),
+      ...nonce,
+    ]),
+  );
+  return shaObj.digest();
+};
