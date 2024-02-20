@@ -77,6 +77,7 @@ const myNeurons = await listNeurons({ certified: false });
 - [ineligibleNeurons](#gear-ineligibleneurons)
 - [votableNeurons](#gear-votableneurons)
 - [votedNeurons](#gear-votedneurons)
+- [getNeuronStakeSubAccountBytes](#gear-getneuronstakesubaccountbytes)
 
 #### :gear: ineligibleNeurons
 
@@ -96,7 +97,7 @@ Parameters:
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal to match against the selected neurons.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L39)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L45)
 
 #### :gear: votableNeurons
 
@@ -111,7 +112,7 @@ Parameters:
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal to match against the selected neurons.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L68)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L74)
 
 #### :gear: votedNeurons
 
@@ -126,7 +127,15 @@ Parameters:
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal for which some neurons might have already voted.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L94)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L100)
+
+#### :gear: getNeuronStakeSubAccountBytes
+
+| Function                        | Type                                                      |
+| ------------------------------- | --------------------------------------------------------- |
+| `getNeuronStakeSubAccountBytes` | `(nonce: Uint8Array, principal: Principal) => Uint8Array` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L112)
 
 ### :factory: GenesisTokenCanister
 
@@ -155,11 +164,12 @@ Parameters:
 
 ### :factory: GovernanceCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L110)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L108)
 
 #### Methods
 
 - [create](#gear-create)
+- [buildNeuronStakeSubAccount](#gear-buildneuronstakesubaccount)
 - [listNeurons](#gear-listneurons)
 - [listKnownNeurons](#gear-listknownneurons)
 - [getLastestRewardEvent](#gear-getlastestrewardevent)
@@ -197,7 +207,15 @@ Parameters:
 | -------- | ------------------------------------------------------------- |
 | `create` | `(options?: GovernanceCanisterOptions) => GovernanceCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L125)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L123)
+
+##### :gear: buildNeuronStakeSubAccount
+
+| Method                       | Type                                                      |
+| ---------------------------- | --------------------------------------------------------- |
+| `buildNeuronStakeSubAccount` | `(nonce: Uint8Array, principal: Principal) => SubAccount` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L146)
 
 ##### :gear: listNeurons
 
@@ -212,7 +230,7 @@ it is fetched using a query call.
 | ------------- | ----------------------------------------------------------------------------------------------------- |
 | `listNeurons` | `({ certified, neuronIds, }: { certified: boolean; neuronIds?: bigint[]; }) => Promise<NeuronInfo[]>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L157)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L164)
 
 ##### :gear: listKnownNeurons
 
@@ -226,7 +244,7 @@ it is fetched using a query call.
 | ------------------ | ------------------------------------------------- |
 | `listKnownNeurons` | `(certified?: boolean) => Promise<KnownNeuron[]>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L188)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L195)
 
 ##### :gear: getLastestRewardEvent
 
@@ -239,7 +257,7 @@ it's fetched using a query call.
 | ----------------------- | ----------------------------------------------- |
 | `getLastestRewardEvent` | `(certified?: boolean) => Promise<RewardEvent>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L210)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L217)
 
 ##### :gear: listProposals
 
@@ -258,7 +276,7 @@ Parameters:
 - `request`: the options to list the proposals (limit number of results, topics to search for, etc.)
 - `certified`: query or update calls
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L226)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L233)
 
 ##### :gear: stakeNeuron
 
@@ -266,7 +284,7 @@ Parameters:
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `stakeNeuron` | `({ stake, principal, fromSubAccount, ledgerCanister, createdAt, fee, }: { stake: bigint; principal: Principal; fromSubAccount?: number[]; ledgerCanister: LedgerCanister; createdAt?: bigint; fee?: bigint; }) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L245)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L252)
 
 ##### :gear: stakeNeuronIcrc1
 
@@ -274,7 +292,7 @@ Parameters:
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `stakeNeuronIcrc1` | `({ stake, principal, fromSubAccount, ledgerCanister, createdAt, fee, }: { stake: bigint; principal: Principal; fromSubAccount?: Uint8Array; ledgerCanister: LedgerCanister; createdAt?: bigint; fee?: bigint; }) => Promise<...>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L311)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L321)
 
 ##### :gear: increaseDissolveDelay
 
@@ -284,7 +302,7 @@ Increases dissolve delay of a neuron
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | `increaseDissolveDelay` | `({ neuronId, additionalDissolveDelaySeconds, }: { neuronId: bigint; additionalDissolveDelaySeconds: number; }) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L376)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L383)
 
 ##### :gear: setDissolveDelay
 
@@ -295,7 +313,7 @@ The new date is now + dissolveDelaySeconds.
 | ------------------ | ------------------------------------------------------------------------------------------------------------- |
 | `setDissolveDelay` | `({ neuronId, dissolveDelaySeconds, }: { neuronId: bigint; dissolveDelaySeconds: number; }) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L408)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L415)
 
 ##### :gear: startDissolving
 
@@ -305,7 +323,7 @@ Start dissolving process of a neuron
 | ----------------- | ------------------------------------- |
 | `startDissolving` | `(neuronId: bigint) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L431)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L438)
 
 ##### :gear: stopDissolving
 
@@ -315,7 +333,7 @@ Stop dissolving process of a neuron
 | ---------------- | ------------------------------------- |
 | `stopDissolving` | `(neuronId: bigint) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L448)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L455)
 
 ##### :gear: joinCommunityFund
 
@@ -325,7 +343,7 @@ Neuron joins the community fund
 | ------------------- | ------------------------------------- |
 | `joinCommunityFund` | `(neuronId: bigint) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L465)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L472)
 
 ##### :gear: autoStakeMaturity
 
@@ -340,7 +358,7 @@ Parameters:
 - `neuronId`: The id of the neuron for which to request a change of the auto stake feature
 - `autoStake`: `true` to enable the auto-stake maturity for this neuron, `false` to turn it off
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L487)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L494)
 
 ##### :gear: leaveCommunityFund
 
@@ -350,7 +368,7 @@ Neuron leaves the community fund
 | -------------------- | ------------------------------------- |
 | `leaveCommunityFund` | `(neuronId: bigint) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L502)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L509)
 
 ##### :gear: setNodeProviderAccount
 
@@ -361,7 +379,7 @@ Where the reward is paid to.
 | ------------------------ | ---------------------------------------------- |
 | `setNodeProviderAccount` | `(accountIdentifier: string) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L519)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L526)
 
 ##### :gear: mergeNeurons
 
@@ -371,7 +389,7 @@ Merge two neurons
 | -------------- | --------------------------------------------------------------------------------- |
 | `mergeNeurons` | `(request: { sourceNeuronId: bigint; targetNeuronId: bigint; }) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L539)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L546)
 
 ##### :gear: simulateMergeNeurons
 
@@ -381,7 +399,7 @@ Simulate merging two neurons
 | ---------------------- | --------------------------------------------------------------------------------------- |
 | `simulateMergeNeurons` | `(request: { sourceNeuronId: bigint; targetNeuronId: bigint; }) => Promise<NeuronInfo>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L556)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L563)
 
 ##### :gear: splitNeuron
 
@@ -391,7 +409,7 @@ Splits a neuron creating a new one
 | ------------- | ----------------------------------------------------------------------------------- |
 | `splitNeuron` | `({ neuronId, amount, }: { neuronId: bigint; amount: bigint; }) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L601)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L608)
 
 ##### :gear: getProposal
 
@@ -404,7 +422,7 @@ it is fetched using a query call.
 | ------------- | ----------------------------------------------------------------------------------------------------- |
 | `getProposal` | `({ proposalId, certified, }: { proposalId: bigint; certified?: boolean; }) => Promise<ProposalInfo>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L641)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L648)
 
 ##### :gear: makeProposal
 
@@ -414,7 +432,7 @@ Create new proposal
 | -------------- | --------------------------------------------------- |
 | `makeProposal` | `(request: MakeProposalRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L659)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L666)
 
 ##### :gear: registerVote
 
@@ -424,7 +442,7 @@ Registers vote for a proposal from the neuron passed.
 | -------------- | ----------------------------------------------------------------------------------------------------------- |
 | `registerVote` | `({ neuronId, vote, proposalId, }: { neuronId: bigint; vote: Vote; proposalId: bigint; }) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L680)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L687)
 
 ##### :gear: setFollowees
 
@@ -434,7 +452,7 @@ Edit neuron followees per topic
 | -------------- | ------------------------------------------------- |
 | `setFollowees` | `(followRequest: FollowRequest) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L702)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L709)
 
 ##### :gear: disburse
 
@@ -444,7 +462,7 @@ Disburse neuron on Account
 | ---------- | --------------------------------------------------------------------------------------------------------------------- |
 | `disburse` | `({ neuronId, toAccountId, amount, }: { neuronId: bigint; toAccountId?: string; amount?: bigint; }) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L717)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L724)
 
 ##### :gear: mergeMaturity
 
@@ -454,7 +472,7 @@ Merge Maturity of a neuron
 | --------------- | ------------------------------------------------------------------------------------------------------- |
 | `mergeMaturity` | `({ neuronId, percentageToMerge, }: { neuronId: bigint; percentageToMerge: number; }) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L756)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L763)
 
 ##### :gear: stakeMaturity
 
@@ -469,7 +487,7 @@ Parameters:
 - `neuronId`: The id of the neuron for which to stake the maturity
 - `percentageToStake`: Optional. Percentage of the current maturity to stake. If not provided, all of the neuron's current maturity will be staked.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L789)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L796)
 
 ##### :gear: spawnNeuron
 
@@ -479,7 +497,7 @@ Merge Maturity of a neuron
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `spawnNeuron` | `({ neuronId, percentageToSpawn, newController, nonce, }: { neuronId: bigint; percentageToSpawn?: number; newController?: Principal; nonce?: bigint; }) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L811)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L818)
 
 ##### :gear: addHotkey
 
@@ -489,7 +507,7 @@ Add hotkey to neuron
 | ----------- | ------------------------------------------------------------------------------------------ |
 | `addHotkey` | `({ neuronId, principal, }: { neuronId: bigint; principal: Principal; }) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L865)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L872)
 
 ##### :gear: removeHotkey
 
@@ -499,7 +517,7 @@ Remove hotkey to neuron
 | -------------- | ------------------------------------------------------------------------------------------ |
 | `removeHotkey` | `({ neuronId, principal, }: { neuronId: bigint; principal: Principal; }) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L889)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L896)
 
 ##### :gear: claimOrRefreshNeuronFromAccount
 
@@ -509,7 +527,7 @@ Gets the NeuronID of a newly created neuron.
 | --------------------------------- | --------------------------------------------------------------------------------------- |
 | `claimOrRefreshNeuronFromAccount` | `({ memo, controller, }: { memo: bigint; controller?: Principal; }) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L910)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L917)
 
 ##### :gear: claimOrRefreshNeuron
 
@@ -520,7 +538,7 @@ Uses query call only.
 | ---------------------- | ----------------------------------------------------------- |
 | `claimOrRefreshNeuron` | `(request: ClaimOrRefreshNeuronRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L941)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L948)
 
 ##### :gear: getNeuron
 
@@ -530,7 +548,7 @@ Return the data of the neuron provided as id.
 | ----------- | ---------------------------------------------------------------------------------------------- |
 | `getNeuron` | `({ certified, neuronId, }: { certified: boolean; neuronId: bigint; }) => Promise<NeuronInfo>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L992)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L973)
 
 ### :factory: SnsWasmCanister
 
