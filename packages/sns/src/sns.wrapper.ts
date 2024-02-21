@@ -16,6 +16,7 @@ import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
+  ListProposalsResponse,
   NervousSystemParameters,
   Neuron,
   NeuronId,
@@ -133,7 +134,7 @@ export class SnsWrapper {
 
   listProposals = (
     params: Omit<SnsListProposalsParams, "certified">,
-  ): Promise<ProposalData[]> =>
+  ): Promise<ListProposalsResponse> =>
     this.governance.listProposals(this.mergeParams(params));
 
   getProposal = (

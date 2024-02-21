@@ -7,6 +7,7 @@ import {
 import { mock } from "jest-mock-extended";
 import type {
   ListNervousSystemFunctionsResponse,
+  ListProposalsResponse,
   ManageNeuron,
   ManageNeuronResponse,
   NervousSystemFunction,
@@ -108,6 +109,7 @@ describe("Governance canister", () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
+        include_ballots_by_caller: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -115,7 +117,23 @@ describe("Governance canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const expectedProposals = await canister.listProposals({});
+      const { proposals: expectedProposals } = await canister.listProposals({});
+      expect(mockListProposals).toBeCalled();
+      expect(expectedProposals).toEqual(proposalsMock);
+    });
+
+    it('should not break when no "include_ballots_by_caller" parameter provided', async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+      } as ListProposalsResponse);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const { proposals: expectedProposals } = await canister.listProposals({});
       expect(mockListProposals).toBeCalled();
       expect(expectedProposals).toEqual(proposalsMock);
     });
@@ -124,6 +142,7 @@ describe("Governance canister", () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
+        include_ballots_by_caller: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -145,6 +164,7 @@ describe("Governance canister", () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
+        include_ballots_by_caller: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -175,6 +195,7 @@ describe("Governance canister", () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
+        include_ballots_by_caller: [],
       });
 
       const canister = SnsGovernanceCanister.create({
