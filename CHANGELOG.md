@@ -23,6 +23,8 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Build
 
+- Bump agent-js `v1.0.1` to hook on their semantic versioning, adopt last improvements and rollout a [security patch](https://github.com/dfinity/agent-js/security/advisories/GHSA-c9vv-fhgv-cjc3)
+
 # 2024.02.14-1600Z
 
 ## Overview
