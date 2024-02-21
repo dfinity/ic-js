@@ -1,10 +1,29 @@
+# 2024.02.21-0835Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v2.2.1  | Maintained ⚙️       |
+| `@dfinity/cketh`         | v1.0.2  | Maintained ⚙️       |
+| `@dfinity/cmc`           | v3.0.2  | Maintained ⚙️       |
+| `@dfinity/ic-management` | v2.2.2  | Maintained ⚙️       |
+| `@dfinity/ledger-icp`    | v2.2.1  | Maintained ⚙️       |
+| `@dfinity/ledger-icrc`   | v2.1.3  | Maintained ⚙️       |
+| `@dfinity/nns`           | v4.0.1  | Maintained ⚙️       |
+| `@dfinity/nns-proto`     | v1.0.1  | Unchanged️          |
+| `@dfinity/sns`           | v3.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/utils`         | v2.1.2  | Maintained ⚙️       |
+
 ## Breaking changes
 
 - Update `listProposals` return type in sns governance canister.
 
-## Features
-
 ## Build
+
+- Bump agent-js `v1.0.1` to hook on their semantic versioning, adopt last improvements and rollout a [security patch](https://github.com/dfinity/agent-js/security/advisories/GHSA-c9vv-fhgv-cjc3)
 
 # 2024.02.14-1600Z
 
