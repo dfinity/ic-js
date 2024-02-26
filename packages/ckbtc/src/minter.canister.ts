@@ -245,7 +245,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
   /**
    * Returns internal minter parameters such as the minimal amount to retrieve BTC, minimal number of confirmations or KYT fee.
    *
-   * @param {QueryParams} params The parameters to get the deposit fee.
+   * @param {QueryParams} params The parameters to get the minter info.
    * @param {boolean} params.certified query or update call
    */
   getMinterInfo = async ({ certified }: QueryParams): Promise<MinterInfo> =>
