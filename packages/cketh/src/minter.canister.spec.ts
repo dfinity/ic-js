@@ -220,7 +220,7 @@ describe("ckETH minter canister", () => {
 
       const canister = minter(service);
 
-      const res = await canister.eip1559TransactionPrice();
+      const res = await canister.eip1559TransactionPrice({});
 
       expect(service.eip_1559_transaction_price).toBeCalled();
       expect(res).toEqual(result);
@@ -232,7 +232,7 @@ describe("ckETH minter canister", () => {
 
       const canister = minter(service);
 
-      const call = () => canister.eip1559TransactionPrice();
+      const call = () => canister.eip1559TransactionPrice({ certified: false });
 
       expect(call).rejects.toThrowError();
     });
