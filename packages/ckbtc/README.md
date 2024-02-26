@@ -252,7 +252,7 @@ Returns internal minter parameters such as the minimal amount to retrieve BTC, m
 
 Parameters:
 
-- `params`: The parameters to get the deposit fee.
+- `params`: The parameters to get the minter info.
 - `params.certified`: query or update call
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L251)
