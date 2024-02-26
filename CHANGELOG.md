@@ -1,3 +1,13 @@
+# 2024.XX.YY-hhmmZ
+
+## Breaking changes
+
+- ckETH `eip1559TransactionPrice` expect a parameters which can optionally be set to execute a query (new) or update call.
+
+## Features
+
+- Support for new ckETH endpoint `get_minter_info` which returns internal minter parameters such as the minimal withdrawal amount, the last observed block number, etc.
+
 # 2024.02.21-0835Z
 
 ## Overview
