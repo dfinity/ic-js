@@ -25,6 +25,7 @@ export interface Eip1559TransactionPrice {
   max_priority_fee_per_gas: bigint;
   max_fee_per_gas: bigint;
   max_transaction_fee: bigint;
+  timestamp: [] | [bigint];
   gas_limit: bigint;
 }
 export interface EthTransaction {
@@ -102,6 +103,11 @@ export interface EventSource {
   transaction_hash: string;
   log_index: bigint;
 }
+export interface GasFeeEstimate {
+  max_priority_fee_per_gas: bigint;
+  max_fee_per_gas: bigint;
+  timestamp: bigint;
+}
 export interface InitArg {
   ethereum_network: EthereumNetwork;
   last_scraped_block_number: bigint;
@@ -113,6 +119,15 @@ export interface InitArg {
   ethereum_block_height: BlockTag;
 }
 export type MinterArg = { UpgradeArg: UpgradeArg } | { InitArg: InitArg };
+export interface MinterInfo {
+  eth_balance: [] | [bigint];
+  last_observed_block_number: [] | [bigint];
+  last_gas_fee_estimate: [] | [GasFeeEstimate];
+  smart_contract_address: [] | [string];
+  minimum_withdrawal_amount: [] | [bigint];
+  minter_address: [] | [string];
+  ethereum_block_height: [] | [BlockTag];
+}
 export interface QueryStats {
   response_payload_bytes_total: bigint;
   num_instructions_total: bigint;
@@ -183,6 +198,7 @@ export interface _SERVICE {
     [{ start: bigint; length: bigint }],
     { total_event_count: bigint; events: Array<Event> }
   >;
+  get_minter_info: ActorMethod<[], MinterInfo>;
   is_address_blocked: ActorMethod<[string], boolean>;
   minter_address: ActorMethod<[], string>;
   retrieve_eth_status: ActorMethod<[bigint], RetrieveEthStatus>;

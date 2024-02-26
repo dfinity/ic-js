@@ -269,6 +269,16 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(Event)],
         ['query'],
       ),
+    'get_known_utxos' : IDL.Func(
+        [
+          IDL.Record({
+            'owner' : IDL.Opt(IDL.Principal),
+            'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+          }),
+        ],
+        [IDL.Vec(Utxo)],
+        ['query'],
+      ),
     'get_minter_info' : IDL.Func([], [MinterInfo], ['query']),
     'get_withdrawal_account' : IDL.Func([], [Account], []),
     'retrieve_btc' : IDL.Func(

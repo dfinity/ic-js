@@ -1,4 +1,4 @@
-// Generated from IC repo commit 044cfd5 (2024-01-25 tags: release-2024-01-25_14-09+p2p-con) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit 85bd56a (2024-02-22 tags: release-2024-02-21_23-01-p2p) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -383,6 +383,12 @@ service : (minter_arg : MinterArg) -> {
     //
     // If the owner is not set, it defaults to the caller's principal.
     get_btc_address : (record { owner: opt principal; subaccount : opt blob }) -> (text);
+
+    // Returns UTXOs of the given account known by the minter (with no
+    // guarantee in the ordering of the returned values).
+    //
+    // If the owner is not set, it defaults to the caller's principal.
+    get_known_utxos: (record { owner: opt principal; subaccount : opt blob }) -> (vec Utxo) query;
 
     // Mints ckBTC for newly deposited UTXOs.
     //

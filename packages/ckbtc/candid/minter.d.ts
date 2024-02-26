@@ -261,6 +261,15 @@ export interface _SERVICE {
   get_canister_status: ActorMethod<[], CanisterStatusResponse>;
   get_deposit_fee: ActorMethod<[], bigint>;
   get_events: ActorMethod<[{ start: bigint; length: bigint }], Array<Event>>;
+  get_known_utxos: ActorMethod<
+    [
+      {
+        owner: [] | [Principal];
+        subaccount: [] | [Uint8Array | number[]];
+      },
+    ],
+    Array<Utxo>
+  >;
   get_minter_info: ActorMethod<[], MinterInfo>;
   get_withdrawal_account: ActorMethod<[], Account>;
   retrieve_btc: ActorMethod<

@@ -33,6 +33,7 @@ export const idlFactory = ({ IDL }) => {
     'max_priority_fee_per_gas' : IDL.Nat,
     'max_fee_per_gas' : IDL.Nat,
     'max_transaction_fee' : IDL.Nat,
+    'timestamp' : IDL.Opt(IDL.Nat64),
     'gas_limit' : IDL.Nat,
   });
   const CanisterStatusType = IDL.Variant({
@@ -144,6 +145,20 @@ export const idlFactory = ({ IDL }) => {
       }),
     }),
   });
+  const GasFeeEstimate = IDL.Record({
+    'max_priority_fee_per_gas' : IDL.Nat,
+    'max_fee_per_gas' : IDL.Nat,
+    'timestamp' : IDL.Nat64,
+  });
+  const MinterInfo = IDL.Record({
+    'eth_balance' : IDL.Opt(IDL.Nat),
+    'last_observed_block_number' : IDL.Opt(IDL.Nat),
+    'last_gas_fee_estimate' : IDL.Opt(GasFeeEstimate),
+    'smart_contract_address' : IDL.Opt(IDL.Text),
+    'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
+    'minter_address' : IDL.Opt(IDL.Text),
+    'ethereum_block_height' : IDL.Opt(BlockTag),
+  });
   const EthTransaction = IDL.Record({ 'transaction_hash' : IDL.Text });
   const TxFinalizedStatus = IDL.Variant({
     'Success' : EthTransaction,
@@ -174,7 +189,11 @@ export const idlFactory = ({ IDL }) => {
     'InsufficientFunds' : IDL.Record({ 'balance' : IDL.Nat }),
   });
   return IDL.Service({
-    'eip_1559_transaction_price' : IDL.Func([], [Eip1559TransactionPrice], []),
+    'eip_1559_transaction_price' : IDL.Func(
+        [],
+        [Eip1559TransactionPrice],
+        ['query'],
+      ),
     'get_canister_status' : IDL.Func([], [CanisterStatusResponse], []),
     'get_events' : IDL.Func(
         [IDL.Record({ 'start' : IDL.Nat64, 'length' : IDL.Nat64 })],
@@ -186,6 +205,7 @@ export const idlFactory = ({ IDL }) => {
         ],
         ['query'],
       ),
+    'get_minter_info' : IDL.Func([], [MinterInfo], ['query']),
     'is_address_blocked' : IDL.Func([IDL.Text], [IDL.Bool], ['query']),
     'minter_address' : IDL.Func([], [IDL.Text], []),
     'retrieve_eth_status' : IDL.Func([IDL.Nat64], [RetrieveEthStatus], []),
