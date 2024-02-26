@@ -26,10 +26,10 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 ## Usage
 
-The features are available through the class `CkETHCanister`. It has to be instantiated with a canister ID.
+The features are available through the class `CkETHMinterCanister`. It has to be instantiated with a canister ID.
 
 ```ts
-import { CkETHCanister } from "@dfinity/cketh";
+import { CkETHMinterCanister } from "@dfinity/cketh";
 import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({
@@ -37,7 +37,7 @@ const agent = await createAgent({
   host: HOST,
 });
 
-const { getSmartContractAddress } = CkETHCanister.create({
+const { getSmartContractAddress } = CkETHMinterCanister.create({
   agent,
   canisterId: MY_CKETH_MINTER_CANISTER_ID,
 });

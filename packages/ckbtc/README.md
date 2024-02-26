@@ -26,10 +26,10 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 ## Usage
 
-The features are available through the class `CkBTCCanister`. It has to be instantiated with a canister ID.
+The features are available through the class `CkBTCMinterCanister`. It has to be instantiated with a canister ID.
 
 ```ts
-import { CkBTCCanister } from "@dfinity/ckbtc";
+import { CkBTCMinterCanister } from "@dfinity/ckbtc";
 import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({
@@ -37,7 +37,7 @@ const agent = await createAgent({
   host: HOST,
 });
 
-const { getBtcAddress } = CkBTCCanister.create({
+const { getBtcAddress } = CkBTCMinterCanister.create({
   agent,
   canisterId: MY_CKBTC_MINTER_CANISTER_ID,
 });

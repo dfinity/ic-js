@@ -35,6 +35,7 @@ e.g. fetching a token metadata.
 
 ```ts
 import { createAgent } from "@dfinity/utils";
+import { LedgerCanister } from "@dfinity/ledger-icp";
 
 const agent = await createAgent({
   identity,

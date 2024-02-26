@@ -33,7 +33,15 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils @dfinity/
 The `explorative` approach has the advantage to simplify the code but, implies more costs as it queries the `root` canister for the list of canister IDs of the Sns project upon initialization.
 
 ```ts
-const snsWrapper: SnsWrapper = await initSnsWrapper({
+import { createAgent } from "@dfinity/utils";
+import { initSnsWrapper } from "@dfinity/sns";
+
+const agent = await createAgent({
+  identity,
+  host: HOST,
+});
+
+const snsWrapper = await initSnsWrapper({
   rootOptions: {
     canisterId: rootCanisterId,
   },
@@ -41,10 +49,10 @@ const snsWrapper: SnsWrapper = await initSnsWrapper({
   certified,
 });
 
-const { metadata: meta, swapState } = wrapper;
-const [metadata, token] = await meta({});
+const { metadata, swapState } = wrapper;
+const [data, token] = await metadata({});
 
-console.log("Summary data:", metadata, token);
+console.log("Sns:", data, token, swapState);
 ```
 
 ### Descriptive way
@@ -52,13 +60,22 @@ console.log("Summary data:", metadata, token);
 The descriptive approach limits the scope of the features but, is more verbose.
 
 ```ts
-const { metadata: governanceMetadata } = SnsGovernanceCanister.create({
+import { createAgent } from "@dfinity/utils";
+import { SnsGovernanceCanister } from "@dfinity/sns";
+
+const agent = await createAgent({
+  identity,
+  host: HOST,
+});
+
+const { metadata } = SnsGovernanceCanister.create({
   agent,
   canisterId: rootCanisterId,
 });
-const metadata = await governanceMetadata({ certified: true });
 
-console.log("Summary data:", metadata);
+const data = await metadata({ certified: true });
+
+console.log("Summary data:", data);
 ```
 
 ## Features
