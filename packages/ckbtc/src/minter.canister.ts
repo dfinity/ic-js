@@ -6,11 +6,12 @@ import {
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
-import type {
+import {
   _SERVICE as CkBTCMinterService,
   MinterInfo,
   RetrieveBtcOk,
   RetrieveBtcStatus,
+  Utxo,
   Account as WithdrawalAccount,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
@@ -21,9 +22,10 @@ import {
   createUpdateBalanceError,
 } from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
-import type {
+import {
   EstimateWithdrawalFeeParams,
   GetBTCAddressParams,
+  GetKnownUtxosParams,
   RetrieveBtcParams,
   RetrieveBtcStatusV2ByAccountParams,
   UpdateBalanceParams,
@@ -252,4 +254,25 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
     this.caller({
       certified,
     }).get_minter_info();
+
+  /**
+   * Returns UTXOs of the given account known by the minter.
+   *
+   * @param {GetKnownUtxosParams} params The parameters for which the known utxos should be resolved.
+   * @param {Principal} params.owner The owner of the account. Note that if not provided, the `caller` would be used by the minter instead.
+   * @param {Uint8Array} params.subaccount An optional subaccount.
+   * @returns {Promise<Utxo[]>} The known utxos (with no guarantee in the ordering).
+   */
+  getKnownUtxos = ({
+    owner,
+    subaccount,
+    certified,
+  }: GetKnownUtxosParams): Promise<Utxo[]> => {
+    const { get_known_utxos } = this.caller({ certified });
+
+    return get_known_utxos({
+      owner: toNullable(owner),
+      subaccount: toNullable(subaccount),
+    });
+  };
 }
