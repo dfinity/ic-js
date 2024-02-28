@@ -7,12 +7,12 @@ import {
   type QueryParams,
 } from "@dfinity/utils";
 import {
-  _SERVICE as CkBTCMinterService,
-  MinterInfo,
-  RetrieveBtcOk,
-  RetrieveBtcStatus,
-  Utxo,
-  Account as WithdrawalAccount,
+  type _SERVICE as CkBTCMinterService,
+  type MinterInfo,
+  type RetrieveBtcOk,
+  type RetrieveBtcStatus,
+  type Utxo,
+  type Account as WithdrawalAccount,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
@@ -22,7 +22,7 @@ import {
   createUpdateBalanceError,
 } from "./errors/minter.errors";
 import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
-import {
+import type {
   EstimateWithdrawalFeeParams,
   GetBTCAddressParams,
   GetKnownUtxosParams,
