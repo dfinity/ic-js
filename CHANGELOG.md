@@ -1,3 +1,9 @@
+# 2024.XX.YY-hhmmZ
+
+## Features
+
+- Support for new ckBTC endpoint `get_known_utxos` which returns UTXOs of the given account known by the minter.
+
 # 2024.02.21-0835Z
 
 ## Overview
