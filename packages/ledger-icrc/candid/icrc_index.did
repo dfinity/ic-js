@@ -1,48 +1,9 @@
-// Generated from IC repo commit f3198ee10 (2024-01-30) 'rs/rosetta-api/icrc1/index-ng/index-ng.did' by import-candid
-type Tokens = nat;
+// Generated from IC repo commit 044cfd5 (2024-01-25 tags: release-2024-01-25_14-09+p2p-con) 'rs/rosetta-api/icrc1/index/index.did' by import-candid
+type TxId = nat;
 
-type InitArg = record {
-    ledger_id: principal;
-};
-
-type UpgradeArg = record {
-    ledger_id: opt principal;
-};
-
-type IndexArg = variant {
-    Init: InitArg;
-    Upgrade: UpgradeArg;
-};
-
-type GetBlocksRequest = record {
-    start : nat;
-    length : nat;
-};
-
-type Value = variant {
-    Blob : blob;
-    Text : text;
-    Nat : nat;
-    Nat64: nat64;
-    Int : int;
-    Array : vec Value;
-    Map : Map;
-};
-
-type Map = vec record { text; Value };
-
-type Block = Value;
-
-type GetBlocksResponse = record {
-    chain_length: nat64;
-    blocks: vec Block;
-};
-
-type BlockIndex = nat;
+type Account = record { owner : principal; subaccount : opt blob };
 
 type SubAccount = blob;
-
-type Account = record { owner : principal; subaccount : opt SubAccount };
 
 type Transaction = record {
   burn : opt Burn;
@@ -94,21 +55,20 @@ type GetAccountTransactionsArgs = record {
     // The txid of the last transaction seen by the client.
     // If None then the results will start from the most recent
     // txid.
-    start : opt BlockIndex;
+    start : opt TxId;
     // Maximum number of transactions to fetch.
     max_results : nat;
 };
 
 type TransactionWithId = record {
-  id : BlockIndex;
+  id : TxId;
   transaction : Transaction;
 };
 
 type GetTransactions = record {
-  balance : Tokens;
   transactions : vec TransactionWithId;
   // The txid of the oldest transaction the account has
-  oldest_tx_id : opt BlockIndex;
+  oldest_tx_id : opt TxId;
 };
 
 type GetTransactionsErr = record {
@@ -125,20 +85,13 @@ type ListSubaccountsArgs = record {
     start: opt SubAccount;
 };
 
-type Status = record {
-    num_blocks_synced : BlockIndex;
+// The initialization parameters of the Index canister.
+type InitArgs = record {
+    ledger_id : principal;
 };
 
-type FeeCollectorRanges = record {
-    ranges : vec  record { Account; vec record { BlockIndex; BlockIndex } };
-}
-
-service : (index_arg: opt IndexArg) -> {
-    get_account_transactions : (GetAccountTransactionsArgs) -> (GetTransactionsResult) query;
-    get_blocks : (GetBlocksRequest) -> (GetBlocksResponse) query;
-    get_fee_collectors_ranges : () -> (FeeCollectorRanges) query;
-    icrc1_balance_of : (Account) -> (Tokens) query;
-    ledger_id : () -> (principal) query;
-    list_subaccounts : (ListSubaccountsArgs) -> (vec SubAccount) query;
-    status : () -> (Status) query;
+service : (InitArgs) -> {
+  get_account_transactions : (GetAccountTransactionsArgs) -> (GetTransactionsResult);
+  ledger_id : () -> (principal) query;
+  list_subaccounts : (ListSubaccountsArgs) -> (vec SubAccount) query;
 }
