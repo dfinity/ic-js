@@ -1,3 +1,9 @@
+# 2024.XX.YY-hhmmZ
+
+## Breaking Changes
+
+- Fix typo in `ic-management` interfaces (`senderCanisterVerion` -> `senderCanisterVersion`).
+
 # 2024.02.21-0835Z
 
 ## Overview

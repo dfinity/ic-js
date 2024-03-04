@@ -82,9 +82,9 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 
 Create a new canister
 
-| Method           | Type                                                                                 |
-| ---------------- | ------------------------------------------------------------------------------------ |
-| `createCanister` | `({ settings, senderCanisterVerion, }?: CreateCanisterParams) => Promise<Principal>` |
+| Method           | Type                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------------- |
+| `createCanister` | `({ settings, senderCanisterVersion, }?: CreateCanisterParams) => Promise<Principal>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L70)
 
@@ -92,9 +92,9 @@ Create a new canister
 
 Update canister settings
 
-| Method           | Type                                                                                       |
-| ---------------- | ------------------------------------------------------------------------------------------ |
-| `updateSettings` | `({ canisterId, senderCanisterVerion, settings, }: UpdateSettingsParams) => Promise<void>` |
+| Method           | Type                                                                                        |
+| ---------------- | ------------------------------------------------------------------------------------------- |
+| `updateSettings` | `({ canisterId, senderCanisterVersion, settings, }: UpdateSettingsParams) => Promise<void>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L91)
 
@@ -102,9 +102,9 @@ Update canister settings
 
 Install code to a canister
 
-| Method        | Type                                                                                                 |
-| ------------- | ---------------------------------------------------------------------------------------------------- |
-| `installCode` | `({ mode, canisterId, wasmModule, arg, senderCanisterVerion, }: InstallCodeParams) => Promise<void>` |
+| Method        | Type                                                                                                  |
+| ------------- | ----------------------------------------------------------------------------------------------------- |
+| `installCode` | `({ mode, canisterId, wasmModule, arg, senderCanisterVersion, }: InstallCodeParams) => Promise<void>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L113)
 
@@ -112,9 +112,9 @@ Install code to a canister
 
 Uninstall code from a canister
 
-| Method          | Type                                                                            |
-| --------------- | ------------------------------------------------------------------------------- |
-| `uninstallCode` | `({ canisterId, senderCanisterVerion, }: UninstallCodeParams) => Promise<void>` |
+| Method          | Type                                                                             |
+| --------------- | -------------------------------------------------------------------------------- |
+| `uninstallCode` | `({ canisterId, senderCanisterVersion, }: UninstallCodeParams) => Promise<void>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L136)
 
