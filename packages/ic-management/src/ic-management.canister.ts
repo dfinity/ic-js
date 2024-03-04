@@ -9,14 +9,14 @@ import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certi
 import { idlFactory } from "../candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
-  type BitcoinGetUtxosParams,
-    type CanisterInfoParams,
-    type CreateCanisterParams,
-    type ProvisionalCreateCanisterWithCyclesParams,
-    type UninstallCodeParams,
   toCanisterSettings,
   toInstallMode,
+  type BitcoinGetUtxosParams,
+  type CanisterInfoParams,
+  type CreateCanisterParams,
   type InstallCodeParams,
+  type ProvisionalCreateCanisterWithCyclesParams,
+  type UninstallCodeParams,
   type UpdateSettingsParams,
 } from "./types/ic-management.params";
 import type {
