@@ -3,6 +3,7 @@
 ## Breaking Changes
 
 - Fix typo in `ic-management` interfaces (`senderCanisterVerion` -> `senderCanisterVersion`).
+- The `GetTransactionsResponse` provided by the ICRC `IndexCanister` contains a new additional information `balance`. (1)
 
 ## Features
 
