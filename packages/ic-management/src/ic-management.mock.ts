@@ -25,3 +25,6 @@ export const mockCanisterSettings: CanisterSettings = {
 
 export const mappedMockCanisterSettings =
   toCanisterSettings(mockCanisterSettings);
+
+export const bitcoinAddressMock =
+  "bcrt1qu2aqme90t6hpac50x0xw8ljwqs250vn6tzlmsv";

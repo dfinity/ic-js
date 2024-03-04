@@ -1,9 +1,14 @@
 import { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { ServiceResponse } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type { _SERVICE as IcManagementService } from "../candid/ic-management";
+import type {
+  _SERVICE as IcManagementService,
+  bitcoin_get_utxos_query_result,
+  bitcoin_get_utxos_result,
+} from "../candid/ic-management";
 import { ICManagementCanister } from "./ic-management.canister";
 import {
+  bitcoinAddressMock,
   mappedMockCanisterSettings,
   mockCanisterId,
   mockCanisterSettings,
@@ -11,10 +16,12 @@ import {
   mockPrincipalText,
 } from "./ic-management.mock";
 import {
+  BitcoinGetUtxosQueryParams,
   CanisterSettings,
   InstallCodeParams,
   InstallMode,
   toInstallMode,
+  type BitcoinGetUtxosParams,
 } from "./types/ic-management.params";
 import {
   CanisterInfoResponse,
@@ -404,6 +411,124 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () => icManagement.provisionalCreateCanisterWithCycles();
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
+
+  describe("bitcoinGetUtxos", () => {
+    const params: BitcoinGetUtxosParams = {
+      network: "testnet",
+      filter: { min_confirmations: 2 },
+      address: bitcoinAddressMock,
+    };
+
+    it("returns get utxos result when success", async () => {
+      const response: bitcoin_get_utxos_result = {
+        next_page: [],
+        tip_height: 123,
+        tip_block_hash: new Uint8Array([1, 2, 3]),
+        utxos: [
+          {
+            height: 456,
+            value: 789n,
+            outpoint: {
+              txid: new Uint8Array([4, 5, 6]),
+              vout: 1,
+            },
+          },
+          {
+            height: 789,
+            value: 7n,
+            outpoint: {
+              txid: new Uint8Array([7, 8, 9]),
+              vout: 2,
+            },
+          },
+        ],
+      };
+      const service = mock<IcManagementService>();
+      service.bitcoin_get_utxos.mockResolvedValue(response);
+
+      const icManagement = await createICManagement(service);
+
+      const res = await icManagement.bitcoinGetUtxos(params);
+
+      expect(res).toEqual(response);
+      expect(service.bitcoin_get_utxos).toHaveBeenCalledWith({
+        network: { testnet: null },
+        filter: [{ min_confirmations: 2 }],
+        address: bitcoinAddressMock,
+      });
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.bitcoin_get_utxos.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.bitcoinGetUtxos(params);
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
+
+  describe("bitcoinGetUtxosQuery", () => {
+    const params: BitcoinGetUtxosQueryParams = {
+      network: "testnet",
+      filter: { min_confirmations: 2 },
+      address: bitcoinAddressMock,
+    };
+
+    it("returns get utxos query result when success", async () => {
+      const response: bitcoin_get_utxos_query_result = {
+        next_page: [],
+        tip_height: 123,
+        tip_block_hash: new Uint8Array([1, 2, 3]),
+        utxos: [
+          {
+            height: 456,
+            value: 789n,
+            outpoint: {
+              txid: new Uint8Array([4, 5, 6]),
+              vout: 1,
+            },
+          },
+          {
+            height: 789,
+            value: 7n,
+            outpoint: {
+              txid: new Uint8Array([7, 8, 9]),
+              vout: 2,
+            },
+          },
+        ],
+      };
+      const service = mock<IcManagementService>();
+      service.bitcoin_get_utxos_query.mockResolvedValue(response);
+
+      const icManagement = await createICManagement(service);
+
+      const res = await icManagement.bitcoinGetUtxosQuery(params);
+
+      expect(res).toEqual(response);
+      expect(service.bitcoin_get_utxos_query).toHaveBeenCalledWith({
+        network: { testnet: null },
+        filter: [{ min_confirmations: 2 }],
+        address: bitcoinAddressMock,
+      });
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.bitcoin_get_utxos_query.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.bitcoinGetUtxosQuery(params);
 
       expect(call).rejects.toThrowError(Error);
     });
