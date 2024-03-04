@@ -11,7 +11,7 @@
 
 ### Notes
 
-(1) The new features supported `@dfinity/ledger-icrc` requires the related Index canister to be upgraded to the so called `index-ng` WASM. 
+(1) The new features supported `@dfinity/ledger-icrc` requires the related Index canister to be upgraded to the so called `index-ng` WASM.
 
 # 2024.02.21-0835Z
 
