@@ -6,6 +6,8 @@
 
 ## Features
 
+- Add support for `bitcoin_get_utxos` and `bitcoin_get_utxos_query` features to `@dfinity/ic-management` library.
+
 - Add `balance` to ICRC `IndexCanister` which returns the balance for a given account. (1)
 - Extend `getTransactions` of the ICRC `IndexCanister` to support `query`. (1)
 
