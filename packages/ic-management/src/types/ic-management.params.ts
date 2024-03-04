@@ -3,6 +3,7 @@ import { toNullable, type ServiceParam } from "@dfinity/utils";
 import type {
   _SERVICE as IcManagementService,
   bitcoin_get_utxos_args,
+  bitcoin_get_utxos_query_args,
   canister_settings,
 } from "../../candid/ic-management";
 
@@ -98,6 +99,14 @@ export type BitcoinNetwork = "testnet" | "mainnet";
 
 export type BitcoinGetUtxosParams = Omit<
   bitcoin_get_utxos_args,
+  "network" | "filter"
+> & {
+  network: BitcoinNetwork;
+  filter?: { page: Uint8Array | number[] } | { min_confirmations: number };
+};
+
+export type BitcoinGetUtxosQueryParams = Omit<
+  bitcoin_get_utxos_query_args,
   "network" | "filter"
 > & {
   network: BitcoinNetwork;
