@@ -1,5 +1,9 @@
 # 2024.XX.YY-hhmmZ
 
+## Breaking Changes
+
+- Fix typo in `ic-management` interfaces (`senderCanisterVerion` -> `senderCanisterVersion`).
+
 ## Features
 
 - Support for new ckBTC endpoint `get_known_utxos` which returns UTXOs of the given account known by the minter.
