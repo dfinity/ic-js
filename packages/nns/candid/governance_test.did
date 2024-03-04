@@ -1,4 +1,4 @@
-// Generated from IC repo commit 044cfd5 (2024-01-25 tags: release-2024-01-25_14-09+p2p-con) 'rs/nns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 48da85e (2024-02-28 tags: release-2024-02-28_23-01) 'rs/nns/governance/canister/governance_test.did' by import-candid
 type AccountIdentifier = record { hash : vec nat8 };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -276,7 +276,10 @@ type ListProposalInfo = record {
   include_status : vec int32;
 };
 type ListProposalInfoResponse = record { proposal_info : vec ProposalInfo };
-type MakeProposalResponse = record { proposal_id : opt NeuronId };
+type MakeProposalResponse = record {
+  message : opt text;
+  proposal_id : opt NeuronId;
+};
 type MakingSnsProposal = record {
   proposal : opt Proposal;
   caller : opt principal;

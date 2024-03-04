@@ -1,4 +1,4 @@
-// Generated from IC repo commit 044cfd5 (2024-01-25 tags: release-2024-01-25_14-09+p2p-con) 'rs/rosetta-api/icp_ledger/ledger.did' by import-candid
+// Generated from IC repo commit 48da85e (2024-02-28 tags: release-2024-02-28_23-01) 'rs/rosetta-api/icp_ledger/ledger.did' by import-candid
 // This is the official Ledger interface that is guaranteed to be backward compatible.
 
 // Amount of tokens, measured in 10^-8 of a token.
@@ -265,6 +265,7 @@ type ArchiveOptions = record {
     node_max_memory_size_bytes : opt nat64;
     max_message_size_bytes : opt nat64;
     controller_id : principal;
+    more_controller_ids: opt vec principal;
     cycles_for_archive_creation : opt nat64;
     max_transactions_per_response : opt nat64;
 };

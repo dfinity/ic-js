@@ -671,6 +671,7 @@ export const idlFactory = ({ IDL }) => {
     'source_neuron_info' : IDL.Opt(NeuronInfo),
   });
   const MakeProposalResponse = IDL.Record({
+    'message' : IDL.Opt(IDL.Text),
     'proposal_id' : IDL.Opt(NeuronId),
   });
   const StakeMaturityResponse = IDL.Record({

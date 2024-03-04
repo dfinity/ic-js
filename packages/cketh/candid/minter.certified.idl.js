@@ -7,6 +7,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const UpgradeArg = IDL.Record({
     'next_transaction_nonce' : IDL.Opt(IDL.Nat),
+    'ledger_suite_orchestrator_id' : IDL.Opt(IDL.Principal),
     'ethereum_contract_address' : IDL.Opt(IDL.Text),
     'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
     'ethereum_block_height' : IDL.Opt(BlockTag),
@@ -29,10 +30,17 @@ export const idlFactory = ({ IDL }) => {
     'UpgradeArg' : UpgradeArg,
     'InitArg' : InitArg,
   });
+  const AddCkErc20Token = IDL.Record({
+    'ckerc20_ledger_id' : IDL.Principal,
+    'chain_id' : IDL.Nat,
+    'address' : IDL.Text,
+    'ckerc20_token_symbol' : IDL.Text,
+  });
   const Eip1559TransactionPrice = IDL.Record({
     'max_priority_fee_per_gas' : IDL.Nat,
     'max_fee_per_gas' : IDL.Nat,
     'max_transaction_fee' : IDL.Nat,
+    'timestamp' : IDL.Opt(IDL.Nat64),
     'gas_limit' : IDL.Nat,
   });
   const CanisterStatusType = IDL.Variant({
@@ -43,6 +51,7 @@ export const idlFactory = ({ IDL }) => {
   const DefiniteCanisterSettings = IDL.Record({
     'freezing_threshold' : IDL.Nat,
     'controllers' : IDL.Vec(IDL.Principal),
+    'reserved_cycles_limit' : IDL.Nat,
     'memory_allocation' : IDL.Nat,
     'compute_allocation' : IDL.Nat,
   });
@@ -60,6 +69,7 @@ export const idlFactory = ({ IDL }) => {
     'query_stats' : QueryStats,
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'reserved_cycles' : IDL.Nat,
   });
   const UnsignedTransaction = IDL.Record({
     'destination' : IDL.Text,
@@ -99,6 +109,12 @@ export const idlFactory = ({ IDL }) => {
       }),
       'Upgrade' : UpgradeArg,
       'Init' : InitArg,
+      'AddedCkErc20Token' : IDL.Record({
+        'ckerc20_ledger_id' : IDL.Principal,
+        'chain_id' : IDL.Nat,
+        'address' : IDL.Text,
+        'ckerc20_token_symbol' : IDL.Text,
+      }),
       'SyncedToBlock' : IDL.Record({ 'block_number' : IDL.Nat }),
       'AcceptedDeposit' : IDL.Record({
         'principal' : IDL.Principal,
@@ -144,6 +160,20 @@ export const idlFactory = ({ IDL }) => {
       }),
     }),
   });
+  const GasFeeEstimate = IDL.Record({
+    'max_priority_fee_per_gas' : IDL.Nat,
+    'max_fee_per_gas' : IDL.Nat,
+    'timestamp' : IDL.Nat64,
+  });
+  const MinterInfo = IDL.Record({
+    'eth_balance' : IDL.Opt(IDL.Nat),
+    'last_observed_block_number' : IDL.Opt(IDL.Nat),
+    'last_gas_fee_estimate' : IDL.Opt(GasFeeEstimate),
+    'smart_contract_address' : IDL.Opt(IDL.Text),
+    'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
+    'minter_address' : IDL.Opt(IDL.Text),
+    'ethereum_block_height' : IDL.Opt(BlockTag),
+  });
   const EthTransaction = IDL.Record({ 'transaction_hash' : IDL.Text });
   const TxFinalizedStatus = IDL.Variant({
     'Success' : EthTransaction,
@@ -174,6 +204,7 @@ export const idlFactory = ({ IDL }) => {
     'InsufficientFunds' : IDL.Record({ 'balance' : IDL.Nat }),
   });
   return IDL.Service({
+    'add_ckerc20_token' : IDL.Func([AddCkErc20Token], [], []),
     'eip_1559_transaction_price' : IDL.Func([], [Eip1559TransactionPrice], []),
     'get_canister_status' : IDL.Func([], [CanisterStatusResponse], []),
     'get_events' : IDL.Func(
@@ -186,6 +217,7 @@ export const idlFactory = ({ IDL }) => {
         ],
         [],
       ),
+    'get_minter_info' : IDL.Func([], [MinterInfo], []),
     'is_address_blocked' : IDL.Func([IDL.Text], [IDL.Bool], []),
     'minter_address' : IDL.Func([], [IDL.Text], []),
     'retrieve_eth_status' : IDL.Func([IDL.Nat64], [RetrieveEthStatus], []),
@@ -205,6 +237,7 @@ export const init = ({ IDL }) => {
   });
   const UpgradeArg = IDL.Record({
     'next_transaction_nonce' : IDL.Opt(IDL.Nat),
+    'ledger_suite_orchestrator_id' : IDL.Opt(IDL.Principal),
     'ethereum_contract_address' : IDL.Opt(IDL.Text),
     'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
     'ethereum_block_height' : IDL.Opt(BlockTag),

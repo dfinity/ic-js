@@ -23,6 +23,7 @@ export interface CanisterStatusResponse {
   query_stats: QueryStats;
   idle_cycles_burned_per_day: bigint;
   module_hash: [] | [Uint8Array | number[]];
+  reserved_cycles: bigint;
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -31,6 +32,7 @@ export type CanisterStatusType =
 export interface DefiniteCanisterSettings {
   freezing_threshold: bigint;
   controllers: Array<Principal>;
+  reserved_cycles_limit: bigint;
   memory_allocation: bigint;
   compute_allocation: bigint;
 }
@@ -261,6 +263,15 @@ export interface _SERVICE {
   get_canister_status: ActorMethod<[], CanisterStatusResponse>;
   get_deposit_fee: ActorMethod<[], bigint>;
   get_events: ActorMethod<[{ start: bigint; length: bigint }], Array<Event>>;
+  get_known_utxos: ActorMethod<
+    [
+      {
+        owner: [] | [Principal];
+        subaccount: [] | [Uint8Array | number[]];
+      },
+    ],
+    Array<Utxo>
+  >;
   get_minter_info: ActorMethod<[], MinterInfo>;
   get_withdrawal_account: ActorMethod<[], Account>;
   retrieve_btc: ActorMethod<

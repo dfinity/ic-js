@@ -337,6 +337,7 @@ export interface ListProposalInfoResponse {
   proposal_info: Array<ProposalInfo>;
 }
 export interface MakeProposalResponse {
+  message: [] | [string];
   proposal_id: [] | [NeuronId];
 }
 export interface MakingSnsProposal {
