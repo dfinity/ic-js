@@ -74,11 +74,11 @@ export class ICManagementCanister {
    */
   createCanister = async ({
     settings,
-    senderCanisterVerion,
+    senderCanisterVersion,
   }: CreateCanisterParams = {}): Promise<Principal> => {
     const { canister_id } = await this.service.create_canister({
       settings: toNullable(toCanisterSettings(settings)),
-      sender_canister_version: toNullable(senderCanisterVerion),
+      sender_canister_version: toNullable(senderCanisterVersion),
     });
 
     return canister_id;
@@ -89,18 +89,18 @@ export class ICManagementCanister {
    *
    * @param {Object} params
    * @param {Principal} params.canisterId
-   * @param {BigInt} params.sender_canister_version
+   * @param {BigInt} params.senderCanisterVersion
    * @param {CanisterSettings} params.settings
    * @returns {Promise<void>}
    */
   updateSettings = ({
     canisterId,
-    senderCanisterVerion,
+    senderCanisterVersion,
     settings,
   }: UpdateSettingsParams): Promise<void> =>
     this.service.update_settings({
       canister_id: canisterId,
-      sender_canister_version: toNullable(senderCanisterVerion),
+      sender_canister_version: toNullable(senderCanisterVersion),
       settings: toCanisterSettings(settings),
     });
 
@@ -120,14 +120,14 @@ export class ICManagementCanister {
     canisterId,
     wasmModule,
     arg,
-    senderCanisterVerion,
+    senderCanisterVersion,
   }: InstallCodeParams): Promise<void> =>
     this.service.install_code({
       mode: toInstallMode(mode),
       canister_id: canisterId,
       wasm_module: wasmModule,
       arg,
-      sender_canister_version: toNullable(senderCanisterVerion),
+      sender_canister_version: toNullable(senderCanisterVersion),
     });
 
   /**
@@ -140,11 +140,11 @@ export class ICManagementCanister {
    */
   uninstallCode = ({
     canisterId,
-    senderCanisterVerion,
+    senderCanisterVersion,
   }: UninstallCodeParams): Promise<void> =>
     this.service.uninstall_code({
       canister_id: canisterId,
-      sender_canister_version: toNullable(senderCanisterVerion),
+      sender_canister_version: toNullable(senderCanisterVersion),
     });
 
   /**
