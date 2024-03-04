@@ -1,8 +1,9 @@
-import type { TxId } from "../../candid/icrc_index";
+import type { QueryParams } from "@dfinity/utils";
+import type { IcrcTxId } from "./index.types";
 import type { IcrcAccount } from "./ledger.responses";
 
-export interface GetAccountTransactionsParams {
+export type GetAccountTransactionsParams = {
   max_results: bigint;
-  start?: TxId;
+  start?: IcrcTxId;
   account: IcrcAccount;
-}
+} & QueryParams;
