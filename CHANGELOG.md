@@ -9,6 +9,17 @@
 
 - Support for new ckETH endpoint `get_minter_info` which returns internal minter parameters such as the minimal withdrawal amount, the last observed block number, etc.
 
+## Features
+
+- Add support for `bitcoin_get_utxos` and `bitcoin_get_utxos_query` features to `@dfinity/ic-management` library.
+
+- Add `balance` to ICRC `IndexCanister` which returns the balance for a given account. (1)
+- Extend `getTransactions` of the ICRC `IndexCanister` to support `query`. (1)
+
+### Notes
+
+(1) The new features supported `@dfinity/ledger-icrc` requires the related Index canister to be upgraded to the so called `index-ng` WASM.
+
 # 2024.02.21-0835Z
 
 ## Overview

@@ -1,5 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   Account,
@@ -8,7 +9,7 @@ import type {
 } from "../candid/icrc_index";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexCanister } from "./index.canister";
-import { indexCanisterIdMock } from "./mocks/ledger.mock";
+import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";
 import { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
@@ -57,6 +58,7 @@ describe("Index canister", () => {
         Ok: {
           transactions: [transactionWithId],
           oldest_tx_id: [],
+          balance: 123n,
         },
       });
 
@@ -89,6 +91,84 @@ describe("Index canister", () => {
           max_results: BigInt(10),
         });
       expect(call).rejects.toThrowError(IndexError);
+    });
+  });
+
+  describe("balance", () => {
+    it("should return the balance of main account", async () => {
+      const service = mock<ActorSubclass<IcrcIndexService>>();
+      const balance = BigInt(100);
+      service.icrc1_balance_of.mockResolvedValue(balance);
+
+      const canister = IcrcIndexCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const res = await canister.balance({
+        owner,
+      });
+      expect(service.icrc1_balance_of).toBeCalled();
+      expect(res).toEqual(balance);
+    });
+
+    it("should return the balance of subaccount", async () => {
+      const service = mock<ActorSubclass<IcrcIndexService>>();
+      const balance = BigInt(100);
+      service.icrc1_balance_of.mockResolvedValue(balance);
+
+      const canister = IcrcIndexCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
+      const res = await canister.balance({
+        owner,
+        subaccount,
+      });
+      expect(res).toEqual(balance);
+    });
+  });
+
+  describe("balance", () => {
+    it("should return the balance of main account", async () => {
+      const service = mock<ActorSubclass<IcrcIndexService>>();
+      const balance = BigInt(100);
+      service.icrc1_balance_of.mockResolvedValue(balance);
+
+      const canister = IcrcIndexCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const res = await canister.balance({
+        owner,
+      });
+      expect(service.icrc1_balance_of).toBeCalled();
+      expect(res).toEqual(balance);
+    });
+
+    it("should return the balance of subaccount", async () => {
+      const service = mock<ActorSubclass<IcrcIndexService>>();
+      const balance = BigInt(100);
+      service.icrc1_balance_of.mockResolvedValue(balance);
+
+      const canister = IcrcIndexCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
+      const res = await canister.balance({
+        owner,
+        subaccount,
+      });
+      expect(res).toEqual(balance);
     });
   });
 });
