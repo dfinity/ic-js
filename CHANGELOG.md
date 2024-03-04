@@ -4,6 +4,10 @@
 
 - Fix typo in `ic-management` interfaces (`senderCanisterVerion` -> `senderCanisterVersion`).
 
+## Features
+
+- Add support for `bitcoin_get_utxos` and `bitcoin_get_utxos_query` features to `@dfinity/ic-management` library.
+
 # 2024.02.21-0835Z
 
 ## Overview
