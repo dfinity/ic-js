@@ -1,7 +1,8 @@
 # 2024.XX.YY-hhmmZ
 
-## Breaking changes
+## Breaking Changes
 
+- Fix typo in `ic-management` interfaces (`senderCanisterVerion` -> `senderCanisterVersion`).
 - ckETH `eip1559TransactionPrice` expect a parameters which can optionally be set to execute a query (new) or update call.
 
 ## Features

@@ -31,12 +31,12 @@ export const toCanisterSettings = ({
 
 export interface CreateCanisterParams {
   settings?: CanisterSettings;
-  senderCanisterVerion?: bigint;
+  senderCanisterVersion?: bigint;
 }
 
 export interface UpdateSettingsParams {
   canisterId: Principal;
-  senderCanisterVerion?: bigint;
+  senderCanisterVersion?: bigint;
   settings: CanisterSettings;
 }
 
@@ -69,12 +69,12 @@ export interface InstallCodeParams {
   canisterId: Principal;
   wasmModule: Uint8Array;
   arg: Uint8Array;
-  senderCanisterVerion?: bigint;
+  senderCanisterVersion?: bigint;
 }
 
 export interface UninstallCodeParams {
   canisterId: Principal;
-  senderCanisterVerion?: bigint;
+  senderCanisterVersion?: bigint;
 }
 
 export interface CanisterInfoParams {
