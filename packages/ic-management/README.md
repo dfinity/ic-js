@@ -143,9 +143,9 @@ Stop a canister
 
 Get canister details (memory size, status, etc.)
 
-| Method           | Type                                                                                    |
-| ---------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| `canisterStatus` | `(canisterId: Principal) => Promise<{ status: { stopped: null; } or { stopping: null; } | { running: null; }; memory_size: bigint; cycles: bigint; settings: definite_canister_settings; idle_cycles_burned_per_day: bigint; module_hash: [] | [...]; reserved_cycles: bigint; }>` |
+| Method           | Type                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| `canisterStatus` | `(canisterId: Principal) => Promise<canister_status_result>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L171)
 
@@ -153,9 +153,9 @@ Get canister details (memory size, status, etc.)
 
 Get canister info (controllers, module hash, changes, etc.)
 
-| Method         | Type                                                                                                                            |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `canisterInfo` | `({ canisterId, numRequestChanges, }: CanisterInfoParams) => Promise<{ controllers: Principal[]; module_hash: [] or [Uint8Array | number[]]; recent_changes: change[]; total_num_changes: bigint; }>` |
+| Method         | Type                                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| `canisterInfo` | `({ canisterId, numRequestChanges, }: CanisterInfoParams) => Promise<canister_info_result>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L184)
 
@@ -183,9 +183,9 @@ Creates a canister. Only available on development instances.
 
 Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns all unspent transaction outputs (UTXOs) associated with the provided address in the specified Bitcoin network based on the current view of the Bitcoin blockchain available to the Bitcoin component.
 
-| Method            | Type                                                                                   |
-| ----------------- | -------------------------------------------------------------------------------------- |
-| `bitcoinGetUtxos` | `({ network, filter, ...rest }: BitcoinGetUtxosParams) => Promise<get_utxos_response>` |
+| Method            | Type                                                                                         |
+| ----------------- | -------------------------------------------------------------------------------------------- |
+| `bitcoinGetUtxos` | `({ network, filter, ...rest }: BitcoinGetUtxosParams) => Promise<bitcoin_get_utxos_result>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L238)
 
