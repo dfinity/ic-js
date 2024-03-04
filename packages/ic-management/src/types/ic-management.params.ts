@@ -1,9 +1,9 @@
 import { Principal } from "@dfinity/principal";
 import { toNullable, type ServiceParam } from "@dfinity/utils";
-import {
+import type {
   _SERVICE as IcManagementService,
+  bitcoin_get_utxos_args,
   canister_settings,
-  get_utxos_request,
 } from "../../candid/ic-management";
 
 export interface CanisterSettings {
@@ -97,7 +97,7 @@ export interface ProvisionalTopUpCanisterParams {
 export type BitcoinNetwork = "testnet" | "mainnet";
 
 export type BitcoinGetUtxosParams = Omit<
-  get_utxos_request,
+  bitcoin_get_utxos_args,
   "network" | "filter"
 > & {
   network: BitcoinNetwork;

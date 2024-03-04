@@ -3,7 +3,7 @@ import { Principal } from "@dfinity/principal";
 import { createServices, toNullable } from "@dfinity/utils";
 import type {
   _SERVICE as IcManagementService,
-  get_utxos_response,
+  bitcoin_get_utxos_result,
 } from "../candid/ic-management";
 import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certified.idl";
 import { idlFactory } from "../candid/ic-management.idl";
@@ -233,13 +233,13 @@ export class ICManagementCanister {
    * @param {BitcoinNetwork} params.network Tesnet or mainnet.
    * @param {Object} params.filter The optional filter parameter can be used to restrict the set of returned UTXOs, either providing a minimum number of confirmations or a page reference when pagination is used for addresses with many UTXOs.
    * @param {string} params.address A Bitcoin address.
-   * @returns {Promise<get_utxos_response>} The UTXOs are returned sorted by block height in descending order.
+   * @returns {Promise<bitcoin_get_utxos_result>} The UTXOs are returned sorted by block height in descending order.
    */
   bitcoinGetUtxos = ({
     network,
     filter,
     ...rest
-  }: BitcoinGetUtxosParams): Promise<get_utxos_response> => {
+  }: BitcoinGetUtxosParams): Promise<bitcoin_get_utxos_result> => {
     const { bitcoin_get_utxos } = this.service;
 
     return bitcoin_get_utxos({
