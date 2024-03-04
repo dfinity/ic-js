@@ -1,4 +1,5 @@
 export type {
+  bitcoin_get_utxos_query_result,
   bitcoin_get_utxos_result,
   bitcoin_network,
   block_hash,

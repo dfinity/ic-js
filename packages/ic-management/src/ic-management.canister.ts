@@ -10,6 +10,7 @@ import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certi
 import { idlFactory } from "../candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
+  toBitcoinGetUtxosParams,
   toCanisterSettings,
   toInstallMode,
   type BitcoinGetUtxosParams,
@@ -237,18 +238,11 @@ export class ICManagementCanister {
    * @param {string} params.address A Bitcoin address.
    * @returns {Promise<bitcoin_get_utxos_result>} The UTXOs are returned sorted by block height in descending order.
    */
-  bitcoinGetUtxos = ({
-    network,
-    filter,
-    ...rest
-  }: BitcoinGetUtxosParams): Promise<bitcoin_get_utxos_result> => {
+  bitcoinGetUtxos = (
+    params: BitcoinGetUtxosParams,
+  ): Promise<bitcoin_get_utxos_result> => {
     const { bitcoin_get_utxos } = this.service;
-
-    return bitcoin_get_utxos({
-      filter: toNullable(filter),
-      network: network === "testnet" ? { testnet: null } : { mainnet: null },
-      ...rest,
-    });
+    return bitcoin_get_utxos(toBitcoinGetUtxosParams(params));
   };
 
   /**
@@ -262,17 +256,10 @@ export class ICManagementCanister {
    * @param {string} params.address A Bitcoin address.
    * @returns {Promise<bitcoin_get_utxos_result>} The UTXOs are returned sorted by block height in descending order.
    */
-  bitcoinGetUtxosQuery = ({
-    network,
-    filter,
-    ...rest
-  }: BitcoinGetUtxosQueryParams): Promise<bitcoin_get_utxos_query_result> => {
+  bitcoinGetUtxosQuery = (
+    params: BitcoinGetUtxosQueryParams,
+  ): Promise<bitcoin_get_utxos_query_result> => {
     const { bitcoin_get_utxos_query } = this.service;
-
-    return bitcoin_get_utxos_query({
-      filter: toNullable(filter),
-      network: network === "testnet" ? { testnet: null } : { mainnet: null },
-      ...rest,
-    });
+    return bitcoin_get_utxos_query(toBitcoinGetUtxosParams(params));
   };
 }
