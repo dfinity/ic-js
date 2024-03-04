@@ -54,7 +54,7 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 
 ### :factory: ICManagementCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L29)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L30)
 
 #### Methods
 
@@ -78,7 +78,7 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 | -------- | ---------------------------------------------------------------- |
 | `create` | `(options: ICManagementCanisterOptions) => ICManagementCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L34)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L35)
 
 ##### :gear: createCanister
 
@@ -88,7 +88,7 @@ Create a new canister
 | ---------------- | ------------------------------------------------------------------------------------ |
 | `createCanister` | `({ settings, senderCanisterVerion, }?: CreateCanisterParams) => Promise<Principal>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L74)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L75)
 
 ##### :gear: updateSettings
 
@@ -98,7 +98,7 @@ Update canister settings
 | ---------------- | ------------------------------------------------------------------------------------------ |
 | `updateSettings` | `({ canisterId, senderCanisterVerion, settings, }: UpdateSettingsParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L95)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L96)
 
 ##### :gear: installCode
 
@@ -108,7 +108,7 @@ Install code to a canister
 | ------------- | ---------------------------------------------------------------------------------------------------- |
 | `installCode` | `({ mode, canisterId, wasmModule, arg, senderCanisterVerion, }: InstallCodeParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L117)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L118)
 
 ##### :gear: uninstallCode
 
@@ -118,7 +118,7 @@ Uninstall code from a canister
 | --------------- | ------------------------------------------------------------------------------- |
 | `uninstallCode` | `({ canisterId, senderCanisterVerion, }: UninstallCodeParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L140)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L141)
 
 ##### :gear: startCanister
 
@@ -128,7 +128,7 @@ Start a canister
 | --------------- | ------------------------------------------ |
 | `startCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L155)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L156)
 
 ##### :gear: stopCanister
 
@@ -138,7 +138,7 @@ Stop a canister
 | -------------- | ------------------------------------------ |
 | `stopCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L164)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L165)
 
 ##### :gear: canisterStatus
 
@@ -148,7 +148,7 @@ Get canister details (memory size, status, etc.)
 | ---------------- | ------------------------------------------------------------ |
 | `canisterStatus` | `(canisterId: Principal) => Promise<canister_status_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L173)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L174)
 
 ##### :gear: canisterInfo
 
@@ -158,7 +158,7 @@ Get canister info (controllers, module hash, changes, etc.)
 | -------------- | ------------------------------------------------------------------------------------------- |
 | `canisterInfo` | `({ canisterId, numRequestChanges, }: CanisterInfoParams) => Promise<canister_info_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L186)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L187)
 
 ##### :gear: deleteCanister
 
@@ -168,7 +168,7 @@ Deletes a canister
 | ---------------- | ------------------------------------------ |
 | `deleteCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L201)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L202)
 
 ##### :gear: provisionalCreateCanisterWithCycles
 
@@ -178,27 +178,27 @@ Creates a canister. Only available on development instances.
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `provisionalCreateCanisterWithCycles` | `({ settings, amount, canisterId, }?: ProvisionalCreateCanisterWithCyclesParams) => Promise<Principal>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L213)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L214)
 
 ##### :gear: bitcoinGetUtxos
 
 Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns all unspent transaction outputs (UTXOs) associated with the provided address in the specified Bitcoin network based on the current view of the Bitcoin blockchain available to the Bitcoin component.
 
-| Method            | Type                                                                                         |
-| ----------------- | -------------------------------------------------------------------------------------------- |
-| `bitcoinGetUtxos` | `({ network, filter, ...rest }: BitcoinGetUtxosParams) => Promise<bitcoin_get_utxos_result>` |
+| Method            | Type                                                                   |
+| ----------------- | ---------------------------------------------------------------------- |
+| `bitcoinGetUtxos` | `(params: BitcoinGetUtxosParams) => Promise<bitcoin_get_utxos_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L240)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L241)
 
 ##### :gear: bitcoinGetUtxosQuery
 
 This method is identical to `bitcoinGetUtxos`, but exposed as a query.
 
-| Method                 | Type                                                                                                    |
-| ---------------------- | ------------------------------------------------------------------------------------------------------- |
-| `bitcoinGetUtxosQuery` | `({ network, filter, ...rest }: BitcoinGetUtxosQueryParams) => Promise<bitcoin_get_utxos_query_result>` |
+| Method                 | Type                                                                              |
+| ---------------------- | --------------------------------------------------------------------------------- |
+| `bitcoinGetUtxosQuery` | `(params: BitcoinGetUtxosQueryParams) => Promise<bitcoin_get_utxos_query_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L265)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L259)
 
 <!-- TSDOC_END -->
 
