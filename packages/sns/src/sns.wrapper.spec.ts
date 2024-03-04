@@ -54,7 +54,6 @@ describe("SnsWrapper", () => {
   mockIndexCanister.getTransactions.mockResolvedValue({
     transactions: [],
     oldest_tx_id: [BigInt(2)],
-    balance: 123n,
   });
 
   const snsWrapper: SnsWrapper = new SnsWrapper({
