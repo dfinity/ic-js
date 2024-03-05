@@ -7,6 +7,8 @@
 ## Features
 
 - Add support for `bitcoin_get_utxos` and `bitcoin_get_utxos_query` features to `@dfinity/ic-management` library.
+- New `IndexNgCanister` in `@dfinity/ledger-icrc`, which can be used to interact with the newer version of the ICRC Index canister, notably exposing `getTransactions` as a `query` function.
+- Deprecate `IndexCanister` usage in `@dfinity/ledger-icrc`.
 
 # 2024.02.21-0835Z
 
