@@ -4,18 +4,18 @@
 
 The current status of the libraries at the time of the release is as follows:
 
-| Library                  | Version | Status                 |
-| ------------------------ |---------|------------------------|
-| `@dfinity/ckbtc`         | v2.3.0  | Enhanced 🔧️            |
-| `@dfinity/cketh`         | v2.0.0  | Breaking Changes ⚠️    |
-| `@dfinity/cmc`           | v3.0.2  | Unchanged️              |
-| `@dfinity/ic-management` | v3.0.0  | Breaking Changes ⚠️    |
-| `@dfinity/ledger-icp`    | v2.2.1  | Unchanged️              |
-| `@dfinity/ledger-icrc`   | v2.1.3  | Enhanced 🔧            |
-| `@dfinity/nns`           | v4.0.1  | Unchanged️              |
-| `@dfinity/nns-proto`     | v1.0.1  | Unchanged️              |
-| `@dfinity/sns`           | v3.0.1  | Maintained ⚙           |
-| `@dfinity/utils`         | v2.1.2  | Unchanged️              |
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v2.3.0  | Enhanced 🔧️        |
+| `@dfinity/cketh`         | v2.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/cmc`           | v3.0.2  | Unchanged️          |
+| `@dfinity/ic-management` | v3.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ledger-icp`    | v2.2.1  | Unchanged️          |
+| `@dfinity/ledger-icrc`   | v2.1.3  | Enhanced 🔧         |
+| `@dfinity/nns`           | v4.0.1  | Unchanged️          |
+| `@dfinity/nns-proto`     | v1.0.1  | Unchanged️          |
+| `@dfinity/sns`           | v3.0.1  | Maintained ⚙       |
+| `@dfinity/utils`         | v2.1.2  | Unchanged️          |
 
 ## Breaking Changes
 
@@ -25,11 +25,9 @@ The current status of the libraries at the time of the release is as follows:
 ## Features
 
 - Support for new ckETH endpoint `get_minter_info` which returns internal minter parameters such as the minimal withdrawal amount, the last observed block number, etc.
-
-## Features
-
 - Add support for `bitcoin_get_utxos` and `bitcoin_get_utxos_query` features to `@dfinity/ic-management` library.
 - Support for new ckBTC endpoint `get_known_utxos` which returns UTXOs of the given account known by the minter.
+- New `IndexNgCanister` in `@dfinity/ledger-icrc`, which can be used to interact with the newer version of the ICRC Index canister, notably exposing `getTransactions` as a `query` function.
 
 # 2024.02.21-0835Z
 
