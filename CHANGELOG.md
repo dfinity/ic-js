@@ -3,6 +3,11 @@
 ## Breaking Changes
 
 - Fix typo in `ic-management` interfaces (`senderCanisterVerion` -> `senderCanisterVersion`).
+- ckETH `eip1559TransactionPrice` expect a parameters which can optionally be set to execute a query (new) or update call.
+
+## Features
+
+- Support for new ckETH endpoint `get_minter_info` which returns internal minter parameters such as the minimal withdrawal amount, the last observed block number, etc.
 
 ## Features
 

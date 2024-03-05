@@ -1,5 +1,6 @@
 import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import {
   _SERVICE as CkETHMinterService,
@@ -36,6 +37,12 @@ describe("ckETH minter canister", () => {
       canisterId: minterCanisterIdMock,
       serviceOverride: service,
     });
+
+  const gasFeeEstimate = {
+    max_priority_fee_per_gas: 123n,
+    max_fee_per_gas: 456n,
+    max_transaction_fee: 7n,
+  };
 
   describe("Smart contract address", () => {
     it("should return the helper smart contract address", async () => {
@@ -203,10 +210,9 @@ describe("ckETH minter canister", () => {
   describe("Estimate withdrawal fee", () => {
     it("should return estimated fee", async () => {
       const result = {
-        max_priority_fee_per_gas: 123n,
-        max_fee_per_gas: 456n,
-        max_transaction_fee: 7n,
+        ...gasFeeEstimate,
         gas_limit: 89n,
+        timestamp: toNullable(99999999n),
       };
 
       const service = mock<ActorSubclass<CkETHMinterService>>();
@@ -214,7 +220,7 @@ describe("ckETH minter canister", () => {
 
       const canister = minter(service);
 
-      const res = await canister.eip1559TransactionPrice();
+      const res = await canister.eip1559TransactionPrice({});
 
       expect(service.eip_1559_transaction_price).toBeCalled();
       expect(res).toEqual(result);
@@ -226,7 +232,7 @@ describe("ckETH minter canister", () => {
 
       const canister = minter(service);
 
-      const call = () => canister.eip1559TransactionPrice();
+      const call = () => canister.eip1559TransactionPrice({ certified: false });
 
       expect(call).rejects.toThrowError();
     });
@@ -260,6 +266,48 @@ describe("ckETH minter canister", () => {
       const call = () => canister.retrieveEthStatus(123n);
 
       expect(call).rejects.toThrowError();
+    });
+  });
+
+  describe("Minter Info", () => {
+    it("should return minter info", async () => {
+      const result = {
+        eth_balance: toNullable(1n),
+        last_observed_block_number: toNullable(2n),
+        last_gas_fee_estimate: toNullable({
+          ...gasFeeEstimate,
+          timestamp: 999999n,
+        }),
+        smart_contract_address: toNullable(ckETHSmartContractAddressMock),
+        minimum_withdrawal_amount: toNullable(3n),
+        minter_address: toNullable(ckETHSmartContractAddressMock),
+        ethereum_block_height: toNullable({ Safe: null }),
+      };
+
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.get_minter_info.mockResolvedValue(result);
+
+      const canister = minter(service);
+
+      const res = await canister.getMinterInfo({
+        certified: true,
+      });
+
+      expect(service.get_minter_info).toBeCalled();
+      expect(res).toEqual(result);
+    });
+
+    it("should bubble errors", () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.get_minter_info.mockImplementation(() => {
+        throw new Error();
+      });
+
+      const canister = minter(service);
+
+      expect(() =>
+        canister.getMinterInfo({ certified: true }),
+      ).rejects.toThrowError();
     });
   });
 });

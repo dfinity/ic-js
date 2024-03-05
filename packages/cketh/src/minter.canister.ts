@@ -3,6 +3,7 @@ import { Canister, createServices } from "@dfinity/utils";
 import type {
   _SERVICE as CkETHMinterService,
   Eip1559TransactionPrice,
+  MinterInfo,
   RetrieveEthRequest,
   RetrieveEthStatus,
 } from "../candid/minter";
@@ -76,11 +77,16 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
   /**
    * Estimate the price of a transaction issued by the minter when converting ckETH to ETH.
    *
+   * @param {QueryParams} params The parameters to get the minter info.
+   * @param {boolean} params.certified query or update call
+   *
    * @returns {Promise<Eip1559TransactionPrice>} The estimated gas fee and limit
    */
-  eip1559TransactionPrice = (): Promise<Eip1559TransactionPrice> => {
+  eip1559TransactionPrice = ({
+    certified,
+  }: QueryParams): Promise<Eip1559TransactionPrice> => {
     const { eip_1559_transaction_price } = this.caller({
-      certified: true,
+      certified,
     });
     return eip_1559_transaction_price();
   };
@@ -95,5 +101,16 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
       certified: true,
     });
     return retrieve_eth_status(blockIndex);
+  };
+
+  /**
+   * Returns internal minter parameters such as the minimal withdrawal amount, the last observed block number, etc.
+   *
+   * @param {QueryParams} params The parameters to get the minter info.
+   * @param {boolean} params.certified query or update call
+   */
+  getMinterInfo = async ({ certified }: QueryParams): Promise<MinterInfo> => {
+    const { get_minter_info } = this.caller({ certified });
+    return get_minter_info();
   };
 }

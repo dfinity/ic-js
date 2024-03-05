@@ -53,7 +53,7 @@ const address = await getSmartContractAddress({});
 
 ### :factory: CkETHMinterCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L14)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L15)
 
 #### Methods
 
@@ -62,6 +62,7 @@ const address = await getSmartContractAddress({});
 - [withdrawEth](#gear-withdraweth)
 - [eip1559TransactionPrice](#gear-eip1559transactionprice)
 - [retrieveEthStatus](#gear-retrieveethstatus)
+- [getMinterInfo](#gear-getminterinfo)
 
 ##### :gear: create
 
@@ -69,7 +70,7 @@ const address = await getSmartContractAddress({});
 | -------- | ------------------------------------------------------------------------ |
 | `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L15)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L16)
 
 ##### :gear: getSmartContractAddress
 
@@ -84,7 +85,7 @@ Parameters:
 - `params`: The parameters to resolve the ckETH smart contract address.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L33)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L34)
 
 ##### :gear: withdrawEth
 
@@ -103,17 +104,22 @@ Parameters:
 
 - `params`: The parameters to withdrawal ckETH to ETH.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L53)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L54)
 
 ##### :gear: eip1559TransactionPrice
 
 Estimate the price of a transaction issued by the minter when converting ckETH to ETH.
 
-| Method                    | Type                                     |
-| ------------------------- | ---------------------------------------- |
-| `eip1559TransactionPrice` | `() => Promise<Eip1559TransactionPrice>` |
+| Method                    | Type                                                                |
+| ------------------------- | ------------------------------------------------------------------- |
+| `eip1559TransactionPrice` | `({ certified, }: QueryParams) => Promise<Eip1559TransactionPrice>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L81)
+Parameters:
+
+- `params`: The parameters to get the minter info.
+- `params.certified`: query or update call
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L85)
 
 ##### :gear: retrieveEthStatus
 
@@ -123,7 +129,22 @@ Retrieve the status of a withdrawal request.
 | ------------------- | ---------------------------------------------------- |
 | `retrieveEthStatus` | `(blockIndex: bigint) => Promise<RetrieveEthStatus>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L93)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L99)
+
+##### :gear: getMinterInfo
+
+Returns internal minter parameters such as the minimal withdrawal amount, the last observed block number, etc.
+
+| Method          | Type                                                  |
+| --------------- | ----------------------------------------------------- |
+| `getMinterInfo` | `({ certified }: QueryParams) => Promise<MinterInfo>` |
+
+Parameters:
+
+- `params`: The parameters to get the minter info.
+- `params.certified`: query or update call
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L112)
 
 <!-- TSDOC_END -->
 

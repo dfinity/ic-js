@@ -1,6 +1,12 @@
 import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
+export interface AddCkErc20Token {
+  ckerc20_ledger_id: Principal;
+  chain_id: bigint;
+  address: string;
+  ckerc20_token_symbol: string;
+}
 export type BlockTag = { Safe: null } | { Finalized: null } | { Latest: null };
 export interface CanisterStatusResponse {
   status: CanisterStatusType;
@@ -10,6 +16,7 @@ export interface CanisterStatusResponse {
   query_stats: QueryStats;
   idle_cycles_burned_per_day: bigint;
   module_hash: [] | [Uint8Array | number[]];
+  reserved_cycles: bigint;
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -18,6 +25,7 @@ export type CanisterStatusType =
 export interface DefiniteCanisterSettings {
   freezing_threshold: bigint;
   controllers: Array<Principal>;
+  reserved_cycles_limit: bigint;
   memory_allocation: bigint;
   compute_allocation: bigint;
 }
@@ -25,6 +33,7 @@ export interface Eip1559TransactionPrice {
   max_priority_fee_per_gas: bigint;
   max_fee_per_gas: bigint;
   max_transaction_fee: bigint;
+  timestamp: [] | [bigint];
   gas_limit: bigint;
 }
 export interface EthTransaction {
@@ -43,6 +52,14 @@ export interface Event {
       }
     | { Upgrade: UpgradeArg }
     | { Init: InitArg }
+    | {
+        AddedCkErc20Token: {
+          ckerc20_ledger_id: Principal;
+          chain_id: bigint;
+          address: string;
+          ckerc20_token_symbol: string;
+        };
+      }
     | { SyncedToBlock: { block_number: bigint } }
     | {
         AcceptedDeposit: {
@@ -102,6 +119,11 @@ export interface EventSource {
   transaction_hash: string;
   log_index: bigint;
 }
+export interface GasFeeEstimate {
+  max_priority_fee_per_gas: bigint;
+  max_fee_per_gas: bigint;
+  timestamp: bigint;
+}
 export interface InitArg {
   ethereum_network: EthereumNetwork;
   last_scraped_block_number: bigint;
@@ -113,6 +135,15 @@ export interface InitArg {
   ethereum_block_height: BlockTag;
 }
 export type MinterArg = { UpgradeArg: UpgradeArg } | { InitArg: InitArg };
+export interface MinterInfo {
+  eth_balance: [] | [bigint];
+  last_observed_block_number: [] | [bigint];
+  last_gas_fee_estimate: [] | [GasFeeEstimate];
+  smart_contract_address: [] | [string];
+  minimum_withdrawal_amount: [] | [bigint];
+  minter_address: [] | [string];
+  ethereum_block_height: [] | [BlockTag];
+}
 export interface QueryStats {
   response_payload_bytes_total: bigint;
   num_instructions_total: bigint;
@@ -162,6 +193,7 @@ export interface UnsignedTransaction {
 }
 export interface UpgradeArg {
   next_transaction_nonce: [] | [bigint];
+  ledger_suite_orchestrator_id: [] | [Principal];
   ethereum_contract_address: [] | [string];
   minimum_withdrawal_amount: [] | [bigint];
   ethereum_block_height: [] | [BlockTag];
@@ -177,12 +209,14 @@ export type WithdrawalError =
   | { RecipientAddressBlocked: { address: string } }
   | { InsufficientFunds: { balance: bigint } };
 export interface _SERVICE {
+  add_ckerc20_token: ActorMethod<[AddCkErc20Token], undefined>;
   eip_1559_transaction_price: ActorMethod<[], Eip1559TransactionPrice>;
   get_canister_status: ActorMethod<[], CanisterStatusResponse>;
   get_events: ActorMethod<
     [{ start: bigint; length: bigint }],
     { total_event_count: bigint; events: Array<Event> }
   >;
+  get_minter_info: ActorMethod<[], MinterInfo>;
   is_address_blocked: ActorMethod<[string], boolean>;
   minter_address: ActorMethod<[], string>;
   retrieve_eth_status: ActorMethod<[bigint], RetrieveEthStatus>;

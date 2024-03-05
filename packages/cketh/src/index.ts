@@ -1,6 +1,7 @@
 export type {
   Eip1559TransactionPrice,
   EthTransaction,
+  MinterInfo,
   RetrieveEthRequest,
   RetrieveEthStatus,
   TxFinalizedStatus,
