@@ -1,4 +1,21 @@
-# 2024.XX.YY-hhmmZ
+# 2024.03.05-1100Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v2.3.0  | Enhanced 🔧️        |
+| `@dfinity/cketh`         | v2.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/cmc`           | v3.0.2  | Unchanged️          |
+| `@dfinity/ic-management` | v3.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ledger-icp`    | v2.2.1  | Unchanged️          |
+| `@dfinity/ledger-icrc`   | v2.1.3  | Enhanced 🔧         |
+| `@dfinity/nns`           | v4.0.1  | Unchanged️          |
+| `@dfinity/nns-proto`     | v1.0.1  | Unchanged️          |
+| `@dfinity/sns`           | v3.0.1  | Maintained ⚙       |
+| `@dfinity/utils`         | v2.1.2  | Unchanged️          |
 
 ## Breaking Changes
 
