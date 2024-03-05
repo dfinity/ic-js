@@ -121,6 +121,28 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/payment.utils.ts#L26)
 
+### :factory: IcrcCanister
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/canister.ts#L9)
+
+#### Methods
+
+- [balance](#gear-balance)
+
+##### :gear: balance
+
+Returns the balance for a given account provided as owner and with optional subaccount.
+
+| Method    | Type                                         |
+| --------- | -------------------------------------------- |
+| `balance` | `(params: BalanceParams) => Promise<bigint>` |
+
+Parameters:
+
+- `params`: The parameters to get the balance of an account.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/canister.ts#L18)
+
 ### :factory: IcrcLedgerCanister
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L27)
@@ -282,6 +304,37 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 | `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L33)
+
+### :factory: IcrcIndexNgCanister
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L14)
+
+#### Methods
+
+- [create](#gear-create)
+- [getTransactions](#gear-gettransactions)
+
+##### :gear: create
+
+| Method   | Type                                                                    |
+| -------- | ----------------------------------------------------------------------- |
+| `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexNgCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L15)
+
+##### :gear: getTransactions
+
+Get the transactions of an account.
+
+| Method            | Type                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+| `getTransactions` | `({ certified, ...rest }: GetIndexNgAccountTransactionsParams) => Promise<GetTransactions>` |
+
+Parameters:
+
+- `params`: The parameters to get the transactions of an account.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L40)
 
 <!-- TSDOC_END -->
 
