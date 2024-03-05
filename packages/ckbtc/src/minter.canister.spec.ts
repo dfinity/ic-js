@@ -6,6 +6,7 @@ import type {
   Account,
   _SERVICE as CkBTCMinterService,
   RetrieveBtcStatusV2,
+  Utxo,
 } from "../candid/minter";
 import {
   RetrieveBtcError,
@@ -884,6 +885,73 @@ describe("ckBTC minter canister", () => {
       expect(() =>
         canister.getMinterInfo({ certified: true }),
       ).rejects.toThrowError();
+    });
+  });
+
+  describe("Known utxos", () => {
+    const utxosMock: Utxo[] = [
+      {
+        height: 123,
+        value: 123n,
+        outpoint: { txid: arrayOfNumberToUint8Array([0, 0, 1]), vout: 123 },
+      },
+      {
+        height: 456,
+        value: 456n,
+        outpoint: { txid: arrayOfNumberToUint8Array([1, 2, 1]), vout: 456 },
+      },
+    ];
+
+    it("should return the known utxos of main account", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.get_known_utxos.mockResolvedValue(utxosMock);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const res = await canister.getKnownUtxos({
+        owner,
+      });
+      expect(service.get_known_utxos).toBeCalledWith({
+        owner: toNullable(owner),
+        subaccount: [],
+      });
+      expect(res).toEqual(utxosMock);
+    });
+
+    it("should return known utcos if a subaccount is provided", async () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.get_known_utxos.mockResolvedValue(utxosMock);
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
+      const res = await canister.getKnownUtxos({
+        owner,
+        subaccount,
+      });
+      expect(service.get_known_utxos).toBeCalledWith({
+        owner: toNullable(owner),
+        subaccount: [subaccount],
+      });
+      expect(res).toEqual(utxosMock);
+    });
+
+    it("should bubble errors", () => {
+      const service = mock<ActorSubclass<CkBTCMinterService>>();
+      service.get_known_utxos.mockImplementation(() => {
+        throw new Error();
+      });
+
+      const canister = minter(service);
+
+      const owner = Principal.fromText("aaaaa-aa");
+      expect(() =>
+        canister.getKnownUtxos({
+          owner,
+        }),
+      ).toThrowError();
     });
   });
 });

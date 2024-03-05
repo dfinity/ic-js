@@ -39,3 +39,8 @@ export type EstimateWithdrawalFeeParams = QueryParams & {
 export type RetrieveBtcStatusV2ByAccountParams = QueryParams & {
   account?: MinterAccount;
 };
+
+/**
+ * Params to get the known utxos.
+ */
+export type GetKnownUtxosParams = QueryParams & MinterParams;

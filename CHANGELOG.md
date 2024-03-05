@@ -12,6 +12,7 @@
 ## Features
 
 - Add support for `bitcoin_get_utxos` and `bitcoin_get_utxos_query` features to `@dfinity/ic-management` library.
+- Support for new ckBTC endpoint `get_known_utxos` which returns UTXOs of the given account known by the minter.
 
 # 2024.02.21-0835Z
 
