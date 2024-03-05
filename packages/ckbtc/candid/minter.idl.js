@@ -42,6 +42,7 @@ export const idlFactory = ({ IDL }) => {
   const DefiniteCanisterSettings = IDL.Record({
     'freezing_threshold' : IDL.Nat,
     'controllers' : IDL.Vec(IDL.Principal),
+    'reserved_cycles_limit' : IDL.Nat,
     'memory_allocation' : IDL.Nat,
     'compute_allocation' : IDL.Nat,
   });
@@ -59,6 +60,7 @@ export const idlFactory = ({ IDL }) => {
     'query_stats' : QueryStats,
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'reserved_cycles' : IDL.Nat,
   });
   const Account = IDL.Record({
     'owner' : IDL.Principal,
@@ -267,6 +269,16 @@ export const idlFactory = ({ IDL }) => {
     'get_events' : IDL.Func(
         [IDL.Record({ 'start' : IDL.Nat64, 'length' : IDL.Nat64 })],
         [IDL.Vec(Event)],
+        ['query'],
+      ),
+    'get_known_utxos' : IDL.Func(
+        [
+          IDL.Record({
+            'owner' : IDL.Opt(IDL.Principal),
+            'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+          }),
+        ],
+        [IDL.Vec(Utxo)],
         ['query'],
       ),
     'get_minter_info' : IDL.Func([], [MinterInfo], ['query']),
