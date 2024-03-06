@@ -226,15 +226,26 @@ describe("ckETH minter canister", () => {
       expect(res).toEqual(result);
     });
 
-    it("should bubble errors", () => {
+    it("should bubble errors", async () => {
       const service = mock<ActorSubclass<CkETHMinterService>>();
       service.eip_1559_transaction_price.mockRejectedValue(new Error());
 
       const canister = minter(service);
 
+      const call = () => canister.eip1559TransactionPrice({ certified: true });
+
+      await expect(call).rejects.toThrowError();
+    });
+
+    it("should bubble errors non-certified", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.eip_1559_transaction_price.mockRejectedValue(new Error());
+
+      const canister = nonCertifiedMinter(service);
+
       const call = () => canister.eip1559TransactionPrice({ certified: false });
 
-      expect(call).rejects.toThrowError();
+      await expect(call).rejects.toThrowError();
     });
   });
 
