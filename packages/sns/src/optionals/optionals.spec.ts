@@ -2,8 +2,8 @@ import type { NeuronsFundParticipationConstraints as SnsNeuronsFundParticipation
 import { emptyOptionalsForSnsNeuronsFundParticipationConstraints } from "./optionals";
 
 // If this file has a compilation error because new optional fields were added
-// to a Candid type, add the the empty optional field values to the
-// corresponding `emptyOptionalsFor...` value in `./optionals.ts`.
+// to a Candid type, add the empty optional field values to the corresponding
+// `emptyOptionalsFor...` value in `./optionals.ts`.
 
 const testValueForSnsNeuronsFundParticipationConstraints: SnsNeuronsFundParticipationConstraints =
   {
