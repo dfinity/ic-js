@@ -5,11 +5,11 @@ export const toNullable = <T>(value?: T | null): [] | [T] => {
   return nonNullish(value) ? [value] : [];
 };
 
-export const fromNullable = <T>(value: [] | [T]): T | undefined => {
+export const fromNullable = <T>(value: undefined | [] | [T]): T | undefined => {
   return value?.[0];
 };
 
-export const fromDefinedNullable = <T>(value: [] | [T]): T => {
+export const fromDefinedNullable = <T>(value: undefined | [] | [T]): T => {
   const result = fromNullable(value);
 
   assertNonNullish(result);

@@ -2,7 +2,7 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
 export interface CanisterCallError {
-  code: [] | [number];
+  code: undefined | [] | [number];
   description: string;
 }
 export interface CanisterIdRecord {
@@ -17,7 +17,7 @@ export interface CanisterStatusResult {
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettings;
-  module_hash: [] | [Uint8Array | number[]];
+  module_hash: undefined | [] | [Uint8Array | number[]];
 }
 export interface CanisterStatusResultV2 {
   status: CanisterStatusType;
@@ -25,15 +25,15 @@ export interface CanisterStatusResultV2 {
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array | number[]];
+  module_hash: undefined | [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
   | { stopping: null }
   | { running: null };
 export interface CanisterSummary {
-  status: [] | [CanisterStatusResultV2];
-  canister_id: [] | [Principal];
+  status: undefined | [] | [CanisterStatusResultV2];
+  canister_id: undefined | [] | [Principal];
 }
 export interface ChangeCanisterRequest {
   arg: Uint8Array | number[];
@@ -41,9 +41,9 @@ export interface ChangeCanisterRequest {
   stop_before_installing: boolean;
   mode: CanisterInstallMode;
   canister_id: Principal;
-  query_allocation: [] | [bigint];
-  memory_allocation: [] | [bigint];
-  compute_allocation: [] | [bigint];
+  query_allocation: undefined | [] | [bigint];
+  memory_allocation: undefined | [] | [bigint];
+  compute_allocation: undefined | [] | [bigint];
 }
 export interface DefiniteCanisterSettings {
   controllers: Array<Principal>;
@@ -55,38 +55,38 @@ export interface DefiniteCanisterSettingsArgs {
   compute_allocation: bigint;
 }
 export interface FailedUpdate {
-  err: [] | [CanisterCallError];
-  dapp_canister_id: [] | [Principal];
+  err: undefined | [] | [CanisterCallError];
+  dapp_canister_id: undefined | [] | [Principal];
 }
 export interface GetSnsCanistersSummaryRequest {
-  update_canister_list: [] | [boolean];
+  update_canister_list: undefined | [] | [boolean];
 }
 export interface GetSnsCanistersSummaryResponse {
-  root: [] | [CanisterSummary];
-  swap: [] | [CanisterSummary];
-  ledger: [] | [CanisterSummary];
-  index: [] | [CanisterSummary];
-  governance: [] | [CanisterSummary];
+  root: undefined | [] | [CanisterSummary];
+  swap: undefined | [] | [CanisterSummary];
+  ledger: undefined | [] | [CanisterSummary];
+  index: undefined | [] | [CanisterSummary];
+  governance: undefined | [] | [CanisterSummary];
   dapps: Array<CanisterSummary>;
   archives: Array<CanisterSummary>;
 }
 export interface ListSnsCanistersResponse {
-  root: [] | [Principal];
-  swap: [] | [Principal];
-  ledger: [] | [Principal];
-  index: [] | [Principal];
-  governance: [] | [Principal];
+  root: undefined | [] | [Principal];
+  swap: undefined | [] | [Principal];
+  ledger: undefined | [] | [Principal];
+  index: undefined | [] | [Principal];
+  governance: undefined | [] | [Principal];
   dapps: Array<Principal>;
   archives: Array<Principal>;
 }
 export interface RegisterDappCanisterRequest {
-  canister_id: [] | [Principal];
+  canister_id: undefined | [] | [Principal];
 }
 export interface RegisterDappCanistersRequest {
   canister_ids: Array<Principal>;
 }
 export interface SetDappControllersRequest {
-  canister_ids: [] | [RegisterDappCanistersRequest];
+  canister_ids: undefined | [] | [RegisterDappCanistersRequest];
   controller_principal_ids: Array<Principal>;
 }
 export interface SetDappControllersResponse {
@@ -95,12 +95,12 @@ export interface SetDappControllersResponse {
 export interface SnsRootCanister {
   dapp_canister_ids: Array<Principal>;
   testflight: boolean;
-  latest_ledger_archive_poll_timestamp_seconds: [] | [bigint];
+  latest_ledger_archive_poll_timestamp_seconds: undefined | [] | [bigint];
   archive_canister_ids: Array<Principal>;
-  governance_canister_id: [] | [Principal];
-  index_canister_id: [] | [Principal];
-  swap_canister_id: [] | [Principal];
-  ledger_canister_id: [] | [Principal];
+  governance_canister_id: undefined | [] | [Principal];
+  index_canister_id: undefined | [] | [Principal];
+  swap_canister_id: undefined | [] | [Principal];
+  ledger_canister_id: undefined | [] | [Principal];
 }
 export interface _SERVICE {
   canister_status: ActorMethod<[CanisterIdRecord], CanisterStatusResult>;

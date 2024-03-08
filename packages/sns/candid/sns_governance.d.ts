@@ -2,8 +2,8 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
 export interface Account {
-  owner: [] | [Principal];
-  subaccount: [] | [Subaccount];
+  owner: undefined | [] | [Principal];
+  subaccount: undefined | [] | [Subaccount];
 }
 export type Action =
   | {
@@ -26,8 +26,8 @@ export type Action =
   | { ManageLedgerParameters: ManageLedgerParameters }
   | { Motion: Motion };
 export interface AddNeuronPermissions {
-  permissions_to_add: [] | [NeuronPermissionList];
-  principal_id: [] | [Principal];
+  permissions_to_add: undefined | [] | [NeuronPermissionList];
+  principal_id: undefined | [] | [Principal];
 }
 export interface Amount {
   e8s: bigint;
@@ -44,7 +44,7 @@ export interface CanisterStatusResultV2 {
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array | number[]];
+  module_hash: undefined | [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -54,16 +54,16 @@ export interface ChangeAutoStakeMaturity {
   requested_setting_for_auto_stake_maturity: boolean;
 }
 export interface ClaimOrRefresh {
-  by: [] | [By];
+  by: undefined | [] | [By];
 }
 export interface ClaimOrRefreshResponse {
-  refreshed_neuron_id: [] | [NeuronId];
+  refreshed_neuron_id: undefined | [] | [NeuronId];
 }
 export interface ClaimSwapNeuronsRequest {
   neuron_parameters: Array<NeuronParameters>;
 }
 export interface ClaimSwapNeuronsResponse {
-  claim_swap_neurons_result: [] | [ClaimSwapNeuronsResult];
+  claim_swap_neurons_result: undefined | [] | [ClaimSwapNeuronsResult];
 }
 export type ClaimSwapNeuronsResult =
   | { Ok: ClaimedSwapNeurons }
@@ -113,7 +113,7 @@ export type Command_2 =
   | { MergeMaturity: MergeMaturity }
   | { Disburse: Disburse };
 export interface Configure {
-  operation: [] | [Operation];
+  operation: undefined | [] | [Operation];
 }
 export interface DefaultFollowees {
   followees: Array<[bigint, Followees]>;
@@ -129,22 +129,22 @@ export interface DeregisterDappCanisters {
   new_controllers: Array<Principal>;
 }
 export interface Disburse {
-  to_account: [] | [Account];
-  amount: [] | [Amount];
+  to_account: undefined | [] | [Account];
+  amount: undefined | [] | [Amount];
 }
 export interface DisburseMaturity {
-  to_account: [] | [Account];
+  to_account: undefined | [] | [Account];
   percentage_to_disburse: number;
 }
 export interface DisburseMaturityInProgress {
   timestamp_of_disbursement_seconds: bigint;
   amount_e8s: bigint;
-  account_to_disburse_to: [] | [Account];
-  finalize_disbursement_timestamp_seconds: [] | [bigint];
+  account_to_disburse_to: undefined | [] | [Account];
+  finalize_disbursement_timestamp_seconds: undefined | [] | [bigint];
 }
 export interface DisburseMaturityResponse {
   amount_disbursed_e8s: bigint;
-  amount_deducted_e8s: [] | [bigint];
+  amount_deducted_e8s: undefined | [] | [bigint];
 }
 export interface DisburseResponse {
   transfer_block_height: bigint;
@@ -158,7 +158,7 @@ export interface ExecuteGenericNervousSystemFunction {
 }
 export interface FinalizeDisburseMaturity {
   amount_to_be_disbursed_e8s: bigint;
-  to_account: [] | [Account];
+  to_account: undefined | [] | [Account];
 }
 export interface Follow {
   function_id: bigint;
@@ -171,59 +171,59 @@ export type FunctionType =
   | { NativeNervousSystemFunction: {} }
   | { GenericNervousSystemFunction: GenericNervousSystemFunction };
 export interface GenericNervousSystemFunction {
-  validator_canister_id: [] | [Principal];
-  target_canister_id: [] | [Principal];
-  validator_method_name: [] | [string];
-  target_method_name: [] | [string];
+  validator_canister_id: undefined | [] | [Principal];
+  target_canister_id: undefined | [] | [Principal];
+  validator_method_name: undefined | [] | [string];
+  target_method_name: undefined | [] | [string];
 }
 export interface GetMaturityModulationResponse {
-  maturity_modulation: [] | [MaturityModulation];
+  maturity_modulation: undefined | [] | [MaturityModulation];
 }
 export interface GetMetadataResponse {
-  url: [] | [string];
-  logo: [] | [string];
-  name: [] | [string];
-  description: [] | [string];
+  url: undefined | [] | [string];
+  logo: undefined | [] | [string];
+  name: undefined | [] | [string];
+  description: undefined | [] | [string];
 }
 export interface GetModeResponse {
-  mode: [] | [number];
+  mode: undefined | [] | [number];
 }
 export interface GetNeuron {
-  neuron_id: [] | [NeuronId];
+  neuron_id: undefined | [] | [NeuronId];
 }
 export interface GetNeuronResponse {
-  result: [] | [Result];
+  result: undefined | [] | [Result];
 }
 export interface GetProposal {
-  proposal_id: [] | [ProposalId];
+  proposal_id: undefined | [] | [ProposalId];
 }
 export interface GetProposalResponse {
-  result: [] | [Result_1];
+  result: undefined | [] | [Result_1];
 }
 export interface GetRunningSnsVersionResponse {
-  deployed_version: [] | [Version];
-  pending_version: [] | [UpgradeInProgress];
+  deployed_version: undefined | [] | [Version];
+  pending_version: undefined | [] | [UpgradeInProgress];
 }
 export interface GetSnsInitializationParametersResponse {
   sns_initialization_parameters: string;
 }
 export interface Governance {
-  root_canister_id: [] | [Principal];
+  root_canister_id: undefined | [] | [Principal];
   id_to_nervous_system_functions: Array<[bigint, NervousSystemFunction]>;
-  metrics: [] | [GovernanceCachedMetrics];
-  maturity_modulation: [] | [MaturityModulation];
+  metrics: undefined | [] | [GovernanceCachedMetrics];
+  maturity_modulation: undefined | [] | [MaturityModulation];
   mode: number;
-  parameters: [] | [NervousSystemParameters];
-  is_finalizing_disburse_maturity: [] | [boolean];
-  deployed_version: [] | [Version];
+  parameters: undefined | [] | [NervousSystemParameters];
+  is_finalizing_disburse_maturity: undefined | [] | [boolean];
+  deployed_version: undefined | [] | [Version];
   sns_initialization_parameters: string;
-  latest_reward_event: [] | [RewardEvent];
-  pending_version: [] | [UpgradeInProgress];
-  swap_canister_id: [] | [Principal];
-  ledger_canister_id: [] | [Principal];
+  latest_reward_event: undefined | [] | [RewardEvent];
+  pending_version: undefined | [] | [UpgradeInProgress];
+  swap_canister_id: undefined | [] | [Principal];
+  ledger_canister_id: undefined | [] | [Principal];
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[string, NeuronInFlightCommand]>;
-  sns_metadata: [] | [ManageSnsMetadata];
+  sns_metadata: undefined | [] | [ManageSnsMetadata];
   neurons: Array<[string, Neuron]>;
   genesis_timestamp_seconds: bigint;
 }
@@ -256,54 +256,54 @@ export interface ListNervousSystemFunctionsResponse {
   functions: Array<NervousSystemFunction>;
 }
 export interface ListNeurons {
-  of_principal: [] | [Principal];
+  of_principal: undefined | [] | [Principal];
   limit: number;
-  start_page_at: [] | [NeuronId];
+  start_page_at: undefined | [] | [NeuronId];
 }
 export interface ListNeuronsResponse {
   neurons: Array<Neuron>;
 }
 export interface ListProposals {
   include_reward_status: Int32Array | number[];
-  before_proposal: [] | [ProposalId];
+  before_proposal: undefined | [] | [ProposalId];
   limit: number;
   exclude_type: BigUint64Array | bigint[];
   include_status: Int32Array | number[];
 }
 export interface ListProposalsResponse {
-  include_ballots_by_caller: [] | [boolean];
+  include_ballots_by_caller: undefined | [] | [boolean];
   proposals: Array<ProposalData>;
 }
 export interface ManageDappCanisterSettings {
-  freezing_threshold: [] | [bigint];
+  freezing_threshold: undefined | [] | [bigint];
   canister_ids: Array<Principal>;
-  reserved_cycles_limit: [] | [bigint];
-  log_visibility: [] | [number];
-  memory_allocation: [] | [bigint];
-  compute_allocation: [] | [bigint];
+  reserved_cycles_limit: undefined | [] | [bigint];
+  log_visibility: undefined | [] | [number];
+  memory_allocation: undefined | [] | [bigint];
+  compute_allocation: undefined | [] | [bigint];
 }
 export interface ManageLedgerParameters {
-  transfer_fee: [] | [bigint];
+  transfer_fee: undefined | [] | [bigint];
 }
 export interface ManageNeuron {
   subaccount: Uint8Array | number[];
-  command: [] | [Command];
+  command: undefined | [] | [Command];
 }
 export interface ManageNeuronResponse {
-  command: [] | [Command_1];
+  command: undefined | [] | [Command_1];
 }
 export interface ManageSnsMetadata {
-  url: [] | [string];
-  logo: [] | [string];
-  name: [] | [string];
-  description: [] | [string];
+  url: undefined | [] | [string];
+  logo: undefined | [] | [string];
+  name: undefined | [] | [string];
+  description: undefined | [] | [string];
 }
 export interface MaturityModulation {
-  current_basis_points: [] | [number];
-  updated_at_timestamp_seconds: [] | [bigint];
+  current_basis_points: undefined | [] | [number];
+  updated_at_timestamp_seconds: undefined | [] | [bigint];
 }
 export interface MemoAndController {
-  controller: [] | [Principal];
+  controller: undefined | [] | [Principal];
   memo: bigint;
 }
 export interface MergeMaturity {
@@ -314,10 +314,10 @@ export interface MergeMaturityResponse {
   new_stake_e8s: bigint;
 }
 export interface MintSnsTokens {
-  to_principal: [] | [Principal];
-  to_subaccount: [] | [Subaccount];
-  memo: [] | [bigint];
-  amount_e8s: [] | [bigint];
+  to_principal: undefined | [] | [Principal];
+  to_subaccount: undefined | [] | [Subaccount];
+  memo: undefined | [] | [bigint];
+  amount_e8s: undefined | [] | [bigint];
 }
 export interface Motion {
   motion_text: string;
@@ -325,44 +325,44 @@ export interface Motion {
 export interface NervousSystemFunction {
   id: bigint;
   name: string;
-  description: [] | [string];
-  function_type: [] | [FunctionType];
+  description: undefined | [] | [string];
+  function_type: undefined | [] | [FunctionType];
 }
 export interface NervousSystemParameters {
-  default_followees: [] | [DefaultFollowees];
-  max_dissolve_delay_seconds: [] | [bigint];
-  max_dissolve_delay_bonus_percentage: [] | [bigint];
-  max_followees_per_function: [] | [bigint];
-  neuron_claimer_permissions: [] | [NeuronPermissionList];
-  neuron_minimum_stake_e8s: [] | [bigint];
-  max_neuron_age_for_age_bonus: [] | [bigint];
-  initial_voting_period_seconds: [] | [bigint];
-  neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
-  reject_cost_e8s: [] | [bigint];
-  max_proposals_to_keep_per_action: [] | [number];
-  wait_for_quiet_deadline_increase_seconds: [] | [bigint];
-  max_number_of_neurons: [] | [bigint];
-  transaction_fee_e8s: [] | [bigint];
-  max_number_of_proposals_with_ballots: [] | [bigint];
-  max_age_bonus_percentage: [] | [bigint];
-  neuron_grantable_permissions: [] | [NeuronPermissionList];
-  voting_rewards_parameters: [] | [VotingRewardsParameters];
-  maturity_modulation_disabled: [] | [boolean];
-  max_number_of_principals_per_neuron: [] | [bigint];
+  default_followees: undefined | [] | [DefaultFollowees];
+  max_dissolve_delay_seconds: undefined | [] | [bigint];
+  max_dissolve_delay_bonus_percentage: undefined | [] | [bigint];
+  max_followees_per_function: undefined | [] | [bigint];
+  neuron_claimer_permissions: undefined | [] | [NeuronPermissionList];
+  neuron_minimum_stake_e8s: undefined | [] | [bigint];
+  max_neuron_age_for_age_bonus: undefined | [] | [bigint];
+  initial_voting_period_seconds: undefined | [] | [bigint];
+  neuron_minimum_dissolve_delay_to_vote_seconds: undefined | [] | [bigint];
+  reject_cost_e8s: undefined | [] | [bigint];
+  max_proposals_to_keep_per_action: undefined | [] | [number];
+  wait_for_quiet_deadline_increase_seconds: undefined | [] | [bigint];
+  max_number_of_neurons: undefined | [] | [bigint];
+  transaction_fee_e8s: undefined | [] | [bigint];
+  max_number_of_proposals_with_ballots: undefined | [] | [bigint];
+  max_age_bonus_percentage: undefined | [] | [bigint];
+  neuron_grantable_permissions: undefined | [] | [NeuronPermissionList];
+  voting_rewards_parameters: undefined | [] | [VotingRewardsParameters];
+  maturity_modulation_disabled: undefined | [] | [boolean];
+  max_number_of_principals_per_neuron: undefined | [] | [bigint];
 }
 export interface Neuron {
-  id: [] | [NeuronId];
-  staked_maturity_e8s_equivalent: [] | [bigint];
+  id: undefined | [] | [NeuronId];
+  staked_maturity_e8s_equivalent: undefined | [] | [bigint];
   permissions: Array<NeuronPermission>;
   maturity_e8s_equivalent: bigint;
   cached_neuron_stake_e8s: bigint;
   created_timestamp_seconds: bigint;
-  source_nns_neuron_id: [] | [bigint];
-  auto_stake_maturity: [] | [boolean];
+  source_nns_neuron_id: undefined | [] | [bigint];
+  auto_stake_maturity: undefined | [] | [boolean];
   aging_since_timestamp_seconds: bigint;
-  dissolve_state: [] | [DissolveState];
+  dissolve_state: undefined | [] | [DissolveState];
   voting_power_percentage_multiplier: bigint;
-  vesting_period_seconds: [] | [bigint];
+  vesting_period_seconds: undefined | [] | [bigint];
   disburse_maturity_in_progress: Array<DisburseMaturityInProgress>;
   followees: Array<[bigint, Followees]>;
   neuron_fees_e8s: bigint;
@@ -371,20 +371,20 @@ export interface NeuronId {
   id: Uint8Array | number[];
 }
 export interface NeuronInFlightCommand {
-  command: [] | [Command_2];
+  command: undefined | [] | [Command_2];
   timestamp: bigint;
 }
 export interface NeuronParameters {
-  controller: [] | [Principal];
-  dissolve_delay_seconds: [] | [bigint];
-  source_nns_neuron_id: [] | [bigint];
-  stake_e8s: [] | [bigint];
+  controller: undefined | [] | [Principal];
+  dissolve_delay_seconds: undefined | [] | [bigint];
+  source_nns_neuron_id: undefined | [] | [bigint];
+  stake_e8s: undefined | [] | [bigint];
   followees: Array<NeuronId>;
-  hotkey: [] | [Principal];
-  neuron_id: [] | [NeuronId];
+  hotkey: undefined | [] | [Principal];
+  neuron_id: undefined | [] | [NeuronId];
 }
 export interface NeuronPermission {
-  principal: [] | [Principal];
+  principal: undefined | [] | [Principal];
   permission_type: Int32Array | number[];
 }
 export interface NeuronPermissionList {
@@ -399,34 +399,34 @@ export type Operation =
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
 export interface Percentage {
-  basis_points: [] | [bigint];
+  basis_points: undefined | [] | [bigint];
 }
 export interface Proposal {
   url: string;
   title: string;
-  action: [] | [Action];
+  action: undefined | [] | [Action];
   summary: string;
 }
 export interface ProposalData {
-  id: [] | [ProposalId];
-  payload_text_rendering: [] | [string];
+  id: undefined | [] | [ProposalId];
+  payload_text_rendering: undefined | [] | [string];
   action: bigint;
-  failure_reason: [] | [GovernanceError];
+  failure_reason: undefined | [] | [GovernanceError];
   ballots: Array<[string, Ballot]>;
-  minimum_yes_proportion_of_total: [] | [Percentage];
+  minimum_yes_proportion_of_total: undefined | [] | [Percentage];
   reward_event_round: bigint;
   failed_timestamp_seconds: bigint;
-  reward_event_end_timestamp_seconds: [] | [bigint];
+  reward_event_end_timestamp_seconds: undefined | [] | [bigint];
   proposal_creation_timestamp_seconds: bigint;
   initial_voting_period_seconds: bigint;
   reject_cost_e8s: bigint;
-  latest_tally: [] | [Tally];
+  latest_tally: undefined | [] | [Tally];
   wait_for_quiet_deadline_increase_seconds: bigint;
   decided_timestamp_seconds: bigint;
-  proposal: [] | [Proposal];
-  proposer: [] | [NeuronId];
-  wait_for_quiet_state: [] | [WaitForQuietState];
-  minimum_yes_proportion_of_exercised: [] | [Percentage];
+  proposal: undefined | [] | [Proposal];
+  proposer: undefined | [] | [NeuronId];
+  wait_for_quiet_state: undefined | [] | [WaitForQuietState];
+  minimum_yes_proportion_of_exercised: undefined | [] | [Percentage];
   is_eligible_for_rewards: boolean;
   executed_timestamp_seconds: bigint;
 }
@@ -438,18 +438,18 @@ export interface RegisterDappCanisters {
 }
 export interface RegisterVote {
   vote: number;
-  proposal: [] | [ProposalId];
+  proposal: undefined | [] | [ProposalId];
 }
 export interface RemoveNeuronPermissions {
-  permissions_to_remove: [] | [NeuronPermissionList];
-  principal_id: [] | [Principal];
+  permissions_to_remove: undefined | [] | [NeuronPermissionList];
+  principal_id: undefined | [] | [Principal];
 }
 export type Result = { Error: GovernanceError } | { Neuron: Neuron };
 export type Result_1 = { Error: GovernanceError } | { Proposal: ProposalData };
 export interface RewardEvent {
-  rounds_since_last_distribution: [] | [bigint];
+  rounds_since_last_distribution: undefined | [] | [bigint];
   actual_timestamp_seconds: bigint;
-  end_timestamp_seconds: [] | [bigint];
+  end_timestamp_seconds: undefined | [] | [bigint];
   distributed_e8s_equivalent: bigint;
   round: bigint;
   settled_proposals: Array<ProposalId>;
@@ -465,10 +465,10 @@ export interface Split {
   amount_e8s: bigint;
 }
 export interface SplitResponse {
-  created_neuron_id: [] | [NeuronId];
+  created_neuron_id: undefined | [] | [NeuronId];
 }
 export interface StakeMaturity {
-  percentage_to_stake: [] | [number];
+  percentage_to_stake: undefined | [] | [number];
 }
 export interface StakeMaturityResponse {
   maturity_e8s: bigint;
@@ -478,7 +478,7 @@ export interface Subaccount {
   subaccount: Uint8Array | number[];
 }
 export interface SwapNeuron {
-  id: [] | [NeuronId];
+  id: undefined | [] | [NeuronId];
   status: number;
 }
 export interface Tally {
@@ -489,22 +489,22 @@ export interface Tally {
 }
 export interface TransferSnsTreasuryFunds {
   from_treasury: number;
-  to_principal: [] | [Principal];
-  to_subaccount: [] | [Subaccount];
-  memo: [] | [bigint];
+  to_principal: undefined | [] | [Principal];
+  to_subaccount: undefined | [] | [Subaccount];
+  memo: undefined | [] | [bigint];
   amount_e8s: bigint;
 }
 export interface UpgradeInProgress {
   mark_failed_at_seconds: bigint;
   checking_upgrade_lock: bigint;
   proposal_id: bigint;
-  target_version: [] | [Version];
+  target_version: undefined | [] | [Version];
 }
 export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array | number[];
-  mode: [] | [number];
-  canister_id: [] | [Principal];
-  canister_upgrade_arg: [] | [Uint8Array | number[]];
+  mode: undefined | [] | [number];
+  canister_id: undefined | [] | [Principal];
+  canister_upgrade_arg: undefined | [] | [Uint8Array | number[]];
 }
 export interface Version {
   archive_wasm_hash: Uint8Array | number[];
@@ -515,10 +515,10 @@ export interface Version {
   index_wasm_hash: Uint8Array | number[];
 }
 export interface VotingRewardsParameters {
-  final_reward_rate_basis_points: [] | [bigint];
-  initial_reward_rate_basis_points: [] | [bigint];
-  reward_rate_transition_duration_seconds: [] | [bigint];
-  round_duration_seconds: [] | [bigint];
+  final_reward_rate_basis_points: undefined | [] | [bigint];
+  initial_reward_rate_basis_points: undefined | [] | [bigint];
+  reward_rate_transition_duration_seconds: undefined | [] | [bigint];
+  round_duration_seconds: undefined | [] | [bigint];
 }
 export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;

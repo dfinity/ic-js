@@ -2,11 +2,11 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 
 export interface BuyerState {
-  icp: [] | [TransferableAmount];
-  has_created_neuron_recipes: [] | [boolean];
+  icp: undefined | [] | [TransferableAmount];
+  has_created_neuron_recipes: undefined | [] | [boolean];
 }
 export interface CanisterCallError {
-  code: [] | [number];
+  code: undefined | [] | [number];
   description: string;
 }
 export interface CanisterStatusResultV2 {
@@ -15,7 +15,7 @@ export interface CanisterStatusResultV2 {
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day: bigint;
-  module_hash: [] | [Uint8Array | number[]];
+  module_hash: undefined | [] | [Uint8Array | number[]];
 }
 export type CanisterStatusType =
   | { stopped: null }
@@ -26,7 +26,7 @@ export interface CfInvestment {
   nns_neuron_id: bigint;
 }
 export interface CfNeuron {
-  has_created_neuron_recipes: [] | [boolean];
+  has_created_neuron_recipes: undefined | [] | [boolean];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
@@ -46,138 +46,138 @@ export interface DefiniteCanisterSettingsArgs {
 export interface DerivedState {
   sns_tokens_per_icp: number;
   buyer_total_icp_e8s: bigint;
-  cf_participant_count: [] | [bigint];
-  neurons_fund_participation_icp_e8s: [] | [bigint];
-  direct_participation_icp_e8s: [] | [bigint];
-  direct_participant_count: [] | [bigint];
-  cf_neuron_count: [] | [bigint];
+  cf_participant_count: undefined | [] | [bigint];
+  neurons_fund_participation_icp_e8s: undefined | [] | [bigint];
+  direct_participation_icp_e8s: undefined | [] | [bigint];
+  direct_participant_count: undefined | [] | [bigint];
+  cf_neuron_count: undefined | [] | [bigint];
 }
 export interface DirectInvestment {
   buyer_principal: string;
 }
 export interface Err {
-  description: [] | [string];
-  error_type: [] | [number];
+  description: undefined | [] | [string];
+  error_type: undefined | [] | [number];
 }
 export interface Err_1 {
-  error_type: [] | [number];
+  error_type: undefined | [] | [number];
 }
 export interface Err_2 {
-  invalid_user_amount: [] | [InvalidUserAmount];
-  existing_ticket: [] | [Ticket];
+  invalid_user_amount: undefined | [] | [InvalidUserAmount];
+  existing_ticket: undefined | [] | [Ticket];
   error_type: number;
 }
 export interface Error {
-  message: [] | [string];
+  message: undefined | [] | [string];
 }
 export interface ErrorRefundIcpRequest {
-  source_principal_id: [] | [Principal];
+  source_principal_id: undefined | [] | [Principal];
 }
 export interface ErrorRefundIcpResponse {
-  result: [] | [Result];
+  result: undefined | [] | [Result];
 }
 export interface FailedUpdate {
-  err: [] | [CanisterCallError];
-  dapp_canister_id: [] | [Principal];
+  err: undefined | [] | [CanisterCallError];
+  dapp_canister_id: undefined | [] | [Principal];
 }
 export interface FinalizeSwapResponse {
-  set_dapp_controllers_call_result: [] | [SetDappControllersCallResult];
-  create_sns_neuron_recipes_result: [] | [SweepResult];
+  set_dapp_controllers_call_result: undefined | [] | [SetDappControllersCallResult];
+  create_sns_neuron_recipes_result: undefined | [] | [SweepResult];
   settle_community_fund_participation_result:
     | []
     | [SettleCommunityFundParticipationResult];
-  error_message: [] | [string];
+  error_message: undefined | [] | [string];
   settle_neurons_fund_participation_result:
     | []
     | [SettleNeuronsFundParticipationResult];
-  set_mode_call_result: [] | [SetModeCallResult];
-  sweep_icp_result: [] | [SweepResult];
-  claim_neuron_result: [] | [SweepResult];
-  sweep_sns_result: [] | [SweepResult];
+  set_mode_call_result: undefined | [] | [SetModeCallResult];
+  sweep_icp_result: undefined | [] | [SweepResult];
+  claim_neuron_result: undefined | [] | [SweepResult];
+  sweep_sns_result: undefined | [] | [SweepResult];
 }
 export interface GetAutoFinalizationStatusResponse {
-  auto_finalize_swap_response: [] | [FinalizeSwapResponse];
-  has_auto_finalize_been_attempted: [] | [boolean];
-  is_auto_finalize_enabled: [] | [boolean];
+  auto_finalize_swap_response: undefined | [] | [FinalizeSwapResponse];
+  has_auto_finalize_been_attempted: undefined | [] | [boolean];
+  is_auto_finalize_enabled: undefined | [] | [boolean];
 }
 export interface GetBuyerStateRequest {
-  principal_id: [] | [Principal];
+  principal_id: undefined | [] | [Principal];
 }
 export interface GetBuyerStateResponse {
-  buyer_state: [] | [BuyerState];
+  buyer_state: undefined | [] | [BuyerState];
 }
 export interface GetBuyersTotalResponse {
   buyers_total: bigint;
 }
 export interface GetDerivedStateResponse {
-  sns_tokens_per_icp: [] | [number];
-  buyer_total_icp_e8s: [] | [bigint];
-  cf_participant_count: [] | [bigint];
-  neurons_fund_participation_icp_e8s: [] | [bigint];
-  direct_participation_icp_e8s: [] | [bigint];
-  direct_participant_count: [] | [bigint];
-  cf_neuron_count: [] | [bigint];
+  sns_tokens_per_icp: undefined | [] | [number];
+  buyer_total_icp_e8s: undefined | [] | [bigint];
+  cf_participant_count: undefined | [] | [bigint];
+  neurons_fund_participation_icp_e8s: undefined | [] | [bigint];
+  direct_participation_icp_e8s: undefined | [] | [bigint];
+  direct_participant_count: undefined | [] | [bigint];
+  cf_neuron_count: undefined | [] | [bigint];
 }
 export interface GetInitResponse {
-  init: [] | [Init];
+  init: undefined | [] | [Init];
 }
 export interface GetLifecycleResponse {
-  decentralization_sale_open_timestamp_seconds: [] | [bigint];
-  lifecycle: [] | [number];
-  decentralization_swap_termination_timestamp_seconds: [] | [bigint];
+  decentralization_sale_open_timestamp_seconds: undefined | [] | [bigint];
+  lifecycle: undefined | [] | [number];
+  decentralization_swap_termination_timestamp_seconds: undefined | [] | [bigint];
 }
 export interface GetOpenTicketResponse {
-  result: [] | [Result_1];
+  result: undefined | [] | [Result_1];
 }
 export interface GetSaleParametersResponse {
-  params: [] | [Params];
+  params: undefined | [] | [Params];
 }
 export interface GetStateResponse {
-  swap: [] | [Swap];
-  derived: [] | [DerivedState];
+  swap: undefined | [] | [Swap];
+  derived: undefined | [] | [DerivedState];
 }
 export interface GovernanceError {
   error_message: string;
   error_type: number;
 }
 export interface Icrc1Account {
-  owner: [] | [Principal];
-  subaccount: [] | [Uint8Array | number[]];
+  owner: undefined | [] | [Principal];
+  subaccount: undefined | [] | [Uint8Array | number[]];
 }
 export interface IdealMatchedParticipationFunction {
-  serialized_representation: [] | [string];
+  serialized_representation: undefined | [] | [string];
 }
 export interface Init {
-  nns_proposal_id: [] | [bigint];
+  nns_proposal_id: undefined | [] | [bigint];
   sns_root_canister_id: string;
-  neurons_fund_participation: [] | [boolean];
-  min_participant_icp_e8s: [] | [bigint];
+  neurons_fund_participation: undefined | [] | [boolean];
+  min_participant_icp_e8s: undefined | [] | [bigint];
   neuron_basket_construction_parameters:
     | []
     | [NeuronBasketConstructionParameters];
   fallback_controller_principal_ids: Array<string>;
-  max_icp_e8s: [] | [bigint];
-  neuron_minimum_stake_e8s: [] | [bigint];
-  confirmation_text: [] | [string];
-  swap_start_timestamp_seconds: [] | [bigint];
-  swap_due_timestamp_seconds: [] | [bigint];
-  min_participants: [] | [number];
-  sns_token_e8s: [] | [bigint];
+  max_icp_e8s: undefined | [] | [bigint];
+  neuron_minimum_stake_e8s: undefined | [] | [bigint];
+  confirmation_text: undefined | [] | [string];
+  swap_start_timestamp_seconds: undefined | [] | [bigint];
+  swap_due_timestamp_seconds: undefined | [] | [bigint];
+  min_participants: undefined | [] | [number];
+  sns_token_e8s: undefined | [] | [bigint];
   nns_governance_canister_id: string;
-  transaction_fee_e8s: [] | [bigint];
+  transaction_fee_e8s: undefined | [] | [bigint];
   icp_ledger_canister_id: string;
   sns_ledger_canister_id: string;
   neurons_fund_participation_constraints:
     | []
     | [NeuronsFundParticipationConstraints];
-  neurons_fund_participants: [] | [NeuronsFundParticipants];
-  should_auto_finalize: [] | [boolean];
-  max_participant_icp_e8s: [] | [bigint];
+  neurons_fund_participants: undefined | [] | [NeuronsFundParticipants];
+  should_auto_finalize: undefined | [] | [boolean];
+  max_participant_icp_e8s: undefined | [] | [bigint];
   sns_governance_canister_id: string;
-  min_direct_participation_icp_e8s: [] | [bigint];
-  restricted_countries: [] | [Countries];
-  min_icp_e8s: [] | [bigint];
-  max_direct_participation_icp_e8s: [] | [bigint];
+  min_direct_participation_icp_e8s: undefined | [] | [bigint];
+  restricted_countries: undefined | [] | [Countries];
+  min_icp_e8s: undefined | [] | [bigint];
+  max_direct_participation_icp_e8s: undefined | [] | [bigint];
 }
 export interface InvalidUserAmount {
   min_amount_icp_e8s_included: bigint;
@@ -187,26 +187,26 @@ export type Investor =
   | { CommunityFund: CfInvestment }
   | { Direct: DirectInvestment };
 export interface LinearScalingCoefficient {
-  slope_numerator: [] | [bigint];
-  intercept_icp_e8s: [] | [bigint];
-  from_direct_participation_icp_e8s: [] | [bigint];
-  slope_denominator: [] | [bigint];
-  to_direct_participation_icp_e8s: [] | [bigint];
+  slope_numerator: undefined | [] | [bigint];
+  intercept_icp_e8s: undefined | [] | [bigint];
+  from_direct_participation_icp_e8s: undefined | [] | [bigint];
+  slope_denominator: undefined | [] | [bigint];
+  to_direct_participation_icp_e8s: undefined | [] | [bigint];
 }
 export interface ListCommunityFundParticipantsRequest {
-  offset: [] | [bigint];
-  limit: [] | [number];
+  offset: undefined | [] | [bigint];
+  limit: undefined | [] | [number];
 }
 export interface ListDirectParticipantsRequest {
-  offset: [] | [number];
-  limit: [] | [number];
+  offset: undefined | [] | [number];
+  limit: undefined | [] | [number];
 }
 export interface ListDirectParticipantsResponse {
   participants: Array<Participant>;
 }
 export interface ListSnsNeuronRecipesRequest {
-  offset: [] | [bigint];
-  limit: [] | [number];
+  offset: undefined | [] | [bigint];
+  limit: undefined | [] | [number];
 }
 export interface ListSnsNeuronRecipesResponse {
   sns_neuron_recipes: Array<SnsNeuronRecipe>;
@@ -228,33 +228,33 @@ export interface NeuronsFundParticipants {
 }
 export interface NeuronsFundParticipationConstraints {
   coefficient_intervals: Array<LinearScalingCoefficient>;
-  max_neurons_fund_participation_icp_e8s: [] | [bigint];
-  min_direct_participation_threshold_icp_e8s: [] | [bigint];
+  max_neurons_fund_participation_icp_e8s: undefined | [] | [bigint];
+  min_direct_participation_threshold_icp_e8s: undefined | [] | [bigint];
   ideal_matched_participation_function:
     | []
     | [IdealMatchedParticipationFunction];
 }
 export interface NewSaleTicketRequest {
-  subaccount: [] | [Uint8Array | number[]];
+  subaccount: undefined | [] | [Uint8Array | number[]];
   amount_icp_e8s: bigint;
 }
 export interface NewSaleTicketResponse {
-  result: [] | [Result_2];
+  result: undefined | [] | [Result_2];
 }
 export interface Ok {
-  block_height: [] | [bigint];
+  block_height: undefined | [] | [bigint];
 }
 export interface Ok_1 {
-  neurons_fund_participation_icp_e8s: [] | [bigint];
-  neurons_fund_neurons_count: [] | [bigint];
+  neurons_fund_participation_icp_e8s: undefined | [] | [bigint];
+  neurons_fund_neurons_count: undefined | [] | [bigint];
 }
 export interface Ok_2 {
-  ticket: [] | [Ticket];
+  ticket: undefined | [] | [Ticket];
 }
 export interface OpenRequest {
   cf_participants: Array<CfParticipant>;
-  params: [] | [Params];
-  open_sns_token_swap_proposal_id: [] | [bigint];
+  params: undefined | [] | [Params];
+  open_sns_token_swap_proposal_id: undefined | [] | [bigint];
 }
 export interface Params {
   min_participant_icp_e8s: bigint;
@@ -265,15 +265,15 @@ export interface Params {
   swap_due_timestamp_seconds: bigint;
   min_participants: number;
   sns_token_e8s: bigint;
-  sale_delay_seconds: [] | [bigint];
+  sale_delay_seconds: undefined | [] | [bigint];
   max_participant_icp_e8s: bigint;
-  min_direct_participation_icp_e8s: [] | [bigint];
+  min_direct_participation_icp_e8s: undefined | [] | [bigint];
   min_icp_e8s: bigint;
-  max_direct_participation_icp_e8s: [] | [bigint];
+  max_direct_participation_icp_e8s: undefined | [] | [bigint];
 }
 export interface Participant {
-  participation: [] | [BuyerState];
-  participant_id: [] | [Principal];
+  participation: undefined | [] | [BuyerState];
+  participant_id: undefined | [] | [Principal];
 }
 export type Possibility =
   | { Ok: SetDappControllersResponse }
@@ -282,7 +282,7 @@ export type Possibility_1 = { Ok: Response } | { Err: CanisterCallError };
 export type Possibility_2 = { Ok: Ok_1 } | { Err: Error };
 export type Possibility_3 = { Ok: {} } | { Err: CanisterCallError };
 export interface RefreshBuyerTokensRequest {
-  confirmation_text: [] | [string];
+  confirmation_text: undefined | [] | [string];
   buyer: string;
 }
 export interface RefreshBuyerTokensResponse {
@@ -290,50 +290,50 @@ export interface RefreshBuyerTokensResponse {
   icp_ledger_account_balance_e8s: bigint;
 }
 export interface Response {
-  governance_error: [] | [GovernanceError];
+  governance_error: undefined | [] | [GovernanceError];
 }
 export type Result = { Ok: Ok } | { Err: Err };
 export type Result_1 = { Ok: Ok_2 } | { Err: Err_1 };
 export type Result_2 = { Ok: Ok_2 } | { Err: Err_2 };
 export interface SetDappControllersCallResult {
-  possibility: [] | [Possibility];
+  possibility: undefined | [] | [Possibility];
 }
 export interface SetDappControllersResponse {
   failed_updates: Array<FailedUpdate>;
 }
 export interface SetModeCallResult {
-  possibility: [] | [Possibility_3];
+  possibility: undefined | [] | [Possibility_3];
 }
 export interface SettleCommunityFundParticipationResult {
-  possibility: [] | [Possibility_1];
+  possibility: undefined | [] | [Possibility_1];
 }
 export interface SettleNeuronsFundParticipationResult {
-  possibility: [] | [Possibility_2];
+  possibility: undefined | [] | [Possibility_2];
 }
 export interface SnsNeuronRecipe {
-  sns: [] | [TransferableAmount];
-  claimed_status: [] | [number];
-  neuron_attributes: [] | [NeuronAttributes];
-  investor: [] | [Investor];
+  sns: undefined | [] | [TransferableAmount];
+  claimed_status: undefined | [] | [number];
+  neuron_attributes: undefined | [] | [NeuronAttributes];
+  investor: undefined | [] | [Investor];
 }
 export interface Swap {
-  auto_finalize_swap_response: [] | [FinalizeSwapResponse];
+  auto_finalize_swap_response: undefined | [] | [FinalizeSwapResponse];
   neuron_recipes: Array<SnsNeuronRecipe>;
-  next_ticket_id: [] | [bigint];
-  decentralization_sale_open_timestamp_seconds: [] | [bigint];
-  finalize_swap_in_progress: [] | [boolean];
+  next_ticket_id: undefined | [] | [bigint];
+  decentralization_sale_open_timestamp_seconds: undefined | [] | [bigint];
+  finalize_swap_in_progress: undefined | [] | [boolean];
   cf_participants: Array<CfParticipant>;
-  init: [] | [Init];
-  already_tried_to_auto_finalize: [] | [boolean];
-  neurons_fund_participation_icp_e8s: [] | [bigint];
-  purge_old_tickets_last_completion_timestamp_nanoseconds: [] | [bigint];
-  direct_participation_icp_e8s: [] | [bigint];
+  init: undefined | [] | [Init];
+  already_tried_to_auto_finalize: undefined | [] | [boolean];
+  neurons_fund_participation_icp_e8s: undefined | [] | [bigint];
+  purge_old_tickets_last_completion_timestamp_nanoseconds: undefined | [] | [bigint];
+  direct_participation_icp_e8s: undefined | [] | [bigint];
   lifecycle: number;
-  purge_old_tickets_next_principal: [] | [Uint8Array | number[]];
-  decentralization_swap_termination_timestamp_seconds: [] | [bigint];
+  purge_old_tickets_next_principal: undefined | [] | [Uint8Array | number[]];
+  decentralization_swap_termination_timestamp_seconds: undefined | [] | [bigint];
   buyers: Array<[string, BuyerState]>;
-  params: [] | [Params];
-  open_sns_token_swap_proposal_id: [] | [bigint];
+  params: undefined | [] | [Params];
+  open_sns_token_swap_proposal_id: undefined | [] | [bigint];
 }
 export interface SweepResult {
   failure: number;
@@ -345,14 +345,14 @@ export interface SweepResult {
 export interface Ticket {
   creation_time: bigint;
   ticket_id: bigint;
-  account: [] | [Icrc1Account];
+  account: undefined | [] | [Icrc1Account];
   amount_icp_e8s: bigint;
 }
 export interface TransferableAmount {
-  transfer_fee_paid_e8s: [] | [bigint];
+  transfer_fee_paid_e8s: undefined | [] | [bigint];
   transfer_start_timestamp_seconds: bigint;
   amount_e8s: bigint;
-  amount_transferred_e8s: [] | [bigint];
+  amount_transferred_e8s: undefined | [] | [bigint];
   transfer_success_timestamp_seconds: bigint;
 }
 export interface _SERVICE {
