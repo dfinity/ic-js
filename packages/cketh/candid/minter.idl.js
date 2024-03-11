@@ -103,6 +103,15 @@ export const idlFactory = ({ IDL }) => {
     'timestamp' : IDL.Nat64,
     'payload' : IDL.Variant({
       'SkippedBlock' : IDL.Record({ 'block_number' : IDL.Nat }),
+      'AcceptedErc20Deposit' : IDL.Record({
+        'principal' : IDL.Principal,
+        'transaction_hash' : IDL.Text,
+        'value' : IDL.Nat,
+        'log_index' : IDL.Nat,
+        'block_number' : IDL.Nat,
+        'erc20_contract_address' : IDL.Text,
+        'from_address' : IDL.Text,
+      }),
       'SignedTransaction' : IDL.Record({
         'raw_transaction' : IDL.Text,
         'withdrawal_id' : IDL.Nat,

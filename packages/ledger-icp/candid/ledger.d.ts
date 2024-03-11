@@ -50,6 +50,7 @@ export interface ArchiveOptions {
   num_blocks_to_archive: bigint;
   max_transactions_per_response: [] | [bigint];
   trigger_threshold: bigint;
+  more_controller_ids: [] | [Array<Principal>];
   max_message_size_bytes: [] | [bigint];
   cycles_for_archive_creation: [] | [bigint];
   node_max_memory_size_bytes: [] | [bigint];

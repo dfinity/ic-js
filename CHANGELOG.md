@@ -1,3 +1,9 @@
+# 2024.xx.yy-hhmmZ
+
+## Features
+
+- Update most recent did files for ledgers (new optional field for initialization) and ckETH (new optional field in event).
+
 # 2024.03.05-1100Z
 
 ## Overview
