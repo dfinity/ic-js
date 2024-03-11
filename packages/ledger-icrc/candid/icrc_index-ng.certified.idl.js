@@ -1,4 +1,4 @@
-/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/ledger-icrc/candid/icrc_index.did */
+/* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/ledger-icrc/candid/icrc_index-ng.did */
 export const idlFactory = ({ IDL }) => {
   const Value = IDL.Rec();
   const UpgradeArg = IDL.Record({ 'ledger_id' : IDL.Opt(IDL.Principal) });

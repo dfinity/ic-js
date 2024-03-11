@@ -45,6 +45,17 @@ export interface Event {
   payload:
     | { SkippedBlock: { block_number: bigint } }
     | {
+        AcceptedErc20Deposit: {
+          principal: Principal;
+          transaction_hash: string;
+          value: bigint;
+          log_index: bigint;
+          block_number: bigint;
+          erc20_contract_address: string;
+          from_address: string;
+        };
+      }
+    | {
         SignedTransaction: {
           raw_transaction: string;
           withdrawal_id: bigint;

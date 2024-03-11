@@ -1,4 +1,4 @@
-// Generated from IC repo commit 8001dd214 (2024-02-26) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit fff2052 (2024-03-07 tags: release-2024-03-06_23-01+p2p) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -301,6 +301,15 @@ type Event = record {
             address : text;
             ckerc20_token_symbol : text;
             ckerc20_ledger_id : principal;
+        };
+        AcceptedErc20Deposit : record {
+            transaction_hash : text;
+            block_number : nat;
+            log_index : nat;
+            from_address : text;
+            value : nat;
+            "principal" : principal;
+            erc20_contract_address : text;
         };
     };
 };

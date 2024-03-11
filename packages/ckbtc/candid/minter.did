@@ -1,4 +1,4 @@
-// Generated from IC repo commit 8001dd214 (2024-02-26) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit fff2052 (2024-03-07 tags: release-2024-03-06_23-01+p2p) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
