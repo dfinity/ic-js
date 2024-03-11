@@ -1,4 +1,4 @@
-// Generated from IC repo commit 757c4947d (2024-02-16) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit fff2052 (2024-03-07 tags: release-2024-03-06_23-01+p2p) 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -16,6 +16,9 @@ type Action = variant {
   ExecuteGenericNervousSystemFunction : ExecuteGenericNervousSystemFunction;
   ManageLedgerParameters : ManageLedgerParameters;
   Motion : Motion;
+};
+type ActionAuxiliary = variant {
+  TransferSnsTreasuryFunds : TransferSnsTreasuryFundsActionAuxiliary;
 };
 type AddMaturityRequest = record { id : opt NeuronId; amount_e8s : opt nat64 };
 type AddMaturityResponse = record { new_maturity_e8s : opt nat64 };
@@ -100,6 +103,7 @@ type Command_2 = variant {
   Disburse : Disburse;
 };
 type Configure = record { operation : opt Operation };
+type Decimal = record { human_readable : opt text };
 type DefaultFollowees = record { followees : vec record { nat64; Followees } };
 type DefiniteCanisterSettingsArgs = record {
   freezing_threshold : nat;
@@ -355,6 +359,7 @@ type ProposalData = record {
   payload_text_rendering : opt text;
   action : nat64;
   failure_reason : opt GovernanceError;
+  action_auxiliary : opt ActionAuxiliary;
   ballots : vec record { text; Ballot };
   minimum_yes_proportion_of_total : opt Percentage;
   reward_event_round : nat64;
@@ -407,12 +412,16 @@ type Tally = record {
   total : nat64;
   timestamp_seconds : nat64;
 };
+type Tokens = record { e8s : opt nat64 };
 type TransferSnsTreasuryFunds = record {
   from_treasury : int32;
   to_principal : opt principal;
   to_subaccount : opt Subaccount;
   memo : opt nat64;
   amount_e8s : nat64;
+};
+type TransferSnsTreasuryFundsActionAuxiliary = record {
+  valuation : opt Valuation;
 };
 type UpgradeInProgress = record {
   mark_failed_at_seconds : nat64;
@@ -425,6 +434,17 @@ type UpgradeSnsControlledCanister = record {
   mode : opt int32;
   canister_id : opt principal;
   canister_upgrade_arg : opt vec nat8;
+};
+type Valuation = record {
+  token : opt int32;
+  account : opt Account;
+  valuation_factors : opt ValuationFactors;
+  timestamp_seconds : opt nat64;
+};
+type ValuationFactors = record {
+  xdrs_per_icp : opt Decimal;
+  icps_per_token : opt Decimal;
+  tokens : opt Tokens;
 };
 type Version = record {
   archive_wasm_hash : vec nat8;

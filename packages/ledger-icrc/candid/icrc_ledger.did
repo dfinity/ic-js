@@ -1,4 +1,4 @@
-// Generated from IC repo commit 044cfd5 (2024-01-25 tags: release-2024-01-25_14-09+p2p-con) 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
+// Generated from IC repo commit fff2052 (2024-03-07 tags: release-2024-03-06_23-01+p2p) 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
 type BlockIndex = nat;
 type Subaccount = blob;
 // Number of nanoseconds since the UNIX epoch in UTC timezone.
@@ -118,6 +118,7 @@ type InitArgs = record {
         cycles_for_archive_creation : opt nat64;
         node_max_memory_size_bytes : opt nat64;
         controller_id : principal;
+        more_controller_ids : opt vec principal;
     };
 };
 

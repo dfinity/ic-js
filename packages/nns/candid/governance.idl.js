@@ -246,6 +246,18 @@ export const idlFactory = ({ IDL }) => {
     'use_registry_derived_rewards' : IDL.Opt(IDL.Bool),
     'rewards' : IDL.Vec(RewardNodeProvider),
   });
+  const Decimal = IDL.Record({ 'human_readable' : IDL.Opt(IDL.Text) });
+  const NeuronsFundMatchedFundingCurveCoefficients = IDL.Record({
+    'contribution_threshold_xdr' : IDL.Opt(Decimal),
+    'one_third_participation_milestone_xdr' : IDL.Opt(Decimal),
+    'full_participation_milestone_xdr' : IDL.Opt(Decimal),
+  });
+  const NeuronsFundEconomics = IDL.Record({
+    'neurons_fund_matched_funding_curve_coefficients' : IDL.Opt(
+      NeuronsFundMatchedFundingCurveCoefficients
+    ),
+    'max_theoretical_neurons_fund_participation_amount_xdr' : IDL.Opt(Decimal),
+  });
   const NetworkEconomics = IDL.Record({
     'neuron_minimum_stake_e8s' : IDL.Nat64,
     'max_proposals_to_keep_per_topic' : IDL.Nat32,
@@ -255,6 +267,7 @@ export const idlFactory = ({ IDL }) => {
     'neuron_spawn_dissolve_delay_seconds' : IDL.Nat64,
     'minimum_icp_xdr_rate' : IDL.Nat64,
     'maximum_node_provider_rewards_e8s' : IDL.Nat64,
+    'neurons_fund_economics' : IDL.Opt(NeuronsFundEconomics),
   });
   const ApproveGenesisKyc = IDL.Record({
     'principals' : IDL.Vec(IDL.Principal),
@@ -671,6 +684,7 @@ export const idlFactory = ({ IDL }) => {
     'source_neuron_info' : IDL.Opt(NeuronInfo),
   });
   const MakeProposalResponse = IDL.Record({
+    'message' : IDL.Opt(IDL.Text),
     'proposal_id' : IDL.Opt(NeuronId),
   });
   const StakeMaturityResponse = IDL.Record({
@@ -1069,6 +1083,18 @@ export const init = ({ IDL }) => {
     'use_registry_derived_rewards' : IDL.Opt(IDL.Bool),
     'rewards' : IDL.Vec(RewardNodeProvider),
   });
+  const Decimal = IDL.Record({ 'human_readable' : IDL.Opt(IDL.Text) });
+  const NeuronsFundMatchedFundingCurveCoefficients = IDL.Record({
+    'contribution_threshold_xdr' : IDL.Opt(Decimal),
+    'one_third_participation_milestone_xdr' : IDL.Opt(Decimal),
+    'full_participation_milestone_xdr' : IDL.Opt(Decimal),
+  });
+  const NeuronsFundEconomics = IDL.Record({
+    'neurons_fund_matched_funding_curve_coefficients' : IDL.Opt(
+      NeuronsFundMatchedFundingCurveCoefficients
+    ),
+    'max_theoretical_neurons_fund_participation_amount_xdr' : IDL.Opt(Decimal),
+  });
   const NetworkEconomics = IDL.Record({
     'neuron_minimum_stake_e8s' : IDL.Nat64,
     'max_proposals_to_keep_per_topic' : IDL.Nat32,
@@ -1078,6 +1104,7 @@ export const init = ({ IDL }) => {
     'neuron_spawn_dissolve_delay_seconds' : IDL.Nat64,
     'minimum_icp_xdr_rate' : IDL.Nat64,
     'maximum_node_provider_rewards_e8s' : IDL.Nat64,
+    'neurons_fund_economics' : IDL.Opt(NeuronsFundEconomics),
   });
   const ApproveGenesisKyc = IDL.Record({
     'principals' : IDL.Vec(IDL.Principal),
