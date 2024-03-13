@@ -5,6 +5,8 @@ export type {
   RetrieveBtcOk,
   RetrieveBtcStatus,
   RetrieveBtcStatusV2,
+  Utxo,
+  UtxoStatus,
   Account as WithdrawalAccount,
 } from "../candid/minter";
 export * from "./enums/btc.enums";
