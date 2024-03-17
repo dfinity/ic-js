@@ -208,9 +208,9 @@ If an array of neuron IDs is provided, precisely those neurons will be fetched.
 If `certified` is true, the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method        | Type                                                                                                  |
-| ------------- | ----------------------------------------------------------------------------------------------------- |
-| `listNeurons` | `({ certified, neuronIds, }: { certified: boolean; neuronIds?: bigint[]; }) => Promise<NeuronInfo[]>` |
+| Method        | Type                                                                                                               |
+| ------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `listNeurons` | `({ certified, neuronIds, }: { certified: boolean; neuronIds?: bigint[] or undefined; }) => Promise<NeuronInfo[]>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L157)
 
@@ -249,9 +249,9 @@ paginated and filtered by the request.
 If `certified` is true (default), the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method          | Type                                                                                                                   |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `listProposals` | `({ request, certified, }: { request: ListProposalsRequest; certified?: boolean; }) => Promise<ListProposalsResponse>` |
+| Method          | Type                                                                                                                                |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `listProposals` | `({ request, certified, }: { request: ListProposalsRequest; certified?: boolean or undefined; }) => Promise<ListProposalsResponse>` |
 
 Parameters:
 
@@ -262,17 +262,17 @@ Parameters:
 
 ##### :gear: stakeNeuron
 
-| Method        | Type                                                                                                                                                                                                                                |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `stakeNeuron` | `({ stake, principal, fromSubAccount, ledgerCanister, createdAt, fee, }: { stake: bigint; principal: Principal; fromSubAccount?: number[]; ledgerCanister: LedgerCanister; createdAt?: bigint; fee?: bigint; }) => Promise<bigint>` |
+| Method        | Type                                                                                                                                                                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stakeNeuron` | `({ stake, principal, fromSubAccount, ledgerCanister, createdAt, fee, }: { stake: bigint; principal: Principal; fromSubAccount?: number[] or undefined; ledgerCanister: LedgerCanister; createdAt?: bigint or undefined; fee?: bigint or undefined; }) => Promise<...>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L245)
 
 ##### :gear: stakeNeuronIcrc1
 
-| Method             | Type                                                                                                                                                                                                                               |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `stakeNeuronIcrc1` | `({ stake, principal, fromSubAccount, ledgerCanister, createdAt, fee, }: { stake: bigint; principal: Principal; fromSubAccount?: Uint8Array; ledgerCanister: LedgerCanister; createdAt?: bigint; fee?: bigint; }) => Promise<...>` |
+| Method             | Type                                                                                                                                                                                                                                                                      |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stakeNeuronIcrc1` | `({ stake, principal, fromSubAccount, ledgerCanister, createdAt, fee, }: { stake: bigint; principal: Principal; fromSubAccount?: Uint8Array or undefined; ledgerCanister: LedgerCanister; createdAt?: bigint or undefined; fee?: bigint or undefined; }) => Promise<...>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L311)
 
@@ -400,9 +400,9 @@ Returns single proposal info
 If `certified` is true (default), the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-| Method        | Type                                                                                                  |
-| ------------- | ----------------------------------------------------------------------------------------------------- |
-| `getProposal` | `({ proposalId, certified, }: { proposalId: bigint; certified?: boolean; }) => Promise<ProposalInfo>` |
+| Method        | Type                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `getProposal` | `({ proposalId, certified, }: { proposalId: bigint; certified?: boolean or undefined; }) => Promise<ProposalInfo or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L641)
 
@@ -410,9 +410,9 @@ it is fetched using a query call.
 
 Create new proposal
 
-| Method         | Type                                                |
-| -------------- | --------------------------------------------------- |
-| `makeProposal` | `(request: MakeProposalRequest) => Promise<bigint>` |
+| Method         | Type                                                             |
+| -------------- | ---------------------------------------------------------------- |
+| `makeProposal` | `(request: MakeProposalRequest) => Promise<bigint or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L659)
 
@@ -440,9 +440,9 @@ Edit neuron followees per topic
 
 Disburse neuron on Account
 
-| Method     | Type                                                                                                                  |
-| ---------- | --------------------------------------------------------------------------------------------------------------------- |
-| `disburse` | `({ neuronId, toAccountId, amount, }: { neuronId: bigint; toAccountId?: string; amount?: bigint; }) => Promise<void>` |
+| Method     | Type                                                                                                                                            |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `disburse` | `({ neuronId, toAccountId, amount, }: { neuronId: bigint; toAccountId?: string or undefined; amount?: bigint or undefined; }) => Promise<void>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L717)
 
@@ -460,9 +460,9 @@ Merge Maturity of a neuron
 
 Stake the maturity of a neuron.
 
-| Method          | Type                                                                                                     |
-| --------------- | -------------------------------------------------------------------------------------------------------- |
-| `stakeMaturity` | `({ neuronId, percentageToStake, }: { neuronId: bigint; percentageToStake?: number; }) => Promise<void>` |
+| Method          | Type                                                                                                                  |
+| --------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `stakeMaturity` | `({ neuronId, percentageToStake, }: { neuronId: bigint; percentageToStake?: number or undefined; }) => Promise<void>` |
 
 Parameters:
 
@@ -475,9 +475,9 @@ Parameters:
 
 Merge Maturity of a neuron
 
-| Method        | Type                                                                                                                                                                        |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `spawnNeuron` | `({ neuronId, percentageToSpawn, newController, nonce, }: { neuronId: bigint; percentageToSpawn?: number; newController?: Principal; nonce?: bigint; }) => Promise<bigint>` |
+| Method        | Type                                                                                                                                                                                                               |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `spawnNeuron` | `({ neuronId, percentageToSpawn, newController, nonce, }: { neuronId: bigint; percentageToSpawn?: number or undefined; newController?: Principal or undefined; nonce?: bigint or undefined; }) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L811)
 
@@ -505,9 +505,9 @@ Remove hotkey to neuron
 
 Gets the NeuronID of a newly created neuron.
 
-| Method                            | Type                                                                                    |
-| --------------------------------- | --------------------------------------------------------------------------------------- |
-| `claimOrRefreshNeuronFromAccount` | `({ memo, controller, }: { memo: bigint; controller?: Principal; }) => Promise<bigint>` |
+| Method                            | Type                                                                                                              |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `claimOrRefreshNeuronFromAccount` | `({ memo, controller, }: { memo: bigint; controller?: Principal or undefined; }) => Promise<bigint or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L910)
 
@@ -516,9 +516,9 @@ Gets the NeuronID of a newly created neuron.
 Refreshes neuron and returns neuronId when successful
 Uses query call only.
 
-| Method                 | Type                                                        |
-| ---------------------- | ----------------------------------------------------------- |
-| `claimOrRefreshNeuron` | `(request: ClaimOrRefreshNeuronRequest) => Promise<bigint>` |
+| Method                 | Type                                                                     |
+| ---------------------- | ------------------------------------------------------------------------ |
+| `claimOrRefreshNeuron` | `(request: ClaimOrRefreshNeuronRequest) => Promise<bigint or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L941)
 
@@ -526,9 +526,9 @@ Uses query call only.
 
 Return the data of the neuron provided as id.
 
-| Method      | Type                                                                                           |
-| ----------- | ---------------------------------------------------------------------------------------------- |
-| `getNeuron` | `({ certified, neuronId, }: { certified: boolean; neuronId: bigint; }) => Promise<NeuronInfo>` |
+| Method      | Type                                                                                                        |
+| ----------- | ----------------------------------------------------------------------------------------------------------- |
+| `getNeuron` | `({ certified, neuronId, }: { certified: boolean; neuronId: bigint; }) => Promise<NeuronInfo or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L992)
 
@@ -551,9 +551,9 @@ Return the data of the neuron provided as id.
 
 ##### :gear: listSnses
 
-| Method      | Type                                                                   |
-| ----------- | ---------------------------------------------------------------------- |
-| `listSnses` | `({ certified, }: { certified?: boolean; }) => Promise<DeployedSns[]>` |
+| Method      | Type                                                                                |
+| ----------- | ----------------------------------------------------------------------------------- |
+| `listSnses` | `({ certified, }: { certified?: boolean or undefined; }) => Promise<DeployedSns[]>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/sns_wasm.canister.ts#L29)
 

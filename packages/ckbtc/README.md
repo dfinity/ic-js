@@ -183,9 +183,9 @@ The BTC retrieval process is slow. Instead of synchronously waiting for a BTC tr
 The caller allowed the minter's principal to spend its funds using
 [icrc2_approve] on the ckBTC ledger.
 
-| Method                    | Type                                                                                                                                  |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `retrieveBtcWithApproval` | `({ address, amount, fromSubaccount, }: { address: string; amount: bigint; fromSubaccount?: Uint8Array; }) => Promise<RetrieveBtcOk>` |
+| Method                    | Type                                                                                                                                               |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `retrieveBtcWithApproval` | `({ address, amount, fromSubaccount, }: { address: string; amount: bigint; fromSubaccount?: Uint8Array or undefined; }) => Promise<RetrieveBtcOk>` |
 
 Parameters:
 

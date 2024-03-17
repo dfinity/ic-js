@@ -80,9 +80,9 @@ const data = await metadata();
 
 ##### :gear: fromPrincipal
 
-| Method          | Type                                                                                                    |
-| --------------- | ------------------------------------------------------------------------------------------------------- |
-| `fromPrincipal` | `({ principal, subAccount, }: { principal: Principal; subAccount?: SubAccount; }) => AccountIdentifier` |
+| Method          | Type                                                                                                                 |
+| --------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `fromPrincipal` | `({ principal, subAccount, }: { principal: Principal; subAccount?: SubAccount or undefined; }) => AccountIdentifier` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L19)
 
