@@ -1,15 +1,21 @@
 import type { CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { createServices, toNullable } from "@dfinity/utils";
-import type {
+import { hexStringToUint8Array } from "@dfinity/utils/src";
+import {
   _SERVICE as IcManagementService,
   bitcoin_get_utxos_query_result,
   bitcoin_get_utxos_result,
+  chunk_hash,
 } from "../candid/ic-management";
 import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certified.idl";
 import { idlFactory } from "../candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
+  ClearChunkStoreParams,
+  InstallChunkedCodeParams,
+  StoredChunksParams,
+  UploadChunkParams,
   toBitcoinGetUtxosParams,
   toCanisterSettings,
   toInstallMode,
@@ -129,6 +135,102 @@ export class ICManagementCanister {
       arg,
       sender_canister_version: toNullable(senderCanisterVersion),
     });
+
+  /**
+   * Upload chunks of Wasm modules that are too large to fit in a single message for installation purposes.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#ic-upload_chunk
+   *
+   * @param {UploadChunkParams} params
+   * @param {canisterId} params.canisterId The canister in which the chunks will be stored.
+   * @param {Uint8Array | number[]} params.chunk A chunk of Wasm module.
+   * @returns {Promise<chunk_hash>} The hash of the stored chunk.
+   */
+  uploadChunk = ({
+    canisterId,
+    ...rest
+  }: UploadChunkParams): Promise<chunk_hash> => {
+    const { upload_chunk } = this.service;
+
+    return upload_chunk({
+      canister_id: canisterId,
+      ...rest,
+    });
+  };
+
+  /**
+   * Clear the entire chunk storage of a canister.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#ic-clear_chunk_store
+   *
+   * @param {ClearChunkStoreParams} params
+   * @param {canisterId} params.canisterId The canister in which the chunks are stored.
+   */
+  clearChunkStore = async ({
+    canisterId,
+  }: ClearChunkStoreParams): Promise<void> => {
+    const { clear_chunk_store } = this.service;
+
+    await clear_chunk_store({
+      canister_id: canisterId,
+    });
+  };
+
+  /**
+   * List the hashes of chunks in the chunk storage of a canister.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#ic-stored_chunks
+   *
+   * @param {StoredChunksParams} params
+   * @param {canisterId} params.canisterId The canister in which the chunks are stored.
+   * @returns {Promise<chunk_hash[]>} The list of hash of the stored chunks.
+   */
+  storedChunks = async ({
+    canisterId,
+  }: StoredChunksParams): Promise<chunk_hash[]> => {
+    const { stored_chunks } = this.service;
+
+    return stored_chunks({
+      canister_id: canisterId,
+    });
+  };
+
+  /**
+   * Installs code that had previously been uploaded in chunks.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#ic-install_chunked_code
+   *
+   * @param {InstallChunkedCodeParams} params
+   * @param {InstallMode} params.mode Installation, re-installation or upgrade.
+   * @param {Uint8Array} params.arg The arguments of the canister.
+   * @param {Uint8Array | undefined} params.senderCanisterVersion The optional sender_canister_version parameter can contain the caller's canister version.
+   * @param {Array<chunk_hash>} params.chunkHashesList The list of chunks of the Wasm module to install.
+   * @param {Principal} params.targetCanisterId Specifies the canister where the code should be installed.
+   * @param {Principal | undefined} params.storeCanisterId Specifies the canister in whose chunk storage the chunks are stored (this parameter defaults to target_canister if not specified).
+   * @param {String} params.wasmModuleHash The Wasm module hash as hex string. Used to check that the SHA-256 hash of wasm_module is equal to the wasm_module_hash parameter and can calls install_code with parameters.
+   * @returns {Promise<void>}
+   */
+  installChunkedCode = async ({
+    mode,
+    arg,
+    senderCanisterVersion,
+    chunkHashesList,
+    targetCanisterId,
+    storeCanisterId,
+    wasmModuleHash,
+  }: InstallChunkedCodeParams): Promise<void> => {
+    const { install_chunked_code } = this.service;
+
+    await install_chunked_code({
+      mode: toInstallMode(mode),
+      target_canister: targetCanisterId,
+      store_canister: toNullable(storeCanisterId),
+      arg,
+      sender_canister_version: toNullable(senderCanisterVersion),
+      chunk_hashes_list: chunkHashesList,
+      wasm_module_hash: hexStringToUint8Array(wasmModuleHash),
+    });
+  };
 
   /**
    * Uninstall code from a canister
