@@ -1,5 +1,9 @@
 # 2024.xx.yy-hhmmZ
 
+## Breaking Changes
+
+- Field `smart_contract_address` was renamed to `eth_helper_contract_address` in ckETH minter info.
+
 ## Features
 
 - Update most recent did files for ledgers (new optional field for initialization) and ckETH (new optional field in event).
