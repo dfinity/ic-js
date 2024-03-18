@@ -108,6 +108,30 @@ export const idlFactory = ({ IDL }) => {
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
   });
+  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
+  const Account = IDL.Record({
+    'owner' : IDL.Opt(IDL.Principal),
+    'subaccount' : IDL.Opt(Subaccount),
+  });
+  const Decimal = IDL.Record({ 'human_readable' : IDL.Opt(IDL.Text) });
+  const Tokens = IDL.Record({ 'e8s' : IDL.Opt(IDL.Nat64) });
+  const ValuationFactors = IDL.Record({
+    'xdrs_per_icp' : IDL.Opt(Decimal),
+    'icps_per_token' : IDL.Opt(Decimal),
+    'tokens' : IDL.Opt(Tokens),
+  });
+  const Valuation = IDL.Record({
+    'token' : IDL.Opt(IDL.Int32),
+    'account' : IDL.Opt(Account),
+    'valuation_factors' : IDL.Opt(ValuationFactors),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const TransferSnsTreasuryFundsActionAuxiliary = IDL.Record({
+    'valuation' : IDL.Opt(Valuation),
+  });
+  const ActionAuxiliary = IDL.Variant({
+    'TransferSnsTreasuryFunds' : TransferSnsTreasuryFundsActionAuxiliary,
+  });
   const Ballot = IDL.Record({
     'vote' : IDL.Int32,
     'cast_timestamp_seconds' : IDL.Nat64,
@@ -131,7 +155,6 @@ export const idlFactory = ({ IDL }) => {
   const RegisterDappCanisters = IDL.Record({
     'canister_ids' : IDL.Vec(IDL.Principal),
   });
-  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
   const TransferSnsTreasuryFunds = IDL.Record({
     'from_treasury' : IDL.Int32,
     'to_principal' : IDL.Opt(IDL.Principal),
@@ -200,6 +223,7 @@ export const idlFactory = ({ IDL }) => {
     'payload_text_rendering' : IDL.Opt(IDL.Text),
     'action' : IDL.Nat64,
     'failure_reason' : IDL.Opt(GovernanceError),
+    'action_auxiliary' : IDL.Opt(ActionAuxiliary),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Text, Ballot)),
     'minimum_yes_proportion_of_total' : IDL.Opt(Percentage),
     'reward_event_round' : IDL.Nat64,
@@ -222,10 +246,6 @@ export const idlFactory = ({ IDL }) => {
   const Follow = IDL.Record({
     'function_id' : IDL.Nat64,
     'followees' : IDL.Vec(NeuronId),
-  });
-  const Account = IDL.Record({
-    'owner' : IDL.Opt(IDL.Principal),
-    'subaccount' : IDL.Opt(Subaccount),
   });
   const DisburseMaturity = IDL.Record({
     'to_account' : IDL.Opt(Account),
@@ -674,6 +694,30 @@ export const init = ({ IDL }) => {
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
   });
+  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
+  const Account = IDL.Record({
+    'owner' : IDL.Opt(IDL.Principal),
+    'subaccount' : IDL.Opt(Subaccount),
+  });
+  const Decimal = IDL.Record({ 'human_readable' : IDL.Opt(IDL.Text) });
+  const Tokens = IDL.Record({ 'e8s' : IDL.Opt(IDL.Nat64) });
+  const ValuationFactors = IDL.Record({
+    'xdrs_per_icp' : IDL.Opt(Decimal),
+    'icps_per_token' : IDL.Opt(Decimal),
+    'tokens' : IDL.Opt(Tokens),
+  });
+  const Valuation = IDL.Record({
+    'token' : IDL.Opt(IDL.Int32),
+    'account' : IDL.Opt(Account),
+    'valuation_factors' : IDL.Opt(ValuationFactors),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const TransferSnsTreasuryFundsActionAuxiliary = IDL.Record({
+    'valuation' : IDL.Opt(Valuation),
+  });
+  const ActionAuxiliary = IDL.Variant({
+    'TransferSnsTreasuryFunds' : TransferSnsTreasuryFundsActionAuxiliary,
+  });
   const Ballot = IDL.Record({
     'vote' : IDL.Int32,
     'cast_timestamp_seconds' : IDL.Nat64,
@@ -697,7 +741,6 @@ export const init = ({ IDL }) => {
   const RegisterDappCanisters = IDL.Record({
     'canister_ids' : IDL.Vec(IDL.Principal),
   });
-  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
   const TransferSnsTreasuryFunds = IDL.Record({
     'from_treasury' : IDL.Int32,
     'to_principal' : IDL.Opt(IDL.Principal),
@@ -766,6 +809,7 @@ export const init = ({ IDL }) => {
     'payload_text_rendering' : IDL.Opt(IDL.Text),
     'action' : IDL.Nat64,
     'failure_reason' : IDL.Opt(GovernanceError),
+    'action_auxiliary' : IDL.Opt(ActionAuxiliary),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Text, Ballot)),
     'minimum_yes_proportion_of_total' : IDL.Opt(Percentage),
     'reward_event_round' : IDL.Nat64,
@@ -788,10 +832,6 @@ export const init = ({ IDL }) => {
   const Follow = IDL.Record({
     'function_id' : IDL.Nat64,
     'followees' : IDL.Vec(NeuronId),
-  });
-  const Account = IDL.Record({
-    'owner' : IDL.Opt(IDL.Principal),
-    'subaccount' : IDL.Opt(Subaccount),
   });
   const DisburseMaturity = IDL.Record({
     'to_account' : IDL.Opt(Account),
