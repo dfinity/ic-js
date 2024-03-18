@@ -1,4 +1,4 @@
-// Generated from IC repo commit fff2052 (2024-03-07 tags: release-2024-03-06_23-01+p2p) 'rs/rosetta-api/icrc1/index/index.did' by import-candid
+// Generated from IC repo commit c3c5dc8 (2024-03-15 tags: release-2024-03-14_23-01-p2p) 'rs/rosetta-api/icrc1/index/index.did' by import-candid
 type TxId = nat;
 
 type Account = record { owner : principal; subaccount : opt blob };
