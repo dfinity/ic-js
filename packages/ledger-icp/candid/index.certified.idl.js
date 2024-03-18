@@ -31,19 +31,20 @@ export const idlFactory = ({ IDL }) => {
       'spender' : IDL.Opt(IDL.Text),
     }),
   });
-  const Transaction = IDL.Record({
+  const SettledTransaction = IDL.Record({
     'memo' : IDL.Nat64,
     'icrc1_memo' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'operation' : Operation,
+    'timestamp' : TimeStamp,
     'created_at_time' : IDL.Opt(TimeStamp),
   });
-  const TransactionWithId = IDL.Record({
+  const SettledTransactionWithId = IDL.Record({
     'id' : IDL.Nat64,
-    'transaction' : Transaction,
+    'transaction' : SettledTransaction,
   });
   const GetAccountIdentifierTransactionsResponse = IDL.Record({
     'balance' : IDL.Nat64,
-    'transactions' : IDL.Vec(TransactionWithId),
+    'transactions' : IDL.Vec(SettledTransactionWithId),
     'oldest_tx_id' : IDL.Opt(IDL.Nat64),
   });
   const GetAccountIdentifierTransactionsError = IDL.Record({

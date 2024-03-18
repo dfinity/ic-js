@@ -1,5 +1,9 @@
 # 2024.xx.yy-hhmmZ
 
+## Breaking Changes
+
+- ICP transactions, as provided by the Index canister, have been extended to include their block timestamp information.
+
 ## Features
 
 - Update most recent did files for ledgers (new optional field for initialization) and ckETH (new optional field in event).

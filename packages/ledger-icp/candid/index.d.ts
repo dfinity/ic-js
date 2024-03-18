@@ -15,7 +15,7 @@ export interface GetAccountIdentifierTransactionsError {
 }
 export interface GetAccountIdentifierTransactionsResponse {
   balance: bigint;
-  transactions: Array<TransactionWithId>;
+  transactions: Array<SettledTransactionWithId>;
   oldest_tx_id: [] | [bigint];
 }
 export type GetAccountIdentifierTransactionsResult =
@@ -74,6 +74,17 @@ export type Operation =
         spender: [] | [string];
       };
     };
+export interface SettledTransaction {
+  memo: bigint;
+  icrc1_memo: [] | [Uint8Array | number[]];
+  operation: Operation;
+  timestamp: TimeStamp;
+  created_at_time: [] | [TimeStamp];
+}
+export interface SettledTransactionWithId {
+  id: bigint;
+  transaction: SettledTransaction;
+}
 export interface Status {
   num_blocks_synced: bigint;
 }
@@ -82,16 +93,6 @@ export interface TimeStamp {
 }
 export interface Tokens {
   e8s: bigint;
-}
-export interface Transaction {
-  memo: bigint;
-  icrc1_memo: [] | [Uint8Array | number[]];
-  operation: Operation;
-  created_at_time: [] | [TimeStamp];
-}
-export interface TransactionWithId {
-  id: bigint;
-  transaction: Transaction;
 }
 export interface _SERVICE {
   get_account_identifier_balance: ActorMethod<[string], bigint>;
