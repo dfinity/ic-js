@@ -188,7 +188,7 @@ export const idlFactory = ({ IDL }) => {
     ),
     'headers' : IDL.Vec(http_header),
   });
-  const chunk_hash = IDL.Vec(IDL.Nat8);
+  const chunk_hash = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const install_chunked_code_args = IDL.Record({
     'arg' : IDL.Vec(IDL.Nat8),
     'wasm_module_hash' : IDL.Vec(IDL.Nat8),
@@ -201,8 +201,8 @@ export const idlFactory = ({ IDL }) => {
     }),
     'chunk_hashes_list' : IDL.Vec(chunk_hash),
     'target_canister' : canister_id,
+    'store_canister' : IDL.Opt(canister_id),
     'sender_canister_version' : IDL.Opt(IDL.Nat64),
-    'storage_canister' : IDL.Opt(canister_id),
   });
   const wasm_module = IDL.Vec(IDL.Nat8);
   const install_code_args = IDL.Record({

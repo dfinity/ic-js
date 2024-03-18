@@ -108,7 +108,9 @@ export type change_origin =
         canister_id: Principal;
       };
     };
-export type chunk_hash = Uint8Array | number[];
+export interface chunk_hash {
+  hash: Uint8Array | number[];
+}
 export interface clear_chunk_store_args {
   canister_id: canister_id;
 }
@@ -170,8 +172,8 @@ export interface install_chunked_code_args {
     | { install: null };
   chunk_hashes_list: Array<chunk_hash>;
   target_canister: canister_id;
+  store_canister: [] | [canister_id];
   sender_canister_version: [] | [bigint];
-  storage_canister: [] | [canister_id];
 }
 export interface install_code_args {
   arg: Uint8Array | number[];
