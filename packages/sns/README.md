@@ -219,9 +219,9 @@ Get the neuron of the Sns
 
 Same as `getNeuron` but returns undefined instead of raising error when not found.
 
-| Method        | Type                                              |
-| ------------- | ------------------------------------------------- |
-| `queryNeuron` | `(params: SnsGetNeuronParams) => Promise<Neuron>` |
+| Method        | Type                                                           |
+| ------------- | -------------------------------------------------------------- |
+| `queryNeuron` | `(params: SnsGetNeuronParams) => Promise<Neuron or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L170)
 
@@ -259,9 +259,9 @@ Remove permissions to a neuron for a specific principal
 
 Split neuron
 
-| Method        | Type                                                  |
-| ------------- | ----------------------------------------------------- |
-| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<NeuronId>` |
+| Method        | Type                                                               |
+| ------------- | ------------------------------------------------------------------ |
+| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<NeuronId or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L223)
 
@@ -424,9 +424,9 @@ List the canisters that are part of the Sns.
 
 Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 
-| Method             | Type                                                                              |
-| ------------------ | --------------------------------------------------------------------------------- |
-| `listSnsCanisters` | `({ certified, }: { certified?: boolean; }) => Promise<ListSnsCanistersResponse>` |
+| Method             | Type                                                                                           |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| `listSnsCanisters` | `({ certified, }: { certified?: boolean or undefined; }) => Promise<ListSnsCanistersResponse>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L32)
 
@@ -470,9 +470,9 @@ Get the state of the swap
 
 Notify of the payment failure to remove the ticket
 
-| Method                 | Type                    |
-| ---------------------- | ----------------------- |
-| `notifyPaymentFailure` | `() => Promise<Ticket>` |
+| Method                 | Type                                 |
+| ---------------------- | ------------------------------------ |
+| `notifyPaymentFailure` | `() => Promise<Ticket or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L54)
 
@@ -490,9 +490,9 @@ Notify of the user participating in the swap
 
 Get user commitment
 
-| Method              | Type                                                                    |
-| ------------------- | ----------------------------------------------------------------------- |
-| `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState>` |
+| Method              | Type                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `getUserCommitment` | `(params: GetBuyerStateRequest and QueryParams) => Promise<BuyerState or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L72)
 
@@ -520,9 +520,9 @@ Get sale parameters
 
 Return a sale ticket if created and not yet removed (payment flow)
 
-| Method          | Type                                       |
-| --------------- | ------------------------------------------ |
-| `getOpenTicket` | `(params: QueryParams) => Promise<Ticket>` |
+| Method          | Type                                                    |
+| --------------- | ------------------------------------------------------- |
+| `getOpenTicket` | `(params: QueryParams) => Promise<Ticket or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L102)
 
@@ -716,9 +716,9 @@ Parameters:
 
 ##### :gear: queryNeuron
 
-| Method        | Type                                                                 |
-| ------------- | -------------------------------------------------------------------- |
-| `queryNeuron` | `(params: Omit<SnsGetNeuronParams, "certified">) => Promise<Neuron>` |
+| Method        | Type                                                                              |
+| ------------- | --------------------------------------------------------------------------------- |
+| `queryNeuron` | `(params: Omit<SnsGetNeuronParams, "certified">) => Promise<Neuron or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L189)
 
@@ -812,9 +812,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: splitNeuron
 
-| Method        | Type                                                  |
-| ------------- | ----------------------------------------------------- |
-| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<NeuronId>` |
+| Method        | Type                                                               |
+| ------------- | ------------------------------------------------------------------ |
+| `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<NeuronId or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L349)
 
@@ -890,9 +890,9 @@ Only the owner of a ticket can remove it.
 
 Always certified
 
-| Method                 | Type                    |
-| ---------------------- | ----------------------- |
-| `notifyPaymentFailure` | `() => Promise<Ticket>` |
+| Method                 | Type                                 |
+| ---------------------- | ------------------------------------ |
+| `notifyPaymentFailure` | `() => Promise<Ticket or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L395)
 
@@ -906,17 +906,17 @@ Always certified
 
 ##### :gear: getUserCommitment
 
-| Method              | Type                                                    |
-| ------------------- | ------------------------------------------------------- |
-| `getUserCommitment` | `(params: GetBuyerStateRequest) => Promise<BuyerState>` |
+| Method              | Type                                                                 |
+| ------------------- | -------------------------------------------------------------------- |
+| `getUserCommitment` | `(params: GetBuyerStateRequest) => Promise<BuyerState or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L404)
 
 ##### :gear: getOpenTicket
 
-| Method          | Type                                                          |
-| --------------- | ------------------------------------------------------------- |
-| `getOpenTicket` | `(params: Omit<QueryParams, "certified">) => Promise<Ticket>` |
+| Method          | Type                                                                       |
+| --------------- | -------------------------------------------------------------------------- |
+| `getOpenTicket` | `(params: Omit<QueryParams, "certified">) => Promise<Ticket or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L409)
 
@@ -930,33 +930,33 @@ Always certified
 
 ##### :gear: getLifecycle
 
-| Method         | Type                                                                        |
-| -------------- | --------------------------------------------------------------------------- |
-| `getLifecycle` | `(params: Omit<QueryParams, "certified">) => Promise<GetLifecycleResponse>` |
+| Method         | Type                                                                                     |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| `getLifecycle` | `(params: Omit<QueryParams, "certified">) => Promise<GetLifecycleResponse or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L418)
 
 ##### :gear: getFinalizationStatus
 
-| Method                  | Type                                                                                     |
-| ----------------------- | ---------------------------------------------------------------------------------------- |
-| `getFinalizationStatus` | `(params: Omit<QueryParams, "certified">) => Promise<GetAutoFinalizationStatusResponse>` |
+| Method                  | Type                                                                                                  |
+| ----------------------- | ----------------------------------------------------------------------------------------------------- |
+| `getFinalizationStatus` | `(params: Omit<QueryParams, "certified">) => Promise<GetAutoFinalizationStatusResponse or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L423)
 
 ##### :gear: getSaleParameters
 
-| Method              | Type                                                                             |
-| ------------------- | -------------------------------------------------------------------------------- |
-| `getSaleParameters` | `(params: Omit<QueryParams, "certified">) => Promise<GetSaleParametersResponse>` |
+| Method              | Type                                                                                          |
+| ------------------- | --------------------------------------------------------------------------------------------- |
+| `getSaleParameters` | `(params: Omit<QueryParams, "certified">) => Promise<GetSaleParametersResponse or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L428)
 
 ##### :gear: getDerivedState
 
-| Method            | Type                                                                           |
-| ----------------- | ------------------------------------------------------------------------------ |
-| `getDerivedState` | `(params: Omit<QueryParams, "certified">) => Promise<GetDerivedStateResponse>` |
+| Method            | Type                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+| `getDerivedState` | `(params: Omit<QueryParams, "certified">) => Promise<GetDerivedStateResponse or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L433)
 
