@@ -5,6 +5,7 @@ import type {
   _SERVICE as IcManagementService,
   bitcoin_get_utxos_query_result,
   bitcoin_get_utxos_result,
+  chunk_hash,
 } from "../candid/ic-management";
 import { ICManagementCanister } from "./ic-management.canister";
 import {
@@ -22,6 +23,7 @@ import {
   InstallMode,
   toInstallMode,
   type BitcoinGetUtxosParams,
+  type UploadChunkParams,
 } from "./types/ic-management.params";
 import {
   CanisterInfoResponse,
@@ -529,6 +531,43 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () => icManagement.bitcoinGetUtxosQuery(params);
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
+
+  describe("uploadChunk", () => {
+    const params: UploadChunkParams = {
+      canisterId: mockCanisterId,
+      chunk: [4, 5, 6],
+    };
+
+    it("returns hash when success", async () => {
+      const response: chunk_hash = {
+        hash: [1, 2, 3, 4],
+      };
+      const service = mock<IcManagementService>();
+      service.upload_chunk.mockResolvedValue(response);
+
+      const icManagement = await createICManagement(service);
+
+      const res = await icManagement.uploadChunk(params);
+
+      expect(res).toEqual(response);
+      expect(service.upload_chunk).toHaveBeenCalledWith({
+        canister_id: params.canisterId,
+        chunk: params.chunk,
+      });
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.upload_chunk.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.uploadChunk(params);
 
       expect(call).rejects.toThrowError(Error);
     });
