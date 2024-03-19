@@ -185,7 +185,7 @@ Uninstall code from a canister
 | --------------- | -------------------------------------------------------------------------------- |
 | `uninstallCode` | `({ canisterId, senderCanisterVersion, }: UninstallCodeParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L243)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L246)
 
 ##### :gear: startCanister
 
@@ -195,7 +195,7 @@ Start a canister
 | --------------- | ------------------------------------------ |
 | `startCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L258)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L261)
 
 ##### :gear: stopCanister
 
@@ -205,7 +205,7 @@ Stop a canister
 | -------------- | ------------------------------------------ |
 | `stopCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L267)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L270)
 
 ##### :gear: canisterStatus
 
@@ -215,7 +215,7 @@ Get canister details (memory size, status, etc.)
 | ---------------- | ------------------------------------------------------------ |
 | `canisterStatus` | `(canisterId: Principal) => Promise<canister_status_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L276)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L279)
 
 ##### :gear: canisterInfo
 
@@ -225,7 +225,7 @@ Get canister info (controllers, module hash, changes, etc.)
 | -------------- | ------------------------------------------------------------------------------------------- |
 | `canisterInfo` | `({ canisterId, numRequestChanges, }: CanisterInfoParams) => Promise<canister_info_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L289)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L292)
 
 ##### :gear: deleteCanister
 
@@ -235,7 +235,7 @@ Deletes a canister
 | ---------------- | ------------------------------------------ |
 | `deleteCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L304)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L307)
 
 ##### :gear: provisionalCreateCanisterWithCycles
 
@@ -245,7 +245,7 @@ Creates a canister. Only available on development instances.
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `provisionalCreateCanisterWithCycles` | `({ settings, amount, canisterId, }?: ProvisionalCreateCanisterWithCyclesParams) => Promise<Principal>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L316)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L319)
 
 ##### :gear: bitcoinGetUtxos
 
@@ -255,7 +255,7 @@ Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin 
 | ----------------- | ---------------------------------------------------------------------- |
 | `bitcoinGetUtxos` | `(params: BitcoinGetUtxosParams) => Promise<bitcoin_get_utxos_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L343)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L346)
 
 ##### :gear: bitcoinGetUtxosQuery
 
@@ -265,7 +265,7 @@ This method is identical to `bitcoinGetUtxos`, but exposed as a query.
 | ---------------------- | --------------------------------------------------------------------------------- |
 | `bitcoinGetUtxosQuery` | `(params: BitcoinGetUtxosQueryParams) => Promise<bitcoin_get_utxos_query_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L361)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L364)
 
 <!-- TSDOC_END -->
 
