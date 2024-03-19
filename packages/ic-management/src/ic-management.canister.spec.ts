@@ -1,5 +1,5 @@
 import { ActorSubclass, HttpAgent } from "@dfinity/agent";
-import { ServiceResponse } from "@dfinity/utils";
+import { ServiceResponse, toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   _SERVICE as IcManagementService,
@@ -24,6 +24,7 @@ import {
   toInstallMode,
   type BitcoinGetUtxosParams,
   type ClearChunkStoreParams,
+  type InstallChunkedCodeParams,
   type StoredChunksParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
@@ -639,6 +640,117 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () => icManagement.storedChunks(params);
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
+
+  describe("installChunkedCode", () => {
+    const sha256HashHex =
+      "1327d331fb07bfbc295bd8fd9dd6addd0e3260107f02505bd4972b91e0af6d75";
+    const sha256HashUint8Array = Uint8Array.from([
+      19, 39, 211, 49, 251, 7, 191, 188, 41, 91, 216, 253, 157, 214, 173, 221,
+      14, 50, 96, 16, 127, 2, 80, 91, 212, 151, 43, 145, 224, 175, 109, 117,
+    ]);
+
+    const installParams: Omit<
+      InstallChunkedCodeParams,
+      "mode" | "wasmModuleHash"
+    > = {
+      arg: new Uint8Array(),
+      targetCanisterId: mockCanisterId,
+      chunkHashesList: [{ hash: [1, 2, 3] }, { hash: [4, 5, 6] }],
+    };
+
+    it.each([InstallMode.Install, InstallMode.Reinstall, InstallMode.Upgrade])(
+      "calls install_chunked_code with mode %s",
+      async (mode) => {
+        const params: InstallChunkedCodeParams = {
+          ...installParams,
+          mode,
+          wasmModuleHash: sha256HashUint8Array,
+        };
+        const service = mock<IcManagementService>();
+        service.install_chunked_code.mockResolvedValue(undefined);
+
+        const icManagement = await createICManagement(service);
+
+        await icManagement.installChunkedCode(params);
+
+        expect(service.install_chunked_code).toHaveBeenCalledWith({
+          wasm_module_hash: params.wasmModuleHash,
+          mode: toInstallMode(params.mode),
+          target_canister: params.targetCanisterId,
+          store_canister: toNullable(),
+          arg: params.arg,
+          sender_canister_version: [],
+          chunk_hashes_list: params.chunkHashesList,
+        });
+      },
+    );
+
+    it("should accept sha256 as hex string parameter", async () => {
+      const params: InstallChunkedCodeParams = {
+        ...installParams,
+        mode: InstallMode.Upgrade,
+        wasmModuleHash: sha256HashHex,
+      };
+      const service = mock<IcManagementService>();
+      service.install_chunked_code.mockResolvedValue(undefined);
+
+      const icManagement = await createICManagement(service);
+
+      await icManagement.installChunkedCode(params);
+
+      expect(service.install_chunked_code).toHaveBeenCalledWith({
+        wasm_module_hash: sha256HashUint8Array,
+        mode: toInstallMode(params.mode),
+        target_canister: params.targetCanisterId,
+        store_canister: toNullable(),
+        arg: params.arg,
+        sender_canister_version: [],
+        chunk_hashes_list: params.chunkHashesList,
+      });
+    });
+
+    it("should optionally target a particular store canister", async () => {
+      const params: InstallChunkedCodeParams = {
+        ...installParams,
+        mode: InstallMode.Upgrade,
+        wasmModuleHash: sha256HashHex,
+        storeCanisterId: mockCanisterId,
+      };
+      const service = mock<IcManagementService>();
+      service.install_chunked_code.mockResolvedValue(undefined);
+
+      const icManagement = await createICManagement(service);
+
+      await icManagement.installChunkedCode(params);
+
+      expect(service.install_chunked_code).toHaveBeenCalledWith({
+        wasm_module_hash: sha256HashUint8Array,
+        mode: toInstallMode(params.mode),
+        target_canister: params.targetCanisterId,
+        store_canister: toNullable(mockCanisterId),
+        arg: params.arg,
+        sender_canister_version: [],
+        chunk_hashes_list: params.chunkHashesList,
+      });
+    });
+
+    it("throws Error", async () => {
+      const params: InstallChunkedCodeParams = {
+        ...installParams,
+        mode: InstallMode.Install,
+        wasmModuleHash: sha256HashUint8Array,
+      };
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.install_chunked_code.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.installChunkedCode(params);
 
       expect(call).rejects.toThrowError(Error);
     });

@@ -228,7 +228,10 @@ export class ICManagementCanister {
       arg,
       sender_canister_version: toNullable(senderCanisterVersion),
       chunk_hashes_list: chunkHashesList,
-      wasm_module_hash: hexStringToUint8Array(wasmModuleHash),
+      wasm_module_hash:
+        typeof wasmModuleHash === "string"
+          ? hexStringToUint8Array(wasmModuleHash)
+          : wasmModuleHash,
     });
   };
 

@@ -93,7 +93,7 @@ export interface InstallChunkedCodeParams
   chunkHashesList: Array<chunk_hash>;
   targetCanisterId: Principal;
   storeCanisterId?: Principal;
-  wasmModuleHash: string;
+  wasmModuleHash: string | Uint8Array | number[];
 }
 
 export interface UninstallCodeParams {
