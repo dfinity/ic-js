@@ -1,6 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { toNullable, type ServiceParam } from "@dfinity/utils";
-import {
+import type {
   _SERVICE as IcManagementService,
   bitcoin_get_utxos_args,
   bitcoin_get_utxos_query_args,
