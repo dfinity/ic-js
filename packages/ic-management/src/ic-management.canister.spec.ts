@@ -24,6 +24,7 @@ import {
   toInstallMode,
   type BitcoinGetUtxosParams,
   type ClearChunkStoreParams,
+  type StoredChunksParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
 import {
@@ -600,6 +601,44 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () => icManagement.clearChunkStore(params);
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
+
+  describe("storedChunks", () => {
+    const params: StoredChunksParams = {
+      canisterId: mockCanisterId,
+    };
+
+    it("returns list of hash when success", async () => {
+      const response: chunk_hash[] = [
+        { hash: [1, 2, 3, 4] },
+        { hash: [5, 6, 7] },
+        { hash: [8, 9, 10] },
+      ];
+
+      const service = mock<IcManagementService>();
+      service.stored_chunks.mockResolvedValue(response);
+
+      const icManagement = await createICManagement(service);
+
+      const res = await icManagement.storedChunks(params);
+
+      expect(res).toEqual(response);
+      expect(service.stored_chunks).toHaveBeenCalledWith({
+        canister_id: params.canisterId,
+      });
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.stored_chunks.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.storedChunks(params);
 
       expect(call).rejects.toThrowError(Error);
     });
