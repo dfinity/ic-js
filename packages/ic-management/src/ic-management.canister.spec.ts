@@ -23,6 +23,7 @@ import {
   InstallMode,
   toInstallMode,
   type BitcoinGetUtxosParams,
+  type ClearChunkStoreParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
 import {
@@ -568,6 +569,37 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () => icManagement.uploadChunk(params);
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
+
+  describe("clearChunkStore", () => {
+    const params: ClearChunkStoreParams = {
+      canisterId: mockCanisterId,
+    };
+
+    it("returns void when success", async () => {
+      const service = mock<IcManagementService>();
+      service.clear_chunk_store.mockResolvedValue(undefined);
+
+      const icManagement = await createICManagement(service);
+
+      const res = await icManagement.clearChunkStore(params);
+
+      expect(service.clear_chunk_store).toHaveBeenCalledWith({
+        canister_id: params.canisterId,
+      });
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.clear_chunk_store.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.clearChunkStore(params);
 
       expect(call).rejects.toThrowError(Error);
     });
