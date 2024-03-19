@@ -2,7 +2,7 @@ import type { CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { createServices, toNullable } from "@dfinity/utils";
 import { hexStringToUint8Array } from "@dfinity/utils/src";
-import {
+import type {
   _SERVICE as IcManagementService,
   bitcoin_get_utxos_query_result,
   bitcoin_get_utxos_result,
@@ -12,21 +12,21 @@ import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certi
 import { idlFactory } from "../candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
-  ClearChunkStoreParams,
-  InstallChunkedCodeParams,
-  StoredChunksParams,
-  UploadChunkParams,
   toBitcoinGetUtxosParams,
   toCanisterSettings,
   toInstallMode,
   type BitcoinGetUtxosParams,
   type BitcoinGetUtxosQueryParams,
   type CanisterInfoParams,
+  type ClearChunkStoreParams,
   type CreateCanisterParams,
+  type InstallChunkedCodeParams,
   type InstallCodeParams,
   type ProvisionalCreateCanisterWithCyclesParams,
+  type StoredChunksParams,
   type UninstallCodeParams,
   type UpdateSettingsParams,
+  type UploadChunkParams,
 } from "./types/ic-management.params";
 import type {
   CanisterInfoResponse,
