@@ -5,6 +5,8 @@ import type {
   bitcoin_get_utxos_args,
   bitcoin_get_utxos_query_args,
   canister_settings,
+  chunk_hash,
+  upload_chunk_args,
 } from "../../candid/ic-management";
 
 export interface CanisterSettings {
@@ -72,6 +74,26 @@ export interface InstallCodeParams {
   wasmModule: Uint8Array;
   arg: Uint8Array;
   senderCanisterVersion?: bigint;
+}
+
+export interface UploadChunkParams extends Pick<upload_chunk_args, "chunk"> {
+  canisterId: Principal;
+}
+
+export interface ClearChunkStoreParams {
+  canisterId: Principal;
+}
+
+export interface StoredChunksParams {
+  canisterId: Principal;
+}
+
+export interface InstallChunkedCodeParams
+  extends Omit<InstallCodeParams, "canisterId" | "wasmModule"> {
+  chunkHashesList: Array<chunk_hash>;
+  targetCanisterId: Principal;
+  storeCanisterId?: Principal;
+  wasmModuleHash: string | Uint8Array | number[];
 }
 
 export interface UninstallCodeParams {

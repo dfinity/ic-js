@@ -3,6 +3,7 @@ export type {
   bitcoin_get_utxos_result,
   bitcoin_network,
   block_hash,
+  chunk_hash,
   outpoint,
   satoshi,
   utxo,
