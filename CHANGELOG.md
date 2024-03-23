@@ -1,5 +1,9 @@
 # 2024.xx.yy-hhmmZ
 
+## Breaking Changes
+
+- Field `smart_contract_address` was renamed to `eth_helper_contract_address` in ckETH minter info.
+
 ## Features
 
 - Support for the installation of large canisters with chunked code of the Wasm module in `@dfinity/ic-management`.
