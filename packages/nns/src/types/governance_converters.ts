@@ -256,6 +256,21 @@ export interface NetworkEconomics {
   neuronSpawnDissolveDelaySeconds: bigint;
   minimumIcpXdrRate: bigint;
   maximumNodeProviderRewards: bigint;
+  neuronsFundEconomics: Option<NeuronsFundEconomics>
+}
+export interface NeuronsFundEconomics {
+  maximumIcpXdrRate: Option<Percentage>;
+  neuronsFundMatchedFundingCurveCoefficients: Option<NeuronsFundMatchedFundingCurveCoefficients>;
+  maxTheoreticalNeuronsFundParticipationAmountXdr: Option<Decimal>;
+  minimumIcpXdrRate: Option<Percentage>;
+}
+export interface NeuronsFundMatchedFundingCurveCoefficients {
+  contributionThresholdXdr: Option<Decimal>;
+  oneThirdParticipationMilestoneXdr: Option<Decimal>;
+  fullParticipationMilestoneXdr: Option<Decimal>;
+}
+export interface Decimal {
+  humanReadable: Option<string>;
 }
 export interface Neuron {
   id: Option<NeuronId>;

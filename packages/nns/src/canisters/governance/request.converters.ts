@@ -4,8 +4,8 @@ import type {
 } from "@dfinity/ledger-icp";
 import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
-import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
-import type {
+import { arrayBufferToUint8Array, isNullish, toNullable } from "@dfinity/utils";
+import {
   Amount,
   ListProposalInfo,
   AccountIdentifier as RawAccountIdentifier,
@@ -15,6 +15,7 @@ import type {
   Command as RawCommand,
   Countries as RawCountries,
   CreateServiceNervousSystem as RawCreateServiceNervousSystem,
+  Decimal as RawDecimal,
   DeveloperDistribution as RawDeveloperDistribution,
   Duration as RawDuration,
   Followees as RawFollowees,
@@ -29,6 +30,8 @@ import type {
   NeuronDistribution as RawNeuronDistribution,
   NeuronId as RawNeuronId,
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
+  NeuronsFundEconomics as RawNeuronsFundEconomics,
+  NeuronsFundMatchedFundingCurveCoefficients as RawNeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
   Percentage as RawPercentage,
@@ -40,8 +43,8 @@ import type {
 } from "../../../candid/governance";
 import type { Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import type { E8s, NeuronId } from "../../types/common";
-import type {
+import type { E8s, NeuronId, Option } from "../../types/common";
+import {
   Action,
   By,
   Change,
@@ -49,6 +52,7 @@ import type {
   Command,
   Countries,
   CreateServiceNervousSystem,
+  Decimal,
   DeveloperDistribution,
   DisburseToNeuronRequest,
   Duration,
@@ -64,6 +68,8 @@ import type {
   NeuronBasketConstructionParameters,
   NeuronDistribution,
   NeuronIdOrSubaccount,
+  NeuronsFundEconomics,
+  NeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider,
   Operation,
   Percentage,
@@ -453,6 +459,9 @@ const fromAction = (action: Action): RawAction => {
         minimum_icp_xdr_rate: networkEconomics.minimumIcpXdrRate,
         maximum_node_provider_rewards_e8s:
           networkEconomics.maximumNodeProviderRewards,
+        neurons_fund_economics: fromNeuronsFundEconomics(
+          networkEconomics.neuronsFundEconomics,
+        ),
       },
     };
   }
@@ -852,6 +861,74 @@ const fromAccountIdentifier = (
 ): RawAccountIdentifier => ({
   hash: accountIdentifierToBytes(accountIdentifier),
 });
+
+const fromNeuronsFundEconomics = (
+  neuronsFundEconomics: Option<NeuronsFundEconomics>,
+): [] | [RawNeuronsFundEconomics] => {
+  if (isNullish(neuronsFundEconomics)) {
+    return [];
+  }
+
+  const {
+    maximumIcpXdrRate,
+    maxTheoreticalNeuronsFundParticipationAmountXdr,
+    neuronsFundMatchedFundingCurveCoefficients,
+    minimumIcpXdrRate,
+  } = neuronsFundEconomics;
+
+  const toRawPercentage = (
+    percentage: Option<Percentage>,
+  ): [] | [RawPercentage] =>
+    isNullish(percentage)
+      ? []
+      : [
+          {
+            basis_points: toNullable(percentage.basisPoints),
+          },
+        ];
+
+  const toRawDecimals = (decimal: Option<Decimal>): [] | [RawDecimal] =>
+    isNullish(decimal)
+      ? []
+      : [
+          {
+            human_readable: toNullable(decimal.humanReadable),
+          },
+        ];
+
+  const toRawNeuronsFundMatchedFundingCurveCoefficients = (
+    neuronsFundMatchedFundingCurveCoefficients: Option<NeuronsFundMatchedFundingCurveCoefficients>,
+  ): [] | [RawNeuronsFundMatchedFundingCurveCoefficients] =>
+    isNullish(neuronsFundMatchedFundingCurveCoefficients)
+      ? []
+      : [
+          {
+            contribution_threshold_xdr: toRawDecimals(
+              neuronsFundMatchedFundingCurveCoefficients.contributionThresholdXdr,
+            ),
+            full_participation_milestone_xdr: toRawDecimals(
+              neuronsFundMatchedFundingCurveCoefficients.fullParticipationMilestoneXdr,
+            ),
+            one_third_participation_milestone_xdr: toRawDecimals(
+              neuronsFundMatchedFundingCurveCoefficients.oneThirdParticipationMilestoneXdr,
+            ),
+          },
+        ];
+
+  return [
+    {
+      maximum_icp_xdr_rate: toRawPercentage(maximumIcpXdrRate),
+      neurons_fund_matched_funding_curve_coefficients:
+        toRawNeuronsFundMatchedFundingCurveCoefficients(
+          neuronsFundMatchedFundingCurveCoefficients,
+        ),
+      minimum_icp_xdr_rate: toRawPercentage(minimumIcpXdrRate),
+      max_theoretical_neurons_fund_participation_amount_xdr: toRawDecimals(
+        maxTheoreticalNeuronsFundParticipationAmountXdr,
+      ),
+    },
+  ];
+};
 
 const fromRewardMode = (rewardMode: RewardMode): RawRewardMode => {
   if ("RewardToNeuron" in rewardMode) {
