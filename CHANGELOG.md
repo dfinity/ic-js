@@ -1,3 +1,26 @@
+# 2024.03.25-1415Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status         |
+| ------------------------ |---------|----------------|
+| `@dfinity/ckbtc`         | v2.3.1  | Unchanged️️    |
+| `@dfinity/cketh`         | v2.0.1  | Unchanged️     |
+| `@dfinity/cmc`           | v3.0.3  | Unchanged️     |
+| `@dfinity/ic-management` | v3.1.1  | Patched 🩹     |
+| `@dfinity/ledger-icp`    | v2.2.2  | Unchanged️️    |
+| `@dfinity/ledger-icrc`   | v2.1.1  | Unchanged️️    |
+| `@dfinity/nns`           | v4.0.2  | Unchanged️     |
+| `@dfinity/nns-proto`     | v1.0.2  | Unchanged️     |
+| `@dfinity/sns`           | v3.0.2  | Unchanged️️    |
+| `@dfinity/utils`         | v2.1.3  | Unchanged️     |
+
+## Fix
+
+- Incorrect import path to utils in ic-management: `@dfinity/utils/src`.
+
 # 2024.03.25-1345Z
 
 ## Overview
