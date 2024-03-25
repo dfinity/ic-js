@@ -1,9 +1,31 @@
-# 2024.xx.yy-hhmmZ
+# 2024.03.25-1330Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v2.3.1  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v2.0.1  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v3.0.2  | Unchanged️    |
+| `@dfinity/ic-management` | v3.1.0  | Enhanced 🔧   |
+| `@dfinity/ledger-icp`    | v2.2.2  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.1.1  | Maintained ⚙️ |
+| `@dfinity/nns`           | v4.0.2  | Maintained ⚙️ |
+| `@dfinity/nns-proto`     | v1.0.1  | Unchanged️    |
+| `@dfinity/sns`           | v3.0.1  | Unchanged️    |
+| `@dfinity/utils`         | v2.1.2  | Unchanged️    |
 
 ## Features
 
 - Support for the installation of large canisters with chunked code of the Wasm module in `@dfinity/ic-management`.
 - Update most recent did files for ledgers (new optional field for initialization) and ckETH (new optional field in event).
+- Expose Utxo types in `@dfinity/ckbtc`.
+
+## Documentation
+
+- Bump `tsdoc-markdown` to parse optional result into READMEs.
 
 # 2024.03.05-1100Z
 
