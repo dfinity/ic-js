@@ -1818,6 +1818,28 @@ describe("GovernanceCanister", () => {
           neuronSpawnDissolveDelaySeconds: BigInt(3600 * 24 * 7),
           minimumIcpXdrRate: BigInt(1),
           maximumNodeProviderRewards: BigInt(10_000_000_000),
+          neuronsFundEconomics: {
+            minimumIcpXdrRate: {
+              basisPoints: 123n,
+            },
+            maxTheoreticalNeuronsFundParticipationAmountXdr: {
+              humanReadable: "456",
+            },
+            neuronsFundMatchedFundingCurveCoefficients: {
+              contributionThresholdXdr: {
+                humanReadable: "789",
+              },
+              oneThirdParticipationMilestoneXdr: {
+                humanReadable: "123",
+              },
+              fullParticipationMilestoneXdr: {
+                humanReadable: "456",
+              },
+            },
+            maximumIcpXdrRate: {
+              basisPoints: 456n,
+            },
+          },
         },
       },
     };
@@ -1825,7 +1847,9 @@ describe("GovernanceCanister", () => {
       const proposalId = 10n;
 
       const serviceResponse: ManageNeuronResponse = {
-        command: [{ MakeProposal: { proposal_id: [{ id: proposalId }] } }],
+        command: [
+          { MakeProposal: { proposal_id: [{ id: proposalId }], message: [] } },
+        ],
       };
       const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);

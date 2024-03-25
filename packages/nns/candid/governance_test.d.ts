@@ -149,6 +149,9 @@ export interface CreateServiceNervousSystem {
   swap_parameters: [] | [SwapParameters];
   initial_token_distribution: [] | [InitialTokenDistribution];
 }
+export interface Decimal {
+  human_readable: [] | [string];
+}
 export interface DerivedProposalInformation {
   swap_background_information: [] | [SwapBackgroundInformation];
 }
@@ -221,6 +224,7 @@ export interface Governance {
   topic_followee_index: Array<[number, FollowersMap]>;
   migrations: [] | [Migrations];
   proposals: Array<[bigint, ProposalData]>;
+  xdr_conversion_rate: [] | [XdrConversionRate];
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
   neurons: Array<[bigint, Neuron]>;
   genesis_timestamp_seconds: bigint;
@@ -337,6 +341,7 @@ export interface ListProposalInfoResponse {
   proposal_info: Array<ProposalInfo>;
 }
 export interface MakeProposalResponse {
+  message: [] | [string];
   proposal_id: [] | [NeuronId];
 }
 export interface MakingSnsProposal {
@@ -393,6 +398,7 @@ export interface NetworkEconomics {
   neuron_spawn_dissolve_delay_seconds: bigint;
   minimum_icp_xdr_rate: bigint;
   maximum_node_provider_rewards_e8s: bigint;
+  neurons_fund_economics: [] | [NeuronsFundEconomics];
 }
 export interface Neuron {
   id: [] | [NeuronId];
@@ -473,6 +479,19 @@ export interface NeuronsFundData {
   final_neurons_fund_participation: [] | [NeuronsFundParticipation];
   initial_neurons_fund_participation: [] | [NeuronsFundParticipation];
   neurons_fund_refunds: [] | [NeuronsFundSnapshot];
+}
+export interface NeuronsFundEconomics {
+  maximum_icp_xdr_rate: [] | [Percentage];
+  neurons_fund_matched_funding_curve_coefficients:
+    | []
+    | [NeuronsFundMatchedFundingCurveCoefficients];
+  max_theoretical_neurons_fund_participation_amount_xdr: [] | [Decimal];
+  minimum_icp_xdr_rate: [] | [Percentage];
+}
+export interface NeuronsFundMatchedFundingCurveCoefficients {
+  contribution_threshold_xdr: [] | [Decimal];
+  one_third_participation_milestone_xdr: [] | [Decimal];
+  full_participation_milestone_xdr: [] | [Decimal];
 }
 export interface NeuronsFundNeuron {
   hotkey_principal: [] | [string];
@@ -740,6 +759,10 @@ export interface VotingRewardParameters {
 }
 export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
+}
+export interface XdrConversionRate {
+  xdr_permyriad_per_icp: [] | [bigint];
+  timestamp_seconds: [] | [bigint];
 }
 export interface _SERVICE {
   claim_gtc_neurons: ActorMethod<[Principal, Array<NeuronId>], Result>;
