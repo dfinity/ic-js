@@ -1,7 +1,10 @@
 import type { CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { createServices, toNullable } from "@dfinity/utils";
-import { hexStringToUint8Array } from "@dfinity/utils/src";
+import {
+  createServices,
+  hexStringToUint8Array,
+  toNullable,
+} from "@dfinity/utils";
 import type {
   _SERVICE as IcManagementService,
   bitcoin_get_utxos_query_result,
