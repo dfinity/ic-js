@@ -19,6 +19,17 @@
     "scripts/**/*"
   ],
   "rules": {
-    "@typescript-eslint/consistent-type-imports": "error"
+    "@typescript-eslint/consistent-type-imports": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["@dfinity/*/src"],
+            "message": "Libraries should not reference sources from each other but should access only the exposed types."
+          }
+        ]
+      }
+    ]
   }
 }
