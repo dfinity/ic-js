@@ -255,6 +255,12 @@ Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin 
 | ----------------- | ---------------------------------------------------------------------- |
 | `bitcoinGetUtxos` | `(params: BitcoinGetUtxosParams) => Promise<bitcoin_get_utxos_result>` |
 
+Parameters:
+
+- `params.network`: Tesnet or mainnet.
+- `params.filter`: The optional filter parameter can be used to restrict the set of returned UTXOs, either providing a minimum number of confirmations or a page reference when pagination is used for addresses with many UTXOs.
+- `params.address`: A Bitcoin address.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L346)
 
 ##### :gear: bitcoinGetUtxosQuery
@@ -264,6 +270,12 @@ This method is identical to `bitcoinGetUtxos`, but exposed as a query.
 | Method                 | Type                                                                              |
 | ---------------------- | --------------------------------------------------------------------------------- |
 | `bitcoinGetUtxosQuery` | `(params: BitcoinGetUtxosQueryParams) => Promise<bitcoin_get_utxos_query_result>` |
+
+Parameters:
+
+- `params.network`: Tesnet or mainnet.
+- `params.filter`: The optional filter parameter can be used to restrict the set of returned UTXOs, either providing a minimum number of confirmations or a page reference when pagination is used for addresses with many UTXOs.
+- `params.address`: A Bitcoin address.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L364)
 
