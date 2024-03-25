@@ -16,12 +16,13 @@ import { Principal } from "@dfinity/principal";
 import {
   fromDefinedNullable,
   fromNullable,
+  isNullish,
   nonNullish,
   toNullable,
   uint8ArrayToArrayOfNumber,
 } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
-import type {
+import {
   Params,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -33,6 +34,7 @@ import type {
   Change as RawChange,
   Command as RawCommand,
   Countries as RawCountries,
+  Decimal as RawDecimal,
   DeveloperDistribution as RawDeveloperDistribution,
   DissolveState as RawDissolveState,
   Duration as RawDuration,
@@ -51,6 +53,8 @@ import type {
   NeuronId as RawNeuronId,
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
   NeuronInfo as RawNeuronInfo,
+  NeuronsFundEconomics as RawNeuronsFundEconomics,
+  NeuronsFundMatchedFundingCurveCoefficients as RawNeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
   Percentage as RawPercentage,
@@ -65,8 +69,13 @@ import type {
 } from "../../../candid/governance";
 import { NeuronState, type NeuronType } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import type { CanisterIdString, E8s, NeuronId } from "../../types/common";
 import type {
+  CanisterIdString,
+  E8s,
+  NeuronId,
+  Option,
+} from "../../types/common";
+import {
   Action,
   Ballot,
   BallotInfo,
@@ -74,6 +83,7 @@ import type {
   Change,
   Command,
   Countries,
+  Decimal,
   DeveloperDistribution,
   DissolveState,
   Duration,
@@ -90,6 +100,8 @@ import type {
   NeuronDistribution,
   NeuronIdOrSubaccount,
   NeuronInfo,
+  NeuronsFundEconomics,
+  NeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider,
   Operation,
   Percentage,
@@ -344,6 +356,9 @@ const toAction = (action: RawAction): Action => {
         minimumIcpXdrRate: networkEconomics.minimum_icp_xdr_rate,
         maximumNodeProviderRewards:
           networkEconomics.maximum_node_provider_rewards_e8s,
+        neuronsFundEconomics: toNeuronsFundEconomics(
+          networkEconomics.neurons_fund_economics,
+        ),
       },
     };
   }
@@ -739,6 +754,99 @@ const toChange = (change: RawChange): Change => {
     };
   }
   throw new UnsupportedValueError(change);
+};
+
+const toNeuronsFundEconomics = (
+  neuronsFundEconomics: [] | [RawNeuronsFundEconomics],
+): Option<NeuronsFundEconomics> => {
+  const rawNeuronsFundEconomics = fromNullable(neuronsFundEconomics);
+
+  if (isNullish(rawNeuronsFundEconomics)) {
+    return undefined;
+  }
+
+  const {
+    maximum_icp_xdr_rate,
+    neurons_fund_matched_funding_curve_coefficients,
+    max_theoretical_neurons_fund_participation_amount_xdr,
+    minimum_icp_xdr_rate,
+  } = rawNeuronsFundEconomics;
+
+  const toPercentage = (
+    percentage: [] | [RawPercentage],
+  ): Option<Percentage> => {
+    const rawPercentage = fromNullable(percentage);
+
+    if (isNullish(rawPercentage)) {
+      return undefined;
+    }
+
+    const { basis_points } = rawPercentage;
+
+    const rawBasisPoints = fromNullable(basis_points);
+
+    return nonNullish(rawBasisPoints)
+      ? { basisPoints: rawBasisPoints }
+      : undefined;
+  };
+
+  const toDecimal = (decimal: [] | [RawDecimal]): Option<Decimal> => {
+    const rawDecimal = fromNullable(decimal);
+
+    if (isNullish(rawDecimal)) {
+      return undefined;
+    }
+
+    const { human_readable } = rawDecimal;
+
+    const rawHumanReadable = fromNullable(human_readable);
+
+    return nonNullish(rawHumanReadable)
+      ? { humanReadable: rawHumanReadable }
+      : undefined;
+  };
+
+  const toNeuronsFundMatchedFundingCurveCoefficients = (
+    neurons_fund_matched_funding_curve_coefficients:
+      | []
+      | [RawNeuronsFundMatchedFundingCurveCoefficients],
+  ): Option<NeuronsFundMatchedFundingCurveCoefficients> => {
+    const rawNeuronsFundMatchedFundingCurveCoefficients = fromNullable(
+      neurons_fund_matched_funding_curve_coefficients,
+    );
+
+    if (isNullish(rawNeuronsFundMatchedFundingCurveCoefficients)) {
+      return undefined;
+    }
+
+    const {
+      full_participation_milestone_xdr,
+      one_third_participation_milestone_xdr,
+      contribution_threshold_xdr,
+    } = rawNeuronsFundMatchedFundingCurveCoefficients;
+
+    return {
+      fullParticipationMilestoneXdr: toDecimal(
+        full_participation_milestone_xdr,
+      ),
+      oneThirdParticipationMilestoneXdr: toDecimal(
+        one_third_participation_milestone_xdr,
+      ),
+      contributionThresholdXdr: toDecimal(contribution_threshold_xdr),
+    };
+  };
+
+  return {
+    maximumIcpXdrRate: toPercentage(maximum_icp_xdr_rate),
+    neuronsFundMatchedFundingCurveCoefficients:
+      toNeuronsFundMatchedFundingCurveCoefficients(
+        neurons_fund_matched_funding_curve_coefficients,
+      ),
+    maxTheoreticalNeuronsFundParticipationAmountXdr: toDecimal(
+      max_theoretical_neurons_fund_participation_amount_xdr,
+    ),
+    minimumIcpXdrRate: toPercentage(minimum_icp_xdr_rate),
+  };
 };
 
 const toNodeProvider = (nodeProvider: RawNodeProvider): NodeProvider => {
