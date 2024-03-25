@@ -1,6 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { toNullable } from "@dfinity/utils";
-import {
+import type {
   bitcoin_get_utxos_args,
   bitcoin_get_utxos_query_args,
   canister_install_mode,
