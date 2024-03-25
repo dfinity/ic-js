@@ -428,6 +428,10 @@ Source code: https://github.com/dfinity/ic/blob/master/rs/sns/root/src/lib.rs
 | ------------------ | ---------------------------------------------------------------------------------------------- |
 | `listSnsCanisters` | `({ certified, }: { certified?: boolean or undefined; }) => Promise<ListSnsCanistersResponse>` |
 
+Parameters:
+
+- `params.certified`: - Query or update calls
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L32)
 
 ### :factory: SnsSwapCanister

@@ -247,6 +247,8 @@ Convert seconds to a human-readable duration, such as "6 days, 10 hours."
 Parameters:
 
 - `options`: - The options object.
+- `options.seconds`: - The number of seconds to convert.
+- `options.i18n`: - The i18n object for customizing language and units. Defaults to English.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L43)
 
@@ -355,6 +357,11 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 | Function         | Type                                                                                            |
 | ---------------- | ----------------------------------------------------------------------------------------------- |
 | `smallerVersion` | `({ minVersion, currentVersion, }: { minVersion: string; currentVersion: string; }) => boolean` |
+
+Parameters:
+
+- `params.minVersion`: Ex: "1.0.0"
+- `params.currentVersion`: Ex: "2.0.0"
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L28)
 
