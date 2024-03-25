@@ -188,17 +188,16 @@ export const idlFactory = ({ IDL }) => {
     ),
     'headers' : IDL.Vec(http_header),
   });
+  const canister_install_mode = IDL.Variant({
+    'reinstall' : IDL.Null,
+    'upgrade' : IDL.Opt(IDL.Record({ 'skip_pre_upgrade' : IDL.Opt(IDL.Bool) })),
+    'install' : IDL.Null,
+  });
   const chunk_hash = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const install_chunked_code_args = IDL.Record({
     'arg' : IDL.Vec(IDL.Nat8),
     'wasm_module_hash' : IDL.Vec(IDL.Nat8),
-    'mode' : IDL.Variant({
-      'reinstall' : IDL.Null,
-      'upgrade' : IDL.Opt(
-        IDL.Record({ 'skip_pre_upgrade' : IDL.Opt(IDL.Bool) })
-      ),
-      'install' : IDL.Null,
-    }),
+    'mode' : canister_install_mode,
     'chunk_hashes_list' : IDL.Vec(chunk_hash),
     'target_canister' : canister_id,
     'store_canister' : IDL.Opt(canister_id),
@@ -208,13 +207,7 @@ export const idlFactory = ({ IDL }) => {
   const install_code_args = IDL.Record({
     'arg' : IDL.Vec(IDL.Nat8),
     'wasm_module' : wasm_module,
-    'mode' : IDL.Variant({
-      'reinstall' : IDL.Null,
-      'upgrade' : IDL.Opt(
-        IDL.Record({ 'skip_pre_upgrade' : IDL.Opt(IDL.Bool) })
-      ),
-      'install' : IDL.Null,
-    }),
+    'mode' : canister_install_mode,
     'canister_id' : canister_id,
     'sender_canister_version' : IDL.Opt(IDL.Nat64),
   });

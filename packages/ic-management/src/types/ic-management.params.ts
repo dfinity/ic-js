@@ -1,9 +1,9 @@
 import { Principal } from "@dfinity/principal";
-import { toNullable, type ServiceParam } from "@dfinity/utils";
-import type {
-  _SERVICE as IcManagementService,
+import { toNullable } from "@dfinity/utils";
+import {
   bitcoin_get_utxos_args,
   bitcoin_get_utxos_query_args,
+  canister_install_mode,
   canister_settings,
   chunk_hash,
   upload_chunk_args,
@@ -50,12 +50,9 @@ export enum InstallMode {
   Upgrade,
 }
 
-export type InstallModeParam = ServiceParam<
-  IcManagementService,
-  "install_code"
->[0]["mode"];
-
-export const toInstallMode = (installMode: InstallMode): InstallModeParam => {
+export const toInstallMode = (
+  installMode: InstallMode,
+): canister_install_mode => {
   switch (installMode) {
     case InstallMode.Install:
       return { install: null };
