@@ -25,6 +25,11 @@ export type Action =
     }
   | { ManageLedgerParameters: ManageLedgerParameters }
   | { Motion: Motion };
+export type ActionAuxiliary =
+  | {
+      TransferSnsTreasuryFunds: MintSnsTokensActionAuxiliary;
+    }
+  | { MintSnsTokens: MintSnsTokensActionAuxiliary };
 export interface AddMaturityRequest {
   id: [] | [NeuronId];
   amount_e8s: [] | [bigint];
@@ -121,6 +126,9 @@ export type Command_2 =
   | { Disburse: Disburse };
 export interface Configure {
   operation: [] | [Operation];
+}
+export interface Decimal {
+  human_readable: [] | [string];
 }
 export interface DefaultFollowees {
   followees: Array<[bigint, Followees]>;
@@ -326,6 +334,9 @@ export interface MintSnsTokens {
   memo: [] | [bigint];
   amount_e8s: [] | [bigint];
 }
+export interface MintSnsTokensActionAuxiliary {
+  valuation: [] | [Valuation];
+}
 export interface MintTokensRequest {
   recipient: [] | [Account];
   amount_e8s: [] | [bigint];
@@ -423,6 +434,7 @@ export interface ProposalData {
   payload_text_rendering: [] | [string];
   action: bigint;
   failure_reason: [] | [GovernanceError];
+  action_auxiliary: [] | [ActionAuxiliary];
   ballots: Array<[string, Ballot]>;
   minimum_yes_proportion_of_total: [] | [Percentage];
   reward_event_round: bigint;
@@ -498,6 +510,9 @@ export interface Tally {
   total: bigint;
   timestamp_seconds: bigint;
 }
+export interface Tokens {
+  e8s: [] | [bigint];
+}
 export interface TransferSnsTreasuryFunds {
   from_treasury: number;
   to_principal: [] | [Principal];
@@ -516,6 +531,17 @@ export interface UpgradeSnsControlledCanister {
   mode: [] | [number];
   canister_id: [] | [Principal];
   canister_upgrade_arg: [] | [Uint8Array | number[]];
+}
+export interface Valuation {
+  token: [] | [number];
+  account: [] | [Account];
+  valuation_factors: [] | [ValuationFactors];
+  timestamp_seconds: [] | [bigint];
+}
+export interface ValuationFactors {
+  xdrs_per_icp: [] | [Decimal];
+  icps_per_token: [] | [Decimal];
+  tokens: [] | [Tokens];
 }
 export interface Version {
   archive_wasm_hash: Uint8Array | number[];

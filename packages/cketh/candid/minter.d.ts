@@ -22,6 +22,11 @@ export type CanisterStatusType =
   | { stopped: null }
   | { stopping: null }
   | { running: null };
+export interface CkErc20Token {
+  erc20_contract_address: string;
+  ledger_canister_id: Principal;
+  ckerc20_token_symbol: string;
+}
 export interface DefiniteCanisterSettings {
   freezing_threshold: bigint;
   controllers: Array<Principal>;
@@ -103,12 +108,33 @@ export interface Event {
         };
       }
     | {
+        MintedCkErc20: {
+          event_source: EventSource;
+          erc20_contract_address: string;
+          mint_block_index: bigint;
+          ckerc20_token_symbol: string;
+        };
+      }
+    | {
         CreatedTransaction: {
           withdrawal_id: bigint;
           transaction: UnsignedTransaction;
         };
       }
     | { InvalidDeposit: { event_source: EventSource; reason: string } }
+    | {
+        AcceptedErc20WithdrawalRequest: {
+          cketh_ledger_burn_index: bigint;
+          destination: string;
+          withdrawal_amount: bigint;
+          from: Principal;
+          created_at: bigint;
+          from_subaccount: [] | [Uint8Array | number[]];
+          erc20_contract_address: string;
+          ckerc20_ledger_burn_index: bigint;
+          max_transaction_fee: bigint;
+        };
+      }
     | {
         AcceptedEthWithdrawalRequest: {
           ledger_burn_index: bigint;
@@ -148,9 +174,11 @@ export interface InitArg {
 export type MinterArg = { UpgradeArg: UpgradeArg } | { InitArg: InitArg };
 export interface MinterInfo {
   eth_balance: [] | [bigint];
+  eth_helper_contract_address: [] | [string];
   last_observed_block_number: [] | [bigint];
+  erc20_helper_contract_address: [] | [string];
+  supported_ckerc20_tokens: Array<CkErc20Token>;
   last_gas_fee_estimate: [] | [GasFeeEstimate];
-  smart_contract_address: [] | [string];
   minimum_withdrawal_amount: [] | [bigint];
   minter_address: [] | [string];
   ethereum_block_height: [] | [BlockTag];
@@ -160,6 +188,10 @@ export interface QueryStats {
   num_instructions_total: bigint;
   num_calls_total: bigint;
   request_payload_bytes_total: bigint;
+}
+export interface RetrieveErc20Request {
+  ckerc20_block_index: bigint;
+  cketh_block_index: bigint;
 }
 export interface RetrieveEthRequest {
   block_index: bigint;
@@ -205,10 +237,39 @@ export interface UnsignedTransaction {
 export interface UpgradeArg {
   next_transaction_nonce: [] | [bigint];
   ledger_suite_orchestrator_id: [] | [Principal];
+  erc20_helper_contract_address: [] | [string];
+  last_erc20_scraped_block_number: [] | [bigint];
   ethereum_contract_address: [] | [string];
   minimum_withdrawal_amount: [] | [bigint];
   ethereum_block_height: [] | [BlockTag];
 }
+export interface WithdrawErc20Arg {
+  ckerc20_ledger_id: Principal;
+  recipient: string;
+  amount: bigint;
+}
+export type WithdrawErc20Error =
+  | {
+      TokenNotSupported: { supported_tokens: Array<CkErc20Token> };
+    }
+  | { TemporarilyUnavailable: string }
+  | {
+      InsufficientAllowance: {
+        token_symbol: string;
+        ledger_id: Principal;
+        allowance: bigint;
+        failed_burn_amount: bigint;
+      };
+    }
+  | { RecipientAddressBlocked: { address: string } }
+  | {
+      InsufficientFunds: {
+        balance: bigint;
+        token_symbol: string;
+        ledger_id: Principal;
+        failed_burn_amount: bigint;
+      };
+    };
 export interface WithdrawalArg {
   recipient: string;
   amount: bigint;
@@ -232,6 +293,10 @@ export interface _SERVICE {
   minter_address: ActorMethod<[], string>;
   retrieve_eth_status: ActorMethod<[bigint], RetrieveEthStatus>;
   smart_contract_address: ActorMethod<[], string>;
+  withdraw_erc20: ActorMethod<
+    [WithdrawErc20Arg],
+    { Ok: RetrieveErc20Request } | { Err: WithdrawErc20Error }
+  >;
   withdraw_eth: ActorMethod<
     [WithdrawalArg],
     { Ok: RetrieveEthRequest } | { Err: WithdrawalError }

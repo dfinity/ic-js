@@ -35,6 +35,7 @@ export const idlFactory = ({ IDL }) => {
     'memo' : IDL.Nat64,
     'icrc1_memo' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'operation' : Operation,
+    'timestamp' : IDL.Opt(TimeStamp),
     'created_at_time' : IDL.Opt(TimeStamp),
   });
   const TransactionWithId = IDL.Record({
