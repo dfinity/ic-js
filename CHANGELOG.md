@@ -4,6 +4,7 @@
 
 - Support for the installation of large canisters with chunked code of the Wasm module in `@dfinity/ic-management`.
 - Update most recent did files for ledgers (new optional field for initialization) and ckETH (new optional field in event).
+- Add `wasm_memory_limit` field to Cmc canister settings
 
 # 2024.03.05-1100Z
 
