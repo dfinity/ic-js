@@ -5,7 +5,7 @@ import type {
 import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, isNullish, toNullable } from "@dfinity/utils";
-import {
+import type {
   Amount,
   ListProposalInfo,
   AccountIdentifier as RawAccountIdentifier,
@@ -44,7 +44,7 @@ import {
 import type { Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { E8s, NeuronId, Option } from "../../types/common";
-import {
+import type {
   Action,
   By,
   Change,

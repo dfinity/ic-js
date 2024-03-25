@@ -22,7 +22,7 @@ import {
   uint8ArrayToArrayOfNumber,
 } from "@dfinity/utils";
 import type { Map } from "google-protobuf";
-import {
+import type {
   Params,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
@@ -75,7 +75,7 @@ import type {
   NeuronId,
   Option,
 } from "../../types/common";
-import {
+import type {
   Action,
   Ballot,
   BallotInfo,
