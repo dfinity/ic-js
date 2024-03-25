@@ -256,7 +256,7 @@ export interface NetworkEconomics {
   neuronSpawnDissolveDelaySeconds: bigint;
   minimumIcpXdrRate: bigint;
   maximumNodeProviderRewards: bigint;
-  neuronsFundEconomics: Option<NeuronsFundEconomics>
+  neuronsFundEconomics: Option<NeuronsFundEconomics>;
 }
 export interface NeuronsFundEconomics {
   maximumIcpXdrRate: Option<Percentage>;
