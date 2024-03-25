@@ -4,7 +4,7 @@ import {
   createServices,
   hexStringToUint8Array,
   toNullable,
-} from "@dfinity/utils";
+} from "@dfinity/utils/src";
 import type {
   _SERVICE as IcManagementService,
   bitcoin_get_utxos_query_result,
