@@ -80,7 +80,42 @@ describe("IndexCanister", () => {
     const transactionsMock = {
       Ok: {
         balance: 1234n,
-        transactions: [{ id: 1n }, { id: 2n }],
+        transactions: [
+          {
+            id: 1n,
+            transaction: {
+              memo: 123n,
+              icrc1_memo: [],
+              operation: {
+                Mint: {
+                  to: "test",
+                  amount: {
+                    e8s: 1000000n,
+                  },
+                },
+              },
+              created_at_time: [{ timestamp_nanos: 100000123n }],
+              timestamp: [],
+            },
+          },
+          {
+            id: 2n,
+            transaction: {
+              memo: 123n,
+              icrc1_memo: [],
+              operation: {
+                Mint: {
+                  to: "test",
+                  amount: {
+                    e8s: 1000000n,
+                  },
+                },
+              },
+              created_at_time: [],
+              timestamp: [{ timestamp_nanos: 100000456n }],
+            },
+          },
+        ],
         oldest_tx_id: [],
       } as GetAccountIdentifierTransactionsResponse,
     };

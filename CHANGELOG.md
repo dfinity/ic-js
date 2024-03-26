@@ -1,3 +1,9 @@
+# 2024.xx.yy-hhmmZ
+
+## Features
+
+- ICP transactions, as provided by the Index canister, have been extended to include their block timestamp information.
+
 # 2024.03.25-1430Z
 
 ## Overview
