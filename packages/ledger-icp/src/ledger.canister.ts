@@ -14,17 +14,13 @@ import {
   mapTransferError,
 } from "./errors/ledger.errors";
 import type { BlockHeight } from "./types/common";
-import type {
-  LedgerCanisterCall,
-  LedgerCanisterOptions,
-} from "./types/ledger.options";
+import type { LedgerCanisterOptions } from "./types/ledger.options";
 import type { AccountBalanceParams } from "./types/ledger.params";
 import type {
   Icrc1TransferRequest,
   TransferRequest,
 } from "./types/ledger_converters";
 import { paramToAccountIdentifier } from "./utils/params.utils";
-import { queryCall, updateCall } from "./utils/proto.utils";
 
 export class LedgerCanister {
   private constructor(
@@ -32,9 +28,6 @@ export class LedgerCanister {
     private readonly canisterId: Principal,
     private readonly service: ActorSubclass<LedgerService>,
     private readonly certifiedService: ActorSubclass<LedgerService>,
-    private readonly updateFetcher: LedgerCanisterCall,
-    private readonly queryFetcher: LedgerCanisterCall,
-    private readonly hardwareWallet: boolean = false,
   ) {}
 
   public static create(options: LedgerCanisterOptions = {}) {
@@ -50,15 +43,7 @@ export class LedgerCanister {
       certifiedIdlFactory,
     });
 
-    return new LedgerCanister(
-      agent,
-      canisterId,
-      service,
-      certifiedService,
-      options.updateCallOverride ?? updateCall,
-      options.queryCallOverride ?? queryCall,
-      options.hardwareWallet,
-    );
+    return new LedgerCanister(agent, canisterId, service, certifiedService);
   }
 
   /**
