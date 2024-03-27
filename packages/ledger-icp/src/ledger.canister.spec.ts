@@ -644,7 +644,7 @@ describe("LedgerCanister", () => {
       };
       const amount = BigInt(100000);
 
-      it("fetches transaction fee if not present", async () => {
+      it("uses default transaction fee if not present", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.icrc1_transfer.mockResolvedValue({
           Ok: BigInt(1234),
