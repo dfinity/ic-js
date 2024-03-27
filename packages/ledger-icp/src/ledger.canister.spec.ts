@@ -646,9 +646,6 @@ describe("LedgerCanister", () => {
 
       it("fetches transaction fee if not present", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
-        service.transfer_fee.mockResolvedValue({
-          transfer_fee: { e8s: BigInt(10_000) },
-        });
         service.icrc1_transfer.mockResolvedValue({
           Ok: BigInt(1234),
         });
@@ -661,7 +658,16 @@ describe("LedgerCanister", () => {
           amount,
         });
 
-        expect(service.transfer_fee).toBeCalled();
+        expect(service.transfer_fee).not.toBeCalled();
+        expect(service.icrc1_transfer).toBeCalledWith({
+          amount,
+          created_at_time: [],
+          fee: [TRANSACTION_FEE],
+          from_subaccount: [],
+          memo: [],
+          to,
+        });
+        expect(service.icrc1_transfer).toBeCalledTimes(1);
       });
 
       it("calls transfer certified service with data", async () => {

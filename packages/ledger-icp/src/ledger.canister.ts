@@ -140,12 +140,6 @@ export class LedgerCanister {
   public icrc1Transfer = async (
     request: Icrc1TransferRequest,
   ): Promise<BlockHeight> => {
-    // The transaction fee method is not supported by Ledger App yet.
-    if (request.fee === undefined) {
-      request.fee = this.hardwareWallet
-        ? TRANSACTION_FEE
-        : await this.transactionFee();
-    }
     const rawRequest = toIcrc1TransferRawRequest(request);
     const response = await this.certifiedService.icrc1_transfer(rawRequest);
     if ("Err" in response) {
