@@ -54,7 +54,6 @@
     "@dfinity/agent": "^1.0.1",
     "@dfinity/candid": "^1.0.1",
     "@dfinity/ledger-icp": "^2.2.2",
-    "@dfinity/nns-proto": "^1.0.1",
     "@dfinity/principal": "^1.0.1",
     "@dfinity/utils": "^2.1.3"
   }

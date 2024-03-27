@@ -3,15 +3,7 @@ import {
   AccountIdentifier,
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
-  SubAccount,
 } from "@dfinity/ledger-icp";
-import type {
-  ListNeuronsResponse,
-  BallotInfo as PbBallotInfo,
-  Neuron as PbNeuron,
-  NeuronInfo as PbNeuronInfo,
-  PrincipalId,
-} from "@dfinity/nns-proto";
 import { Principal } from "@dfinity/principal";
 import {
   fromDefinedNullable,
@@ -20,7 +12,6 @@ import {
   toNullable,
   uint8ArrayToArrayOfNumber,
 } from "@dfinity/utils";
-import type { Map } from "google-protobuf";
 import type {
   Params,
   AccountIdentifier as RawAccountIdentifier,
@@ -63,7 +54,7 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import { NeuronState, type NeuronType } from "../../enums/governance.enums";
+import type { NeuronType } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { CanisterIdString, E8s, NeuronId } from "../../types/common";
 import type {
@@ -870,173 +861,6 @@ export const toKnownNeuron = ({
     description: known_neuron_data[0]?.description[0] ?? "",
   };
 };
-
-const convertPbBallot = (pbBallot: PbBallotInfo): BallotInfo => {
-  const pbProposalId = pbBallot.getProposalId();
-  return {
-    vote: pbBallot.getVote(),
-    proposalId:
-      pbProposalId !== undefined ? BigInt(pbProposalId.getId()) : undefined,
-  };
-};
-
-const pbNeuronToNeuronState = (neuron?: PbNeuron): NeuronState => {
-  if (neuron?.hasWhenDissolvedTimestampSeconds()) {
-    return NeuronState.Dissolving;
-  }
-  if (neuron?.hasDissolveDelaySeconds()) {
-    const delay = neuron.getDissolveDelaySeconds();
-    if (delay === "0") {
-      return NeuronState.Dissolved;
-    }
-    return NeuronState.Locked;
-  }
-  return NeuronState.Unspecified;
-};
-
-const convertPbFolloweesMapToFollowees = (
-  pbFolloweesMap: Map<number, PbNeuron.Followees>,
-): Followees[] => {
-  return pbFolloweesMap.toArray().map(([topicString, pbFollowees]) => {
-    return {
-      topic: Number(topicString),
-      followees:
-        pbFollowees
-          .getFolloweesList?.()
-          .map((neuronId) => BigInt(neuronId.getId())) ?? [],
-    };
-  });
-};
-
-const convertPbPrincipalIdToPrincipalString = (
-  pbPrincipal: PrincipalId,
-): string =>
-  Principal.fromUint8Array(pbPrincipal.getSerializedId_asU8()).toText();
-
-const convertNeuronSubaccountToAccountIdentifier = ({
-  neuron,
-  canisterId,
-}: {
-  neuron: PbNeuron;
-  canisterId: Principal;
-}): AccountIdentifier => {
-  // We assume fromBytes does not return an Error type.
-  const subAccount = SubAccount.fromBytes(
-    neuron.getAccount_asU8(),
-  ) as SubAccount;
-
-  return AccountIdentifier.fromPrincipal({
-    principal: canisterId,
-    subAccount: subAccount,
-  });
-};
-
-const convertPbNeuronToFullNeuron = ({
-  pbNeuron,
-  pbNeuronInfo,
-  canisterId,
-}: {
-  pbNeuron: PbNeuron;
-  pbNeuronInfo: PbNeuronInfo;
-  canisterId: Principal;
-}): Neuron => {
-  const idObj = pbNeuron.getId();
-  const pbController = pbNeuron.getController();
-  const controller =
-    pbController === undefined
-      ? pbController
-      : convertPbPrincipalIdToPrincipalString(pbController);
-  let dissolveState = undefined;
-  if (pbNeuron.hasWhenDissolvedTimestampSeconds()) {
-    dissolveState = {
-      WhenDissolvedTimestampSeconds: BigInt(
-        pbNeuron.getWhenDissolvedTimestampSeconds(),
-      ),
-    };
-  } else if (pbNeuron.hasDissolveDelaySeconds()) {
-    dissolveState = {
-      DissolveDelaySeconds: BigInt(pbNeuron.getDissolveDelaySeconds()),
-    };
-  }
-  return {
-    id: idObj === undefined ? undefined : BigInt(idObj.getId()),
-    // TODO: Data not available in Neuron type
-    stakedMaturityE8sEquivalent: undefined,
-    controller,
-    recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
-    // TODO: add to protobuf when needed
-    neuronType: undefined,
-    kycVerified: pbNeuron.getKycVerified(),
-    notForProfit: pbNeuron.getNotForProfit(),
-    cachedNeuronStake: BigInt(pbNeuron.getCachedNeuronStakeE8s()),
-    createdTimestampSeconds: BigInt(pbNeuron.getCreatedTimestampSeconds()),
-    // TODO: Data not available in Neuron type
-    autoStakeMaturity: undefined,
-    maturityE8sEquivalent: BigInt(pbNeuron.getMaturityE8sEquivalent()),
-    agingSinceTimestampSeconds: BigInt(
-      pbNeuron.getAgingSinceTimestampSeconds(),
-    ),
-    spawnAtTimesSeconds: pbNeuron.hasSpawnAtTimestampSeconds()
-      ? BigInt(pbNeuron.getSpawnAtTimestampSeconds())
-      : undefined,
-    neuronFees: BigInt(pbNeuron.getNeuronFeesE8s()),
-    hotKeys: pbNeuron
-      .getHotKeysList()
-      .map(convertPbPrincipalIdToPrincipalString),
-    accountIdentifier: convertNeuronSubaccountToAccountIdentifier({
-      neuron: pbNeuron,
-      canisterId,
-    }).toHex(),
-    // TODO: Data not available in Neuron type
-    joinedCommunityFundTimestampSeconds: undefined,
-    dissolveState,
-    followees: convertPbFolloweesMapToFollowees(pbNeuron.getFolloweesMap()),
-  };
-};
-
-export const convertPbNeuronToNeuronInfo =
-  ({
-    pbNeurons,
-    canisterId,
-  }: {
-    pbNeurons: PbNeuron[];
-    canisterId: Principal;
-  }) =>
-  (pbNeuronMapEntry: ListNeuronsResponse.NeuronMapEntry): NeuronInfo => {
-    const pbNeuron = pbNeurons.find(
-      (pbNeuron) => pbNeuron.getId()?.getId() === pbNeuronMapEntry.getKey(),
-    );
-    const pbNeuronInfo = pbNeuronMapEntry.getValue();
-    if (pbNeuronInfo === undefined) {
-      throw new Error(
-        `NeuronInfo not present for neuron ${pbNeuronMapEntry.getKey()}`,
-      );
-    }
-    return {
-      neuronId: BigInt(pbNeuronMapEntry.getKey()),
-      dissolveDelaySeconds: BigInt(pbNeuronInfo.getDissolveDelaySeconds()),
-      recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
-
-      // TODO: add to protobuf when needed
-      neuronType: undefined,
-
-      createdTimestampSeconds: BigInt(
-        pbNeuronInfo.getCreatedTimestampSeconds(),
-      ),
-      state: pbNeuronToNeuronState(pbNeuron),
-      // TODO: Data not available in Neuron type
-      joinedCommunityFundTimestampSeconds: undefined,
-      retrievedAtTimestampSeconds: BigInt(
-        pbNeuronInfo.getRetrievedAtTimestampSeconds(),
-      ),
-      votingPower: BigInt(pbNeuronInfo.getVotingPower()),
-      ageSeconds: BigInt(pbNeuronInfo.getAgeSeconds()),
-      fullNeuron:
-        pbNeuron === undefined
-          ? undefined
-          : convertPbNeuronToFullNeuron({ pbNeuron, pbNeuronInfo, canisterId }),
-    };
-  };
 
 const toPercentage = (
   percentage: RawPercentage | undefined,
