@@ -5,6 +5,7 @@
 - ICP transactions, as provided by the Index canister, have been extended to include their block timestamp information.
 - When no fee is specified when making an ICP transaction, use the mandatory fee
   of 10000 e8s (0.0001 ICP) instead of fetching the fee from the network.
+- Remove hardware wallet specific code paths from `@dfinity/ledger-icp`.
 
 # 2024.03.25-1430Z
 
