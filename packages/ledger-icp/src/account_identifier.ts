@@ -1,4 +1,3 @@
-import type { AccountIdentifier as AccountIdentifierPb } from "@dfinity/nns-proto";
 import type { Principal } from "@dfinity/principal";
 import {
   arrayOfNumberToUint8Array,
@@ -7,7 +6,6 @@ import {
   uint8ArrayToHexString,
 } from "@dfinity/utils";
 import { sha224 } from "@noble/hashes/sha256";
-import { importNnsProto } from "./utils/proto.utils";
 
 export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}
@@ -40,17 +38,6 @@ export class AccountIdentifier {
     const checksum = bigEndianCrc32(hash);
     const bytes = new Uint8Array([...checksum, ...hash]);
     return new AccountIdentifier(bytes);
-  }
-
-  /**
-   * @returns An AccountIdentifier protobuf object.
-   */
-  public async toProto(): Promise<AccountIdentifierPb> {
-    const { AccountIdentifier: AccountIdentifierConstructor } =
-      await importNnsProto();
-    const accountIdentifier = new AccountIdentifierConstructor();
-    accountIdentifier.setHash(this.bytes);
-    return accountIdentifier;
   }
 
   public toHex(): string {

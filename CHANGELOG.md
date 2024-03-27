@@ -7,6 +7,12 @@
   of 10000 e8s (0.0001 ICP) instead of fetching the fee from the network.
 - Remove hardware wallet specific code paths from `@dfinity/ledger-icp`.
 - Remove hardware wallet specific options from LedgerCanister.
+- Remove dependency on `@dfinity/nns-proto` from `@dfinity/ledger-icp`.
+
+# Breaking changes
+
+- Protocol buffers for hardware wallet transactions are no longer supported.
+  Internet Computer Ledger app 2.4.9 or later is now required.
 
 # 2024.03.25-1430Z
 
