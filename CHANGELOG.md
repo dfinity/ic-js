@@ -8,6 +8,7 @@
 - Remove hardware wallet specific code paths from `@dfinity/ledger-icp`.
 - Remove hardware wallet specific options from LedgerCanister.
 - Remove dependency on `@dfinity/nns-proto` from `@dfinity/ledger-icp`.
+- Remove hardware wallet specific code and `@dfinity/nns-proto` dependency from `@dfinity/nns`.
 
 # Breaking changes
 
