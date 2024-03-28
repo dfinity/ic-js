@@ -14,6 +14,8 @@
 
 - Protocol buffers for hardware wallet transactions are no longer supported.
   Internet Computer Ledger app 2.4.9 or later is now required.
+- GovernanceCanister.listNeurons no longer throws an error when called with
+  `certified: false` for hardware wallet transactions.
 
 # 2024.03.25-1430Z
 
