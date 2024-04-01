@@ -1,4 +1,4 @@
-// Generated from IC repo commit c3c5dc8 (2024-03-15 tags: release-2024-03-14_23-01-p2p) 'rs/nns/cmc/cmc.did' by import-candid
+// Generated from IC repo commit 30a4021 (2024-03-28 tags: release-2024-03-27_23-01-p2p) 'rs/nns/cmc/cmc.did' by import-candid
 type Cycles = nat;
 type BlockIndex = nat64;
 type log_visibility = variant {
@@ -13,6 +13,7 @@ type CanisterSettings = record {
   freezing_threshold : opt nat;
   reserved_cycles_limit: opt nat;
   log_visibility : opt log_visibility;
+  wasm_memory_limit: opt nat;
 };
 type Subaccount = opt blob;
 type Memo = opt blob;
