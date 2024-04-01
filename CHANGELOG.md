@@ -3,6 +3,19 @@
 ## Features
 
 - ICP transactions, as provided by the Index canister, have been extended to include their block timestamp information.
+- When no fee is specified when making an ICP transaction, use the mandatory fee
+  of 10000 e8s (0.0001 ICP) instead of fetching the fee from the network.
+- Remove hardware wallet specific code paths from `@dfinity/ledger-icp`.
+- Remove hardware wallet specific options from LedgerCanister.
+- Remove dependency on `@dfinity/nns-proto` from `@dfinity/ledger-icp`.
+- Remove hardware wallet specific code and `@dfinity/nns-proto` dependency from `@dfinity/nns`.
+
+# Breaking changes
+
+- Protocol buffers for hardware wallet transactions are no longer supported.
+  Internet Computer Ledger app 2.4.9 or later is now required.
+- GovernanceCanister.listNeurons no longer throws an error when called with
+  `certified: false` for hardware wallet transactions.
 
 # 2024.03.25-1430Z
 
