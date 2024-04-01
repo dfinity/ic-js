@@ -9,6 +9,7 @@
 - Remove hardware wallet specific options from LedgerCanister.
 - Remove dependency on `@dfinity/nns-proto` from `@dfinity/ledger-icp`.
 - Remove hardware wallet specific code and `@dfinity/nns-proto` dependency from `@dfinity/nns`.
+- Update canister settings of cmc-js with `wasm_memory_limit`.
 
 # Breaking changes
 
