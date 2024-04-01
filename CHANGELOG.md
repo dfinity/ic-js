@@ -17,6 +17,10 @@
 - GovernanceCanister.listNeurons no longer throws an error when called with
   `certified: false` for hardware wallet transactions.
 
+## Build
+
+- Bump agent-js `v1.2.0`.
+
 # 2024.03.25-1430Z
 
 ## Overview
