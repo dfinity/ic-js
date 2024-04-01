@@ -87,6 +87,7 @@ export interface Transaction {
   memo: bigint;
   icrc1_memo: [] | [Uint8Array | number[]];
   operation: Operation;
+  timestamp: [] | [TimeStamp];
   created_at_time: [] | [TimeStamp];
 }
 export interface TransactionWithId {

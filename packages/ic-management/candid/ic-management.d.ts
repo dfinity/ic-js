@@ -63,6 +63,10 @@ export interface canister_info_result {
   recent_changes: Array<change>;
   total_num_changes: bigint;
 }
+export type canister_install_mode =
+  | { reinstall: null }
+  | { upgrade: [] | [{ skip_pre_upgrade: [] | [boolean] }] }
+  | { install: null };
 export interface canister_settings {
   freezing_threshold: [] | [bigint];
   controllers: [] | [Array<Principal>];
@@ -166,10 +170,7 @@ export interface http_request_result {
 export interface install_chunked_code_args {
   arg: Uint8Array | number[];
   wasm_module_hash: Uint8Array | number[];
-  mode:
-    | { reinstall: null }
-    | { upgrade: [] | [{ skip_pre_upgrade: [] | [boolean] }] }
-    | { install: null };
+  mode: canister_install_mode;
   chunk_hashes_list: Array<chunk_hash>;
   target_canister: canister_id;
   store_canister: [] | [canister_id];
@@ -178,10 +179,7 @@ export interface install_chunked_code_args {
 export interface install_code_args {
   arg: Uint8Array | number[];
   wasm_module: wasm_module;
-  mode:
-    | { reinstall: null }
-    | { upgrade: [] | [{ skip_pre_upgrade: [] | [boolean] }] }
-    | { install: null };
+  mode: canister_install_mode;
   canister_id: canister_id;
   sender_canister_version: [] | [bigint];
 }
