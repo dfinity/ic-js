@@ -17,6 +17,10 @@
 - GovernanceCanister.listNeurons no longer throws an error when called with
   `certified: false` for hardware wallet transactions.
 
+## Build
+
+- Upgrade `didc` to `0.3.7` that converts candid files into JS and TS.
+
 # 2024.03.25-1430Z
 
 ## Overview
