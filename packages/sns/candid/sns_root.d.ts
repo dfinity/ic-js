@@ -41,7 +41,6 @@ export interface ChangeCanisterRequest {
   stop_before_installing: boolean;
   mode: CanisterInstallMode;
   canister_id: Principal;
-  query_allocation: [] | [bigint];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
@@ -79,6 +78,17 @@ export interface ListSnsCanistersResponse {
   dapps: Array<Principal>;
   archives: Array<Principal>;
 }
+export interface ManageDappCanisterSettingsRequest {
+  freezing_threshold: [] | [bigint];
+  canister_ids: Array<Principal>;
+  reserved_cycles_limit: [] | [bigint];
+  log_visibility: [] | [number];
+  memory_allocation: [] | [bigint];
+  compute_allocation: [] | [bigint];
+}
+export interface ManageDappCanisterSettingsResponse {
+  failure_reason: [] | [string];
+}
 export interface RegisterDappCanisterRequest {
   canister_id: [] | [Principal];
 }
@@ -111,6 +121,10 @@ export interface _SERVICE {
     GetSnsCanistersSummaryResponse
   >;
   list_sns_canisters: ActorMethod<[{}], ListSnsCanistersResponse>;
+  manage_dapp_canister_settings: ActorMethod<
+    [ManageDappCanisterSettingsRequest],
+    ManageDappCanisterSettingsResponse
+  >;
   register_dapp_canister: ActorMethod<[RegisterDappCanisterRequest], {}>;
   register_dapp_canisters: ActorMethod<[RegisterDappCanistersRequest], {}>;
   set_dapp_controllers: ActorMethod<

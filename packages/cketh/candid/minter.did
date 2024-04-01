@@ -1,4 +1,4 @@
-// Generated from IC repo commit fff2052 (2024-03-07 tags: release-2024-03-06_23-01+p2p) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit 30a4021 (2024-03-28 tags: release-2024-03-27_23-01-p2p) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -83,7 +83,7 @@ type UpgradeArg = record {
     // Change the minimum amount in Wei that can be withdrawn.
     minimum_withdrawal_amount : opt nat;
 
-    // Change the helper smart contract address.
+    // Change the ETH helper smart contract address.
     ethereum_contract_address : opt text;
 
     // Change the ethereum block height observed by the minter.
@@ -92,6 +92,12 @@ type UpgradeArg = record {
     // The principal of the ledger suite orchestrator that handles the ICRC1 ledger suites
     // for all ckERC20 tokens.
     ledger_suite_orchestrator_id : opt principal;
+
+    // Change the ERC-20 helper smart contract address.
+    erc20_helper_contract_address : opt text;
+
+    // Change the last scraped block number of the ERC-20 helper smart contract.
+    last_erc20_scraped_block_number : opt nat;
 };
 
 type MinterArg = variant { UpgradeArg : UpgradeArg; InitArg : InitArg };
@@ -119,12 +125,24 @@ type Eip1559TransactionPrice = record {
     timestamp : opt nat64;
 };
 
+type CkErc20Token = record {
+  ckerc20_token_symbol: text;
+  erc20_contract_address: text;
+  ledger_canister_id: principal;
+};
+
 type MinterInfo = record {
     // Ethereum address controlled by the minter via threshold ECDSA.
     minter_address: opt text;
 
     // Address of the helper smart contract.
-    smart_contract_address: opt text;
+    eth_helper_contract_address: opt text;
+
+    // Address of the ERC20 helper smart contract
+    erc20_helper_contract_address: opt text;
+
+    // Information of supported ERC20 tokens.
+    supported_ckerc20_tokens: vec CkErc20Token;
 
     // Minimum amount in Wei that can be withdrawn when converting ckETH -> ETH.
     minimum_withdrawal_amount : opt nat;
@@ -213,6 +231,47 @@ type WithdrawalError = variant {
     TemporarilyUnavailable : text;
 };
 
+type WithdrawErc20Arg = record {
+    // Amount of tokens to withdraw.
+    // The amount is in the smallest unit of the token, e.g.,
+    // ckUSDC uses 6 decimals and so to withdraw 1 ckUSDC, the amount should be 1_000_000.
+    amount : nat;
+
+    // The ledger ID for that ckERC20 token.
+    ckerc20_ledger_id : principal;
+
+    // Ethereum address to withdraw to.
+    recipient : text;
+};
+
+type RetrieveErc20Request = record {
+    // Burn index on the ckETH ledger.
+    // ckETH is needed to pay for the transaction fees.
+    cketh_block_index : nat;
+
+    // Burn index on the ledger handling the withdrawn ckERC20 token.
+    ckerc20_block_index : nat;
+};
+
+type WithdrawErc20Error = variant {
+    // The user provided ckERC20 token is not supported by the minter.
+    TokenNotSupported : record {supported_tokens : vec CkErc20Token};
+
+    // The ckETH or ckERC20 balance of the withdrawal account is too low.
+    InsufficientFunds : record { balance : nat; failed_burn_amount : nat; token_symbol : text; ledger_id : principal };
+
+    // The ckETH or ckERC20 allowance given to the minter is too low.
+    InsufficientAllowance : record { allowance : nat; failed_burn_amount : nat; token_symbol : text; ledger_id : principal };
+
+    // Recipient's address is blocked.
+    // No withdrawal can be made to that address.
+    RecipientAddressBlocked : record { address : text };
+
+    // The minter is overloaded, retry the request.
+    // The payload contains a human-readable message explaining what caused the unavailability.
+    TemporarilyUnavailable : text;
+};
+
 type EventSource = record {
     transaction_hash : text;
     log_index : nat;
@@ -263,6 +322,9 @@ type Event = record {
         SyncedToBlock : record {
             block_number : nat;
         };
+        SyncedErc20ToBlock : record {
+            block_number : nat;
+        };
         AcceptedEthWithdrawalRequest : record {
             withdrawal_amount : nat;
             destination : text;
@@ -293,6 +355,14 @@ type Event = record {
             withdrawal_id : nat;
             transaction_hash : opt text;
         };
+        ReimbursedErc20Withdrawal : record {
+            withdrawal_id : nat;
+            burn_in_block : nat;
+            reimbursed_in_block : nat;
+            ledger_id: principal;
+            reimbursed_amount : nat;
+            transaction_hash : opt text;
+        };
         SkippedBlock : record {
             block_number : nat;
         };
@@ -310,6 +380,30 @@ type Event = record {
             value : nat;
             "principal" : principal;
             erc20_contract_address : text;
+        };
+        AcceptedErc20WithdrawalRequest : record {
+            max_transaction_fee : nat;
+            withdrawal_amount : nat;
+            erc20_contract_address : text;
+            destination : text;
+            cketh_ledger_burn_index : nat;
+            ckerc20_ledger_id : principal;
+            ckerc20_ledger_burn_index : nat;
+            from : principal;
+            from_subaccount : opt blob;
+            created_at: nat64;
+        };
+        FailedErc20WithdrawalRequest : record {
+            withdrawal_id : nat;
+            reimbursed_amount : nat;
+            to : principal;
+            to_subaccount : opt blob;
+        };
+        MintedCkErc20 : record {
+            event_source : EventSource;
+            erc20_contract_address : text;
+            mint_block_index : nat;
+            ckerc20_token_symbol: text;
         };
     };
 };
@@ -354,16 +448,21 @@ service : (MinterArg) -> {
     // IMPORTANT: The current gas limit is set to 21,000 for a transaction so withdrawals to smart contract addresses will likely fail.
     withdraw_eth : (WithdrawalArg) -> (variant { Ok : RetrieveEthRequest; Err : WithdrawalError });
 
-    // Retrieve the status of a withdrawal request.
+    // Withdraw the specified amount of ERC-20 tokens to the given Ethereum address.
+    withdraw_erc20 : (WithdrawErc20Arg) -> (variant { Ok : RetrieveErc20Request; Err : WithdrawErc20Error });
+
+    // Retrieve the status of a Eth withdrawal request.
     retrieve_eth_status : (nat64) -> (RetrieveEthStatus);
 
     // Check if an address is blocked by the minter.
     is_address_blocked : (text) -> (bool) query;
+
     // Retrieve the status of the minter canister.
     get_canister_status : () -> (CanisterStatusResponse);
 
     // Retrieve events from the minter's audit log.
     // The endpoint can return fewer events than requested to bound the response size.
+    // IMPORTANT: this endpoint is meant as a debugging tool and is not guaranteed to be backwards-compatible.
     get_events : (record { start : nat64; length : nat64 }) -> (record { events : vec Event; total_event_count : nat64 }) query;
 
     // Add a ckERC-20 token to be supported by the minter.
