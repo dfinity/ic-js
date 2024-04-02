@@ -1,4 +1,5 @@
 import type { ActorMethod } from "@dfinity/agent";
+import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
 export type bitcoin_address = string;
@@ -313,3 +314,5 @@ export interface _SERVICE {
   update_settings: ActorMethod<[update_settings_args], undefined>;
   upload_chunk: ActorMethod<[upload_chunk_args], upload_chunk_result>;
 }
+export declare const idlFactory: IDL.InterfaceFactory;
+export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];
