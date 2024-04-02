@@ -14,6 +14,10 @@
 - Remove dependency on `@dfinity/nns-proto` from `@dfinity/ledger-icp`.
 - Remove hardware wallet specific code and `@dfinity/nns-proto` dependency from `@dfinity/nns`.
 
+## Build
+
+- Upgrade `didc` to `0.3.7` that converts candid files into JS and TS.
+
 # 2024.03.25-1430Z
 
 ## Overview

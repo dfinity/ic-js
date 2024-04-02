@@ -4,10 +4,10 @@
 
 set -euo pipefail
 
-if [ "$(didc --version)" != "didc 0.3.5" ]; then
+if [ "$(didc --version)" != "didc 0.3.7" ]; then
   {
-    echo "didc version 0.3.5 is required. To install it on Mac:"
-    echo "curl -Lf https://github.com/dfinity/candid/releases/download/2023-09-27/didc-macos -o install_didc"
+    echo "didc version 0.3.7 is required. To install it on Mac:"
+    echo "curl -Lf https://github.com/dfinity/candid/releases/download/2024-02-27/didc-macos -o install_didc"
     echo "install -m 755 install_didc /$HOME/.local/bin/didc"
   } >&2
   exit 1

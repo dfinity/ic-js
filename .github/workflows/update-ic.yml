@@ -44,7 +44,7 @@ jobs:
           # Gets didc
           echo "$PATH" | tr : "\n"
           mkdir -p "$HOME/.local/bin"
-          curl -Lf https://github.com/dfinity/candid/releases/download/2023-09-27/didc-linux64 | install -m 755 /dev/stdin "$HOME/.local/bin/didc"
+          curl -Lf https://github.com/dfinity/candid/releases/download/2024-02-27/didc-linux64 | install -m 755 /dev/stdin "$HOME/.local/bin/didc"
           # Gets prettier in a minute
           npm ci
           # Gets candid
