@@ -1,4 +1,5 @@
 import type { ActorMethod } from "@dfinity/agent";
+import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
 export interface Account {
@@ -115,3 +116,5 @@ export interface _SERVICE {
   list_subaccounts: ActorMethod<[ListSubaccountsArgs], Array<SubAccount>>;
   status: ActorMethod<[], Status>;
 }
+export declare const idlFactory: IDL.InterfaceFactory;
+export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];
