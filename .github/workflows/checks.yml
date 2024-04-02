@@ -53,7 +53,7 @@ jobs:
       - name: Install didc
         run: |
           mkdir -p .bin
-          curl -L https://github.com/dfinity/candid/releases/download/2023-09-27/didc-linux64 > .bin/didc
+          curl -L https://github.com/dfinity/candid/releases/download/2024-02-27/didc-linux64 > .bin/didc
           chmod +x .bin/didc
       - name: Add didc to the PATH
         run: echo "${PWD}/.bin" >> $GITHUB_PATH

@@ -1,4 +1,5 @@
 import type { ActorMethod } from "@dfinity/agent";
+import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
 export interface AccountIdentifier {
@@ -791,3 +792,5 @@ export interface _SERVICE {
   transfer_gtc_neuron: ActorMethod<[NeuronId, NeuronId], Result>;
   update_node_provider: ActorMethod<[UpdateNodeProvider], Result>;
 }
+export declare const idlFactory: IDL.InterfaceFactory;
+export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];
