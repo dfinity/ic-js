@@ -3,12 +3,13 @@ import { InvalidAccountIDError, LedgerCanister } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type {
+import {
   ClaimOrRefreshNeuronFromAccountResponse,
   GovernanceError as GovernanceErrorDetail,
   _SERVICE as GovernanceService,
   ListKnownNeuronsResponse,
   ManageNeuronResponse,
+  NeuronsFundEconomics,
   ProposalInfo as RawProposalInfo,
   Result,
   RewardEvent,
@@ -26,7 +27,11 @@ import {
   mockNeuronId,
   mockNeuronInfo,
 } from "./mocks/governance.mock";
-import { MakeProposalRequest } from "./types/governance_converters";
+import {
+  Action,
+  MakeProposalRequest,
+  NetworkEconomics,
+} from "./types/governance_converters";
 
 const unexpectedGovernanceError: GovernanceErrorDetail = {
   error_message: "Error updating neuron",
@@ -40,6 +45,41 @@ describe("GovernanceCanister", () => {
   };
   const errorServiceResponse: ManageNeuronResponse = {
     command: [{ Error: error }],
+  };
+
+  const mockManageNetworkEconomicsAction: Action = {
+    ManageNetworkEconomics: {
+      neuronMinimumStake: BigInt(100_000_000),
+      maxProposalsToKeepPerTopic: 1000,
+      neuronManagementFeePerProposal: BigInt(10_000),
+      rejectCost: BigInt(10_000_000),
+      transactionFee: BigInt(1000),
+      neuronSpawnDissolveDelaySeconds: BigInt(3600 * 24 * 7),
+      minimumIcpXdrRate: BigInt(1),
+      maximumNodeProviderRewards: BigInt(10_000_000_000),
+      neuronsFundEconomics: {
+        minimumIcpXdrRate: {
+          basisPoints: 123n,
+        },
+        maxTheoreticalNeuronsFundParticipationAmountXdr: {
+          humanReadable: "456",
+        },
+        neuronsFundMatchedFundingCurveCoefficients: {
+          contributionThresholdXdr: {
+            humanReadable: "789",
+          },
+          oneThirdParticipationMilestoneXdr: {
+            humanReadable: "123",
+          },
+          fullParticipationMilestoneXdr: {
+            humanReadable: "456",
+          },
+        },
+        maximumIcpXdrRate: {
+          basisPoints: 456n,
+        },
+      },
+    },
   };
 
   afterEach(() => {
@@ -589,6 +629,98 @@ describe("GovernanceCanister", () => {
       expect(service.get_proposal_info).toBeCalled();
       expect(response).not.toBeUndefined();
       expect(response).toHaveProperty("id", 1n);
+    });
+
+    it("should fetch and convert ManageNetworkEconomics on ProposalInfo", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const rawNeuronFundsEconomics: NeuronsFundEconomics = {
+        maximum_icp_xdr_rate: [
+          {
+            basis_points: [456n],
+          },
+        ],
+        max_theoretical_neurons_fund_participation_amount_xdr: [
+          {
+            human_readable: ["456"],
+          },
+        ],
+        neurons_fund_matched_funding_curve_coefficients: [
+          {
+            contribution_threshold_xdr: [
+              {
+                human_readable: ["789"],
+              },
+            ],
+            one_third_participation_milestone_xdr: [
+              {
+                human_readable: ["123"],
+              },
+            ],
+            full_participation_milestone_xdr: [
+              {
+                human_readable: ["456"],
+              },
+            ],
+          },
+        ],
+        minimum_icp_xdr_rate: [
+          {
+            basis_points: [123n],
+          },
+        ],
+      };
+
+      const rawProposal = {
+        id: [{ id: 1n }],
+        ballots: [],
+        proposal: [
+          {
+            title: ["This is a title"],
+            url: "some-url",
+            summary: "Here it goes the summary",
+            action: [
+              {
+                ManageNetworkEconomics: {
+                  neuron_minimum_stake_e8s: BigInt(100_000_000),
+                  max_proposals_to_keep_per_topic: 1000,
+                  neuron_management_fee_per_proposal_e8s: BigInt(10_000),
+                  reject_cost_e8s: BigInt(10_000_000),
+                  transaction_fee_e8s: BigInt(1000),
+                  neuron_spawn_dissolve_delay_seconds: BigInt(3600 * 24 * 7),
+                  minimum_icp_xdr_rate: BigInt(1),
+                  maximum_node_provider_rewards_e8s: BigInt(10_000_000_000),
+                  neurons_fund_economics: [rawNeuronFundsEconomics],
+                },
+              },
+            ],
+          },
+        ],
+        proposer: [],
+        latest_tally: [],
+      } as unknown as RawProposalInfo;
+      service.get_proposal_info.mockResolvedValue(
+        Promise.resolve([rawProposal]),
+      );
+      const response = await governance.getProposal({
+        proposalId: BigInt(1),
+      });
+
+      expect(service.get_proposal_info).toBeCalled();
+      expect(response).not.toBeUndefined();
+      expect(response).toHaveProperty("id", 1n);
+
+      const { ManageNetworkEconomics } = response?.proposal?.action as {
+        ManageNetworkEconomics: NetworkEconomics;
+      };
+
+      expect(ManageNetworkEconomics).toEqual(
+        mockManageNetworkEconomicsAction.ManageNetworkEconomics,
+      );
     });
   });
 
@@ -1594,40 +1726,7 @@ describe("GovernanceCanister", () => {
       url: "some-url",
       summary: "Here it goes the summary",
       neuronId: BigInt(10),
-      action: {
-        ManageNetworkEconomics: {
-          neuronMinimumStake: BigInt(100_000_000),
-          maxProposalsToKeepPerTopic: 1000,
-          neuronManagementFeePerProposal: BigInt(10_000),
-          rejectCost: BigInt(10_000_000),
-          transactionFee: BigInt(1000),
-          neuronSpawnDissolveDelaySeconds: BigInt(3600 * 24 * 7),
-          minimumIcpXdrRate: BigInt(1),
-          maximumNodeProviderRewards: BigInt(10_000_000_000),
-          neuronsFundEconomics: {
-            minimumIcpXdrRate: {
-              basisPoints: 123n,
-            },
-            maxTheoreticalNeuronsFundParticipationAmountXdr: {
-              humanReadable: "456",
-            },
-            neuronsFundMatchedFundingCurveCoefficients: {
-              contributionThresholdXdr: {
-                humanReadable: "789",
-              },
-              oneThirdParticipationMilestoneXdr: {
-                humanReadable: "123",
-              },
-              fullParticipationMilestoneXdr: {
-                humanReadable: "456",
-              },
-            },
-            maximumIcpXdrRate: {
-              basisPoints: 456n,
-            },
-          },
-        },
-      },
+      action: mockManageNetworkEconomicsAction,
     };
     it("successfully creates a proposal", async () => {
       const proposalId = 10n;
