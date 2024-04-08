@@ -3,24 +3,16 @@ import {
   AccountIdentifier,
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
-  SubAccount,
 } from "@dfinity/ledger-icp";
-import type {
-  ListNeuronsResponse,
-  BallotInfo as PbBallotInfo,
-  Neuron as PbNeuron,
-  NeuronInfo as PbNeuronInfo,
-  PrincipalId,
-} from "@dfinity/nns-proto";
 import { Principal } from "@dfinity/principal";
 import {
   fromDefinedNullable,
   fromNullable,
+  isNullish,
   nonNullish,
   toNullable,
   uint8ArrayToArrayOfNumber,
 } from "@dfinity/utils";
-import type { Map } from "google-protobuf";
 import type {
   Params,
   AccountIdentifier as RawAccountIdentifier,
@@ -33,6 +25,7 @@ import type {
   Change as RawChange,
   Command as RawCommand,
   Countries as RawCountries,
+  Decimal as RawDecimal,
   DeveloperDistribution as RawDeveloperDistribution,
   DissolveState as RawDissolveState,
   Duration as RawDuration,
@@ -51,6 +44,8 @@ import type {
   NeuronId as RawNeuronId,
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
   NeuronInfo as RawNeuronInfo,
+  NeuronsFundEconomics as RawNeuronsFundEconomics,
+  NeuronsFundMatchedFundingCurveCoefficients as RawNeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
   Percentage as RawPercentage,
@@ -63,9 +58,14 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import { NeuronState, type NeuronType } from "../../enums/governance.enums";
+import type { NeuronType } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
-import type { CanisterIdString, E8s, NeuronId } from "../../types/common";
+import type {
+  CanisterIdString,
+  E8s,
+  NeuronId,
+  Option,
+} from "../../types/common";
 import type {
   Action,
   Ballot,
@@ -74,6 +74,7 @@ import type {
   Change,
   Command,
   Countries,
+  Decimal,
   DeveloperDistribution,
   DissolveState,
   Duration,
@@ -90,6 +91,8 @@ import type {
   NeuronDistribution,
   NeuronIdOrSubaccount,
   NeuronInfo,
+  NeuronsFundEconomics,
+  NeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider,
   Operation,
   Percentage,
@@ -344,6 +347,9 @@ const toAction = (action: RawAction): Action => {
         minimumIcpXdrRate: networkEconomics.minimum_icp_xdr_rate,
         maximumNodeProviderRewards:
           networkEconomics.maximum_node_provider_rewards_e8s,
+        neuronsFundEconomics: toNeuronsFundEconomics(
+          networkEconomics.neurons_fund_economics,
+        ),
       },
     };
   }
@@ -741,6 +747,99 @@ const toChange = (change: RawChange): Change => {
   throw new UnsupportedValueError(change);
 };
 
+const toNeuronsFundEconomics = (
+  neuronsFundEconomics: [] | [RawNeuronsFundEconomics],
+): Option<NeuronsFundEconomics> => {
+  const rawNeuronsFundEconomics = fromNullable(neuronsFundEconomics);
+
+  if (isNullish(rawNeuronsFundEconomics)) {
+    return undefined;
+  }
+
+  const {
+    maximum_icp_xdr_rate,
+    neurons_fund_matched_funding_curve_coefficients,
+    max_theoretical_neurons_fund_participation_amount_xdr,
+    minimum_icp_xdr_rate,
+  } = rawNeuronsFundEconomics;
+
+  const toPercentage = (
+    percentage: [] | [RawPercentage],
+  ): Option<Percentage> => {
+    const rawPercentage = fromNullable(percentage);
+
+    if (isNullish(rawPercentage)) {
+      return undefined;
+    }
+
+    const { basis_points } = rawPercentage;
+
+    const rawBasisPoints = fromNullable(basis_points);
+
+    return nonNullish(rawBasisPoints)
+      ? { basisPoints: rawBasisPoints }
+      : undefined;
+  };
+
+  const toDecimal = (decimal: [] | [RawDecimal]): Option<Decimal> => {
+    const rawDecimal = fromNullable(decimal);
+
+    if (isNullish(rawDecimal)) {
+      return undefined;
+    }
+
+    const { human_readable } = rawDecimal;
+
+    const rawHumanReadable = fromNullable(human_readable);
+
+    return nonNullish(rawHumanReadable)
+      ? { humanReadable: rawHumanReadable }
+      : undefined;
+  };
+
+  const toNeuronsFundMatchedFundingCurveCoefficients = (
+    neurons_fund_matched_funding_curve_coefficients:
+      | []
+      | [RawNeuronsFundMatchedFundingCurveCoefficients],
+  ): Option<NeuronsFundMatchedFundingCurveCoefficients> => {
+    const rawNeuronsFundMatchedFundingCurveCoefficients = fromNullable(
+      neurons_fund_matched_funding_curve_coefficients,
+    );
+
+    if (isNullish(rawNeuronsFundMatchedFundingCurveCoefficients)) {
+      return undefined;
+    }
+
+    const {
+      full_participation_milestone_xdr,
+      one_third_participation_milestone_xdr,
+      contribution_threshold_xdr,
+    } = rawNeuronsFundMatchedFundingCurveCoefficients;
+
+    return {
+      fullParticipationMilestoneXdr: toDecimal(
+        full_participation_milestone_xdr,
+      ),
+      oneThirdParticipationMilestoneXdr: toDecimal(
+        one_third_participation_milestone_xdr,
+      ),
+      contributionThresholdXdr: toDecimal(contribution_threshold_xdr),
+    };
+  };
+
+  return {
+    maximumIcpXdrRate: toPercentage(maximum_icp_xdr_rate),
+    neuronsFundMatchedFundingCurveCoefficients:
+      toNeuronsFundMatchedFundingCurveCoefficients(
+        neurons_fund_matched_funding_curve_coefficients,
+      ),
+    maxTheoreticalNeuronsFundParticipationAmountXdr: toDecimal(
+      max_theoretical_neurons_fund_participation_amount_xdr,
+    ),
+    minimumIcpXdrRate: toPercentage(minimum_icp_xdr_rate),
+  };
+};
+
 const toNodeProvider = (nodeProvider: RawNodeProvider): NodeProvider => {
   return {
     id: nodeProvider.id.length ? nodeProvider.id[0].toString() : undefined,
@@ -870,173 +969,6 @@ export const toKnownNeuron = ({
     description: known_neuron_data[0]?.description[0] ?? "",
   };
 };
-
-const convertPbBallot = (pbBallot: PbBallotInfo): BallotInfo => {
-  const pbProposalId = pbBallot.getProposalId();
-  return {
-    vote: pbBallot.getVote(),
-    proposalId:
-      pbProposalId !== undefined ? BigInt(pbProposalId.getId()) : undefined,
-  };
-};
-
-const pbNeuronToNeuronState = (neuron?: PbNeuron): NeuronState => {
-  if (neuron?.hasWhenDissolvedTimestampSeconds()) {
-    return NeuronState.Dissolving;
-  }
-  if (neuron?.hasDissolveDelaySeconds()) {
-    const delay = neuron.getDissolveDelaySeconds();
-    if (delay === "0") {
-      return NeuronState.Dissolved;
-    }
-    return NeuronState.Locked;
-  }
-  return NeuronState.Unspecified;
-};
-
-const convertPbFolloweesMapToFollowees = (
-  pbFolloweesMap: Map<number, PbNeuron.Followees>,
-): Followees[] => {
-  return pbFolloweesMap.toArray().map(([topicString, pbFollowees]) => {
-    return {
-      topic: Number(topicString),
-      followees:
-        pbFollowees
-          .getFolloweesList?.()
-          .map((neuronId) => BigInt(neuronId.getId())) ?? [],
-    };
-  });
-};
-
-const convertPbPrincipalIdToPrincipalString = (
-  pbPrincipal: PrincipalId,
-): string =>
-  Principal.fromUint8Array(pbPrincipal.getSerializedId_asU8()).toText();
-
-const convertNeuronSubaccountToAccountIdentifier = ({
-  neuron,
-  canisterId,
-}: {
-  neuron: PbNeuron;
-  canisterId: Principal;
-}): AccountIdentifier => {
-  // We assume fromBytes does not return an Error type.
-  const subAccount = SubAccount.fromBytes(
-    neuron.getAccount_asU8(),
-  ) as SubAccount;
-
-  return AccountIdentifier.fromPrincipal({
-    principal: canisterId,
-    subAccount: subAccount,
-  });
-};
-
-const convertPbNeuronToFullNeuron = ({
-  pbNeuron,
-  pbNeuronInfo,
-  canisterId,
-}: {
-  pbNeuron: PbNeuron;
-  pbNeuronInfo: PbNeuronInfo;
-  canisterId: Principal;
-}): Neuron => {
-  const idObj = pbNeuron.getId();
-  const pbController = pbNeuron.getController();
-  const controller =
-    pbController === undefined
-      ? pbController
-      : convertPbPrincipalIdToPrincipalString(pbController);
-  let dissolveState = undefined;
-  if (pbNeuron.hasWhenDissolvedTimestampSeconds()) {
-    dissolveState = {
-      WhenDissolvedTimestampSeconds: BigInt(
-        pbNeuron.getWhenDissolvedTimestampSeconds(),
-      ),
-    };
-  } else if (pbNeuron.hasDissolveDelaySeconds()) {
-    dissolveState = {
-      DissolveDelaySeconds: BigInt(pbNeuron.getDissolveDelaySeconds()),
-    };
-  }
-  return {
-    id: idObj === undefined ? undefined : BigInt(idObj.getId()),
-    // TODO: Data not available in Neuron type
-    stakedMaturityE8sEquivalent: undefined,
-    controller,
-    recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
-    // TODO: add to protobuf when needed
-    neuronType: undefined,
-    kycVerified: pbNeuron.getKycVerified(),
-    notForProfit: pbNeuron.getNotForProfit(),
-    cachedNeuronStake: BigInt(pbNeuron.getCachedNeuronStakeE8s()),
-    createdTimestampSeconds: BigInt(pbNeuron.getCreatedTimestampSeconds()),
-    // TODO: Data not available in Neuron type
-    autoStakeMaturity: undefined,
-    maturityE8sEquivalent: BigInt(pbNeuron.getMaturityE8sEquivalent()),
-    agingSinceTimestampSeconds: BigInt(
-      pbNeuron.getAgingSinceTimestampSeconds(),
-    ),
-    spawnAtTimesSeconds: pbNeuron.hasSpawnAtTimestampSeconds()
-      ? BigInt(pbNeuron.getSpawnAtTimestampSeconds())
-      : undefined,
-    neuronFees: BigInt(pbNeuron.getNeuronFeesE8s()),
-    hotKeys: pbNeuron
-      .getHotKeysList()
-      .map(convertPbPrincipalIdToPrincipalString),
-    accountIdentifier: convertNeuronSubaccountToAccountIdentifier({
-      neuron: pbNeuron,
-      canisterId,
-    }).toHex(),
-    // TODO: Data not available in Neuron type
-    joinedCommunityFundTimestampSeconds: undefined,
-    dissolveState,
-    followees: convertPbFolloweesMapToFollowees(pbNeuron.getFolloweesMap()),
-  };
-};
-
-export const convertPbNeuronToNeuronInfo =
-  ({
-    pbNeurons,
-    canisterId,
-  }: {
-    pbNeurons: PbNeuron[];
-    canisterId: Principal;
-  }) =>
-  (pbNeuronMapEntry: ListNeuronsResponse.NeuronMapEntry): NeuronInfo => {
-    const pbNeuron = pbNeurons.find(
-      (pbNeuron) => pbNeuron.getId()?.getId() === pbNeuronMapEntry.getKey(),
-    );
-    const pbNeuronInfo = pbNeuronMapEntry.getValue();
-    if (pbNeuronInfo === undefined) {
-      throw new Error(
-        `NeuronInfo not present for neuron ${pbNeuronMapEntry.getKey()}`,
-      );
-    }
-    return {
-      neuronId: BigInt(pbNeuronMapEntry.getKey()),
-      dissolveDelaySeconds: BigInt(pbNeuronInfo.getDissolveDelaySeconds()),
-      recentBallots: pbNeuronInfo.getRecentBallotsList().map(convertPbBallot),
-
-      // TODO: add to protobuf when needed
-      neuronType: undefined,
-
-      createdTimestampSeconds: BigInt(
-        pbNeuronInfo.getCreatedTimestampSeconds(),
-      ),
-      state: pbNeuronToNeuronState(pbNeuron),
-      // TODO: Data not available in Neuron type
-      joinedCommunityFundTimestampSeconds: undefined,
-      retrievedAtTimestampSeconds: BigInt(
-        pbNeuronInfo.getRetrievedAtTimestampSeconds(),
-      ),
-      votingPower: BigInt(pbNeuronInfo.getVotingPower()),
-      ageSeconds: BigInt(pbNeuronInfo.getAgeSeconds()),
-      fullNeuron:
-        pbNeuron === undefined
-          ? undefined
-          : convertPbNeuronToFullNeuron({ pbNeuron, pbNeuronInfo, canisterId }),
-    };
-  };
 
 const toPercentage = (
   percentage: RawPercentage | undefined,

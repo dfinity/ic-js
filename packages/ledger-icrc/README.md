@@ -111,9 +111,9 @@ param         = [ amountparam ]
 amountparam   = "amount=" *digit [ "." *digit ]
 ```
 
-| Function        | Type                                                                        |
-| --------------- | --------------------------------------------------------------------------- |
-| `decodePayment` | `(code: string) => { token: string; identifier: string; amount?: number; }` |
+| Function        | Type                                                                                                  |
+| --------------- | ----------------------------------------------------------------------------------------------------- |
+| `decodePayment` | `(code: string) => { token: string; identifier: string; amount?: number or undefined; } or undefined` |
 
 Parameters:
 

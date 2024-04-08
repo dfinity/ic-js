@@ -1,4 +1,3 @@
-import type { ICPTs, Subaccount } from "@dfinity/nns-proto";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import type {
   TransferArg as Icrc1TransferRawRequest,
@@ -10,24 +9,6 @@ import type {
   Icrc1TransferRequest,
   TransferRequest,
 } from "../../types/ledger_converters";
-import { importNnsProto } from "../../utils/proto.utils";
-
-export const subAccountNumbersToSubaccount = async (
-  subAccountNumbers: number[],
-): Promise<Subaccount> => {
-  const bytes = new Uint8Array(subAccountNumbers).buffer;
-  const { Subaccount: SubaccountConstructor } = await importNnsProto();
-  const subaccount: Subaccount = new SubaccountConstructor();
-  subaccount.setSubAccount(new Uint8Array(bytes));
-  return subaccount;
-};
-
-export const toICPTs = async (amount: bigint): Promise<ICPTs> => {
-  const { ICPTs: ICPTsConstructor } = await importNnsProto();
-  const result = new ICPTsConstructor();
-  result.setE8s(amount.toString(10));
-  return result;
-};
 
 const e8sToTokens = (e8s: bigint): Tokens => ({ e8s });
 

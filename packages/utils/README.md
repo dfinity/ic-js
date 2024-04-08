@@ -90,9 +90,9 @@ Get a default agent that connects to mainnet with the anonymous identity.
 
 Create an agent for a given identity
 
-| Function      | Type                                                                                                                                                                                |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, }: { identity: Identity; host?: string; fetchRootKey?: boolean; verifyQuerySignatures?: boolean; }) => Promise<HttpAgent>` |
+| Function      | Type                                                                                                                                                                                                                       |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, }: { identity: Identity; host?: string or undefined; fetchRootKey?: boolean or undefined; verifyQuerySignatures?: boolean or undefined; }) => Promise<HttpAgent>` |
 
 Parameters:
 
@@ -105,17 +105,17 @@ Parameters:
 
 #### :gear: createServices
 
-| Function         | Type                                                                                                                                                                                                                                                                                                                                 |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, callTransform, queryTransform, }, idlFactory, certifiedIdlFactory, }: { options: Required<Pick<CanisterOptions<T>, "canisterId">> and Omit<CanisterOptions<T>, "canisterId"> & Pick<...>; idlFactory: InterfaceFactory; certifiedId...` |
+| Function         | Type                                                                                                                                                                                                                                                                                                                                   |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, callTransform, queryTransform, }, idlFactory, certifiedIdlFactory, }: { options: Required<Pick<CanisterOptions<T>, "canisterId">> and Omit<CanisterOptions<T>, "canisterId"> and Pick<...>; idlFactory: InterfaceFactory; certifiedId...` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/actor.utils.ts#L13)
 
 #### :gear: assertNonNullish
 
-| Function           | Type                                                                 |
-| ------------------ | -------------------------------------------------------------------- |
-| `assertNonNullish` | `<T>(value: T, message?: string) => asserts value is NonNullable<T>` |
+| Function           | Type                                                                              |
+| ------------------ | --------------------------------------------------------------------------------- |
+| `assertNonNullish` | `<T>(value: T, message?: string or undefined) => asserts value is NonNullable<T>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L7)
 
@@ -240,21 +240,23 @@ Parameters:
 
 Convert seconds to a human-readable duration, such as "6 days, 10 hours."
 
-| Function            | Type                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------ |
-| `secondsToDuration` | `({ seconds, i18n, }: { seconds: bigint; i18n?: I18nSecondsToDuration; }) => string` |
+| Function            | Type                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------- |
+| `secondsToDuration` | `({ seconds, i18n, }: { seconds: bigint; i18n?: I18nSecondsToDuration or undefined; }) => string` |
 
 Parameters:
 
 - `options`: - The options object.
+- `options.seconds`: - The number of seconds to convert.
+- `options.i18n`: - The i18n object for customizing language and units. Defaults to English.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L43)
 
 #### :gear: debounce
 
-| Function   | Type                                                                 |
-| ---------- | -------------------------------------------------------------------- |
-| `debounce` | `(func: Function, timeout?: number) => (...args: unknown[]) => void` |
+| Function   | Type                                                                              |
+| ---------- | --------------------------------------------------------------------------------- |
+| `debounce` | `(func: Function, timeout?: number or undefined) => (...args: unknown[]) => void` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L2)
 
@@ -262,9 +264,9 @@ Parameters:
 
 Is null or undefined
 
-| Function    | Type                                   |
-| ----------- | -------------------------------------- |
-| `isNullish` | `<T>(argument: T) => argument is null` |
+| Function    | Type                                                                     |
+| ----------- | ------------------------------------------------------------------------ |
+| `isNullish` | `<T>(argument: T or null or undefined) => argument is null or undefined` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L2)
 
@@ -272,9 +274,9 @@ Is null or undefined
 
 Not null and not undefined
 
-| Function     | Type                                             |
-| ------------ | ------------------------------------------------ |
-| `nonNullish` | `<T>(argument: T) => argument is NonNullable<T>` |
+| Function     | Type                                                                  |
+| ------------ | --------------------------------------------------------------------- |
+| `nonNullish` | `<T>(argument: T or null or undefined) => argument is NonNullable<T>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L7)
 
@@ -282,25 +284,25 @@ Not null and not undefined
 
 Not null and not undefined and not empty
 
-| Function         | Type                         |
-| ---------------- | ---------------------------- |
-| `notEmptyString` | `(value: string) => boolean` |
+| Function         | Type                                              |
+| ---------------- | ------------------------------------------------- |
+| `notEmptyString` | `(value: string or null or undefined) => boolean` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L12)
 
 #### :gear: toNullable
 
-| Function     | Type                          |
-| ------------ | ----------------------------- |
-| `toNullable` | `<T>(value?: T) => [] or [T]` |
+| Function     | Type                                               |
+| ------------ | -------------------------------------------------- |
+| `toNullable` | `<T>(value?: T or null or undefined) => [] or [T]` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L4)
 
 #### :gear: fromNullable
 
-| Function       | Type                         |
-| -------------- | ---------------------------- |
-| `fromNullable` | `<T>(value: [] or [T]) => T` |
+| Function       | Type                                      |
+| -------------- | ----------------------------------------- |
+| `fromNullable` | `<T>(value: [] or [T]) => T or undefined` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L8)
 
@@ -355,6 +357,11 @@ Tags after patch version are ignored, e.g. 1.0.0-beta.1 is considered equal to 1
 | Function         | Type                                                                                            |
 | ---------------- | ----------------------------------------------------------------------------------------------- |
 | `smallerVersion` | `({ minVersion, currentVersion, }: { minVersion: string; currentVersion: string; }) => boolean` |
+
+Parameters:
+
+- `params.minVersion`: Ex: "1.0.0"
+- `params.currentVersion`: Ex: "2.0.0"
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L28)
 

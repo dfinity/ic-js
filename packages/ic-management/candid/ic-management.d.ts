@@ -1,4 +1,5 @@
 import type { ActorMethod } from "@dfinity/agent";
+import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
 export type bitcoin_address = string;
@@ -63,6 +64,10 @@ export interface canister_info_result {
   recent_changes: Array<change>;
   total_num_changes: bigint;
 }
+export type canister_install_mode =
+  | { reinstall: null }
+  | { upgrade: [] | [{ skip_pre_upgrade: [] | [boolean] }] }
+  | { install: null };
 export interface canister_settings {
   freezing_threshold: [] | [bigint];
   controllers: [] | [Array<Principal>];
@@ -108,7 +113,9 @@ export type change_origin =
         canister_id: Principal;
       };
     };
-export type chunk_hash = Uint8Array | number[];
+export interface chunk_hash {
+  hash: Uint8Array | number[];
+}
 export interface clear_chunk_store_args {
   canister_id: canister_id;
 }
@@ -164,22 +171,16 @@ export interface http_request_result {
 export interface install_chunked_code_args {
   arg: Uint8Array | number[];
   wasm_module_hash: Uint8Array | number[];
-  mode:
-    | { reinstall: null }
-    | { upgrade: [] | [{ skip_pre_upgrade: [] | [boolean] }] }
-    | { install: null };
+  mode: canister_install_mode;
   chunk_hashes_list: Array<chunk_hash>;
   target_canister: canister_id;
+  store_canister: [] | [canister_id];
   sender_canister_version: [] | [bigint];
-  storage_canister: [] | [canister_id];
 }
 export interface install_code_args {
   arg: Uint8Array | number[];
   wasm_module: wasm_module;
-  mode:
-    | { reinstall: null }
-    | { upgrade: [] | [{ skip_pre_upgrade: [] | [boolean] }] }
-    | { install: null };
+  mode: canister_install_mode;
   canister_id: canister_id;
   sender_canister_version: [] | [bigint];
 }
@@ -313,3 +314,5 @@ export interface _SERVICE {
   update_settings: ActorMethod<[update_settings_args], undefined>;
   upload_chunk: ActorMethod<[upload_chunk_args], upload_chunk_result>;
 }
+export declare const idlFactory: IDL.InterfaceFactory;
+export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];

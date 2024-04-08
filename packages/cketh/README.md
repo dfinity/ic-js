@@ -103,6 +103,8 @@ The caller allowed the minter's principal to spend its funds using
 Parameters:
 
 - `params`: The parameters to withdrawal ckETH to ETH.
+- `params.address`: The destination ETH address.
+- `params.amount`: The ETH amount in wei.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L54)
 

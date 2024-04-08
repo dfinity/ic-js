@@ -1,32 +1,21 @@
-import {
-  ActorSubclass,
-  AnonymousIdentity,
-  SubmitResponse,
-  polling,
-  type Agent,
-  type RequestId,
-} from "@dfinity/agent";
+import { ActorSubclass, AnonymousIdentity } from "@dfinity/agent";
 import { InvalidAccountIDError, LedgerCanister } from "@dfinity/ledger-icp";
-import {
-  ManageNeuronResponse as PbManageNeuronResponse,
-  NeuronId as PbNeuronId,
-} from "@dfinity/nns-proto";
 import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type {
+import {
   ClaimOrRefreshNeuronFromAccountResponse,
   GovernanceError as GovernanceErrorDetail,
   _SERVICE as GovernanceService,
   ListKnownNeuronsResponse,
   ManageNeuronResponse,
+  NeuronsFundEconomics,
   ProposalInfo as RawProposalInfo,
   Result,
   RewardEvent,
 } from "../candid/governance";
 import { Topic, Vote } from "./enums/governance.enums";
 import {
-  FeatureNotSupportedError,
   GovernanceError,
   InsufficientAmountError,
   UnrecognizedTypeError,
@@ -38,7 +27,11 @@ import {
   mockNeuronId,
   mockNeuronInfo,
 } from "./mocks/governance.mock";
-import { MakeProposalRequest } from "./types/governance_converters";
+import {
+  Action,
+  MakeProposalRequest,
+  NetworkEconomics,
+} from "./types/governance_converters";
 
 const unexpectedGovernanceError: GovernanceErrorDetail = {
   error_message: "Error updating neuron",
@@ -46,35 +39,47 @@ const unexpectedGovernanceError: GovernanceErrorDetail = {
 };
 
 describe("GovernanceCanister", () => {
-  const requestId = new ArrayBuffer(20) as RequestId;
-  const agentCallSuccessfulResponse = {
-    requestId,
-    response: {
-      ok: true,
-      status: 13,
-      statusText: "good",
-    },
-  } as SubmitResponse;
-  const newSpawnNeuronId = new PbNeuronId();
-  newSpawnNeuronId.setId("1234");
-  const spawnResponse = new PbManageNeuronResponse.SpawnResponse();
-  spawnResponse.setCreatedNeuronId(newSpawnNeuronId);
-  const successfulResponse = new PbManageNeuronResponse();
-  successfulResponse.setSpawn(spawnResponse);
-  // We only care about the specifics in the Spawn Response.
-  // Therefore, we don't need to create a valid and specific response for each call.
-  const spyPollForResponse = jest
-    .spyOn(polling, "pollForResponse")
-    .mockImplementation(
-      jest.fn().mockResolvedValue(successfulResponse.serializeBinary()),
-    );
-
   const error: GovernanceErrorDetail = {
     error_message: "Some error",
     error_type: 1,
   };
   const errorServiceResponse: ManageNeuronResponse = {
     command: [{ Error: error }],
+  };
+
+  const mockManageNetworkEconomicsAction: Action = {
+    ManageNetworkEconomics: {
+      neuronMinimumStake: BigInt(100_000_000),
+      maxProposalsToKeepPerTopic: 1000,
+      neuronManagementFeePerProposal: BigInt(10_000),
+      rejectCost: BigInt(10_000_000),
+      transactionFee: BigInt(1000),
+      neuronSpawnDissolveDelaySeconds: BigInt(3600 * 24 * 7),
+      minimumIcpXdrRate: BigInt(1),
+      maximumNodeProviderRewards: BigInt(10_000_000_000),
+      neuronsFundEconomics: {
+        minimumIcpXdrRate: {
+          basisPoints: 123n,
+        },
+        maxTheoreticalNeuronsFundParticipationAmountXdr: {
+          humanReadable: "456",
+        },
+        neuronsFundMatchedFundingCurveCoefficients: {
+          contributionThresholdXdr: {
+            humanReadable: "789",
+          },
+          oneThirdParticipationMilestoneXdr: {
+            humanReadable: "123",
+          },
+          fullParticipationMilestoneXdr: {
+            humanReadable: "456",
+          },
+        },
+        maximumIcpXdrRate: {
+          basisPoints: 456n,
+        },
+      },
+    },
   };
 
   afterEach(() => {
@@ -432,34 +437,6 @@ describe("GovernanceCanister", () => {
       expect(service.list_neurons).toBeCalled();
       expect(neurons.length).toBe(1);
     });
-
-    it("list Hardware Wallet neurons", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-      await governance.listNeurons({ certified: true });
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
-    });
-
-    it("should not support query neurons with hardware wallet (only update calls)", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      const call = async () =>
-        await governance.listNeurons({ certified: false });
-
-      await expect(call).rejects.toThrow(new FeatureNotSupportedError());
-    });
   });
 
   describe("GovernanceCanister.listProposals", () => {
@@ -653,6 +630,98 @@ describe("GovernanceCanister", () => {
       expect(response).not.toBeUndefined();
       expect(response).toHaveProperty("id", 1n);
     });
+
+    it("should fetch and convert ManageNetworkEconomics on ProposalInfo", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const rawNeuronFundsEconomics: NeuronsFundEconomics = {
+        maximum_icp_xdr_rate: [
+          {
+            basis_points: [456n],
+          },
+        ],
+        max_theoretical_neurons_fund_participation_amount_xdr: [
+          {
+            human_readable: ["456"],
+          },
+        ],
+        neurons_fund_matched_funding_curve_coefficients: [
+          {
+            contribution_threshold_xdr: [
+              {
+                human_readable: ["789"],
+              },
+            ],
+            one_third_participation_milestone_xdr: [
+              {
+                human_readable: ["123"],
+              },
+            ],
+            full_participation_milestone_xdr: [
+              {
+                human_readable: ["456"],
+              },
+            ],
+          },
+        ],
+        minimum_icp_xdr_rate: [
+          {
+            basis_points: [123n],
+          },
+        ],
+      };
+
+      const rawProposal = {
+        id: [{ id: 1n }],
+        ballots: [],
+        proposal: [
+          {
+            title: ["This is a title"],
+            url: "some-url",
+            summary: "Here it goes the summary",
+            action: [
+              {
+                ManageNetworkEconomics: {
+                  neuron_minimum_stake_e8s: BigInt(100_000_000),
+                  max_proposals_to_keep_per_topic: 1000,
+                  neuron_management_fee_per_proposal_e8s: BigInt(10_000),
+                  reject_cost_e8s: BigInt(10_000_000),
+                  transaction_fee_e8s: BigInt(1000),
+                  neuron_spawn_dissolve_delay_seconds: BigInt(3600 * 24 * 7),
+                  minimum_icp_xdr_rate: BigInt(1),
+                  maximum_node_provider_rewards_e8s: BigInt(10_000_000_000),
+                  neurons_fund_economics: [rawNeuronFundsEconomics],
+                },
+              },
+            ],
+          },
+        ],
+        proposer: [],
+        latest_tally: [],
+      } as unknown as RawProposalInfo;
+      service.get_proposal_info.mockResolvedValue(
+        Promise.resolve([rawProposal]),
+      );
+      const response = await governance.getProposal({
+        proposalId: BigInt(1),
+      });
+
+      expect(service.get_proposal_info).toBeCalled();
+      expect(response).not.toBeUndefined();
+      expect(response).toHaveProperty("id", 1n);
+
+      const { ManageNetworkEconomics } = response?.proposal?.action as {
+        ManageNetworkEconomics: NetworkEconomics;
+      };
+
+      expect(ManageNetworkEconomics).toEqual(
+        mockManageNetworkEconomicsAction.ManageNetworkEconomics,
+      );
+    });
   });
 
   describe("GovernanceCanister.claimOrRefreshNeuronFromAccount", () => {
@@ -714,23 +783,6 @@ describe("GovernanceCanister", () => {
         additionalDissolveDelaySeconds: 100000,
       });
       expect(service.manage_neuron).toBeCalled();
-    });
-
-    it("increases dissolve delay of the neuron from a Hardware Wallet successfully", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      await governance.increaseDissolveDelay({
-        neuronId: BigInt(1),
-        additionalDissolveDelaySeconds: 100000,
-      });
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
     });
 
     it("throw error when increaseDissolveDelay fails with error", async () => {
@@ -1004,20 +1056,6 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("successfully joins CF from Hardware Wallet", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      await governance.joinCommunityFund(BigInt(10));
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
-    });
-
     it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
@@ -1152,22 +1190,6 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("successfully adds hotkey to neuron from Hardware Wallet", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      const neuronId = BigInt(10);
-      const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
-      await governance.addHotkey({ neuronId, principal });
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
-    });
-
     it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
@@ -1201,22 +1223,6 @@ describe("GovernanceCanister", () => {
       const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
       await governance.removeHotkey({ neuronId, principal });
       expect(service.manage_neuron).toBeCalled();
-    });
-
-    it("successfully removes hotkey to neuron from Hardware Wallet", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      const neuronId = BigInt(10);
-      const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
-      await governance.removeHotkey({ neuronId, principal });
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
     });
 
     it("throws error if response is error", async () => {
@@ -1363,23 +1369,6 @@ describe("GovernanceCanister", () => {
         percentageToMerge: 50,
       });
       expect(service.manage_neuron).toBeCalled();
-    });
-
-    it("successfully merges maturity neurons from Hardware Wallet", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      await governance.mergeMaturity({
-        neuronId: BigInt(10),
-        percentageToMerge: 50,
-      });
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
     });
 
     it("throws error if percentage not valid", async () => {
@@ -1538,33 +1527,6 @@ describe("GovernanceCanister", () => {
       expect(response).toBe(neuronId);
     });
 
-    it("successfully spawns new neuron from Hardware Wallet", async () => {
-      const agent = mock<Agent>();
-      const requestId = new ArrayBuffer(20) as RequestId;
-      const response = {
-        requestId,
-        response: {
-          ok: true,
-          status: 13,
-          statusText: "good",
-        },
-      } as SubmitResponse;
-      agent.call.mockResolvedValue(response);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      const neuronId = await governance.spawnNeuron({
-        neuronId: BigInt(10),
-        percentageToSpawn: 50,
-      });
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
-      expect(neuronId).toBe(BigInt(newSpawnNeuronId.getId()));
-    });
-
     it("throws error if percentage not valid", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
 
@@ -1615,22 +1577,6 @@ describe("GovernanceCanister", () => {
         neuronId,
       });
       expect(service.manage_neuron).toBeCalled();
-    });
-
-    it("successfully disburses neuron from Hardware Wallet", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      await governance.disburse({
-        neuronId: BigInt(10),
-      });
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
     });
 
     it("throws error if response is error", async () => {
@@ -1726,20 +1672,6 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("successfully starts dissolving process from Hardware Wallet", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      await governance.startDissolving(BigInt(10));
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
-    });
-
     it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
@@ -1772,20 +1704,6 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("successfully stops dissolving process from Hardware Wallet", async () => {
-      const agent = mock<Agent>();
-      agent.call.mockResolvedValue(agentCallSuccessfulResponse);
-
-      const governance = GovernanceCanister.create({
-        agent,
-        hardwareWallet: true,
-      });
-
-      await governance.stopDissolving(BigInt(10));
-      expect(agent.call).toBeCalled();
-      expect(spyPollForResponse).toBeCalled();
-    });
-
     it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
@@ -1808,24 +1726,15 @@ describe("GovernanceCanister", () => {
       url: "some-url",
       summary: "Here it goes the summary",
       neuronId: BigInt(10),
-      action: {
-        ManageNetworkEconomics: {
-          neuronMinimumStake: BigInt(100_000_000),
-          maxProposalsToKeepPerTopic: 1000,
-          neuronManagementFeePerProposal: BigInt(10_000),
-          rejectCost: BigInt(10_000_000),
-          transactionFee: BigInt(1000),
-          neuronSpawnDissolveDelaySeconds: BigInt(3600 * 24 * 7),
-          minimumIcpXdrRate: BigInt(1),
-          maximumNodeProviderRewards: BigInt(10_000_000_000),
-        },
-      },
+      action: mockManageNetworkEconomicsAction,
     };
     it("successfully creates a proposal", async () => {
       const proposalId = 10n;
 
       const serviceResponse: ManageNeuronResponse = {
-        command: [{ MakeProposal: { proposal_id: [{ id: proposalId }] } }],
+        command: [
+          { MakeProposal: { proposal_id: [{ id: proposalId }], message: [] } },
+        ],
       };
       const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockResolvedValue(serviceResponse);
