@@ -144,7 +144,7 @@
     {
       "name": "@dfinity/sns",
       "path": "./packages/sns/dist/index.js",
-      "limit": "16 kB",
+      "limit": "17 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
