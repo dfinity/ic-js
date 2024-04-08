@@ -38,9 +38,9 @@
     "@size-limit/esbuild": "^11.1.2",
     "@size-limit/preset-small-lib": "^11.1.2",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.11.30",
+    "@types/node": "^20.12.5",
     "@types/text-encoding": "^0.0.39",
-    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/eslint-plugin": "^7.5.0",
     "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
@@ -58,7 +58,7 @@
     "ts-jest": "^29.1.2",
     "ts-protoc-gen": "^0.15.0",
     "tsdoc-markdown": "^0.4.0",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.4"
   },
   "size-limit": [
     {
