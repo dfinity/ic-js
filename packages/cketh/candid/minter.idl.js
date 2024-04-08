@@ -149,6 +149,20 @@ export const idlFactory = ({ IDL }) => {
         'reimbursed_amount' : IDL.Nat,
         'reimbursed_in_block' : IDL.Nat,
       }),
+      'FailedErc20WithdrawalRequest' : IDL.Record({
+        'to' : IDL.Principal,
+        'withdrawal_id' : IDL.Nat,
+        'reimbursed_amount' : IDL.Nat,
+        'to_subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+      }),
+      'ReimbursedErc20Withdrawal' : IDL.Record({
+        'burn_in_block' : IDL.Nat,
+        'transaction_hash' : IDL.Opt(IDL.Text),
+        'withdrawal_id' : IDL.Nat,
+        'reimbursed_amount' : IDL.Nat,
+        'ledger_id' : IDL.Principal,
+        'reimbursed_in_block' : IDL.Nat,
+      }),
       'MintedCkErc20' : IDL.Record({
         'event_source' : EventSource,
         'erc20_contract_address' : IDL.Text,
@@ -163,16 +177,18 @@ export const idlFactory = ({ IDL }) => {
         'event_source' : EventSource,
         'reason' : IDL.Text,
       }),
+      'SyncedErc20ToBlock' : IDL.Record({ 'block_number' : IDL.Nat }),
       'AcceptedErc20WithdrawalRequest' : IDL.Record({
         'cketh_ledger_burn_index' : IDL.Nat,
         'destination' : IDL.Text,
+        'ckerc20_ledger_id' : IDL.Principal,
         'withdrawal_amount' : IDL.Nat,
         'from' : IDL.Principal,
         'created_at' : IDL.Nat64,
         'from_subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+        'erc20_contract_address' : IDL.Text,
         'ckerc20_ledger_burn_index' : IDL.Nat,
         'max_transaction_fee' : IDL.Nat,
-        'ckerc20_token_symbol' : IDL.Text,
       }),
       'AcceptedEthWithdrawalRequest' : IDL.Record({
         'ledger_burn_index' : IDL.Nat,
@@ -203,7 +219,7 @@ export const idlFactory = ({ IDL }) => {
     'eth_helper_contract_address' : IDL.Opt(IDL.Text),
     'last_observed_block_number' : IDL.Opt(IDL.Nat),
     'erc20_helper_contract_address' : IDL.Opt(IDL.Text),
-    'supported_ckerc20_tokens' : IDL.Vec(CkErc20Token),
+    'supported_ckerc20_tokens' : IDL.Opt(IDL.Vec(CkErc20Token)),
     'last_gas_fee_estimate' : IDL.Opt(GasFeeEstimate),
     'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
     'minter_address' : IDL.Opt(IDL.Text),
@@ -227,18 +243,15 @@ export const idlFactory = ({ IDL }) => {
     'Pending' : IDL.Null,
   });
   const WithdrawErc20Arg = IDL.Record({
+    'ckerc20_ledger_id' : IDL.Principal,
     'recipient' : IDL.Text,
     'amount' : IDL.Nat,
-    'ckerc20_token_symbol' : IDL.Text,
   });
   const RetrieveErc20Request = IDL.Record({
     'ckerc20_block_index' : IDL.Nat,
     'cketh_block_index' : IDL.Nat,
   });
-  const WithdrawErc20Error = IDL.Variant({
-    'TokenNotSupported' : IDL.Record({
-      'supported_tokens' : IDL.Vec(IDL.Text),
-    }),
+  const LedgerError = IDL.Variant({
     'TemporarilyUnavailable' : IDL.Text,
     'InsufficientAllowance' : IDL.Record({
       'token_symbol' : IDL.Text,
@@ -246,13 +259,23 @@ export const idlFactory = ({ IDL }) => {
       'allowance' : IDL.Nat,
       'failed_burn_amount' : IDL.Nat,
     }),
-    'RecipientAddressBlocked' : IDL.Record({ 'address' : IDL.Text }),
     'InsufficientFunds' : IDL.Record({
       'balance' : IDL.Nat,
       'token_symbol' : IDL.Text,
       'ledger_id' : IDL.Principal,
       'failed_burn_amount' : IDL.Nat,
     }),
+  });
+  const WithdrawErc20Error = IDL.Variant({
+    'TokenNotSupported' : IDL.Record({
+      'supported_tokens' : IDL.Vec(CkErc20Token),
+    }),
+    'CkErc20LedgerError' : IDL.Record({
+      'error' : LedgerError,
+      'cketh_block_index' : IDL.Nat,
+    }),
+    'CkEthLedgerError' : IDL.Record({ 'error' : LedgerError }),
+    'RecipientAddressBlocked' : IDL.Record({ 'address' : IDL.Text }),
   });
   const WithdrawalArg = IDL.Record({
     'recipient' : IDL.Text,

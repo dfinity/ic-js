@@ -1,4 +1,4 @@
-// Generated from IC repo commit c3c5dc8 (2024-03-15 tags: release-2024-03-14_23-01-p2p) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit ff10ea1 (2024-04-04 tags: release-2024-04-03_23-01-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -142,7 +142,7 @@ type MinterInfo = record {
     erc20_helper_contract_address: opt text;
 
     // Information of supported ERC20 tokens.
-    supported_ckerc20_tokens: vec CkErc20Token;
+    supported_ckerc20_tokens: opt vec CkErc20Token;
 
     // Minimum amount in Wei that can be withdrawn when converting ckETH -> ETH.
     minimum_withdrawal_amount : opt nat;
@@ -237,8 +237,8 @@ type WithdrawErc20Arg = record {
     // ckUSDC uses 6 decimals and so to withdraw 1 ckUSDC, the amount should be 1_000_000.
     amount : nat;
 
-    // CkErc20 token symbol to withdraw, e.g., ckUSDC or ckUSDT.
-    ckerc20_token_symbol : text;
+    // The ledger ID for that ckERC20 token.
+    ckerc20_ledger_id : principal;
 
     // Ethereum address to withdraw to.
     recipient : text;
@@ -255,19 +255,28 @@ type RetrieveErc20Request = record {
 
 type WithdrawErc20Error = variant {
     // The user provided ckERC20 token is not supported by the minter.
-    TokenNotSupported : record {supported_tokens : vec text};
-
-    // The ckETH or ckERC20 balance of the withdrawal account is too low.
-    InsufficientFunds : record { balance : nat; failed_burn_amount : nat; token_symbol : text; ledger_id : principal };
-
-    // The ckETH or ckERC20 allowance given to the minter is too low.
-    InsufficientAllowance : record { allowance : nat; failed_burn_amount : nat; token_symbol : text; ledger_id : principal };
+    TokenNotSupported : record {supported_tokens : vec CkErc20Token};
 
     // Recipient's address is blocked.
     // No withdrawal can be made to that address.
     RecipientAddressBlocked : record { address : text };
 
-    // The minter is overloaded, retry the request.
+    // The minter could not burn the required amount of ckETH to pay for the transaction fees.
+    CkEthLedgerError : record { error : LedgerError };
+
+    // The minter could not burn the requested amount of ckERC20 tokens.
+    // The `cketh_block_index` identifies the burn that occurred on the ckETH ledger and that will be reimbursed.
+    CkErc20LedgerError : record { cketh_block_index : nat; error : LedgerError };
+};
+
+type LedgerError = variant {
+    // The balance of the withdrawal account is too low.
+    InsufficientFunds : record { balance : nat; failed_burn_amount : nat; token_symbol : text; ledger_id : principal };
+
+    // The allowance given to the minter is too low.
+    InsufficientAllowance : record { allowance : nat; failed_burn_amount : nat; token_symbol : text; ledger_id : principal };
+
+    // The ledger is overloaded, retry the request.
     // The payload contains a human-readable message explaining what caused the unavailability.
     TemporarilyUnavailable : text;
 };
@@ -322,6 +331,9 @@ type Event = record {
         SyncedToBlock : record {
             block_number : nat;
         };
+        SyncedErc20ToBlock : record {
+            block_number : nat;
+        };
         AcceptedEthWithdrawalRequest : record {
             withdrawal_amount : nat;
             destination : text;
@@ -352,6 +364,14 @@ type Event = record {
             withdrawal_id : nat;
             transaction_hash : opt text;
         };
+        ReimbursedErc20Withdrawal : record {
+            withdrawal_id : nat;
+            burn_in_block : nat;
+            reimbursed_in_block : nat;
+            ledger_id: principal;
+            reimbursed_amount : nat;
+            transaction_hash : opt text;
+        };
         SkippedBlock : record {
             block_number : nat;
         };
@@ -373,13 +393,20 @@ type Event = record {
         AcceptedErc20WithdrawalRequest : record {
             max_transaction_fee : nat;
             withdrawal_amount : nat;
-            ckerc20_token_symbol : text;
+            erc20_contract_address : text;
             destination : text;
             cketh_ledger_burn_index : nat;
+            ckerc20_ledger_id : principal;
             ckerc20_ledger_burn_index : nat;
             from : principal;
             from_subaccount : opt blob;
             created_at: nat64;
+        };
+        FailedErc20WithdrawalRequest : record {
+            withdrawal_id : nat;
+            reimbursed_amount : nat;
+            to : principal;
+            to_subaccount : opt blob;
         };
         MintedCkErc20 : record {
             event_source : EventSource;
@@ -444,6 +471,7 @@ service : (MinterArg) -> {
 
     // Retrieve events from the minter's audit log.
     // The endpoint can return fewer events than requested to bound the response size.
+    // IMPORTANT: this endpoint is meant as a debugging tool and is not guaranteed to be backwards-compatible.
     get_events : (record { start : nat64; length : nat64 }) -> (record { events : vec Event; total_event_count : nat64 }) query;
 
     // Add a ckERC-20 token to be supported by the minter.

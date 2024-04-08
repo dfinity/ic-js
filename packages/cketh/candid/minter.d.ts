@@ -109,6 +109,24 @@ export interface Event {
         };
       }
     | {
+        FailedErc20WithdrawalRequest: {
+          to: Principal;
+          withdrawal_id: bigint;
+          reimbursed_amount: bigint;
+          to_subaccount: [] | [Uint8Array | number[]];
+        };
+      }
+    | {
+        ReimbursedErc20Withdrawal: {
+          burn_in_block: bigint;
+          transaction_hash: [] | [string];
+          withdrawal_id: bigint;
+          reimbursed_amount: bigint;
+          ledger_id: Principal;
+          reimbursed_in_block: bigint;
+        };
+      }
+    | {
         MintedCkErc20: {
           event_source: EventSource;
           erc20_contract_address: string;
@@ -123,17 +141,19 @@ export interface Event {
         };
       }
     | { InvalidDeposit: { event_source: EventSource; reason: string } }
+    | { SyncedErc20ToBlock: { block_number: bigint } }
     | {
         AcceptedErc20WithdrawalRequest: {
           cketh_ledger_burn_index: bigint;
           destination: string;
+          ckerc20_ledger_id: Principal;
           withdrawal_amount: bigint;
           from: Principal;
           created_at: bigint;
           from_subaccount: [] | [Uint8Array | number[]];
+          erc20_contract_address: string;
           ckerc20_ledger_burn_index: bigint;
           max_transaction_fee: bigint;
-          ckerc20_token_symbol: string;
         };
       }
     | {
@@ -172,13 +192,31 @@ export interface InitArg {
   minimum_withdrawal_amount: bigint;
   ethereum_block_height: BlockTag;
 }
+export type LedgerError =
+  | { TemporarilyUnavailable: string }
+  | {
+      InsufficientAllowance: {
+        token_symbol: string;
+        ledger_id: Principal;
+        allowance: bigint;
+        failed_burn_amount: bigint;
+      };
+    }
+  | {
+      InsufficientFunds: {
+        balance: bigint;
+        token_symbol: string;
+        ledger_id: Principal;
+        failed_burn_amount: bigint;
+      };
+    };
 export type MinterArg = { UpgradeArg: UpgradeArg } | { InitArg: InitArg };
 export interface MinterInfo {
   eth_balance: [] | [bigint];
   eth_helper_contract_address: [] | [string];
   last_observed_block_number: [] | [bigint];
   erc20_helper_contract_address: [] | [string];
-  supported_ckerc20_tokens: Array<CkErc20Token>;
+  supported_ckerc20_tokens: [] | [Array<CkErc20Token>];
   last_gas_fee_estimate: [] | [GasFeeEstimate];
   minimum_withdrawal_amount: [] | [bigint];
   minter_address: [] | [string];
@@ -245,32 +283,22 @@ export interface UpgradeArg {
   ethereum_block_height: [] | [BlockTag];
 }
 export interface WithdrawErc20Arg {
+  ckerc20_ledger_id: Principal;
   recipient: string;
   amount: bigint;
-  ckerc20_token_symbol: string;
 }
 export type WithdrawErc20Error =
   | {
-      TokenNotSupported: { supported_tokens: Array<string> };
+      TokenNotSupported: { supported_tokens: Array<CkErc20Token> };
     }
-  | { TemporarilyUnavailable: string }
   | {
-      InsufficientAllowance: {
-        token_symbol: string;
-        ledger_id: Principal;
-        allowance: bigint;
-        failed_burn_amount: bigint;
+      CkErc20LedgerError: {
+        error: LedgerError;
+        cketh_block_index: bigint;
       };
     }
-  | { RecipientAddressBlocked: { address: string } }
-  | {
-      InsufficientFunds: {
-        balance: bigint;
-        token_symbol: string;
-        ledger_id: Principal;
-        failed_burn_amount: bigint;
-      };
-    };
+  | { CkEthLedgerError: { error: LedgerError } }
+  | { RecipientAddressBlocked: { address: string } };
 export interface WithdrawalArg {
   recipient: string;
   amount: bigint;
