@@ -258,6 +258,18 @@ export const idlFactory = ({ IDL }) => {
     'Ok' : BlockIndex,
     'Err' : TransferFromError,
   });
+  const GetArchivesArgs = IDL.Record({ 'from' : IDL.Opt(IDL.Principal) });
+  const GetArchivesResult = IDL.Vec(
+    IDL.Record({
+      'end' : IDL.Nat,
+      'canister_id' : IDL.Principal,
+      'start' : IDL.Nat,
+    })
+  );
+  const ICRC3DataCertificate = IDL.Record({
+    'certificate' : IDL.Vec(IDL.Nat8),
+    'hash_tree' : IDL.Vec(IDL.Nat8),
+  });
   return IDL.Service({
     'archives' : IDL.Func([], [IDL.Vec(ArchiveInfo)], ['query']),
     'get_blocks' : IDL.Func([GetBlocksArgs], [GetBlocksResponse], ['query']),
@@ -291,6 +303,21 @@ export const idlFactory = ({ IDL }) => {
         [TransferFromArgs],
         [TransferFromResult],
         [],
+      ),
+    'icrc3_get_archives' : IDL.Func(
+        [GetArchivesArgs],
+        [GetArchivesResult],
+        ['query'],
+      ),
+    'icrc3_get_tip_certificate' : IDL.Func(
+        [],
+        [IDL.Opt(ICRC3DataCertificate)],
+        ['query'],
+      ),
+    'icrc3_supported_block_types' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'block_type' : IDL.Text }))],
+        ['query'],
       ),
   });
 };

@@ -73,6 +73,14 @@ export type Duration = bigint;
 export interface FeatureFlags {
   icrc2: boolean;
 }
+export interface GetArchivesArgs {
+  from: [] | [Principal];
+}
+export type GetArchivesResult = Array<{
+  end: bigint;
+  canister_id: Principal;
+  start: bigint;
+}>;
 export interface GetBlocksArgs {
   start: BlockIndex;
   length: bigint;
@@ -112,6 +120,10 @@ export interface HttpResponse {
   body: Uint8Array | number[];
   headers: Array<[string, string]>;
   status_code: number;
+}
+export interface ICRC3DataCertificate {
+  certificate: Uint8Array | number[];
+  hash_tree: Uint8Array | number[];
 }
 export interface InitArgs {
   decimals: [] | [number];
@@ -267,6 +279,12 @@ export interface _SERVICE {
   icrc2_allowance: ActorMethod<[AllowanceArgs], Allowance>;
   icrc2_approve: ActorMethod<[ApproveArgs], ApproveResult>;
   icrc2_transfer_from: ActorMethod<[TransferFromArgs], TransferFromResult>;
+  icrc3_get_archives: ActorMethod<[GetArchivesArgs], GetArchivesResult>;
+  icrc3_get_tip_certificate: ActorMethod<[], [] | [ICRC3DataCertificate]>;
+  icrc3_supported_block_types: ActorMethod<
+    [],
+    Array<{ url: string; block_type: string }>
+  >;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
 export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];
