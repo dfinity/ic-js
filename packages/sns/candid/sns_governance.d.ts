@@ -463,6 +463,7 @@ export interface RewardEvent {
   rounds_since_last_distribution: [] | [bigint];
   actual_timestamp_seconds: bigint;
   end_timestamp_seconds: [] | [bigint];
+  total_available_e8s_equivalent: [] | [bigint];
   distributed_e8s_equivalent: bigint;
   round: bigint;
   settled_proposals: Array<ProposalId>;

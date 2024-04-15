@@ -1,5 +1,7 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/ledger-icrc/candid/icrc_ledger.did */
 export const idlFactory = ({ IDL }) => {
+  const GetBlocksResult = IDL.Rec();
+  const ICRC3Value = IDL.Rec();
   const Value = IDL.Rec();
   const MetadataValue = IDL.Variant({
     'Int' : IDL.Int,
@@ -254,6 +256,44 @@ export const idlFactory = ({ IDL }) => {
     'Ok' : BlockIndex,
     'Err' : TransferFromError,
   });
+  const GetArchivesArgs = IDL.Record({ 'from' : IDL.Opt(IDL.Principal) });
+  const GetArchivesResult = IDL.Vec(
+    IDL.Record({
+      'end' : IDL.Nat,
+      'canister_id' : IDL.Principal,
+      'start' : IDL.Nat,
+    })
+  );
+  ICRC3Value.fill(
+    IDL.Variant({
+      'Int' : IDL.Int,
+      'Map' : IDL.Vec(IDL.Tuple(IDL.Text, ICRC3Value)),
+      'Nat' : IDL.Nat,
+      'Blob' : IDL.Vec(IDL.Nat8),
+      'Text' : IDL.Text,
+      'Array' : IDL.Vec(ICRC3Value),
+    })
+  );
+  GetBlocksResult.fill(
+    IDL.Record({
+      'log_length' : IDL.Nat,
+      'blocks' : IDL.Vec(IDL.Record({ 'id' : IDL.Nat, 'block' : ICRC3Value })),
+      'archived_blocks' : IDL.Vec(
+        IDL.Record({
+          'args' : IDL.Vec(GetBlocksArgs),
+          'callback' : IDL.Func(
+              [IDL.Vec(GetBlocksArgs)],
+              [GetBlocksResult],
+              [],
+            ),
+        })
+      ),
+    })
+  );
+  const ICRC3DataCertificate = IDL.Record({
+    'certificate' : IDL.Vec(IDL.Nat8),
+    'hash_tree' : IDL.Vec(IDL.Nat8),
+  });
   return IDL.Service({
     'archives' : IDL.Func([], [IDL.Vec(ArchiveInfo)], []),
     'get_blocks' : IDL.Func([GetBlocksArgs], [GetBlocksResponse], []),
@@ -282,6 +322,22 @@ export const idlFactory = ({ IDL }) => {
     'icrc2_transfer_from' : IDL.Func(
         [TransferFromArgs],
         [TransferFromResult],
+        [],
+      ),
+    'icrc3_get_archives' : IDL.Func([GetArchivesArgs], [GetArchivesResult], []),
+    'icrc3_get_blocks' : IDL.Func(
+        [IDL.Vec(GetBlocksArgs)],
+        [GetBlocksResult],
+        [],
+      ),
+    'icrc3_get_tip_certificate' : IDL.Func(
+        [],
+        [IDL.Opt(ICRC3DataCertificate)],
+        [],
+      ),
+    'icrc3_supported_block_types' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'block_type' : IDL.Text }))],
         [],
       ),
   });

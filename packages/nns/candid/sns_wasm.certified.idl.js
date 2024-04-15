@@ -191,6 +191,17 @@ export const idlFactory = ({ IDL }) => {
   });
   const GetWasmRequest = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const GetWasmResponse = IDL.Record({ 'wasm' : IDL.Opt(SnsWasm) });
+  const GetWasmMetadataRequest = IDL.Record({
+    'hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
+  const MetadataSection = IDL.Record({
+    'contents' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'name' : IDL.Opt(IDL.Text),
+    'visibility' : IDL.Opt(IDL.Text),
+  });
+  const Ok = IDL.Record({ 'sections' : IDL.Vec(MetadataSection) });
+  const Result_1 = IDL.Variant({ 'Ok' : Ok, 'Error' : SnsWasmError });
+  const GetWasmMetadataResponse = IDL.Record({ 'result' : IDL.Opt(Result_1) });
   const SnsUpgrade = IDL.Record({
     'next_version' : IDL.Opt(SnsVersion),
     'current_version' : IDL.Opt(SnsVersion),
@@ -276,6 +287,11 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'get_wasm' : IDL.Func([GetWasmRequest], [GetWasmResponse], []),
+    'get_wasm_metadata' : IDL.Func(
+        [GetWasmMetadataRequest],
+        [GetWasmMetadataResponse],
+        [],
+      ),
     'insert_upgrade_path_entries' : IDL.Func(
         [InsertUpgradePathEntriesRequest],
         [InsertUpgradePathEntriesResponse],
