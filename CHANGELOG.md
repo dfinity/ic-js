@@ -4,7 +4,7 @@
 
 - Protocol buffers for hardware wallet transactions are no longer supported. Internet Computer Ledger app 2.4.9 or later is now required.
 - GovernanceCanister.listNeurons no longer throws an error when called with `certified: false` for hardware wallet transactions.
-- Field `smart_contract_address` was renamed to `eth_helper_contract_address` in ckETH minter info.
+- The field `smart_contract_address` was removed from ckETH minter information, and additional fields related to ERC20 support have been added.
 
 ## Features
 
