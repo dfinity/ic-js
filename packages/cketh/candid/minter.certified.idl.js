@@ -222,6 +222,11 @@ export const idlFactory = ({ IDL }) => {
     'supported_ckerc20_tokens' : IDL.Opt(IDL.Vec(CkErc20Token)),
     'last_gas_fee_estimate' : IDL.Opt(GasFeeEstimate),
     'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
+    'erc20_balances' : IDL.Opt(
+      IDL.Vec(
+        IDL.Record({ 'balance' : IDL.Nat, 'erc20_contract_address' : IDL.Text })
+      )
+    ),
     'minter_address' : IDL.Opt(IDL.Text),
     'ethereum_block_height' : IDL.Opt(BlockTag),
   });
@@ -259,6 +264,12 @@ export const idlFactory = ({ IDL }) => {
       'allowance' : IDL.Nat,
       'failed_burn_amount' : IDL.Nat,
     }),
+    'AmountTooLow' : IDL.Record({
+      'minimum_burn_amount' : IDL.Nat,
+      'token_symbol' : IDL.Text,
+      'ledger_id' : IDL.Principal,
+      'failed_burn_amount' : IDL.Nat,
+    }),
     'InsufficientFunds' : IDL.Record({
       'balance' : IDL.Nat,
       'token_symbol' : IDL.Text,
@@ -270,6 +281,7 @@ export const idlFactory = ({ IDL }) => {
     'TokenNotSupported' : IDL.Record({
       'supported_tokens' : IDL.Vec(CkErc20Token),
     }),
+    'TemporarilyUnavailable' : IDL.Text,
     'CkErc20LedgerError' : IDL.Record({
       'error' : LedgerError,
       'cketh_block_index' : IDL.Nat,

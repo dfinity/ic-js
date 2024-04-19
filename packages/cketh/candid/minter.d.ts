@@ -203,6 +203,14 @@ export type LedgerError =
       };
     }
   | {
+      AmountTooLow: {
+        minimum_burn_amount: bigint;
+        token_symbol: string;
+        ledger_id: Principal;
+        failed_burn_amount: bigint;
+      };
+    }
+  | {
       InsufficientFunds: {
         balance: bigint;
         token_symbol: string;
@@ -219,6 +227,9 @@ export interface MinterInfo {
   supported_ckerc20_tokens: [] | [Array<CkErc20Token>];
   last_gas_fee_estimate: [] | [GasFeeEstimate];
   minimum_withdrawal_amount: [] | [bigint];
+  erc20_balances:
+    | []
+    | [Array<{ balance: bigint; erc20_contract_address: string }>];
   minter_address: [] | [string];
   ethereum_block_height: [] | [BlockTag];
 }
@@ -291,6 +302,7 @@ export type WithdrawErc20Error =
   | {
       TokenNotSupported: { supported_tokens: Array<CkErc20Token> };
     }
+  | { TemporarilyUnavailable: string }
   | {
       CkErc20LedgerError: {
         error: LedgerError;
