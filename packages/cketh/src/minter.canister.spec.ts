@@ -4,6 +4,7 @@ import { toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import {
   _SERVICE as CkETHMinterService,
+  MinterInfo,
   RetrieveEthRequest,
 } from "../candid/minter";
 import {
@@ -282,17 +283,27 @@ describe("ckETH minter canister", () => {
 
   describe("Minter Info", () => {
     it("should return minter info", async () => {
-      const result = {
+      const result: MinterInfo = {
         eth_balance: toNullable(1n),
         last_observed_block_number: toNullable(2n),
         last_gas_fee_estimate: toNullable({
           ...gasFeeEstimate,
           timestamp: 999999n,
         }),
-        smart_contract_address: toNullable(ckETHSmartContractAddressMock),
         minimum_withdrawal_amount: toNullable(3n),
         minter_address: toNullable(ckETHSmartContractAddressMock),
         ethereum_block_height: toNullable({ Safe: null }),
+        erc20_helper_contract_address: [],
+        erc20_balances: [
+          [
+            {
+              balance: 123n,
+              erc20_contract_address: ethAddressMock,
+            },
+          ],
+        ],
+        eth_helper_contract_address: toNullable(ckETHSmartContractAddressMock),
+        supported_ckerc20_tokens: [],
       };
 
       const service = mock<ActorSubclass<CkETHMinterService>>();
