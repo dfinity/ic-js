@@ -5,6 +5,7 @@ import { mock } from "jest-mock-extended";
 import {
   _SERVICE as CkETHMinterService,
   MinterInfo,
+  RetrieveErc20Request,
   RetrieveEthRequest,
 } from "../candid/minter";
 import {
@@ -19,6 +20,7 @@ import { CkETHMinterCanister } from "./minter.canister";
 import {
   ckETHSmartContractAddressMock,
   ethAddressMock,
+  ledgerCanisterIdMock,
   minterCanisterIdMock,
 } from "./mocks/minter.mock";
 
@@ -201,6 +203,94 @@ describe("ckETH minter canister", () => {
       await expect(call).rejects.toThrowError(
         new MinterWithdrawalError(
           `Unsupported response type in minter.withdrawEth ${JSON.stringify(
+            error.Err,
+          )}`,
+        ),
+      );
+    });
+  });
+
+  describe("Withdraw Erc20", () => {
+    const success: RetrieveErc20Request = {
+      ckerc20_block_index: 1n,
+      cketh_block_index: 2n,
+    };
+    const ok = { Ok: success };
+
+    const params = {
+      address: ethAddressMock,
+      ledgerCanisterId: ledgerCanisterIdMock,
+      amount: 123_000n,
+    };
+
+    it("should return Ok", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.withdraw_erc20.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const res = await canister.withdrawErc20(params);
+
+      expect(service.withdraw_erc20).toBeCalledTimes(1);
+
+      const { address, ledgerCanisterId, ...rest } = params;
+      expect(service.withdraw_erc20).toBeCalledWith({
+        recipient: address,
+        ckerc20_ledger_id: ledgerCanisterIdMock,
+        ...rest,
+      });
+
+      expect(res).toEqual(success);
+    });
+
+    it("should throw MinterTemporarilyUnavailable", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+
+      const error = { Err: { TemporarilyUnavailable: "unavailable" } };
+      service.withdraw_erc20.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.withdrawErc20(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+      );
+    });
+
+    it("should throw MinterRecipientAddressBlockedError", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+
+      const error = {
+        Err: { RecipientAddressBlocked: { address: ethAddressMock } },
+      };
+      service.withdraw_erc20.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.withdrawErc20(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterRecipientAddressBlockedError(
+          `${error.Err.RecipientAddressBlocked.address}`,
+        ),
+      );
+    });
+
+    it("should throw unsupported response", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+
+      const error = { Err: { Test: null } as unknown };
+      // @ts-ignore we explicity want the results to throw some error type
+      service.withdraw_erc20.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.withdrawErc20(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterWithdrawalError(
+          `Unsupported response type in minter.withdrawErc20 ${JSON.stringify(
             error.Err,
           )}`,
         ),
