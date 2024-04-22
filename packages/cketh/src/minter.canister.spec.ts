@@ -277,6 +277,55 @@ describe("ckETH minter canister", () => {
       );
     });
 
+    it("should throw MinterTokenNotSupported", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+
+      const error = {
+        Err: {
+          TokenNotSupported: {
+            supported_tokens: [
+              {
+                erc20_contract_address: "abc",
+                ledger_canister_id: ledgerCanisterIdMock,
+                ckerc20_token_symbol: "def",
+              },
+              {
+                erc20_contract_address: "xyz",
+                ledger_canister_id: minterCanisterIdMock,
+                ckerc20_token_symbol: "trs",
+              },
+            ],
+          },
+        },
+      };
+      service.withdraw_erc20.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.withdrawErc20(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterRecipientAddressBlockedError(
+          `Contract abc, symbol def and ledger canister ID apia6-jaaaa-aaaar-qabma-cai. Contract xyz, symbol trs and ledger canister ID sv3dd-oaaaa-aaaar-qacoa-cai.`,
+        ),
+      );
+    });
+
+    it("should throw LedgerTemporarilyUnavailable", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+
+      const error = { Err: { TemporarilyUnavailable: "unavailable" } };
+      service.withdraw_erc20.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.withdrawErc20(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+      );
+    });
+
     it("should throw unsupported response", async () => {
       const service = mock<ActorSubclass<CkETHMinterService>>();
 

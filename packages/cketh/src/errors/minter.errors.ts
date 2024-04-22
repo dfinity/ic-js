@@ -74,7 +74,7 @@ export const createWithdrawErc20Error = (
 
   if ("TokenNotSupported" in Err) {
     return new MinterTokenNotSupported(
-      `${Err.TokenNotSupported.supported_tokens.map(({ erc20_contract_address, ckerc20_token_symbol, ledger_canister_id }) => `Contract ${erc20_contract_address}, symbol ${ckerc20_token_symbol} and ledger canister ID ${ledger_canister_id.toText()}.`)}`,
+      `${Err.TokenNotSupported.supported_tokens.map(({ erc20_contract_address, ckerc20_token_symbol, ledger_canister_id }) => `Contract ${erc20_contract_address}, symbol ${ckerc20_token_symbol} and ledger canister ID ${ledger_canister_id.toText()}.`).join(" ")}`,
     );
   }
 
