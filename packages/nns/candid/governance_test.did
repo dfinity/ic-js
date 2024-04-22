@@ -1,4 +1,4 @@
-// Generated from IC repo commit 30a4021 (2024-03-28 tags: release-2024-03-27_23-01-p2p) 'rs/nns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 0a51fd7 (2024-04-18 tags: release-2024-04-17_23-01-query-stats) 'rs/nns/governance/canister/governance_test.did' by import-candid
 type AccountIdentifier = record { hash : blob };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;

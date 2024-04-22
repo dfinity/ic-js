@@ -17,14 +17,20 @@ export const idlFactory = ({ IDL }) => {
     'running' : IDL.Null,
   });
   const DefiniteCanisterSettings = IDL.Record({
+    'freezing_threshold' : IDL.Opt(IDL.Nat),
     'controllers' : IDL.Vec(IDL.Principal),
+    'reserved_cycles_limit' : IDL.Opt(IDL.Nat),
+    'memory_allocation' : IDL.Opt(IDL.Nat),
+    'compute_allocation' : IDL.Opt(IDL.Nat),
   });
   const CanisterStatusResult = IDL.Record({
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
     'settings' : DefiniteCanisterSettings,
+    'idle_cycles_burned_per_day' : IDL.Opt(IDL.Nat),
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'reserved_cycles' : IDL.Opt(IDL.Nat),
   });
   const CanisterInstallMode = IDL.Variant({
     'reinstall' : IDL.Null,
