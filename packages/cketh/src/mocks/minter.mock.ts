@@ -5,7 +5,7 @@ export const minterCanisterIdMock: Principal = Principal.fromText(
 );
 
 export const ledgerCanisterIdMock: Principal = Principal.fromText(
-    "apia6-jaaaa-aaaar-qabma-cai",
+  "apia6-jaaaa-aaaar-qabma-cai",
 );
 
 export const ckETHSmartContractAddressMock =
