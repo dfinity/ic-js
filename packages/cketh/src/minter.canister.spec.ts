@@ -5,20 +5,24 @@ import { mock } from "jest-mock-extended";
 import {
   _SERVICE as CkETHMinterService,
   MinterInfo,
+  RetrieveErc20Request,
   RetrieveEthRequest,
 } from "../candid/minter";
 import {
+  LedgerError,
+  LedgerTemporaryUnavailableError,
   MinterAmountTooLowError,
+  MinterError,
   MinterInsufficientAllowanceError,
   MinterInsufficientFundsError,
   MinterRecipientAddressBlockedError,
   MinterTemporaryUnavailableError,
-  MinterWithdrawalError,
 } from "./errors/minter.errors";
 import { CkETHMinterCanister } from "./minter.canister";
 import {
   ckETHSmartContractAddressMock,
   ethAddressMock,
+  ledgerCanisterIdMock,
   minterCanisterIdMock,
 } from "./mocks/minter.mock";
 
@@ -128,9 +132,7 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterAmountTooLowError(
-          `${error.Err.AmountTooLow.min_withdrawal_amount}`,
-        ),
+        new MinterAmountTooLowError({ details: error.Err.AmountTooLow }),
       );
     });
 
@@ -147,9 +149,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterRecipientAddressBlockedError(
-          `${error.Err.RecipientAddressBlocked.address}`,
-        ),
+        new MinterRecipientAddressBlockedError({
+          details: error.Err.RecipientAddressBlocked,
+        }),
       );
     });
 
@@ -164,9 +166,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterInsufficientFundsError(
-          `${error.Err.InsufficientFunds.balance}`,
-        ),
+        new MinterInsufficientFundsError({
+          details: error.Err.InsufficientFunds,
+        }),
       );
     });
 
@@ -181,9 +183,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterInsufficientAllowanceError(
-          `${error.Err.InsufficientAllowance.allowance}`,
-        ),
+        new MinterInsufficientAllowanceError({
+          details: error.Err.InsufficientAllowance,
+        }),
       );
     });
 
@@ -199,11 +201,426 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterWithdrawalError(
-          `Unsupported response type in minter.withdrawEth ${JSON.stringify(
-            error.Err,
-          )}`,
-        ),
+        new MinterError({
+          msg: "Unsupported response type in minter.withdrawEth",
+          details: error.Err,
+        }),
+      );
+    });
+  });
+
+  describe("Withdraw Erc20", () => {
+    const success: RetrieveErc20Request = {
+      ckerc20_block_index: 1n,
+      cketh_block_index: 2n,
+    };
+    const ok = { Ok: success };
+
+    const params = {
+      address: ethAddressMock,
+      ledgerCanisterId: ledgerCanisterIdMock,
+      amount: 123_000n,
+    };
+
+    it("should return Ok", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.withdraw_erc20.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const res = await canister.withdrawErc20(params);
+
+      expect(service.withdraw_erc20).toBeCalledTimes(1);
+
+      const { address, ledgerCanisterId, ...rest } = params;
+      expect(service.withdraw_erc20).toBeCalledWith({
+        recipient: address,
+        ckerc20_ledger_id: ledgerCanisterIdMock,
+        ...rest,
+      });
+
+      expect(res).toEqual(success);
+    });
+
+    it("should throw MinterTemporarilyUnavailable", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+
+      const error = { Err: { TemporarilyUnavailable: "unavailable" } };
+      service.withdraw_erc20.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.withdrawErc20(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+      );
+    });
+
+    it("should throw MinterRecipientAddressBlockedError", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+
+      const error = {
+        Err: { RecipientAddressBlocked: { address: ethAddressMock } },
+      };
+      service.withdraw_erc20.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.withdrawErc20(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterRecipientAddressBlockedError({
+          details: error.Err.RecipientAddressBlocked.address,
+        }),
+      );
+    });
+
+    it("should throw MinterTokenNotSupported", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+
+      const error = {
+        Err: {
+          TokenNotSupported: {
+            supported_tokens: [
+              {
+                erc20_contract_address: "abc",
+                ledger_canister_id: ledgerCanisterIdMock,
+                ckerc20_token_symbol: "def",
+              },
+              {
+                erc20_contract_address: "xyz",
+                ledger_canister_id: minterCanisterIdMock,
+                ckerc20_token_symbol: "trs",
+              },
+            ],
+          },
+        },
+      };
+      service.withdraw_erc20.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.withdrawErc20(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterRecipientAddressBlockedError({ details: error.Err }),
+      );
+    });
+
+    describe("Ledger error", () => {
+      describe("CkErc20LedgerError", () => {
+        it("should throw TemporarilyUnavailable", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkErc20LedgerError: {
+                error: {
+                  TemporarilyUnavailable: "unavailable",
+                },
+                cketh_block_index: 123n,
+              },
+            },
+          };
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerTemporaryUnavailableError({
+              msg: error.Err.CkErc20LedgerError.error.TemporarilyUnavailable,
+              details: {
+                cketh_block_index:
+                  error.Err.CkErc20LedgerError.cketh_block_index,
+              },
+            }),
+          );
+        });
+
+        it("should throw InsufficientAllowance", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkErc20LedgerError: {
+                error: {
+                  InsufficientAllowance: {
+                    token_symbol: "USDC",
+                    ledger_id: ledgerCanisterIdMock,
+                    allowance: 123n,
+                    failed_burn_amount: 456n,
+                  },
+                },
+                cketh_block_index: 123n,
+              },
+            },
+          };
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerTemporaryUnavailableError({
+              details: error.Err.CkErc20LedgerError,
+            }),
+          );
+        });
+
+        it("should throw AmountTooLow", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkErc20LedgerError: {
+                error: {
+                  AmountTooLow: {
+                    minimum_burn_amount: 123n,
+                    token_symbol: "USDC",
+                    ledger_id: ledgerCanisterIdMock,
+                    failed_burn_amount: 456n,
+                  },
+                },
+                cketh_block_index: 123n,
+              },
+            },
+          };
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerTemporaryUnavailableError({
+              details: error.Err.CkErc20LedgerError,
+            }),
+          );
+        });
+
+        it("should throw InsufficientFunds", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkErc20LedgerError: {
+                error: {
+                  InsufficientFunds: {
+                    balance: 123n,
+                    token_symbol: "USCC",
+                    ledger_id: ledgerCanisterIdMock,
+                    failed_burn_amount: 456n,
+                  },
+                },
+                cketh_block_index: 123n,
+              },
+            },
+          };
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerTemporaryUnavailableError({
+              details: error.Err.CkErc20LedgerError,
+            }),
+          );
+        });
+
+        it("should throw unsupported response", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkErc20LedgerError: {
+                error: { Test: null } as unknown,
+                cketh_block_index: 123n,
+              },
+            },
+          };
+
+          // @ts-ignore we explicity want the results to throw some error type
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerError({
+              msg: "Unsupported response type in ledger for minter.withdrawErc20",
+              details: error.Err,
+            }),
+          );
+        });
+      });
+
+      describe("CkEthLedgerError", () => {
+        it("should throw TemporarilyUnavailable", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkEthLedgerError: {
+                error: {
+                  TemporarilyUnavailable: "unavailable",
+                },
+              },
+            },
+          };
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerTemporaryUnavailableError({
+              msg: error.Err.CkEthLedgerError.error.TemporarilyUnavailable,
+            }),
+          );
+        });
+
+        it("should throw InsufficientAllowance", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkEthLedgerError: {
+                error: {
+                  InsufficientAllowance: {
+                    token_symbol: "USDC",
+                    ledger_id: ledgerCanisterIdMock,
+                    allowance: 123n,
+                    failed_burn_amount: 456n,
+                  },
+                },
+              },
+            },
+          };
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerTemporaryUnavailableError({
+              details: error.Err.CkEthLedgerError,
+            }),
+          );
+        });
+
+        it("should throw AmountTooLow", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkEthLedgerError: {
+                error: {
+                  AmountTooLow: {
+                    minimum_burn_amount: 123n,
+                    token_symbol: "USDC",
+                    ledger_id: ledgerCanisterIdMock,
+                    failed_burn_amount: 456n,
+                  },
+                },
+              },
+            },
+          };
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerTemporaryUnavailableError({
+              details: error.Err.CkEthLedgerError,
+            }),
+          );
+        });
+
+        it("should throw InsufficientFunds", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkEthLedgerError: {
+                error: {
+                  InsufficientFunds: {
+                    balance: 123n,
+                    token_symbol: "USCC",
+                    ledger_id: ledgerCanisterIdMock,
+                    failed_burn_amount: 456n,
+                  },
+                },
+              },
+            },
+          };
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerTemporaryUnavailableError({
+              details: error.Err.CkEthLedgerError,
+            }),
+          );
+        });
+
+        it("should throw unsupported response", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+
+          const error = {
+            Err: {
+              CkEthLedgerError: {
+                error: { Test: null } as unknown,
+              },
+            },
+          };
+
+          // @ts-ignore we explicity want the results to throw some error type
+          service.withdraw_erc20.mockResolvedValue(error);
+
+          const canister = minter(service);
+
+          const call = () => canister.withdrawErc20(params);
+
+          await expect(call).rejects.toThrowError(
+            new LedgerError({
+              msg: "Unsupported response type in ledger for minter.withdrawErc20",
+              details: error.Err,
+            }),
+          );
+        });
+      });
+    });
+
+    it("should throw unsupported response", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+
+      const error = { Err: { Test: null } as unknown };
+      // @ts-ignore we explicity want the results to throw some error type
+      service.withdraw_erc20.mockResolvedValue(error);
+
+      const canister = minter(service);
+
+      const call = () => canister.withdrawErc20(params);
+
+      await expect(call).rejects.toThrowError(
+        new MinterError({
+          msg: "Unsupported response type in minter.withdrawErc20",
+          details: error.Err,
+        }),
       );
     });
   });
