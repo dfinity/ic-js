@@ -1,7 +1,7 @@
-import { Principal } from "@dfinity/principal";
+import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import { Canister, createServices } from "@dfinity/utils";
-import {
+import type {
   _SERVICE as CkETHMinterService,
   Eip1559TransactionPrice,
   MinterInfo,

@@ -10,11 +10,11 @@ import {
 } from "../candid/minter";
 import {
   MinterAmountTooLowError,
+  MinterError,
   MinterInsufficientAllowanceError,
   MinterInsufficientFundsError,
   MinterRecipientAddressBlockedError,
   MinterTemporaryUnavailableError,
-  MinterWithdrawalError,
 } from "./errors/minter.errors";
 import { CkETHMinterCanister } from "./minter.canister";
 import {
@@ -115,7 +115,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+        new MinterTemporaryUnavailableError({
+          details: error.Err.TemporarilyUnavailable,
+        }),
       );
     });
 
@@ -130,9 +132,7 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterAmountTooLowError(
-          `${error.Err.AmountTooLow.min_withdrawal_amount}`,
-        ),
+        new MinterAmountTooLowError({ details: error.Err.AmountTooLow }),
       );
     });
 
@@ -149,9 +149,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterRecipientAddressBlockedError(
-          `${error.Err.RecipientAddressBlocked.address}`,
-        ),
+        new MinterRecipientAddressBlockedError({
+          details: error.Err.RecipientAddressBlocked,
+        }),
       );
     });
 
@@ -166,9 +166,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterInsufficientFundsError(
-          `${error.Err.InsufficientFunds.balance}`,
-        ),
+        new MinterInsufficientFundsError({
+          details: error.Err.InsufficientFunds,
+        }),
       );
     });
 
@@ -183,9 +183,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterInsufficientAllowanceError(
-          `${error.Err.InsufficientAllowance.allowance}`,
-        ),
+        new MinterInsufficientAllowanceError({
+          details: error.Err.InsufficientAllowance,
+        }),
       );
     });
 
@@ -201,11 +201,10 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterWithdrawalError(
-          `Unsupported response type in minter.withdrawEth ${JSON.stringify(
-            error.Err,
-          )}`,
-        ),
+        new MinterError({
+          msg: "Unsupported response type in minter.withdrawEth",
+          details: error.Err,
+        }),
       );
     });
   });
@@ -254,7 +253,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawErc20(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+        new MinterTemporaryUnavailableError({
+          details: error.Err.TemporarilyUnavailable,
+        }),
       );
     });
 
@@ -271,9 +272,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawErc20(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterRecipientAddressBlockedError(
-          `${error.Err.RecipientAddressBlocked.address}`,
-        ),
+        new MinterRecipientAddressBlockedError({
+          details: error.Err.RecipientAddressBlocked.address,
+        }),
       );
     });
 
@@ -305,9 +306,7 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawErc20(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterRecipientAddressBlockedError(
-          `Contract abc, symbol def and ledger canister ID apia6-jaaaa-aaaar-qabma-cai. Contract xyz, symbol trs and ledger canister ID sv3dd-oaaaa-aaaar-qacoa-cai.`,
-        ),
+        new MinterRecipientAddressBlockedError({ details: error.Err }),
       );
     });
 
@@ -322,7 +321,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawErc20(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
+        new MinterTemporaryUnavailableError({
+          details: error.Err.TemporarilyUnavailable,
+        }),
       );
     });
 
@@ -338,11 +339,10 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawErc20(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterWithdrawalError(
-          `Unsupported response type in minter.withdrawErc20 ${JSON.stringify(
-            error.Err,
-          )}`,
-        ),
+        new MinterError({
+          msg: "Unsupported response type in minter.withdrawErc20",
+          details: error.Err,
+        }),
       );
     });
   });
