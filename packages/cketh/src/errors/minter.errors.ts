@@ -1,3 +1,4 @@
+import { nonNullish } from "@dfinity/utils";
 import type {
   LedgerError as LedgerErrorType,
   WithdrawErc20Error,
@@ -5,8 +6,8 @@ import type {
 } from "../../candid/minter";
 
 export class DetailedError<T> extends Error {
-  public details: T;
-  constructor({ msg, details }: { msg?: string; details: T }) {
+  public details: T | undefined;
+  constructor({ msg, details }: { msg?: string; details?: T }) {
     super(msg);
     this.details = details;
   }
@@ -16,7 +17,7 @@ export class MinterGenericError extends Error {}
 
 export class MinterError<T> extends DetailedError<T> {}
 
-export class MinterTemporaryUnavailableError<T> extends MinterError<T> {}
+export class MinterTemporaryUnavailableError extends MinterGenericError {}
 export class MinterInsufficientFundsError<T> extends MinterError<T> {}
 export class MinterInsufficientAllowanceError<T> extends MinterError<T> {}
 export class MinterAmountTooLowError<T> extends MinterError<T> {}
@@ -37,9 +38,7 @@ export const createWithdrawEthError = (
   Err: WithdrawalError,
 ): MinterGenericError => {
   if ("TemporarilyUnavailable" in Err) {
-    return new MinterTemporaryUnavailableError({
-      details: Err.TemporarilyUnavailable,
-    });
+    return new MinterTemporaryUnavailableError(Err.TemporarilyUnavailable);
   }
 
   if ("InsufficientAllowance" in Err) {
@@ -77,9 +76,7 @@ export const createWithdrawErc20Error = (
   Err: WithdrawErc20Error,
 ): MinterGenericError => {
   if ("TemporarilyUnavailable" in Err) {
-    return new MinterTemporaryUnavailableError({
-      details: Err.TemporarilyUnavailable,
-    });
+    return new MinterTemporaryUnavailableError(Err.TemporarilyUnavailable);
   }
 
   if ("RecipientAddressBlocked" in Err) {
@@ -107,7 +104,12 @@ export const createWithdrawErc20Error = (
 
     if ("TemporarilyUnavailable" in Err) {
       return new LedgerTemporaryUnavailableError({
-        details: createDetailsError(Err.TemporarilyUnavailable),
+        msg: Err.TemporarilyUnavailable,
+        ...(nonNullish(ckEthBlockIndex) && {
+          details: {
+            ckEthBlockIndex,
+          },
+        }),
       });
     }
 

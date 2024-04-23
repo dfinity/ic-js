@@ -117,9 +117,7 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterTemporaryUnavailableError({
-          details: error.Err.TemporarilyUnavailable,
-        }),
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
       );
     });
 
@@ -255,9 +253,7 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawErc20(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterTemporaryUnavailableError({
-          details: error.Err.TemporarilyUnavailable,
-        }),
+        new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
       );
     });
 
@@ -335,7 +331,11 @@ describe("ckETH minter canister", () => {
 
           await expect(call).rejects.toThrowError(
             new LedgerTemporaryUnavailableError({
-              details: error.Err.CkErc20LedgerError,
+              msg: error.Err.CkErc20LedgerError.error.TemporarilyUnavailable,
+              details: {
+                cketh_block_index:
+                  error.Err.CkErc20LedgerError.cketh_block_index,
+              },
             }),
           );
         });
@@ -482,7 +482,7 @@ describe("ckETH minter canister", () => {
 
           await expect(call).rejects.toThrowError(
             new LedgerTemporaryUnavailableError({
-              details: error.Err.CkEthLedgerError,
+              msg: error.Err.CkEthLedgerError.error.TemporarilyUnavailable,
             }),
           );
         });
