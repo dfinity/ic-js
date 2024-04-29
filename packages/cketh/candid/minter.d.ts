@@ -77,6 +77,7 @@ export interface Event {
           ckerc20_token_symbol: string;
         };
       }
+    | { QuarantinedDeposit: { event_source: EventSource } }
     | { SyncedToBlock: { block_number: bigint } }
     | {
         AcceptedDeposit: {
@@ -94,6 +95,7 @@ export interface Event {
           transaction: UnsignedTransaction;
         };
       }
+    | { QuarantinedReimbursement: { index: ReimbursementIndex } }
     | {
         MintedCkEth: {
           event_source: EventSource;
@@ -226,6 +228,7 @@ export interface MinterInfo {
   erc20_helper_contract_address: [] | [string];
   supported_ckerc20_tokens: [] | [Array<CkErc20Token>];
   last_gas_fee_estimate: [] | [GasFeeEstimate];
+  smart_contract_address: [] | [string];
   minimum_withdrawal_amount: [] | [bigint];
   erc20_balances:
     | []
@@ -239,6 +242,15 @@ export interface QueryStats {
   num_calls_total: bigint;
   request_payload_bytes_total: bigint;
 }
+export type ReimbursementIndex =
+  | {
+      CkErc20: {
+        cketh_ledger_burn_index: bigint;
+        ledger_id: Principal;
+        ckerc20_ledger_burn_index: bigint;
+      };
+    }
+  | { CkEth: { ledger_burn_index: bigint } };
 export interface RetrieveErc20Request {
   ckerc20_block_index: bigint;
   cketh_block_index: bigint;

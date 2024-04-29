@@ -73,6 +73,10 @@ export const idlFactory = ({ IDL }) => {
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'reserved_cycles' : IDL.Nat,
   });
+  const EventSource = IDL.Record({
+    'transaction_hash' : IDL.Text,
+    'log_index' : IDL.Nat,
+  });
   const UnsignedTransaction = IDL.Record({
     'destination' : IDL.Text,
     'value' : IDL.Nat,
@@ -89,9 +93,13 @@ export const idlFactory = ({ IDL }) => {
       })
     ),
   });
-  const EventSource = IDL.Record({
-    'transaction_hash' : IDL.Text,
-    'log_index' : IDL.Nat,
+  const ReimbursementIndex = IDL.Variant({
+    'CkErc20' : IDL.Record({
+      'cketh_ledger_burn_index' : IDL.Nat,
+      'ledger_id' : IDL.Principal,
+      'ckerc20_ledger_burn_index' : IDL.Nat,
+    }),
+    'CkEth' : IDL.Record({ 'ledger_burn_index' : IDL.Nat }),
   });
   const TransactionReceipt = IDL.Record({
     'effective_gas_price' : IDL.Nat,
@@ -126,6 +134,7 @@ export const idlFactory = ({ IDL }) => {
         'address' : IDL.Text,
         'ckerc20_token_symbol' : IDL.Text,
       }),
+      'QuarantinedDeposit' : IDL.Record({ 'event_source' : EventSource }),
       'SyncedToBlock' : IDL.Record({ 'block_number' : IDL.Nat }),
       'AcceptedDeposit' : IDL.Record({
         'principal' : IDL.Principal,
@@ -139,6 +148,7 @@ export const idlFactory = ({ IDL }) => {
         'withdrawal_id' : IDL.Nat,
         'transaction' : UnsignedTransaction,
       }),
+      'QuarantinedReimbursement' : IDL.Record({ 'index' : ReimbursementIndex }),
       'MintedCkEth' : IDL.Record({
         'event_source' : EventSource,
         'mint_block_index' : IDL.Nat,
@@ -221,6 +231,7 @@ export const idlFactory = ({ IDL }) => {
     'erc20_helper_contract_address' : IDL.Opt(IDL.Text),
     'supported_ckerc20_tokens' : IDL.Opt(IDL.Vec(CkErc20Token)),
     'last_gas_fee_estimate' : IDL.Opt(GasFeeEstimate),
+    'smart_contract_address' : IDL.Opt(IDL.Text),
     'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
     'erc20_balances' : IDL.Opt(
       IDL.Vec(
