@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/ic-js",
-  "version": "2024.03.25-1430Z",
+  "version": "2024.04.29-0930Z",
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
   "workspaces": [
