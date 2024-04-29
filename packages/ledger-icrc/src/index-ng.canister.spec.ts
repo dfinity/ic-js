@@ -171,4 +171,19 @@ describe("Index canister", () => {
       expect(res).toEqual(balance);
     });
   });
+
+  describe("ledger_id", () => {
+    it("should return the balance of subaccount", async () => {
+      const service = mock<ActorSubclass<IcrcIndexNgService>>();
+      service.ledger_id.mockResolvedValue(ledgerCanisterIdMock);
+
+      const canister = IcrcIndexNgCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.ledgerId({});
+      expect(res).toEqual(ledgerCanisterIdMock);
+    });
+  });
 });
