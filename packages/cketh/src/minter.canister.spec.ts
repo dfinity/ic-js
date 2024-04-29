@@ -720,6 +720,7 @@ describe("ckETH minter canister", () => {
           ],
         ],
         eth_helper_contract_address: toNullable(ckETHSmartContractAddressMock),
+        smart_contract_address: toNullable(ckETHSmartContractAddressMock),
         supported_ckerc20_tokens: [],
       };
 
