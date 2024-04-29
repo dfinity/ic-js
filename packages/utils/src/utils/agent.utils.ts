@@ -34,7 +34,7 @@ export const createAgent = async ({
     identity,
     ...(host !== undefined && { host }),
     verifyQuerySignatures,
-    retryTimes: 10
+    retryTimes: 10,
   });
 
   if (fetchRootKey) {
