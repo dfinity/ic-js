@@ -4,6 +4,8 @@
 
 - Protocol buffers for hardware wallet transactions are no longer supported. Internet Computer Ledger app 2.4.9 or later is now required.
 - GovernanceCanister.listNeurons no longer throws an error when called with `certified: false` for hardware wallet transactions.
+- The field `smart_contract_address` was removed from ckETH minter information, and additional fields related to ERC20 support have been added.
+- Potential errors thrown by `withdrawEth` provide now unparsed details.
 
 ## Features
 
@@ -13,6 +15,7 @@
 - Remove hardware wallet specific options from LedgerCanister.
 - Remove dependency on `@dfinity/nns-proto` from `@dfinity/ledger-icp`.
 - Remove hardware wallet specific code and `@dfinity/nns-proto` dependency from `@dfinity/nns`.
+- Add support for `withdrawErc20`.
 
 ## Build
 

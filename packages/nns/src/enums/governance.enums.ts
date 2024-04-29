@@ -128,6 +128,11 @@ export enum NnsFunction {
   AddApiBoundaryNode = 43,
   RemoveApiBoundaryNodes = 44,
   UpdateApiBoundaryNodesVersion = 46,
+  DeployGuestosToSomeApiBoundaryNodes = 47,
+  DeployGuestosToAllUnassignedNodes = 48,
+  UpdateSshReadOnlyAccessForAllUnassignedNodes = 49,
+  ReviseElectedHostosVersions = 50,
+  DeployHostosToSomeNodes = 51,
 }
 
 // Reference: https://github.com/dfinity/ic/blob/f4b2e28525ae9b030bd9edfc982e796417db2b80/rs/nns/governance/src/gen/ic_nns_governance.pb.v1.rs#L3286-L3287
