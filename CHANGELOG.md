@@ -16,14 +16,12 @@
 - Remove dependency on `@dfinity/nns-proto` from `@dfinity/ledger-icp`.
 - Remove hardware wallet specific code and `@dfinity/nns-proto` dependency from `@dfinity/nns`.
 - Add support for `withdrawErc20`.
+- Set number of retries to 10 (as opposed to default 3) in `createAgent` utility to make the agent more resilient against watermark check failures.
 
 ## Build
 
+- Upgrade `agent-js` dependencies to `v1.2.1`. Note that it is advised to set the number of retries of the agent to 10 to prevent the potential issue `Timestamp failed to pass the watermark after retrying the configured 3 times. We cannot guarantee the integrity of the response since it could be a replay attack.` (see thread on the [forum](https://forum.dfinity.org/t/timestamp-failed-to-pass-the-watermark-after-retrying-the-configured-3-times/29180/3?u=peterparker)).
 - Upgrade `didc` to `0.3.7` that converts candid files into JS and TS.
-
-## Build
-
-- Bump agent-js `v1.2.0`.
 
 # 2024.03.25-1430Z
 
