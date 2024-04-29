@@ -16,6 +16,7 @@
 - Remove hardware wallet specific code and `@dfinity/nns-proto` dependency from `@dfinity/nns`.
 - Add support for `withdrawErc20`.
 - Additional fields related to ERC20 have been added to ckETH `minterInfo`.
+- Expose the function `ledger_id` for Index canister in the `ledger-icrc` library.
 
 ## Build
 
