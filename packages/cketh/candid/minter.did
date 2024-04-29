@@ -1,4 +1,4 @@
-// Generated from IC repo commit eb447cf74b (2024-04-19) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit 5e285dc (2024-04-24 tags: release-2024-04-24_23-01-storage-layer) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -135,7 +135,11 @@ type MinterInfo = record {
     // Ethereum address controlled by the minter via threshold ECDSA.
     minter_address: opt text;
 
-    // Address of the helper smart contract.
+    // (Deprecated) Address of the ETH helper smart contract.
+    // Use `eth_helper_contract_address`.
+    smart_contract_address: opt text;
+
+    // Address of the ETH helper smart contract.
     eth_helper_contract_address: opt text;
 
     // Address of the ERC20 helper smart contract
@@ -424,6 +428,9 @@ type Event = record {
             erc20_contract_address : text;
             mint_block_index : nat;
             ckerc20_token_symbol: text;
+        };
+        QuarantinedDeposit : record {
+            event_source : EventSource;
         };
     };
 };

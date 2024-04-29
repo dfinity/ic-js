@@ -77,6 +77,7 @@ export interface Event {
           ckerc20_token_symbol: string;
         };
       }
+    | { QuarantinedDeposit: { event_source: EventSource } }
     | { SyncedToBlock: { block_number: bigint } }
     | {
         AcceptedDeposit: {
@@ -226,6 +227,7 @@ export interface MinterInfo {
   erc20_helper_contract_address: [] | [string];
   supported_ckerc20_tokens: [] | [Array<CkErc20Token>];
   last_gas_fee_estimate: [] | [GasFeeEstimate];
+  smart_contract_address: [] | [string];
   minimum_withdrawal_amount: [] | [bigint];
   erc20_balances:
     | []
