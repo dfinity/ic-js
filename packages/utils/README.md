@@ -90,9 +90,9 @@ Get a default agent that connects to mainnet with the anonymous identity.
 
 Create an agent for a given identity
 
-| Function      | Type                                                                                                                                                                                                                       |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, }: { identity: Identity; host?: string or undefined; fetchRootKey?: boolean or undefined; verifyQuerySignatures?: boolean or undefined; }) => Promise<HttpAgent>` |
+| Function      | Type                                                                                                                                                                                                                                                               |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, retryTimes, }: { identity: Identity; host?: string or undefined; fetchRootKey?: boolean or undefined; verifyQuerySignatures?: boolean or undefined; retryTimes?: number or undefined; }) => Promise<...>` |
 
 Parameters:
 
@@ -100,8 +100,9 @@ Parameters:
 - `host`: An optional host to connect to
 - `fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
 - `verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
+- `retryTimes`: Set the number of retries the agent should perform before errorring. By default, 10 is applied (as opposed to default 3 in agent-js) to make the agent more resilient against watermark check failures.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L21)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L22)
 
 #### :gear: createServices
 
