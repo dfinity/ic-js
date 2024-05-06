@@ -64,6 +64,16 @@ export interface Burn {
   amount: bigint;
   spender: [] | [Account];
 }
+export interface ChangeArchiveOptions {
+  num_blocks_to_archive: [] | [bigint];
+  max_transactions_per_response: [] | [bigint];
+  trigger_threshold: [] | [bigint];
+  more_controller_ids: [] | [Array<Principal>];
+  max_message_size_bytes: [] | [bigint];
+  cycles_for_archive_creation: [] | [bigint];
+  node_max_memory_size_bytes: [] | [bigint];
+  controller_id: [] | [Principal];
+}
 export type ChangeFeeCollector = { SetTo: Account } | { Unset: null };
 export interface DataCertificate {
   certificate: [] | [Uint8Array | number[]];
@@ -73,6 +83,14 @@ export type Duration = bigint;
 export interface FeatureFlags {
   icrc2: boolean;
 }
+export interface GetArchivesArgs {
+  from: [] | [Principal];
+}
+export type GetArchivesResult = Array<{
+  end: bigint;
+  canister_id: Principal;
+  start: bigint;
+}>;
 export interface GetBlocksArgs {
   start: BlockIndex;
   length: bigint;
@@ -86,6 +104,14 @@ export interface GetBlocksResponse {
     callback: QueryBlockArchiveFn;
     start: BlockIndex;
     length: bigint;
+  }>;
+}
+export interface GetBlocksResult {
+  log_length: bigint;
+  blocks: Array<{ id: bigint; block: ICRC3Value }>;
+  archived_blocks: Array<{
+    args: Array<GetBlocksArgs>;
+    callback: [Principal, string];
   }>;
 }
 export interface GetTransactionsRequest {
@@ -113,6 +139,17 @@ export interface HttpResponse {
   headers: Array<[string, string]>;
   status_code: number;
 }
+export interface ICRC3DataCertificate {
+  certificate: Uint8Array | number[];
+  hash_tree: Uint8Array | number[];
+}
+export type ICRC3Value =
+  | { Int: bigint }
+  | { Map: Array<[string, ICRC3Value]> }
+  | { Nat: bigint }
+  | { Blob: Uint8Array | number[] }
+  | { Text: string }
+  | { Array: Array<ICRC3Value> };
 export interface InitArgs {
   decimals: [] | [number];
   token_symbol: string;
@@ -228,6 +265,7 @@ export type TransferFromResult =
 export type TransferResult = { Ok: BlockIndex } | { Err: TransferError };
 export type TxIndex = bigint;
 export interface UpgradeArgs {
+  change_archive_options: [] | [ChangeArchiveOptions];
   token_symbol: [] | [string];
   transfer_fee: [] | [bigint];
   metadata: [] | [Array<[string, MetadataValue]>];
@@ -267,6 +305,13 @@ export interface _SERVICE {
   icrc2_allowance: ActorMethod<[AllowanceArgs], Allowance>;
   icrc2_approve: ActorMethod<[ApproveArgs], ApproveResult>;
   icrc2_transfer_from: ActorMethod<[TransferFromArgs], TransferFromResult>;
+  icrc3_get_archives: ActorMethod<[GetArchivesArgs], GetArchivesResult>;
+  icrc3_get_blocks: ActorMethod<[Array<GetBlocksArgs>], GetBlocksResult>;
+  icrc3_get_tip_certificate: ActorMethod<[], [] | [ICRC3DataCertificate]>;
+  icrc3_supported_block_types: ActorMethod<
+    [],
+    Array<{ url: string; block_type: string }>
+  >;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
 export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];

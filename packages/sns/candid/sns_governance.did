@@ -1,4 +1,4 @@
-// Generated from IC repo commit ff10ea1db (2024-04-04 tags: release-2024-04-03_23-01-base) 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit f58424c (2024-04-24 tags: release-2024-05-01_23-01-storage-layer) 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record { owner : opt principal; subaccount : opt Subaccount };
 type Action = variant {
   ManageNervousSystemParameters : NervousSystemParameters;
@@ -242,10 +242,16 @@ type ManageDappCanisterSettings = record {
   canister_ids : vec principal;
   reserved_cycles_limit : opt nat64;
   log_visibility : opt int32;
+  wasm_memory_limit : opt nat64;
   memory_allocation : opt nat64;
   compute_allocation : opt nat64;
 };
-type ManageLedgerParameters = record { transfer_fee : opt nat64 };
+type ManageLedgerParameters = record {
+  token_symbol : opt text;
+  transfer_fee : opt nat64;
+  token_logo : opt text;
+  token_name : opt text;
+};
 type ManageNeuron = record { subaccount : blob; command : opt Command };
 type ManageNeuronResponse = record { command : opt Command_1 };
 type ManageSnsMetadata = record {
@@ -387,6 +393,7 @@ type RewardEvent = record {
   rounds_since_last_distribution : opt nat64;
   actual_timestamp_seconds : nat64;
   end_timestamp_seconds : opt nat64;
+  total_available_e8s_equivalent : opt nat64;
   distributed_e8s_equivalent : nat64;
   round : nat64;
   settled_proposals : vec ProposalId;

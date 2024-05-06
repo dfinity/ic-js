@@ -1,6 +1,18 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/ledger-icrc/candid/icrc_ledger.did */
 export const idlFactory = ({ IDL }) => {
+  const GetBlocksResult = IDL.Rec();
+  const ICRC3Value = IDL.Rec();
   const Value = IDL.Rec();
+  const ChangeArchiveOptions = IDL.Record({
+    'num_blocks_to_archive' : IDL.Opt(IDL.Nat64),
+    'max_transactions_per_response' : IDL.Opt(IDL.Nat64),
+    'trigger_threshold' : IDL.Opt(IDL.Nat64),
+    'more_controller_ids' : IDL.Opt(IDL.Vec(IDL.Principal)),
+    'max_message_size_bytes' : IDL.Opt(IDL.Nat64),
+    'cycles_for_archive_creation' : IDL.Opt(IDL.Nat64),
+    'node_max_memory_size_bytes' : IDL.Opt(IDL.Nat64),
+    'controller_id' : IDL.Opt(IDL.Principal),
+  });
   const MetadataValue = IDL.Variant({
     'Int' : IDL.Int,
     'Nat' : IDL.Nat,
@@ -18,6 +30,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const FeatureFlags = IDL.Record({ 'icrc2' : IDL.Bool });
   const UpgradeArgs = IDL.Record({
+    'change_archive_options' : IDL.Opt(ChangeArchiveOptions),
     'token_symbol' : IDL.Opt(IDL.Text),
     'transfer_fee' : IDL.Opt(IDL.Nat),
     'metadata' : IDL.Opt(IDL.Vec(IDL.Tuple(IDL.Text, MetadataValue))),
@@ -258,6 +271,44 @@ export const idlFactory = ({ IDL }) => {
     'Ok' : BlockIndex,
     'Err' : TransferFromError,
   });
+  const GetArchivesArgs = IDL.Record({ 'from' : IDL.Opt(IDL.Principal) });
+  const GetArchivesResult = IDL.Vec(
+    IDL.Record({
+      'end' : IDL.Nat,
+      'canister_id' : IDL.Principal,
+      'start' : IDL.Nat,
+    })
+  );
+  ICRC3Value.fill(
+    IDL.Variant({
+      'Int' : IDL.Int,
+      'Map' : IDL.Vec(IDL.Tuple(IDL.Text, ICRC3Value)),
+      'Nat' : IDL.Nat,
+      'Blob' : IDL.Vec(IDL.Nat8),
+      'Text' : IDL.Text,
+      'Array' : IDL.Vec(ICRC3Value),
+    })
+  );
+  GetBlocksResult.fill(
+    IDL.Record({
+      'log_length' : IDL.Nat,
+      'blocks' : IDL.Vec(IDL.Record({ 'id' : IDL.Nat, 'block' : ICRC3Value })),
+      'archived_blocks' : IDL.Vec(
+        IDL.Record({
+          'args' : IDL.Vec(GetBlocksArgs),
+          'callback' : IDL.Func(
+              [IDL.Vec(GetBlocksArgs)],
+              [GetBlocksResult],
+              ['query'],
+            ),
+        })
+      ),
+    })
+  );
+  const ICRC3DataCertificate = IDL.Record({
+    'certificate' : IDL.Vec(IDL.Nat8),
+    'hash_tree' : IDL.Vec(IDL.Nat8),
+  });
   return IDL.Service({
     'archives' : IDL.Func([], [IDL.Vec(ArchiveInfo)], ['query']),
     'get_blocks' : IDL.Func([GetBlocksArgs], [GetBlocksResponse], ['query']),
@@ -292,9 +343,39 @@ export const idlFactory = ({ IDL }) => {
         [TransferFromResult],
         [],
       ),
+    'icrc3_get_archives' : IDL.Func(
+        [GetArchivesArgs],
+        [GetArchivesResult],
+        ['query'],
+      ),
+    'icrc3_get_blocks' : IDL.Func(
+        [IDL.Vec(GetBlocksArgs)],
+        [GetBlocksResult],
+        ['query'],
+      ),
+    'icrc3_get_tip_certificate' : IDL.Func(
+        [],
+        [IDL.Opt(ICRC3DataCertificate)],
+        ['query'],
+      ),
+    'icrc3_supported_block_types' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'block_type' : IDL.Text }))],
+        ['query'],
+      ),
   });
 };
 export const init = ({ IDL }) => {
+  const ChangeArchiveOptions = IDL.Record({
+    'num_blocks_to_archive' : IDL.Opt(IDL.Nat64),
+    'max_transactions_per_response' : IDL.Opt(IDL.Nat64),
+    'trigger_threshold' : IDL.Opt(IDL.Nat64),
+    'more_controller_ids' : IDL.Opt(IDL.Vec(IDL.Principal)),
+    'max_message_size_bytes' : IDL.Opt(IDL.Nat64),
+    'cycles_for_archive_creation' : IDL.Opt(IDL.Nat64),
+    'node_max_memory_size_bytes' : IDL.Opt(IDL.Nat64),
+    'controller_id' : IDL.Opt(IDL.Principal),
+  });
   const MetadataValue = IDL.Variant({
     'Int' : IDL.Int,
     'Nat' : IDL.Nat,
@@ -312,6 +393,7 @@ export const init = ({ IDL }) => {
   });
   const FeatureFlags = IDL.Record({ 'icrc2' : IDL.Bool });
   const UpgradeArgs = IDL.Record({
+    'change_archive_options' : IDL.Opt(ChangeArchiveOptions),
     'token_symbol' : IDL.Opt(IDL.Text),
     'transfer_fee' : IDL.Opt(IDL.Nat),
     'metadata' : IDL.Opt(IDL.Vec(IDL.Tuple(IDL.Text, MetadataValue))),

@@ -218,6 +218,7 @@ export interface Governance {
   node_providers: Array<NodeProvider>;
   cached_daily_maturity_modulation_basis_points: [] | [number];
   economics: [] | [NetworkEconomics];
+  restore_aging_summary: [] | [RestoreAgingSummary];
   spawning_neurons: [] | [boolean];
   latest_reward_event: [] | [RewardEvent];
   to_claim_transfers: Array<NeuronStakeTransfer>;
@@ -618,6 +619,16 @@ export interface RegisterVote {
 export interface RemoveHotKey {
   hot_key_to_remove: [] | [Principal];
 }
+export interface RestoreAgingNeuronGroup {
+  count: [] | [bigint];
+  previous_total_stake_e8s: [] | [bigint];
+  current_total_stake_e8s: [] | [bigint];
+  group_type: number;
+}
+export interface RestoreAgingSummary {
+  groups: Array<RestoreAgingNeuronGroup>;
+  timestamp_seconds: [] | [bigint];
+}
 export type Result = { Ok: null } | { Err: GovernanceError };
 export type Result_1 = { Error: GovernanceError } | { NeuronId: NeuronId };
 export type Result_10 = { Ok: Ok_1 } | { Err: GovernanceError };
@@ -798,6 +809,7 @@ export interface _SERVICE {
   get_node_provider_by_caller: ActorMethod<[null], Result_7>;
   get_pending_proposals: ActorMethod<[], Array<ProposalInfo>>;
   get_proposal_info: ActorMethod<[bigint], [] | [ProposalInfo]>;
+  get_restore_aging_summary: ActorMethod<[], RestoreAgingSummary>;
   list_known_neurons: ActorMethod<[], ListKnownNeuronsResponse>;
   list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
   list_node_providers: ActorMethod<[], ListNodeProvidersResponse>;

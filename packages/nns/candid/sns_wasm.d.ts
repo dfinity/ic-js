@@ -84,6 +84,12 @@ export interface GetNextSnsVersionResponse {
 export interface GetSnsSubnetIdsResponse {
   sns_subnet_ids: Array<Principal>;
 }
+export interface GetWasmMetadataRequest {
+  hash: [] | [Uint8Array | number[]];
+}
+export interface GetWasmMetadataResponse {
+  result: [] | [Result_1];
+}
 export interface GetWasmRequest {
   hash: Uint8Array | number[];
 }
@@ -125,6 +131,11 @@ export interface ListUpgradeStepsRequest {
 export interface ListUpgradeStepsResponse {
   steps: Array<ListUpgradeStep>;
 }
+export interface MetadataSection {
+  contents: [] | [Uint8Array | number[]];
+  name: [] | [string];
+  visibility: [] | [string];
+}
 export interface NeuronBasketConstructionParameters {
   dissolve_delay_interval_seconds: bigint;
   count: bigint;
@@ -147,6 +158,9 @@ export interface NeuronsFundParticipationConstraints {
     | []
     | [IdealMatchedParticipationFunction];
 }
+export interface Ok {
+  sections: Array<MetadataSection>;
+}
 export interface PrettySnsVersion {
   archive_wasm_hash: string;
   root_wasm_hash: string;
@@ -156,6 +170,7 @@ export interface PrettySnsVersion {
   index_wasm_hash: string;
 }
 export type Result = { Error: SnsWasmError } | { Hash: Uint8Array | number[] };
+export type Result_1 = { Ok: Ok } | { Error: SnsWasmError };
 export interface SnsCanisterIds {
   root: [] | [Principal];
   swap: [] | [Principal];
@@ -271,6 +286,10 @@ export interface _SERVICE {
   >;
   get_sns_subnet_ids: ActorMethod<[{}], GetSnsSubnetIdsResponse>;
   get_wasm: ActorMethod<[GetWasmRequest], GetWasmResponse>;
+  get_wasm_metadata: ActorMethod<
+    [GetWasmMetadataRequest],
+    GetWasmMetadataResponse
+  >;
   insert_upgrade_path_entries: ActorMethod<
     [InsertUpgradePathEntriesRequest],
     InsertUpgradePathEntriesResponse
