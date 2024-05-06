@@ -94,6 +94,7 @@ export const idlFactory = ({ IDL }) => {
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'actual_timestamp_seconds' : IDL.Nat64,
     'end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'total_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'distributed_e8s_equivalent' : IDL.Nat64,
     'round' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(ProposalId),
@@ -150,6 +151,7 @@ export const idlFactory = ({ IDL }) => {
     'canister_ids' : IDL.Vec(IDL.Principal),
     'reserved_cycles_limit' : IDL.Opt(IDL.Nat64),
     'log_visibility' : IDL.Opt(IDL.Int32),
+    'wasm_memory_limit' : IDL.Opt(IDL.Nat64),
     'memory_allocation' : IDL.Opt(IDL.Nat64),
     'compute_allocation' : IDL.Opt(IDL.Nat64),
   });
@@ -190,7 +192,10 @@ export const idlFactory = ({ IDL }) => {
     'payload' : IDL.Vec(IDL.Nat8),
   });
   const ManageLedgerParameters = IDL.Record({
+    'token_symbol' : IDL.Opt(IDL.Text),
     'transfer_fee' : IDL.Opt(IDL.Nat64),
+    'token_logo' : IDL.Opt(IDL.Text),
+    'token_name' : IDL.Opt(IDL.Text),
   });
   const Motion = IDL.Record({ 'motion_text' : IDL.Text });
   const Action = IDL.Variant({
@@ -667,6 +672,7 @@ export const init = ({ IDL }) => {
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'actual_timestamp_seconds' : IDL.Nat64,
     'end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'total_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'distributed_e8s_equivalent' : IDL.Nat64,
     'round' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(ProposalId),
@@ -723,6 +729,7 @@ export const init = ({ IDL }) => {
     'canister_ids' : IDL.Vec(IDL.Principal),
     'reserved_cycles_limit' : IDL.Opt(IDL.Nat64),
     'log_visibility' : IDL.Opt(IDL.Int32),
+    'wasm_memory_limit' : IDL.Opt(IDL.Nat64),
     'memory_allocation' : IDL.Opt(IDL.Nat64),
     'compute_allocation' : IDL.Opt(IDL.Nat64),
   });
@@ -763,7 +770,10 @@ export const init = ({ IDL }) => {
     'payload' : IDL.Vec(IDL.Nat8),
   });
   const ManageLedgerParameters = IDL.Record({
+    'token_symbol' : IDL.Opt(IDL.Text),
     'transfer_fee' : IDL.Opt(IDL.Nat64),
+    'token_logo' : IDL.Opt(IDL.Text),
+    'token_name' : IDL.Opt(IDL.Text),
   });
   const Motion = IDL.Record({ 'motion_text' : IDL.Text });
   const Action = IDL.Variant({

@@ -369,6 +369,16 @@ export const idlFactory = ({ IDL }) => {
     'timestamp_seconds' : IDL.Nat64,
     'seed_neuron_count' : IDL.Nat64,
   });
+  const RestoreAgingNeuronGroup = IDL.Record({
+    'count' : IDL.Opt(IDL.Nat64),
+    'previous_total_stake_e8s' : IDL.Opt(IDL.Nat64),
+    'current_total_stake_e8s' : IDL.Opt(IDL.Nat64),
+    'group_type' : IDL.Int32,
+  });
+  const RestoreAgingSummary = IDL.Record({
+    'groups' : IDL.Vec(RestoreAgingNeuronGroup),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const RewardEvent = IDL.Record({
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'day_after_genesis' : IDL.Nat64,
@@ -573,6 +583,7 @@ export const idlFactory = ({ IDL }) => {
     'node_providers' : IDL.Vec(NodeProvider),
     'cached_daily_maturity_modulation_basis_points' : IDL.Opt(IDL.Int32),
     'economics' : IDL.Opt(NetworkEconomics),
+    'restore_aging_summary' : IDL.Opt(RestoreAgingSummary),
     'spawning_neurons' : IDL.Opt(IDL.Bool),
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'to_claim_transfers' : IDL.Vec(NeuronStakeTransfer),
@@ -809,6 +820,11 @@ export const idlFactory = ({ IDL }) => {
     'get_proposal_info' : IDL.Func(
         [IDL.Nat64],
         [IDL.Opt(ProposalInfo)],
+        ['query'],
+      ),
+    'get_restore_aging_summary' : IDL.Func(
+        [],
+        [RestoreAgingSummary],
         ['query'],
       ),
     'list_known_neurons' : IDL.Func([], [ListKnownNeuronsResponse], ['query']),
@@ -1214,6 +1230,16 @@ export const init = ({ IDL }) => {
     'timestamp_seconds' : IDL.Nat64,
     'seed_neuron_count' : IDL.Nat64,
   });
+  const RestoreAgingNeuronGroup = IDL.Record({
+    'count' : IDL.Opt(IDL.Nat64),
+    'previous_total_stake_e8s' : IDL.Opt(IDL.Nat64),
+    'current_total_stake_e8s' : IDL.Opt(IDL.Nat64),
+    'group_type' : IDL.Int32,
+  });
+  const RestoreAgingSummary = IDL.Record({
+    'groups' : IDL.Vec(RestoreAgingNeuronGroup),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const RewardEvent = IDL.Record({
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'day_after_genesis' : IDL.Nat64,
@@ -1418,6 +1444,7 @@ export const init = ({ IDL }) => {
     'node_providers' : IDL.Vec(NodeProvider),
     'cached_daily_maturity_modulation_basis_points' : IDL.Opt(IDL.Int32),
     'economics' : IDL.Opt(NetworkEconomics),
+    'restore_aging_summary' : IDL.Opt(RestoreAgingSummary),
     'spawning_neurons' : IDL.Opt(IDL.Bool),
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'to_claim_transfers' : IDL.Vec(NeuronStakeTransfer),

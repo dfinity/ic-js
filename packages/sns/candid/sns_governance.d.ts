@@ -288,11 +288,15 @@ export interface ManageDappCanisterSettings {
   canister_ids: Array<Principal>;
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [number];
+  wasm_memory_limit: [] | [bigint];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
 export interface ManageLedgerParameters {
+  token_symbol: [] | [string];
   transfer_fee: [] | [bigint];
+  token_logo: [] | [string];
+  token_name: [] | [string];
 }
 export interface ManageNeuron {
   subaccount: Uint8Array | number[];
@@ -463,6 +467,7 @@ export interface RewardEvent {
   rounds_since_last_distribution: [] | [bigint];
   actual_timestamp_seconds: bigint;
   end_timestamp_seconds: [] | [bigint];
+  total_available_e8s_equivalent: [] | [bigint];
   distributed_e8s_equivalent: bigint;
   round: bigint;
   settled_proposals: Array<ProposalId>;

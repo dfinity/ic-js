@@ -18,7 +18,9 @@ export interface CanisterStatusResult {
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettings;
+  idle_cycles_burned_per_day: [] | [bigint];
   module_hash: [] | [Uint8Array | number[]];
+  reserved_cycles: [] | [bigint];
 }
 export interface CanisterStatusResultV2 {
   status: CanisterStatusType;
@@ -46,7 +48,11 @@ export interface ChangeCanisterRequest {
   compute_allocation: [] | [bigint];
 }
 export interface DefiniteCanisterSettings {
+  freezing_threshold: [] | [bigint];
   controllers: Array<Principal>;
+  reserved_cycles_limit: [] | [bigint];
+  memory_allocation: [] | [bigint];
+  compute_allocation: [] | [bigint];
 }
 export interface DefiniteCanisterSettingsArgs {
   freezing_threshold: bigint;
@@ -84,6 +90,7 @@ export interface ManageDappCanisterSettingsRequest {
   canister_ids: Array<Principal>;
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [number];
+  wasm_memory_limit: [] | [bigint];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
