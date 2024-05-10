@@ -1,6 +1,7 @@
-export { NeuronId, PrincipalId } from "../proto/base_types_pb";
+export { PrincipalId } from "../proto/base_types_pb";
 export {
   BallotInfo,
+  Governance,
   ListNeurons,
   ListNeuronsResponse,
   ManageNeuron,
@@ -11,11 +12,10 @@ export {
 export {
   AccountBalanceRequest,
   AccountIdentifier,
-  BlockHeight,
-  ICPTs,
   Memo,
   Payment,
   SendRequest,
   Subaccount,
   TimeStamp,
 } from "../proto/ledger_pb";
+export { NeuronId } from "../proto/nns_common_pb";
