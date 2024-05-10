@@ -1,4 +1,4 @@
-export { PrincipalId } from "../proto/base_types_pb";
+export * from "../proto/base_types_pb";
 export {
   BallotInfo,
   Governance,
@@ -6,8 +6,10 @@ export {
   ListNeuronsResponse,
   ManageNeuron,
   ManageNeuronResponse,
+  NetworkEconomics,
   Neuron,
   NeuronInfo,
+  NeuronsFundEconomics,
 } from "../proto/governance_pb";
 export {
   AccountBalanceRequest,
@@ -18,4 +20,5 @@ export {
   Subaccount,
   TimeStamp,
 } from "../proto/ledger_pb";
-export { NeuronId } from "../proto/nns_common_pb";
+export * from "../proto/nervous_system_pb";
+export * from "../proto/nns_common_pb";
