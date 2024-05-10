@@ -4,6 +4,60 @@
 import * as jspb from "google-protobuf";
 import * as base_types_pb from "./base_types_pb";
 
+export class LedgerInit extends jspb.Message {
+  hasMintingAccount(): boolean;
+  clearMintingAccount(): void;
+  getMintingAccount(): AccountIdentifier | undefined;
+  setMintingAccount(value?: AccountIdentifier): void;
+
+  clearInitialValuesList(): void;
+  getInitialValuesList(): Array<Account>;
+  setInitialValuesList(value: Array<Account>): void;
+  addInitialValues(value?: Account, index?: number): Account;
+
+  hasArchiveCanister(): boolean;
+  clearArchiveCanister(): void;
+  getArchiveCanister(): base_types_pb.PrincipalId | undefined;
+  setArchiveCanister(value?: base_types_pb.PrincipalId): void;
+
+  getMaxMessageSizeBytes(): number;
+  setMaxMessageSizeBytes(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): LedgerInit.AsObject;
+  static toObject(includeInstance: boolean, msg: LedgerInit): LedgerInit.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: LedgerInit, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): LedgerInit;
+  static deserializeBinaryFromReader(message: LedgerInit, reader: jspb.BinaryReader): LedgerInit;
+}
+
+export namespace LedgerInit {
+  export type AsObject = {
+    mintingAccount?: AccountIdentifier.AsObject,
+    initialValuesList: Array<Account.AsObject>,
+    archiveCanister?: base_types_pb.PrincipalId.AsObject,
+    maxMessageSizeBytes: number,
+  }
+}
+
+export class LedgerUpgrade extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): LedgerUpgrade.AsObject;
+  static toObject(includeInstance: boolean, msg: LedgerUpgrade): LedgerUpgrade.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: LedgerUpgrade, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): LedgerUpgrade;
+  static deserializeBinaryFromReader(message: LedgerUpgrade, reader: jspb.BinaryReader): LedgerUpgrade;
+}
+
+export namespace LedgerUpgrade {
+  export type AsObject = {
+  }
+}
+
 export class SendRequest extends jspb.Message {
   hasMemo(): boolean;
   clearMemo(): void;
@@ -17,8 +71,8 @@ export class SendRequest extends jspb.Message {
 
   hasMaxFee(): boolean;
   clearMaxFee(): void;
-  getMaxFee(): ICPTs | undefined;
-  setMaxFee(value?: ICPTs): void;
+  getMaxFee(): Tokens | undefined;
+  setMaxFee(value?: Tokens): void;
 
   hasFromSubaccount(): boolean;
   clearFromSubaccount(): void;
@@ -32,8 +86,8 @@ export class SendRequest extends jspb.Message {
 
   hasCreatedAt(): boolean;
   clearCreatedAt(): void;
-  getCreatedAt(): BlockHeight | undefined;
-  setCreatedAt(value?: BlockHeight): void;
+  getCreatedAt(): BlockIndex | undefined;
+  setCreatedAt(value?: BlockIndex): void;
 
   hasCreatedAtTime(): boolean;
   clearCreatedAtTime(): void;
@@ -54,10 +108,10 @@ export namespace SendRequest {
   export type AsObject = {
     memo?: Memo.AsObject,
     payment?: Payment.AsObject,
-    maxFee?: ICPTs.AsObject,
+    maxFee?: Tokens.AsObject,
     fromSubaccount?: Subaccount.AsObject,
     to?: AccountIdentifier.AsObject,
-    createdAt?: BlockHeight.AsObject,
+    createdAt?: BlockIndex.AsObject,
     createdAtTime?: TimeStamp.AsObject,
   }
 }
@@ -65,8 +119,8 @@ export namespace SendRequest {
 export class SendResponse extends jspb.Message {
   hasResultingHeight(): boolean;
   clearResultingHeight(): void;
-  getResultingHeight(): BlockHeight | undefined;
-  setResultingHeight(value?: BlockHeight): void;
+  getResultingHeight(): BlockIndex | undefined;
+  setResultingHeight(value?: BlockIndex): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): SendResponse.AsObject;
@@ -80,20 +134,20 @@ export class SendResponse extends jspb.Message {
 
 export namespace SendResponse {
   export type AsObject = {
-    resultingHeight?: BlockHeight.AsObject,
+    resultingHeight?: BlockIndex.AsObject,
   }
 }
 
 export class NotifyRequest extends jspb.Message {
   hasBlockHeight(): boolean;
   clearBlockHeight(): void;
-  getBlockHeight(): BlockHeight | undefined;
-  setBlockHeight(value?: BlockHeight): void;
+  getBlockHeight(): BlockIndex | undefined;
+  setBlockHeight(value?: BlockIndex): void;
 
   hasMaxFee(): boolean;
   clearMaxFee(): void;
-  getMaxFee(): ICPTs | undefined;
-  setMaxFee(value?: ICPTs): void;
+  getMaxFee(): Tokens | undefined;
+  setMaxFee(value?: Tokens): void;
 
   hasFromSubaccount(): boolean;
   clearFromSubaccount(): void;
@@ -122,8 +176,8 @@ export class NotifyRequest extends jspb.Message {
 
 export namespace NotifyRequest {
   export type AsObject = {
-    blockHeight?: BlockHeight.AsObject,
-    maxFee?: ICPTs.AsObject,
+    blockHeight?: BlockIndex.AsObject,
+    maxFee?: Tokens.AsObject,
     fromSubaccount?: Subaccount.AsObject,
     toCanister?: base_types_pb.PrincipalId.AsObject,
     toSubaccount?: Subaccount.AsObject,
@@ -169,13 +223,13 @@ export class TransactionNotificationRequest extends jspb.Message {
 
   hasBlockHeight(): boolean;
   clearBlockHeight(): void;
-  getBlockHeight(): BlockHeight | undefined;
-  setBlockHeight(value?: BlockHeight): void;
+  getBlockHeight(): BlockIndex | undefined;
+  setBlockHeight(value?: BlockIndex): void;
 
   hasAmount(): boolean;
   clearAmount(): void;
-  getAmount(): ICPTs | undefined;
-  setAmount(value?: ICPTs): void;
+  getAmount(): Tokens | undefined;
+  setAmount(value?: Tokens): void;
 
   hasMemo(): boolean;
   clearMemo(): void;
@@ -198,8 +252,8 @@ export namespace TransactionNotificationRequest {
     fromSubaccount?: Subaccount.AsObject,
     to?: base_types_pb.PrincipalId.AsObject,
     toSubaccount?: Subaccount.AsObject,
-    blockHeight?: BlockHeight.AsObject,
-    amount?: ICPTs.AsObject,
+    blockHeight?: BlockIndex.AsObject,
+    amount?: Tokens.AsObject,
     memo?: Memo.AsObject,
   }
 }
@@ -293,8 +347,8 @@ export namespace AccountBalanceRequest {
 export class AccountBalanceResponse extends jspb.Message {
   hasBalance(): boolean;
   clearBalance(): void;
-  getBalance(): ICPTs | undefined;
-  setBalance(value?: ICPTs): void;
+  getBalance(): Tokens | undefined;
+  setBalance(value?: Tokens): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): AccountBalanceResponse.AsObject;
@@ -308,7 +362,7 @@ export class AccountBalanceResponse extends jspb.Message {
 
 export namespace AccountBalanceResponse {
   export type AsObject = {
-    balance?: ICPTs.AsObject,
+    balance?: Tokens.AsObject,
   }
 }
 
@@ -336,8 +390,8 @@ export class TipOfChainResponse extends jspb.Message {
 
   hasChainLength(): boolean;
   clearChainLength(): void;
-  getChainLength(): BlockHeight | undefined;
-  setChainLength(value?: BlockHeight): void;
+  getChainLength(): BlockIndex | undefined;
+  setChainLength(value?: BlockIndex): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): TipOfChainResponse.AsObject;
@@ -352,7 +406,87 @@ export class TipOfChainResponse extends jspb.Message {
 export namespace TipOfChainResponse {
   export type AsObject = {
     certification?: Certification.AsObject,
-    chainLength?: BlockHeight.AsObject,
+    chainLength?: BlockIndex.AsObject,
+  }
+}
+
+export class TotalSupplyRequest extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TotalSupplyRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: TotalSupplyRequest): TotalSupplyRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TotalSupplyRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TotalSupplyRequest;
+  static deserializeBinaryFromReader(message: TotalSupplyRequest, reader: jspb.BinaryReader): TotalSupplyRequest;
+}
+
+export namespace TotalSupplyRequest {
+  export type AsObject = {
+  }
+}
+
+export class TotalSupplyResponse extends jspb.Message {
+  hasTotalSupply(): boolean;
+  clearTotalSupply(): void;
+  getTotalSupply(): Tokens | undefined;
+  setTotalSupply(value?: Tokens): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TotalSupplyResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: TotalSupplyResponse): TotalSupplyResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TotalSupplyResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TotalSupplyResponse;
+  static deserializeBinaryFromReader(message: TotalSupplyResponse, reader: jspb.BinaryReader): TotalSupplyResponse;
+}
+
+export namespace TotalSupplyResponse {
+  export type AsObject = {
+    totalSupply?: Tokens.AsObject,
+  }
+}
+
+export class LedgerArchiveRequest extends jspb.Message {
+  hasTimestamp(): boolean;
+  clearTimestamp(): void;
+  getTimestamp(): TimeStamp | undefined;
+  setTimestamp(value?: TimeStamp): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): LedgerArchiveRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: LedgerArchiveRequest): LedgerArchiveRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: LedgerArchiveRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): LedgerArchiveRequest;
+  static deserializeBinaryFromReader(message: LedgerArchiveRequest, reader: jspb.BinaryReader): LedgerArchiveRequest;
+}
+
+export namespace LedgerArchiveRequest {
+  export type AsObject = {
+    timestamp?: TimeStamp.AsObject,
+  }
+}
+
+export class BlockRequest extends jspb.Message {
+  getBlockHeight(): number;
+  setBlockHeight(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BlockRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: BlockRequest): BlockRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BlockRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BlockRequest;
+  static deserializeBinaryFromReader(message: BlockRequest, reader: jspb.BinaryReader): BlockRequest;
+}
+
+export namespace BlockRequest {
+  export type AsObject = {
+    blockHeight: number,
   }
 }
 
@@ -378,12 +512,47 @@ export namespace EncodedBlock {
   }
 }
 
-export class GetBlocksRequest extends jspb.Message {
-  getStart(): string;
-  setStart(value: string): void;
+export class BlockResponse extends jspb.Message {
+  hasBlock(): boolean;
+  clearBlock(): void;
+  getBlock(): EncodedBlock | undefined;
+  setBlock(value?: EncodedBlock): void;
 
-  getLength(): string;
-  setLength(value: string): void;
+  hasCanisterId(): boolean;
+  clearCanisterId(): void;
+  getCanisterId(): base_types_pb.PrincipalId | undefined;
+  setCanisterId(value?: base_types_pb.PrincipalId): void;
+
+  getBlockContentCase(): BlockResponse.BlockContentCase;
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BlockResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: BlockResponse): BlockResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BlockResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BlockResponse;
+  static deserializeBinaryFromReader(message: BlockResponse, reader: jspb.BinaryReader): BlockResponse;
+}
+
+export namespace BlockResponse {
+  export type AsObject = {
+    block?: EncodedBlock.AsObject,
+    canisterId?: base_types_pb.PrincipalId.AsObject,
+  }
+
+  export enum BlockContentCase {
+    BLOCK_CONTENT_NOT_SET = 0,
+    BLOCK = 1,
+    CANISTER_ID = 2,
+  }
+}
+
+export class GetBlocksRequest extends jspb.Message {
+  getStart(): number;
+  setStart(value: number): void;
+
+  getLength(): number;
+  setLength(value: number): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetBlocksRequest.AsObject;
@@ -397,16 +566,16 @@ export class GetBlocksRequest extends jspb.Message {
 
 export namespace GetBlocksRequest {
   export type AsObject = {
-    start: string,
-    length: string,
+    start: number,
+    length: number,
   }
 }
 
 export class Refund extends jspb.Message {
   hasRefund(): boolean;
   clearRefund(): void;
-  getRefund(): BlockHeight | undefined;
-  setRefund(value?: BlockHeight): void;
+  getRefund(): BlockIndex | undefined;
+  setRefund(value?: BlockIndex): void;
 
   getError(): string;
   setError(value: string): void;
@@ -423,7 +592,7 @@ export class Refund extends jspb.Message {
 
 export namespace Refund {
   export type AsObject = {
-    refund?: BlockHeight.AsObject,
+    refund?: BlockIndex.AsObject,
     error: string,
   }
 }
@@ -501,31 +670,229 @@ export namespace GetBlocksResponse {
   }
 }
 
-export class ICPTs extends jspb.Message {
-  getE8s(): string;
-  setE8s(value: string): void;
+export class IterBlocksRequest extends jspb.Message {
+  getStart(): number;
+  setStart(value: number): void;
+
+  getLength(): number;
+  setLength(value: number): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ICPTs.AsObject;
-  static toObject(includeInstance: boolean, msg: ICPTs): ICPTs.AsObject;
+  toObject(includeInstance?: boolean): IterBlocksRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: IterBlocksRequest): IterBlocksRequest.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: ICPTs, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ICPTs;
-  static deserializeBinaryFromReader(message: ICPTs, reader: jspb.BinaryReader): ICPTs;
+  static serializeBinaryToWriter(message: IterBlocksRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): IterBlocksRequest;
+  static deserializeBinaryFromReader(message: IterBlocksRequest, reader: jspb.BinaryReader): IterBlocksRequest;
 }
 
-export namespace ICPTs {
+export namespace IterBlocksRequest {
   export type AsObject = {
-    e8s: string,
+    start: number,
+    length: number,
+  }
+}
+
+export class IterBlocksResponse extends jspb.Message {
+  clearBlocksList(): void;
+  getBlocksList(): Array<EncodedBlock>;
+  setBlocksList(value: Array<EncodedBlock>): void;
+  addBlocks(value?: EncodedBlock, index?: number): EncodedBlock;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): IterBlocksResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: IterBlocksResponse): IterBlocksResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: IterBlocksResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): IterBlocksResponse;
+  static deserializeBinaryFromReader(message: IterBlocksResponse, reader: jspb.BinaryReader): IterBlocksResponse;
+}
+
+export namespace IterBlocksResponse {
+  export type AsObject = {
+    blocksList: Array<EncodedBlock.AsObject>,
+  }
+}
+
+export class ArchiveIndexEntry extends jspb.Message {
+  getHeightFrom(): number;
+  setHeightFrom(value: number): void;
+
+  getHeightTo(): number;
+  setHeightTo(value: number): void;
+
+  hasCanisterId(): boolean;
+  clearCanisterId(): void;
+  getCanisterId(): base_types_pb.PrincipalId | undefined;
+  setCanisterId(value?: base_types_pb.PrincipalId): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ArchiveIndexEntry.AsObject;
+  static toObject(includeInstance: boolean, msg: ArchiveIndexEntry): ArchiveIndexEntry.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ArchiveIndexEntry, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ArchiveIndexEntry;
+  static deserializeBinaryFromReader(message: ArchiveIndexEntry, reader: jspb.BinaryReader): ArchiveIndexEntry;
+}
+
+export namespace ArchiveIndexEntry {
+  export type AsObject = {
+    heightFrom: number,
+    heightTo: number,
+    canisterId?: base_types_pb.PrincipalId.AsObject,
+  }
+}
+
+export class ArchiveIndexResponse extends jspb.Message {
+  clearEntriesList(): void;
+  getEntriesList(): Array<ArchiveIndexEntry>;
+  setEntriesList(value: Array<ArchiveIndexEntry>): void;
+  addEntries(value?: ArchiveIndexEntry, index?: number): ArchiveIndexEntry;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ArchiveIndexResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ArchiveIndexResponse): ArchiveIndexResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ArchiveIndexResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ArchiveIndexResponse;
+  static deserializeBinaryFromReader(message: ArchiveIndexResponse, reader: jspb.BinaryReader): ArchiveIndexResponse;
+}
+
+export namespace ArchiveIndexResponse {
+  export type AsObject = {
+    entriesList: Array<ArchiveIndexEntry.AsObject>,
+  }
+}
+
+export class ArchiveInit extends jspb.Message {
+  getNodeMaxMemorySizeBytes(): number;
+  setNodeMaxMemorySizeBytes(value: number): void;
+
+  getMaxMessageSizeBytes(): number;
+  setMaxMessageSizeBytes(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ArchiveInit.AsObject;
+  static toObject(includeInstance: boolean, msg: ArchiveInit): ArchiveInit.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ArchiveInit, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ArchiveInit;
+  static deserializeBinaryFromReader(message: ArchiveInit, reader: jspb.BinaryReader): ArchiveInit;
+}
+
+export namespace ArchiveInit {
+  export type AsObject = {
+    nodeMaxMemorySizeBytes: number,
+    maxMessageSizeBytes: number,
+  }
+}
+
+export class ArchiveAddRequest extends jspb.Message {
+  clearBlocksList(): void;
+  getBlocksList(): Array<Block>;
+  setBlocksList(value: Array<Block>): void;
+  addBlocks(value?: Block, index?: number): Block;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ArchiveAddRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: ArchiveAddRequest): ArchiveAddRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ArchiveAddRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ArchiveAddRequest;
+  static deserializeBinaryFromReader(message: ArchiveAddRequest, reader: jspb.BinaryReader): ArchiveAddRequest;
+}
+
+export namespace ArchiveAddRequest {
+  export type AsObject = {
+    blocksList: Array<Block.AsObject>,
+  }
+}
+
+export class ArchiveAddResponse extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ArchiveAddResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ArchiveAddResponse): ArchiveAddResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ArchiveAddResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ArchiveAddResponse;
+  static deserializeBinaryFromReader(message: ArchiveAddResponse, reader: jspb.BinaryReader): ArchiveAddResponse;
+}
+
+export namespace ArchiveAddResponse {
+  export type AsObject = {
+  }
+}
+
+export class GetNodesRequest extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetNodesRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetNodesRequest): GetNodesRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetNodesRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetNodesRequest;
+  static deserializeBinaryFromReader(message: GetNodesRequest, reader: jspb.BinaryReader): GetNodesRequest;
+}
+
+export namespace GetNodesRequest {
+  export type AsObject = {
+  }
+}
+
+export class GetNodesResponse extends jspb.Message {
+  clearNodesList(): void;
+  getNodesList(): Array<base_types_pb.PrincipalId>;
+  setNodesList(value: Array<base_types_pb.PrincipalId>): void;
+  addNodes(value?: base_types_pb.PrincipalId, index?: number): base_types_pb.PrincipalId;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetNodesResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetNodesResponse): GetNodesResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetNodesResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetNodesResponse;
+  static deserializeBinaryFromReader(message: GetNodesResponse, reader: jspb.BinaryReader): GetNodesResponse;
+}
+
+export namespace GetNodesResponse {
+  export type AsObject = {
+    nodesList: Array<base_types_pb.PrincipalId.AsObject>,
+  }
+}
+
+export class Tokens extends jspb.Message {
+  getE8s(): number;
+  setE8s(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Tokens.AsObject;
+  static toObject(includeInstance: boolean, msg: Tokens): Tokens.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Tokens, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Tokens;
+  static deserializeBinaryFromReader(message: Tokens, reader: jspb.BinaryReader): Tokens;
+}
+
+export namespace Tokens {
+  export type AsObject = {
+    e8s: number,
   }
 }
 
 export class Payment extends jspb.Message {
   hasReceiverGets(): boolean;
   clearReceiverGets(): void;
-  getReceiverGets(): ICPTs | undefined;
-  setReceiverGets(value?: ICPTs): void;
+  getReceiverGets(): Tokens | undefined;
+  setReceiverGets(value?: Tokens): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Payment.AsObject;
@@ -539,27 +906,27 @@ export class Payment extends jspb.Message {
 
 export namespace Payment {
   export type AsObject = {
-    receiverGets?: ICPTs.AsObject,
+    receiverGets?: Tokens.AsObject,
   }
 }
 
-export class BlockHeight extends jspb.Message {
-  getHeight(): string;
-  setHeight(value: string): void;
+export class BlockIndex extends jspb.Message {
+  getHeight(): number;
+  setHeight(value: number): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): BlockHeight.AsObject;
-  static toObject(includeInstance: boolean, msg: BlockHeight): BlockHeight.AsObject;
+  toObject(includeInstance?: boolean): BlockIndex.AsObject;
+  static toObject(includeInstance: boolean, msg: BlockIndex): BlockIndex.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: BlockHeight, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): BlockHeight;
-  static deserializeBinaryFromReader(message: BlockHeight, reader: jspb.BinaryReader): BlockHeight;
+  static serializeBinaryToWriter(message: BlockIndex, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BlockIndex;
+  static deserializeBinaryFromReader(message: BlockIndex, reader: jspb.BinaryReader): BlockIndex;
 }
 
-export namespace BlockHeight {
+export namespace BlockIndex {
   export type AsObject = {
-    height: string,
+    height: number,
   }
 }
 
@@ -627,8 +994,8 @@ export class Account extends jspb.Message {
 
   hasBalance(): boolean;
   clearBalance(): void;
-  getBalance(): ICPTs | undefined;
-  setBalance(value?: ICPTs): void;
+  getBalance(): Tokens | undefined;
+  setBalance(value?: Tokens): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Account.AsObject;
@@ -643,7 +1010,7 @@ export class Account extends jspb.Message {
 export namespace Account {
   export type AsObject = {
     identifier?: AccountIdentifier.AsObject,
-    balance?: ICPTs.AsObject,
+    balance?: Tokens.AsObject,
   }
 }
 
@@ -668,10 +1035,15 @@ export class Transaction extends jspb.Message {
   getMemo(): Memo | undefined;
   setMemo(value?: Memo): void;
 
+  hasIcrc1Memo(): boolean;
+  clearIcrc1Memo(): void;
+  getIcrc1Memo(): Icrc1Memo | undefined;
+  setIcrc1Memo(value?: Icrc1Memo): void;
+
   hasCreatedAt(): boolean;
   clearCreatedAt(): void;
-  getCreatedAt(): BlockHeight | undefined;
-  setCreatedAt(value?: BlockHeight): void;
+  getCreatedAt(): BlockIndex | undefined;
+  setCreatedAt(value?: BlockIndex): void;
 
   hasCreatedAtTime(): boolean;
   clearCreatedAtTime(): void;
@@ -695,7 +1067,8 @@ export namespace Transaction {
     mint?: Mint.AsObject,
     send?: Send.AsObject,
     memo?: Memo.AsObject,
-    createdAt?: BlockHeight.AsObject,
+    icrc1Memo?: Icrc1Memo.AsObject,
+    createdAt?: BlockIndex.AsObject,
     createdAtTime?: TimeStamp.AsObject,
   }
 
@@ -720,14 +1093,25 @@ export class Send extends jspb.Message {
 
   hasAmount(): boolean;
   clearAmount(): void;
-  getAmount(): ICPTs | undefined;
-  setAmount(value?: ICPTs): void;
+  getAmount(): Tokens | undefined;
+  setAmount(value?: Tokens): void;
 
   hasMaxFee(): boolean;
   clearMaxFee(): void;
-  getMaxFee(): ICPTs | undefined;
-  setMaxFee(value?: ICPTs): void;
+  getMaxFee(): Tokens | undefined;
+  setMaxFee(value?: Tokens): void;
 
+  hasApprove(): boolean;
+  clearApprove(): void;
+  getApprove(): Approve | undefined;
+  setApprove(value?: Approve): void;
+
+  hasTransferFrom(): boolean;
+  clearTransferFrom(): void;
+  getTransferFrom(): TransferFrom | undefined;
+  setTransferFrom(value?: TransferFrom): void;
+
+  getExtensionCase(): Send.ExtensionCase;
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Send.AsObject;
   static toObject(includeInstance: boolean, msg: Send): Send.AsObject;
@@ -742,8 +1126,72 @@ export namespace Send {
   export type AsObject = {
     from?: AccountIdentifier.AsObject,
     to?: AccountIdentifier.AsObject,
-    amount?: ICPTs.AsObject,
-    maxFee?: ICPTs.AsObject,
+    amount?: Tokens.AsObject,
+    maxFee?: Tokens.AsObject,
+    approve?: Approve.AsObject,
+    transferFrom?: TransferFrom.AsObject,
+  }
+
+  export enum ExtensionCase {
+    EXTENSION_NOT_SET = 0,
+    APPROVE = 5,
+    TRANSFER_FROM = 6,
+  }
+}
+
+export class TransferFrom extends jspb.Message {
+  hasSpender(): boolean;
+  clearSpender(): void;
+  getSpender(): AccountIdentifier | undefined;
+  setSpender(value?: AccountIdentifier): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TransferFrom.AsObject;
+  static toObject(includeInstance: boolean, msg: TransferFrom): TransferFrom.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TransferFrom, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TransferFrom;
+  static deserializeBinaryFromReader(message: TransferFrom, reader: jspb.BinaryReader): TransferFrom;
+}
+
+export namespace TransferFrom {
+  export type AsObject = {
+    spender?: AccountIdentifier.AsObject,
+  }
+}
+
+export class Approve extends jspb.Message {
+  hasAllowance(): boolean;
+  clearAllowance(): void;
+  getAllowance(): Tokens | undefined;
+  setAllowance(value?: Tokens): void;
+
+  hasExpiresAt(): boolean;
+  clearExpiresAt(): void;
+  getExpiresAt(): TimeStamp | undefined;
+  setExpiresAt(value?: TimeStamp): void;
+
+  hasExpectedAllowance(): boolean;
+  clearExpectedAllowance(): void;
+  getExpectedAllowance(): Tokens | undefined;
+  setExpectedAllowance(value?: Tokens): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Approve.AsObject;
+  static toObject(includeInstance: boolean, msg: Approve): Approve.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Approve, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Approve;
+  static deserializeBinaryFromReader(message: Approve, reader: jspb.BinaryReader): Approve;
+}
+
+export namespace Approve {
+  export type AsObject = {
+    allowance?: Tokens.AsObject,
+    expiresAt?: TimeStamp.AsObject,
+    expectedAllowance?: Tokens.AsObject,
   }
 }
 
@@ -755,8 +1203,8 @@ export class Mint extends jspb.Message {
 
   hasAmount(): boolean;
   clearAmount(): void;
-  getAmount(): ICPTs | undefined;
-  setAmount(value?: ICPTs): void;
+  getAmount(): Tokens | undefined;
+  setAmount(value?: Tokens): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Mint.AsObject;
@@ -771,7 +1219,7 @@ export class Mint extends jspb.Message {
 export namespace Mint {
   export type AsObject = {
     to?: AccountIdentifier.AsObject,
-    amount?: ICPTs.AsObject,
+    amount?: Tokens.AsObject,
   }
 }
 
@@ -783,8 +1231,13 @@ export class Burn extends jspb.Message {
 
   hasAmount(): boolean;
   clearAmount(): void;
-  getAmount(): ICPTs | undefined;
-  setAmount(value?: ICPTs): void;
+  getAmount(): Tokens | undefined;
+  setAmount(value?: Tokens): void;
+
+  hasSpender(): boolean;
+  clearSpender(): void;
+  getSpender(): AccountIdentifier | undefined;
+  setSpender(value?: AccountIdentifier): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Burn.AsObject;
@@ -799,7 +1252,8 @@ export class Burn extends jspb.Message {
 export namespace Burn {
   export type AsObject = {
     from?: AccountIdentifier.AsObject,
-    amount?: ICPTs.AsObject,
+    amount?: Tokens.AsObject,
+    spender?: AccountIdentifier.AsObject,
   }
 }
 
@@ -848,8 +1302,8 @@ export namespace Subaccount {
 }
 
 export class Memo extends jspb.Message {
-  getMemo(): string;
-  setMemo(value: string): void;
+  getMemo(): number;
+  setMemo(value: number): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Memo.AsObject;
@@ -863,13 +1317,35 @@ export class Memo extends jspb.Message {
 
 export namespace Memo {
   export type AsObject = {
-    memo: string,
+    memo: number,
+  }
+}
+
+export class Icrc1Memo extends jspb.Message {
+  getMemo(): Uint8Array | string;
+  getMemo_asU8(): Uint8Array;
+  getMemo_asB64(): string;
+  setMemo(value: Uint8Array | string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Icrc1Memo.AsObject;
+  static toObject(includeInstance: boolean, msg: Icrc1Memo): Icrc1Memo.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Icrc1Memo, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Icrc1Memo;
+  static deserializeBinaryFromReader(message: Icrc1Memo, reader: jspb.BinaryReader): Icrc1Memo;
+}
+
+export namespace Icrc1Memo {
+  export type AsObject = {
+    memo: Uint8Array | string,
   }
 }
 
 export class TimeStamp extends jspb.Message {
-  getTimestampNanos(): string;
-  setTimestampNanos(value: string): void;
+  getTimestampNanos(): number;
+  setTimestampNanos(value: number): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): TimeStamp.AsObject;
@@ -883,7 +1359,7 @@ export class TimeStamp extends jspb.Message {
 
 export namespace TimeStamp {
   export type AsObject = {
-    timestampNanos: string,
+    timestampNanos: number,
   }
 }
 
@@ -906,6 +1382,44 @@ export class Certification extends jspb.Message {
 export namespace Certification {
   export type AsObject = {
     certification: Uint8Array | string,
+  }
+}
+
+export class TransferFeeRequest extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TransferFeeRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: TransferFeeRequest): TransferFeeRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TransferFeeRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TransferFeeRequest;
+  static deserializeBinaryFromReader(message: TransferFeeRequest, reader: jspb.BinaryReader): TransferFeeRequest;
+}
+
+export namespace TransferFeeRequest {
+  export type AsObject = {
+  }
+}
+
+export class TransferFeeResponse extends jspb.Message {
+  hasTransferFee(): boolean;
+  clearTransferFee(): void;
+  getTransferFee(): Tokens | undefined;
+  setTransferFee(value?: Tokens): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TransferFeeResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: TransferFeeResponse): TransferFeeResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TransferFeeResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TransferFeeResponse;
+  static deserializeBinaryFromReader(message: TransferFeeResponse, reader: jspb.BinaryReader): TransferFeeResponse;
+}
+
+export namespace TransferFeeResponse {
+  export type AsObject = {
+    transferFee?: Tokens.AsObject,
   }
 }
 
