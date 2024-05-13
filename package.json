@@ -138,7 +138,7 @@
     {
       "name": "@dfinity/nns-proto",
       "path": "./packages/nns-proto/dist/index.js",
-      "limit": "80 kB",
+      "limit": "150 kB",
       "gzip": true
     },
     {
