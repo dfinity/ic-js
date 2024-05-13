@@ -229,9 +229,11 @@ export const idlFactory = ({ IDL }) => {
     'eth_helper_contract_address' : IDL.Opt(IDL.Text),
     'last_observed_block_number' : IDL.Opt(IDL.Nat),
     'erc20_helper_contract_address' : IDL.Opt(IDL.Text),
+    'last_erc20_scraped_block_number' : IDL.Opt(IDL.Nat),
     'supported_ckerc20_tokens' : IDL.Opt(IDL.Vec(CkErc20Token)),
     'last_gas_fee_estimate' : IDL.Opt(GasFeeEstimate),
     'smart_contract_address' : IDL.Opt(IDL.Text),
+    'last_eth_scraped_block_number' : IDL.Opt(IDL.Nat),
     'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
     'erc20_balances' : IDL.Opt(
       IDL.Vec(
@@ -243,7 +245,10 @@ export const idlFactory = ({ IDL }) => {
   });
   const EthTransaction = IDL.Record({ 'transaction_hash' : IDL.Text });
   const TxFinalizedStatus = IDL.Variant({
-    'Success' : EthTransaction,
+    'Success' : IDL.Record({
+      'transaction_hash' : IDL.Text,
+      'effective_transaction_fee' : IDL.Opt(IDL.Nat),
+    }),
     'Reimbursed' : IDL.Record({
       'transaction_hash' : IDL.Text,
       'reimbursed_amount' : IDL.Nat,
@@ -312,6 +317,31 @@ export const idlFactory = ({ IDL }) => {
     'RecipientAddressBlocked' : IDL.Record({ 'address' : IDL.Text }),
     'InsufficientFunds' : IDL.Record({ 'balance' : IDL.Nat }),
   });
+  const Account = IDL.Record({
+    'owner' : IDL.Principal,
+    'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
+  const WithdrawalSearchParameter = IDL.Variant({
+    'ByRecipient' : IDL.Text,
+    'BySenderAccount' : Account,
+    'ByWithdrawalId' : IDL.Nat64,
+  });
+  const WithdrawalStatus = IDL.Variant({
+    'TxFinalized' : TxFinalizedStatus,
+    'TxSent' : EthTransaction,
+    'TxCreated' : IDL.Null,
+    'Pending' : IDL.Null,
+  });
+  const WithdrawalDetail = IDL.Record({
+    'status' : WithdrawalStatus,
+    'token_symbol' : IDL.Text,
+    'withdrawal_amount' : IDL.Nat,
+    'withdrawal_id' : IDL.Nat64,
+    'from' : IDL.Principal,
+    'from_subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'max_transaction_fee' : IDL.Opt(IDL.Nat),
+    'recipient_address' : IDL.Text,
+  });
   return IDL.Service({
     'add_ckerc20_token' : IDL.Func([AddCkErc20Token], [], []),
     'eip_1559_transaction_price' : IDL.Func(
@@ -349,6 +379,11 @@ export const idlFactory = ({ IDL }) => {
         [WithdrawalArg],
         [IDL.Variant({ 'Ok' : RetrieveEthRequest, 'Err' : WithdrawalError })],
         [],
+      ),
+    'withdrawal_status' : IDL.Func(
+        [WithdrawalSearchParameter],
+        [IDL.Vec(WithdrawalDetail)],
+        ['query'],
       ),
   });
 };
