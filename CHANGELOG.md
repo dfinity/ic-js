@@ -1,9 +1,41 @@
-# 2024.xx.yy-hhmmZ
+# 2024.XX.YY-hhMMZ
 
-# Breaking changes
+## Breaking changes
+
+- `@dfinity/ic-management` function `canisterInfo` removed because users cannot call this method (see [documentation](https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-canister-info)).
+
+## Features
+
+- Update canister settings of cmc-js with `wasm_memory_limit`.
+
+## Build
+
+- Upgrade `agent-js` dependencies to `v1.3.0` and revert the default retry times value to 10, given that the issue is fixed.
+
+# 2024.04.29-0930Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v2.3.2  | Maintained ⚙️       |
+| `@dfinity/cketh`         | v3.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/cmc`           | v3.0.4  | Maintained ⚙️       |
+| `@dfinity/ic-management` | v3.2.0  | Enhanced 🔧         |
+| `@dfinity/ledger-icp`    | v2.2.3  | Maintained ⚙️       |
+| `@dfinity/ledger-icrc`   | v2.3.0  | Enhanced 🔧         |
+| `@dfinity/nns`           | v5.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns-proto`     | v1.0.2  | Unchanged️          |
+| `@dfinity/sns`           | v3.0.3  | Maintained ⚙️       |
+| `@dfinity/utils`         | v2.2.0  | Enhanced 🔧         |
+
+## Breaking changes
 
 - Protocol buffers for hardware wallet transactions are no longer supported. Internet Computer Ledger app 2.4.9 or later is now required.
 - GovernanceCanister.listNeurons no longer throws an error when called with `certified: false` for hardware wallet transactions.
+- Potential errors thrown by `withdrawEth` provide now unparsed details.
 
 ## Features
 
@@ -13,10 +45,14 @@
 - Remove hardware wallet specific options from LedgerCanister.
 - Remove dependency on `@dfinity/nns-proto` from `@dfinity/ledger-icp`.
 - Remove hardware wallet specific code and `@dfinity/nns-proto` dependency from `@dfinity/nns`.
-- Update canister settings of cmc-js with `wasm_memory_limit`.
+- Add support for `withdrawErc20`.
+- Additional fields related to ERC20 have been added to ckETH `minterInfo`.
+- Expose the function `ledger_id` for Index canister in the `ledger-icrc` library.
+- Set number of retries to 10 (as opposed to default 3) in `createAgent` utility to make the agent more resilient against watermark check failures.
 
 ## Build
 
+- Upgrade `agent-js` dependencies to `v1.2.1`. Note that it is advised to set the number of retries of the agent to 10 to prevent the potential issue `Timestamp failed to pass the watermark after retrying the configured 3 times. We cannot guarantee the integrity of the response since it could be a replay attack.` (see thread on the [forum](https://forum.dfinity.org/t/timestamp-failed-to-pass-the-watermark-after-retrying-the-configured-3-times/29180/3?u=peterparker)).
 - Upgrade `didc` to `0.3.7` that converts candid files into JS and TS.
 
 # 2024.03.25-1430Z
@@ -32,7 +68,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/cmc`           | v3.0.3  | Unchanged️  |
 | `@dfinity/ic-management` | v3.1.1  | Patched 🩹  |
 | `@dfinity/ledger-icp`    | v2.2.2  | Unchanged️️ |
-| `@dfinity/ledger-icrc`   | v2.1.1  | Unchanged️️ |
+| `@dfinity/ledger-icrc`   | v2.2.1  | Unchanged️️ |
 | `@dfinity/nns`           | v4.0.2  | Unchanged️  |
 | `@dfinity/nns-proto`     | v1.0.2  | Unchanged️  |
 | `@dfinity/sns`           | v3.0.2  | Unchanged️️ |
@@ -55,7 +91,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/cmc`           | v3.0.3  | Maintained ⚙️ |
 | `@dfinity/ic-management` | v3.1.0  | Enhanced 🔧   |
 | `@dfinity/ledger-icp`    | v2.2.2  | Maintained ⚙️ |
-| `@dfinity/ledger-icrc`   | v2.1.1  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.2.0  | Maintained ⚙️ |
 | `@dfinity/nns`           | v4.0.2  | Maintained ⚙️ |
 | `@dfinity/nns-proto`     | v1.0.2  | Maintained ⚙️ |
 | `@dfinity/sns`           | v3.0.2  | Maintained ⚙️ |

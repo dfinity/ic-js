@@ -18,7 +18,9 @@ export interface CanisterStatusResult {
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettings;
+  idle_cycles_burned_per_day: [] | [bigint];
   module_hash: [] | [Uint8Array | number[]];
+  reserved_cycles: [] | [bigint];
 }
 export interface CanisterStatusResultV2 {
   status: CanisterStatusType;
@@ -42,12 +44,15 @@ export interface ChangeCanisterRequest {
   stop_before_installing: boolean;
   mode: CanisterInstallMode;
   canister_id: Principal;
-  query_allocation: [] | [bigint];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
 export interface DefiniteCanisterSettings {
+  freezing_threshold: [] | [bigint];
   controllers: Array<Principal>;
+  reserved_cycles_limit: [] | [bigint];
+  memory_allocation: [] | [bigint];
+  compute_allocation: [] | [bigint];
 }
 export interface DefiniteCanisterSettingsArgs {
   freezing_threshold: bigint;
@@ -79,6 +84,18 @@ export interface ListSnsCanistersResponse {
   governance: [] | [Principal];
   dapps: Array<Principal>;
   archives: Array<Principal>;
+}
+export interface ManageDappCanisterSettingsRequest {
+  freezing_threshold: [] | [bigint];
+  canister_ids: Array<Principal>;
+  reserved_cycles_limit: [] | [bigint];
+  log_visibility: [] | [number];
+  wasm_memory_limit: [] | [bigint];
+  memory_allocation: [] | [bigint];
+  compute_allocation: [] | [bigint];
+}
+export interface ManageDappCanisterSettingsResponse {
+  failure_reason: [] | [string];
 }
 export interface RegisterDappCanisterRequest {
   canister_id: [] | [Principal];
@@ -112,6 +129,10 @@ export interface _SERVICE {
     GetSnsCanistersSummaryResponse
   >;
   list_sns_canisters: ActorMethod<[{}], ListSnsCanistersResponse>;
+  manage_dapp_canister_settings: ActorMethod<
+    [ManageDappCanisterSettingsRequest],
+    ManageDappCanisterSettingsResponse
+  >;
   register_dapp_canister: ActorMethod<[RegisterDappCanisterRequest], {}>;
   register_dapp_canisters: ActorMethod<[RegisterDappCanistersRequest], {}>;
   set_dapp_controllers: ActorMethod<

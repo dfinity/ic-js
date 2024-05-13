@@ -17,14 +17,20 @@ export const idlFactory = ({ IDL }) => {
     'running' : IDL.Null,
   });
   const DefiniteCanisterSettings = IDL.Record({
+    'freezing_threshold' : IDL.Opt(IDL.Nat),
     'controllers' : IDL.Vec(IDL.Principal),
+    'reserved_cycles_limit' : IDL.Opt(IDL.Nat),
+    'memory_allocation' : IDL.Opt(IDL.Nat),
+    'compute_allocation' : IDL.Opt(IDL.Nat),
   });
   const CanisterStatusResult = IDL.Record({
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
     'settings' : DefiniteCanisterSettings,
+    'idle_cycles_burned_per_day' : IDL.Opt(IDL.Nat),
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'reserved_cycles' : IDL.Opt(IDL.Nat),
   });
   const CanisterInstallMode = IDL.Variant({
     'reinstall' : IDL.Null,
@@ -37,7 +43,6 @@ export const idlFactory = ({ IDL }) => {
     'stop_before_installing' : IDL.Bool,
     'mode' : CanisterInstallMode,
     'canister_id' : IDL.Principal,
-    'query_allocation' : IDL.Opt(IDL.Nat),
     'memory_allocation' : IDL.Opt(IDL.Nat),
     'compute_allocation' : IDL.Opt(IDL.Nat),
   });
@@ -80,6 +85,18 @@ export const idlFactory = ({ IDL }) => {
     'dapps' : IDL.Vec(IDL.Principal),
     'archives' : IDL.Vec(IDL.Principal),
   });
+  const ManageDappCanisterSettingsRequest = IDL.Record({
+    'freezing_threshold' : IDL.Opt(IDL.Nat64),
+    'canister_ids' : IDL.Vec(IDL.Principal),
+    'reserved_cycles_limit' : IDL.Opt(IDL.Nat64),
+    'log_visibility' : IDL.Opt(IDL.Int32),
+    'wasm_memory_limit' : IDL.Opt(IDL.Nat64),
+    'memory_allocation' : IDL.Opt(IDL.Nat64),
+    'compute_allocation' : IDL.Opt(IDL.Nat64),
+  });
+  const ManageDappCanisterSettingsResponse = IDL.Record({
+    'failure_reason' : IDL.Opt(IDL.Text),
+  });
   const RegisterDappCanisterRequest = IDL.Record({
     'canister_id' : IDL.Opt(IDL.Principal),
   });
@@ -118,6 +135,11 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Record({})],
         [ListSnsCanistersResponse],
         ['query'],
+      ),
+    'manage_dapp_canister_settings' : IDL.Func(
+        [ManageDappCanisterSettingsRequest],
+        [ManageDappCanisterSettingsResponse],
+        [],
       ),
     'register_dapp_canister' : IDL.Func(
         [RegisterDappCanisterRequest],

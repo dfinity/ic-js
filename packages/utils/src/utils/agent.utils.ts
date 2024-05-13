@@ -1,5 +1,6 @@
 import type { Agent, Identity } from "@dfinity/agent";
 import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
+import { nonNullish } from "./nullish.utils";
 
 /**
  * Get a default agent that connects to mainnet with the anonymous identity.
@@ -17,23 +18,27 @@ export const defaultAgent = (): Agent =>
  * @param host An optional host to connect to
  * @param fetchRootKey Fetch root key for certificate validation during local development or on testnet
  * @param verifyQuerySignatures Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
+ * @param retryTimes Set the number of retries the agent should perform before errorring.
  */
 export const createAgent = async ({
   identity,
   host,
   fetchRootKey = false,
   verifyQuerySignatures = false,
+  retryTimes,
 }: {
   identity: Identity;
   host?: string;
   fetchRootKey?: boolean;
   // @deprecated Shipped as an opt-in feature but, will become the default in next major version
   verifyQuerySignatures?: boolean;
+  retryTimes?: number;
 }): Promise<HttpAgent> => {
   const agent: HttpAgent = new HttpAgent({
     identity,
-    ...(host !== undefined && { host }),
+    ...(nonNullish(host) && { host }),
     verifyQuerySignatures,
+    ...(nonNullish(retryTimes) && { retryTimes }),
   });
 
   if (fetchRootKey) {

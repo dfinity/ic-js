@@ -32,6 +32,9 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 ### :toolbox: Functions
 
 - [convertStringToE8s](#gear-convertstringtoe8s)
+- [isNullish](#gear-isnullish)
+- [nonNullish](#gear-nonnullish)
+- [notEmptyString](#gear-notemptystring)
 - [defaultAgent](#gear-defaultagent)
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
@@ -51,9 +54,6 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [bigEndianCrc32](#gear-bigendiancrc32)
 - [secondsToDuration](#gear-secondstoduration)
 - [debounce](#gear-debounce)
-- [isNullish](#gear-isnullish)
-- [nonNullish](#gear-nonnullish)
-- [notEmptyString](#gear-notemptystring)
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
@@ -76,6 +76,36 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L12)
 
+#### :gear: isNullish
+
+Is null or undefined
+
+| Function    | Type                                                                     |
+| ----------- | ------------------------------------------------------------------------ |
+| `isNullish` | `<T>(argument: T or null or undefined) => argument is null or undefined` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L2)
+
+#### :gear: nonNullish
+
+Not null and not undefined
+
+| Function     | Type                                                                  |
+| ------------ | --------------------------------------------------------------------- |
+| `nonNullish` | `<T>(argument: T or null or undefined) => argument is NonNullable<T>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L7)
+
+#### :gear: notEmptyString
+
+Not null and not undefined and not empty
+
+| Function         | Type                                              |
+| ---------------- | ------------------------------------------------- |
+| `notEmptyString` | `(value: string or null or undefined) => boolean` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L12)
+
 #### :gear: defaultAgent
 
 Get a default agent that connects to mainnet with the anonymous identity.
@@ -84,15 +114,15 @@ Get a default agent that connects to mainnet with the anonymous identity.
 | -------------- | ------------- |
 | `defaultAgent` | `() => Agent` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L8)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L9)
 
 #### :gear: createAgent
 
 Create an agent for a given identity
 
-| Function      | Type                                                                                                                                                                                                                       |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, }: { identity: Identity; host?: string or undefined; fetchRootKey?: boolean or undefined; verifyQuerySignatures?: boolean or undefined; }) => Promise<HttpAgent>` |
+| Function      | Type                                                                                                                                                                                                                                                               |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, retryTimes, }: { identity: Identity; host?: string or undefined; fetchRootKey?: boolean or undefined; verifyQuerySignatures?: boolean or undefined; retryTimes?: number or undefined; }) => Promise<...>` |
 
 Parameters:
 
@@ -100,8 +130,9 @@ Parameters:
 - `host`: An optional host to connect to
 - `fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
 - `verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
+- `retryTimes`: Set the number of retries the agent should perform before errorring.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L21)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L23)
 
 #### :gear: createServices
 
@@ -259,36 +290,6 @@ Parameters:
 | `debounce` | `(func: Function, timeout?: number or undefined) => (...args: unknown[]) => void` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L2)
-
-#### :gear: isNullish
-
-Is null or undefined
-
-| Function    | Type                                                                     |
-| ----------- | ------------------------------------------------------------------------ |
-| `isNullish` | `<T>(argument: T or null or undefined) => argument is null or undefined` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L2)
-
-#### :gear: nonNullish
-
-Not null and not undefined
-
-| Function     | Type                                                                  |
-| ------------ | --------------------------------------------------------------------- |
-| `nonNullish` | `<T>(argument: T or null or undefined) => argument is NonNullable<T>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L7)
-
-#### :gear: notEmptyString
-
-Not null and not undefined and not empty
-
-| Function         | Type                                              |
-| ---------------- | ------------------------------------------------- |
-| `notEmptyString` | `(value: string or null or undefined) => boolean` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L12)
 
 #### :gear: toNullable
 

@@ -1,15 +1,20 @@
+import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import { Canister, createServices } from "@dfinity/utils";
 import type {
   _SERVICE as CkETHMinterService,
   Eip1559TransactionPrice,
   MinterInfo,
+  RetrieveErc20Request,
   RetrieveEthRequest,
   RetrieveEthStatus,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
-import { createWithdrawEthError } from "./errors/minter.errors";
+import {
+  createWithdrawErc20Error,
+  createWithdrawEthError,
+} from "./errors/minter.errors";
 import type { CkETHMinterCanisterOptions } from "./types/canister.options";
 
 export class CkETHMinterCanister extends Canister<CkETHMinterService> {
@@ -69,6 +74,46 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
 
     if ("Err" in response) {
       throw createWithdrawEthError(response.Err);
+    }
+
+    return response.Ok;
+  };
+
+  /**
+   * Submits a request to convert ckErc20 to Erc20 - e.g. ckUSDC to USDC - after making ICRC-2 approvals for the ckETH and related ckErc20 ledgers.
+   *
+   * Preconditions:
+   *
+   * The caller allowed the minter's principal to spend its funds using
+   * [icrc2_approve] on the ckErc20 ledger and to burn some of the user’s ckETH tokens to pay for the transaction fees on the CkETH ledger.
+   *
+   * @param {Object} params The parameters to withdrawal ckErc20 to Erc20.
+   * @param {string} params.address The destination ETH address.
+   * @param {bigint} params.amount The ETH amount in wei.
+   * @param {Principal} params.ledgerCanisterId The ledger canister ID of the ckErc20.
+   * @returns {Promise<RetrieveErc20Request>} The successful result or the operation.
+   */
+  withdrawErc20 = async ({
+    address,
+    ledgerCanisterId,
+    ...rest
+  }: {
+    address: string;
+    amount: bigint;
+    ledgerCanisterId: Principal;
+  }): Promise<RetrieveErc20Request> => {
+    const { withdraw_erc20 } = this.caller({
+      certified: true,
+    });
+
+    const response = await withdraw_erc20({
+      recipient: address,
+      ckerc20_ledger_id: ledgerCanisterId,
+      ...rest,
+    });
+
+    if ("Err" in response) {
+      throw createWithdrawErc20Error(response.Err);
     }
 
     return response.Ok;

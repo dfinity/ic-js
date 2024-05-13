@@ -26,6 +26,11 @@ export type Action =
     }
   | { ManageLedgerParameters: ManageLedgerParameters }
   | { Motion: Motion };
+export type ActionAuxiliary =
+  | {
+      TransferSnsTreasuryFunds: MintSnsTokensActionAuxiliary;
+    }
+  | { MintSnsTokens: MintSnsTokensActionAuxiliary };
 export interface AddNeuronPermissions {
   permissions_to_add: [] | [NeuronPermissionList];
   principal_id: [] | [Principal];
@@ -115,6 +120,9 @@ export type Command_2 =
   | { Disburse: Disburse };
 export interface Configure {
   operation: [] | [Operation];
+}
+export interface Decimal {
+  human_readable: [] | [string];
 }
 export interface DefaultFollowees {
   followees: Array<[bigint, Followees]>;
@@ -280,11 +288,15 @@ export interface ManageDappCanisterSettings {
   canister_ids: Array<Principal>;
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [number];
+  wasm_memory_limit: [] | [bigint];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
 export interface ManageLedgerParameters {
+  token_symbol: [] | [string];
   transfer_fee: [] | [bigint];
+  token_logo: [] | [string];
+  token_name: [] | [string];
 }
 export interface ManageNeuron {
   subaccount: Uint8Array | number[];
@@ -319,6 +331,9 @@ export interface MintSnsTokens {
   to_subaccount: [] | [Subaccount];
   memo: [] | [bigint];
   amount_e8s: [] | [bigint];
+}
+export interface MintSnsTokensActionAuxiliary {
+  valuation: [] | [Valuation];
 }
 export interface Motion {
   motion_text: string;
@@ -413,6 +428,7 @@ export interface ProposalData {
   payload_text_rendering: [] | [string];
   action: bigint;
   failure_reason: [] | [GovernanceError];
+  action_auxiliary: [] | [ActionAuxiliary];
   ballots: Array<[string, Ballot]>;
   minimum_yes_proportion_of_total: [] | [Percentage];
   reward_event_round: bigint;
@@ -451,6 +467,7 @@ export interface RewardEvent {
   rounds_since_last_distribution: [] | [bigint];
   actual_timestamp_seconds: bigint;
   end_timestamp_seconds: [] | [bigint];
+  total_available_e8s_equivalent: [] | [bigint];
   distributed_e8s_equivalent: bigint;
   round: bigint;
   settled_proposals: Array<ProposalId>;
@@ -488,6 +505,9 @@ export interface Tally {
   total: bigint;
   timestamp_seconds: bigint;
 }
+export interface Tokens {
+  e8s: [] | [bigint];
+}
 export interface TransferSnsTreasuryFunds {
   from_treasury: number;
   to_principal: [] | [Principal];
@@ -506,6 +526,17 @@ export interface UpgradeSnsControlledCanister {
   mode: [] | [number];
   canister_id: [] | [Principal];
   canister_upgrade_arg: [] | [Uint8Array | number[]];
+}
+export interface Valuation {
+  token: [] | [number];
+  account: [] | [Account];
+  valuation_factors: [] | [ValuationFactors];
+  timestamp_seconds: [] | [bigint];
+}
+export interface ValuationFactors {
+  xdrs_per_icp: [] | [Decimal];
+  icps_per_token: [] | [Decimal];
+  tokens: [] | [Tokens];
 }
 export interface Version {
   archive_wasm_hash: Uint8Array | number[];

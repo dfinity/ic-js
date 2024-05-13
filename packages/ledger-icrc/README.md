@@ -307,12 +307,13 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 
 ### :factory: IcrcIndexNgCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L14)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L15)
 
 #### Methods
 
 - [create](#gear-create)
 - [getTransactions](#gear-gettransactions)
+- [ledgerId](#gear-ledgerid)
 
 ##### :gear: create
 
@@ -320,7 +321,7 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 | -------- | ----------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexNgCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L15)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L16)
 
 ##### :gear: getTransactions
 
@@ -334,7 +335,17 @@ Parameters:
 
 - `params`: The parameters to get the transactions of an account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L40)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L41)
+
+##### :gear: ledgerId
+
+Returns the ledger canister ID related to the index canister.
+
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
+| `ledgerId` | `(params: QueryParams) => Promise<Principal>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L59)
 
 <!-- TSDOC_END -->
 
