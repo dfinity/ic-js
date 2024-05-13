@@ -722,6 +722,8 @@ describe("ckETH minter canister", () => {
         eth_helper_contract_address: toNullable(ckETHSmartContractAddressMock),
         smart_contract_address: toNullable(ckETHSmartContractAddressMock),
         supported_ckerc20_tokens: [],
+        last_erc20_scraped_block_number: [5892643n],
+        last_eth_scraped_block_number: [5892601n],
       };
 
       const service = mock<ActorSubclass<CkETHMinterService>>();
