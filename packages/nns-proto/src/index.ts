@@ -10,6 +10,8 @@ export {
   Neuron,
   NeuronInfo,
   NeuronsFundEconomics,
+  NeuronsFundMatchedFundingCurveCoefficients,
+  XdrConversionRate,
 } from "../proto/governance_pb";
 export {
   AccountBalanceRequest,
