@@ -237,6 +237,7 @@ export interface SnsVersion {
 }
 export interface SnsWasm {
   wasm: Uint8Array | number[];
+  proposal_id: [] | [bigint];
   canister_type: number;
 }
 export interface SnsWasmCanisterInitPayload {

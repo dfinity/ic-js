@@ -7,6 +7,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const SnsWasm = IDL.Record({
     'wasm' : IDL.Vec(IDL.Nat8),
+    'proposal_id' : IDL.Opt(IDL.Nat64),
     'canister_type' : IDL.Int32,
   });
   const AddWasmRequest = IDL.Record({
