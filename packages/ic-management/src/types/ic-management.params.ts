@@ -98,11 +98,6 @@ export interface UninstallCodeParams {
   senderCanisterVersion?: bigint;
 }
 
-export interface CanisterInfoParams {
-  canisterId: Principal;
-  numRequestChanges?: bigint;
-}
-
 export interface ProvisionalCreateCanisterWithCyclesParams {
   amount?: bigint;
   settings?: CanisterSettings;

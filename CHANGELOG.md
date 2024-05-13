@@ -1,3 +1,13 @@
+# 2024.XX.YY-hhMMZ
+
+## Breaking changes
+
+- `@dfinity/ic-management` function `canisterInfo` removed because users cannot call this method (see [documentation](https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-canister-info)).
+
+## Build
+
+- Upgrade `agent-js` dependencies to `v1.3.0` and revert the default retry times value to 10, given that the issue is fixed.
+
 # 2024.04.29-0930Z
 
 ## Overview
@@ -17,7 +27,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.0.3  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.2.0  | Enhanced 🔧         |
 
-# Breaking changes
+## Breaking changes
 
 - Protocol buffers for hardware wallet transactions are no longer supported. Internet Computer Ledger app 2.4.9 or later is now required.
 - GovernanceCanister.listNeurons no longer throws an error when called with `certified: false` for hardware wallet transactions.

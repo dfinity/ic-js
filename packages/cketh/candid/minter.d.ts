@@ -2,6 +2,10 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
+export interface Account {
+  owner: Principal;
+  subaccount: [] | [Uint8Array | number[]];
+}
 export interface AddCkErc20Token {
   ckerc20_ledger_id: Principal;
   chain_id: bigint;
@@ -226,9 +230,11 @@ export interface MinterInfo {
   eth_helper_contract_address: [] | [string];
   last_observed_block_number: [] | [bigint];
   erc20_helper_contract_address: [] | [string];
+  last_erc20_scraped_block_number: [] | [bigint];
   supported_ckerc20_tokens: [] | [Array<CkErc20Token>];
   last_gas_fee_estimate: [] | [GasFeeEstimate];
   smart_contract_address: [] | [string];
+  last_eth_scraped_block_number: [] | [bigint];
   minimum_withdrawal_amount: [] | [bigint];
   erc20_balances:
     | []
@@ -273,7 +279,12 @@ export interface TransactionReceipt {
   gas_used: bigint;
 }
 export type TxFinalizedStatus =
-  | { Success: EthTransaction }
+  | {
+      Success: {
+        transaction_hash: string;
+        effective_transaction_fee: [] | [bigint];
+      };
+    }
   | {
       Reimbursed: {
         transaction_hash: string;
@@ -327,12 +338,31 @@ export interface WithdrawalArg {
   recipient: string;
   amount: bigint;
 }
+export interface WithdrawalDetail {
+  status: WithdrawalStatus;
+  token_symbol: string;
+  withdrawal_amount: bigint;
+  withdrawal_id: bigint;
+  from: Principal;
+  from_subaccount: [] | [Uint8Array | number[]];
+  max_transaction_fee: [] | [bigint];
+  recipient_address: string;
+}
 export type WithdrawalError =
   | { TemporarilyUnavailable: string }
   | { InsufficientAllowance: { allowance: bigint } }
   | { AmountTooLow: { min_withdrawal_amount: bigint } }
   | { RecipientAddressBlocked: { address: string } }
   | { InsufficientFunds: { balance: bigint } };
+export type WithdrawalSearchParameter =
+  | { ByRecipient: string }
+  | { BySenderAccount: Account }
+  | { ByWithdrawalId: bigint };
+export type WithdrawalStatus =
+  | { TxFinalized: TxFinalizedStatus }
+  | { TxSent: EthTransaction }
+  | { TxCreated: null }
+  | { Pending: null };
 export interface _SERVICE {
   add_ckerc20_token: ActorMethod<[AddCkErc20Token], undefined>;
   eip_1559_transaction_price: ActorMethod<[], Eip1559TransactionPrice>;
@@ -353,6 +383,10 @@ export interface _SERVICE {
   withdraw_eth: ActorMethod<
     [WithdrawalArg],
     { Ok: RetrieveEthRequest } | { Err: WithdrawalError }
+  >;
+  withdrawal_status: ActorMethod<
+    [WithdrawalSearchParameter],
+    Array<WithdrawalDetail>
   >;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
