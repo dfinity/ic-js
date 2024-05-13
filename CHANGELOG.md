@@ -4,6 +4,10 @@
 
 - `@dfinity/ic-management` function `canisterInfo` removed because users cannot call this method (see [documentation](https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-canister-info)).
 
+## Build
+
+- Upgrade `agent-js` dependencies to `v1.3.0` and revert the default retry times value to 10, given that the issue is fixed.
+
 # 2024.04.29-0930Z
 
 ## Overview
