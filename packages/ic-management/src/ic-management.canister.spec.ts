@@ -28,10 +28,7 @@ import {
   type StoredChunksParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
-import {
-  CanisterInfoResponse,
-  CanisterStatusResponse,
-} from "./types/ic-management.responses";
+import { CanisterStatusResponse } from "./types/ic-management.responses";
 
 describe("ICManagementCanister", () => {
   const mockAgent: HttpAgent = mock<HttpAgent>();
@@ -305,46 +302,6 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () => icManagement.canisterStatus(mockCanisterId);
-
-      expect(call).rejects.toThrowError(Error);
-    });
-  });
-
-  describe("canisterInfo", () => {
-    it("returns canister info when success", async () => {
-      const response: CanisterInfoResponse = {
-        controllers: [mockPrincipal],
-        module_hash: [new Uint8Array([1, 2, 3])],
-        recent_changes: [],
-        total_num_changes: BigInt(0),
-      };
-      const service = mock<IcManagementService>();
-      service.canister_info.mockResolvedValue(response);
-
-      const icManagement = await createICManagement(service);
-
-      const res = await icManagement.canisterInfo({
-        canisterId: mockCanisterId,
-      });
-
-      expect(res).toEqual(response);
-      expect(service.canister_info).toHaveBeenCalledWith({
-        canister_id: mockCanisterId,
-        num_requested_changes: [],
-      });
-    });
-
-    it("throws Error", async () => {
-      const error = new Error("Test");
-      const service = mock<IcManagementService>();
-      service.canister_info.mockRejectedValue(error);
-
-      const icManagement = await createICManagement(service);
-
-      const call = () =>
-        icManagement.canisterInfo({
-          canisterId: mockCanisterId,
-        });
 
       expect(call).rejects.toThrowError(Error);
     });

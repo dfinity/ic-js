@@ -5,8 +5,3 @@ export type CanisterStatusResponse = ServiceResponse<
   IcManagementService,
   "canister_status"
 >;
-
-export type CanisterInfoResponse = ServiceResponse<
-  IcManagementService,
-  "canister_info"
->;
