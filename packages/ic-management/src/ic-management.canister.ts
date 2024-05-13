@@ -20,7 +20,6 @@ import {
   toInstallMode,
   type BitcoinGetUtxosParams,
   type BitcoinGetUtxosQueryParams,
-  type CanisterInfoParams,
   type ClearChunkStoreParams,
   type CreateCanisterParams,
   type InstallChunkedCodeParams,
@@ -31,10 +30,7 @@ import {
   type UpdateSettingsParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
-import type {
-  CanisterInfoResponse,
-  CanisterStatusResponse,
-} from "./types/ic-management.responses";
+import type { CanisterStatusResponse } from "./types/ic-management.responses";
 
 export class ICManagementCanister {
   private constructor(private readonly service: IcManagementService) {
@@ -282,23 +278,6 @@ export class ICManagementCanister {
   canisterStatus = (canisterId: Principal): Promise<CanisterStatusResponse> =>
     this.service.canister_status({
       canister_id: canisterId,
-    });
-
-  /**
-   * Get canister info (controllers, module hash, changes, etc.)
-   *
-   * @param {Object} params
-   * @param {Principal} params.canisterId
-   * @param {BigInt} params.numRequestChanges
-   * @returns {Promise<CanisterInfoResponse>}
-   */
-  canisterInfo = ({
-    canisterId,
-    numRequestChanges,
-  }: CanisterInfoParams): Promise<CanisterInfoResponse> =>
-    this.service.canister_info({
-      canister_id: canisterId,
-      num_requested_changes: toNullable(numRequestChanges),
     });
 
   /**
