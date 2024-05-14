@@ -26,7 +26,7 @@ The current status of the libraries at the time of the release is as follows:
 ## Features
 
 - Update Candid definition in ckBTC, ckETH, CMC, ICP and ICRC Ledgers, Nns and Sns.
-- Add `SubnetRentalRequest` to the list of `NnsFunction`.
+- Add "Subnet Rental" to the list of `NnsFunction` and to topic support.
 
 ## Build
 
