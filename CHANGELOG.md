@@ -4,7 +4,7 @@
 
 - `@dfinity/ic-management` function `canisterInfo` removed because users cannot call this method (see [documentation](https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-canister-info)).
 - `@dfinity/nns-proto` was updated with the most recent proto types, some of which were not backwards compatible.
-- The size of the nns-proto-js library has noticeably increased, as it now exposes all types instead of just a manually picked subset. 
+- The size of the nns-proto-js library has noticeably increased, as it now exposes all types instead of just a manually picked subset.
 
 ## Build
 
