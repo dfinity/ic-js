@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package ic_nns_common.pb.v1;
+
+import "base_types.proto";
+
+// A container for a NeuronId blob, which uniquely identifies
+// a Neuron.
+message NeuronId {
+  option (ic_base_types.pb.v1.tui_signed_message) = true;
+  //  bytes serialized_id = 1;
+  reserved 1;
+  reserved 'serialized_id';
+  uint64 id = 2 [(ic_base_types.pb.v1.tui_signed_display_q2_2021) = true];
+}
+
+// The id of a specific proposal.
+message ProposalId {
+  uint64 id = 1;
+}
