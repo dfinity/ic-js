@@ -27,7 +27,7 @@ Install any library of this repo in your project from [npm](https://www.npmjs.co
 npm i @dfinity/utils
 npm i @dfinity/ledger-icp
 npm i @dfinity/ledger-icrc
-npm i @dfinity/nns-proto @dfinity/nns
+npm i @dfinity/nns
 npm i @dfinity/sns
 npm i @dfinity/cmc
 npm i @dfinity/ckbtc
