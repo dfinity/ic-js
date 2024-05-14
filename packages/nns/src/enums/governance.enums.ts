@@ -32,6 +32,7 @@ export enum Topic {
   ReplicaVersionManagement = 13,
   SnsAndCommunityFund = 14,
   ApiBoundaryNodeManagement = 15,
+  SubnetRental = 16,
 }
 
 // The proposal status, with respect to reward distribution.
