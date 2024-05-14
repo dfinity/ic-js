@@ -6,6 +6,10 @@
 - `@dfinity/nns-proto` was updated with the most recent proto types, some of which were not backwards compatible.
 - The size of the nns-proto-js library has noticeably increased, as it now exposes all types instead of just a manually picked subset.
 
+## Features
+
+- Add "Subnet Rental" topic support.
+
 ## Build
 
 - Upgrade `agent-js` dependencies to `v1.3.0` and revert the default retry times value to 10, given that the issue is fixed.
