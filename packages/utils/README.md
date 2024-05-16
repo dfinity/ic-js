@@ -532,7 +532,7 @@ Parameters:
 | -------- | -------------- |
 | `toUlps` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L322)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L324)
 
 ##### :gear: toE8s
 
@@ -540,7 +540,7 @@ Parameters:
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L330)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L332)
 
 ### :factory: Canister
 
