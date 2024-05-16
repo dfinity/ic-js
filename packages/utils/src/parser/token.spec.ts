@@ -420,7 +420,7 @@ describe("TokenAmountV2 with 2 decimals", () => {
     );
   });
 
-  it.only("can be initialized from a number", () => {
+  it("can be initialized from a number", () => {
     expect(
       TokenAmountV2.fromNumber({
         token: token,
