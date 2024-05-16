@@ -1,10 +1,32 @@
-# 2024.XX.YY-hhMMZ
+# 2024.05.14-0630Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v2.3.3  | Maintained ⚙️       |
+| `@dfinity/cketh`         | v3.0.1  | Maintained ⚙️       |
+| `@dfinity/cmc`           | v3.0.5  | Maintained ⚙️       |
+| `@dfinity/ic-management` | v4.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ledger-icp`    | v2.2.4  | Maintained ⚙️       |
+| `@dfinity/ledger-icrc`   | v2.3.1  | Maintained ⚙️       |
+| `@dfinity/nns`           | v5.1.0  | Enhanced 🔧         |
+| `@dfinity/nns-proto`     | v2.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/sns`           | v3.0.4  | Maintained ⚙️       |
+| `@dfinity/utils`         | v2.3.0  | Enhanced 🔧         |
 
 ## Breaking changes
 
 - `@dfinity/ic-management` function `canisterInfo` removed because users cannot call this method (see [documentation](https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-canister-info)).
 - `@dfinity/nns-proto` was updated with the most recent proto types, some of which were not backwards compatible.
 - The size of the nns-proto-js library has noticeably increased, as it now exposes all types instead of just a manually picked subset.
+
+## Features
+
+- Update Candid definition in ckBTC, ckETH, CMC, ICP and ICRC Ledgers, Nns and Sns.
+- Add "Subnet Rental" to the list of `NnsFunction` and to topic support.
 
 ## Fix
 
