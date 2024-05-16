@@ -299,7 +299,9 @@ export class TokenAmountV2 {
     token: Token;
   }): TokenAmountV2 {
     const tokenAmount = TokenAmountV2.fromString({
-      amount: amount.toFixed(DECIMALS_CONVERSION_SUPPORTED),
+      amount: amount.toFixed(
+        Math.min(DECIMALS_CONVERSION_SUPPORTED, token.decimals),
+      ),
       token,
     });
     if (tokenAmount instanceof TokenAmountV2) {

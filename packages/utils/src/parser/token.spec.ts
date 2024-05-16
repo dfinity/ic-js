@@ -420,6 +420,20 @@ describe("TokenAmountV2 with 2 decimals", () => {
     );
   });
 
+  it("can be initialized from a number", () => {
+    expect(
+      TokenAmountV2.fromNumber({
+        token: token,
+        amount: 100000000.91,
+      }),
+    ).toEqual(
+      TokenAmountV2.fromUlps({
+        token: token,
+        amount: 10000000091n,
+      }),
+    );
+  });
+
   it("returns the value in e8s", () => {
     expect(
       (

@@ -28,6 +28,10 @@ The current status of the libraries at the time of the release is as follows:
 - Update Candid definition in ckBTC, ckETH, CMC, ICP and ICRC Ledgers, Nns and Sns.
 - Add "Subnet Rental" to the list of `NnsFunction` and to topic support.
 
+## Fix
+
+- Fixed `TokenAmountV2.fromNumber` for tokens with fewer than 8 decimals.
+
 ## Build
 
 - Upgrade `agent-js` dependencies to `v1.3.0` and revert the default retry times value to 10, given that the issue is fixed.
