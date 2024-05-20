@@ -66,7 +66,18 @@ export interface canister_info_result {
 }
 export type canister_install_mode =
   | { reinstall: null }
-  | { upgrade: [] | [{ skip_pre_upgrade: [] | [boolean] }] }
+  | {
+      upgrade:
+        | []
+        | [
+            {
+              wasm_memory_persistence:
+                | []
+                | [{ keep: null } | { replace: null }];
+              skip_pre_upgrade: [] | [boolean];
+            },
+          ];
+    }
   | { install: null };
 export interface canister_settings {
   freezing_threshold: [] | [bigint];
@@ -83,6 +94,12 @@ export interface canister_status_result {
   memory_size: bigint;
   cycles: bigint;
   settings: definite_canister_settings;
+  query_stats: {
+    response_payload_bytes_total: bigint;
+    num_instructions_total: bigint;
+    num_calls_total: bigint;
+    request_payload_bytes_total: bigint;
+  };
   idle_cycles_burned_per_day: bigint;
   module_hash: [] | [Uint8Array | number[]];
   reserved_cycles: bigint;
@@ -188,7 +205,7 @@ export type millisatoshi_per_byte = bigint;
 export interface node_metrics {
   num_block_failures_total: bigint;
   node_id: Principal;
-  num_blocks_total: bigint;
+  num_blocks_proposed_total: bigint;
 }
 export interface node_metrics_history_args {
   start_at_timestamp_nanos: bigint;

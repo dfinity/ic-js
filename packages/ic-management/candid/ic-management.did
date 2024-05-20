@@ -146,7 +146,7 @@ type millisatoshi_per_byte = nat64;
 
 type node_metrics = record {
     node_id : principal;
-    num_blocks_total : nat64;
+    num_blocks_proposed_total : nat64;
     num_block_failures_total : nat64;
 };
 
@@ -183,6 +183,10 @@ type canister_install_mode = variant {
     reinstall;
     upgrade : opt record {
         skip_pre_upgrade : opt bool;
+        wasm_memory_persistence : opt variant {
+            keep;
+            replace;
+        };
     };
 };
 
@@ -229,6 +233,12 @@ type canister_status_result = record {
     cycles : nat;
     reserved_cycles : nat;
     idle_cycles_burned_per_day : nat;
+    query_stats: record {
+        num_calls_total: nat;
+        num_instructions_total: nat;
+        request_payload_bytes_total: nat;
+        response_payload_bytes_total: nat;
+    };
 };
 
 type canister_info_args = record {
