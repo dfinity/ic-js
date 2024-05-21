@@ -5,7 +5,7 @@ import type {
   _SERVICE as CkETHOrchestratorService,
   OrchestratorInfo,
 } from "../candid/orchestrator";
-import type { CkETHCanisterOptions } from "./types/canister.options";
+import type { CkETHMinterCanisterOptions } from "./types/canister.options";
 
 /**
  * Class representing the CkETH Orchestrator Canister which managers the Ledger and Index canisters of ckERC20 tokens.
@@ -15,10 +15,10 @@ import type { CkETHCanisterOptions } from "./types/canister.options";
 export class CkETHOrchestratorCanister extends Canister<CkETHOrchestratorService> {
   /**
    * Creates an instance of CkETHOrchestratorCanister.
-   * @param {CkETHCanisterOptions<CkETHOrchestratorService>} options - Options for creating the canister.
+   * @param {CkETHMinterCanisterOptions<CkETHOrchestratorService>} options - Options for creating the canister.
    * @returns {CkETHOrchestratorCanister} A new instance of CkETHOrchestratorCanister.
    */
-  static create(options: CkETHCanisterOptions<CkETHOrchestratorService>) {
+  static create(options: CkETHMinterCanisterOptions<CkETHOrchestratorService>) {
     const { service, certifiedService, canisterId } =
       createServices<CkETHOrchestratorService>({
         options,

@@ -15,10 +15,10 @@ import {
   createWithdrawErc20Error,
   createWithdrawEthError,
 } from "./errors/minter.errors";
-import type { CkETHCanisterOptions } from "./types/canister.options";
+import type { CkETHMinterCanisterOptions } from "./types/canister.options";
 
 export class CkETHMinterCanister extends Canister<CkETHMinterService> {
-  static create(options: CkETHCanisterOptions<CkETHMinterService>) {
+  static create(options: CkETHMinterCanisterOptions<CkETHMinterService>) {
     const { service, certifiedService, canisterId } =
       createServices<CkETHMinterService>({
         options,
