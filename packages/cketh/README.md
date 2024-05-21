@@ -173,7 +173,7 @@ Parameters:
 
 ### :factory: CkETHOrchestratorCanister
 
-Class representing the CkETH Orchestrator Canister which managers the Ledger and Index canisters of ckERC20 tokens.
+Class representing the CkETH Orchestrator Canister, which manages the Ledger and Index canisters of ckERC20 tokens.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L15)
 
