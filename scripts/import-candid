@@ -85,6 +85,7 @@ import_did "rs/bitcoin/ckbtc/minter/ckbtc_minter.did" "minter.did" "ckbtc"
 
 mkdir -p packages/cketh/candid
 import_did "rs/ethereum/cketh/minter/cketh_minter.did" "minter.did" "cketh"
+import_did "rs/ethereum/ledger-suite-orchestrator/ledger_suite_orchestrator.did" "orchestrator.did" "cketh"
 
 mkdir -p packages/ic-management/candid
 curl https://raw.githubusercontent.com/dfinity/interface-spec/master/spec/_attachments/ic.did -o packages/ic-management/candid/ic-management.did
