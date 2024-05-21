@@ -6,3 +6,5 @@ export interface CkETHMinterCanisterOptions<T>
   // The canister's ID is mandatory to instantiate an ckETH minter.
   canisterId: Principal;
 }
+
+export type CkETHOrchestratorCanisterOptions<T> = CkETHMinterCanisterOptions<T>;

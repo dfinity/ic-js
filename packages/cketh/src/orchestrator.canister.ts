@@ -1,11 +1,11 @@
 import { Canister, createServices, type QueryParams } from "@dfinity/utils";
-import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
-import { idlFactory } from "../candid/minter.idl";
 import type {
   _SERVICE as CkETHOrchestratorService,
   OrchestratorInfo,
 } from "../candid/orchestrator";
-import type { CkETHMinterCanisterOptions } from "./types/canister.options";
+import { idlFactory as certifiedIdlFactory } from "../candid/orchestrator.certified.idl";
+import { idlFactory } from "../candid/orchestrator.idl";
+import type { CkETHOrchestratorCanisterOptions } from "./types/canister.options";
 
 /**
  * Class representing the CkETH Orchestrator Canister which managers the Ledger and Index canisters of ckERC20 tokens.
@@ -15,10 +15,12 @@ import type { CkETHMinterCanisterOptions } from "./types/canister.options";
 export class CkETHOrchestratorCanister extends Canister<CkETHOrchestratorService> {
   /**
    * Creates an instance of CkETHOrchestratorCanister.
-   * @param {CkETHMinterCanisterOptions<CkETHOrchestratorService>} options - Options for creating the canister.
+   * @param {CkETHOrchestratorCanisterOptions<CkETHOrchestratorService>} options - Options for creating the canister.
    * @returns {CkETHOrchestratorCanister} A new instance of CkETHOrchestratorCanister.
    */
-  static create(options: CkETHMinterCanisterOptions<CkETHOrchestratorService>) {
+  static create(
+    options: CkETHOrchestratorCanisterOptions<CkETHOrchestratorService>,
+  ) {
     const { service, certifiedService, canisterId } =
       createServices<CkETHOrchestratorService>({
         options,
