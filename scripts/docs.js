@@ -44,6 +44,7 @@ const ckBTCInputFiles = [
 
 const ckETHInputFiles = [
   "./packages/cketh/src/minter.canister.ts",
+  "./packages/cketh/src/orchestrator.canister.ts",
   "./packages/ledger-icrc/src/utils/minter.utils.ts",
 ];
 
