@@ -67,9 +67,9 @@ const address = await getSmartContractAddress({});
 
 ##### :gear: create
 
-| Method   | Type                                                                     |
-| -------- | ------------------------------------------------------------------------ |
-| `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
+| Method   | Type                                                               |
+| -------- | ------------------------------------------------------------------ |
+| `create` | `(options: CkETHCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L21)
 
