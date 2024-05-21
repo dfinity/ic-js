@@ -20,7 +20,7 @@ export class CkETHOrchestratorCanister extends Canister<CkETHOrchestratorService
    */
   static create(
     options: CkETHOrchestratorCanisterOptions<CkETHOrchestratorService>,
-  ) {
+  ): CkETHOrchestratorCanister {
     const { service, certifiedService, canisterId } =
       createServices<CkETHOrchestratorService>({
         options,
