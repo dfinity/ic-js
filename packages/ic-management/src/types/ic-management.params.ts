@@ -59,8 +59,9 @@ export const toInstallMode = (
     case InstallMode.Reinstall:
       return { reinstall: null };
     case InstallMode.Upgrade:
-      // TODO: Support Upgrade mode skipping pre-upgrade
+      // TODO: Support Upgrade mode skipping pre-upgrade and wasm_memory_persistence
       // `upgrade` can also have `[{ skip_pre_upgrade: [] | [boolean] }]`
+      // or wasm_memory_persistence : opt variant {  keep;  replace;  };
       return { upgrade: [] };
   }
 };

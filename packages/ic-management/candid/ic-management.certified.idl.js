@@ -127,6 +127,12 @@ export const idlFactory = ({ IDL }) => {
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
     'settings' : definite_canister_settings,
+    'query_stats' : IDL.Record({
+      'response_payload_bytes_total' : IDL.Nat,
+      'num_instructions_total' : IDL.Nat,
+      'num_calls_total' : IDL.Nat,
+      'request_payload_bytes_total' : IDL.Nat,
+    }),
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'reserved_cycles' : IDL.Nat,
@@ -190,7 +196,14 @@ export const idlFactory = ({ IDL }) => {
   });
   const canister_install_mode = IDL.Variant({
     'reinstall' : IDL.Null,
-    'upgrade' : IDL.Opt(IDL.Record({ 'skip_pre_upgrade' : IDL.Opt(IDL.Bool) })),
+    'upgrade' : IDL.Opt(
+      IDL.Record({
+        'wasm_memory_persistence' : IDL.Opt(
+          IDL.Variant({ 'keep' : IDL.Null, 'replace' : IDL.Null })
+        ),
+        'skip_pre_upgrade' : IDL.Opt(IDL.Bool),
+      })
+    ),
     'install' : IDL.Null,
   });
   const chunk_hash = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
@@ -218,7 +231,7 @@ export const idlFactory = ({ IDL }) => {
   const node_metrics = IDL.Record({
     'num_block_failures_total' : IDL.Nat64,
     'node_id' : IDL.Principal,
-    'num_blocks_total' : IDL.Nat64,
+    'num_blocks_proposed_total' : IDL.Nat64,
   });
   const node_metrics_history_result = IDL.Vec(
     IDL.Record({
