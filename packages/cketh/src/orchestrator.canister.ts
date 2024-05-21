@@ -8,7 +8,7 @@ import { idlFactory } from "../candid/orchestrator.idl";
 import type { CkETHOrchestratorCanisterOptions } from "./types/canister.options";
 
 /**
- * Class representing the CkETH Orchestrator Canister which managers the Ledger and Index canisters of ckERC20 tokens.
+ * Class representing the CkETH Orchestrator Canister, which manages the Ledger and Index canisters of ckERC20 tokens.
  * @extends {Canister<CkETHOrchestratorService>}
  * @see {@link https://github.com/dfinity/ic/tree/master/rs/ethereum/ledger-suite-orchestrator|Source Code}
  */
