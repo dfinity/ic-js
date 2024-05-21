@@ -1,3 +1,9 @@
+# 2024.XX.YY-hhmmZ
+
+## Features
+
+- Canister status response extended with query statistics.
+
 # 2024.05.14-0630Z
 
 ## Overview
