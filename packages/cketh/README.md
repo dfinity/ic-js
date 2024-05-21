@@ -171,6 +171,46 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L157)
 
+### :factory: CkETHOrchestratorCanister
+
+Class representing the CkETH Orchestrator Canister which managers the Ledger and Index canisters of ckERC20 tokens.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L15)
+
+#### Methods
+
+- [create](#gear-create)
+- [getOrchestratorInfo](#gear-getorchestratorinfo)
+
+##### :gear: create
+
+Creates an instance of CkETHOrchestratorCanister.
+
+| Method   | Type                                                                                 |
+| -------- | ------------------------------------------------------------------------------------ |
+| `create` | `(options: CkETHOrchestratorCanisterOptions<_SERVICE>) => CkETHOrchestratorCanister` |
+
+Parameters:
+
+- `options`: - Options for creating the canister.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L21)
+
+##### :gear: getOrchestratorInfo
+
+Retrieves orchestrator information, which contains the list of existing ckERC20 Ledger and Index canisters.
+
+| Method                | Type                                                          |
+| --------------------- | ------------------------------------------------------------- |
+| `getOrchestratorInfo` | `({ certified, }?: QueryParams) => Promise<OrchestratorInfo>` |
+
+Parameters:
+
+- `params`: - The query parameters.
+- `params.certified`: - Whether to execute a certified (update) call.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L40)
+
 <!-- TSDOC_END -->
 
 ## Resources
