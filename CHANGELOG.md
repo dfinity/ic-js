@@ -3,6 +3,7 @@
 ## Features
 
 - Canister status response extended with query statistics.
+- Add `metadata` function to ledger ICP.
 
 # 2024.05.14-0630Z
 
