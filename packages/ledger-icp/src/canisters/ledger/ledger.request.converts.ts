@@ -59,7 +59,7 @@ export const toIcrc1TransferRawRequest = ({
 export const toIcrc2ApproveRawRequest = ({
   fee,
   createdAt,
-  memo,
+  icrc1Memo,
   fromSubAccount,
   expected_allowance,
   expires_at,
@@ -68,7 +68,7 @@ export const toIcrc2ApproveRawRequest = ({
 }: Icrc2ApproveRequest): Icrc2ApproveRawRequest => ({
   ...rest,
   fee: toNullable(fee ?? TRANSACTION_FEE),
-  memo: toNullable(memo),
+  memo: toNullable(icrc1Memo),
   from_subaccount: toNullable(fromSubAccount),
   created_at_time: toNullable(createdAt),
   amount,
