@@ -14,7 +14,7 @@ import { IcrcLedgerCanister } from "./ledger.canister";
 import {
   ledgerCanisterIdMock,
   mockPrincipal,
-  tokeMetadataResponseMock,
+  tokenMetadataResponseMock,
 } from "./mocks/ledger.mock";
 import {
   AllowanceParams,
@@ -26,7 +26,7 @@ import {
 describe("Ledger canister", () => {
   it("should return the token metadata", async () => {
     const service = mock<ActorSubclass<IcrcLedgerService>>();
-    service.icrc1_metadata.mockResolvedValue(tokeMetadataResponseMock);
+    service.icrc1_metadata.mockResolvedValue(tokenMetadataResponseMock);
 
     const canister = IcrcLedgerCanister.create({
       canisterId: ledgerCanisterIdMock,
@@ -34,7 +34,7 @@ describe("Ledger canister", () => {
     });
 
     const res = await canister.metadata({});
-    expect(res).toEqual(tokeMetadataResponseMock);
+    expect(res).toEqual(tokenMetadataResponseMock);
   });
 
   it("should return the transaction fee", async () => {
