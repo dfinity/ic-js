@@ -1,5 +1,10 @@
 export type * from "../candid/index";
-export type { Value } from "../candid/ledger";
+export type {
+  Icrc1BlockIndex,
+  Icrc1Timestamp,
+  Icrc1Tokens,
+  Value,
+} from "../candid/ledger";
 export { AccountIdentifier, SubAccount } from "./account_identifier";
 export * from "./errors/ledger.errors";
 export { IndexCanister } from "./index.canister";
