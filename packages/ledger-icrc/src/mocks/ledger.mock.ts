@@ -2,7 +2,7 @@ import { Principal } from "@dfinity/principal";
 import { MetadataValue } from "../../candid/icrc_ledger";
 import { IcrcMetadataResponseEntries } from "../types/ledger.responses";
 
-export const tokeMetadataResponseMock: [
+export const tokenMetadataResponseMock: [
   string | IcrcMetadataResponseEntries,
   MetadataValue,
 ][] = [
