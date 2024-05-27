@@ -10,9 +10,15 @@ import {
 } from "../candid/ledger";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
+  AllowanceChangedError,
   BadFeeError,
   CreatedInFutureError,
+  DuplicateError,
+  ExpiredError,
+  GenericError,
   InsufficientFundsError,
+  TemporarilyUnavailableError,
+  TooOldError,
   TxCreatedInFutureError,
   TxDuplicateError,
   TxTooOldError,
@@ -881,6 +887,96 @@ describe("LedgerCanister", () => {
       });
     });
 
+    it("should raise GenericError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          GenericError: { message: "This is a test", error_code: 123n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(GenericError);
+    });
+
+    it("should raise TemporarilyUnavailableError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          TemporarilyUnavailable: null,
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(TemporarilyUnavailableError);
+    });
+
+    it("should raise DuplicateError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          Duplicate: { duplicate_of: 888n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(DuplicateError);
+    });
+
+    it("should raise BadFeeError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          BadFee: { expected_fee: 666n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(BadFeeError);
+    });
+
+    it("should raise AllowanceChangedError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          AllowanceChanged: { current_allowance: 444n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(AllowanceChangedError);
+    });
+
     it("should raise CreatedInFutureError", async () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
@@ -897,6 +993,60 @@ describe("LedgerCanister", () => {
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
       expect(call).rejects.toThrowError(CreatedInFutureError);
+    });
+
+    it("should raise TooOldError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          TooOld: null,
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(TooOldError);
+    });
+
+    it("should raise ExpiredError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          Expired: { ledger_time: BigInt(1234) },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(ExpiredError);
+    });
+
+    it("should raise InsufficientFundsError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          InsufficientFunds: { balance: 333888n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(InsufficientFundsError);
     });
   });
 });

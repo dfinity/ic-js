@@ -156,7 +156,7 @@ export const mapIcrc2ApproveError = (
   }
 
   if ("AllowanceChanged" in rawApproveError) {
-    return new DuplicateError(
+    return new AllowanceChangedError(
       rawApproveError.AllowanceChanged.current_allowance,
     );
   }
