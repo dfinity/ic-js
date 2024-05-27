@@ -1,6 +1,5 @@
-import type { ActorSubclass, Agent } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
-import { createServices } from "@dfinity/utils";
+import { Canister, createServices } from "@dfinity/utils";
 import type { _SERVICE as LedgerService } from "../candid/ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
 import { idlFactory } from "../candid/ledger.idl";
@@ -22,19 +21,12 @@ import type {
 } from "./types/ledger_converters";
 import { paramToAccountIdentifier } from "./utils/params.utils";
 
-export class LedgerCanister {
-  private constructor(
-    private readonly agent: Agent,
-    private readonly canisterId: Principal,
-    private readonly service: ActorSubclass<LedgerService>,
-    private readonly certifiedService: ActorSubclass<LedgerService>,
-  ) {}
-
+export class LedgerCanister extends Canister<LedgerService> {
   public static create(options: LedgerCanisterOptions = {}) {
     const canisterId: Principal =
       options.canisterId ?? MAINNET_LEDGER_CANISTER_ID;
 
-    const { service, certifiedService, agent } = createServices<LedgerService>({
+    const { service, certifiedService } = createServices<LedgerService>({
       options: {
         ...options,
         canisterId,
@@ -43,7 +35,7 @@ export class LedgerCanister {
       certifiedIdlFactory,
     });
 
-    return new LedgerCanister(agent, canisterId, service, certifiedService);
+    return new LedgerCanister(canisterId, service, certifiedService);
   }
 
   /**
