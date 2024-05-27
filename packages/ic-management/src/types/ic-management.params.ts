@@ -35,8 +35,6 @@ export const toCanisterSettings = ({
   logVisibility,
 }: CanisterSettings = {}): canister_settings => {
   const toLogVisibility = (): log_visibility => {
-    console.log(logVisibility);
-
     switch (logVisibility) {
       case LogVisibility.Controllers:
         return { controllers: null };
