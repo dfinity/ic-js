@@ -111,10 +111,15 @@ export const idlFactory = ({ IDL }) => {
     'total_num_changes' : IDL.Nat64,
   });
   const canister_status_args = IDL.Record({ 'canister_id' : canister_id });
+  const log_visibility = IDL.Variant({
+    'controllers' : IDL.Null,
+    'public' : IDL.Null,
+  });
   const definite_canister_settings = IDL.Record({
     'freezing_threshold' : IDL.Nat,
     'controllers' : IDL.Vec(IDL.Principal),
     'reserved_cycles_limit' : IDL.Nat,
+    'log_visibility' : log_visibility,
     'memory_allocation' : IDL.Nat,
     'compute_allocation' : IDL.Nat,
   });
@@ -142,6 +147,7 @@ export const idlFactory = ({ IDL }) => {
     'freezing_threshold' : IDL.Opt(IDL.Nat),
     'controllers' : IDL.Opt(IDL.Vec(IDL.Principal)),
     'reserved_cycles_limit' : IDL.Opt(IDL.Nat),
+    'log_visibility' : IDL.Opt(log_visibility),
     'memory_allocation' : IDL.Opt(IDL.Nat),
     'compute_allocation' : IDL.Opt(IDL.Nat),
   });
@@ -161,6 +167,15 @@ export const idlFactory = ({ IDL }) => {
   const ecdsa_public_key_result = IDL.Record({
     'public_key' : IDL.Vec(IDL.Nat8),
     'chain_code' : IDL.Vec(IDL.Nat8),
+  });
+  const fetch_canister_logs_args = IDL.Record({ 'canister_id' : canister_id });
+  const canister_log_record = IDL.Record({
+    'idx' : IDL.Nat64,
+    'timestamp_nanos' : IDL.Nat64,
+    'content' : IDL.Vec(IDL.Nat8),
+  });
+  const fetch_canister_logs_result = IDL.Record({
+    'canister_log_records' : IDL.Vec(canister_log_record),
   });
   const http_header = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
   const http_request_result = IDL.Record({
@@ -332,6 +347,11 @@ export const idlFactory = ({ IDL }) => {
         [ecdsa_public_key_args],
         [ecdsa_public_key_result],
         [],
+      ),
+    'fetch_canister_logs' : IDL.Func(
+        [fetch_canister_logs_args],
+        [fetch_canister_logs_result],
+        ['query'],
       ),
     'http_request' : IDL.Func([http_request_args], [http_request_result], []),
     'install_chunked_code' : IDL.Func([install_chunked_code_args], [], []),
