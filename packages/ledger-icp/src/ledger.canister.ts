@@ -75,13 +75,20 @@ export class LedgerCanister extends Canister<LedgerService> {
   };
 
   /**
-   * Returns the transaction fee of the ledger canister
-   * @returns {BigInt}
+   * Returns the transaction fee of the ICP ledger canister.
+   *
+   * @param {QueryParams} [params={certified: false}] - Optional query parameters for the request, defaulting to `{ certified: false }` for backwards compatibility reason.
+   * @returns {Promise<bigint>} A promise that resolves to the transaction fee as a bigint.
    */
-  public transactionFee = async () => {
+  public transactionFee = async (
+    params: QueryParams = { certified: false },
+  ): Promise<bigint> => {
+    const { transfer_fee } = this.caller(params);
+
     const {
       transfer_fee: { e8s },
-    } = await this.service.transfer_fee({});
+    } = await transfer_fee({});
+
     return e8s;
   };
 
