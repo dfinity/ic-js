@@ -79,10 +79,16 @@ export type canister_install_mode =
           ];
     }
   | { install: null };
+export interface canister_log_record {
+  idx: bigint;
+  timestamp_nanos: bigint;
+  content: Uint8Array | number[];
+}
 export interface canister_settings {
   freezing_threshold: [] | [bigint];
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];
+  log_visibility: [] | [log_visibility];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
@@ -147,6 +153,7 @@ export interface definite_canister_settings {
   freezing_threshold: bigint;
   controllers: Array<Principal>;
   reserved_cycles_limit: bigint;
+  log_visibility: log_visibility;
   memory_allocation: bigint;
   compute_allocation: bigint;
 }
@@ -165,6 +172,12 @@ export interface ecdsa_public_key_args {
 export interface ecdsa_public_key_result {
   public_key: Uint8Array | number[];
   chain_code: Uint8Array | number[];
+}
+export interface fetch_canister_logs_args {
+  canister_id: canister_id;
+}
+export interface fetch_canister_logs_result {
+  canister_log_records: Array<canister_log_record>;
 }
 export interface http_header {
   value: string;
@@ -201,6 +214,7 @@ export interface install_code_args {
   canister_id: canister_id;
   sender_canister_version: [] | [bigint];
 }
+export type log_visibility = { controllers: null } | { public: null };
 export type millisatoshi_per_byte = bigint;
 export interface node_metrics {
   num_block_failures_total: bigint;
@@ -306,6 +320,10 @@ export interface _SERVICE {
   ecdsa_public_key: ActorMethod<
     [ecdsa_public_key_args],
     ecdsa_public_key_result
+  >;
+  fetch_canister_logs: ActorMethod<
+    [fetch_canister_logs_args],
+    fetch_canister_logs_result
   >;
   http_request: ActorMethod<[http_request_args], http_request_result>;
   install_chunked_code: ActorMethod<[install_chunked_code_args], undefined>;

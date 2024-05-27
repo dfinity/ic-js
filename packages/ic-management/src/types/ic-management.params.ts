@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { toNullable } from "@dfinity/utils";
+import { isNullish, toNullable } from "@dfinity/utils";
 import type {
   bitcoin_get_utxos_args,
   bitcoin_get_utxos_query_args,
@@ -9,12 +9,18 @@ import type {
   upload_chunk_args,
 } from "../../candid/ic-management";
 
+export enum LogVisibility {
+  Controllers,
+  Public,
+}
+
 export interface CanisterSettings {
   controllers?: string[];
   freezingThreshold?: bigint;
   memoryAllocation?: bigint;
   computeAllocation?: bigint;
   reservedCyclesLimit?: bigint;
+  logVisibility?: LogVisibility;
 }
 
 export const toCanisterSettings = ({
@@ -23,6 +29,7 @@ export const toCanisterSettings = ({
   memoryAllocation,
   computeAllocation,
   reservedCyclesLimit,
+  logVisibility,
 }: CanisterSettings = {}): canister_settings => {
   return {
     controllers: toNullable(controllers?.map((c) => Principal.fromText(c))),
@@ -30,6 +37,13 @@ export const toCanisterSettings = ({
     memory_allocation: toNullable(memoryAllocation),
     compute_allocation: toNullable(computeAllocation),
     reserved_cycles_limit: toNullable(reservedCyclesLimit),
+    log_visibility: isNullish(logVisibility)
+      ? []
+      : [
+          logVisibility === LogVisibility.Public
+            ? { public: null }
+            : { controllers: null },
+        ],
   };
 };
 
