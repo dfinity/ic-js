@@ -1,12 +1,18 @@
 type canister_id = principal;
 type wasm_module = blob;
 
+type log_visibility = variant {
+    controllers;
+    public;
+};
+
 type canister_settings = record {
     controllers : opt vec principal;
     compute_allocation : opt nat;
     memory_allocation : opt nat;
     freezing_threshold : opt nat;
     reserved_cycles_limit : opt nat;
+    log_visibility : opt log_visibility;
 };
 
 type definite_canister_settings = record {
@@ -15,6 +21,7 @@ type definite_canister_settings = record {
     memory_allocation : nat;
     freezing_threshold : nat;
     reserved_cycles_limit : nat;
+    log_visibility : log_visibility;
 };
 
 type change_origin = variant {
@@ -332,6 +339,20 @@ type bitcoin_get_balance_query_result = satoshi;
 
 type bitcoin_get_current_fee_percentiles_result = vec millisatoshi_per_byte;
 
+type fetch_canister_logs_args = record {
+    canister_id : canister_id;
+};
+
+type canister_log_record = record {
+    idx: nat64;
+    timestamp_nanos: nat64;
+    content: blob;
+};
+
+type fetch_canister_logs_result = record {
+    canister_log_records: vec canister_log_record;
+};
+
 service ic : {
     create_canister : (create_canister_args) -> (create_canister_result);
     update_settings : (update_settings_args) -> ();
@@ -368,4 +389,7 @@ service ic : {
     // provisional interfaces for the pre-ledger world
     provisional_create_canister_with_cycles : (provisional_create_canister_with_cycles_args) -> (provisional_create_canister_with_cycles_result);
     provisional_top_up_canister : (provisional_top_up_canister_args) -> ();
+
+    // canister logging
+    fetch_canister_logs : (fetch_canister_logs_args) -> (fetch_canister_logs_result) query;
 };
