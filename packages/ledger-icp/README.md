@@ -162,12 +162,13 @@ const data = await metadata();
 
 ### :factory: LedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L25)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L24)
 
 #### Methods
 
 - [create](#gear-create)
 - [accountBalance](#gear-accountbalance)
+- [metadata](#gear-metadata)
 - [transactionFee](#gear-transactionfee)
 - [transfer](#gear-transfer)
 - [icrc1Transfer](#gear-icrc1transfer)
@@ -178,7 +179,7 @@ const data = await metadata();
 | -------- | ----------------------------------------------------- |
 | `create` | `(options?: LedgerCanisterOptions) => LedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L33)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L25)
 
 ##### :gear: accountBalance
 
@@ -197,7 +198,21 @@ Parameters:
 - `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
 - `params.certified`: query or update call.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L61)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L53)
+
+##### :gear: metadata
+
+Fetches the ledger metadata.
+
+| Method     | Type                                                  |
+| ---------- | ----------------------------------------------------- |
+| `metadata` | `(params: QueryParams) => Promise<[string, Value][]>` |
+
+Parameters:
+
+- `params`: - The parameters used to fetch the metadata, notably query or certified call.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L72)
 
 ##### :gear: transactionFee
 
@@ -207,7 +222,7 @@ Returns the transaction fee of the ledger canister
 | ---------------- | ----------------------- |
 | `transactionFee` | `() => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L78)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L81)
 
 ##### :gear: transfer
 
@@ -218,7 +233,7 @@ Returns the index of the block containing the tx if it was successful.
 | ---------- | ----------------------------------------------- |
 | `transfer` | `(request: TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L91)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L94)
 
 ##### :gear: icrc1Transfer
 
@@ -229,7 +244,7 @@ Returns the index of the block containing the tx if it was successful.
 | --------------- | ---------------------------------------------------- |
 | `icrc1Transfer` | `(request: Icrc1TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L111)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L114)
 
 ### :factory: IndexCanister
 
