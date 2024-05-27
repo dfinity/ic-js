@@ -6,6 +6,7 @@ import type {
   canister_install_mode,
   canister_settings,
   chunk_hash,
+  log_visibility,
   upload_chunk_args,
 } from "../../candid/ic-management";
 
@@ -23,6 +24,8 @@ export interface CanisterSettings {
   logVisibility?: LogVisibility;
 }
 
+export class UnsupportedLogVisibility extends Error {}
+
 export const toCanisterSettings = ({
   controllers,
   freezingThreshold,
@@ -31,19 +34,26 @@ export const toCanisterSettings = ({
   reservedCyclesLimit,
   logVisibility,
 }: CanisterSettings = {}): canister_settings => {
+  const toLogVisibility = (): log_visibility => {
+    console.log(logVisibility);
+
+    switch (logVisibility) {
+      case LogVisibility.Controllers:
+        return { controllers: null };
+      case LogVisibility.Public:
+        return { public: null };
+      default:
+        throw new UnsupportedLogVisibility();
+    }
+  };
+
   return {
     controllers: toNullable(controllers?.map((c) => Principal.fromText(c))),
     freezing_threshold: toNullable(freezingThreshold),
     memory_allocation: toNullable(memoryAllocation),
     compute_allocation: toNullable(computeAllocation),
     reserved_cycles_limit: toNullable(reservedCyclesLimit),
-    log_visibility: isNullish(logVisibility)
-      ? []
-      : [
-          logVisibility === LogVisibility.Public
-            ? { public: null }
-            : { controllers: null },
-        ],
+    log_visibility: isNullish(logVisibility) ? [] : [toLogVisibility()],
   };
 };
 

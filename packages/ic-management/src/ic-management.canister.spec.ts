@@ -22,6 +22,7 @@ import {
   InstallCodeParams,
   InstallMode,
   LogVisibility,
+  UnsupportedLogVisibility,
   toInstallMode,
   type BitcoinGetUtxosParams,
   type ClearChunkStoreParams,
@@ -168,6 +169,24 @@ describe("ICManagementCanister", () => {
         },
         sender_canister_version: [],
       });
+    });
+
+    it("throws Error for unsupported log visibility", async () => {
+      const service = mock<IcManagementService>();
+      service.update_settings.mockResolvedValue(undefined);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () =>
+        icManagement.updateSettings({
+          canisterId: mockCanisterId,
+          settings: {
+            ...mockCanisterSettings,
+            logVisibility: 2 as unknown as LogVisibility,
+          },
+        });
+
+      expect(call).toThrow(UnsupportedLogVisibility);
     });
 
     it("throws Error", async () => {
