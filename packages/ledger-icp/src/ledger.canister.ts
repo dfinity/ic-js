@@ -1,6 +1,6 @@
 import type { Principal } from "@dfinity/principal";
 import { Canister, createServices, type QueryParams } from "@dfinity/utils";
-import type { _SERVICE as LedgerService } from "../candid/ledger";
+import type { _SERVICE as LedgerService, Value } from "../candid/ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
 import { idlFactory } from "../candid/ledger.idl";
 import {
@@ -61,6 +61,17 @@ export class LedgerCanister extends Canister<LedgerService> {
       account: accountIdentifier.toUint8Array(),
     });
     return tokens.e8s;
+  };
+
+  /**
+   * Fetches the ledger metadata.
+   *
+   * @param {QueryParams} params - The parameters used to fetch the metadata, notably query or certified call.
+   * @returns {Promise<Array<[string, Value]>>} The metadata of the ICP ledger. A promise that resolves to an array of metadata entries, where each entry is a tuple consisting of a string and a value.
+   */
+  metadata = (params: QueryParams): Promise<Array<[string, Value]>> => {
+    const { icrc1_metadata } = this.caller(params);
+    return icrc1_metadata();
   };
 
   /**
