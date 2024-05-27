@@ -201,13 +201,17 @@ Parameters:
 
 ##### :gear: transactionFee
 
-Returns the transaction fee of the ledger canister
+Returns the transaction fee of the ICP ledger canister.
 
-| Method           | Type                    |
-| ---------------- | ----------------------- |
-| `transactionFee` | `() => Promise<bigint>` |
+| Method           | Type                                        |
+| ---------------- | ------------------------------------------- |
+| `transactionFee` | `(params?: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L70)
+Parameters:
+
+- `params`: - Optional query parameters for the request, defaulting to `{ certified: false }` for backwards compatibility reason.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L72)
 
 ##### :gear: transfer
 
@@ -218,7 +222,7 @@ Returns the index of the block containing the tx if it was successful.
 | ---------- | ----------------------------------------------- |
 | `transfer` | `(request: TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L83)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L90)
 
 ##### :gear: icrc1Transfer
 
@@ -229,7 +233,7 @@ Returns the index of the block containing the tx if it was successful.
 | --------------- | ---------------------------------------------------- |
 | `icrc1Transfer` | `(request: Icrc1TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L103)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L110)
 
 ### :factory: IndexCanister
 
