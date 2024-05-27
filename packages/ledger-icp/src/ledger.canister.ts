@@ -1,6 +1,6 @@
 import type { Principal } from "@dfinity/principal";
-import { Canister, createServices } from "@dfinity/utils";
-import type { _SERVICE as LedgerService } from "../candid/ledger";
+import { Canister, createServices, type QueryParams } from "@dfinity/utils";
+import type { _SERVICE as LedgerService, Value } from "../candid/ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
 import { idlFactory } from "../candid/ledger.idl";
 import {
@@ -64,13 +64,31 @@ export class LedgerCanister extends Canister<LedgerService> {
   };
 
   /**
-   * Returns the transaction fee of the ledger canister
-   * @returns {BigInt}
+   * Fetches the ledger metadata.
+   *
+   * @param {QueryParams} params - The parameters used to fetch the metadata, notably query or certified call.
+   * @returns {Promise<Array<[string, Value]>>} The metadata of the ICP ledger. A promise that resolves to an array of metadata entries, where each entry is a tuple consisting of a string and a value.
    */
-  public transactionFee = async () => {
+  metadata = (params: QueryParams): Promise<Array<[string, Value]>> => {
+    const { icrc1_metadata } = this.caller(params);
+    return icrc1_metadata();
+  };
+
+  /**
+   * Returns the transaction fee of the ICP ledger canister.
+   *
+   * @param {QueryParams} [params={certified: false}] - Optional query parameters for the request, defaulting to `{ certified: false }` for backwards compatibility reason.
+   * @returns {Promise<bigint>} A promise that resolves to the transaction fee as a bigint.
+   */
+  public transactionFee = async (
+    params: QueryParams = { certified: false },
+  ): Promise<bigint> => {
+    const { transfer_fee } = this.caller(params);
+
     const {
       transfer_fee: { e8s },
-    } = await this.service.transfer_fee({});
+    } = await transfer_fee({});
+
     return e8s;
   };
 

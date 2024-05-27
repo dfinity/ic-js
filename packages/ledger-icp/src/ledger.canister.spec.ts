@@ -2,7 +2,7 @@ import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type { _SERVICE as LedgerService } from "../candid/ledger";
+import { _SERVICE as LedgerService, Value } from "../candid/ledger";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
   BadFeeError,
@@ -63,6 +63,27 @@ describe("LedgerCanister", () => {
         });
         expect(balance).toEqual(tokens.e8s);
         expect(service.account_balance).toBeCalled();
+      });
+    });
+
+    describe("metadata", () => {
+      it("should return the token metadata", async () => {
+        const tokeMetadataResponseMock: Array<[string, Value]> = [
+          ["icrc1:decimals", { Nat: BigInt(8) }],
+          ["icrc1:name", { Text: "Beta Test" }],
+          ["icrc1:symbol", { Text: "ICP" }],
+          ["icrc1:fee", { Nat: BigInt(1000) }],
+        ];
+
+        const service = mock<ActorSubclass<LedgerService>>();
+        service.icrc1_metadata.mockResolvedValue(tokeMetadataResponseMock);
+
+        const canister = LedgerCanister.create({
+          certifiedServiceOverride: service,
+        });
+
+        const res = await canister.metadata({});
+        expect(res).toEqual(tokeMetadataResponseMock);
       });
     });
 
