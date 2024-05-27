@@ -162,7 +162,7 @@ const data = await metadata();
 
 ### :factory: LedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L24)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L31)
 
 #### Methods
 
@@ -172,6 +172,7 @@ const data = await metadata();
 - [transactionFee](#gear-transactionfee)
 - [transfer](#gear-transfer)
 - [icrc1Transfer](#gear-icrc1transfer)
+- [icrc2Approve](#gear-icrc2approve)
 
 ##### :gear: create
 
@@ -179,7 +180,7 @@ const data = await metadata();
 | -------- | ----------------------------------------------------- |
 | `create` | `(options?: LedgerCanisterOptions) => LedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L25)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L32)
 
 ##### :gear: accountBalance
 
@@ -198,7 +199,7 @@ Parameters:
 - `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
 - `params.certified`: query or update call.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L53)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L60)
 
 ##### :gear: metadata
 
@@ -212,7 +213,7 @@ Parameters:
 
 - `params`: - The parameters used to fetch the metadata, notably query or certified call.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L72)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L79)
 
 ##### :gear: transactionFee
 
@@ -226,7 +227,7 @@ Parameters:
 
 - `params`: - Optional query parameters for the request, defaulting to `{ certified: false }` for backwards compatibility reason.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L83)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L90)
 
 ##### :gear: transfer
 
@@ -237,7 +238,7 @@ Returns the index of the block containing the tx if it was successful.
 | ---------- | ----------------------------------------------- |
 | `transfer` | `(request: TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L101)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L108)
 
 ##### :gear: icrc1Transfer
 
@@ -248,7 +249,23 @@ Returns the index of the block containing the tx if it was successful.
 | --------------- | ---------------------------------------------------- |
 | `icrc1Transfer` | `(request: Icrc1TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L121)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L128)
+
+##### :gear: icrc2Approve
+
+This method entitles the `spender` to transfer token `amount` on behalf of the caller from account `{ owner = caller; subaccount = from_subaccount }`.
+
+Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_approve
+
+| Method         | Type                                               |
+| -------------- | -------------------------------------------------- |
+| `icrc2Approve` | `(params: Icrc2ApproveRequest) => Promise<bigint>` |
+
+Parameters:
+
+- `params`: - The parameters to approve.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L148)
 
 ### :factory: IndexCanister
 
