@@ -2,6 +2,7 @@
 
 ## Features
 
+- Support for `getUtxos` endpoint in the new Bitcoin canister from `@dfinity/ckbtc`.
 - Canister status response extended with query statistics.
 - Add `metadata` function to ledger ICP.
 - Add optional parameters to ICP ledger `transactionFee`.

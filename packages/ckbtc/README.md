@@ -276,11 +276,12 @@ Parameters:
 
 ### :factory: BitcoinCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L7)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L11)
 
 #### Methods
 
 - [create](#gear-create)
+- [getUtxos](#gear-getutxos)
 
 ##### :gear: create
 
@@ -288,7 +289,24 @@ Parameters:
 | -------- | -------------------------------------------------------------- |
 | `create` | `(options: CkBTCCanisterOptions<_SERVICE>) => BitcoinCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L8)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L12)
+
+##### :gear: getUtxos
+
+Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns all unspent transaction outputs (UTXOs) associated with the provided address in the specified Bitcoin network based on the current view of the Bitcoin blockchain available to the Bitcoin component.
+
+| Method     | Type                                                                        |
+| ---------- | --------------------------------------------------------------------------- |
+| `getUtxos` | `({ certified, ...params }: GetUtxosParams) => Promise<get_utxos_response>` |
+
+Parameters:
+
+- `params.network`: Tesnet or mainnet.
+- `params.filter`: The optional filter parameter can be used to restrict the set of returned UTXOs, either providing a minimum number of confirmations or a page reference when pagination is used for addresses with many UTXOs.
+- `params.address`: A Bitcoin address.
+- `params.certified`: query or update call
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L35)
 
 <!-- TSDOC_END -->
 
