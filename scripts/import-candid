@@ -110,6 +110,7 @@ import_did "rs/rosetta-api/icrc1/index-ng/index-ng.did" "icrc_index-ng.did" "led
 
 mkdir -p packages/ckbtc/candid
 import_did "rs/bitcoin/ckbtc/minter/ckbtc_minter.did" "minter.did" "ckbtc"
+download_did https://raw.githubusercontent.com/dfinity/bitcoin-canister/master/canister/candid.did "bitcoin.did" "ckbtc"
 
 mkdir -p packages/cketh/candid
 import_did "rs/ethereum/cketh/minter/cketh_minter.did" "minter.did" "cketh"
