@@ -233,6 +233,7 @@ export interface MinterInfo {
   last_erc20_scraped_block_number: [] | [bigint];
   supported_ckerc20_tokens: [] | [Array<CkErc20Token>];
   last_gas_fee_estimate: [] | [GasFeeEstimate];
+  cketh_ledger_id: [] | [Principal];
   smart_contract_address: [] | [string];
   last_eth_scraped_block_number: [] | [bigint];
   minimum_withdrawal_amount: [] | [bigint];

@@ -9,11 +9,32 @@ export interface AddErc20Arg {
   ledger_compressed_wasm_hash: string;
   index_compressed_wasm_hash: string;
 }
+export interface CanisterStatusResponse {
+  status: CanisterStatusType;
+  memory_size: bigint;
+  cycles: bigint;
+  settings: DefiniteCanisterSettings;
+  query_stats: QueryStats;
+  idle_cycles_burned_per_day: bigint;
+  module_hash: [] | [Uint8Array | number[]];
+  reserved_cycles: bigint;
+}
+export type CanisterStatusType =
+  | { stopped: null }
+  | { stopping: null }
+  | { running: null };
 export interface CyclesManagement {
   cycles_top_up_increment: bigint;
   cycles_for_ledger_creation: bigint;
   cycles_for_archive_creation: bigint;
   cycles_for_index_creation: bigint;
+}
+export interface DefiniteCanisterSettings {
+  freezing_threshold: bigint;
+  controllers: Array<Principal>;
+  reserved_cycles_limit: bigint;
+  memory_allocation: bigint;
+  compute_allocation: bigint;
 }
 export interface Erc20Contract {
   chain_id: bigint;
@@ -75,6 +96,12 @@ export interface OrchestratorInfo {
   more_controller_ids: Array<Principal>;
   minter_id: [] | [Principal];
 }
+export interface QueryStats {
+  response_payload_bytes_total: bigint;
+  num_instructions_total: bigint;
+  num_calls_total: bigint;
+  request_payload_bytes_total: bigint;
+}
 export interface UpdateCyclesManagement {
   cycles_top_up_increment: [] | [bigint];
   cycles_for_ledger_creation: [] | [bigint];
@@ -90,6 +117,7 @@ export interface UpgradeArg {
 }
 export interface _SERVICE {
   canister_ids: ActorMethod<[Erc20Contract], [] | [ManagedCanisterIds]>;
+  get_canister_status: ActorMethod<[], CanisterStatusResponse>;
   get_orchestrator_info: ActorMethod<[], OrchestratorInfo>;
 }
 export declare const idlFactory: IDL.InterfaceFactory;

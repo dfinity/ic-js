@@ -81,6 +81,12 @@ export interface GetNextSnsVersionRequest {
 export interface GetNextSnsVersionResponse {
   next_version: [] | [SnsVersion];
 }
+export interface GetProposalIdThatAddedWasmRequest {
+  hash: Uint8Array | number[];
+}
+export interface GetProposalIdThatAddedWasmResponse {
+  proposal_id: [] | [bigint];
+}
 export interface GetSnsSubnetIdsResponse {
   sns_subnet_ids: Array<Principal>;
 }
@@ -284,6 +290,10 @@ export interface _SERVICE {
   get_next_sns_version: ActorMethod<
     [GetNextSnsVersionRequest],
     GetNextSnsVersionResponse
+  >;
+  get_proposal_id_that_added_wasm: ActorMethod<
+    [GetProposalIdThatAddedWasmRequest],
+    GetProposalIdThatAddedWasmResponse
   >;
   get_sns_subnet_ids: ActorMethod<[{}], GetSnsSubnetIdsResponse>;
   get_wasm: ActorMethod<[GetWasmRequest], GetWasmResponse>;

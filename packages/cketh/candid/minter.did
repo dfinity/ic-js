@@ -1,4 +1,4 @@
-// Generated from IC repo commit ec35ebd (2024-05-22 tags: release-2024-05-22_23-01-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit b9a0f18 (2024-05-29 tags: release-2024-05-29_23-02-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -173,6 +173,9 @@ type MinterInfo = record {
 
     // Last scraped block number for logs of the ERC20 helper contract.
     last_erc20_scraped_block_number: opt nat;
+
+    // Canister ID of the ckETH ledger.
+    cketh_ledger_id: opt principal;
 };
 
 

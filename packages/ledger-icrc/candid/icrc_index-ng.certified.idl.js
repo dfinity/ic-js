@@ -1,8 +1,14 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/ledger-icrc/candid/icrc_index-ng.did */
 export const idlFactory = ({ IDL }) => {
   const Value = IDL.Rec();
-  const UpgradeArg = IDL.Record({ 'ledger_id' : IDL.Opt(IDL.Principal) });
-  const InitArg = IDL.Record({ 'ledger_id' : IDL.Principal });
+  const UpgradeArg = IDL.Record({
+    'ledger_id' : IDL.Opt(IDL.Principal),
+    'retrieve_blocks_from_ledger_interval_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const InitArg = IDL.Record({
+    'ledger_id' : IDL.Principal,
+    'retrieve_blocks_from_ledger_interval_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const IndexArg = IDL.Variant({ 'Upgrade' : UpgradeArg, 'Init' : InitArg });
   const BlockIndex = IDL.Nat;
   const SubAccount = IDL.Vec(IDL.Nat8);
@@ -120,8 +126,14 @@ export const idlFactory = ({ IDL }) => {
   });
 };
 export const init = ({ IDL }) => {
-  const UpgradeArg = IDL.Record({ 'ledger_id' : IDL.Opt(IDL.Principal) });
-  const InitArg = IDL.Record({ 'ledger_id' : IDL.Principal });
+  const UpgradeArg = IDL.Record({
+    'ledger_id' : IDL.Opt(IDL.Principal),
+    'retrieve_blocks_from_ledger_interval_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const InitArg = IDL.Record({
+    'ledger_id' : IDL.Principal,
+    'retrieve_blocks_from_ledger_interval_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const IndexArg = IDL.Variant({ 'Upgrade' : UpgradeArg, 'Init' : InitArg });
   return [IDL.Opt(IndexArg)];
 };
