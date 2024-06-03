@@ -1,15 +1,21 @@
 import type { Principal } from "@dfinity/principal";
 import { Canister, createServices, type QueryParams } from "@dfinity/utils";
-import type { _SERVICE as LedgerService, Value } from "../candid/ledger";
+import type {
+  Icrc1BlockIndex,
+  _SERVICE as LedgerService,
+  Value,
+} from "../candid/ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
 import { idlFactory } from "../candid/ledger.idl";
 import {
   toIcrc1TransferRawRequest,
+  toIcrc2ApproveRawRequest,
   toTransferRawRequest,
 } from "./canisters/ledger/ledger.request.converts";
 import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
 import {
   mapIcrc1TransferError,
+  mapIcrc2ApproveError,
   mapTransferError,
 } from "./errors/ledger.errors";
 import type { BlockHeight } from "./types/common";
@@ -17,6 +23,7 @@ import type { LedgerCanisterOptions } from "./types/ledger.options";
 import type { AccountBalanceParams } from "./types/ledger.params";
 import type {
   Icrc1TransferRequest,
+  Icrc2ApproveRequest,
   TransferRequest,
 } from "./types/ledger_converters";
 import { paramToAccountIdentifier } from "./utils/params.utils";
@@ -126,6 +133,29 @@ export class LedgerCanister extends Canister<LedgerService> {
     if ("Err" in response) {
       throw mapIcrc1TransferError(response.Err);
     }
+    return response.Ok;
+  };
+
+  /**
+   * This method entitles the `spender` to transfer token `amount` on behalf of the caller from account `{ owner = caller; subaccount = from_subaccount }`.
+   *
+   * Reference: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-2/README.md#icrc2_approve
+   *
+   * @param {Icrc2ApproveRequest} params - The parameters to approve.
+   * @throws {ApproveError} If the approval fails.
+   * @returns {Promise<Icrc1BlockIndex>} The block index of the approved transaction.
+   */
+  icrc2Approve = async (
+    params: Icrc2ApproveRequest,
+  ): Promise<Icrc1BlockIndex> => {
+    const { icrc2_approve } = this.caller({ certified: true });
+
+    const response = await icrc2_approve(toIcrc2ApproveRawRequest(params));
+
+    if ("Err" in response) {
+      throw mapIcrc2ApproveError(response.Err);
+    }
+
     return response.Ok;
   };
 }

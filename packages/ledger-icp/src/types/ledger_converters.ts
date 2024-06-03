@@ -36,3 +36,21 @@ export type Icrc1TransferRequest = {
   // https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#transaction_deduplication
   createdAt?: Icrc1Timestamp;
 };
+
+/**
+ * Params for an icrc2_approve.
+ *
+ * @param {Account} spender The account of the spender.
+ * @param {Tokens} amount The amount of tokens to approve.
+ * @param {Subaccount?} from_subaccount The subaccount to transfer tokens from.
+ * @param {Uint8Array|number?} icrc1Memo Approve memo.
+ * @param {Timestamp?} created_at_time nanoseconds since unix epoc to trigger deduplication and avoid other issues
+ * @param {Tokens?} fee The fee of the transfer when it's not the default fee.
+ * @param {Tokens?} expected_allowance The optional allowance expected. If the expected_allowance field is set, the ledger MUST ensure that the current allowance for the spender from the caller's account is equal to the given value and return the AllowanceChanged error otherwise.
+ * @param {Timestamp?} expires_at When the approval expires. If the field is set, it's greater than the current ledger time.
+ */
+export type Icrc2ApproveRequest = Omit<Icrc1TransferRequest, "to"> & {
+  expected_allowance?: Icrc1Tokens;
+  expires_at?: Icrc1Timestamp;
+  spender: Account;
+};

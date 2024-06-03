@@ -2,17 +2,30 @@ import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import { _SERVICE as LedgerService, Value } from "../candid/ledger";
+import {
+  _SERVICE as LedgerService,
+  Value,
+  type Account,
+  type ApproveArgs as Icrc2ApproveRawRequest,
+} from "../candid/ledger";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
+  AllowanceChangedError,
   BadFeeError,
+  CreatedInFutureError,
+  DuplicateError,
+  ExpiredError,
+  GenericError,
   InsufficientFundsError,
+  TemporarilyUnavailableError,
+  TooOldError,
   TxCreatedInFutureError,
   TxDuplicateError,
   TxTooOldError,
 } from "./errors/ledger.errors";
 import { LedgerCanister } from "./ledger.canister";
-import { mockAccountIdentifier } from "./mocks/ledger.mock";
+import { mockAccountIdentifier, mockPrincipal } from "./mocks/ledger.mock";
+import type { Icrc2ApproveRequest } from "./types/ledger_converters";
 
 describe("LedgerCanister", () => {
   describe("accountBalance", () => {
@@ -681,6 +694,359 @@ describe("LedgerCanister", () => {
 
         expect(call).rejects.toThrowError(TxCreatedInFutureError);
       });
+    });
+  });
+
+  describe("icrc2Approve", () => {
+    const approveRequest: Icrc2ApproveRequest = {
+      spender: {
+        owner: mockPrincipal,
+        subaccount: [],
+      },
+      amount: BigInt(100_000_000),
+      expires_at: 123n,
+    };
+
+    const approveRawRequest: Icrc2ApproveRawRequest = {
+      expected_allowance: [],
+      expires_at: [123n],
+      from_subaccount: [],
+      spender: {
+        owner: mockPrincipal,
+        subaccount: [],
+      },
+      fee: [],
+      memo: [],
+      created_at_time: [],
+      amount: BigInt(100_000_000),
+    };
+
+    it("should return the block height successfully", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      const blockHeight = BigInt(100);
+      service.icrc2_approve.mockResolvedValue({ Ok: blockHeight });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const res = await ledger.icrc2Approve(approveRequest);
+      expect(res).toEqual(blockHeight);
+      expect(service.icrc2_approve).toBeCalledWith({
+        ...approveRawRequest,
+        fee: [TRANSACTION_FEE],
+      });
+    });
+
+    it("should call approve with default fee", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      const blockHeight = BigInt(100);
+      service.icrc2_approve.mockResolvedValue({ Ok: blockHeight });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const res = await ledger.icrc2Approve(approveRequest);
+      expect(res).toEqual(blockHeight);
+      expect(service.icrc2_approve).toBeCalledWith({
+        ...approveRawRequest,
+        fee: [TRANSACTION_FEE],
+      });
+    });
+
+    it("should call approve with custom fee", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      const blockHeight = BigInt(100);
+      service.icrc2_approve.mockResolvedValue({ Ok: blockHeight });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const res = await ledger.icrc2Approve({
+        ...approveRequest,
+        fee: 123n,
+      });
+      expect(res).toEqual(blockHeight);
+      expect(service.icrc2_approve).toBeCalledWith({
+        ...approveRawRequest,
+        fee: [123n],
+      });
+    });
+
+    it("should call approve with memo", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      const blockHeight = BigInt(100);
+      service.icrc2_approve.mockResolvedValue({ Ok: blockHeight });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const icrc1Memo = arrayOfNumberToUint8Array([1, 2, 3, 4, 5]);
+
+      const res = await ledger.icrc2Approve({
+        ...approveRequest,
+        icrc1Memo,
+      });
+      expect(res).toEqual(blockHeight);
+      expect(service.icrc2_approve).toBeCalledWith({
+        ...approveRawRequest,
+        fee: [TRANSACTION_FEE],
+        memo: [icrc1Memo],
+      });
+    });
+
+    it("should call approve with created at", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      const blockHeight = BigInt(100);
+      service.icrc2_approve.mockResolvedValue({ Ok: blockHeight });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const res = await ledger.icrc2Approve({
+        ...approveRequest,
+        createdAt: 456n,
+      });
+      expect(res).toEqual(blockHeight);
+      expect(service.icrc2_approve).toBeCalledWith({
+        ...approveRawRequest,
+        fee: [TRANSACTION_FEE],
+        created_at_time: [456n],
+      });
+    });
+
+    it("should call approve with expected allowance", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      const blockHeight = BigInt(100);
+      service.icrc2_approve.mockResolvedValue({ Ok: blockHeight });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const res = await ledger.icrc2Approve({
+        ...approveRequest,
+        expected_allowance: 999n,
+      });
+      expect(res).toEqual(blockHeight);
+      expect(service.icrc2_approve).toBeCalledWith({
+        ...approveRawRequest,
+        fee: [TRANSACTION_FEE],
+        expected_allowance: [999n],
+      });
+    });
+
+    it("should call approve with a from subaccount", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      const blockHeight = BigInt(100);
+      service.icrc2_approve.mockResolvedValue({ Ok: blockHeight });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const res = await ledger.icrc2Approve({
+        ...approveRequest,
+        fromSubAccount: arrayOfNumberToUint8Array([4, 3, 2, 1]),
+      });
+      expect(res).toEqual(blockHeight);
+      expect(service.icrc2_approve).toBeCalledWith({
+        ...approveRawRequest,
+        fee: [TRANSACTION_FEE],
+        from_subaccount: [arrayOfNumberToUint8Array([4, 3, 2, 1])],
+      });
+    });
+
+    it("should call approve with a spender with subaccount", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      const blockHeight = BigInt(100);
+      service.icrc2_approve.mockResolvedValue({ Ok: blockHeight });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const spender: Account = {
+        owner: mockPrincipal,
+        subaccount: [arrayOfNumberToUint8Array([9, 8, 7, 6])],
+      };
+
+      const res = await ledger.icrc2Approve({
+        ...approveRequest,
+        spender,
+      });
+      expect(res).toEqual(blockHeight);
+      expect(service.icrc2_approve).toBeCalledWith({
+        ...approveRawRequest,
+        fee: [TRANSACTION_FEE],
+        spender,
+      });
+    });
+
+    it("should raise GenericError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          GenericError: { message: "This is a test", error_code: 123n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(GenericError);
+    });
+
+    it("should raise TemporarilyUnavailableError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          TemporarilyUnavailable: null,
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(TemporarilyUnavailableError);
+    });
+
+    it("should raise DuplicateError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          Duplicate: { duplicate_of: 888n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(DuplicateError);
+    });
+
+    it("should raise BadFeeError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          BadFee: { expected_fee: 666n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(BadFeeError);
+    });
+
+    it("should raise AllowanceChangedError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          AllowanceChanged: { current_allowance: 444n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(AllowanceChangedError);
+    });
+
+    it("should raise CreatedInFutureError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          CreatedInFuture: { ledger_time: BigInt(1234) },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(CreatedInFutureError);
+    });
+
+    it("should raise TooOldError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          TooOld: null,
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(TooOldError);
+    });
+
+    it("should raise ExpiredError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          Expired: { ledger_time: BigInt(1234) },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(ExpiredError);
+    });
+
+    it("should raise InsufficientFundsError", async () => {
+      const service = mock<ActorSubclass<LedgerService>>();
+      service.icrc2_approve.mockResolvedValue({
+        Err: {
+          InsufficientFunds: { balance: 333888n },
+        },
+      });
+
+      const ledger = LedgerCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const call = async () => await ledger.icrc2Approve(approveRequest);
+
+      expect(call).rejects.toThrowError(InsufficientFundsError);
     });
   });
 });
