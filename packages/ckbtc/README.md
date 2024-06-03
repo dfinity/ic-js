@@ -94,9 +94,9 @@ Parameters:
 
 ##### :gear: create
 
-| Method   | Type                                                                     |
-| -------- | ------------------------------------------------------------------------ |
-| `create` | `(options: CkBTCMinterCanisterOptions<_SERVICE>) => CkBTCMinterCanister` |
+| Method   | Type                                                               |
+| -------- | ------------------------------------------------------------------ |
+| `create` | `(options: CkBTCCanisterOptions<_SERVICE>) => CkBTCMinterCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L43)
 
@@ -273,6 +273,22 @@ Parameters:
 - `params.subaccount`: An optional subaccount.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L266)
+
+### :factory: BitcoinCanister
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L7)
+
+#### Methods
+
+- [create](#gear-create)
+
+##### :gear: create
+
+| Method   | Type                                                           |
+| -------- | -------------------------------------------------------------- |
+| `create` | `(options: CkBTCCanisterOptions<_SERVICE>) => BitcoinCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L8)
 
 <!-- TSDOC_END -->
 

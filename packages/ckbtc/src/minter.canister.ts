@@ -21,7 +21,7 @@ import {
   createRetrieveBtcWithApprovalError,
   createUpdateBalanceError,
 } from "./errors/minter.errors";
-import type { CkBTCMinterCanisterOptions } from "./types/canister.options";
+import type { CkBTCCanisterOptions } from "./types/canister.options";
 import type {
   EstimateWithdrawalFeeParams,
   GetBTCAddressParams,
@@ -40,7 +40,7 @@ import type {
 } from "./types/minter.responses";
 
 export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
-  static create(options: CkBTCMinterCanisterOptions<CkBTCMinterService>) {
+  static create(options: CkBTCCanisterOptions<CkBTCMinterService>) {
     const { service, certifiedService, canisterId } =
       createServices<CkBTCMinterService>({
         options,
