@@ -232,6 +232,7 @@ export const idlFactory = ({ IDL }) => {
     'last_erc20_scraped_block_number' : IDL.Opt(IDL.Nat),
     'supported_ckerc20_tokens' : IDL.Opt(IDL.Vec(CkErc20Token)),
     'last_gas_fee_estimate' : IDL.Opt(GasFeeEstimate),
+    'cketh_ledger_id' : IDL.Opt(IDL.Principal),
     'smart_contract_address' : IDL.Opt(IDL.Text),
     'last_eth_scraped_block_number' : IDL.Opt(IDL.Nat),
     'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),

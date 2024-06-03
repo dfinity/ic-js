@@ -55,6 +55,7 @@ export type GetTransactionsResult =
 export type IndexArg = { Upgrade: UpgradeArg } | { Init: InitArg };
 export interface InitArg {
   ledger_id: Principal;
+  retrieve_blocks_from_ledger_interval_seconds: [] | [bigint];
 }
 export interface ListSubaccountsArgs {
   owner: Principal;
@@ -95,6 +96,7 @@ export interface Transfer {
 }
 export interface UpgradeArg {
   ledger_id: [] | [Principal];
+  retrieve_blocks_from_ledger_interval_seconds: [] | [bigint];
 }
 export type Value =
   | { Int: bigint }

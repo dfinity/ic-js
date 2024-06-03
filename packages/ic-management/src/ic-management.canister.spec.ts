@@ -21,6 +21,8 @@ import {
   CanisterSettings,
   InstallCodeParams,
   InstallMode,
+  LogVisibility,
+  UnsupportedLogVisibility,
   toInstallMode,
   type BitcoinGetUtxosParams,
   type ClearChunkStoreParams,
@@ -116,8 +118,75 @@ describe("ICManagementCanister", () => {
           freezing_threshold: [],
           memory_allocation: [],
           reserved_cycles_limit: [],
+          log_visibility: [],
         },
       });
+    });
+
+    it("calls update_settings with mapped log_visibility controllers", async () => {
+      const service = mock<IcManagementService>();
+      service.update_settings.mockResolvedValue(undefined);
+
+      const icManagement = await createICManagement(service);
+
+      await icManagement.updateSettings({
+        canisterId: mockCanisterId,
+        settings: {
+          ...mockCanisterSettings,
+          logVisibility: LogVisibility.Controllers,
+        },
+      });
+
+      expect(service.update_settings).toHaveBeenCalledWith({
+        canister_id: mockCanisterId,
+        settings: {
+          ...mappedMockCanisterSettings,
+          log_visibility: [{ controllers: null }],
+        },
+        sender_canister_version: [],
+      });
+    });
+
+    it("calls update_settings with mapped log_visibility public", async () => {
+      const service = mock<IcManagementService>();
+      service.update_settings.mockResolvedValue(undefined);
+
+      const icManagement = await createICManagement(service);
+
+      await icManagement.updateSettings({
+        canisterId: mockCanisterId,
+        settings: {
+          ...mockCanisterSettings,
+          logVisibility: LogVisibility.Public,
+        },
+      });
+
+      expect(service.update_settings).toHaveBeenCalledWith({
+        canister_id: mockCanisterId,
+        settings: {
+          ...mappedMockCanisterSettings,
+          log_visibility: [{ public: null }],
+        },
+        sender_canister_version: [],
+      });
+    });
+
+    it("throws Error for unsupported log visibility", async () => {
+      const service = mock<IcManagementService>();
+      service.update_settings.mockResolvedValue(undefined);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () =>
+        icManagement.updateSettings({
+          canisterId: mockCanisterId,
+          settings: {
+            ...mockCanisterSettings,
+            logVisibility: 2 as unknown as LogVisibility,
+          },
+        });
+
+      expect(call).toThrow(UnsupportedLogVisibility);
     });
 
     it("throws Error", async () => {
@@ -274,6 +343,7 @@ describe("ICManagementCanister", () => {
         memory_allocation: BigInt(4),
         compute_allocation: BigInt(10),
         reserved_cycles_limit: BigInt(11),
+        log_visibility: { controllers: null },
       };
       const response: CanisterStatusResponse = {
         status: { running: null },

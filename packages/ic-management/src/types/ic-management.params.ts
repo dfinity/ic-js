@@ -1,13 +1,19 @@
 import { Principal } from "@dfinity/principal";
-import { toNullable } from "@dfinity/utils";
+import { isNullish, toNullable } from "@dfinity/utils";
 import type {
   bitcoin_get_utxos_args,
   bitcoin_get_utxos_query_args,
   canister_install_mode,
   canister_settings,
   chunk_hash,
+  log_visibility,
   upload_chunk_args,
 } from "../../candid/ic-management";
+
+export enum LogVisibility {
+  Controllers,
+  Public,
+}
 
 export interface CanisterSettings {
   controllers?: string[];
@@ -15,7 +21,10 @@ export interface CanisterSettings {
   memoryAllocation?: bigint;
   computeAllocation?: bigint;
   reservedCyclesLimit?: bigint;
+  logVisibility?: LogVisibility;
 }
+
+export class UnsupportedLogVisibility extends Error {}
 
 export const toCanisterSettings = ({
   controllers,
@@ -23,13 +32,26 @@ export const toCanisterSettings = ({
   memoryAllocation,
   computeAllocation,
   reservedCyclesLimit,
+  logVisibility,
 }: CanisterSettings = {}): canister_settings => {
+  const toLogVisibility = (): log_visibility => {
+    switch (logVisibility) {
+      case LogVisibility.Controllers:
+        return { controllers: null };
+      case LogVisibility.Public:
+        return { public: null };
+      default:
+        throw new UnsupportedLogVisibility();
+    }
+  };
+
   return {
     controllers: toNullable(controllers?.map((c) => Principal.fromText(c))),
     freezing_threshold: toNullable(freezingThreshold),
     memory_allocation: toNullable(memoryAllocation),
     compute_allocation: toNullable(computeAllocation),
     reserved_cycles_limit: toNullable(reservedCyclesLimit),
+    log_visibility: isNullish(logVisibility) ? [] : [toLogVisibility()],
   };
 };
 

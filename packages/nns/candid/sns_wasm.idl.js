@@ -187,6 +187,12 @@ export const idlFactory = ({ IDL }) => {
   const GetNextSnsVersionResponse = IDL.Record({
     'next_version' : IDL.Opt(SnsVersion),
   });
+  const GetProposalIdThatAddedWasmRequest = IDL.Record({
+    'hash' : IDL.Vec(IDL.Nat8),
+  });
+  const GetProposalIdThatAddedWasmResponse = IDL.Record({
+    'proposal_id' : IDL.Opt(IDL.Nat64),
+  });
   const GetSnsSubnetIdsResponse = IDL.Record({
     'sns_subnet_ids' : IDL.Vec(IDL.Principal),
   });
@@ -280,6 +286,11 @@ export const idlFactory = ({ IDL }) => {
     'get_next_sns_version' : IDL.Func(
         [GetNextSnsVersionRequest],
         [GetNextSnsVersionResponse],
+        ['query'],
+      ),
+    'get_proposal_id_that_added_wasm' : IDL.Func(
+        [GetProposalIdThatAddedWasmRequest],
+        [GetProposalIdThatAddedWasmResponse],
         ['query'],
       ),
     'get_sns_subnet_ids' : IDL.Func(

@@ -720,6 +720,7 @@ describe("ckETH minter canister", () => {
           ],
         ],
         eth_helper_contract_address: toNullable(ckETHSmartContractAddressMock),
+        cketh_ledger_id: [ledgerCanisterIdMock],
         smart_contract_address: toNullable(ckETHSmartContractAddressMock),
         supported_ckerc20_tokens: [],
         last_erc20_scraped_block_number: [5892643n],
