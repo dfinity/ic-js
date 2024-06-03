@@ -5,6 +5,7 @@
 - Canister status response extended with query statistics.
 - Add `metadata` function to ledger ICP.
 - Add optional parameters to ICP ledger `transactionFee`.
+- Add support for `icrc2_approve` on the ICP ledger canister in `@dfinity/ledger-icp`.
 
 # 2024.05.14-0630Z
 

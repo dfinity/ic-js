@@ -1,12 +1,14 @@
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import type {
   TransferArg as Icrc1TransferRawRequest,
+  ApproveArgs as Icrc2ApproveRawRequest,
   Tokens,
   TransferArgs as TransferRawRequest,
 } from "../../../candid/ledger";
 import { TRANSACTION_FEE } from "../../constants/constants";
 import type {
   Icrc1TransferRequest,
+  Icrc2ApproveRequest,
   TransferRequest,
 } from "../../types/ledger_converters";
 
@@ -52,4 +54,24 @@ export const toIcrc1TransferRawRequest = ({
   memo: toNullable(icrc1Memo),
   created_at_time: toNullable(createdAt),
   from_subaccount: toNullable(fromSubAccount),
+});
+
+export const toIcrc2ApproveRawRequest = ({
+  fee,
+  createdAt,
+  icrc1Memo,
+  fromSubAccount,
+  expected_allowance,
+  expires_at,
+  amount,
+  ...rest
+}: Icrc2ApproveRequest): Icrc2ApproveRawRequest => ({
+  ...rest,
+  fee: toNullable(fee ?? TRANSACTION_FEE),
+  memo: toNullable(icrc1Memo),
+  from_subaccount: toNullable(fromSubAccount),
+  created_at_time: toNullable(createdAt),
+  amount,
+  expected_allowance: toNullable(expected_allowance),
+  expires_at: toNullable(expires_at),
 });
