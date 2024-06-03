@@ -1,8 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { isNullish, toNullable } from "@dfinity/utils";
 import type {
-  bitcoin_get_utxos_args,
-  bitcoin_get_utxos_query_args,
   canister_install_mode,
   canister_settings,
   chunk_hash,
@@ -131,33 +129,3 @@ export interface ProvisionalTopUpCanisterParams {
   canisterId: Principal;
   amount: bigint;
 }
-
-export type BitcoinNetwork = "testnet" | "mainnet";
-
-export type BitcoinGetUtxosParams = Omit<
-  bitcoin_get_utxos_args,
-  "network" | "filter"
-> & {
-  network: BitcoinNetwork;
-  filter?: { page: Uint8Array | number[] } | { min_confirmations: number };
-};
-
-export type BitcoinGetUtxosQueryParams = Omit<
-  bitcoin_get_utxos_query_args,
-  "network" | "filter"
-> & {
-  network: BitcoinNetwork;
-  filter?: { page: Uint8Array | number[] } | { min_confirmations: number };
-};
-
-export const toBitcoinGetUtxosParams = <
-  T extends BitcoinGetUtxosParams | BitcoinGetUtxosQueryParams,
->({
-  network,
-  filter,
-  ...rest
-}: T): bitcoin_get_utxos_args | bitcoin_get_utxos_query_args => ({
-  filter: toNullable(filter),
-  network: network === "testnet" ? { testnet: null } : { mainnet: null },
-  ...rest,
-});
