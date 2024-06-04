@@ -5,7 +5,7 @@
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-| ------------------------ |---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.4.0  | Enhanced 🔧         |
 | `@dfinity/cketh`         | v3.1.0  | Enhanced 🔧         |
 | `@dfinity/cmc`           | v3.0.6  | Maintained ⚙️       |
@@ -13,7 +13,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/ledger-icp`    | v2.3.0  | Enhanced 🔧         |
 | `@dfinity/ledger-icrc`   | v2.3.2  | Maintained ⚙️       |
 | `@dfinity/nns`           | v5.1.1  | Maintained ⚙️       |
-| `@dfinity/nns-proto`     | v2.0.0  | Unchanged️           |
+| `@dfinity/nns-proto`     | v2.0.0  | Unchanged️          |
 | `@dfinity/sns`           | v3.0.5  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.3.0  | Enhanced 🔧         |
 
@@ -35,7 +35,7 @@ The current status of the libraries at the time of the release is as follows:
 
 The current status of the libraries at the time of the release is as follows:
 
-| Library                  | Version | Status               |
+| Library                  | Version | Status              |
 | ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.3.3  | Maintained ⚙️       |
 | `@dfinity/cketh`         | v3.0.1  | Maintained ⚙️       |
@@ -44,9 +44,9 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/ledger-icp`    | v2.2.4  | Maintained ⚙️       |
 | `@dfinity/ledger-icrc`   | v2.3.1  | Maintained ⚙️       |
 | `@dfinity/nns`           | v5.1.0  | Enhanced 🔧         |
-| `@dfinity/nns-proto`     | v2.0.0  | Breaking Changes ⚠️  |
-| `@dfinity/sns`           | v3.0.4  | Maintained ⚙️        |
-| `@dfinity/utils`         | v2.3.0  | Enhanced 🔧          |
+| `@dfinity/nns-proto`     | v2.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/sns`           | v3.0.4  | Maintained ⚙️       |
+| `@dfinity/utils`         | v2.3.0  | Enhanced 🔧         |
 
 ## Breaking changes
 
