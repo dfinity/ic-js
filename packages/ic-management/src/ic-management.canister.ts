@@ -7,19 +7,14 @@ import {
 } from "@dfinity/utils";
 import type {
   _SERVICE as IcManagementService,
-  bitcoin_get_utxos_query_result,
-  bitcoin_get_utxos_result,
   chunk_hash,
 } from "../candid/ic-management";
 import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certified.idl";
 import { idlFactory } from "../candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
-  toBitcoinGetUtxosParams,
   toCanisterSettings,
   toInstallMode,
-  type BitcoinGetUtxosParams,
-  type BitcoinGetUtxosQueryParams,
   type ClearChunkStoreParams,
   type CreateCanisterParams,
   type InstallChunkedCodeParams,
@@ -312,41 +307,5 @@ export class ICManagementCanister {
       });
 
     return canister_id;
-  };
-
-  /**
-   * Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns all unspent transaction outputs (UTXOs) associated with the provided address in the specified Bitcoin network based on the current view of the Bitcoin blockchain available to the Bitcoin component.
-   *
-   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-bitcoin_get_utxos
-   *
-   * @param {Object} params
-   * @param {BitcoinNetwork} params.network Tesnet or mainnet.
-   * @param {Object} params.filter The optional filter parameter can be used to restrict the set of returned UTXOs, either providing a minimum number of confirmations or a page reference when pagination is used for addresses with many UTXOs.
-   * @param {string} params.address A Bitcoin address.
-   * @returns {Promise<bitcoin_get_utxos_result>} The UTXOs are returned sorted by block height in descending order.
-   */
-  bitcoinGetUtxos = (
-    params: BitcoinGetUtxosParams,
-  ): Promise<bitcoin_get_utxos_result> => {
-    const { bitcoin_get_utxos } = this.service;
-    return bitcoin_get_utxos(toBitcoinGetUtxosParams(params));
-  };
-
-  /**
-   * This method is identical to `bitcoinGetUtxos`, but exposed as a query.
-   *
-   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-bitcoin_get_utxos_query
-   *
-   * @param {Object} params
-   * @param {BitcoinNetwork} params.network Tesnet or mainnet.
-   * @param {Object} params.filter The optional filter parameter can be used to restrict the set of returned UTXOs, either providing a minimum number of confirmations or a page reference when pagination is used for addresses with many UTXOs.
-   * @param {string} params.address A Bitcoin address.
-   * @returns {Promise<bitcoin_get_utxos_result>} The UTXOs are returned sorted by block height in descending order.
-   */
-  bitcoinGetUtxosQuery = (
-    params: BitcoinGetUtxosQueryParams,
-  ): Promise<bitcoin_get_utxos_query_result> => {
-    const { bitcoin_get_utxos_query } = this.service;
-    return bitcoin_get_utxos_query(toBitcoinGetUtxosParams(params));
   };
 }

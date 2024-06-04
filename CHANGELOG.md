@@ -1,5 +1,9 @@
 # 2024.XX.YY-hhmmZ
 
+## Breaking changes
+
+- `bitcoinGetUtxos` and `bitcoinGetUtxosQuery` have been removed from the `@dfinity/ic-management` library. Instead, use `getUtxos` from the new Bitcoin canister exposed in `@dfinity/ckbtc` to access similar data.
+
 ## Features
 
 - Support for `getUtxos` endpoint in the new Bitcoin canister from `@dfinity/ckbtc`.
