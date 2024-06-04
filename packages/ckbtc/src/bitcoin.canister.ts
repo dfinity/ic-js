@@ -3,8 +3,8 @@ import type {
   _SERVICE as BitcoinService,
   get_utxos_response,
 } from "../candid/bitcoin";
-import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
-import { idlFactory } from "../candid/minter.idl";
+import { idlFactory as certifiedIdlFactory } from "../candid/bitcoin.certified.idl";
+import { idlFactory } from "../candid/bitcoin.idl";
 import { toGetUtxosParams, type GetUtxosParams } from "./types/bitcoin.params";
 import type { CkBTCCanisterOptions } from "./types/canister.options";
 
