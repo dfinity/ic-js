@@ -5,3 +5,8 @@ export type CanisterStatusResponse = ServiceResponse<
   IcManagementService,
   "canister_status"
 >;
+
+export type EcdsaPublicKeyResponse = {
+  public_key: Uint8Array | number[];
+  chain_code: Uint8Array | number[];
+};

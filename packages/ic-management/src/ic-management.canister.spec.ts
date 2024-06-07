@@ -15,8 +15,10 @@ import {
 } from "./ic-management.mock";
 import {
   CanisterSettings,
+  EcdsaPublicKeyParams,
   InstallCodeParams,
   InstallMode,
+  KeyId,
   LogVisibility,
   UnsupportedLogVisibility,
   toInstallMode,
@@ -25,7 +27,10 @@ import {
   type StoredChunksParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
-import { CanisterStatusResponse } from "./types/ic-management.responses";
+import {
+  CanisterStatusResponse,
+  EcdsaPublicKeyResponse,
+} from "./types/ic-management.responses";
 
 describe("ICManagementCanister", () => {
   const mockAgent: HttpAgent = mock<HttpAgent>();
@@ -661,6 +666,55 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () => icManagement.installChunkedCode(params);
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
+
+  describe("ecdsaPublicKey", () => {
+    const keyId: KeyId = {
+      name: "testKey",
+      curve: { secp256k1: null },
+    };
+    const canisterId = mockCanisterId;
+    const derivationPath = [
+      new Uint8Array([1, 2, 3]),
+      new Uint8Array([4, 5, 6]),
+    ];
+    const params: EcdsaPublicKeyParams = {
+      keyId,
+      canisterId,
+      derivationPath,
+    };
+
+    it("should return the ECDSA public key successfully", async () => {
+      const response: EcdsaPublicKeyResponse = {
+        public_key: new Uint8Array([10, 11, 12]),
+        chain_code: new Uint8Array([20, 21, 22]),
+      };
+      const service = mock<IcManagementService>();
+      service.ecdsa_public_key.mockResolvedValue(response);
+
+      const icManagement = await createICManagement(service);
+
+      const res = await icManagement.ecdsaPublicKey({ ...params });
+
+      expect(res).toEqual(response);
+      expect(service.ecdsa_public_key).toHaveBeenCalledWith({
+        key_id: keyId,
+        canister_id: canisterId,
+        derivation_path: derivationPath,
+      });
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.ecdsa_public_key.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.ecdsaPublicKey({ ...params });
 
       expect(call).rejects.toThrowError(Error);
     });

@@ -129,3 +129,16 @@ export interface ProvisionalTopUpCanisterParams {
   canisterId: Principal;
   amount: bigint;
 }
+
+export type EcdsaCurve = { secp256k1: null };
+
+export type KeyId = {
+  name: string;
+  curve: EcdsaCurve;
+};
+
+export interface EcdsaPublicKeyParams {
+  keyId: KeyId;
+  canisterId?: Principal;
+  derivationPath: Array<Uint8Array | number[]>;
+}
