@@ -702,7 +702,7 @@ describe("ICManagementCanister", () => {
       expect(res).toEqual(response);
       expect(service.ecdsa_public_key).toHaveBeenCalledWith({
         key_id: keyId,
-        canister_id: canisterId,
+        canister_id: toNullable(canisterId),
         derivation_path: derivationPath,
       });
     });
