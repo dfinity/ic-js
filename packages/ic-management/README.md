@@ -54,7 +54,7 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 
 ### :factory: ICManagementCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L30)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L34)
 
 #### Methods
 
@@ -72,6 +72,7 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 - [canisterStatus](#gear-canisterstatus)
 - [deleteCanister](#gear-deletecanister)
 - [provisionalCreateCanisterWithCycles](#gear-provisionalcreatecanisterwithcycles)
+- [ecdsaPublicKey](#gear-ecdsapublickey)
 
 ##### :gear: create
 
@@ -234,14 +235,13 @@ Creates a canister. Only available on development instances.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L300)
 
-
-#### :gear: ecdsaPublicKey
+##### :gear: ecdsaPublicKey
 
 Calculate a SEC1 encoded ECDSA public key for the given canister using the given derivation path. If the `canister_id` is unspecified, it will default to the canister id of the caller. The `derivation_path` is a vector of variable length byte strings. Each byte string may be of arbitrary length, including empty. The total number of byte strings in the `derivation_path` must be at most 255. The `key_id` is a struct specifying both a `curve` and a `name`. The availability of a particular `key_id` depends on implementation.
 
-| Method           | Type                                                                                                 |
-| ---------------- | ---------------------------------------------------------------------------------------------------- |
-| `ecdsaPublicKey` | `({ keyId, canisterId, derivationPath, }?: EcdsaPublicKeyParams) => Promise<EcdsaPublicKeyResponse>` |
+| Method           | Type                                                                                                |
+| ---------------- | --------------------------------------------------------------------------------------------------- |
+| `ecdsaPublicKey` | `({ keyId, canisterId, derivationPath, }: EcdsaPublicKeyParams) => Promise<EcdsaPublicKeyResponse>` |
 
 Parameters:
 
