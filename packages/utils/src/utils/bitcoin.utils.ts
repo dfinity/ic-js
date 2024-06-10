@@ -50,7 +50,7 @@ export const generateDerivationPath = (
       return Number(coinTypeEntry[0]);
     }
 
-    if (!constants.some(row => row[0] === coinType)) {
+    if (!constants.some((row) => row[0] === coinType)) {
       throw new Error(
         `Invalid coinType number: ${coinType}. Valid options are: ${Object.keys(constants).join(", ")}`,
       );
