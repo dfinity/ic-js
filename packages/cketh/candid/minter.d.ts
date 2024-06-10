@@ -53,7 +53,12 @@ export type EthereumNetwork = { Mainnet: null } | { Sepolia: null };
 export interface Event {
   timestamp: bigint;
   payload:
-    | { SkippedBlock: { block_number: bigint } }
+    | {
+        SkippedBlock: {
+          block_number: bigint;
+          contract_address: [] | [string];
+        };
+      }
     | {
         AcceptedErc20Deposit: {
           principal: Principal;

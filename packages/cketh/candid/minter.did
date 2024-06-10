@@ -1,4 +1,4 @@
-// Generated from IC repo commit b9a0f18 (2024-05-29 tags: release-2024-05-29_23-02-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit d19fa44 (2024-06-05 tags: release-2024-06-05_23-01-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -462,6 +462,7 @@ type Event = record {
             transaction_hash : opt text;
         };
         SkippedBlock : record {
+            contract_address: opt text;
             block_number : nat;
         };
         AddedCkErc20Token : record {
