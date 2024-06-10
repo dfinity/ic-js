@@ -239,11 +239,11 @@ Creates a canister. Only available on development instances.
 
 Calculate a SEC1 encoded ECDSA public key for the given canister using the given derivation path.
 
-If the `canister_id` is unspecified, the address will be derived from the canister ID of the caller canister. The caller canister is the canister that instantiated and invoked the `ICManagementCanister` service.
-
 The `derivation_path` is a vector of variable length byte strings. Each byte string may be of arbitrary length, including empty. The total number of byte strings in the `derivation_path` must be at most 255. The suggested standard to be used is [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki).
 
 The `key_id` is a struct specifying both a `curve` and a `name`. The availability of a particular `key_id` depends on implementation.
+
+The optional parameter `canister_id` can be set to specify the canister ID that will be used to derive the address.
 
 | Method           | Type                                                                                                |
 | ---------------- | --------------------------------------------------------------------------------------------------- |
@@ -252,7 +252,7 @@ The `key_id` is a struct specifying both a `curve` and a `name`. The availabilit
 Parameters:
 
 - `params.keyId`: The key id for which the public key will be derived, consisting of a `name` and a `curve`.
-- `params.canisterId`: The canister ID for which the public key will be derived. If unspecified, it defaults to the caller canister's ID.
+- `params.canisterId`: The specific canister ID for which the public key will be derived; it can be optional.
 - `params.derivationPath`: The derivation path that will be used to derive the public key. The suggested standard is [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki).
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L333)
