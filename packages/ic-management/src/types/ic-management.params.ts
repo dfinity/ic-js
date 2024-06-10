@@ -130,12 +130,14 @@ export interface ProvisionalTopUpCanisterParams {
   amount: bigint;
 }
 
-export type EcdsaCurve = { secp256k1: null };
+export interface EcdsaCurve {
+  secp256k1: null;
+}
 
-export type KeyId = {
+export interface KeyId {
   name: string;
   curve: EcdsaCurve;
-};
+}
 
 export interface EcdsaPublicKeyParams {
   keyId: KeyId;

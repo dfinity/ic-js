@@ -314,14 +314,20 @@ export class ICManagementCanister {
   };
 
   /**
-   * Calculate a SEC1 encoded ECDSA public key for the given canister using the given derivation path. If the `canister_id` is unspecified, it will default to the canister id of the caller. The `derivation_path` is a vector of variable length byte strings. Each byte string may be of arbitrary length, including empty. The total number of byte strings in the `derivation_path` must be at most 255. The `key_id` is a struct specifying both a `curve` and a `name`. The availability of a particular `key_id` depends on implementation.
+   * Calculate a SEC1 encoded ECDSA public key for the given canister using the given derivation path.
+   *
+   * If the `canister_id` is unspecified, the address will be derived from the canister ID of the caller canister. The caller canister is the canister that instantiated and invoked the `ICManagementCanister` service.
+   *
+   * The `derivation_path` is a vector of variable length byte strings. Each byte string may be of arbitrary length, including empty. The total number of byte strings in the `derivation_path` must be at most 255. The suggested standard to be used is [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki).
+   *
+   * The `key_id` is a struct specifying both a `curve` and a `name`. The availability of a particular `key_id` depends on implementation.
    *
    * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-ecdsa_public_key
    *
    * @param {EcdsaPublicKeyParams} params
    * @param {KeyId} params.keyId The key id for which the public key will be derived, consisting of a `name` and a `curve`.
-   * @param {Principal} params.canisterId The canister id for which the public key will be derived. It defaults to the caller's canister id if unspecified.
-   * @param {string} params.derivationPath The derivation path that will be used to derive the public key.
+   * @param {Principal} [params.canisterId] The canister ID for which the public key will be derived. If unspecified, it defaults to the caller canister's ID.
+   * @param {string} params.derivationPath The derivation path that will be used to derive the public key. The suggested standard is [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki).
    * @returns {Promise<EcdsaPublicKeyResponse>} The return result is an extended public key consisting of an ECDSA `public_key`, encoded in SEC1 compressed form, and a `chain_code`, which can be used to deterministically derive child keys of the `public_key`.
    */
   ecdsaPublicKey = ({
