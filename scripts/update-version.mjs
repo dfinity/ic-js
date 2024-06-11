@@ -11,7 +11,7 @@ const nextVersion = async ({ project, currentVersion }) => {
     .slice(0, 10)}`;
 
   const { versions } = await (
-    await fetch(`http://registry.npmjs.org/@dfinity/${project}`)
+    await fetch(`https://registry.npmjs.org/@dfinity/${project}`)
   ).json();
 
   // The wip version has never been published
