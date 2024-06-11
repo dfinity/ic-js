@@ -4,18 +4,18 @@
 
 The current status of the libraries at the time of the release is as follows:
 
-| Library                  | Version | Status                 |
-| ------------------------ |---------|------------------------|
-| `@dfinity/ckbtc`         | v2.4.1  | Maintained ⚙️          |
-| `@dfinity/cketh`         | v3.1.1  | Maintained ⚙️          |
-| `@dfinity/cmc`           | v3.0.7  | Maintained ⚙️          |
-| `@dfinity/ic-management` | v5.0.1  | Maintained ⚙️          |
-| `@dfinity/ledger-icp`    | v2.3.1  | Maintained ⚙️          |
-| `@dfinity/ledger-icrc`   | v2.3.3  | Maintained ⚙️          |
-| `@dfinity/nns`           | v5.1.2  | Maintained ⚙️          |
-| `@dfinity/nns-proto`     | v2.0.1  | Maintained ⚙️️         |
-| `@dfinity/sns`           | v3.0.6  | Maintained ⚙️          |
-| `@dfinity/utils`         | v2.3.1  | Maintained ⚙️          |
+| Library                  | Version | Status         |
+| ------------------------ | ------- | -------------- |
+| `@dfinity/ckbtc`         | v2.4.1  | Maintained ⚙️  |
+| `@dfinity/cketh`         | v3.1.1  | Maintained ⚙️  |
+| `@dfinity/cmc`           | v3.0.7  | Maintained ⚙️  |
+| `@dfinity/ic-management` | v5.0.1  | Maintained ⚙️  |
+| `@dfinity/ledger-icp`    | v2.3.1  | Maintained ⚙️  |
+| `@dfinity/ledger-icrc`   | v2.3.3  | Maintained ⚙️  |
+| `@dfinity/nns`           | v5.1.2  | Maintained ⚙️  |
+| `@dfinity/nns-proto`     | v2.0.1  | Maintained ⚙️️ |
+| `@dfinity/sns`           | v3.0.6  | Maintained ⚙️  |
+| `@dfinity/utils`         | v2.3.1  | Maintained ⚙️  |
 
 ## Features
 
