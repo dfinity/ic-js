@@ -1,4 +1,4 @@
-// Generated from dfinity/bitcoin-canister commit 3c4216c30768b2b64a49c8739216730bdaf90bdc for file 'canister/candid.did'
+// Generated from dfinity/bitcoin-canister commit 85d5c2a497a9b91d565437315d9e489e50821d01 for file 'canister/candid.did'
 type network = variant {
   mainnet;
   testnet;
@@ -67,6 +67,9 @@ type fees = record {
   get_current_fee_percentiles_maximum : nat;
   send_transaction_base : nat;
   send_transaction_per_byte : nat;
+  get_block_headers_base : nat;
+  get_block_headers_cycles_per_ten_instructions : nat;
+  get_block_headers_maximum : nat;
 };
 
 type get_balance_request = record {
@@ -116,6 +119,7 @@ type set_config_request = record {
 type get_block_headers_request = record {
   start_height : block_height;
   end_height : opt block_height;
+  network : network;
 };
 
 type get_block_headers_response = record {

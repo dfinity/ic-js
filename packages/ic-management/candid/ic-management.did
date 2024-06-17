@@ -1,4 +1,4 @@
-// Generated from dfinity/interface-spec commit 17ae77a0a25781545af9533f4e2ff569f52d1eb4 for file 'spec/_attachments/ic.did'
+// Generated from dfinity/interface-spec commit 21d64ed310ea7c835aef353ba651a5c2ccc591ee for file 'spec/_attachments/ic.did'
 type canister_id = principal;
 type wasm_module = blob;
 
@@ -14,6 +14,7 @@ type canister_settings = record {
     freezing_threshold : opt nat;
     reserved_cycles_limit : opt nat;
     log_visibility : opt log_visibility;
+    wasm_memory_limit : opt nat;
 };
 
 type definite_canister_settings = record {
@@ -23,6 +24,7 @@ type definite_canister_settings = record {
     freezing_threshold : nat;
     reserved_cycles_limit : nat;
     log_visibility : log_visibility;
+    wasm_memory_limit : nat;
 };
 
 type change_origin = variant {

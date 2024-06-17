@@ -21,13 +21,16 @@ export interface config {
 export interface fees {
   get_current_fee_percentiles: bigint;
   get_utxos_maximum: bigint;
+  get_block_headers_cycles_per_ten_instructions: bigint;
   get_current_fee_percentiles_maximum: bigint;
   send_transaction_per_byte: bigint;
   get_balance: bigint;
   get_utxos_cycles_per_ten_instructions: bigint;
+  get_block_headers_base: bigint;
   get_utxos_base: bigint;
   get_balance_maximum: bigint;
   send_transaction_base: bigint;
+  get_block_headers_maximum: bigint;
 }
 export type flag = { disabled: null } | { enabled: null };
 export interface get_balance_request {
@@ -38,6 +41,7 @@ export interface get_balance_request {
 export interface get_block_headers_request {
   start_height: block_height;
   end_height: [] | [block_height];
+  network: network;
 }
 export interface get_block_headers_response {
   tip_height: block_height;

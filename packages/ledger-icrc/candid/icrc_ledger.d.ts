@@ -284,6 +284,50 @@ export type Value =
   | { Blob: Uint8Array | number[] }
   | { Text: string }
   | { Array: Array<Value> };
+export interface icrc21_consent_info {
+  metadata: icrc21_consent_message_metadata;
+  consent_message: icrc21_consent_message;
+}
+export type icrc21_consent_message =
+  | {
+      LineDisplayMessage: { pages: Array<{ lines: Array<string> }> };
+    }
+  | { GenericDisplayMessage: string };
+export interface icrc21_consent_message_metadata {
+  language: string;
+}
+export interface icrc21_consent_message_request {
+  arg: Uint8Array | number[];
+  method: string;
+  user_preferences: icrc21_consent_message_spec;
+}
+export type icrc21_consent_message_response =
+  | { Ok: icrc21_consent_info }
+  | { Err: icrc21_error };
+export interface icrc21_consent_message_spec {
+  metadata: icrc21_consent_message_metadata;
+  device_spec:
+    | []
+    | [
+        | { GenericDisplay: null }
+        | {
+            LineDisplay: {
+              characters_per_line: number;
+              lines_per_page: number;
+            };
+          },
+      ];
+}
+export type icrc21_error =
+  | {
+      GenericError: { description: string; error_code: bigint };
+    }
+  | { InsufficientPayment: icrc21_error_info }
+  | { UnsupportedCanisterCall: icrc21_error_info }
+  | { ConsentMessageUnavailable: icrc21_error_info };
+export interface icrc21_error_info {
+  description: string;
+}
 export interface _SERVICE {
   archives: ActorMethod<[], Array<ArchiveInfo>>;
   get_blocks: ActorMethod<[GetBlocksArgs], GetBlocksResponse>;
@@ -291,6 +335,10 @@ export interface _SERVICE {
   get_transactions: ActorMethod<
     [GetTransactionsRequest],
     GetTransactionsResponse
+  >;
+  icrc10_supported_standards: ActorMethod<
+    [],
+    Array<{ url: string; name: string }>
   >;
   icrc1_balance_of: ActorMethod<[Account], Tokens>;
   icrc1_decimals: ActorMethod<[], number>;
@@ -302,6 +350,10 @@ export interface _SERVICE {
   icrc1_symbol: ActorMethod<[], string>;
   icrc1_total_supply: ActorMethod<[], Tokens>;
   icrc1_transfer: ActorMethod<[TransferArg], TransferResult>;
+  icrc21_canister_call_consent_message: ActorMethod<
+    [icrc21_consent_message_request],
+    icrc21_consent_message_response
+  >;
   icrc2_allowance: ActorMethod<[AllowanceArgs], Allowance>;
   icrc2_approve: ActorMethod<[ApproveArgs], ApproveResult>;
   icrc2_transfer_from: ActorMethod<[TransferFromArgs], TransferFromResult>;

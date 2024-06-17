@@ -394,7 +394,6 @@ export interface _SERVICE {
     [RefreshBuyerTokensRequest],
     RefreshBuyerTokensResponse
   >;
-  restore_dapp_controllers: ActorMethod<[{}], SetDappControllersCallResult>;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
 export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];
