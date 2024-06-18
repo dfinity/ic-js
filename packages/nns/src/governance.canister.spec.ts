@@ -37,6 +37,7 @@ const unexpectedGovernanceError: GovernanceErrorDetail = {
   error_message: "Error updating neuron",
   error_type: 0,
 };
+
 describe("GovernanceCanister", () => {
   const error: GovernanceErrorDetail = {
     error_message: "Some error",
