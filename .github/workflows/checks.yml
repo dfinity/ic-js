@@ -10,23 +10,23 @@ jobs:
   formatting:
     runs-on: ubuntu-20.04
 
-    # In order trigger the CLA after committing formatting changes, we need to
-    # use the GIX_CREATE_PR_PAT token. This token is not available on PRs
-    # created from a fork. So on PRs created from a fork, we don't commit
+    # In order to trigger the CLA after committing formatting changes, we need
+    # to use the GIX_CREATE_PR_PAT token. This token is not available for all
+    # users. So on PRs where the token is not available, we don't commit
     # changes and instead just fail if the formatting is incorrect.
     steps:
-      - name: Check if PR is from a fork
-        id: check_fork
+      - name: Check if personal access token is available
+        id: check_pat
         run: |
-          echo "is_pr_from_fork=${{ github.event.pull_request.head.repo.full_name != github.repository }}" >> $GITHUB_OUTPUT
+          echo "has_pat=${{ secrets.GIX_CREATE_PR_PAT != '' }}" >> $GITHUB_OUTPUT
 
       - name: Checkout
-        if: steps.check_fork.outputs.is_pr_from_fork == 'false'
+        if: steps.check_pat.outputs.has_pat == 'true'
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GIX_CREATE_PR_PAT }}
-      - name: Checkout Fork
-        if: steps.check_fork.outputs.is_pr_from_fork == 'true'
+      - name: Checkout without personal access token
+        if: steps.check_pat.outputs.has_pat == 'false'
         uses: actions/checkout@v2
 
       - name: Install shfmt
@@ -48,7 +48,7 @@ jobs:
             echo "formatting_needed=true" >> $GITHUB_OUTPUT
           fi
       - name: Commit Formatting changes
-        if: steps.check_fork.outputs.is_pr_from_fork == 'false' && steps.check_format.outputs.formatting_needed == 'true'
+        if: steps.check_pat.outputs.has_pat == 'true' && steps.check_format.outputs.formatting_needed == 'true'
         uses: EndBug/add-and-commit@v7.2.0
         with:
           add: .
@@ -58,10 +58,10 @@ jobs:
           # the pushing fail
           pull_strategy: "NO-PULL"
 
-      - name: Fail for formatting issues in forks
-        if: steps.check_fork.outputs.is_pr_from_fork == 'true' && steps.check_format.outputs.formatting_needed == 'true'
+      - name: Fail for formatting issues without personal access token
+        if: steps.check_pat.outputs.has_pat == 'false' && steps.check_format.outputs.formatting_needed == 'true'
         run: |
-          echo "Formatting changes are needed but couldn't be committed because the PR was created from a fork."
+          echo "Formatting changes are needed but couldn't be committed because the personal access token isn't available."
           exit 1
 
   build-candid:
