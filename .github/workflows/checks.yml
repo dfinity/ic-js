@@ -48,7 +48,7 @@ jobs:
             echo "formatting_needed=true" >> $GITHUB_OUTPUT
           fi
       - name: Commit Formatting changes
-        if: steps.check_fork.outputs.is_fork == 'false' && steps.check_format.outputs.formatting_needed == 'true'
+        if: steps.check_fork.outputs.is_pr_from_fork == 'false' && steps.check_format.outputs.formatting_needed == 'true'
         uses: EndBug/add-and-commit@v7.2.0
         with:
           add: .
@@ -59,7 +59,7 @@ jobs:
           pull_strategy: "NO-PULL"
 
       - name: Fail for formatting issues in forks
-        if: steps.check_fork.outputs.is_fork == 'true' && steps.check_format.outputs.formatting_needed == 'true'
+        if: steps.check_fork.outputs.is_pr_from_fork == 'true' && steps.check_format.outputs.formatting_needed == 'true'
         run: exit 1
 
   build-candid:

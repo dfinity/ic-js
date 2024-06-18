@@ -33,7 +33,13 @@ import {
   NetworkEconomics,
 } from "./types/governance_converters";
 
-const unexpectedGovernanceError: GovernanceErrorDetail = { error_message: "Error updating neuron", error_type: 0, }; describe("GovernanceCanister", () => { const error: GovernanceErrorDetail = {
+const unexpectedGovernanceError: GovernanceErrorDetail = {
+  error_message: "Error updating neuron",
+  error_type: 0,
+};
+
+describe("GovernanceCanister", () => {
+  const error: GovernanceErrorDetail = {
     error_message: "Some error",
     error_type: 1,
   };
