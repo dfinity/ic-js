@@ -60,7 +60,9 @@ jobs:
 
       - name: Fail for formatting issues in forks
         if: steps.check_fork.outputs.is_pr_from_fork == 'true' && steps.check_format.outputs.formatting_needed == 'true'
-        run: exit 1
+        run: |
+          echo "Formatting changes are needed but couldn't be committed because the PR was created from a fork."
+          exit 1
 
   build-candid:
     runs-on: ubuntu-20.04
