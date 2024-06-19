@@ -114,6 +114,7 @@ describe("ICManagementCanister", () => {
           memory_allocation: [],
           reserved_cycles_limit: [],
           log_visibility: [],
+          wasm_memory_limit: [],
         },
       });
     });
@@ -339,6 +340,7 @@ describe("ICManagementCanister", () => {
         compute_allocation: BigInt(10),
         reserved_cycles_limit: BigInt(11),
         log_visibility: { controllers: null },
+        wasm_memory_limit: BigInt(500_00),
       };
       const response: CanisterStatusResponse = {
         status: { running: null },
