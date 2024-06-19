@@ -1,3 +1,9 @@
+# Next
+
+## Features
+
+- Add support for `wasm_memory_limit` in the canister settings.
+
 # 2024.06.11-1630Z
 
 ## Overview
