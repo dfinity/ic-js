@@ -1,6 +1,5 @@
 import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import {
-  AccountIdentifier,
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
 } from "@dfinity/ledger-icp";
@@ -138,7 +137,7 @@ export const toNeuronInfo = ({
   };
 };
 
-const toNeuron = ({
+export const toNeuron = ({
   neuron,
   canisterId,
 }: {
@@ -180,7 +179,13 @@ const toNeuron = ({
   ),
 });
 
-export const toRawNeuron = (neuron: Neuron): RawNeuron => ({
+export const toRawNeuron = ({
+  neuron,
+  account,
+}: {
+  neuron: Neuron;
+  account: Uint8Array;
+}): RawNeuron => ({
   id: nonNullish(neuron.id) ? toNullable({ id: neuron.id }) : [],
   staked_maturity_e8s_equivalent: toNullable(
     neuron.stakedMaturityE8sEquivalent,
@@ -204,7 +209,7 @@ export const toRawNeuron = (neuron: Neuron): RawNeuron => ({
   aging_since_timestamp_seconds: neuron.agingSinceTimestampSeconds,
   neuron_fees_e8s: neuron.neuronFees,
   hot_keys: neuron.hotKeys.map((p) => Principal.from(p)),
-  account: AccountIdentifier.fromHex(neuron.accountIdentifier).toUint8Array(),
+  account,
   joined_community_fund_timestamp_seconds: toNullable(
     neuron.joinedCommunityFundTimestampSeconds,
   ),
