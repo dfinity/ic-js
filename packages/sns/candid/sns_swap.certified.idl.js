@@ -407,11 +407,6 @@ export const idlFactory = ({ IDL }) => {
         [RefreshBuyerTokensResponse],
         [],
       ),
-    'restore_dapp_controllers' : IDL.Func(
-        [IDL.Record({})],
-        [SetDappControllersCallResult],
-        [],
-      ),
   });
 };
 export const init = ({ IDL }) => {

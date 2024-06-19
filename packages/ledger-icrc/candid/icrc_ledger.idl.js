@@ -208,6 +208,48 @@ export const idlFactory = ({ IDL }) => {
     'Ok' : BlockIndex,
     'Err' : TransferError,
   });
+  const icrc21_consent_message_metadata = IDL.Record({ 'language' : IDL.Text });
+  const icrc21_consent_message_spec = IDL.Record({
+    'metadata' : icrc21_consent_message_metadata,
+    'device_spec' : IDL.Opt(
+      IDL.Variant({
+        'GenericDisplay' : IDL.Null,
+        'LineDisplay' : IDL.Record({
+          'characters_per_line' : IDL.Nat16,
+          'lines_per_page' : IDL.Nat16,
+        }),
+      })
+    ),
+  });
+  const icrc21_consent_message_request = IDL.Record({
+    'arg' : IDL.Vec(IDL.Nat8),
+    'method' : IDL.Text,
+    'user_preferences' : icrc21_consent_message_spec,
+  });
+  const icrc21_consent_message = IDL.Variant({
+    'LineDisplayMessage' : IDL.Record({
+      'pages' : IDL.Vec(IDL.Record({ 'lines' : IDL.Vec(IDL.Text) })),
+    }),
+    'GenericDisplayMessage' : IDL.Text,
+  });
+  const icrc21_consent_info = IDL.Record({
+    'metadata' : icrc21_consent_message_metadata,
+    'consent_message' : icrc21_consent_message,
+  });
+  const icrc21_error_info = IDL.Record({ 'description' : IDL.Text });
+  const icrc21_error = IDL.Variant({
+    'GenericError' : IDL.Record({
+      'description' : IDL.Text,
+      'error_code' : IDL.Nat,
+    }),
+    'InsufficientPayment' : icrc21_error_info,
+    'UnsupportedCanisterCall' : icrc21_error_info,
+    'ConsentMessageUnavailable' : icrc21_error_info,
+  });
+  const icrc21_consent_message_response = IDL.Variant({
+    'Ok' : icrc21_consent_info,
+    'Err' : icrc21_error,
+  });
   const AllowanceArgs = IDL.Record({
     'account' : Account,
     'spender' : Account,
@@ -318,6 +360,11 @@ export const idlFactory = ({ IDL }) => {
         [GetTransactionsResponse],
         ['query'],
       ),
+    'icrc10_supported_standards' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text }))],
+        ['query'],
+      ),
     'icrc1_balance_of' : IDL.Func([Account], [Tokens], ['query']),
     'icrc1_decimals' : IDL.Func([], [IDL.Nat8], ['query']),
     'icrc1_fee' : IDL.Func([], [Tokens], ['query']),
@@ -336,6 +383,11 @@ export const idlFactory = ({ IDL }) => {
     'icrc1_symbol' : IDL.Func([], [IDL.Text], ['query']),
     'icrc1_total_supply' : IDL.Func([], [Tokens], ['query']),
     'icrc1_transfer' : IDL.Func([TransferArg], [TransferResult], []),
+    'icrc21_canister_call_consent_message' : IDL.Func(
+        [icrc21_consent_message_request],
+        [icrc21_consent_message_response],
+        [],
+      ),
     'icrc2_allowance' : IDL.Func([AllowanceArgs], [Allowance], ['query']),
     'icrc2_approve' : IDL.Func([ApproveArgs], [ApproveResult], []),
     'icrc2_transfer_from' : IDL.Func(

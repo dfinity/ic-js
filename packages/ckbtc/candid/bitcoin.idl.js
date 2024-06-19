@@ -4,13 +4,16 @@ export const idlFactory = ({ IDL }) => {
   const fees = IDL.Record({
     'get_current_fee_percentiles' : IDL.Nat,
     'get_utxos_maximum' : IDL.Nat,
+    'get_block_headers_cycles_per_ten_instructions' : IDL.Nat,
     'get_current_fee_percentiles_maximum' : IDL.Nat,
     'send_transaction_per_byte' : IDL.Nat,
     'get_balance' : IDL.Nat,
     'get_utxos_cycles_per_ten_instructions' : IDL.Nat,
+    'get_block_headers_base' : IDL.Nat,
     'get_utxos_base' : IDL.Nat,
     'get_balance_maximum' : IDL.Nat,
     'send_transaction_base' : IDL.Nat,
+    'get_block_headers_maximum' : IDL.Nat,
   });
   const network = IDL.Variant({
     'mainnet' : IDL.Null,
@@ -40,6 +43,7 @@ export const idlFactory = ({ IDL }) => {
   const get_block_headers_request = IDL.Record({
     'start_height' : block_height,
     'end_height' : IDL.Opt(block_height),
+    'network' : network,
   });
   const block_header = IDL.Vec(IDL.Nat8);
   const get_block_headers_response = IDL.Record({
@@ -139,13 +143,16 @@ export const init = ({ IDL }) => {
   const fees = IDL.Record({
     'get_current_fee_percentiles' : IDL.Nat,
     'get_utxos_maximum' : IDL.Nat,
+    'get_block_headers_cycles_per_ten_instructions' : IDL.Nat,
     'get_current_fee_percentiles_maximum' : IDL.Nat,
     'send_transaction_per_byte' : IDL.Nat,
     'get_balance' : IDL.Nat,
     'get_utxos_cycles_per_ten_instructions' : IDL.Nat,
+    'get_block_headers_base' : IDL.Nat,
     'get_utxos_base' : IDL.Nat,
     'get_balance_maximum' : IDL.Nat,
     'send_transaction_base' : IDL.Nat,
+    'get_block_headers_maximum' : IDL.Nat,
   });
   const network = IDL.Variant({
     'mainnet' : IDL.Null,
