@@ -4,6 +4,10 @@
 
 - Add support for `wasm_memory_limit` in the canister settings.
 
+## Fix
+
+- `updateNeuron` to not change the neuron subaccount.
+
 # 2024.06.11-1630Z
 
 ## Overview
