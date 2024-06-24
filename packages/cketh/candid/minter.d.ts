@@ -46,6 +46,9 @@ export interface Eip1559TransactionPrice {
   timestamp: [] | [bigint];
   gas_limit: bigint;
 }
+export interface Eip1559TransactionPriceArg {
+  ckerc20_ledger_id: Principal;
+}
 export interface EthTransaction {
   transaction_hash: string;
 }
@@ -315,6 +318,7 @@ export interface UnsignedTransaction {
 }
 export interface UpgradeArg {
   next_transaction_nonce: [] | [bigint];
+  evm_rpc_id: [] | [Principal];
   ledger_suite_orchestrator_id: [] | [Principal];
   erc20_helper_contract_address: [] | [string];
   last_erc20_scraped_block_number: [] | [bigint];
@@ -371,7 +375,10 @@ export type WithdrawalStatus =
   | { Pending: null };
 export interface _SERVICE {
   add_ckerc20_token: ActorMethod<[AddCkErc20Token], undefined>;
-  eip_1559_transaction_price: ActorMethod<[], Eip1559TransactionPrice>;
+  eip_1559_transaction_price: ActorMethod<
+    [[] | [Eip1559TransactionPriceArg]],
+    Eip1559TransactionPrice
+  >;
   get_canister_status: ActorMethod<[], CanisterStatusResponse>;
   get_events: ActorMethod<
     [{ start: bigint; length: bigint }],
