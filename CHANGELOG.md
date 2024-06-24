@@ -3,6 +3,7 @@
 ## Features
 
 - Add support for `wasm_memory_limit` in the canister settings.
+- Extend `eip1559TransactionPrice` for Erc20.
 
 ## Fix
 
