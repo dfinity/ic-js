@@ -133,7 +133,7 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
     const { eip_1559_transaction_price } = this.caller({
       certified,
     });
-    return eip_1559_transaction_price();
+    return eip_1559_transaction_price([]);
   };
 
   /**
