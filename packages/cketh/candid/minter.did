@@ -1,4 +1,4 @@
-// Generated from IC repo commit 246d0ce (2024-06-13 tags: release-2024-06-12_23-01-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit e3fca54 (2024-06-19 tags: release-2024-06-19_23-01-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -98,12 +98,25 @@ type UpgradeArg = record {
 
     // Change the last scraped block number of the ERC-20 helper smart contract.
     last_erc20_scraped_block_number : opt nat;
+
+    // The principal of the EVM RPC canister that handles the communication
+    // with the Ethereum blockchain.
+    evm_rpc_id : opt principal;
 };
 
 type MinterArg = variant { UpgradeArg : UpgradeArg; InitArg : InitArg };
 
+// Argument to Eip1559TransactionPrice.
+// When specified, it is to lookup transaction price for a ckERC20 token withdrawal.
+// When not specified (null), it is for ETH withdrawal.
+type Eip1559TransactionPriceArg = record {
+    // The ledger ID for that ckERC20 token.
+    ckerc20_ledger_id : principal;
+};
+
 // Estimate price of an EIP-1559 transaction
-// when converting ckETH to ETH, see https://eips.ethereum.org/EIPS/eip-1559
+// when converting ckETH to ETH or ckERC20 to ERC20, see
+// https://eips.ethereum.org/EIPS/eip-1559
 type Eip1559TransactionPrice = record {
     // Maximum amount of gas transaction is authorized to consume.
     gas_limit : nat;
@@ -544,7 +557,7 @@ service : (MinterArg) -> {
     smart_contract_address : () -> (text) query;
 
     // Estimate the price of a transaction issued by the minter when converting ckETH to ETH.
-    eip_1559_transaction_price : () -> (Eip1559TransactionPrice) query;
+    eip_1559_transaction_price : (opt Eip1559TransactionPriceArg) -> (Eip1559TransactionPrice) query;
 
     // Returns internal minter parameters
     get_minter_info : () -> (MinterInfo) query;
