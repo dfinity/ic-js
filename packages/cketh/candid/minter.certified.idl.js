@@ -7,6 +7,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const UpgradeArg = IDL.Record({
     'next_transaction_nonce' : IDL.Opt(IDL.Nat),
+    'evm_rpc_id' : IDL.Opt(IDL.Principal),
     'ledger_suite_orchestrator_id' : IDL.Opt(IDL.Principal),
     'erc20_helper_contract_address' : IDL.Opt(IDL.Text),
     'last_erc20_scraped_block_number' : IDL.Opt(IDL.Nat),
@@ -37,6 +38,9 @@ export const idlFactory = ({ IDL }) => {
     'chain_id' : IDL.Nat,
     'address' : IDL.Text,
     'ckerc20_token_symbol' : IDL.Text,
+  });
+  const Eip1559TransactionPriceArg = IDL.Record({
+    'ckerc20_ledger_id' : IDL.Principal,
   });
   const Eip1559TransactionPrice = IDL.Record({
     'max_priority_fee_per_gas' : IDL.Nat,
@@ -348,7 +352,11 @@ export const idlFactory = ({ IDL }) => {
   });
   return IDL.Service({
     'add_ckerc20_token' : IDL.Func([AddCkErc20Token], [], []),
-    'eip_1559_transaction_price' : IDL.Func([], [Eip1559TransactionPrice], []),
+    'eip_1559_transaction_price' : IDL.Func(
+        [IDL.Opt(Eip1559TransactionPriceArg)],
+        [Eip1559TransactionPrice],
+        [],
+      ),
     'get_canister_status' : IDL.Func([], [CanisterStatusResponse], []),
     'get_events' : IDL.Func(
         [IDL.Record({ 'start' : IDL.Nat64, 'length' : IDL.Nat64 })],
@@ -395,6 +403,7 @@ export const init = ({ IDL }) => {
   });
   const UpgradeArg = IDL.Record({
     'next_transaction_nonce' : IDL.Opt(IDL.Nat),
+    'evm_rpc_id' : IDL.Opt(IDL.Principal),
     'ledger_suite_orchestrator_id' : IDL.Opt(IDL.Principal),
     'erc20_helper_contract_address' : IDL.Opt(IDL.Text),
     'last_erc20_scraped_block_number' : IDL.Opt(IDL.Nat),
