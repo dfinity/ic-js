@@ -252,11 +252,13 @@ export interface GovernanceCachedMetrics {
   not_dissolving_neurons_count: bigint;
   total_locked_e8s: bigint;
   neurons_fund_total_active_neurons: bigint;
+  total_voting_power_non_self_authenticating_controller: [] | [bigint];
   total_staked_maturity_e8s_equivalent: bigint;
   not_dissolving_neurons_e8s_buckets_ect: Array<[bigint, number]>;
   total_staked_e8s_ect: bigint;
   not_dissolving_neurons_staked_maturity_e8s_equivalent_sum: bigint;
   dissolved_neurons_e8s: bigint;
+  total_staked_e8s_non_self_authenticating_controller: [] | [bigint];
   dissolving_neurons_e8s_buckets_seed: Array<[bigint, number]>;
   neurons_with_less_than_6_months_dissolve_delay_e8s: bigint;
   not_dissolving_neurons_staked_maturity_e8s_equivalent_buckets: Array<

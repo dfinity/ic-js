@@ -337,6 +337,9 @@ export const idlFactory = ({ IDL }) => {
     'not_dissolving_neurons_count' : IDL.Nat64,
     'total_locked_e8s' : IDL.Nat64,
     'neurons_fund_total_active_neurons' : IDL.Nat64,
+    'total_voting_power_non_self_authenticating_controller' : IDL.Opt(
+      IDL.Nat64
+    ),
     'total_staked_maturity_e8s_equivalent' : IDL.Nat64,
     'not_dissolving_neurons_e8s_buckets_ect' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
@@ -344,6 +347,7 @@ export const idlFactory = ({ IDL }) => {
     'total_staked_e8s_ect' : IDL.Nat64,
     'not_dissolving_neurons_staked_maturity_e8s_equivalent_sum' : IDL.Nat64,
     'dissolved_neurons_e8s' : IDL.Nat64,
+    'total_staked_e8s_non_self_authenticating_controller' : IDL.Opt(IDL.Nat64),
     'dissolving_neurons_e8s_buckets_seed' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
@@ -1181,6 +1185,9 @@ export const init = ({ IDL }) => {
     'not_dissolving_neurons_count' : IDL.Nat64,
     'total_locked_e8s' : IDL.Nat64,
     'neurons_fund_total_active_neurons' : IDL.Nat64,
+    'total_voting_power_non_self_authenticating_controller' : IDL.Opt(
+      IDL.Nat64
+    ),
     'total_staked_maturity_e8s_equivalent' : IDL.Nat64,
     'not_dissolving_neurons_e8s_buckets_ect' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
@@ -1188,6 +1195,7 @@ export const init = ({ IDL }) => {
     'total_staked_e8s_ect' : IDL.Nat64,
     'not_dissolving_neurons_staked_maturity_e8s_equivalent_sum' : IDL.Nat64,
     'dissolved_neurons_e8s' : IDL.Nat64,
+    'total_staked_e8s_non_self_authenticating_controller' : IDL.Opt(IDL.Nat64),
     'dissolving_neurons_e8s_buckets_seed' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
