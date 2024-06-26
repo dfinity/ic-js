@@ -323,6 +323,7 @@ export interface ListKnownNeuronsResponse {
 }
 export interface ListNeurons {
   neuron_ids: BigUint64Array | bigint[];
+  include_empty_neurons_readable_by_caller: [] | [boolean];
   include_neurons_readable_by_caller: boolean;
 }
 export interface ListNeuronsResponse {

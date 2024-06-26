@@ -434,7 +434,33 @@ describe("GovernanceCanister", () => {
       const neurons = await governance.listNeurons({
         certified: true,
       });
-      expect(service.list_neurons).toBeCalled();
+      expect(service.list_neurons).toBeCalledWith({
+        neuron_ids: new BigUint64Array(),
+        include_neurons_readable_by_caller: true,
+        include_empty_neurons_readable_by_caller: [],
+      });
+      expect(service.list_neurons).toBeCalledTimes(1);
+      expect(neurons.length).toBe(1);
+    });
+
+    it("list user neurons excluding empty neurons", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const neurons = await governance.listNeurons({
+        certified: true,
+        includeEmptyNeurons: false,
+      });
+      expect(service.list_neurons).toBeCalledWith({
+        neuron_ids: new BigUint64Array(),
+        include_neurons_readable_by_caller: true,
+        include_empty_neurons_readable_by_caller: [false],
+      });
+      expect(service.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
     });
   });

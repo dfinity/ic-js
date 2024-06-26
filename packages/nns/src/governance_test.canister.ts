@@ -46,7 +46,7 @@ export class GovernanceTestCanister {
    */
   async updateNeuron(neuron: Neuron) {
     assertNonNullish(neuron.id);
-    const rawListNeuronsRequest = fromListNeurons([neuron.id]);
+    const rawListNeuronsRequest = fromListNeurons({ neuronIds: [neuron.id] });
     const rawListNeuronsResponse = await this.certifiedService.list_neurons(
       rawListNeuronsRequest,
     );
