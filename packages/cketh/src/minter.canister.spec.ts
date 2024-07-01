@@ -626,22 +626,38 @@ describe("ckETH minter canister", () => {
   });
 
   describe("Estimate withdrawal fee", () => {
-    it("should return estimated fee", async () => {
-      const result = {
-        ...gasFeeEstimate,
-        gas_limit: 89n,
-        timestamp: toNullable(99999999n),
-      };
+    const eip1559Result = {
+      ...gasFeeEstimate,
+      gas_limit: 89n,
+      timestamp: toNullable(99999999n),
+    };
 
+    it("should return estimated fee", async () => {
       const service = mock<ActorSubclass<CkETHMinterService>>();
-      service.eip_1559_transaction_price.mockResolvedValue(result);
+      service.eip_1559_transaction_price.mockResolvedValue(eip1559Result);
 
       const canister = minter(service);
 
       const res = await canister.eip1559TransactionPrice({});
 
-      expect(service.eip_1559_transaction_price).toBeCalled();
-      expect(res).toEqual(result);
+      expect(service.eip_1559_transaction_price).toBeCalledWith([]);
+      expect(res).toEqual(eip1559Result);
+    });
+
+    it("should return estimated fee for a particular Erc20 ledger ID", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.eip_1559_transaction_price.mockResolvedValue(eip1559Result);
+
+      const canister = minter(service);
+
+      const res = await canister.eip1559TransactionPrice({
+        ckErc20LedgerId: ledgerCanisterIdMock,
+      });
+
+      expect(service.eip_1559_transaction_price).toBeCalledWith([
+        { ckerc20_ledger_id: ledgerCanisterIdMock },
+      ]);
+      expect(res).toEqual(eip1559Result);
     });
 
     it("should bubble errors", async () => {

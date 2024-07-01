@@ -4,6 +4,7 @@
 
 - Add support for `wasm_memory_limit` in the canister settings.
 - Add optional `includeEmptyNeurons` parameter to `listNeurons`.
+- Extend `eip1559TransactionPrice` for Erc20.
 
 ## Fix
 
