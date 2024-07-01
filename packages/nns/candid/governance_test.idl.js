@@ -674,6 +674,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const ListNeurons = IDL.Record({
     'neuron_ids' : IDL.Vec(IDL.Nat64),
+    'include_empty_neurons_readable_by_caller' : IDL.Opt(IDL.Bool),
     'include_neurons_readable_by_caller' : IDL.Bool,
   });
   const ListNeuronsResponse = IDL.Record({

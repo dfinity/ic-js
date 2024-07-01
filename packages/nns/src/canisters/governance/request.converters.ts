@@ -976,9 +976,16 @@ const fromClaimOrRefreshBy = (by: By): RawBy => {
   }
 };
 
-export const fromListNeurons = (neuronIds?: NeuronId[]): RawListNeurons => ({
+export const fromListNeurons = ({
+  neuronIds,
+  includeEmptyNeurons,
+}: {
+  neuronIds?: NeuronId[];
+  includeEmptyNeurons?: boolean;
+}): RawListNeurons => ({
   neuron_ids: BigUint64Array.from(neuronIds ?? []),
   include_neurons_readable_by_caller: neuronIds ? false : true,
+  include_empty_neurons_readable_by_caller: toNullable(includeEmptyNeurons),
 });
 
 export const fromManageNeuron = ({

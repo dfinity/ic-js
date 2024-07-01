@@ -126,15 +126,18 @@ export class GovernanceCanister {
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it is fetched using a query call.
    *
+   * The backend treats `includeEmptyNeurons` as true if absent.
    */
   public listNeurons = async ({
     certified = true,
     neuronIds,
+    includeEmptyNeurons,
   }: {
     certified: boolean;
     neuronIds?: NeuronId[];
+    includeEmptyNeurons?: boolean;
   }): Promise<NeuronInfo[]> => {
-    const rawRequest = fromListNeurons(neuronIds);
+    const rawRequest = fromListNeurons({ neuronIds, includeEmptyNeurons });
     const raw_response =
       await this.getGovernanceService(certified).list_neurons(rawRequest);
     return toArrayOfNeuronInfo({
