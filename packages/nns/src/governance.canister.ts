@@ -155,7 +155,12 @@ export class GovernanceCanister {
     includeEmptyNeurons?: boolean;
   }): Promise<NeuronInfo[]> => {
     const rawRequest = fromListNeurons({ neuronIds, includeEmptyNeurons });
-    const useOldMethod = isNullish(includeEmptyNeurons) && certified === true;
+    // The Ledger app version 2.4.9 does not support
+    // include_empty_neurons_readable_by_caller, even when the field is absent,
+    // so we use the old service (which does not have this field) if possible,
+    // in case the call will be signed by the Ledger device. We only have a
+    // certified version of the old service.
+    const useOldMethod = isNullish(includeEmptyNeurons) && certified;
     const service = useOldMethod
       ? this.oldListNeuronsCertifiedService
       : this.getGovernanceService(certified);
