@@ -208,9 +208,7 @@ export interface GlobalTimeOfDay {
 export interface Governance {
   default_followees: Array<[number, Followees]>;
   making_sns_proposal: [] | [MakingSnsProposal];
-  most_recent_monthly_node_provider_rewards:
-    | []
-    | [MostRecentMonthlyNodeProviderRewards];
+  most_recent_monthly_node_provider_rewards: [] | [MonthlyNodeProviderRewards];
   maturity_modulation_last_updated_at_timestamp_seconds: [] | [bigint];
   wait_for_quiet_threshold_seconds: bigint;
   metrics: [] | [GovernanceCachedMetrics];
@@ -266,6 +264,9 @@ export interface GovernanceCachedMetrics {
   >;
   dissolving_neurons_count_buckets: Array<[bigint, bigint]>;
   dissolving_neurons_e8s_buckets_ect: Array<[bigint, number]>;
+  non_self_authenticating_controller_neuron_subset_metrics:
+    | []
+    | [NeuronSubsetMetrics];
   dissolving_neurons_count: bigint;
   dissolving_neurons_e8s_buckets: Array<[bigint, number]>;
   total_staked_maturity_e8s_equivalent_seed: bigint;
@@ -387,9 +388,14 @@ export interface Migrations {
   neuron_indexes_migration: [] | [Migration];
   copy_inactive_neurons_to_stable_memory_migration: [] | [Migration];
 }
-export interface MostRecentMonthlyNodeProviderRewards {
+export interface MonthlyNodeProviderRewards {
+  minimum_xdr_permyriad_per_icp: [] | [bigint];
+  registry_version: [] | [bigint];
+  node_providers: Array<NodeProvider>;
   timestamp: bigint;
   rewards: Array<RewardNodeProvider>;
+  xdr_conversion_rate: [] | [XdrConversionRate];
+  maximum_node_provider_rewards_e8s: [] | [bigint];
 }
 export interface Motion {
   motion_text: string;
@@ -474,6 +480,18 @@ export interface NeuronStakeTransfer {
   from_subaccount: Uint8Array | number[];
   transfer_timestamp: bigint;
   block_height: bigint;
+}
+export interface NeuronSubsetMetrics {
+  total_maturity_e8s_equivalent: [] | [bigint];
+  maturity_e8s_equivalent_buckets: Array<[bigint, bigint]>;
+  voting_power_buckets: Array<[bigint, bigint]>;
+  total_staked_e8s: [] | [bigint];
+  count: [] | [bigint];
+  total_staked_maturity_e8s_equivalent: [] | [bigint];
+  staked_maturity_e8s_equivalent_buckets: Array<[bigint, bigint]>;
+  staked_e8s_buckets: Array<[bigint, bigint]>;
+  total_voting_power: [] | [bigint];
+  count_buckets: Array<[bigint, bigint]>;
 }
 export interface NeuronsFundAuditInfo {
   final_neurons_fund_participation: [] | [NeuronsFundParticipation];
@@ -796,7 +814,7 @@ export interface _SERVICE {
   get_monthly_node_provider_rewards: ActorMethod<[], Result_4>;
   get_most_recent_monthly_node_provider_rewards: ActorMethod<
     [],
-    [] | [MostRecentMonthlyNodeProviderRewards]
+    [] | [MonthlyNodeProviderRewards]
   >;
   get_network_economics_parameters: ActorMethod<[], NetworkEconomics>;
   get_neuron_ids: ActorMethod<[], BigUint64Array | bigint[]>;
