@@ -9,6 +9,7 @@
 ## Fix
 
 - `updateNeuron` to not change the neuron subaccount.
+- `list_neurons` to use old `ListNeurons` type for hardware wallet compatibility.
 
 # 2024.06.11-1630Z
 

@@ -1,4 +1,5 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
+import { Actor } from "@dfinity/agent";
 import type { LedgerCanister } from "@dfinity/ledger-icp";
 import {
   AccountIdentifier,
@@ -30,6 +31,7 @@ import type {
 } from "../candid/governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
 import { idlFactory } from "../candid/governance.idl";
+import { idlFactory as oldListNeuronsCertifiedIdlFactory } from "../candid/old_list_neurons_service.certified.idl";
 import {
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,
@@ -93,11 +95,13 @@ export class GovernanceCanister {
     private readonly canisterId: Principal,
     private readonly service: ActorSubclass<GovernanceService>,
     private readonly certifiedService: ActorSubclass<GovernanceService>,
+    private readonly oldListNeuronsCertifiedService: ActorSubclass<GovernanceService>,
     private readonly agent: Agent,
   ) {
     this.canisterId = canisterId;
     this.service = service;
     this.certifiedService = certifiedService;
+    this.oldListNeuronsCertifiedService = oldListNeuronsCertifiedService;
     this.agent = agent;
   }
 
@@ -115,7 +119,20 @@ export class GovernanceCanister {
         certifiedIdlFactory,
       });
 
-    return new GovernanceCanister(canisterId, service, certifiedService, agent);
+    const oldListNeuronsCertifiedService =
+      options.oldListNeuronsServiceOverride ??
+      Actor.createActor<GovernanceService>(oldListNeuronsCertifiedIdlFactory, {
+        agent,
+        canisterId,
+      });
+
+    return new GovernanceCanister(
+      canisterId,
+      service,
+      certifiedService,
+      oldListNeuronsCertifiedService,
+      agent,
+    );
   }
 
   /**
@@ -138,8 +155,16 @@ export class GovernanceCanister {
     includeEmptyNeurons?: boolean;
   }): Promise<NeuronInfo[]> => {
     const rawRequest = fromListNeurons({ neuronIds, includeEmptyNeurons });
-    const raw_response =
-      await this.getGovernanceService(certified).list_neurons(rawRequest);
+    // The Ledger app version 2.4.9 does not support
+    // include_empty_neurons_readable_by_caller, even when the field is absent,
+    // so we use the old service (which does not have this field) if possible,
+    // in case the call will be signed by the Ledger device. We only have a
+    // certified version of the old service.
+    const useOldMethod = isNullish(includeEmptyNeurons) && certified;
+    const service = useOldMethod
+      ? this.oldListNeuronsCertifiedService
+      : this.getGovernanceService(certified);
+    const raw_response = await service.list_neurons(rawRequest);
     return toArrayOfNeuronInfo({
       response: raw_response,
       canisterId: this.canisterId,
