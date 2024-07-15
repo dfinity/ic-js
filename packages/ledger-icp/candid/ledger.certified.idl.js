@@ -84,7 +84,10 @@ export const idlFactory = ({ IDL }) => {
     'Ok' : Icrc1BlockIndex,
     'Err' : Icrc1TransferError,
   });
-  const icrc21_consent_message_metadata = IDL.Record({ 'language' : IDL.Text });
+  const icrc21_consent_message_metadata = IDL.Record({
+    'utc_offset_minutes' : IDL.Opt(IDL.Int16),
+    'language' : IDL.Text,
+  });
   const icrc21_consent_message_spec = IDL.Record({
     'metadata' : icrc21_consent_message_metadata,
     'device_spec' : IDL.Opt(

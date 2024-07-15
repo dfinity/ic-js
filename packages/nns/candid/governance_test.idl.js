@@ -308,9 +308,34 @@ export const idlFactory = ({ IDL }) => {
     'caller' : IDL.Opt(IDL.Principal),
     'proposer_id' : IDL.Opt(NeuronId),
   });
-  const MostRecentMonthlyNodeProviderRewards = IDL.Record({
+  const XdrConversionRate = IDL.Record({
+    'xdr_permyriad_per_icp' : IDL.Opt(IDL.Nat64),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const MonthlyNodeProviderRewards = IDL.Record({
+    'minimum_xdr_permyriad_per_icp' : IDL.Opt(IDL.Nat64),
+    'registry_version' : IDL.Opt(IDL.Nat64),
+    'node_providers' : IDL.Vec(NodeProvider),
     'timestamp' : IDL.Nat64,
     'rewards' : IDL.Vec(RewardNodeProvider),
+    'xdr_conversion_rate' : IDL.Opt(XdrConversionRate),
+    'maximum_node_provider_rewards_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronSubsetMetrics = IDL.Record({
+    'total_maturity_e8s_equivalent' : IDL.Opt(IDL.Nat64),
+    'maturity_e8s_equivalent_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Nat64)
+    ),
+    'voting_power_buckets' : IDL.Vec(IDL.Tuple(IDL.Nat64, IDL.Nat64)),
+    'total_staked_e8s' : IDL.Opt(IDL.Nat64),
+    'count' : IDL.Opt(IDL.Nat64),
+    'total_staked_maturity_e8s_equivalent' : IDL.Opt(IDL.Nat64),
+    'staked_maturity_e8s_equivalent_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Nat64)
+    ),
+    'staked_e8s_buckets' : IDL.Vec(IDL.Tuple(IDL.Nat64, IDL.Nat64)),
+    'total_voting_power' : IDL.Opt(IDL.Nat64),
+    'count_buckets' : IDL.Vec(IDL.Tuple(IDL.Nat64, IDL.Nat64)),
   });
   const GovernanceCachedMetrics = IDL.Record({
     'total_maturity_e8s_equivalent' : IDL.Nat64,
@@ -360,6 +385,9 @@ export const idlFactory = ({ IDL }) => {
     ),
     'dissolving_neurons_e8s_buckets_ect' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'non_self_authenticating_controller_neuron_subset_metrics' : IDL.Opt(
+      NeuronSubsetMetrics
     ),
     'dissolving_neurons_count' : IDL.Nat64,
     'dissolving_neurons_e8s_buckets' : IDL.Vec(
@@ -522,10 +550,6 @@ export const idlFactory = ({ IDL }) => {
       IDL.Nat64
     ),
   });
-  const XdrConversionRate = IDL.Record({
-    'xdr_permyriad_per_icp' : IDL.Opt(IDL.Nat64),
-    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
-  });
   const Command_2 = IDL.Variant({
     'Spawn' : NeuronId,
     'Split' : Split,
@@ -576,7 +600,7 @@ export const idlFactory = ({ IDL }) => {
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
     'making_sns_proposal' : IDL.Opt(MakingSnsProposal),
     'most_recent_monthly_node_provider_rewards' : IDL.Opt(
-      MostRecentMonthlyNodeProviderRewards
+      MonthlyNodeProviderRewards
     ),
     'maturity_modulation_last_updated_at_timestamp_seconds' : IDL.Opt(
       IDL.Nat64
@@ -800,7 +824,7 @@ export const idlFactory = ({ IDL }) => {
     'get_monthly_node_provider_rewards' : IDL.Func([], [Result_4], []),
     'get_most_recent_monthly_node_provider_rewards' : IDL.Func(
         [],
-        [IDL.Opt(MostRecentMonthlyNodeProviderRewards)],
+        [IDL.Opt(MonthlyNodeProviderRewards)],
         ['query'],
       ),
     'get_network_economics_parameters' : IDL.Func(
@@ -1174,9 +1198,34 @@ export const init = ({ IDL }) => {
     'caller' : IDL.Opt(IDL.Principal),
     'proposer_id' : IDL.Opt(NeuronId),
   });
-  const MostRecentMonthlyNodeProviderRewards = IDL.Record({
+  const XdrConversionRate = IDL.Record({
+    'xdr_permyriad_per_icp' : IDL.Opt(IDL.Nat64),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const MonthlyNodeProviderRewards = IDL.Record({
+    'minimum_xdr_permyriad_per_icp' : IDL.Opt(IDL.Nat64),
+    'registry_version' : IDL.Opt(IDL.Nat64),
+    'node_providers' : IDL.Vec(NodeProvider),
     'timestamp' : IDL.Nat64,
     'rewards' : IDL.Vec(RewardNodeProvider),
+    'xdr_conversion_rate' : IDL.Opt(XdrConversionRate),
+    'maximum_node_provider_rewards_e8s' : IDL.Opt(IDL.Nat64),
+  });
+  const NeuronSubsetMetrics = IDL.Record({
+    'total_maturity_e8s_equivalent' : IDL.Opt(IDL.Nat64),
+    'maturity_e8s_equivalent_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Nat64)
+    ),
+    'voting_power_buckets' : IDL.Vec(IDL.Tuple(IDL.Nat64, IDL.Nat64)),
+    'total_staked_e8s' : IDL.Opt(IDL.Nat64),
+    'count' : IDL.Opt(IDL.Nat64),
+    'total_staked_maturity_e8s_equivalent' : IDL.Opt(IDL.Nat64),
+    'staked_maturity_e8s_equivalent_buckets' : IDL.Vec(
+      IDL.Tuple(IDL.Nat64, IDL.Nat64)
+    ),
+    'staked_e8s_buckets' : IDL.Vec(IDL.Tuple(IDL.Nat64, IDL.Nat64)),
+    'total_voting_power' : IDL.Opt(IDL.Nat64),
+    'count_buckets' : IDL.Vec(IDL.Tuple(IDL.Nat64, IDL.Nat64)),
   });
   const GovernanceCachedMetrics = IDL.Record({
     'total_maturity_e8s_equivalent' : IDL.Nat64,
@@ -1226,6 +1275,9 @@ export const init = ({ IDL }) => {
     ),
     'dissolving_neurons_e8s_buckets_ect' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
+    ),
+    'non_self_authenticating_controller_neuron_subset_metrics' : IDL.Opt(
+      NeuronSubsetMetrics
     ),
     'dissolving_neurons_count' : IDL.Nat64,
     'dissolving_neurons_e8s_buckets' : IDL.Vec(
@@ -1388,10 +1440,6 @@ export const init = ({ IDL }) => {
       IDL.Nat64
     ),
   });
-  const XdrConversionRate = IDL.Record({
-    'xdr_permyriad_per_icp' : IDL.Opt(IDL.Nat64),
-    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
-  });
   const Command_2 = IDL.Variant({
     'Spawn' : NeuronId,
     'Split' : Split,
@@ -1442,7 +1490,7 @@ export const init = ({ IDL }) => {
     'default_followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
     'making_sns_proposal' : IDL.Opt(MakingSnsProposal),
     'most_recent_monthly_node_provider_rewards' : IDL.Opt(
-      MostRecentMonthlyNodeProviderRewards
+      MonthlyNodeProviderRewards
     ),
     'maturity_modulation_last_updated_at_timestamp_seconds' : IDL.Opt(
       IDL.Nat64

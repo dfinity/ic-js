@@ -276,6 +276,7 @@ export type icrc21_consent_message =
     }
   | { GenericDisplayMessage: string };
 export interface icrc21_consent_message_metadata {
+  utc_offset_minutes: [] | [number];
   language: string;
 }
 export interface icrc21_consent_message_request {
