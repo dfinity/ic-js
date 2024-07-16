@@ -33,6 +33,8 @@ export enum Topic {
   SnsAndCommunityFund = 14,
   ApiBoundaryNodeManagement = 15,
   SubnetRental = 16,
+  ProtocolCanisterManagement = 17,
+  ServiceNervousSystemManagement = 18,
 }
 
 // The proposal status, with respect to reward distribution.
