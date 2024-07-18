@@ -5,10 +5,12 @@
 - Add support for `wasm_memory_limit` in the canister settings.
 - Add optional `includeEmptyNeurons` parameter to `listNeurons`.
 - Extend `eip1559TransactionPrice` for Erc20.
+- Add "Protocol Canister Management" and "Service Nervous System Management" topics support.
 
 ## Fix
 
 - `updateNeuron` to not change the neuron subaccount.
+- `list_neurons` to use old `ListNeurons` type for hardware wallet compatibility.
 
 # 2024.06.11-1630Z
 

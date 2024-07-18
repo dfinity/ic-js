@@ -1,4 +1,4 @@
-// Generated from IC repo commit e3fca54 (2024-06-19 tags: release-2024-06-19_23-01-base) 'rs/rosetta-api/icp_ledger/index/index.did' by import-candid
+// Generated from IC repo commit a3831c8 (2024-07-11 tags: release-2024-07-10_23-01-base) 'rs/rosetta-api/icp_ledger/index/index.did' by import-candid
 type Account = record { owner : principal; subaccount : opt vec nat8 };
 type GetAccountIdentifierTransactionsArgs = record {
   max_results : nat64;

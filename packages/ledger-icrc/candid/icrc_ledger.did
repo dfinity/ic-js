@@ -1,4 +1,4 @@
-// Generated from IC repo commit e3fca54 (2024-06-19 tags: release-2024-06-19_23-01-base) 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
+// Generated from IC repo commit a3831c8 (2024-07-11 tags: release-2024-07-10_23-01-base) 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
 type BlockIndex = nat;
 type Subaccount = blob;
 // Number of nanoseconds since the UNIX epoch in UTC timezone.
@@ -428,6 +428,7 @@ type ICRC3DataCertificate = record {
 
 type icrc21_consent_message_metadata = record {
     language: text;
+    utc_offset_minutes: opt int16;
 };
 
 type icrc21_consent_message_spec = record {
