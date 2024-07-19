@@ -6,6 +6,7 @@
 - Add optional `includeEmptyNeurons` parameter to `listNeurons`.
 - Extend `eip1559TransactionPrice` for Erc20.
 - Add "Protocol Canister Management" and "Service Nervous System Management" topics support.
+- Add `asNonNullish` function, like `assertNonNullish` but returns the value.
 
 ## Fix
 
