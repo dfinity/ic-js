@@ -39,6 +39,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
 - [assertNonNullish](#gear-assertnonnullish)
+- [asNonNullish](#gear-asnonnullish)
 - [assertPercentageNumber](#gear-assertpercentagenumber)
 - [uint8ArrayToBigInt](#gear-uint8arraytobigint)
 - [bigIntToUint8Array](#gear-biginttouint8array)
@@ -148,7 +149,15 @@ Parameters:
 | ------------------ | --------------------------------------------------------------------------------- |
 | `assertNonNullish` | `<T>(value: T, message?: string or undefined) => asserts value is NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L7)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L4)
+
+#### :gear: asNonNullish
+
+| Function       | Type                                                             |
+| -------------- | ---------------------------------------------------------------- |
+| `asNonNullish` | `<T>(value: T, message?: string or undefined) => NonNullable<T>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L13)
 
 #### :gear: assertPercentageNumber
 
@@ -156,7 +165,7 @@ Parameters:
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L15)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L20)
 
 #### :gear: uint8ArrayToBigInt
 
