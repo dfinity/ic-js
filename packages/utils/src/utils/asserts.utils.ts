@@ -1,17 +1,22 @@
 export class InvalidPercentageError extends Error {}
 export class NullishError extends Error {}
 
-export const assertNonNullish: <T>(
+export function assertNonNullish<T>(
   value: T,
   message?: string,
-) => asserts value is NonNullable<T> = <T>(
-  value: T,
-  message?: string,
-): void => {
+): asserts value is NonNullable<T> {
   if (value === null || value === undefined) {
     throw new NullishError(message);
   }
-};
+}
+
+export function asNonNullish<T>(value: T, message?: string): NonNullable<T> {
+  if (value === null || value === undefined) {
+    throw new NullishError(message);
+  }
+  return value as NonNullable<T>;
+}
+
 export const assertPercentageNumber = (percentage: number) => {
   if (percentage < 0 || percentage > 100) {
     throw new InvalidPercentageError(
