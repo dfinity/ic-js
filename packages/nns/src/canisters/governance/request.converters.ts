@@ -376,8 +376,8 @@ const fromCreateServiceNervousSystem = (
         ]
       : [],
   fallback_controller_principal_ids:
-    createServiceNervousSystem.fallbackControllerPrincipalIds.map(
-      Principal.fromText,
+    createServiceNervousSystem.fallbackControllerPrincipalIds.map((id) =>
+      Principal.fromText(id),
     ),
   logo:
     createServiceNervousSystem.logo !== undefined
