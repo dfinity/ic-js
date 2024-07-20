@@ -11,10 +11,8 @@ export function assertNonNullish<T>(
 }
 
 export function asNonNullish<T>(value: T, message?: string): NonNullable<T> {
-  if (value === null || value === undefined) {
-    throw new NullishError(message);
-  }
-  return value as NonNullable<T>;
+  assertNonNullish(value, message);
+  return value;
 }
 
 export const assertPercentageNumber = (percentage: number) => {
