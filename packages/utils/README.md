@@ -165,7 +165,7 @@ Parameters:
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L20)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L18)
 
 #### :gear: uint8ArrayToBigInt
 
