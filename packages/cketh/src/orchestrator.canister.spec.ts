@@ -58,6 +58,13 @@ describe("ckETH orchestrator canister", () => {
           cycles_for_ledger_creation: 2_000_000_000_000n,
         },
         managed_canisters: [ckSepoliaUSDCInfoMock],
+        ledger_suite_version: [
+          {
+            archive_compressed_wasm_hash: "1234",
+            ledger_compressed_wasm_hash: "abcd",
+            index_compressed_wasm_hash: "efgdh",
+          },
+        ],
       };
 
       const service = mock<ActorSubclass<CkETHOrchestratorService>>();
