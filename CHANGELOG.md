@@ -29,6 +29,10 @@ The current status of the libraries at the time of the release is as follows:
 - `updateNeuron` to not change the neuron subaccount.
 - `list_neurons` to use old `ListNeurons` type for hardware wallet compatibility.
 
+## Build
+
+- Upgrade `agent-js` dependencies to `v1.4.0`.
+
 # 2024.06.11-1630Z
 
 ## Overview
