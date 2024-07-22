@@ -1,7 +1,10 @@
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
 import type { ManageNeuron as RawManageNeuron } from "../../../candid/governance";
-import { GovernanceParameters } from "../../types/governance_converters";
+import {
+  GovernanceParameters,
+  InstallMode,
+} from "../../types/governance_converters";
 import { toMakeProposalRawRequest } from "./request.converters";
 
 describe("request.converters", () => {
@@ -487,6 +490,62 @@ describe("request.converters", () => {
                         ],
                       },
                     ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        neuron_id_or_subaccount: [
+          {
+            NeuronId: {
+              id: neuronId,
+            },
+          },
+        ],
+      };
+
+      const result = toMakeProposalRawRequest(mockRequest);
+      expect(result).toEqual(expectedOutput);
+    });
+
+    it("InstallCode", () => {
+      const principalId =
+        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe";
+      const summary = "Proposal summary";
+
+      const mockRequest = {
+        url,
+        title,
+        summary,
+        action: {
+          InstallCode: {
+            arg: Uint8Array.from([1, 2, 3]),
+            wasmModule: Uint8Array.from([4, 5, 6]),
+            skipStoppingBeforeInstalling: true,
+            canisterId: "miw6j-knlcl-xq",
+            installMode: InstallMode.Reinstall,
+          },
+        },
+        neuronId,
+      };
+
+      const expectedOutput: RawManageNeuron = {
+        id: [],
+        command: [
+          {
+            MakeProposal: {
+              url,
+              title: toNullable(title),
+              summary,
+              action: [
+                {
+                  InstallCode: {
+                    arg: [Uint8Array.from([1, 2, 3])],
+                    wasm_module: [Uint8Array.from([4, 5, 6])],
+                    skip_stopping_before_installing: [true],
+                    canister_id: [Principal.fromText("miw6j-knlcl-xq")],
+                    install_mode: [2],
                   },
                 },
               ],

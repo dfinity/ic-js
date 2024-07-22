@@ -24,6 +24,7 @@ export type Action =
     }
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ManageNeuron: ManageNeuron }
+  | { InstallCode: InstallCode }
   | { ApproveGenesisKyc: ApproveGenesisKyc }
   | { ManageNetworkEconomics: NetworkEconomics }
   | { RewardNodeProvider: RewardNodeProvider }
@@ -182,6 +183,19 @@ export interface ManageNeuron {
   id: Option<NeuronId>;
   command: Option<Command>;
   neuronIdOrSubaccount: Option<NeuronIdOrSubaccount>;
+}
+export enum InstallMode {
+  Unspecified,
+  Install,
+  Reinstall,
+  Upgrade,
+}
+export interface InstallCode {
+  arg: Option<Uint8Array>;
+  wasmModule: Option<Uint8Array>;
+  skipStoppingBeforeInstalling: Option<boolean>;
+  canisterId: Option<PrincipalString>;
+  installMode: Option<number>;
 }
 export interface Merge {
   sourceNeuronId: Option<NeuronId>;
