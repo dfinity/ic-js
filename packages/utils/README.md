@@ -39,6 +39,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
 - [assertNonNullish](#gear-assertnonnullish)
+- [asNonNullish](#gear-asnonnullish)
 - [assertPercentageNumber](#gear-assertpercentagenumber)
 - [uint8ArrayToBigInt](#gear-uint8arraytobigint)
 - [bigIntToUint8Array](#gear-biginttouint8array)
@@ -150,13 +151,21 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L7)
 
+#### :gear: asNonNullish
+
+| Function       | Type                                                             |
+| -------------- | ---------------------------------------------------------------- |
+| `asNonNullish` | `<T>(value: T, message?: string or undefined) => NonNullable<T>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L16)
+
 #### :gear: assertPercentageNumber
 
 | Function                 | Type                           |
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L15)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L21)
 
 #### :gear: uint8ArrayToBigInt
 

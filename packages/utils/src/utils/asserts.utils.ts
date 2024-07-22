@@ -12,6 +12,12 @@ export const assertNonNullish: <T>(
     throw new NullishError(message);
   }
 };
+
+export const asNonNullish = <T>(value: T, message?: string): NonNullable<T> => {
+  assertNonNullish(value, message);
+  return value;
+};
+
 export const assertPercentageNumber = (percentage: number) => {
   if (percentage < 0 || percentage > 100) {
     throw new InvalidPercentageError(
