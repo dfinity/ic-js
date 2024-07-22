@@ -1,7 +1,10 @@
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
 import type { ManageNeuron as RawManageNeuron } from "../../../candid/governance";
-import { GovernanceParameters } from "../../types/governance_converters";
+import {
+  GovernanceParameters,
+  InstallMode,
+} from "../../types/governance_converters";
 import { toMakeProposalRawRequest } from "./request.converters";
 
 describe("request.converters", () => {
@@ -521,7 +524,7 @@ describe("request.converters", () => {
             wasmModule: Uint8Array.from([4, 5, 6]),
             skipStoppingBeforeInstalling: true,
             canisterId: "miw6j-knlcl-xq",
-            installMode: 2,
+            installMode: InstallMode.Reinstall,
           },
         },
         neuronId,

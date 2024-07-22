@@ -104,6 +104,7 @@ import type {
   Tokens,
   VotingRewardParameters,
 } from "../../types/governance_converters";
+import { InstallMode } from "../../types/governance_converters";
 
 export const toNeuronInfo = ({
   neuronId,
@@ -541,12 +542,30 @@ const toAction = (action: RawAction): Action => {
         canisterId: installCode.canister_id.length
           ? installCode.canister_id[0].toString()
           : undefined,
-        installMode: fromNullable(installCode.install_mode),
+        installMode: toInstallMode(fromNullable(installCode.install_mode)),
       },
     };
   }
 
   throw new UnsupportedValueError(action);
+};
+
+const toInstallMode = (installMode: Option<number>): Option<InstallMode> => {
+  if (isNullish(installMode)) {
+    return undefined;
+  }
+  switch (installMode) {
+    case 0:
+      return InstallMode.Unspecified;
+    case 1:
+      return InstallMode.Install;
+    case 2:
+      return InstallMode.Reinstall;
+    case 3:
+      return InstallMode.Upgrade;
+    default:
+      return InstallMode.Unspecified;
+  }
 };
 
 const toTally = (tally: RawTally): Tally => {

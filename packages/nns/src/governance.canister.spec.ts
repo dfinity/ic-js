@@ -31,6 +31,7 @@ import {
 import {
   Action,
   InstallCode,
+  InstallMode,
   MakeProposalRequest,
   NetworkEconomics,
 } from "./types/governance_converters";
@@ -821,7 +822,7 @@ describe("GovernanceCanister", () => {
         wasm_module: [Uint8Array.from([4, 5, 6])],
         skip_stopping_before_installing: [true],
         canister_id: [Principal.fromText("miw6j-knlcl-xq")],
-        install_mode: [2],
+        install_mode: [3],
       };
 
       const expectedInstallCode: InstallCode = {
@@ -829,7 +830,7 @@ describe("GovernanceCanister", () => {
         wasmModule: Uint8Array.from([4, 5, 6]),
         skipStoppingBeforeInstalling: true,
         canisterId: "miw6j-knlcl-xq",
-        installMode: 2,
+        installMode: InstallMode.Upgrade,
       };
 
       const rawProposal = {

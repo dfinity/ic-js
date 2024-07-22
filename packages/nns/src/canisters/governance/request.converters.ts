@@ -87,6 +87,7 @@ import type {
   Tokens,
   VotingRewardParameters,
 } from "../../types/governance_converters";
+import { InstallMode } from "../../types/governance_converters";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
@@ -421,6 +422,24 @@ const fromCreateServiceNervousSystem = (
       : [],
 });
 
+const fromInstallMode = (installMode: Option<InstallMode>): Option<number> => {
+  if (isNullish(installMode)) {
+    return undefined;
+  }
+  switch (installMode) {
+    case InstallMode.Unspecified:
+      return 0;
+    case InstallMode.Install:
+      return 1;
+    case InstallMode.Reinstall:
+      return 2;
+    case InstallMode.Upgrade:
+      return 3;
+    default:
+      return 0;
+  }
+};
+
 const fromInstallCode = (installCode: InstallCode): RawInstallCode => ({
   arg: toNullable(installCode.arg),
   wasm_module: toNullable(installCode.wasmModule),
@@ -432,7 +451,7 @@ const fromInstallCode = (installCode: InstallCode): RawInstallCode => ({
       ? Principal.fromText(installCode.canisterId)
       : undefined,
   ),
-  install_mode: toNullable(installCode.installMode),
+  install_mode: toNullable(fromInstallMode(installCode.installMode)),
 });
 
 const fromAction = (action: Action): RawAction => {

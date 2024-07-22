@@ -184,6 +184,12 @@ export interface ManageNeuron {
   command: Option<Command>;
   neuronIdOrSubaccount: Option<NeuronIdOrSubaccount>;
 }
+export enum InstallMode {
+  Unspecified,
+  Install,
+  Reinstall,
+  Upgrade,
+}
 export interface InstallCode {
   arg: Option<Uint8Array>;
   wasmModule: Option<Uint8Array>;
