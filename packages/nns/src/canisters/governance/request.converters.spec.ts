@@ -1,6 +1,5 @@
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
-import { describe } from "node:test";
 import type { ManageNeuron as RawManageNeuron } from "../../../candid/governance";
 import { GovernanceParameters } from "../../types/governance_converters";
 import { toMakeProposalRawRequest } from "./request.converters";
