@@ -525,6 +525,27 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
+  if ("InstallCode" in action) {
+    const installCode = action.InstallCode;
+    return {
+      InstallCode: {
+        arg: installCode.arg.length
+          ? Uint8Array.from(fromDefinedNullable(installCode.arg))
+          : undefined,
+        wasmModule: installCode.wasm_module.length
+          ? Uint8Array.from(fromDefinedNullable(installCode.wasm_module))
+          : undefined,
+        skipStoppingBeforeInstalling: fromNullable(
+          installCode.skip_stopping_before_installing,
+        ),
+        canisterId: installCode.canister_id.length
+          ? installCode.canister_id[0].toString()
+          : undefined,
+        installMode: fromNullable(installCode.install_mode),
+      },
+    };
+  }
+
   throw new UnsupportedValueError(action);
 };
 

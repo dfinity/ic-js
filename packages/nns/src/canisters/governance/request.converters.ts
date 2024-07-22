@@ -4,7 +4,12 @@ import type {
 } from "@dfinity/ledger-icp";
 import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
-import { arrayBufferToUint8Array, isNullish, toNullable } from "@dfinity/utils";
+import {
+  arrayBufferToUint8Array,
+  isNullish,
+  nonNullish,
+  toNullable,
+} from "@dfinity/utils";
 import type {
   Amount,
   ListProposalInfo,
@@ -23,6 +28,7 @@ import type {
   GovernanceParameters as RawGovernanceParameters,
   Image as RawImage,
   InitialTokenDistribution as RawInitialTokenDistribution,
+  InstallCode as RawInstallCode,
   LedgerParameters as RawLedgerParameters,
   ListNeurons as RawListNeurons,
   ManageNeuron as RawManageNeuron,
@@ -61,6 +67,7 @@ import type {
   GovernanceParameters,
   Image,
   InitialTokenDistribution,
+  InstallCode,
   LedgerParameters,
   ListProposalsRequest,
   MakeProposalRequest,
@@ -414,6 +421,20 @@ const fromCreateServiceNervousSystem = (
       : [],
 });
 
+const fromInstallCode = (installCode: InstallCode): RawInstallCode => ({
+  arg: toNullable(installCode.arg),
+  wasm_module: toNullable(installCode.wasmModule),
+  skip_stopping_before_installing: toNullable(
+    installCode.skipStoppingBeforeInstalling,
+  ),
+  canister_id: toNullable(
+    nonNullish(installCode.canisterId)
+      ? Principal.fromText(installCode.canisterId)
+      : undefined,
+  ),
+  install_mode: toNullable(installCode.installMode),
+});
+
 const fromAction = (action: Action): RawAction => {
   if ("ExecuteNnsFunction" in action) {
     const executeNnsFunction = action.ExecuteNnsFunction;
@@ -621,6 +642,12 @@ const fromAction = (action: Action): RawAction => {
       CreateServiceNervousSystem: fromCreateServiceNervousSystem(
         action.CreateServiceNervousSystem,
       ),
+    };
+  }
+
+  if ("InstallCode" in action) {
+    return {
+      InstallCode: fromInstallCode(action.InstallCode),
     };
   }
 

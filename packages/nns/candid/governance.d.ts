@@ -8,6 +8,7 @@ export interface AccountIdentifier {
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
   | { ManageNeuron: ManageNeuron }
+  | { InstallCode: InstallCode }
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
   | { RewardNodeProvider: RewardNodeProvider }
@@ -16,7 +17,7 @@ export type Action =
   | { SetDefaultFollowees: SetDefaultFollowees }
   | { RewardNodeProviders: RewardNodeProviders }
   | { ManageNetworkEconomics: NetworkEconomics }
-  | { ApproveGenesisKyc: ApproveGenesisKyc }
+  | { ApproveGenesisKyc: Principals }
   | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
   | { Motion: Motion };
 export interface AddHotKey {
@@ -305,6 +306,13 @@ export interface InitialTokenDistribution {
   developer_distribution: [] | [DeveloperDistribution];
   swap_distribution: [] | [SwapDistribution];
 }
+export interface InstallCode {
+  arg: [] | [Uint8Array | number[]];
+  wasm_module: [] | [Uint8Array | number[]];
+  skip_stopping_before_installing: [] | [boolean];
+  canister_id: [] | [Principal];
+  install_mode: [] | [number];
+}
 export interface KnownNeuron {
   id: [] | [NeuronId];
   known_neuron_data: [] | [KnownNeuronData];
@@ -517,13 +525,17 @@ export interface NeuronsFundMatchedFundingCurveCoefficients {
   full_participation_milestone_xdr: [] | [Decimal];
 }
 export interface NeuronsFundNeuron {
+  controller: [] | [Principal];
   hotkey_principal: [] | [string];
+  hotkeys: [] | [Principals];
   is_capped: [] | [boolean];
   nns_neuron_id: [] | [bigint];
   amount_icp_e8s: [] | [bigint];
 }
 export interface NeuronsFundNeuronPortion {
+  controller: [] | [Principal];
   hotkey_principal: [] | [Principal];
+  hotkeys: Array<Principal>;
   is_capped: [] | [boolean];
   maturity_equivalent_icp_e8s: [] | [bigint];
   nns_neuron_id: [] | [NeuronId];
@@ -586,6 +598,9 @@ export interface Params {
 }
 export interface Percentage {
   basis_points: [] | [bigint];
+}
+export interface Principals {
+  principals: Array<Principal>;
 }
 export type Progress = { LastNeuronId: NeuronId };
 export interface Proposal {

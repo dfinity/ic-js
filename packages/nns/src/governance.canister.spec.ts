@@ -10,6 +10,7 @@ import {
   ListKnownNeuronsResponse,
   ManageNeuronResponse,
   NeuronsFundEconomics,
+  InstallCode as RawInstallCode,
   ProposalInfo as RawProposalInfo,
   Result,
   RewardEvent,
@@ -29,6 +30,7 @@ import {
 } from "./mocks/governance.mock";
 import {
   Action,
+  InstallCode,
   MakeProposalRequest,
   NetworkEconomics,
 } from "./types/governance_converters";
@@ -805,6 +807,67 @@ describe("GovernanceCanister", () => {
       expect(ManageNetworkEconomics).toEqual(
         mockManageNetworkEconomicsAction.ManageNetworkEconomics,
       );
+    });
+
+    it("should fetch and convert InstallCode on ProposalInfo", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const rawInstallCode: RawInstallCode = {
+        arg: [Uint8Array.from([1, 2, 3])],
+        wasm_module: [Uint8Array.from([4, 5, 6])],
+        skip_stopping_before_installing: [true],
+        canister_id: [Principal.fromText("miw6j-knlcl-xq")],
+        install_mode: [2],
+      };
+
+      const expectedInstallCode: InstallCode = {
+        arg: Uint8Array.from([1, 2, 3]),
+        wasmModule: Uint8Array.from([4, 5, 6]),
+        skipStoppingBeforeInstalling: true,
+        canisterId: "miw6j-knlcl-xq",
+        installMode: 2,
+      };
+
+      const rawProposal = {
+        id: [{ id: 1n }],
+        ballots: [],
+        proposal: [
+          {
+            title: ["This is a title"],
+            url: "some-url",
+            summary: "Here it goes the summary",
+            action: [
+              {
+                InstallCode: rawInstallCode,
+              },
+            ],
+          },
+        ],
+        proposer: [],
+        latest_tally: [],
+      } as unknown as RawProposalInfo;
+      service.get_proposal_info.mockResolvedValue(
+        Promise.resolve([rawProposal]),
+      );
+      const proposalId = 5467n;
+      const response = await governance.getProposal({
+        proposalId,
+      });
+
+      expect(service.get_proposal_info).toBeCalledWith(proposalId);
+      expect(service.get_proposal_info).toBeCalledTimes(1);
+      expect(response).not.toBeUndefined();
+      expect(response).toHaveProperty("id", 1n);
+
+      const { InstallCode } = response?.proposal?.action as {
+        InstallCode: InstallCode;
+      };
+
+      expect(InstallCode).toEqual(expectedInstallCode);
     });
   });
 
