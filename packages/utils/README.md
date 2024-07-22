@@ -149,7 +149,7 @@ Parameters:
 | ------------------ | --------------------------------------------------------------------------------- |
 | `assertNonNullish` | `<T>(value: T, message?: string or undefined) => asserts value is NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L4)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L7)
 
 #### :gear: asNonNullish
 
@@ -157,7 +157,7 @@ Parameters:
 | -------------- | ---------------------------------------------------------------- |
 | `asNonNullish` | `<T>(value: T, message?: string or undefined) => NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L13)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L16)
 
 #### :gear: assertPercentageNumber
 
@@ -165,7 +165,7 @@ Parameters:
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L18)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L21)
 
 #### :gear: uint8ArrayToBigInt
 
