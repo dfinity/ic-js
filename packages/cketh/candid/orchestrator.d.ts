@@ -5,9 +5,6 @@ import type { Principal } from "@dfinity/principal";
 export interface AddErc20Arg {
   contract: Erc20Contract;
   ledger_init_arg: LedgerInitArg;
-  git_commit_hash: string;
-  ledger_compressed_wasm_hash: string;
-  index_compressed_wasm_hash: string;
 }
 export interface CanisterStatusResponse {
   status: CanisterStatusType;
@@ -45,28 +42,18 @@ export interface InitArg {
   more_controller_ids: Array<Principal>;
   minter_id: [] | [Principal];
 }
-export interface LedgerAccount {
-  owner: Principal;
-  subaccount: [] | [LedgerSubaccount];
-}
-export interface LedgerFeatureFlags {
-  icrc2: boolean;
-}
 export interface LedgerInitArg {
-  decimals: [] | [number];
+  decimals: number;
   token_symbol: string;
   transfer_fee: bigint;
-  minting_account: LedgerAccount;
-  initial_balances: Array<[LedgerAccount, bigint]>;
-  maximum_number_of_accounts: [] | [bigint];
-  accounts_overflow_trim_quantity: [] | [bigint];
-  fee_collector_account: [] | [LedgerAccount];
-  max_memo_length: [] | [number];
   token_logo: string;
   token_name: string;
-  feature_flags: [] | [LedgerFeatureFlags];
 }
-export type LedgerSubaccount = Uint8Array | number[];
+export interface LedgerSuiteVersion {
+  archive_compressed_wasm_hash: string;
+  ledger_compressed_wasm_hash: string;
+  index_compressed_wasm_hash: string;
+}
 export interface ManagedCanisterIds {
   ledger: [] | [Principal];
   index: [] | [Principal];
@@ -94,6 +81,7 @@ export interface OrchestratorInfo {
   cycles_management: CyclesManagement;
   managed_canisters: Array<ManagedCanisters>;
   more_controller_ids: Array<Principal>;
+  ledger_suite_version: [] | [LedgerSuiteVersion];
   minter_id: [] | [Principal];
 }
 export interface QueryStats {
