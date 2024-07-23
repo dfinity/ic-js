@@ -15,19 +15,21 @@ jobs:
     # users. So on PRs where the token is not available, we don't commit
     # changes and instead just fail if the formatting is incorrect.
     steps:
-      - name: Check if personal access token is available
-        id: check_pat
+      - name: Check if commits can be added
+        id: check_can_add_commit
         run: |
-          echo "has_pat=${{ secrets.GIX_CREATE_PR_PAT != '' }}" >> $GITHUB_OUTPUT
+          echo "can_add_commit=${{ secrets.GIX_CREATE_PR_PAT != '' && github.event_name == 'pull_request' }}" >> $GITHUB_OUTPUT
 
       - name: Checkout
-        if: steps.check_pat.outputs.has_pat == 'true'
-        uses: actions/checkout@v2
+        if: steps.check_can_add_commit.outputs.can_add_commit == 'true'
+        uses: actions/checkout@v4
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.GIX_CREATE_PR_PAT }}
-      - name: Checkout without personal access token
-        if: steps.check_pat.outputs.has_pat == 'false'
-        uses: actions/checkout@v2
+      - name: Checkout
+        if: steps.check_can_add_commit.outputs.can_add_commit == 'false'
+        uses: actions/checkout@v4
 
       - name: Install shfmt
         run: sudo snap install --classic shfmt
@@ -48,8 +50,8 @@ jobs:
             echo "formatting_needed=true" >> $GITHUB_OUTPUT
           fi
       - name: Commit Formatting changes
-        if: steps.check_pat.outputs.has_pat == 'true' && steps.check_format.outputs.formatting_needed == 'true'
-        uses: EndBug/add-and-commit@v7.2.0
+        if: steps.check_can_add_commit.outputs.can_add_commit == 'true' && steps.check_format.outputs.formatting_needed == 'true'
+        uses: EndBug/add-and-commit@v9.1.4
         with:
           add: .
           default_author: github_actions
@@ -59,9 +61,9 @@ jobs:
           pull_strategy: "NO-PULL"
 
       - name: Fail for formatting issues without personal access token
-        if: steps.check_pat.outputs.has_pat == 'false' && steps.check_format.outputs.formatting_needed == 'true'
+        if: steps.check_can_add_commit.outputs.can_add_commit == 'false' && steps.check_format.outputs.formatting_needed == 'true'
         run: |
-          echo "Formatting changes are needed but couldn't be committed because the personal access token isn't available."
+          echo "Formatting changes are needed but couldn't be committed because the personal access token isn't available or this isn't a pull request."
           exit 1
 
   build-candid:
