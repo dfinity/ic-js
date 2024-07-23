@@ -117,6 +117,10 @@ Parameters:
 
 Filter the neurons that have voted for a proposal.
 
+| Function       | Type                                                                                                               |
+| -------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `votedNeurons` | `({ neurons, proposal: { id: proposalId }, }: { neurons: NeuronInfo[]; proposal: ProposalInfo; }) => NeuronInfo[]` |
+
 Parameters:
 
 - `params.neurons`: The neurons to filter.
