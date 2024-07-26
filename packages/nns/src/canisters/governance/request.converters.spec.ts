@@ -1,6 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
 import type { ManageNeuron as RawManageNeuron } from "../../../candid/governance";
+import { CanisterAction, LogVisibility } from "../../enums/governance.enums";
 import {
   GovernanceParameters,
   InstallMode,
@@ -546,6 +547,126 @@ describe("request.converters", () => {
                     skip_stopping_before_installing: [true],
                     canister_id: [Principal.fromText("miw6j-knlcl-xq")],
                     install_mode: [2],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        neuron_id_or_subaccount: [
+          {
+            NeuronId: {
+              id: neuronId,
+            },
+          },
+        ],
+      };
+
+      const result = toMakeProposalRawRequest(mockRequest);
+      expect(result).toEqual(expectedOutput);
+    });
+
+    it("StopOrStartCanister", () => {
+      const principalId =
+        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe";
+      const summary = "Proposal summary";
+
+      const mockRequest = {
+        url,
+        title,
+        summary,
+        action: {
+          StopOrStartCanister: {
+            canisterId: "miw6j-knlcl-xq",
+            action: CanisterAction.Stop,
+          },
+        },
+        neuronId,
+      };
+
+      const expectedOutput: RawManageNeuron = {
+        id: [],
+        command: [
+          {
+            MakeProposal: {
+              url,
+              title: toNullable(title),
+              summary,
+              action: [
+                {
+                  StopOrStartCanister: {
+                    canister_id: [Principal.fromText("miw6j-knlcl-xq")],
+                    action: [1],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        neuron_id_or_subaccount: [
+          {
+            NeuronId: {
+              id: neuronId,
+            },
+          },
+        ],
+      };
+
+      const result = toMakeProposalRawRequest(mockRequest);
+      expect(result).toEqual(expectedOutput);
+    });
+
+    it("UpdateCanisterSettings", () => {
+      const principalId =
+        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe";
+      const summary = "Proposal summary";
+
+      const mockRequest = {
+        url,
+        title,
+        summary,
+        action: {
+          UpdateCanisterSettings: {
+            canisterId: "miw6j-knlcl-xq",
+            settings: {
+              controllers: ["miw6j-knlcl-xq"],
+              freezingThreshold: 100n,
+              memoryAllocation: 234567n,
+              computeAllocation: 1n,
+              wasmMemoryLimit: 123456n,
+              logVisibility: LogVisibility.Controllers,
+            },
+          },
+        },
+        neuronId,
+      };
+
+      const expectedOutput: RawManageNeuron = {
+        id: [],
+        command: [
+          {
+            MakeProposal: {
+              url,
+              title: toNullable(title),
+              summary,
+              action: [
+                {
+                  UpdateCanisterSettings: {
+                    canister_id: [Principal.fromText("miw6j-knlcl-xq")],
+                    settings: [
+                      {
+                        controllers: [
+                          {
+                            controllers: [Principal.fromText("miw6j-knlcl-xq")],
+                          },
+                        ],
+                        freezing_threshold: [100n],
+                        memory_allocation: [234567n],
+                        compute_allocation: [1n],
+                        wasm_memory_limit: [123456n],
+                        log_visibility: [1],
+                      },
+                    ],
                   },
                 },
               ],

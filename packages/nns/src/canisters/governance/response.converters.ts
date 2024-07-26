@@ -21,6 +21,7 @@ import type {
   BallotInfo as RawBallotInfo,
   By as RawBy,
   Canister as RawCanister,
+  CanisterSettings as RawCanisterSettings,
   Change as RawChange,
   Command as RawCommand,
   Countries as RawCountries,
@@ -57,7 +58,12 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import type { NeuronType } from "../../enums/governance.enums";
+import type {
+  CanisterAction,
+  LogVisibility,
+  NeuronType,
+  NeuronVisibility,
+} from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type {
   CanisterIdString,
@@ -70,6 +76,7 @@ import type {
   Ballot,
   BallotInfo,
   By,
+  CanisterSettings,
   Change,
   Command,
   Countries,
@@ -134,6 +141,9 @@ export const toNeuronInfo = ({
     retrievedAtTimestampSeconds: neuronInfo.retrieved_at_timestamp_seconds,
     votingPower: neuronInfo.voting_power,
     ageSeconds: neuronInfo.age_seconds,
+    visibility: fromNullable(neuronInfo.visibility) as
+      | NeuronVisibility
+      | undefined,
     fullNeuron: fullNeuron,
   };
 };
@@ -178,6 +188,7 @@ export const toNeuron = ({
   followees: neuron.followees.map(([topic, followees]) =>
     toFollowees({ topic, followees }),
   ),
+  visibility: fromNullable(neuron.visibility) as NeuronVisibility | undefined,
 });
 
 export const toRawNeuron = ({
@@ -224,6 +235,7 @@ export const toRawNeuron = ({
       followees: followeesTopic.followees.map((followee) => ({ id: followee })),
     },
   ]),
+  visibility: toNullable(neuron.visibility),
   // Not kept when converted to Neuron.
   transfer: [],
   // Not kept when converted to Neuron.
@@ -547,6 +559,33 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
+  if ("StopOrStartCanister" in action) {
+    const stopOrStartCanister = action.StopOrStartCanister;
+    return {
+      StopOrStartCanister: {
+        canisterId: stopOrStartCanister.canister_id.length
+          ? stopOrStartCanister.canister_id[0].toString()
+          : undefined,
+        action: fromNullable(stopOrStartCanister.action) as
+          | CanisterAction
+          | undefined,
+      },
+    };
+  }
+
+  if ("UpdateCanisterSettings" in action) {
+    return {
+      UpdateCanisterSettings: {
+        canisterId: action.UpdateCanisterSettings.canister_id.length
+          ? action.UpdateCanisterSettings.canister_id[0].toString()
+          : undefined,
+        settings: toCanisterSettings(
+          fromDefinedNullable(action.UpdateCanisterSettings.settings),
+        ),
+      },
+    };
+  }
+
   throw new UnsupportedValueError(action);
 };
 
@@ -772,6 +811,16 @@ const toOperation = (operation: RawOperation): Operation => {
     return {
       ChangeAutoStakeMaturity: {
         requestedSettingForAutoStakeMaturity,
+      },
+    };
+  }
+  if ("SetVisibility" in operation) {
+    const setVisibility = operation.SetVisibility;
+    return {
+      SetVisibility: {
+        visibility: fromNullable(setVisibility.visibility) as
+          | NeuronVisibility
+          | undefined,
       },
     };
   }
@@ -1274,5 +1323,24 @@ const toInitialTokenDistribution = (
         swapDistribution: toSwapDistribution(
           fromNullable(initialTokenDistribution.swap_distribution),
         ),
+      };
+};
+
+const toCanisterSettings = (
+  canisterSettings: RawCanisterSettings | undefined,
+): CanisterSettings | undefined => {
+  return canisterSettings === undefined
+    ? undefined
+    : {
+        freezingThreshold: fromNullable(canisterSettings.freezing_threshold),
+        controllers: fromNullable(
+          canisterSettings.controllers,
+        )?.controllers.map((controller) => controller.toString()),
+        logVisibility: fromNullable(canisterSettings.log_visibility) as
+          | LogVisibility
+          | undefined,
+        wasmMemoryLimit: fromNullable(canisterSettings.wasm_memory_limit),
+        computeAllocation: fromNullable(canisterSettings.compute_allocation),
+        memoryAllocation: fromNullable(canisterSettings.memory_allocation),
       };
 };
