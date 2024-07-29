@@ -5,7 +5,6 @@ import type { Principal } from "@dfinity/principal";
 export type AccountIdentifier = string;
 export type BlockIndex = bigint;
 export interface CanisterSettings {
-  controller: [] | [Principal];
   freezing_threshold: [] | [bigint];
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];

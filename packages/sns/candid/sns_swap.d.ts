@@ -23,15 +23,19 @@ export type CanisterStatusType =
   | { stopping: null }
   | { running: null };
 export interface CfInvestment {
+  controller: [] | [Principal];
   hotkey_principal: string;
+  hotkeys: [] | [Principals];
   nns_neuron_id: bigint;
 }
 export interface CfNeuron {
   has_created_neuron_recipes: [] | [boolean];
+  hotkeys: [] | [Principals];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
 export interface CfParticipant {
+  controller: [] | [Principal];
   hotkey_principal: string;
   cf_neurons: Array<CfNeuron>;
 }
@@ -282,6 +286,9 @@ export type Possibility =
 export type Possibility_1 = { Ok: Response } | { Err: CanisterCallError };
 export type Possibility_2 = { Ok: Ok_1 } | { Err: Error };
 export type Possibility_3 = { Ok: {} } | { Err: CanisterCallError };
+export interface Principals {
+  principals: Array<Principal>;
+}
 export interface RefreshBuyerTokensRequest {
   confirmation_text: [] | [string];
   buyer: string;

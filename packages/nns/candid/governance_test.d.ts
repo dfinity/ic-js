@@ -9,6 +9,7 @@ export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
   | { ManageNeuron: ManageNeuron }
   | { InstallCode: InstallCode }
+  | { StopOrStartCanister: StopOrStartCanister }
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
   | { RewardNodeProvider: RewardNodeProvider }
@@ -62,10 +63,12 @@ export interface CanisterSummary {
 }
 export interface CfNeuron {
   has_created_neuron_recipes: [] | [boolean];
+  hotkeys: [] | [Principals];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
 export interface CfParticipant {
+  controller: [] | [Principal];
   hotkey_principal: string;
   cf_neurons: Array<CfNeuron>;
 }
@@ -438,6 +441,7 @@ export interface Neuron {
   dissolve_state: [] | [DissolveState];
   followees: Array<[number, Followees]>;
   neuron_fees_e8s: bigint;
+  visibility: [] | [number];
   transfer: [] | [NeuronStakeTransfer];
   known_neuron_data: [] | [KnownNeuronData];
   spawn_at_timestamp_seconds: [] | [bigint];
@@ -476,6 +480,7 @@ export interface NeuronInfo {
   stake_e8s: bigint;
   joined_community_fund_timestamp_seconds: [] | [bigint];
   retrieved_at_timestamp_seconds: bigint;
+  visibility: [] | [number];
   known_neuron_data: [] | [KnownNeuronData];
   voting_power: bigint;
   age_seconds: bigint;
@@ -578,6 +583,7 @@ export type Operation =
   | { StopDissolving: {} }
   | { StartDissolving: {} }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
+  | { SetVisibility: SetVisibility }
   | { JoinCommunityFund: {} }
   | { LeaveCommunityFund: {} }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
@@ -718,6 +724,9 @@ export interface SetSnsTokenSwapOpenTimeWindow {
   request: [] | [SetOpenTimeWindowRequest];
   swap_canister_id: [] | [Principal];
 }
+export interface SetVisibility {
+  visibility: [] | [number];
+}
 export interface SettleCommunityFundParticipation {
   result: [] | [Result_8];
   open_sns_token_swap_proposal_id: [] | [bigint];
@@ -746,6 +755,10 @@ export interface StakeMaturity {
 export interface StakeMaturityResponse {
   maturity_e8s: bigint;
   staked_maturity_e8s: bigint;
+}
+export interface StopOrStartCanister {
+  action: [] | [number];
+  canister_id: [] | [Principal];
 }
 export interface SwapBackgroundInformation {
   ledger_index_canister_summary: [] | [CanisterSummary];

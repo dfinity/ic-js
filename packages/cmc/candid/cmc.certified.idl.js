@@ -23,7 +23,6 @@ export const idlFactory = ({ IDL }) => {
     'public' : IDL.Null,
   });
   const CanisterSettings = IDL.Record({
-    'controller' : IDL.Opt(IDL.Principal),
     'freezing_threshold' : IDL.Opt(IDL.Nat),
     'controllers' : IDL.Opt(IDL.Vec(IDL.Principal)),
     'reserved_cycles_limit' : IDL.Opt(IDL.Nat),

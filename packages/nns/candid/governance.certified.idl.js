@@ -41,6 +41,7 @@ export const idlFactory = ({ IDL }) => {
   const IncreaseDissolveDelay = IDL.Record({
     'additional_dissolve_delay_seconds' : IDL.Nat32,
   });
+  const SetVisibility = IDL.Record({ 'visibility' : IDL.Opt(IDL.Int32) });
   const SetDissolveTimestamp = IDL.Record({
     'dissolve_timestamp_seconds' : IDL.Nat64,
   });
@@ -51,6 +52,7 @@ export const idlFactory = ({ IDL }) => {
     'StopDissolving' : IDL.Record({}),
     'StartDissolving' : IDL.Record({}),
     'IncreaseDissolveDelay' : IncreaseDissolveDelay,
+    'SetVisibility' : SetVisibility,
     'JoinCommunityFund' : IDL.Record({}),
     'LeaveCommunityFund' : IDL.Record({}),
     'SetDissolveTimestamp' : SetDissolveTimestamp,
@@ -107,6 +109,10 @@ export const idlFactory = ({ IDL }) => {
     'skip_stopping_before_installing' : IDL.Opt(IDL.Bool),
     'canister_id' : IDL.Opt(IDL.Principal),
     'install_mode' : IDL.Opt(IDL.Int32),
+  });
+  const StopOrStartCanister = IDL.Record({
+    'action' : IDL.Opt(IDL.Int32),
+    'canister_id' : IDL.Opt(IDL.Principal),
   });
   const Percentage = IDL.Record({ 'basis_points' : IDL.Opt(IDL.Nat64) });
   const Duration = IDL.Record({ 'seconds' : IDL.Opt(IDL.Nat64) });
@@ -289,6 +295,7 @@ export const idlFactory = ({ IDL }) => {
     'RegisterKnownNeuron' : KnownNeuron,
     'ManageNeuron' : ManageNeuron,
     'InstallCode' : InstallCode,
+    'StopOrStartCanister' : StopOrStartCanister,
     'CreateServiceNervousSystem' : CreateServiceNervousSystem,
     'ExecuteNnsFunction' : ExecuteNnsFunction,
     'RewardNodeProvider' : RewardNodeProvider,
@@ -455,10 +462,12 @@ export const idlFactory = ({ IDL }) => {
   });
   const CfNeuron = IDL.Record({
     'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
+    'hotkeys' : IDL.Opt(Principals),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
   const CfParticipant = IDL.Record({
+    'controller' : IDL.Opt(IDL.Principal),
     'hotkey_principal' : IDL.Text,
     'cf_neurons' : IDL.Vec(CfNeuron),
   });
@@ -600,6 +609,7 @@ export const idlFactory = ({ IDL }) => {
     'dissolve_state' : IDL.Opt(DissolveState),
     'followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
     'neuron_fees_e8s' : IDL.Nat64,
+    'visibility' : IDL.Opt(IDL.Int32),
     'transfer' : IDL.Opt(NeuronStakeTransfer),
     'known_neuron_data' : IDL.Opt(KnownNeuronData),
     'spawn_at_timestamp_seconds' : IDL.Opt(IDL.Nat64),
@@ -658,6 +668,7 @@ export const idlFactory = ({ IDL }) => {
     'stake_e8s' : IDL.Nat64,
     'joined_community_fund_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'retrieved_at_timestamp_seconds' : IDL.Nat64,
+    'visibility' : IDL.Opt(IDL.Int32),
     'known_neuron_data' : IDL.Opt(KnownNeuronData),
     'voting_power' : IDL.Nat64,
     'age_seconds' : IDL.Nat64,
@@ -924,6 +935,7 @@ export const init = ({ IDL }) => {
   const IncreaseDissolveDelay = IDL.Record({
     'additional_dissolve_delay_seconds' : IDL.Nat32,
   });
+  const SetVisibility = IDL.Record({ 'visibility' : IDL.Opt(IDL.Int32) });
   const SetDissolveTimestamp = IDL.Record({
     'dissolve_timestamp_seconds' : IDL.Nat64,
   });
@@ -934,6 +946,7 @@ export const init = ({ IDL }) => {
     'StopDissolving' : IDL.Record({}),
     'StartDissolving' : IDL.Record({}),
     'IncreaseDissolveDelay' : IncreaseDissolveDelay,
+    'SetVisibility' : SetVisibility,
     'JoinCommunityFund' : IDL.Record({}),
     'LeaveCommunityFund' : IDL.Record({}),
     'SetDissolveTimestamp' : SetDissolveTimestamp,
@@ -990,6 +1003,10 @@ export const init = ({ IDL }) => {
     'skip_stopping_before_installing' : IDL.Opt(IDL.Bool),
     'canister_id' : IDL.Opt(IDL.Principal),
     'install_mode' : IDL.Opt(IDL.Int32),
+  });
+  const StopOrStartCanister = IDL.Record({
+    'action' : IDL.Opt(IDL.Int32),
+    'canister_id' : IDL.Opt(IDL.Principal),
   });
   const Percentage = IDL.Record({ 'basis_points' : IDL.Opt(IDL.Nat64) });
   const Duration = IDL.Record({ 'seconds' : IDL.Opt(IDL.Nat64) });
@@ -1172,6 +1189,7 @@ export const init = ({ IDL }) => {
     'RegisterKnownNeuron' : KnownNeuron,
     'ManageNeuron' : ManageNeuron,
     'InstallCode' : InstallCode,
+    'StopOrStartCanister' : StopOrStartCanister,
     'CreateServiceNervousSystem' : CreateServiceNervousSystem,
     'ExecuteNnsFunction' : ExecuteNnsFunction,
     'RewardNodeProvider' : RewardNodeProvider,
@@ -1338,10 +1356,12 @@ export const init = ({ IDL }) => {
   });
   const CfNeuron = IDL.Record({
     'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
+    'hotkeys' : IDL.Opt(Principals),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
   const CfParticipant = IDL.Record({
+    'controller' : IDL.Opt(IDL.Principal),
     'hotkey_principal' : IDL.Text,
     'cf_neurons' : IDL.Vec(CfNeuron),
   });
@@ -1483,6 +1503,7 @@ export const init = ({ IDL }) => {
     'dissolve_state' : IDL.Opt(DissolveState),
     'followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
     'neuron_fees_e8s' : IDL.Nat64,
+    'visibility' : IDL.Opt(IDL.Int32),
     'transfer' : IDL.Opt(NeuronStakeTransfer),
     'known_neuron_data' : IDL.Opt(KnownNeuronData),
     'spawn_at_timestamp_seconds' : IDL.Opt(IDL.Nat64),

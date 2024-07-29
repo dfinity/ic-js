@@ -44,12 +44,15 @@ export const idlFactory = ({ IDL }) => {
       IdealMatchedParticipationFunction
     ),
   });
+  const Principals = IDL.Record({ 'principals' : IDL.Vec(IDL.Principal) });
   const CfNeuron = IDL.Record({
     'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
+    'hotkeys' : IDL.Opt(Principals),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
   const CfParticipant = IDL.Record({
+    'controller' : IDL.Opt(IDL.Principal),
     'hotkey_principal' : IDL.Text,
     'cf_neurons' : IDL.Vec(CfNeuron),
   });
