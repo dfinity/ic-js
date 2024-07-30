@@ -50,6 +50,7 @@ import {
   toRegisterVoteRequest,
   toRemoveHotkeyRequest,
   toSetDissolveDelayRequest,
+  toSetVisibilityRequest,
   toSpawnNeuronRequest,
   toSplitRawRequest,
   toStakeMaturityRequest,
@@ -69,7 +70,7 @@ import {
 } from "./canisters/governance/services";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import { E8S_PER_TOKEN } from "./constants/constants";
-import type { Vote } from "./enums/governance.enums";
+import type { NeuronVisibility, Vote } from "./enums/governance.enums";
 import {
   CouldNotClaimNeuronError,
   GovernanceError,
@@ -478,6 +479,23 @@ export class GovernanceCanister {
    */
   public leaveCommunityFund = async (neuronId: NeuronId): Promise<void> => {
     const request = toLeaveCommunityFundRequest(neuronId);
+
+    await manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Set visibility of a neuron
+   *
+   * @throws {@link GovernanceError}
+   */
+  public setVisibility = async (
+    neuronId: NeuronId,
+    visibility: NeuronVisibility,
+  ): Promise<void> => {
+    const request = toSetVisibilityRequest({ neuronId, visibility });
 
     await manageNeuron({
       request,

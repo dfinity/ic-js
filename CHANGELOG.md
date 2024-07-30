@@ -24,7 +24,7 @@ The current status of the libraries at the time of the release is as follows:
 - Extend `eip1559TransactionPrice` for Erc20.
 - Add "Protocol Canister Management" and "Service Nervous System Management" topics support.
 - Add `asNonNullish` function, like `assertNonNullish` but returns the value.
-- Support conversion of `InstallCode` action.
+- Support conversion of `InstallCode`, `StopOrStartCanister` and `UpdateCanisterSettings` actions, `SetVisibility` neuron operation, and `Neuron::visibility` attribute.
 
 ## Fix
 

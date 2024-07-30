@@ -17,10 +17,12 @@ export interface Canister {
 }
 export interface CfNeuron {
   has_created_neuron_recipes: [] | [boolean];
+  hotkeys: [] | [Principals];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
 export interface CfParticipant {
+  controller: [] | [Principal];
   hotkey_principal: string;
   cf_neurons: Array<CfNeuron>;
 }
@@ -174,6 +176,9 @@ export interface PrettySnsVersion {
   ledger_wasm_hash: string;
   governance_wasm_hash: string;
   index_wasm_hash: string;
+}
+export interface Principals {
+  principals: Array<Principal>;
 }
 export type Result = { Error: SnsWasmError } | { Hash: Uint8Array | number[] };
 export type Result_1 = { Ok: Ok } | { Error: SnsWasmError };

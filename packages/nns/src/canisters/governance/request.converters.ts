@@ -16,6 +16,7 @@ import type {
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
   By as RawBy,
+  CanisterSettings as RawCanisterSettings,
   Change as RawChange,
   Command as RawCommand,
   Countries as RawCountries,
@@ -47,12 +48,13 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import type { Vote } from "../../enums/governance.enums";
+import type { NeuronVisibility, Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { E8s, NeuronId, Option } from "../../types/common";
 import type {
   Action,
   By,
+  CanisterSettings,
   Change,
   ClaimOrRefreshNeuronRequest,
   Command,
@@ -454,6 +456,31 @@ const fromInstallCode = (installCode: InstallCode): RawInstallCode => ({
   install_mode: toNullable(fromInstallMode(installCode.installMode)),
 });
 
+const fromCanisterSettings = (
+  canisterSettings: Option<CanisterSettings>,
+): [RawCanisterSettings] | [] => {
+  return canisterSettings === undefined
+    ? []
+    : [
+        {
+          freezing_threshold: toNullable(canisterSettings.freezingThreshold),
+          controllers: canisterSettings.controllers
+            ? [
+                {
+                  controllers: canisterSettings.controllers.map((controller) =>
+                    Principal.fromText(controller),
+                  ),
+                },
+              ]
+            : [],
+          log_visibility: toNullable(canisterSettings.logVisibility as number),
+          wasm_memory_limit: toNullable(canisterSettings.wasmMemoryLimit),
+          compute_allocation: toNullable(canisterSettings.computeAllocation),
+          memory_allocation: toNullable(canisterSettings.memoryAllocation),
+        },
+      ];
+};
+
 const fromAction = (action: Action): RawAction => {
   if ("ExecuteNnsFunction" in action) {
     const executeNnsFunction = action.ExecuteNnsFunction;
@@ -670,6 +697,32 @@ const fromAction = (action: Action): RawAction => {
     };
   }
 
+  if ("StopOrStartCanister" in action) {
+    const stopOrStartCanister = action.StopOrStartCanister;
+    return {
+      StopOrStartCanister: {
+        canister_id: stopOrStartCanister.canisterId
+          ? [Principal.fromText(stopOrStartCanister.canisterId)]
+          : [],
+        action: stopOrStartCanister.action
+          ? [stopOrStartCanister.action as number]
+          : [],
+      },
+    };
+  }
+
+  if ("UpdateCanisterSettings" in action) {
+    const updateCanisterSettings = action.UpdateCanisterSettings;
+    return {
+      UpdateCanisterSettings: {
+        canister_id: updateCanisterSettings.canisterId
+          ? [Principal.fromText(updateCanisterSettings.canisterId)]
+          : [],
+        settings: fromCanisterSettings(updateCanisterSettings.settings),
+      },
+    };
+  }
+
   // If there's a missing action, this line will cause a compiler error.
   throw new UnsupportedValueError(action);
 };
@@ -866,6 +919,14 @@ const fromOperation = (operation: Operation): RawOperation => {
       ChangeAutoStakeMaturity: {
         requested_setting_for_auto_stake_maturity:
           requestedSettingForAutoStakeMaturity,
+      },
+    };
+  }
+  if ("SetVisibility" in operation) {
+    const setVisibility = operation.SetVisibility;
+    return {
+      SetVisibility: {
+        visibility: toNullable(setVisibility.visibility),
       },
     };
   }
@@ -1597,6 +1658,22 @@ export const toLeaveCommunityFundRequest = (
     neuronId,
     operation: {
       LeaveCommunityFund: {},
+    },
+  });
+
+export const toSetVisibilityRequest = ({
+  neuronId,
+  visibility,
+}: {
+  neuronId: NeuronId;
+  visibility: NeuronVisibility;
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      SetVisibility: {
+        visibility: [visibility as number],
+      },
     },
   });
 

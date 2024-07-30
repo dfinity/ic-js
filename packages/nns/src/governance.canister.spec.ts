@@ -12,10 +12,18 @@ import {
   NeuronsFundEconomics,
   InstallCode as RawInstallCode,
   ProposalInfo as RawProposalInfo,
+  StopOrStartCanister as RawStopOrStartCanister,
+  UpdateCanisterSettings as RawUpdateCanisterSettings,
   Result,
   RewardEvent,
 } from "../candid/governance";
-import { Topic, Vote } from "./enums/governance.enums";
+import {
+  CanisterAction,
+  LogVisibility,
+  NeuronVisibility,
+  Topic,
+  Vote,
+} from "./enums/governance.enums";
 import {
   GovernanceError,
   InsufficientAmountError,
@@ -34,6 +42,8 @@ import {
   InstallMode,
   MakeProposalRequest,
   NetworkEconomics,
+  StopOrStartCanister,
+  UpdateCanisterSettings,
 } from "./types/governance_converters";
 
 const unexpectedGovernanceError: GovernanceErrorDetail = {
@@ -870,6 +880,135 @@ describe("GovernanceCanister", () => {
 
       expect(InstallCode).toEqual(expectedInstallCode);
     });
+
+    it("should fetch and convert StopOrStartCanister on ProposalInfo", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const rawStopOrStartCanister: RawStopOrStartCanister = {
+        canister_id: [Principal.fromText("miw6j-knlcl-xq")],
+        action: [1],
+      };
+
+      const expectedStopOrStartCanister: StopOrStartCanister = {
+        canisterId: "miw6j-knlcl-xq",
+        action: CanisterAction.Stop,
+      };
+
+      const rawProposal = {
+        id: [{ id: 1n }],
+        ballots: [],
+        proposal: [
+          {
+            title: ["This is a title"],
+            url: "some-url",
+            summary: "Here it goes the summary",
+            action: [
+              {
+                StopOrStartCanister: rawStopOrStartCanister,
+              },
+            ],
+          },
+        ],
+        proposer: [],
+        latest_tally: [],
+      } as unknown as RawProposalInfo;
+      service.get_proposal_info.mockResolvedValue(
+        Promise.resolve([rawProposal]),
+      );
+      const proposalId = 5467n;
+      const response = await governance.getProposal({
+        proposalId,
+      });
+
+      expect(service.get_proposal_info).toBeCalledWith(proposalId);
+      expect(service.get_proposal_info).toBeCalledTimes(1);
+      expect(response).not.toBeUndefined();
+      expect(response).toHaveProperty("id", 1n);
+
+      const { StopOrStartCanister } = response?.proposal?.action as {
+        StopOrStartCanister: StopOrStartCanister;
+      };
+
+      expect(StopOrStartCanister).toEqual(expectedStopOrStartCanister);
+    });
+
+    it("should fetch and convert UpdateCanisterSettings on ProposalInfo", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+
+      const rawUpdateCanisterSettings: RawUpdateCanisterSettings = {
+        canister_id: [Principal.fromText("miw6j-knlcl-xq")],
+        settings: [
+          {
+            controllers: [
+              {
+                controllers: [Principal.fromText("aaaaa-aa")],
+              },
+            ],
+            compute_allocation: [1n],
+            memory_allocation: [123456n],
+            wasm_memory_limit: [234567n],
+            freezing_threshold: [100n],
+            log_visibility: [1],
+          },
+        ],
+      };
+
+      const expectedUpdateCanisterSettings: UpdateCanisterSettings = {
+        canisterId: "miw6j-knlcl-xq",
+        settings: {
+          controllers: ["aaaaa-aa"],
+          computeAllocation: 1n,
+          memoryAllocation: 123456n,
+          wasmMemoryLimit: 234567n,
+          freezingThreshold: 100n,
+          logVisibility: LogVisibility.Controllers,
+        },
+      };
+
+      const rawProposal = {
+        id: [{ id: 1n }],
+        ballots: [],
+        proposal: [
+          {
+            title: ["This is a title"],
+            url: "some-url",
+            summary: "Here it goes the summary",
+            action: [
+              {
+                UpdateCanisterSettings: rawUpdateCanisterSettings,
+              },
+            ],
+          },
+        ],
+        proposer: [],
+        latest_tally: [],
+      } as unknown as RawProposalInfo;
+      service.get_proposal_info.mockResolvedValue(
+        Promise.resolve([rawProposal]),
+      );
+      const response = await governance.getProposal({
+        proposalId: 1n,
+      });
+
+      expect(service.get_proposal_info).toBeCalledWith(1n);
+      expect(service.get_proposal_info).toBeCalledTimes(1);
+      expect(response).not.toBeUndefined();
+      expect(response).toHaveProperty("id", 1n);
+
+      const { UpdateCanisterSettings } = response?.proposal?.action as {
+        UpdateCanisterSettings: UpdateCanisterSettings;
+      };
+
+      expect(UpdateCanisterSettings).toEqual(expectedUpdateCanisterSettings);
+    });
   });
 
   describe("GovernanceCanister.claimOrRefreshNeuronFromAccount", () => {
@@ -1387,6 +1526,56 @@ describe("GovernanceCanister", () => {
       const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
 
       const call = () => governance.removeHotkey({ neuronId, principal });
+      expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
+
+  describe("GovernanceCanister.setNeuronVisibility", () => {
+    it("successfully sets neuron visibility", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Configure: {} }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      await governance.setVisibility(neuronId, NeuronVisibility.Public);
+      expect(service.manage_neuron).toBeCalledWith({
+        command: [
+          {
+            Configure: {
+              operation: [
+                {
+                  SetVisibility: {
+                    visibility: [2],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        id: [{ id: neuronId }],
+        neuron_id_or_subaccount: [],
+      });
+    });
+
+    it("throws error if response is error", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+
+      const call = () =>
+        governance.setVisibility(neuronId, NeuronVisibility.Public);
       expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
