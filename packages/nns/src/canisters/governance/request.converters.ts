@@ -89,7 +89,6 @@ import type {
   Tokens,
   VotingRewardParameters,
 } from "../../types/governance_converters";
-import { InstallMode } from "../../types/governance_converters";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
@@ -424,37 +423,27 @@ const fromCreateServiceNervousSystem = (
       : [],
 });
 
-const fromInstallMode = (installMode: Option<InstallMode>): Option<number> => {
-  if (isNullish(installMode)) {
-    return undefined;
+const fromInstallCode = (installCode: InstallCode): RawInstallCode => {
+  if (installCode.wasmModule === undefined) {
+    throw new Error("wasmModule not found");
   }
-  switch (installMode) {
-    case InstallMode.Unspecified:
-      return 0;
-    case InstallMode.Install:
-      return 1;
-    case InstallMode.Reinstall:
-      return 2;
-    case InstallMode.Upgrade:
-      return 3;
-    default:
-      return 0;
-  }
-};
 
-const fromInstallCode = (installCode: InstallCode): RawInstallCode => ({
-  arg: toNullable(installCode.arg),
-  wasm_module: toNullable(installCode.wasmModule),
-  skip_stopping_before_installing: toNullable(
-    installCode.skipStoppingBeforeInstalling,
-  ),
-  canister_id: toNullable(
-    nonNullish(installCode.canisterId)
-      ? Principal.fromText(installCode.canisterId)
-      : undefined,
-  ),
-  install_mode: toNullable(fromInstallMode(installCode.installMode)),
-});
+  return {
+    arg: toNullable(
+      arrayBufferToUint8Array(installCode.arg ?? new ArrayBuffer(0)),
+    ),
+    wasm_module: toNullable(arrayBufferToUint8Array(installCode.wasmModule)),
+    skip_stopping_before_installing: toNullable(
+      installCode.skipStoppingBeforeInstalling,
+    ),
+    canister_id: toNullable(
+      nonNullish(installCode.canisterId)
+        ? Principal.fromText(installCode.canisterId)
+        : undefined,
+    ),
+    install_mode: toNullable(installCode.installMode as number),
+  };
+};
 
 const fromCanisterSettings = (
   canisterSettings: Option<CanisterSettings>,

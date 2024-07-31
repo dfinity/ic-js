@@ -176,3 +176,11 @@ export enum NeuronVisibility {
   Private = 1,
   Public = 2,
 }
+
+// Reference: https://github.com/dfinity/ic/blob/3b3ffedc6aa481fd9b92eefaf46beded9e51a344/rs/nns/governance/src/gen/ic_nns_governance.pb.v1.rs#L2354-L2359
+export enum CanisterInstallMode {
+  Unspecified = 0,
+  Install = 1,
+  Reinstall = 2,
+  Upgrade = 3,
+}

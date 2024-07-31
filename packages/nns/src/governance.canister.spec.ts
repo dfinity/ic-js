@@ -19,6 +19,7 @@ import {
 } from "../candid/governance";
 import {
   CanisterAction,
+  CanisterInstallMode,
   LogVisibility,
   NeuronVisibility,
   Topic,
@@ -39,7 +40,6 @@ import {
 import {
   Action,
   InstallCode,
-  InstallMode,
   MakeProposalRequest,
   NetworkEconomics,
   StopOrStartCanister,
@@ -836,11 +836,9 @@ describe("GovernanceCanister", () => {
       };
 
       const expectedInstallCode: InstallCode = {
-        arg: Uint8Array.from([1, 2, 3]),
-        wasmModule: Uint8Array.from([4, 5, 6]),
         skipStoppingBeforeInstalling: true,
         canisterId: "miw6j-knlcl-xq",
-        installMode: InstallMode.Upgrade,
+        installMode: CanisterInstallMode.Upgrade,
       };
 
       const rawProposal = {

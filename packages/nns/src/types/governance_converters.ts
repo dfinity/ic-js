@@ -3,6 +3,7 @@ import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
 import type {
   CanisterAction,
+  CanisterInstallMode,
   LogVisibility,
   NeuronState,
   NeuronType,
@@ -192,18 +193,12 @@ export interface ManageNeuron {
   command: Option<Command>;
   neuronIdOrSubaccount: Option<NeuronIdOrSubaccount>;
 }
-export enum InstallMode {
-  Unspecified,
-  Install,
-  Reinstall,
-  Upgrade,
-}
 export interface InstallCode {
-  arg: Option<Uint8Array>;
-  wasmModule: Option<Uint8Array>;
+  arg?: ArrayBuffer;
+  wasmModule?: ArrayBuffer;
   skipStoppingBeforeInstalling: Option<boolean>;
   canisterId: Option<PrincipalString>;
-  installMode: Option<number>;
+  installMode: Option<CanisterInstallMode>;
 }
 export interface StopOrStartCanister {
   canisterId: Option<PrincipalString>;
