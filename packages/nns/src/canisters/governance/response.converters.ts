@@ -60,6 +60,7 @@ import type {
 } from "../../../candid/governance";
 import type {
   CanisterAction,
+  CanisterInstallMode,
   LogVisibility,
   NeuronType,
   NeuronVisibility,
@@ -111,7 +112,6 @@ import type {
   Tokens,
   VotingRewardParameters,
 } from "../../types/governance_converters";
-import { InstallMode } from "../../types/governance_converters";
 
 export const toNeuronInfo = ({
   neuronId,
@@ -542,19 +542,15 @@ const toAction = (action: RawAction): Action => {
     const installCode = action.InstallCode;
     return {
       InstallCode: {
-        arg: installCode.arg.length
-          ? Uint8Array.from(fromDefinedNullable(installCode.arg))
-          : undefined,
-        wasmModule: installCode.wasm_module.length
-          ? Uint8Array.from(fromDefinedNullable(installCode.wasm_module))
-          : undefined,
         skipStoppingBeforeInstalling: fromNullable(
           installCode.skip_stopping_before_installing,
         ),
         canisterId: installCode.canister_id.length
           ? installCode.canister_id[0].toString()
           : undefined,
-        installMode: toInstallMode(fromNullable(installCode.install_mode)),
+        installMode: fromNullable(installCode.install_mode) as
+          | CanisterInstallMode
+          | undefined,
       },
     };
   }
@@ -587,24 +583,6 @@ const toAction = (action: RawAction): Action => {
   }
 
   throw new UnsupportedValueError(action);
-};
-
-const toInstallMode = (installMode: Option<number>): Option<InstallMode> => {
-  if (isNullish(installMode)) {
-    return undefined;
-  }
-  switch (installMode) {
-    case 0:
-      return InstallMode.Unspecified;
-    case 1:
-      return InstallMode.Install;
-    case 2:
-      return InstallMode.Reinstall;
-    case 3:
-      return InstallMode.Upgrade;
-    default:
-      return InstallMode.Unspecified;
-  }
 };
 
 const toTally = (tally: RawTally): Tally => {
