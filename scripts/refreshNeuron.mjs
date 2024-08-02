@@ -10,7 +10,7 @@ const refreshNeuron = async (neuronId, shouldFetchRootKey) => {
       fetch,
       host: "https://ic0.app",
       // host: "https://nnsdapp.dfinity.network",
-      shouldFetchRootKey
+      shouldFetchRootKey,
     });
     const canister = GovernanceCanister.create({
       agent,
