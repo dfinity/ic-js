@@ -1,3 +1,13 @@
+# Upcoming
+
+## Features
+
+- Uses the new HttpAgent `create` and `createSync` methods in `@dfinity/utils`
+
+## Build
+
+- Upgrade `agent-js` dependencies to `v2.0.0`.
+
 # 2024.07.22-0645Z
 
 ## Overview
