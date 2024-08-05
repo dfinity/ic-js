@@ -151,3 +151,36 @@ export enum NeuronType {
   // accounts in the Genesis Token Canister, or those descended from such neurons.
   Ect = 2,
 }
+
+// Reference: https://github.com/dfinity/ic/blob/3b3ffedc6aa481fd9b92eefaf46beded9e51a344/rs/nns/governance/src/gen/ic_nns_governance.pb.v1.rs#L2506-L2512
+export enum LogVisibility {
+  Unspecified = 0,
+  /// The log is visible to the controllers of the dapp canister.
+  Controllers = 1,
+  /// The log is visible to the public.
+  Public = 2,
+}
+
+// Reference: https://github.com/dfinity/ic/blob/3b3ffedc6aa481fd9b92eefaf46beded9e51a344/rs/nns/governance/src/gen/ic_nns_governance.pb.v1.rs#L2419-L2423
+export enum CanisterAction {
+  Unspecified = 0,
+  // Stop a canister.
+  Stop = 1,
+  // Start a canister.
+  Start = 2,
+}
+
+// Reference: https://github.com/dfinity/ic/blob/3b3ffedc6aa481fd9b92eefaf46beded9e51a344/rs/nns/governance/src/gen/ic_nns_governance.pb.v1.rs#L3929-L3958
+export enum NeuronVisibility {
+  Unspecified = 0,
+  Private = 1,
+  Public = 2,
+}
+
+// Reference: https://github.com/dfinity/ic/blob/3b3ffedc6aa481fd9b92eefaf46beded9e51a344/rs/nns/governance/src/gen/ic_nns_governance.pb.v1.rs#L2354-L2359
+export enum CanisterInstallMode {
+  Unspecified = 0,
+  Install = 1,
+  Reinstall = 2,
+  Upgrade = 3,
+}

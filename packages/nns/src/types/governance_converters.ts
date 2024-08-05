@@ -2,8 +2,12 @@ import type { DerEncodedPublicKey } from "@dfinity/agent";
 import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
 import type {
+  CanisterAction,
+  CanisterInstallMode,
+  LogVisibility,
   NeuronState,
   NeuronType,
+  NeuronVisibility,
   ProposalRewardStatus,
   ProposalStatus,
   Topic,
@@ -24,6 +28,9 @@ export type Action =
     }
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ManageNeuron: ManageNeuron }
+  | { InstallCode: InstallCode }
+  | { StopOrStartCanister: StopOrStartCanister }
+  | { UpdateCanisterSettings: UpdateCanisterSettings }
   | { ApproveGenesisKyc: ApproveGenesisKyc }
   | { ManageNetworkEconomics: NetworkEconomics }
   | { RewardNodeProvider: RewardNodeProvider }
@@ -131,6 +138,9 @@ export interface SetDissolveTimestamp {
 export interface ChangeAutoStakeMaturity {
   requestedSettingForAutoStakeMaturity: boolean;
 }
+export interface SetVisibility {
+  visibility: Option<NeuronVisibility>;
+}
 export interface ListProposalsRequest {
   // Limit on the number of [ProposalInfo] to return. If no value is
   // specified, or if a value greater than 100 is specified, 100
@@ -182,6 +192,29 @@ export interface ManageNeuron {
   id: Option<NeuronId>;
   command: Option<Command>;
   neuronIdOrSubaccount: Option<NeuronIdOrSubaccount>;
+}
+export interface InstallCode {
+  arg?: ArrayBuffer;
+  wasmModule?: ArrayBuffer;
+  skipStoppingBeforeInstalling: Option<boolean>;
+  canisterId: Option<PrincipalString>;
+  installMode: Option<CanisterInstallMode>;
+}
+export interface StopOrStartCanister {
+  canisterId: Option<PrincipalString>;
+  action: Option<CanisterAction>;
+}
+export interface CanisterSettings {
+  freezingThreshold: Option<bigint>;
+  controllers: Option<Array<PrincipalString>>;
+  logVisibility: Option<LogVisibility>;
+  wasmMemoryLimit: Option<bigint>;
+  memoryAllocation: Option<bigint>;
+  computeAllocation: Option<bigint>;
+}
+export interface UpdateCanisterSettings {
+  canisterId: Option<PrincipalString>;
+  settings: Option<CanisterSettings>;
 }
 export interface Merge {
   sourceNeuronId: Option<NeuronId>;
@@ -292,6 +325,7 @@ export interface Neuron {
   joinedCommunityFundTimestampSeconds: Option<bigint>;
   dissolveState: Option<DissolveState>;
   followees: Array<Followees>;
+  visibility: Option<NeuronVisibility>;
 }
 export type NeuronIdOrSubaccount =
   | { Subaccount: Array<number> }
@@ -308,6 +342,7 @@ export interface NeuronInfo {
   votingPower: bigint;
   ageSeconds: bigint;
   fullNeuron: Option<Neuron>;
+  visibility: Option<NeuronVisibility>;
 }
 
 export interface NodeProvider {
@@ -323,7 +358,8 @@ export type Operation =
   | { JoinCommunityFund: Record<string, never> }
   | { LeaveCommunityFund: Record<string, never> }
   | { SetDissolveTimestamp: SetDissolveTimestamp }
-  | { ChangeAutoStakeMaturity: ChangeAutoStakeMaturity };
+  | { ChangeAutoStakeMaturity: ChangeAutoStakeMaturity }
+  | { SetVisibility: SetVisibility };
 export interface Proposal {
   title: Option<string>;
   url: string;

@@ -4,13 +4,19 @@ import type {
 } from "@dfinity/ledger-icp";
 import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
-import { arrayBufferToUint8Array, isNullish, toNullable } from "@dfinity/utils";
+import {
+  arrayBufferToUint8Array,
+  isNullish,
+  nonNullish,
+  toNullable,
+} from "@dfinity/utils";
 import type {
   Amount,
   ListProposalInfo,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
   By as RawBy,
+  CanisterSettings as RawCanisterSettings,
   Change as RawChange,
   Command as RawCommand,
   Countries as RawCountries,
@@ -23,6 +29,7 @@ import type {
   GovernanceParameters as RawGovernanceParameters,
   Image as RawImage,
   InitialTokenDistribution as RawInitialTokenDistribution,
+  InstallCode as RawInstallCode,
   LedgerParameters as RawLedgerParameters,
   ListNeurons as RawListNeurons,
   ManageNeuron as RawManageNeuron,
@@ -41,12 +48,13 @@ import type {
   Tokens as RawTokens,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
-import type { Vote } from "../../enums/governance.enums";
+import type { NeuronVisibility, Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { E8s, NeuronId, Option } from "../../types/common";
 import type {
   Action,
   By,
+  CanisterSettings,
   Change,
   ClaimOrRefreshNeuronRequest,
   Command,
@@ -61,6 +69,7 @@ import type {
   GovernanceParameters,
   Image,
   InitialTokenDistribution,
+  InstallCode,
   LedgerParameters,
   ListProposalsRequest,
   MakeProposalRequest,
@@ -414,6 +423,53 @@ const fromCreateServiceNervousSystem = (
       : [],
 });
 
+const fromInstallCode = (installCode: InstallCode): RawInstallCode => {
+  if (installCode.wasmModule === undefined) {
+    throw new Error("wasmModule not found");
+  }
+
+  return {
+    arg: toNullable(
+      arrayBufferToUint8Array(installCode.arg ?? new ArrayBuffer(0)),
+    ),
+    wasm_module: toNullable(arrayBufferToUint8Array(installCode.wasmModule)),
+    skip_stopping_before_installing: toNullable(
+      installCode.skipStoppingBeforeInstalling,
+    ),
+    canister_id: toNullable(
+      nonNullish(installCode.canisterId)
+        ? Principal.fromText(installCode.canisterId)
+        : undefined,
+    ),
+    install_mode: toNullable(installCode.installMode as number),
+  };
+};
+
+const fromCanisterSettings = (
+  canisterSettings: Option<CanisterSettings>,
+): [RawCanisterSettings] | [] => {
+  return canisterSettings === undefined
+    ? []
+    : [
+        {
+          freezing_threshold: toNullable(canisterSettings.freezingThreshold),
+          controllers: canisterSettings.controllers
+            ? [
+                {
+                  controllers: canisterSettings.controllers.map((controller) =>
+                    Principal.fromText(controller),
+                  ),
+                },
+              ]
+            : [],
+          log_visibility: toNullable(canisterSettings.logVisibility as number),
+          wasm_memory_limit: toNullable(canisterSettings.wasmMemoryLimit),
+          compute_allocation: toNullable(canisterSettings.computeAllocation),
+          memory_allocation: toNullable(canisterSettings.memoryAllocation),
+        },
+      ];
+};
+
 const fromAction = (action: Action): RawAction => {
   if ("ExecuteNnsFunction" in action) {
     const executeNnsFunction = action.ExecuteNnsFunction;
@@ -624,6 +680,38 @@ const fromAction = (action: Action): RawAction => {
     };
   }
 
+  if ("InstallCode" in action) {
+    return {
+      InstallCode: fromInstallCode(action.InstallCode),
+    };
+  }
+
+  if ("StopOrStartCanister" in action) {
+    const stopOrStartCanister = action.StopOrStartCanister;
+    return {
+      StopOrStartCanister: {
+        canister_id: stopOrStartCanister.canisterId
+          ? [Principal.fromText(stopOrStartCanister.canisterId)]
+          : [],
+        action: stopOrStartCanister.action
+          ? [stopOrStartCanister.action as number]
+          : [],
+      },
+    };
+  }
+
+  if ("UpdateCanisterSettings" in action) {
+    const updateCanisterSettings = action.UpdateCanisterSettings;
+    return {
+      UpdateCanisterSettings: {
+        canister_id: updateCanisterSettings.canisterId
+          ? [Principal.fromText(updateCanisterSettings.canisterId)]
+          : [],
+        settings: fromCanisterSettings(updateCanisterSettings.settings),
+      },
+    };
+  }
+
   // If there's a missing action, this line will cause a compiler error.
   throw new UnsupportedValueError(action);
 };
@@ -820,6 +908,14 @@ const fromOperation = (operation: Operation): RawOperation => {
       ChangeAutoStakeMaturity: {
         requested_setting_for_auto_stake_maturity:
           requestedSettingForAutoStakeMaturity,
+      },
+    };
+  }
+  if ("SetVisibility" in operation) {
+    const setVisibility = operation.SetVisibility;
+    return {
+      SetVisibility: {
+        visibility: toNullable(setVisibility.visibility),
       },
     };
   }
@@ -1551,6 +1647,22 @@ export const toLeaveCommunityFundRequest = (
     neuronId,
     operation: {
       LeaveCommunityFund: {},
+    },
+  });
+
+export const toSetVisibilityRequest = ({
+  neuronId,
+  visibility,
+}: {
+  neuronId: NeuronId;
+  visibility: NeuronVisibility;
+}): RawManageNeuron =>
+  toConfigureOperation({
+    neuronId,
+    operation: {
+      SetVisibility: {
+        visibility: [visibility as number],
+      },
     },
   });
 

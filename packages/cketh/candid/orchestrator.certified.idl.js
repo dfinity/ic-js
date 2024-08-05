@@ -28,32 +28,16 @@ export const idlFactory = ({ IDL }) => {
     'chain_id' : IDL.Nat,
     'address' : IDL.Text,
   });
-  const LedgerSubaccount = IDL.Vec(IDL.Nat8);
-  const LedgerAccount = IDL.Record({
-    'owner' : IDL.Principal,
-    'subaccount' : IDL.Opt(LedgerSubaccount),
-  });
-  const LedgerFeatureFlags = IDL.Record({ 'icrc2' : IDL.Bool });
   const LedgerInitArg = IDL.Record({
-    'decimals' : IDL.Opt(IDL.Nat8),
+    'decimals' : IDL.Nat8,
     'token_symbol' : IDL.Text,
     'transfer_fee' : IDL.Nat,
-    'minting_account' : LedgerAccount,
-    'initial_balances' : IDL.Vec(IDL.Tuple(LedgerAccount, IDL.Nat)),
-    'maximum_number_of_accounts' : IDL.Opt(IDL.Nat64),
-    'accounts_overflow_trim_quantity' : IDL.Opt(IDL.Nat64),
-    'fee_collector_account' : IDL.Opt(LedgerAccount),
-    'max_memo_length' : IDL.Opt(IDL.Nat16),
     'token_logo' : IDL.Text,
     'token_name' : IDL.Text,
-    'feature_flags' : IDL.Opt(LedgerFeatureFlags),
   });
   const AddErc20Arg = IDL.Record({
     'contract' : Erc20Contract,
     'ledger_init_arg' : LedgerInitArg,
-    'git_commit_hash' : IDL.Text,
-    'ledger_compressed_wasm_hash' : IDL.Text,
-    'index_compressed_wasm_hash' : IDL.Text,
   });
   const OrchestratorArg = IDL.Variant({
     'UpgradeArg' : UpgradeArg,
@@ -107,10 +91,16 @@ export const idlFactory = ({ IDL }) => {
     'archives' : IDL.Vec(IDL.Principal),
     'ckerc20_token_symbol' : IDL.Text,
   });
+  const LedgerSuiteVersion = IDL.Record({
+    'archive_compressed_wasm_hash' : IDL.Text,
+    'ledger_compressed_wasm_hash' : IDL.Text,
+    'index_compressed_wasm_hash' : IDL.Text,
+  });
   const OrchestratorInfo = IDL.Record({
     'cycles_management' : CyclesManagement,
     'managed_canisters' : IDL.Vec(ManagedCanisters),
     'more_controller_ids' : IDL.Vec(IDL.Principal),
+    'ledger_suite_version' : IDL.Opt(LedgerSuiteVersion),
     'minter_id' : IDL.Opt(IDL.Principal),
   });
   return IDL.Service({
@@ -152,32 +142,16 @@ export const init = ({ IDL }) => {
     'chain_id' : IDL.Nat,
     'address' : IDL.Text,
   });
-  const LedgerSubaccount = IDL.Vec(IDL.Nat8);
-  const LedgerAccount = IDL.Record({
-    'owner' : IDL.Principal,
-    'subaccount' : IDL.Opt(LedgerSubaccount),
-  });
-  const LedgerFeatureFlags = IDL.Record({ 'icrc2' : IDL.Bool });
   const LedgerInitArg = IDL.Record({
-    'decimals' : IDL.Opt(IDL.Nat8),
+    'decimals' : IDL.Nat8,
     'token_symbol' : IDL.Text,
     'transfer_fee' : IDL.Nat,
-    'minting_account' : LedgerAccount,
-    'initial_balances' : IDL.Vec(IDL.Tuple(LedgerAccount, IDL.Nat)),
-    'maximum_number_of_accounts' : IDL.Opt(IDL.Nat64),
-    'accounts_overflow_trim_quantity' : IDL.Opt(IDL.Nat64),
-    'fee_collector_account' : IDL.Opt(LedgerAccount),
-    'max_memo_length' : IDL.Opt(IDL.Nat16),
     'token_logo' : IDL.Text,
     'token_name' : IDL.Text,
-    'feature_flags' : IDL.Opt(LedgerFeatureFlags),
   });
   const AddErc20Arg = IDL.Record({
     'contract' : Erc20Contract,
     'ledger_init_arg' : LedgerInitArg,
-    'git_commit_hash' : IDL.Text,
-    'ledger_compressed_wasm_hash' : IDL.Text,
-    'index_compressed_wasm_hash' : IDL.Text,
   });
   const OrchestratorArg = IDL.Variant({
     'UpgradeArg' : UpgradeArg,

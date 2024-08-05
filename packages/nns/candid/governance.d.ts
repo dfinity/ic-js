@@ -8,6 +8,9 @@ export interface AccountIdentifier {
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
   | { ManageNeuron: ManageNeuron }
+  | { UpdateCanisterSettings: UpdateCanisterSettings }
+  | { InstallCode: InstallCode }
+  | { StopOrStartCanister: StopOrStartCanister }
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
   | { RewardNodeProvider: RewardNodeProvider }
@@ -16,7 +19,7 @@ export type Action =
   | { SetDefaultFollowees: SetDefaultFollowees }
   | { RewardNodeProviders: RewardNodeProviders }
   | { ManageNetworkEconomics: NetworkEconomics }
-  | { ApproveGenesisKyc: ApproveGenesisKyc }
+  | { ApproveGenesisKyc: Principals }
   | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
   | { Motion: Motion };
 export interface AddHotKey {
@@ -46,6 +49,14 @@ export type By =
 export interface Canister {
   id: [] | [Principal];
 }
+export interface CanisterSettings {
+  freezing_threshold: [] | [bigint];
+  controllers: [] | [Controllers];
+  log_visibility: [] | [number];
+  wasm_memory_limit: [] | [bigint];
+  memory_allocation: [] | [bigint];
+  compute_allocation: [] | [bigint];
+}
 export interface CanisterStatusResultV2 {
   status: [] | [number];
   freezing_threshold: [] | [bigint];
@@ -61,10 +72,12 @@ export interface CanisterSummary {
 }
 export interface CfNeuron {
   has_created_neuron_recipes: [] | [boolean];
+  hotkeys: [] | [Principals];
   nns_neuron_id: bigint;
   amount_icp_e8s: bigint;
 }
 export interface CfParticipant {
+  controller: [] | [Principal];
   hotkey_principal: string;
   cf_neurons: Array<CfNeuron>;
 }
@@ -134,6 +147,9 @@ export interface Committed_1 {
 }
 export interface Configure {
   operation: [] | [Operation];
+}
+export interface Controllers {
+  controllers: Array<Principal>;
 }
 export interface Countries {
   iso_codes: Array<string>;
@@ -305,6 +321,13 @@ export interface InitialTokenDistribution {
   developer_distribution: [] | [DeveloperDistribution];
   swap_distribution: [] | [SwapDistribution];
 }
+export interface InstallCode {
+  arg: [] | [Uint8Array | number[]];
+  wasm_module: [] | [Uint8Array | number[]];
+  skip_stopping_before_installing: [] | [boolean];
+  canister_id: [] | [Principal];
+  install_mode: [] | [number];
+}
 export interface KnownNeuron {
   id: [] | [NeuronId];
   known_neuron_data: [] | [KnownNeuronData];
@@ -430,6 +453,7 @@ export interface Neuron {
   dissolve_state: [] | [DissolveState];
   followees: Array<[number, Followees]>;
   neuron_fees_e8s: bigint;
+  visibility: [] | [number];
   transfer: [] | [NeuronStakeTransfer];
   known_neuron_data: [] | [KnownNeuronData];
   spawn_at_timestamp_seconds: [] | [bigint];
@@ -468,6 +492,7 @@ export interface NeuronInfo {
   stake_e8s: bigint;
   joined_community_fund_timestamp_seconds: [] | [bigint];
   retrieved_at_timestamp_seconds: bigint;
+  visibility: [] | [number];
   known_neuron_data: [] | [KnownNeuronData];
   voting_power: bigint;
   age_seconds: bigint;
@@ -517,13 +542,17 @@ export interface NeuronsFundMatchedFundingCurveCoefficients {
   full_participation_milestone_xdr: [] | [Decimal];
 }
 export interface NeuronsFundNeuron {
+  controller: [] | [Principal];
   hotkey_principal: [] | [string];
+  hotkeys: [] | [Principals];
   is_capped: [] | [boolean];
   nns_neuron_id: [] | [bigint];
   amount_icp_e8s: [] | [bigint];
 }
 export interface NeuronsFundNeuronPortion {
+  controller: [] | [Principal];
   hotkey_principal: [] | [Principal];
+  hotkeys: Array<Principal>;
   is_capped: [] | [boolean];
   maturity_equivalent_icp_e8s: [] | [bigint];
   nns_neuron_id: [] | [NeuronId];
@@ -566,6 +595,7 @@ export type Operation =
   | { StopDissolving: {} }
   | { StartDissolving: {} }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
+  | { SetVisibility: SetVisibility }
   | { JoinCommunityFund: {} }
   | { LeaveCommunityFund: {} }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
@@ -586,6 +616,9 @@ export interface Params {
 }
 export interface Percentage {
   basis_points: [] | [bigint];
+}
+export interface Principals {
+  principals: Array<Principal>;
 }
 export type Progress = { LastNeuronId: NeuronId };
 export interface Proposal {
@@ -703,6 +736,9 @@ export interface SetSnsTokenSwapOpenTimeWindow {
   request: [] | [SetOpenTimeWindowRequest];
   swap_canister_id: [] | [Principal];
 }
+export interface SetVisibility {
+  visibility: [] | [number];
+}
 export interface SettleCommunityFundParticipation {
   result: [] | [Result_8];
   open_sns_token_swap_proposal_id: [] | [bigint];
@@ -731,6 +767,10 @@ export interface StakeMaturity {
 export interface StakeMaturityResponse {
   maturity_e8s: bigint;
   staked_maturity_e8s: bigint;
+}
+export interface StopOrStartCanister {
+  action: [] | [number];
+  canister_id: [] | [Principal];
 }
 export interface SwapBackgroundInformation {
   ledger_index_canister_summary: [] | [CanisterSummary];
@@ -781,6 +821,10 @@ export interface TimeWindow {
 }
 export interface Tokens {
   e8s: [] | [bigint];
+}
+export interface UpdateCanisterSettings {
+  canister_id: [] | [Principal];
+  settings: [] | [CanisterSettings];
 }
 export interface UpdateNodeProvider {
   reward_account: [] | [AccountIdentifier];

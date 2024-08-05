@@ -1,14 +1,16 @@
-// Generated from IC repo commit a3831c8 (2024-07-11 tags: release-2024-07-10_23-01-base) 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
+// Generated from IC repo commit 2b109fb9ba (2024-07-25) 'rs/nns/sns-wasm/canister/sns-wasm.did' by import-candid
 type AddWasmRequest = record { hash : blob; wasm : opt SnsWasm };
 type AddWasmResponse = record { result : opt Result };
 type AirdropDistribution = record { airdrop_neurons : vec NeuronDistribution };
 type Canister = record { id : opt principal };
 type CfNeuron = record {
   has_created_neuron_recipes : opt bool;
+  hotkeys : opt Principals;
   nns_neuron_id : nat64;
   amount_icp_e8s : nat64;
 };
 type CfParticipant = record {
+  controller : opt principal;
   hotkey_principal : text;
   cf_neurons : vec CfNeuron;
 };
@@ -126,6 +128,7 @@ type PrettySnsVersion = record {
   governance_wasm_hash : text;
   index_wasm_hash : text;
 };
+type Principals = record { principals : vec principal };
 type Result = variant { Error : SnsWasmError; Hash : blob };
 type Result_1 = variant { Ok : Ok; Error : SnsWasmError };
 type SnsCanisterIds = record {
