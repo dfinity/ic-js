@@ -22,12 +22,15 @@ export const idlFactory = ({ IDL }) => {
       IdealMatchedParticipationFunction
     ),
   });
+  const Principals = IDL.Record({ 'principals' : IDL.Vec(IDL.Principal) });
   const CfNeuron = IDL.Record({
     'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
+    'hotkeys' : IDL.Opt(Principals),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
   const CfParticipant = IDL.Record({
+    'controller' : IDL.Opt(IDL.Principal),
     'hotkey_principal' : IDL.Text,
     'cf_neurons' : IDL.Vec(CfNeuron),
   });
@@ -241,7 +244,9 @@ export const idlFactory = ({ IDL }) => {
     'followees' : IDL.Vec(NeuronId),
   });
   const CfInvestment = IDL.Record({
+    'controller' : IDL.Opt(IDL.Principal),
     'hotkey_principal' : IDL.Text,
+    'hotkeys' : IDL.Opt(Principals),
     'nns_neuron_id' : IDL.Nat64,
   });
   const DirectInvestment = IDL.Record({ 'buyer_principal' : IDL.Text });
@@ -326,11 +331,6 @@ export const idlFactory = ({ IDL }) => {
   });
   const Result_2 = IDL.Variant({ 'Ok' : Ok_2, 'Err' : Err_2 });
   const NewSaleTicketResponse = IDL.Record({ 'result' : IDL.Opt(Result_2) });
-  const OpenRequest = IDL.Record({
-    'cf_participants' : IDL.Vec(CfParticipant),
-    'params' : IDL.Opt(Params),
-    'open_sns_token_swap_proposal_id' : IDL.Opt(IDL.Nat64),
-  });
   const RefreshBuyerTokensRequest = IDL.Record({
     'confirmation_text' : IDL.Opt(IDL.Text),
     'buyer' : IDL.Text,
@@ -409,7 +409,6 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'notify_payment_failure' : IDL.Func([IDL.Record({})], [Ok_2], []),
-    'open' : IDL.Func([OpenRequest], [IDL.Record({})], []),
     'refresh_buyer_tokens' : IDL.Func(
         [RefreshBuyerTokensRequest],
         [RefreshBuyerTokensResponse],
@@ -440,12 +439,15 @@ export const init = ({ IDL }) => {
       IdealMatchedParticipationFunction
     ),
   });
+  const Principals = IDL.Record({ 'principals' : IDL.Vec(IDL.Principal) });
   const CfNeuron = IDL.Record({
     'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
+    'hotkeys' : IDL.Opt(Principals),
     'nns_neuron_id' : IDL.Nat64,
     'amount_icp_e8s' : IDL.Nat64,
   });
   const CfParticipant = IDL.Record({
+    'controller' : IDL.Opt(IDL.Principal),
     'hotkey_principal' : IDL.Text,
     'cf_neurons' : IDL.Vec(CfNeuron),
   });

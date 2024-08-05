@@ -425,6 +425,7 @@ export const idlFactory = ({ IDL }) => {
     'not_dissolving_neurons_e8s_buckets_seed' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
+    'public_neuron_subset_metrics' : IDL.Opt(NeuronSubsetMetrics),
     'timestamp_seconds' : IDL.Nat64,
     'seed_neuron_count' : IDL.Nat64,
   });
@@ -730,6 +731,7 @@ export const idlFactory = ({ IDL }) => {
     'known_neurons' : IDL.Vec(KnownNeuron),
   });
   const ListNeurons = IDL.Record({
+    'include_public_neurons_in_full_neurons' : IDL.Opt(IDL.Bool),
     'neuron_ids' : IDL.Vec(IDL.Nat64),
     'include_empty_neurons_readable_by_caller' : IDL.Opt(IDL.Bool),
     'include_neurons_readable_by_caller' : IDL.Bool,
@@ -1333,6 +1335,7 @@ export const init = ({ IDL }) => {
     'not_dissolving_neurons_e8s_buckets_seed' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
+    'public_neuron_subset_metrics' : IDL.Opt(NeuronSubsetMetrics),
     'timestamp_seconds' : IDL.Nat64,
     'seed_neuron_count' : IDL.Nat64,
   });
