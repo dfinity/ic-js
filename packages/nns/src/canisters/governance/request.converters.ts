@@ -1075,13 +1075,16 @@ const fromClaimOrRefreshBy = (by: By): RawBy => {
 export const fromListNeurons = ({
   neuronIds,
   includeEmptyNeurons,
+  includePublicNeurons,
 }: {
   neuronIds?: NeuronId[];
   includeEmptyNeurons?: boolean;
+  includePublicNeurons?: boolean;
 }): RawListNeurons => ({
   neuron_ids: BigUint64Array.from(neuronIds ?? []),
   include_neurons_readable_by_caller: neuronIds ? false : true,
   include_empty_neurons_readable_by_caller: toNullable(includeEmptyNeurons),
+  include_public_neurons_in_full_neurons: toNullable(includePublicNeurons),
 });
 
 export const fromManageNeuron = ({
