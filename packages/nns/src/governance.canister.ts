@@ -163,7 +163,7 @@ export class GovernanceCanister {
       includePublicNeurons,
     });
     // The Ledger app version 2.4.9 does not support
-    // include_empty_neurons_readable_by_caller and include_public_neurons_in_full_neurons,
+    // include_empty_neurons_readable_by_caller nor include_public_neurons_in_full_neurons,
     // even when the field is absent,
     // so we use the old service (which does not have these fields) if possible,
     // in case the call will be signed by the Ledger device. We only have a
