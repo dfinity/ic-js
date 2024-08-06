@@ -17,7 +17,7 @@ import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../packages/nns/src/constants
  * - Change `sender` in the `createCallRequest` to the one commented.
  *
  * In the hardware-wallet-cli
- * - `disableNonce: true` in `getAgent` when creating the `new HttpAgent(...)`.
+ * - `disableNonce: true` in `getAgent` when creating the `HttpAgent.create(...)`.
  * - `console.log(Buffer.from(blob).toString("hex"));` inside the `sign` method in LedgerIdentity
  *
  * Go to cbor.me and decode both blobs.

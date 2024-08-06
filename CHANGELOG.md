@@ -1,3 +1,9 @@
+# Next
+
+## Build
+
+- Upgrade `agent-js` dependencies to `v2.0.0`.
+
 # 2024.07.22-0645Z
 
 ## Overview
