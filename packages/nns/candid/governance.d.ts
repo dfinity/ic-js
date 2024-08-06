@@ -288,6 +288,7 @@ export interface GovernanceCachedMetrics {
   total_staked_maturity_e8s_equivalent_seed: bigint;
   community_fund_total_staked_e8s: bigint;
   not_dissolving_neurons_e8s_buckets_seed: Array<[bigint, number]>;
+  public_neuron_subset_metrics: [] | [NeuronSubsetMetrics];
   timestamp_seconds: bigint;
   seed_neuron_count: bigint;
 }
@@ -346,6 +347,7 @@ export interface ListKnownNeuronsResponse {
   known_neurons: Array<KnownNeuron>;
 }
 export interface ListNeurons {
+  include_public_neurons_in_full_neurons: [] | [boolean];
   neuron_ids: BigUint64Array | bigint[];
   include_empty_neurons_readable_by_caller: [] | [boolean];
   include_neurons_readable_by_caller: boolean;

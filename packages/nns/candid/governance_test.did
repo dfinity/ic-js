@@ -1,4 +1,4 @@
-// Generated from IC repo commit 2b109fb9ba (2024-07-25) 'rs/nns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 3d0b3f1 (2024-08-02 tags: release-2024-08-02_01-30-base) 'rs/nns/governance/canister/governance_test.did' by import-candid
 type AccountIdentifier = record { hash : blob };
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
@@ -237,6 +237,7 @@ type GovernanceCachedMetrics = record {
   total_staked_maturity_e8s_equivalent_seed : nat64;
   community_fund_total_staked_e8s : nat64;
   not_dissolving_neurons_e8s_buckets_seed : vec record { nat64; float64 };
+  public_neuron_subset_metrics : opt NeuronSubsetMetrics;
   timestamp_seconds : nat64;
   seed_neuron_count : nat64;
 };
@@ -285,6 +286,7 @@ type LedgerParameters = record {
 };
 type ListKnownNeuronsResponse = record { known_neurons : vec KnownNeuron };
 type ListNeurons = record {
+  include_public_neurons_in_full_neurons : opt bool;
   neuron_ids : vec nat64;
   include_empty_neurons_readable_by_caller : opt bool;
   include_neurons_readable_by_caller : bool;

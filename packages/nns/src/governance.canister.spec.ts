@@ -450,11 +450,13 @@ describe("GovernanceCanister", () => {
       const neurons = await governance.listNeurons({
         certified: true,
         includeEmptyNeurons: true,
+        includePublicNeurons: true,
       });
       expect(certifiedService.list_neurons).toBeCalledWith({
         neuron_ids: new BigUint64Array(),
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [true],
+        include_public_neurons_in_full_neurons: [true],
       });
       expect(certifiedService.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
@@ -480,6 +482,31 @@ describe("GovernanceCanister", () => {
         neuron_ids: new BigUint64Array(),
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [false],
+        include_public_neurons_in_full_neurons: [],
+      });
+      expect(service.list_neurons).toBeCalledTimes(1);
+      expect(neurons.length).toBe(1);
+    });
+
+    it("list user neurons excluding public neurons", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      const oldService = mock<ActorSubclass<GovernanceService>>();
+      service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+        oldListNeuronsServiceOverride: oldService,
+      });
+      const neurons = await governance.listNeurons({
+        certified: true,
+        includePublicNeurons: false,
+      });
+      expect(service.list_neurons).toBeCalledWith({
+        neuron_ids: new BigUint64Array(),
+        include_neurons_readable_by_caller: true,
+        include_empty_neurons_readable_by_caller: [],
+        include_public_neurons_in_full_neurons: [false],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
@@ -503,6 +530,8 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         // The field is present in the argument but ignored by the old service.
         include_empty_neurons_readable_by_caller: [],
+        // The field is present in the argument but ignored by the old service.
+        include_public_neurons_in_full_neurons: [],
       });
       expect(oldService.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
@@ -527,6 +556,7 @@ describe("GovernanceCanister", () => {
         neuron_ids: new BigUint64Array(),
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [],
+        include_public_neurons_in_full_neurons: [],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
