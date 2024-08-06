@@ -73,7 +73,6 @@ export interface ClaimOrRefreshResponse {
   refreshed_neuron_id: [] | [NeuronId];
 }
 export interface ClaimSwapNeuronsRequest {
-  neuron_recipes: [] | [NeuronRecipes];
   neuron_parameters: Array<NeuronParameters>;
 }
 export interface ClaimSwapNeuronsResponse {
@@ -398,9 +397,6 @@ export interface Neuron {
 export interface NeuronId {
   id: Uint8Array | number[];
 }
-export interface NeuronIds {
-  neuron_ids: Array<NeuronId>;
-}
 export interface NeuronInFlightCommand {
   command: [] | [Command_2];
   timestamp: bigint;
@@ -421,22 +417,6 @@ export interface NeuronPermission {
 export interface NeuronPermissionList {
   permissions: Int32Array | number[];
 }
-export interface NeuronRecipe {
-  controller: [] | [Principal];
-  dissolve_delay_seconds: [] | [bigint];
-  participant: [] | [Participant];
-  stake_e8s: [] | [bigint];
-  followees: [] | [NeuronIds];
-  neuron_id: [] | [NeuronId];
-}
-export interface NeuronRecipes {
-  neuron_recipes: Array<NeuronRecipe>;
-}
-export interface NeuronsFund {
-  nns_neuron_hotkeys: [] | [Principals];
-  nns_neuron_controller: [] | [Principal];
-  nns_neuron_id: [] | [bigint];
-}
 export type Operation =
   | {
       ChangeAutoStakeMaturity: ChangeAutoStakeMaturity;
@@ -445,12 +425,8 @@ export type Operation =
   | { StartDissolving: {} }
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
-export type Participant = { NeuronsFund: NeuronsFund } | { Direct: {} };
 export interface Percentage {
   basis_points: [] | [bigint];
-}
-export interface Principals {
-  principals: Array<Principal>;
 }
 export interface Proposal {
   url: string;

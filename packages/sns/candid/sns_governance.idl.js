@@ -377,28 +377,6 @@ export const idlFactory = ({ IDL }) => {
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Text, Neuron)),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });
-  const Principals = IDL.Record({ 'principals' : IDL.Vec(IDL.Principal) });
-  const NeuronsFund = IDL.Record({
-    'nns_neuron_hotkeys' : IDL.Opt(Principals),
-    'nns_neuron_controller' : IDL.Opt(IDL.Principal),
-    'nns_neuron_id' : IDL.Opt(IDL.Nat64),
-  });
-  const Participant = IDL.Variant({
-    'NeuronsFund' : NeuronsFund,
-    'Direct' : IDL.Record({}),
-  });
-  const NeuronIds = IDL.Record({ 'neuron_ids' : IDL.Vec(NeuronId) });
-  const NeuronRecipe = IDL.Record({
-    'controller' : IDL.Opt(IDL.Principal),
-    'dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
-    'participant' : IDL.Opt(Participant),
-    'stake_e8s' : IDL.Opt(IDL.Nat64),
-    'followees' : IDL.Opt(NeuronIds),
-    'neuron_id' : IDL.Opt(NeuronId),
-  });
-  const NeuronRecipes = IDL.Record({
-    'neuron_recipes' : IDL.Vec(NeuronRecipe),
-  });
   const NeuronParameters = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
     'dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
@@ -409,7 +387,6 @@ export const idlFactory = ({ IDL }) => {
     'neuron_id' : IDL.Opt(NeuronId),
   });
   const ClaimSwapNeuronsRequest = IDL.Record({
-    'neuron_recipes' : IDL.Opt(NeuronRecipes),
     'neuron_parameters' : IDL.Vec(NeuronParameters),
   });
   const SwapNeuron = IDL.Record({
