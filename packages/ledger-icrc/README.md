@@ -281,7 +281,7 @@ Parameters:
 
 - [create](#gear-create)
 - [getTransactions](#gear-gettransactions)
-- [getLedgerId](#gear-getledgerid)
+- [ledgerId](#gear-ledgerid)
 
 ##### :gear: create
 
@@ -306,13 +306,13 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L34)
 
-##### :gear: getLedgerId
+##### :gear: ledgerId
 
 Returns the ledger canister ID related to the index canister.
 
-| Method        | Type                                          |
-| ------------- | --------------------------------------------- |
-| `getLedgerId` | `(params: QueryParams) => Promise<Principal>` |
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
+| `ledgerId` | `(params: QueryParams) => Promise<Principal>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L51)
 

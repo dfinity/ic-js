@@ -92,7 +92,7 @@ describe("Index canister", () => {
     });
   });
 
-  describe("getLedgerId", () => {
+  describe("ledgerId", () => {
     it("should return ledger id", async () => {
       const service = mock<ActorSubclass<IcrcIndexService>>();
       service.ledger_id.mockResolvedValue(ledgerCanisterIdMock);
@@ -102,7 +102,7 @@ describe("Index canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const result = await canister.getLedgerId({
+      const result = await canister.ledgerId({
         certified: true,
       });
 

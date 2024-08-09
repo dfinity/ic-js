@@ -48,7 +48,7 @@ export class IcrcIndexCanister extends Canister<IcrcIndexService> {
   /**
    * Returns the ledger canister ID related to the index canister.
    */
-  getLedgerId = (params: QueryParams): Promise<Principal> => {
+  ledgerId = (params: QueryParams): Promise<Principal> => {
     const { ledger_id } = this.caller(params);
     return ledger_id();
   };
