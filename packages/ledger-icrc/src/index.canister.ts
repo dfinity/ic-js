@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import {Canister, createServices, type QueryParams} from "@dfinity/utils";
+import { Canister, createServices, type QueryParams } from "@dfinity/utils";
 import type {
   GetTransactions,
   _SERVICE as IcrcIndexService,

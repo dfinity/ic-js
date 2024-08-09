@@ -8,10 +8,8 @@ import type {
 } from "../candid/icrc_index";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexCanister } from "./index.canister";
-import {indexCanisterIdMock, ledgerCanisterIdMock} from "./mocks/ledger.mock";
+import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";
 import { IcrcAccount } from "./types/ledger.responses";
-import type {_SERVICE as IcrcIndexNgService} from "../candid/icrc_index-ng";
-import {IcrcIndexNgCanister} from "./index-ng.canister";
 
 describe("Index canister", () => {
   afterEach(() => jest.clearAllMocks());
