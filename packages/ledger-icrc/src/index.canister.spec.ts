@@ -8,7 +8,7 @@ import type {
 } from "../candid/icrc_index";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexCanister } from "./index.canister";
-import { indexCanisterIdMock } from "./mocks/ledger.mock";
+import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";
 import { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
@@ -89,6 +89,24 @@ describe("Index canister", () => {
           max_results: BigInt(10),
         });
       expect(call).rejects.toThrowError(IndexError);
+    });
+  });
+
+  describe("ledgerId", () => {
+    it("should return ledger id", async () => {
+      const service = mock<ActorSubclass<IcrcIndexService>>();
+      service.ledger_id.mockResolvedValue(ledgerCanisterIdMock);
+
+      const canister = IcrcIndexCanister.create({
+        canisterId: indexCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const result = await canister.ledgerId({
+        certified: true,
+      });
+
+      expect(result).toEqual(ledgerCanisterIdMock);
     });
   });
 });
