@@ -1,4 +1,5 @@
-import { Canister, createServices } from "@dfinity/utils";
+import { Principal } from "@dfinity/principal";
+import {Canister, createServices, type QueryParams} from "@dfinity/utils";
 import type {
   GetTransactions,
   _SERVICE as IcrcIndexService,
@@ -42,5 +43,13 @@ export class IcrcIndexCanister extends Canister<IcrcIndexService> {
     }
 
     return response.Ok;
+  };
+
+  /**
+   * Returns the ledger canister ID related to the index canister.
+   */
+  getLedgerId = (params: QueryParams): Promise<Principal> => {
+    const { ledger_id } = this.caller(params);
+    return ledger_id();
   };
 }
