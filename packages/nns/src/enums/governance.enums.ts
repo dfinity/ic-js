@@ -2,7 +2,7 @@
 // These enums are used to map back numbers provided by the backend through the Candid declaration.
 // We use Pascal case for consistency reason.
 //
-// Proto source: https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/icNns_governance/pb/v1/governance.proto
+// Proto source: https://github.com/dfinity/ic/blob/master/rs/nns/governance/proto/ic_nns_governance/pb/v1/governance.proto
 
 export enum NeuronState {
   Unspecified = 0,
@@ -14,7 +14,7 @@ export enum NeuronState {
 
 export enum Topic {
   Unspecified = 0,
-  ManageNeuron = 1,
+  NeuronManagement = 1,
   ExchangeRate = 2,
   NetworkEconomics = 3,
   Governance = 4,
@@ -28,8 +28,8 @@ export enum Topic {
    * @deprecated
    */
   SnsDecentralizationSale = 11,
-  SubnetReplicaVersionManagement = 12,
-  ReplicaVersionManagement = 13,
+  IcOsVersionDeployment = 12,
+  IcOsVersionElection = 13,
   SnsAndCommunityFund = 14,
   ApiBoundaryNodeManagement = 15,
   SubnetRental = 16,
@@ -97,7 +97,7 @@ export enum NnsFunction {
   AssignNoid = 8,
   NnsRootUpgrade = 9,
   IcpXdrConversionRate = 10,
-  UpdateSubnetReplicaVersion = 11,
+  DeployGuestosToAllSubnetNodes = 11,
   ClearProvisionalWhitelist = 12,
   RemoveNodesFromSubnet = 13,
   SetAuthorizedSubnetworks = 14,
@@ -124,12 +124,17 @@ export enum NnsFunction {
   UpdateAllowedPrincipals = 35,
   RetireReplicaVersion = 36,
   InsertSnsWasmUpgradePathEntries = 37,
-  UpdateElectedReplicaVersions = 38,
+  ReviseElectedGuestosVersions = 38,
   BitcoinSetConfig = 39,
   UpdateElectedHostosVersions = 40,
   UpdateNodesHostosVersion = 41,
-  AddApiBoundaryNode = 43,
+  HardResetNnsRootToVersion = 42,
+  AddApiBoundaryNodes = 43,
   RemoveApiBoundaryNodes = 44,
+  /**
+   * @deprecated
+   */
+  UpdateApiBoundaryNodeDomain = 45,
   UpdateApiBoundaryNodesVersion = 46,
   DeployGuestosToSomeApiBoundaryNodes = 47,
   DeployGuestosToAllUnassignedNodes = 48,

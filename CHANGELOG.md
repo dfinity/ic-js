@@ -1,5 +1,9 @@
 # Next
 
+## Breaking changes
+
+- Rename values of enum Topic and NnsFunction to match the backend values.
+
 ## Features
 
 - Support conversion of `InstallCode`, `StopOrStartCanister` and `UpdateCanisterSettings` actions, `SetVisibility` neuron operation, and `Neuron::visibility` attribute.
