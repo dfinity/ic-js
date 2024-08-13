@@ -67,7 +67,7 @@ export const uint8ArrayToHexString = (bytes: Uint8Array | number[]) => {
   );
 };
 
-export const candidNatToBigInt = ([lowPart, highPart]: [
+export const candidNatArrayToBigInt = ([lowPart, highPart]: [
   number,
   number?,
 ]): bigint => {
