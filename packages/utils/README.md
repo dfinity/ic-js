@@ -50,7 +50,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
 - [hexStringToUint8Array](#gear-hexstringtouint8array)
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
-- [candidNatToBigInt](#gear-candidnattobigint)
+- [candidNatArrayToBigInt](#gear-candidnatarraytobigint)
 - [encodeBase32](#gear-encodebase32)
 - [decodeBase32](#gear-decodebase32)
 - [bigEndianCrc32](#gear-bigendiancrc32)
@@ -240,11 +240,11 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L60)
 
-#### :gear: candidNatToBigInt
+#### :gear: candidNatArrayToBigInt
 
-| Function            | Type                                                                |
-| ------------------- | ------------------------------------------------------------------- |
-| `candidNatToBigInt` | `([lowPart, highPart]: [number, (number or undefined)?]) => bigint` |
+| Function                 | Type                                                                |
+| ------------------------ | ------------------------------------------------------------------- |
+| `candidNatArrayToBigInt` | `([lowPart, highPart]: [number, (number or undefined)?]) => bigint` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
 
