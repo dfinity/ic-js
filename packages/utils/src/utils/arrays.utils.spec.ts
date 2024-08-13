@@ -1,8 +1,10 @@
+import { expect } from "@jest/globals";
 import {
   arrayBufferToUint8Array,
   arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   bigIntToUint8Array,
+  candidNatToBigInt,
   hexStringToUint8Array,
   numberToUint8Array,
   uint8ArrayToArrayOfNumber,
@@ -74,5 +76,18 @@ describe("arrays-utils", () => {
 
   it("should convert array of numbers to string", () => {
     expect(uint8ArrayToHexString(Array.from(hexArray))).toEqual(hex);
+  });
+
+  it("should convert Candid Nat to BigInt", () => {
+    // DOGMI fee
+    expect(candidNatToBigInt([705032704, 1])).toBe(5_000_000_000n);
+    expect(candidNatToBigInt([705032704, 0])).toBe(70_5032_704n);
+    expect(candidNatToBigInt([705032704])).toBe(70_5032_704n);
+
+    // Common SNS fees
+    expect(candidNatToBigInt([10000])).toBe(10_000n);
+    expect(candidNatToBigInt([20000])).toBe(20_000n);
+    expect(candidNatToBigInt([100000])).toBe(100_000n);
+    expect(candidNatToBigInt([1000000])).toBe(1_000_000n);
   });
 });
