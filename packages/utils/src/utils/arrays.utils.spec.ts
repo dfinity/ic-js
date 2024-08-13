@@ -81,6 +81,8 @@ describe("arrays-utils", () => {
   it("should convert Candid Nat to BigInt", () => {
     // DOGMI fee
     expect(candidNatArrayToBigInt([705032704, 1])).toBe(5_000_000_000n);
+
+    // Interpretation of the fees without high bits
     expect(candidNatArrayToBigInt([705032704, 0])).toBe(70_5032_704n);
     expect(candidNatArrayToBigInt([705032704])).toBe(70_5032_704n);
 
