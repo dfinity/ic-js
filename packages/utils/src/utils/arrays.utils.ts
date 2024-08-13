@@ -66,3 +66,13 @@ export const uint8ArrayToHexString = (bytes: Uint8Array | number[]) => {
     "",
   );
 };
+
+export const candidNatArrayToBigInt = ([lowPart, highPart]: [
+  number,
+  number?,
+]): bigint => {
+  const low = BigInt(lowPart);
+  const high = BigInt(highPart ?? 0);
+
+  return (high << 32n) + low;
+};
