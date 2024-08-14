@@ -4,7 +4,7 @@ import {
   arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   bigIntToUint8Array,
-  candidNatArrayToBigInt,
+  candidNumberArrayToBigInt,
   hexStringToUint8Array,
   numberToUint8Array,
   uint8ArrayToArrayOfNumber,
@@ -80,16 +80,16 @@ describe("arrays-utils", () => {
 
   it("should convert Candid Nat to BigInt", () => {
     // DOGMI fee
-    expect(candidNatArrayToBigInt([705032704, 1])).toBe(5_000_000_000n);
+    expect(candidNumberArrayToBigInt([705032704, 1])).toBe(5_000_000_000n);
 
     // Interpretation of the fees without high bits
-    expect(candidNatArrayToBigInt([705032704, 0])).toBe(70_5032_704n);
-    expect(candidNatArrayToBigInt([705032704])).toBe(70_5032_704n);
+    expect(candidNumberArrayToBigInt([705032704, 0])).toBe(70_5032_704n);
+    expect(candidNumberArrayToBigInt([705032704])).toBe(70_5032_704n);
 
     // Common SNS fees
-    expect(candidNatArrayToBigInt([10000])).toBe(10_000n);
-    expect(candidNatArrayToBigInt([20000])).toBe(20_000n);
-    expect(candidNatArrayToBigInt([100000])).toBe(100_000n);
-    expect(candidNatArrayToBigInt([1000000])).toBe(1_000_000n);
+    expect(candidNumberArrayToBigInt([10000])).toBe(10_000n);
+    expect(candidNumberArrayToBigInt([20000])).toBe(20_000n);
+    expect(candidNumberArrayToBigInt([100000])).toBe(100_000n);
+    expect(candidNumberArrayToBigInt([1000000])).toBe(1_000_000n);
   });
 });
