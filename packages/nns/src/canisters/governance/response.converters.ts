@@ -11,6 +11,7 @@ import {
   nonNullish,
   toNullable,
   uint8ArrayToArrayOfNumber,
+  uint8ArrayToHexString,
 } from "@dfinity/utils";
 import type {
   Params,
@@ -551,6 +552,12 @@ const toAction = (action: RawAction): Action => {
         installMode: fromNullable(installCode.install_mode) as
           | CanisterInstallMode
           | undefined,
+        wasmModuleHash: uint8ArrayToHexString(
+          fromDefinedNullable(installCode.wasm_module_hash),
+        ),
+        argHash: uint8ArrayToHexString(
+          fromDefinedNullable(installCode.arg_hash),
+        ),
       },
     };
   }

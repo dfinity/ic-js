@@ -323,6 +323,13 @@ export interface InitialTokenDistribution {
   swap_distribution: [] | [SwapDistribution];
 }
 export interface InstallCode {
+  skip_stopping_before_installing: [] | [boolean];
+  wasm_module_hash: [] | [Uint8Array | number[]];
+  canister_id: [] | [Principal];
+  arg_hash: [] | [Uint8Array | number[]];
+  install_mode: [] | [number];
+}
+export interface InstallCodeRequest {
   arg: [] | [Uint8Array | number[]];
   wasm_module: [] | [Uint8Array | number[]];
   skip_stopping_before_installing: [] | [boolean];
@@ -371,6 +378,12 @@ export interface ListProposalInfo {
 export interface ListProposalInfoResponse {
   proposal_info: Array<ProposalInfo>;
 }
+export interface MakeProposalRequest {
+  url: string;
+  title: [] | [string];
+  action: [] | [ProposalActionRequest];
+  summary: string;
+}
 export interface MakeProposalResponse {
   message: [] | [string];
   proposal_id: [] | [NeuronId];
@@ -383,6 +396,24 @@ export interface MakingSnsProposal {
 export interface ManageNeuron {
   id: [] | [NeuronId];
   command: [] | [Command];
+  neuron_id_or_subaccount: [] | [NeuronIdOrSubaccount];
+}
+export type ManageNeuronCommandRequest =
+  | { Spawn: Spawn }
+  | { Split: Split }
+  | { Follow: Follow }
+  | { ClaimOrRefresh: ClaimOrRefresh }
+  | { Configure: Configure }
+  | { RegisterVote: RegisterVote }
+  | { Merge: Merge }
+  | { DisburseToNeuron: DisburseToNeuron }
+  | { MakeProposal: MakeProposalRequest }
+  | { StakeMaturity: StakeMaturity }
+  | { MergeMaturity: MergeMaturity }
+  | { Disburse: Disburse };
+export interface ManageNeuronRequest {
+  id: [] | [NeuronId];
+  command: [] | [ManageNeuronCommandRequest];
   neuron_id_or_subaccount: [] | [NeuronIdOrSubaccount];
 }
 export interface ManageNeuronResponse {
@@ -629,6 +660,23 @@ export interface Proposal {
   action: [] | [Action];
   summary: string;
 }
+export type ProposalActionRequest =
+  | { RegisterKnownNeuron: KnownNeuron }
+  | { ManageNeuron: ManageNeuronRequest }
+  | { UpdateCanisterSettings: UpdateCanisterSettings }
+  | { InstallCode: InstallCodeRequest }
+  | { StopOrStartCanister: StopOrStartCanister }
+  | { CreateServiceNervousSystem: CreateServiceNervousSystem }
+  | { ExecuteNnsFunction: ExecuteNnsFunction }
+  | { RewardNodeProvider: RewardNodeProvider }
+  | { OpenSnsTokenSwap: OpenSnsTokenSwap }
+  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
+  | { SetDefaultFollowees: SetDefaultFollowees }
+  | { RewardNodeProviders: RewardNodeProviders }
+  | { ManageNetworkEconomics: NetworkEconomics }
+  | { ApproveGenesisKyc: Principals }
+  | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
+  | { Motion: Motion };
 export interface ProposalData {
   id: [] | [NeuronId];
   failure_reason: [] | [GovernanceError];
@@ -881,7 +929,7 @@ export interface _SERVICE {
   list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
   list_node_providers: ActorMethod<[], ListNodeProvidersResponse>;
   list_proposals: ActorMethod<[ListProposalInfo], ListProposalInfoResponse>;
-  manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
+  manage_neuron: ActorMethod<[ManageNeuronRequest], ManageNeuronResponse>;
   settle_community_fund_participation: ActorMethod<
     [SettleCommunityFundParticipation],
     Result
@@ -890,7 +938,10 @@ export interface _SERVICE {
     [SettleNeuronsFundParticipationRequest],
     SettleNeuronsFundParticipationResponse
   >;
-  simulate_manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
+  simulate_manage_neuron: ActorMethod<
+    [ManageNeuronRequest],
+    ManageNeuronResponse
+  >;
   transfer_gtc_neuron: ActorMethod<[NeuronId, NeuronId], Result>;
   update_node_provider: ActorMethod<[UpdateNodeProvider], Result>;
 }

@@ -1,7 +1,7 @@
 import type {
   Command_1,
   _SERVICE as GovernanceService,
-  ManageNeuron,
+  ManageNeuronRequest,
   ManageNeuronResponse,
 } from "../../../candid/governance";
 import { GovernanceError } from "../../errors/governance.errors";
@@ -36,7 +36,7 @@ export const manageNeuron = async ({
   request,
   service,
 }: {
-  request: ManageNeuron;
+  request: ManageNeuronRequest;
   service: GovernanceService;
 }): Promise<Command_1> => {
   const response = await service.manage_neuron(request);
@@ -51,7 +51,7 @@ export const simulateManageNeuron = async ({
   request,
   service,
 }: {
-  request: ManageNeuron;
+  request: ManageNeuronRequest;
   service: GovernanceService;
 }): Promise<Command_1> => {
   const response = await service.simulate_manage_neuron(request);

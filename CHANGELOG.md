@@ -3,6 +3,7 @@
 ## Breaking changes
 
 - Rename values of enum Topic and NnsFunction to match the backend values.
+- Use different request/response types for NNS Governance proposals, and different fields for `InstallCode` proposals.
 
 ## Features
 
