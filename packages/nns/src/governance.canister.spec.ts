@@ -858,8 +858,8 @@ describe("GovernanceCanister", () => {
       });
 
       const rawInstallCode: RawInstallCode = {
-        arg: [Uint8Array.from([1, 2, 3])],
-        wasm_module: [Uint8Array.from([4, 5, 6])],
+        arg_hash: [Uint8Array.from([1, 2, 3])],
+        wasm_module_hash: [Uint8Array.from([4, 5, 6])],
         skip_stopping_before_installing: [true],
         canister_id: [Principal.fromText("miw6j-knlcl-xq")],
         install_mode: [3],
@@ -869,6 +869,8 @@ describe("GovernanceCanister", () => {
         skipStoppingBeforeInstalling: true,
         canisterId: "miw6j-knlcl-xq",
         installMode: CanisterInstallMode.Upgrade,
+        argHash: "010203",
+        wasmModuleHash: "040506",
       };
 
       const rawProposal = {
