@@ -91,5 +91,14 @@ describe("arrays-utils", () => {
     expect(candidNumberArrayToBigInt([20000])).toBe(20_000n);
     expect(candidNumberArrayToBigInt([100000])).toBe(100_000n);
     expect(candidNumberArrayToBigInt([1000000])).toBe(1_000_000n);
+
+    // More than 2 parts:
+    expect(candidNumberArrayToBigInt([0, 0, 1])).toBe(1n << 64n);
+    expect(
+      candidNumberArrayToBigInt([
+        3735344374, 914506646, 1139096947, 3625449072, 77510495, 1540130702,
+        55083,
+      ]),
+    ).toBe(345763845793847239482739482739482739482739482374928374234928374n);
   });
 });
