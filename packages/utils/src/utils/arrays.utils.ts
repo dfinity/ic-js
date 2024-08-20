@@ -67,12 +67,10 @@ export const uint8ArrayToHexString = (bytes: Uint8Array | number[]) => {
   );
 };
 
-export const candidNumberArrayToBigInt = ([lowPart, highPart]: [
-  number,
-  number?,
-]): bigint => {
-  const low = BigInt(lowPart);
-  const high = BigInt(highPart ?? 0);
-
-  return (high << 32n) + low;
+export const candidNumberArrayToBigInt = (array: number[]): bigint => {
+  let result = 0n;
+  for (let i = array.length - 1; i >= 0; i--) {
+    result = (result << 32n) + BigInt(array[i]);
+  }
+  return result;
 };
