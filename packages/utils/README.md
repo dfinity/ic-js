@@ -242,9 +242,9 @@ Parameters:
 
 #### :gear: candidNumberArrayToBigInt
 
-| Function                    | Type                                                                |
-| --------------------------- | ------------------------------------------------------------------- |
-| `candidNumberArrayToBigInt` | `([lowPart, highPart]: [number, (number or undefined)?]) => bigint` |
+| Function                    | Type                          |
+| --------------------------- | ----------------------------- |
+| `candidNumberArrayToBigInt` | `(array: number[]) => bigint` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
 
