@@ -217,5 +217,13 @@ export const parseBtcAddress = ({
   }
 };
 
+/**
+ * Parse a Bitcoin network.
+ *
+ * Parse the Bitcoin network given as a string into a network object of type `{ network: null }`, that is used in the Bitcoin canister.
+ *
+ * @param {BitcoinNetwork} network The Bitcoin network to parse
+ * @returns {network} The parsed network
+ */
 export const parseBitcoinNetwork = (network: BitcoinNetwork): network =>
   network === "testnet" ? { testnet: null } : { mainnet: null };
