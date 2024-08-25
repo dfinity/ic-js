@@ -77,11 +77,19 @@ Parameters:
 
 #### :gear: parseBitcoinNetwork
 
+Parse a Bitcoin network.
+
+Parse the Bitcoin network given as a string into a network object of type `{ network: null }`, that is used in the Bitcoin canister.
+
 | Function              | Type                                   |
 | --------------------- | -------------------------------------- |
 | `parseBitcoinNetwork` | `(network: BitcoinNetwork) => network` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L220)
+Parameters:
+
+- `network`: The Bitcoin network to parse
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L228)
 
 ### :factory: CkBTCMinterCanister
 
@@ -320,7 +328,7 @@ Parameters:
 
 ##### :gear: getBalance
 
-Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns the current balance of this address in `Satoshi` (10^8 Satoshi = 1 Bitcoin) in the specified Bitcoin network.
+Given a `get_balance_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns the current balance of this address in `Satoshi` (10^8 Satoshi = 1 Bitcoin) in the specified Bitcoin network.
 
 | Method       | Type                                                              |
 | ------------ | ----------------------------------------------------------------- |
