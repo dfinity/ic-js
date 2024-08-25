@@ -2,10 +2,16 @@ import { Canister, createServices } from "@dfinity/utils";
 import type {
   _SERVICE as BitcoinService,
   get_utxos_response,
+  satoshi,
 } from "../candid/bitcoin";
 import { idlFactory as certifiedIdlFactory } from "../candid/bitcoin.certified.idl";
 import { idlFactory } from "../candid/bitcoin.idl";
-import { toGetUtxosParams, type GetUtxosParams } from "./types/bitcoin.params";
+import {
+  toGetBalanceParams,
+  toGetUtxosParams,
+  type GetBalanceParams,
+  type GetUtxosParams,
+} from "./types/bitcoin.params";
 import type { CkBTCCanisterOptions } from "./types/canister.options";
 
 export class BitcoinCanister extends Canister<BitcoinService> {
@@ -41,5 +47,28 @@ export class BitcoinCanister extends Canister<BitcoinService> {
     });
     const fn = certified ? bitcoin_get_utxos : bitcoin_get_utxos_query;
     return fn(toGetUtxosParams(params));
+  };
+
+  /**
+   * Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns the current balance of this address in `Satoshi` (10^8 Satoshi = 1 Bitcoin) in the specified Bitcoin network.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-bitcoin_get_utxos
+   *
+   * @param {Object} params
+   * @param {BitcoinNetwork} params.network Tesnet or mainnet.
+   * @param {Object} params.minConfirmations The optional filter parameter can be used to limit the set of considered UTXOs for the calculation of the balance to those with at least the provided number of confirmations in the same manner as for the `bitcoin_get_utxos` call.
+   * @param {string} params.address A Bitcoin address.
+   * @param {boolean} params.certified query or update call
+   * @returns {Promise<satoshi>} The balance is returned in `Satoshi` (10^8 Satoshi = 1 Bitcoin).
+   */
+  getBalance = ({
+    certified = true,
+    ...params
+  }: GetBalanceParams): Promise<satoshi> => {
+    const { bitcoin_get_balance, bitcoin_get_balance_query } = this.caller({
+      certified,
+    });
+    const fn = certified ? bitcoin_get_balance : bitcoin_get_balance_query;
+    return fn(toGetBalanceParams(params));
   };
 }
