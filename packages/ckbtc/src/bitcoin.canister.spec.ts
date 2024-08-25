@@ -174,7 +174,7 @@ describe("BitcoinCanister", () => {
         expect(res).toEqual(response);
         expect(certifiedService.bitcoin_get_balance).toHaveBeenCalledWith({
           network: { testnet: null },
-          minConfirmations: 2,
+          minConfirmations: [2],
           address: bitcoinAddressMock,
         });
         expect(service.bitcoin_get_balance_query).not.toHaveBeenCalled();
@@ -219,7 +219,7 @@ describe("BitcoinCanister", () => {
         expect(res).toEqual(response);
         expect(service.bitcoin_get_balance_query).toHaveBeenCalledWith({
           network: { testnet: null },
-          minConfirmations: 2,
+          minConfirmations: [2],
           address: bitcoinAddressMock,
         });
         expect(certifiedService.bitcoin_get_balance).not.toHaveBeenCalled();
