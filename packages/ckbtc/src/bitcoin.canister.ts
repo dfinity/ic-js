@@ -56,7 +56,7 @@ export class BitcoinCanister extends Canister<BitcoinService> {
    *
    * @param {Object} params
    * @param {BitcoinNetwork} params.network Tesnet or mainnet.
-   * @param {Object} params.minConfirmations The optional filter parameter can be used to limit the set of considered UTXOs for the calculation of the balance to those with at least the provided number of confirmations in the same manner as for the `bitcoin_get_utxos` call.
+   * @param {Object} params.min_confirmations The optional filter parameter can be used to limit the set of considered UTXOs for the calculation of the balance to those with at least the provided number of confirmations in the same manner as for the `bitcoin_get_utxos` call.
    * @param {string} params.address A Bitcoin address.
    * @param {boolean} params.certified query or update call
    * @returns {Promise<satoshi>} The balance is returned in `Satoshi` (10^8 Satoshi = 1 Bitcoin).
