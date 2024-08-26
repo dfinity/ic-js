@@ -30,15 +30,15 @@ export type GetBalanceParams = Omit<
   "network" | "min_confirmations"
 > & {
   network: BitcoinNetwork;
-  minConfirmations?: number;
+  min_confirmations?: number;
 } & QueryParams;
 
 export const toGetBalanceParams = ({
   network,
-  minConfirmations,
+  min_confirmations,
   ...rest
 }: GetBalanceParams): get_balance_request => ({
-  min_confirmations: toNullable(minConfirmations),
+  min_confirmations: toNullable(min_confirmations),
   network: mapBitcoinNetwork(network),
   ...rest,
 });
