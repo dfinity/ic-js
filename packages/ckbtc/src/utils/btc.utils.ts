@@ -2,7 +2,6 @@ import { isNullish } from "@dfinity/utils";
 import { sha256 } from "@noble/hashes/sha256";
 import { base58_to_binary } from "base58-js";
 import { bech32, bech32m, type Decoded } from "bech32";
-import type { network } from "../../candid/bitcoin";
 import { BtcAddressType, BtcNetwork } from "../enums/btc.enums";
 import {
   ParseBtcAddressBadWitnessLengthError,
@@ -14,7 +13,6 @@ import {
   ParseBtcAddressUnsupportedWitnessVersionError,
   ParseBtcAddressWrongNetworkError,
 } from "../errors/btc.errors";
-import type { BitcoinNetwork } from "../types/bitcoin.params";
 import type { BtcAddress, BtcAddressInfo } from "../types/btc";
 
 // See https://en.bitcoin.it/wiki/List_of_address_prefixes
@@ -216,14 +214,3 @@ export const parseBtcAddress = ({
       throw new ParseBtcAddressUnsupportedAddressTypeError();
   }
 };
-
-/**
- * Parse a Bitcoin network.
- *
- * Parse the Bitcoin network given as a string into a network object of type `{ network: null }`, that is used in the Bitcoin canister.
- *
- * @param {BitcoinNetwork} network The Bitcoin network to parse
- * @returns {network} The parsed network
- */
-export const parseBitcoinNetwork = (network: BitcoinNetwork): network =>
-  network === "testnet" ? { testnet: null } : { mainnet: null };
