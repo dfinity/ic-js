@@ -4,16 +4,14 @@ import fetch from "node-fetch";
 import pkg from "../packages/nns/dist/index.cjs.js";
 const { GovernanceCanister } = pkg;
 
-const refreshNeuron = async (neuronId, fetchRotkey) => {
+const refreshNeuron = async (neuronId, shouldFetchRootKey) => {
   try {
-    const agent = new HttpAgent({
+    const agent = await HttpAgent.create({
       fetch,
       host: "https://ic0.app",
       // host: "https://nnsdapp.dfinity.network",
+      shouldFetchRootKey,
     });
-    if (fetchRotkey) {
-      await agent.fetchRootKey();
-    }
     const canister = GovernanceCanister.create({
       agent,
       canisterId: Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"),

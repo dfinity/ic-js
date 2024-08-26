@@ -166,6 +166,10 @@ export interface CreateServiceNervousSystem {
   swap_parameters: [] | [SwapParameters];
   initial_token_distribution: [] | [InitialTokenDistribution];
 }
+export interface DateRangeFilter {
+  start_timestamp_seconds: [] | [bigint];
+  end_timestamp_seconds: [] | [bigint];
+}
 export interface Decimal {
   human_readable: [] | [string];
 }
@@ -362,6 +366,12 @@ export interface ListNeurons {
 export interface ListNeuronsResponse {
   neuron_infos: Array<[bigint, NeuronInfo]>;
   full_neurons: Array<Neuron>;
+}
+export interface ListNodeProviderRewardsRequest {
+  date_filter: [] | [DateRangeFilter];
+}
+export interface ListNodeProviderRewardsResponse {
+  rewards: Array<MonthlyNodeProviderRewards>;
 }
 export interface ListNodeProvidersResponse {
   node_providers: Array<NodeProvider>;
@@ -927,6 +937,10 @@ export interface _SERVICE {
   get_restore_aging_summary: ActorMethod<[], RestoreAgingSummary>;
   list_known_neurons: ActorMethod<[], ListKnownNeuronsResponse>;
   list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
+  list_node_provider_rewards: ActorMethod<
+    [ListNodeProviderRewardsRequest],
+    ListNodeProviderRewardsResponse
+  >;
   list_node_providers: ActorMethod<[], ListNodeProvidersResponse>;
   list_proposals: ActorMethod<[ListProposalInfo], ListProposalInfoResponse>;
   manage_neuron: ActorMethod<[ManageNeuronRequest], ManageNeuronResponse>;

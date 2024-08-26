@@ -11,6 +11,10 @@
 - Support conversion of `InstallCode`, `StopOrStartCanister` and `UpdateCanisterSettings` actions, `SetVisibility` neuron operation, and `Neuron::visibility` attribute.
 - Add function `getBalance` to `BitcoinCanister` object of package `@dfinity/ckbtc`, that implements the `bitcoin_get_balance` method of the IC Bitcoin API.
 
+## Build
+
+- Upgrade `agent-js` dependencies to `v2.0.0`.
+
 # 2024.07.22-0645Z
 
 ## Overview

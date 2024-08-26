@@ -51,6 +51,8 @@ export interface DefiniteCanisterSettings {
   freezing_threshold: [] | [bigint];
   controllers: Array<Principal>;
   reserved_cycles_limit: [] | [bigint];
+  log_visibility: [] | [LogVisibility];
+  wasm_memory_limit: [] | [bigint];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
@@ -85,6 +87,7 @@ export interface ListSnsCanistersResponse {
   dapps: Array<Principal>;
   archives: Array<Principal>;
 }
+export type LogVisibility = { controllers: null } | { public: null };
 export interface ManageDappCanisterSettingsRequest {
   freezing_threshold: [] | [bigint];
   canister_ids: Array<Principal>;

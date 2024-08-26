@@ -269,7 +269,6 @@ export interface UpgradeArgs {
   token_symbol: [] | [string];
   transfer_fee: [] | [bigint];
   metadata: [] | [Array<[string, MetadataValue]>];
-  maximum_number_of_accounts: [] | [bigint];
   accounts_overflow_trim_quantity: [] | [bigint];
   change_fee_collector: [] | [ChangeFeeCollector];
   max_memo_length: [] | [number];

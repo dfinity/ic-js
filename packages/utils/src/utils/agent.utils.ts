@@ -7,7 +7,7 @@ import { nonNullish } from "./nullish.utils";
  * @returns The default agent to use
  */
 export const defaultAgent = (): Agent =>
-  new HttpAgent({
+  HttpAgent.createSync({
     host: "https://icp-api.io",
     identity: new AnonymousIdentity(),
   });
@@ -34,16 +34,11 @@ export const createAgent = async ({
   verifyQuerySignatures?: boolean;
   retryTimes?: number;
 }): Promise<HttpAgent> => {
-  const agent: HttpAgent = new HttpAgent({
+  return await HttpAgent.create({
     identity,
     ...(nonNullish(host) && { host }),
     verifyQuerySignatures,
     ...(nonNullish(retryTimes) && { retryTimes }),
+    shouldFetchRootKey: fetchRootKey,
   });
-
-  if (fetchRootKey) {
-    await agent.fetchRootKey();
-  }
-
-  return agent;
 };

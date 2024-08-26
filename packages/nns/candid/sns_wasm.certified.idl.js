@@ -44,21 +44,6 @@ export const idlFactory = ({ IDL }) => {
       IdealMatchedParticipationFunction
     ),
   });
-  const Principals = IDL.Record({ 'principals' : IDL.Vec(IDL.Principal) });
-  const CfNeuron = IDL.Record({
-    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
-    'hotkeys' : IDL.Opt(Principals),
-    'nns_neuron_id' : IDL.Nat64,
-    'amount_icp_e8s' : IDL.Nat64,
-  });
-  const CfParticipant = IDL.Record({
-    'controller' : IDL.Opt(IDL.Principal),
-    'hotkey_principal' : IDL.Text,
-    'cf_neurons' : IDL.Vec(CfNeuron),
-  });
-  const NeuronsFundParticipants = IDL.Record({
-    'participants' : IDL.Vec(CfParticipant),
-  });
   const TreasuryDistribution = IDL.Record({ 'total_e8s' : IDL.Nat64 });
   const NeuronDistribution = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
@@ -119,7 +104,6 @@ export const idlFactory = ({ IDL }) => {
     'neurons_fund_participation_constraints' : IDL.Opt(
       NeuronsFundParticipationConstraints
     ),
-    'neurons_fund_participants' : IDL.Opt(NeuronsFundParticipants),
     'max_age_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'initial_token_distribution' : IDL.Opt(InitialTokenDistribution),
     'reward_rate_transition_duration_seconds' : IDL.Opt(IDL.Nat64),

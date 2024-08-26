@@ -175,7 +175,6 @@ export interface Init {
   neurons_fund_participation_constraints:
     | []
     | [NeuronsFundParticipationConstraints];
-  neurons_fund_participants: [] | [NeuronsFundParticipants];
   should_auto_finalize: [] | [boolean];
   max_participant_icp_e8s: [] | [bigint];
   sns_governance_canister_id: string;
@@ -202,6 +201,9 @@ export interface ListCommunityFundParticipantsRequest {
   offset: [] | [bigint];
   limit: [] | [number];
 }
+export interface ListCommunityFundParticipantsResponse {
+  cf_participants: Array<CfParticipant>;
+}
 export interface ListDirectParticipantsRequest {
   offset: [] | [number];
   limit: [] | [number];
@@ -227,9 +229,6 @@ export interface NeuronBasketConstructionParameters {
 }
 export interface NeuronId {
   id: Uint8Array | number[];
-}
-export interface NeuronsFundParticipants {
-  cf_participants: Array<CfParticipant>;
 }
 export interface NeuronsFundParticipationConstraints {
   coefficient_intervals: Array<LinearScalingCoefficient>;
@@ -379,7 +378,7 @@ export interface _SERVICE {
   get_state: ActorMethod<[{}], GetStateResponse>;
   list_community_fund_participants: ActorMethod<
     [ListCommunityFundParticipantsRequest],
-    NeuronsFundParticipants
+    ListCommunityFundParticipantsResponse
   >;
   list_direct_participants: ActorMethod<
     [ListDirectParticipantsRequest],
