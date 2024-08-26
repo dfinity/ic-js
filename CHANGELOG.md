@@ -4,6 +4,7 @@
 
 - Rename values of enum Topic and NnsFunction to match the backend values.
 - Use different request/response types for NNS Governance proposals, and different fields for `InstallCode` proposals.
+- The `getUtxos` parameter `filter.min_confirmations` has been renamed to `filter.minConfirmations` for consistency with the general naming conventions used in `@dfinity/ckbtc`.
 
 ## Features
 

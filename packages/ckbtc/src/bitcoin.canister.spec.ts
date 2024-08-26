@@ -25,7 +25,7 @@ describe("BitcoinCanister", () => {
   describe("bitcoinGetUtxos", () => {
     const params: Omit<GetUtxosParams, "certified"> = {
       network: "testnet",
-      filter: { min_confirmations: 2 },
+      filter: { minConfirmations: 2 },
       address: bitcoinAddressMock,
     };
 
@@ -77,6 +77,55 @@ describe("BitcoinCanister", () => {
           address: bitcoinAddressMock,
         });
         expect(service.bitcoin_get_utxos_query).not.toHaveBeenCalled();
+      });
+
+      it("call get utxos with min_confirmations", async () => {
+        const certifiedService = mock<ActorSubclass<BitcoinService>>();
+        certifiedService.bitcoin_get_utxos.mockResolvedValue(response);
+
+        const { getUtxos } = await createBitcoinCanister({
+          certifiedServiceOverride: certifiedService,
+        });
+
+        await getUtxos({
+          ...params,
+          certified: true,
+        });
+
+        expect(certifiedService.bitcoin_get_utxos).toHaveBeenCalledWith({
+          network: { testnet: null },
+          filter: [{ min_confirmations: 2 }],
+          address: bitcoinAddressMock,
+        });
+      });
+
+      it("call get utxos with page", async () => {
+        const certifiedService = mock<ActorSubclass<BitcoinService>>();
+        certifiedService.bitcoin_get_utxos.mockResolvedValue(response);
+
+        const { getUtxos } = await createBitcoinCanister({
+          certifiedServiceOverride: certifiedService,
+        });
+
+        const { filter, ...rest } = params;
+        const page = [1, 2, 3];
+        const pageParams: Omit<GetUtxosParams, "certified"> = {
+          ...rest,
+          filter: {
+            page,
+          },
+        };
+
+        await getUtxos({
+          ...pageParams,
+          certified: true,
+        });
+
+        expect(certifiedService.bitcoin_get_utxos).toHaveBeenCalledWith({
+          network: { testnet: null },
+          filter: [{ page }],
+          address: bitcoinAddressMock,
+        });
       });
 
       it("throws Error", async () => {
