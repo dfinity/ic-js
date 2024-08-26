@@ -9,6 +9,7 @@
 
 - Provide a new utility to convert Candid `Nat` to `BigInt`. This utility is useful for interpreting the fees provided by the SNS Aggregator.
 - Support conversion of `InstallCode`, `StopOrStartCanister` and `UpdateCanisterSettings` actions, `SetVisibility` neuron operation, and `Neuron::visibility` attribute.
+- Add function `getBalance` to `BitcoinCanister` object of package `@dfinity/ckbtc`, that implements the `bitcoin_get_balance` method of the IC Bitcoin API.
 
 # 2024.07.22-0645Z
 
