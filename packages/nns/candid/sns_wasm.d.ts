@@ -15,17 +15,6 @@ export interface AirdropDistribution {
 export interface Canister {
   id: [] | [Principal];
 }
-export interface CfNeuron {
-  has_created_neuron_recipes: [] | [boolean];
-  hotkeys: [] | [Principals];
-  nns_neuron_id: bigint;
-  amount_icp_e8s: bigint;
-}
-export interface CfParticipant {
-  controller: [] | [Principal];
-  hotkey_principal: string;
-  cf_neurons: Array<CfNeuron>;
-}
 export interface Countries {
   iso_codes: Array<string>;
 }
@@ -155,9 +144,6 @@ export interface NeuronDistribution {
   stake_e8s: bigint;
   vesting_period_seconds: [] | [bigint];
 }
-export interface NeuronsFundParticipants {
-  participants: Array<CfParticipant>;
-}
 export interface NeuronsFundParticipationConstraints {
   coefficient_intervals: Array<LinearScalingCoefficient>;
   max_neurons_fund_participation_icp_e8s: [] | [bigint];
@@ -176,9 +162,6 @@ export interface PrettySnsVersion {
   ledger_wasm_hash: string;
   governance_wasm_hash: string;
   index_wasm_hash: string;
-}
-export interface Principals {
-  principals: Array<Principal>;
 }
 export type Result = { Error: SnsWasmError } | { Hash: Uint8Array | number[] };
 export type Result_1 = { Ok: Ok } | { Error: SnsWasmError };
@@ -221,7 +204,6 @@ export interface SnsInitPayload {
   neurons_fund_participation_constraints:
     | []
     | [NeuronsFundParticipationConstraints];
-  neurons_fund_participants: [] | [NeuronsFundParticipants];
   max_age_bonus_percentage: [] | [bigint];
   initial_token_distribution: [] | [InitialTokenDistribution];
   reward_rate_transition_duration_seconds: [] | [bigint];

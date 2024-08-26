@@ -741,6 +741,16 @@ export const idlFactory = ({ IDL }) => {
     'neuron_infos' : IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInfo)),
     'full_neurons' : IDL.Vec(Neuron),
   });
+  const DateRangeFilter = IDL.Record({
+    'start_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const ListNodeProviderRewardsRequest = IDL.Record({
+    'date_filter' : IDL.Opt(DateRangeFilter),
+  });
+  const ListNodeProviderRewardsResponse = IDL.Record({
+    'rewards' : IDL.Vec(MonthlyNodeProviderRewards),
+  });
   const ListNodeProvidersResponse = IDL.Record({
     'node_providers' : IDL.Vec(NodeProvider),
   });
@@ -936,6 +946,11 @@ export const idlFactory = ({ IDL }) => {
     'get_restore_aging_summary' : IDL.Func([], [RestoreAgingSummary], []),
     'list_known_neurons' : IDL.Func([], [ListKnownNeuronsResponse], []),
     'list_neurons' : IDL.Func([ListNeurons], [ListNeuronsResponse], []),
+    'list_node_provider_rewards' : IDL.Func(
+        [ListNodeProviderRewardsRequest],
+        [ListNodeProviderRewardsResponse],
+        [],
+      ),
     'list_node_providers' : IDL.Func([], [ListNodeProvidersResponse], []),
     'list_proposals' : IDL.Func(
         [ListProposalInfo],

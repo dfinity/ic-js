@@ -22,21 +22,6 @@ export const idlFactory = ({ IDL }) => {
       IdealMatchedParticipationFunction
     ),
   });
-  const Principals = IDL.Record({ 'principals' : IDL.Vec(IDL.Principal) });
-  const CfNeuron = IDL.Record({
-    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
-    'hotkeys' : IDL.Opt(Principals),
-    'nns_neuron_id' : IDL.Nat64,
-    'amount_icp_e8s' : IDL.Nat64,
-  });
-  const CfParticipant = IDL.Record({
-    'controller' : IDL.Opt(IDL.Principal),
-    'hotkey_principal' : IDL.Text,
-    'cf_neurons' : IDL.Vec(CfNeuron),
-  });
-  const NeuronsFundParticipants = IDL.Record({
-    'cf_participants' : IDL.Vec(CfParticipant),
-  });
   const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const Init = IDL.Record({
     'nns_proposal_id' : IDL.Opt(IDL.Nat64),
@@ -61,7 +46,6 @@ export const idlFactory = ({ IDL }) => {
     'neurons_fund_participation_constraints' : IDL.Opt(
       NeuronsFundParticipationConstraints
     ),
-    'neurons_fund_participants' : IDL.Opt(NeuronsFundParticipants),
     'should_auto_finalize' : IDL.Opt(IDL.Bool),
     'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'sns_governance_canister_id' : IDL.Text,
@@ -243,6 +227,7 @@ export const idlFactory = ({ IDL }) => {
     'memo' : IDL.Nat64,
     'followees' : IDL.Vec(NeuronId),
   });
+  const Principals = IDL.Record({ 'principals' : IDL.Vec(IDL.Principal) });
   const CfInvestment = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
     'hotkey_principal' : IDL.Text,
@@ -259,6 +244,17 @@ export const idlFactory = ({ IDL }) => {
     'claimed_status' : IDL.Opt(IDL.Int32),
     'neuron_attributes' : IDL.Opt(NeuronAttributes),
     'investor' : IDL.Opt(Investor),
+  });
+  const CfNeuron = IDL.Record({
+    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
+    'hotkeys' : IDL.Opt(Principals),
+    'nns_neuron_id' : IDL.Nat64,
+    'amount_icp_e8s' : IDL.Nat64,
+  });
+  const CfParticipant = IDL.Record({
+    'controller' : IDL.Opt(IDL.Principal),
+    'hotkey_principal' : IDL.Text,
+    'cf_neurons' : IDL.Vec(CfNeuron),
   });
   const Swap = IDL.Record({
     'auto_finalize_swap_response' : IDL.Opt(FinalizeSwapResponse),
@@ -297,6 +293,9 @@ export const idlFactory = ({ IDL }) => {
   const ListCommunityFundParticipantsRequest = IDL.Record({
     'offset' : IDL.Opt(IDL.Nat64),
     'limit' : IDL.Opt(IDL.Nat32),
+  });
+  const ListCommunityFundParticipantsResponse = IDL.Record({
+    'cf_participants' : IDL.Vec(CfParticipant),
   });
   const ListDirectParticipantsRequest = IDL.Record({
     'offset' : IDL.Opt(IDL.Nat32),
@@ -382,7 +381,7 @@ export const idlFactory = ({ IDL }) => {
     'get_state' : IDL.Func([IDL.Record({})], [GetStateResponse], []),
     'list_community_fund_participants' : IDL.Func(
         [ListCommunityFundParticipantsRequest],
-        [NeuronsFundParticipants],
+        [ListCommunityFundParticipantsResponse],
         [],
       ),
     'list_direct_participants' : IDL.Func(
@@ -431,21 +430,6 @@ export const init = ({ IDL }) => {
       IdealMatchedParticipationFunction
     ),
   });
-  const Principals = IDL.Record({ 'principals' : IDL.Vec(IDL.Principal) });
-  const CfNeuron = IDL.Record({
-    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
-    'hotkeys' : IDL.Opt(Principals),
-    'nns_neuron_id' : IDL.Nat64,
-    'amount_icp_e8s' : IDL.Nat64,
-  });
-  const CfParticipant = IDL.Record({
-    'controller' : IDL.Opt(IDL.Principal),
-    'hotkey_principal' : IDL.Text,
-    'cf_neurons' : IDL.Vec(CfNeuron),
-  });
-  const NeuronsFundParticipants = IDL.Record({
-    'cf_participants' : IDL.Vec(CfParticipant),
-  });
   const Countries = IDL.Record({ 'iso_codes' : IDL.Vec(IDL.Text) });
   const Init = IDL.Record({
     'nns_proposal_id' : IDL.Opt(IDL.Nat64),
@@ -470,7 +454,6 @@ export const init = ({ IDL }) => {
     'neurons_fund_participation_constraints' : IDL.Opt(
       NeuronsFundParticipationConstraints
     ),
-    'neurons_fund_participants' : IDL.Opt(NeuronsFundParticipants),
     'should_auto_finalize' : IDL.Opt(IDL.Bool),
     'max_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
     'sns_governance_canister_id' : IDL.Text,
