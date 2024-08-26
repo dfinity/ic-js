@@ -1,8 +1,10 @@
+import { expect } from "@jest/globals";
 import {
   arrayBufferToUint8Array,
   arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   bigIntToUint8Array,
+  candidNumberArrayToBigInt,
   hexStringToUint8Array,
   numberToUint8Array,
   uint8ArrayToArrayOfNumber,
@@ -74,5 +76,29 @@ describe("arrays-utils", () => {
 
   it("should convert array of numbers to string", () => {
     expect(uint8ArrayToHexString(Array.from(hexArray))).toEqual(hex);
+  });
+
+  it("should convert Candid Nat to BigInt", () => {
+    // DOGMI fee
+    expect(candidNumberArrayToBigInt([705032704, 1])).toBe(5_000_000_000n);
+
+    // Interpretation of the fees without high bits
+    expect(candidNumberArrayToBigInt([705032704, 0])).toBe(70_5032_704n);
+    expect(candidNumberArrayToBigInt([705032704])).toBe(70_5032_704n);
+
+    // Common SNS fees
+    expect(candidNumberArrayToBigInt([10000])).toBe(10_000n);
+    expect(candidNumberArrayToBigInt([20000])).toBe(20_000n);
+    expect(candidNumberArrayToBigInt([100000])).toBe(100_000n);
+    expect(candidNumberArrayToBigInt([1000000])).toBe(1_000_000n);
+
+    // More than 2 parts:
+    expect(candidNumberArrayToBigInt([0, 0, 1])).toBe(1n << 64n);
+    expect(
+      candidNumberArrayToBigInt([
+        3735344374, 914506646, 1139096947, 3625449072, 77510495, 1540130702,
+        55083,
+      ]),
+    ).toBe(345763845793847239482739482739482739482739482374928374234928374n);
   });
 });

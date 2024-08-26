@@ -275,12 +275,13 @@ Parameters:
 
 ### :factory: IcrcIndexCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L13)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L14)
 
 #### Methods
 
 - [create](#gear-create)
 - [getTransactions](#gear-gettransactions)
+- [ledgerId](#gear-ledgerid)
 
 ##### :gear: create
 
@@ -288,7 +289,7 @@ Parameters:
 | -------- | --------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L14)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L15)
 
 ##### :gear: getTransactions
 
@@ -303,7 +304,17 @@ Index Canister only holds the transactions ids in state, not the whole transacti
 | ----------------- | -------------------------------------------------------------------- |
 | `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L33)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L34)
+
+##### :gear: ledgerId
+
+Returns the ledger canister ID related to the index canister.
+
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
+| `ledgerId` | `(params: QueryParams) => Promise<Principal>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L51)
 
 ### :factory: IcrcIndexNgCanister
 

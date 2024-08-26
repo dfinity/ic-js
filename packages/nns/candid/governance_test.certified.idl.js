@@ -1,5 +1,6 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/nns/candid/governance_test.did */
 export const idlFactory = ({ IDL }) => {
+  const ManageNeuronRequest = IDL.Rec();
   const Proposal = IDL.Rec();
   const NeuronId = IDL.Record({ 'id' : IDL.Nat64 });
   const Followees = IDL.Record({ 'followees' : IDL.Vec(NeuronId) });
@@ -117,10 +118,10 @@ export const idlFactory = ({ IDL }) => {
     'settings' : IDL.Opt(CanisterSettings),
   });
   const InstallCode = IDL.Record({
-    'arg' : IDL.Opt(IDL.Vec(IDL.Nat8)),
-    'wasm_module' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'skip_stopping_before_installing' : IDL.Opt(IDL.Bool),
+    'wasm_module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'canister_id' : IDL.Opt(IDL.Principal),
+    'arg_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'install_mode' : IDL.Opt(IDL.Int32),
   });
   const StopOrStartCanister = IDL.Record({
@@ -425,6 +426,7 @@ export const idlFactory = ({ IDL }) => {
     'not_dissolving_neurons_e8s_buckets_seed' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
+    'public_neuron_subset_metrics' : IDL.Opt(NeuronSubsetMetrics),
     'timestamp_seconds' : IDL.Nat64,
     'seed_neuron_count' : IDL.Nat64,
   });
@@ -730,6 +732,7 @@ export const idlFactory = ({ IDL }) => {
     'known_neurons' : IDL.Vec(KnownNeuron),
   });
   const ListNeurons = IDL.Record({
+    'include_public_neurons_in_full_neurons' : IDL.Opt(IDL.Bool),
     'neuron_ids' : IDL.Vec(IDL.Nat64),
     'include_empty_neurons_readable_by_caller' : IDL.Opt(IDL.Bool),
     'include_neurons_readable_by_caller' : IDL.Bool,
@@ -737,6 +740,16 @@ export const idlFactory = ({ IDL }) => {
   const ListNeuronsResponse = IDL.Record({
     'neuron_infos' : IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInfo)),
     'full_neurons' : IDL.Vec(Neuron),
+  });
+  const DateRangeFilter = IDL.Record({
+    'start_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'end_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const ListNodeProviderRewardsRequest = IDL.Record({
+    'date_filter' : IDL.Opt(DateRangeFilter),
+  });
+  const ListNodeProviderRewardsResponse = IDL.Record({
+    'rewards' : IDL.Vec(MonthlyNodeProviderRewards),
   });
   const ListNodeProvidersResponse = IDL.Record({
     'node_providers' : IDL.Vec(NodeProvider),
@@ -753,6 +766,58 @@ export const idlFactory = ({ IDL }) => {
   const ListProposalInfoResponse = IDL.Record({
     'proposal_info' : IDL.Vec(ProposalInfo),
   });
+  const InstallCodeRequest = IDL.Record({
+    'arg' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'wasm_module' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'skip_stopping_before_installing' : IDL.Opt(IDL.Bool),
+    'canister_id' : IDL.Opt(IDL.Principal),
+    'install_mode' : IDL.Opt(IDL.Int32),
+  });
+  const ProposalActionRequest = IDL.Variant({
+    'RegisterKnownNeuron' : KnownNeuron,
+    'ManageNeuron' : ManageNeuronRequest,
+    'UpdateCanisterSettings' : UpdateCanisterSettings,
+    'InstallCode' : InstallCodeRequest,
+    'StopOrStartCanister' : StopOrStartCanister,
+    'CreateServiceNervousSystem' : CreateServiceNervousSystem,
+    'ExecuteNnsFunction' : ExecuteNnsFunction,
+    'RewardNodeProvider' : RewardNodeProvider,
+    'OpenSnsTokenSwap' : OpenSnsTokenSwap,
+    'SetSnsTokenSwapOpenTimeWindow' : SetSnsTokenSwapOpenTimeWindow,
+    'SetDefaultFollowees' : SetDefaultFollowees,
+    'RewardNodeProviders' : RewardNodeProviders,
+    'ManageNetworkEconomics' : NetworkEconomics,
+    'ApproveGenesisKyc' : Principals,
+    'AddOrRemoveNodeProvider' : AddOrRemoveNodeProvider,
+    'Motion' : Motion,
+  });
+  const MakeProposalRequest = IDL.Record({
+    'url' : IDL.Text,
+    'title' : IDL.Opt(IDL.Text),
+    'action' : IDL.Opt(ProposalActionRequest),
+    'summary' : IDL.Text,
+  });
+  const ManageNeuronCommandRequest = IDL.Variant({
+    'Spawn' : Spawn,
+    'Split' : Split,
+    'Follow' : Follow,
+    'ClaimOrRefresh' : ClaimOrRefresh,
+    'Configure' : Configure,
+    'RegisterVote' : RegisterVote,
+    'Merge' : Merge,
+    'DisburseToNeuron' : DisburseToNeuron,
+    'MakeProposal' : MakeProposalRequest,
+    'StakeMaturity' : StakeMaturity,
+    'MergeMaturity' : MergeMaturity,
+    'Disburse' : Disburse,
+  });
+  ManageNeuronRequest.fill(
+    IDL.Record({
+      'id' : IDL.Opt(NeuronId),
+      'command' : IDL.Opt(ManageNeuronCommandRequest),
+      'neuron_id_or_subaccount' : IDL.Opt(NeuronIdOrSubaccount),
+    })
+  );
   const SpawnResponse = IDL.Record({ 'created_neuron_id' : IDL.Opt(NeuronId) });
   const ClaimOrRefreshResponse = IDL.Record({
     'refreshed_neuron_id' : IDL.Opt(NeuronId),
@@ -881,13 +946,22 @@ export const idlFactory = ({ IDL }) => {
     'get_restore_aging_summary' : IDL.Func([], [RestoreAgingSummary], []),
     'list_known_neurons' : IDL.Func([], [ListKnownNeuronsResponse], []),
     'list_neurons' : IDL.Func([ListNeurons], [ListNeuronsResponse], []),
+    'list_node_provider_rewards' : IDL.Func(
+        [ListNodeProviderRewardsRequest],
+        [ListNodeProviderRewardsResponse],
+        [],
+      ),
     'list_node_providers' : IDL.Func([], [ListNodeProvidersResponse], []),
     'list_proposals' : IDL.Func(
         [ListProposalInfo],
         [ListProposalInfoResponse],
         [],
       ),
-    'manage_neuron' : IDL.Func([ManageNeuron], [ManageNeuronResponse], []),
+    'manage_neuron' : IDL.Func(
+        [ManageNeuronRequest],
+        [ManageNeuronResponse],
+        [],
+      ),
     'settle_community_fund_participation' : IDL.Func(
         [SettleCommunityFundParticipation],
         [Result],
@@ -899,7 +973,7 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'simulate_manage_neuron' : IDL.Func(
-        [ManageNeuron],
+        [ManageNeuronRequest],
         [ManageNeuronResponse],
         [],
       ),
@@ -1026,10 +1100,10 @@ export const init = ({ IDL }) => {
     'settings' : IDL.Opt(CanisterSettings),
   });
   const InstallCode = IDL.Record({
-    'arg' : IDL.Opt(IDL.Vec(IDL.Nat8)),
-    'wasm_module' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'skip_stopping_before_installing' : IDL.Opt(IDL.Bool),
+    'wasm_module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'canister_id' : IDL.Opt(IDL.Principal),
+    'arg_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'install_mode' : IDL.Opt(IDL.Int32),
   });
   const StopOrStartCanister = IDL.Record({
@@ -1334,6 +1408,7 @@ export const init = ({ IDL }) => {
     'not_dissolving_neurons_e8s_buckets_seed' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
+    'public_neuron_subset_metrics' : IDL.Opt(NeuronSubsetMetrics),
     'timestamp_seconds' : IDL.Nat64,
     'seed_neuron_count' : IDL.Nat64,
   });

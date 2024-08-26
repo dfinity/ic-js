@@ -1,4 +1,4 @@
-// Generated from IC repo commit de29a1a (2024-07-18 tags: release-2024-07-18_01-30--github-base) 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
+// Generated from IC repo commit 3d6a76e (2024-08-14 tags: release-2024-08-21_15-36-canister-snapshots) 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
 type BlockIndex = nat;
 type Subaccount = blob;
 // Number of nanoseconds since the UNIX epoch in UTC timezone.
@@ -145,7 +145,6 @@ type UpgradeArgs = record {
     change_fee_collector : opt ChangeFeeCollector;
     max_memo_length : opt nat16;
     feature_flags : opt FeatureFlags;
-    maximum_number_of_accounts: opt nat64;
     accounts_overflow_trim_quantity: opt nat64;
     change_archive_options : opt ChangeArchiveOptions;
 };

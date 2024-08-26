@@ -66,3 +66,11 @@ export const uint8ArrayToHexString = (bytes: Uint8Array | number[]) => {
     "",
   );
 };
+
+export const candidNumberArrayToBigInt = (array: number[]): bigint => {
+  let result = 0n;
+  for (let i = array.length - 1; i >= 0; i--) {
+    result = (result << 32n) + BigInt(array[i]);
+  }
+  return result;
+};

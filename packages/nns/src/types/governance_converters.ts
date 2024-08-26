@@ -40,6 +40,25 @@ export type Action =
   | { Motion: Motion }
   | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
   | { OpenSnsTokenSwap: OpenSnsTokenSwap };
+export type ProposalActionRequest =
+  | { RegisterKnownNeuron: KnownNeuron }
+  | {
+      ExecuteNnsFunction: ExecuteNnsFunction;
+    }
+  | { CreateServiceNervousSystem: CreateServiceNervousSystem }
+  | { ManageNeuron: ManageNeuronRequest }
+  | { InstallCode: InstallCodeRequest }
+  | { StopOrStartCanister: StopOrStartCanister }
+  | { UpdateCanisterSettings: UpdateCanisterSettings }
+  | { ApproveGenesisKyc: ApproveGenesisKyc }
+  | { ManageNetworkEconomics: NetworkEconomics }
+  | { RewardNodeProvider: RewardNodeProvider }
+  | { RewardNodeProviders: RewardNodeProviders }
+  | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
+  | { SetDefaultFollowees: SetDefaultFollowees }
+  | { Motion: Motion }
+  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
+  | { OpenSnsTokenSwap: OpenSnsTokenSwap };
 export interface AddHotKey {
   newHotKey: Option<PrincipalString>;
 }
@@ -90,6 +109,19 @@ export type Command =
   | { MergeMaturity: MergeMaturity }
   | { StakeMaturity: StakeMaturity }
   | { MakeProposal: Proposal }
+  | { Disburse: Disburse };
+export type ManageNeuronCommandRequest =
+  | { Spawn: Spawn }
+  | { Split: Split }
+  | { Follow: Follow }
+  | { ClaimOrRefresh: ClaimOrRefresh }
+  | { Configure: Configure }
+  | { RegisterVote: RegisterVote }
+  | { Merge: Merge }
+  | { DisburseToNeuron: DisburseToNeuron }
+  | { MergeMaturity: MergeMaturity }
+  | { StakeMaturity: StakeMaturity }
+  | { MakeProposal: MakeProposalRequest }
   | { Disburse: Disburse };
 export interface Configure {
   operation: Option<Operation>;
@@ -193,9 +225,21 @@ export interface ManageNeuron {
   command: Option<Command>;
   neuronIdOrSubaccount: Option<NeuronIdOrSubaccount>;
 }
+export interface ManageNeuronRequest {
+  id: Option<NeuronId>;
+  command: Option<ManageNeuronCommandRequest>;
+  neuronIdOrSubaccount: Option<NeuronIdOrSubaccount>;
+}
 export interface InstallCode {
-  arg?: ArrayBuffer;
-  wasmModule?: ArrayBuffer;
+  argHash: string;
+  wasmModuleHash: string;
+  skipStoppingBeforeInstalling: Option<boolean>;
+  canisterId: Option<PrincipalString>;
+  installMode: Option<CanisterInstallMode>;
+}
+export interface InstallCodeRequest {
+  arg: ArrayBuffer;
+  wasmModule: ArrayBuffer;
   skipStoppingBeforeInstalling: Option<boolean>;
   canisterId: Option<PrincipalString>;
   installMode: Option<CanisterInstallMode>;
@@ -506,7 +550,7 @@ export interface MakeProposalRequest {
   title: Option<string>;
   url: string;
   summary: string;
-  action: Action;
+  action: ProposalActionRequest;
 }
 
 export interface MakeMotionProposalRequest {

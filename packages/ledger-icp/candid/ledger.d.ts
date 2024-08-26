@@ -257,7 +257,6 @@ export type TransferFromResult =
   | { Err: TransferFromError };
 export type TransferResult = { Ok: BlockIndex } | { Err: TransferError };
 export interface UpgradeArgs {
-  maximum_number_of_accounts: [] | [bigint];
   icrc1_minting_account: [] | [Account];
   feature_flags: [] | [FeatureFlags];
 }

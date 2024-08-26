@@ -14,11 +14,11 @@ import type {
   Amount,
   ListProposalInfo,
   AccountIdentifier as RawAccountIdentifier,
-  Action as RawAction,
+  ProposalActionRequest as RawAction,
   By as RawBy,
   CanisterSettings as RawCanisterSettings,
   Change as RawChange,
-  Command as RawCommand,
+  ManageNeuronCommandRequest as RawCommand,
   Countries as RawCountries,
   CreateServiceNervousSystem as RawCreateServiceNervousSystem,
   Decimal as RawDecimal,
@@ -29,10 +29,10 @@ import type {
   GovernanceParameters as RawGovernanceParameters,
   Image as RawImage,
   InitialTokenDistribution as RawInitialTokenDistribution,
-  InstallCode as RawInstallCode,
+  InstallCodeRequest as RawInstallCode,
   LedgerParameters as RawLedgerParameters,
   ListNeurons as RawListNeurons,
-  ManageNeuron as RawManageNeuron,
+  ManageNeuronRequest as RawManageNeuron,
   NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
   NeuronDistribution as RawNeuronDistribution,
   NeuronId as RawNeuronId,
@@ -52,12 +52,10 @@ import type { NeuronVisibility, Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { E8s, NeuronId, Option } from "../../types/common";
 import type {
-  Action,
   By,
   CanisterSettings,
   Change,
   ClaimOrRefreshNeuronRequest,
-  Command,
   Countries,
   CreateServiceNervousSystem,
   Decimal,
@@ -69,11 +67,12 @@ import type {
   GovernanceParameters,
   Image,
   InitialTokenDistribution,
-  InstallCode,
+  InstallCodeRequest,
   LedgerParameters,
   ListProposalsRequest,
   MakeProposalRequest,
-  ManageNeuron,
+  ManageNeuronCommandRequest,
+  ManageNeuronRequest,
   NeuronBasketConstructionParameters,
   NeuronDistribution,
   NeuronIdOrSubaccount,
@@ -82,6 +81,7 @@ import type {
   NodeProvider,
   Operation,
   Percentage,
+  ProposalActionRequest,
   ProposalId,
   RewardMode,
   SwapDistribution,
@@ -423,7 +423,7 @@ const fromCreateServiceNervousSystem = (
       : [],
 });
 
-const fromInstallCode = (installCode: InstallCode): RawInstallCode => {
+const fromInstallCode = (installCode: InstallCodeRequest): RawInstallCode => {
   if (installCode.wasmModule === undefined) {
     throw new Error("wasmModule not found");
   }
@@ -470,7 +470,7 @@ const fromCanisterSettings = (
       ];
 };
 
-const fromAction = (action: Action): RawAction => {
+const fromAction = (action: ProposalActionRequest): RawAction => {
   if ("ExecuteNnsFunction" in action) {
     const executeNnsFunction = action.ExecuteNnsFunction;
 
@@ -716,7 +716,7 @@ const fromAction = (action: Action): RawAction => {
   throw new UnsupportedValueError(action);
 };
 
-const fromCommand = (command: Command): RawCommand => {
+const fromCommand = (command: ManageNeuronCommandRequest): RawCommand => {
   if ("Split" in command) {
     const split = command.Split;
     return {
@@ -1075,20 +1075,23 @@ const fromClaimOrRefreshBy = (by: By): RawBy => {
 export const fromListNeurons = ({
   neuronIds,
   includeEmptyNeurons,
+  includePublicNeurons,
 }: {
   neuronIds?: NeuronId[];
   includeEmptyNeurons?: boolean;
+  includePublicNeurons?: boolean;
 }): RawListNeurons => ({
   neuron_ids: BigUint64Array.from(neuronIds ?? []),
   include_neurons_readable_by_caller: neuronIds ? false : true,
   include_empty_neurons_readable_by_caller: toNullable(includeEmptyNeurons),
+  include_public_neurons_in_full_neurons: toNullable(includePublicNeurons),
 });
 
 export const fromManageNeuron = ({
   id,
   command,
   neuronIdOrSubaccount,
-}: ManageNeuron): RawManageNeuron => ({
+}: ManageNeuronRequest): RawManageNeuron => ({
   id: id ? [fromNeuronId(id)] : [],
   command: command ? [fromCommand(command)] : [],
   neuron_id_or_subaccount: neuronIdOrSubaccount

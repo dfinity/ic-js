@@ -18,6 +18,17 @@ export const idlFactory = ({ IDL }) => {
     'min_confirmations' : IDL.Opt(IDL.Nat32),
   });
   const bitcoin_get_balance_query_result = satoshi;
+  const bitcoin_block_height = IDL.Nat32;
+  const bitcoin_get_block_headers_args = IDL.Record({
+    'start_height' : bitcoin_block_height,
+    'end_height' : IDL.Opt(bitcoin_block_height),
+    'network' : bitcoin_network,
+  });
+  const bitcoin_block_header = IDL.Vec(IDL.Nat8);
+  const bitcoin_get_block_headers_result = IDL.Record({
+    'tip_height' : bitcoin_block_height,
+    'block_headers' : IDL.Vec(bitcoin_block_header),
+  });
   const bitcoin_get_current_fee_percentiles_args = IDL.Record({
     'network' : bitcoin_network,
   });
@@ -35,7 +46,7 @@ export const idlFactory = ({ IDL }) => {
     ),
     'address' : bitcoin_address,
   });
-  const block_hash = IDL.Vec(IDL.Nat8);
+  const bitcoin_block_hash = IDL.Vec(IDL.Nat8);
   const outpoint = IDL.Record({
     'txid' : IDL.Vec(IDL.Nat8),
     'vout' : IDL.Nat32,
@@ -47,8 +58,8 @@ export const idlFactory = ({ IDL }) => {
   });
   const bitcoin_get_utxos_result = IDL.Record({
     'next_page' : IDL.Opt(IDL.Vec(IDL.Nat8)),
-    'tip_height' : IDL.Nat32,
-    'tip_block_hash' : block_hash,
+    'tip_height' : bitcoin_block_height,
+    'tip_block_hash' : bitcoin_block_hash,
     'utxos' : IDL.Vec(utxo),
   });
   const bitcoin_get_utxos_query_args = IDL.Record({
@@ -63,8 +74,8 @@ export const idlFactory = ({ IDL }) => {
   });
   const bitcoin_get_utxos_query_result = IDL.Record({
     'next_page' : IDL.Opt(IDL.Vec(IDL.Nat8)),
-    'tip_height' : IDL.Nat32,
-    'tip_block_hash' : block_hash,
+    'tip_height' : bitcoin_block_height,
+    'tip_block_hash' : bitcoin_block_hash,
     'utxos' : IDL.Vec(utxo),
   });
   const bitcoin_send_transaction_args = IDL.Record({
@@ -270,12 +281,39 @@ export const idlFactory = ({ IDL }) => {
     'amount' : IDL.Nat,
   });
   const raw_rand_result = IDL.Vec(IDL.Nat8);
+  const schnorr_algorithm = IDL.Variant({
+    'ed25519' : IDL.Null,
+    'bip340secp256k1' : IDL.Null,
+  });
+  const schnorr_public_key_args = IDL.Record({
+    'key_id' : IDL.Record({
+      'algorithm' : schnorr_algorithm,
+      'name' : IDL.Text,
+    }),
+    'canister_id' : IDL.Opt(canister_id),
+    'derivation_path' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+  });
+  const schnorr_public_key_result = IDL.Record({
+    'public_key' : IDL.Vec(IDL.Nat8),
+    'chain_code' : IDL.Vec(IDL.Nat8),
+  });
   const sign_with_ecdsa_args = IDL.Record({
     'key_id' : IDL.Record({ 'name' : IDL.Text, 'curve' : ecdsa_curve }),
     'derivation_path' : IDL.Vec(IDL.Vec(IDL.Nat8)),
     'message_hash' : IDL.Vec(IDL.Nat8),
   });
   const sign_with_ecdsa_result = IDL.Record({
+    'signature' : IDL.Vec(IDL.Nat8),
+  });
+  const sign_with_schnorr_args = IDL.Record({
+    'key_id' : IDL.Record({
+      'algorithm' : schnorr_algorithm,
+      'name' : IDL.Text,
+    }),
+    'derivation_path' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+    'message' : IDL.Vec(IDL.Nat8),
+  });
+  const sign_with_schnorr_result = IDL.Record({
     'signature' : IDL.Vec(IDL.Nat8),
   });
   const start_canister_args = IDL.Record({ 'canister_id' : canister_id });
@@ -306,6 +344,11 @@ export const idlFactory = ({ IDL }) => {
         [bitcoin_get_balance_query_args],
         [bitcoin_get_balance_query_result],
         ['query'],
+      ),
+    'bitcoin_get_block_headers' : IDL.Func(
+        [bitcoin_get_block_headers_args],
+        [bitcoin_get_block_headers_result],
+        [],
       ),
     'bitcoin_get_current_fee_percentiles' : IDL.Func(
         [bitcoin_get_current_fee_percentiles_args],
@@ -374,9 +417,19 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'raw_rand' : IDL.Func([], [raw_rand_result], []),
+    'schnorr_public_key' : IDL.Func(
+        [schnorr_public_key_args],
+        [schnorr_public_key_result],
+        [],
+      ),
     'sign_with_ecdsa' : IDL.Func(
         [sign_with_ecdsa_args],
         [sign_with_ecdsa_result],
+        [],
+      ),
+    'sign_with_schnorr' : IDL.Func(
+        [sign_with_schnorr_args],
+        [sign_with_schnorr_result],
         [],
       ),
     'start_canister' : IDL.Func([start_canister_args], [], []),

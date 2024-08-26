@@ -1,5 +1,15 @@
 # Next
 
+## Breaking changes
+
+- Rename values of enum Topic and NnsFunction to match the backend values.
+- Use different request/response types for NNS Governance proposals, and different fields for `InstallCode` proposals.
+
+## Features
+
+- Provide a new utility to convert Candid `Nat` to `BigInt`. This utility is useful for interpreting the fees provided by the SNS Aggregator.
+- Support conversion of `InstallCode`, `StopOrStartCanister` and `UpdateCanisterSettings` actions, `SetVisibility` neuron operation, and `Neuron::visibility` attribute.
+
 ## Build
 
 - Upgrade `agent-js` dependencies to `v2.0.0`.
@@ -30,7 +40,6 @@ The current status of the libraries at the time of the release is as follows:
 - Extend `eip1559TransactionPrice` for Erc20.
 - Add "Protocol Canister Management" and "Service Nervous System Management" topics support.
 - Add `asNonNullish` function, like `assertNonNullish` but returns the value.
-- Support conversion of `InstallCode`, `StopOrStartCanister` and `UpdateCanisterSettings` actions, `SetVisibility` neuron operation, and `Neuron::visibility` attribute.
 
 ## Fix
 
