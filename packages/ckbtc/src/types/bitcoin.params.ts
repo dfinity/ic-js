@@ -1,7 +1,14 @@
 import { toNullable, type QueryParams } from "@dfinity/utils";
-import type { get_utxos_request } from "../../candid/bitcoin";
+import type {
+  get_balance_request,
+  get_utxos_request,
+  network,
+} from "../../candid/bitcoin";
 
 export type BitcoinNetwork = "testnet" | "mainnet";
+
+const mapBitcoinNetwork = (network: BitcoinNetwork): network =>
+  network === "testnet" ? { testnet: null } : { mainnet: null };
 
 export type GetUtxosParams = Omit<get_utxos_request, "network" | "filter"> & {
   network: BitcoinNetwork;
@@ -14,6 +21,24 @@ export const toGetUtxosParams = ({
   ...rest
 }: GetUtxosParams): get_utxos_request => ({
   filter: toNullable(filter),
-  network: network === "testnet" ? { testnet: null } : { mainnet: null },
+  network: mapBitcoinNetwork(network),
+  ...rest,
+});
+
+export type GetBalanceParams = Omit<
+  get_balance_request,
+  "network" | "min_confirmations"
+> & {
+  network: BitcoinNetwork;
+  min_confirmations?: number;
+} & QueryParams;
+
+export const toGetBalanceParams = ({
+  network,
+  min_confirmations,
+  ...rest
+}: GetBalanceParams): get_balance_request => ({
+  min_confirmations: toNullable(min_confirmations),
+  network: mapBitcoinNetwork(network),
   ...rest,
 });

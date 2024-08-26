@@ -276,12 +276,13 @@ Parameters:
 
 ### :factory: BitcoinCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L11)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L17)
 
 #### Methods
 
 - [create](#gear-create)
 - [getUtxos](#gear-getutxos)
+- [getBalance](#gear-getbalance)
 
 ##### :gear: create
 
@@ -289,7 +290,7 @@ Parameters:
 | -------- | -------------------------------------------------------------- |
 | `create` | `(options: CkBTCCanisterOptions<_SERVICE>) => BitcoinCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L12)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L18)
 
 ##### :gear: getUtxos
 
@@ -306,7 +307,24 @@ Parameters:
 - `params.address`: A Bitcoin address.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L35)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L41)
+
+##### :gear: getBalance
+
+Given a `get_balance_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns the current balance of this address in `Satoshi` (10^8 Satoshi = 1 Bitcoin) in the specified Bitcoin network.
+
+| Method       | Type                                                              |
+| ------------ | ----------------------------------------------------------------- |
+| `getBalance` | `({ certified, ...params }: GetBalanceParams) => Promise<bigint>` |
+
+Parameters:
+
+- `params.network`: Tesnet or mainnet.
+- `params.min_confirmations`: The optional filter parameter can be used to limit the set of considered UTXOs for the calculation of the balance to those with at least the provided number of confirmations in the same manner as for the `bitcoin_get_utxos` call.
+- `params.address`: A Bitcoin address.
+- `params.certified`: query or update call
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L64)
 
 <!-- TSDOC_END -->
 
