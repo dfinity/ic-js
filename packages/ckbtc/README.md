@@ -320,7 +320,7 @@ Given a `get_balance_request`, which must specify a Bitcoin address and a Bitcoi
 Parameters:
 
 - `params.network`: Tesnet or mainnet.
-- `params.minConfirmations`: The optional filter parameter can be used to limit the set of considered UTXOs for the calculation of the balance to those with at least the provided number of confirmations in the same manner as for the `bitcoin_get_utxos` call.
+- `params.min_confirmations`: The optional filter parameter can be used to limit the set of considered UTXOs for the calculation of the balance to those with at least the provided number of confirmations in the same manner as for the `bitcoin_get_utxos` call.
 - `params.address`: A Bitcoin address.
 - `params.certified`: query or update call
 
