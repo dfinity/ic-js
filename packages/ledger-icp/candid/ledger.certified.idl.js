@@ -7,7 +7,6 @@ export const idlFactory = ({ IDL }) => {
   });
   const FeatureFlags = IDL.Record({ 'icrc2' : IDL.Bool });
   const UpgradeArgs = IDL.Record({
-    'maximum_number_of_accounts' : IDL.Opt(IDL.Nat64),
     'icrc1_minting_account' : IDL.Opt(Account),
     'feature_flags' : IDL.Opt(FeatureFlags),
   });
@@ -370,7 +369,6 @@ export const init = ({ IDL }) => {
   });
   const FeatureFlags = IDL.Record({ 'icrc2' : IDL.Bool });
   const UpgradeArgs = IDL.Record({
-    'maximum_number_of_accounts' : IDL.Opt(IDL.Nat64),
     'icrc1_minting_account' : IDL.Opt(Account),
     'feature_flags' : IDL.Opt(FeatureFlags),
   });
