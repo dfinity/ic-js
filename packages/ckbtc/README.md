@@ -54,7 +54,6 @@ const btcAddress = await getBtcAddress({});
 ### :toolbox: Functions
 
 - [parseBtcAddress](#gear-parsebtcaddress)
-- [parseBitcoinNetwork](#gear-parsebitcoinnetwork)
 
 #### :gear: parseBtcAddress
 
@@ -73,23 +72,7 @@ Parameters:
 - `params`: The Bitcoin address and network to parse
 - `params.network`: Optional. Default BtcNetwork is Mainnet
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L197)
-
-#### :gear: parseBitcoinNetwork
-
-Parse a Bitcoin network.
-
-Parse the Bitcoin network given as a string into a network object of type `{ network: null }`, that is used in the Bitcoin canister.
-
-| Function              | Type                                   |
-| --------------------- | -------------------------------------- |
-| `parseBitcoinNetwork` | `(network: BitcoinNetwork) => network` |
-
-Parameters:
-
-- `network`: The Bitcoin network to parse
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L228)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L195)
 
 ### :factory: CkBTCMinterCanister
 
