@@ -196,7 +196,7 @@ describe("BitcoinCanister", () => {
   describe("bitcoinGetBalance", () => {
     const params: Omit<GetBalanceParams, "certified"> = {
       network: "testnet",
-      min_confirmations: 2,
+      minConfirmations: 2,
       address: bitcoinAddressMock,
     };
 
