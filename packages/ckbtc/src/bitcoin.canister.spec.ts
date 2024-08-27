@@ -107,10 +107,9 @@ describe("BitcoinCanister", () => {
           certifiedServiceOverride: certifiedService,
         });
 
-        const { filter, ...rest } = params;
         const page = [1, 2, 3];
         const pageParams: Omit<GetUtxosParams, "certified"> = {
-          ...rest,
+          ...params,
           filter: {
             page,
           },
