@@ -296,35 +296,37 @@ Parameters:
 
 Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns all unspent transaction outputs (UTXOs) associated with the provided address in the specified Bitcoin network based on the current view of the Bitcoin blockchain available to the Bitcoin component.
 
-| Method     | Type                                                                        |
-| ---------- | --------------------------------------------------------------------------- |
-| `getUtxos` | `({ certified, ...params }: GetUtxosParams) => Promise<get_utxos_response>` |
+⚠️ Note that this method does not support certified calls because only canisters are allowed to get UTXOs via update calls.
+
+| Method     | Type                                                             |
+| ---------- | ---------------------------------------------------------------- |
+| `getUtxos` | `({ ...params }: GetUtxosParams) => Promise<get_utxos_response>` |
 
 Parameters:
 
 - `params.network`: Tesnet or mainnet.
 - `params.filter`: The optional filter parameter can be used to restrict the set of returned UTXOs, either providing a minimum number of confirmations or a page reference when pagination is used for addresses with many UTXOs.
 - `params.address`: A Bitcoin address.
-- `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L41)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L42)
 
 ##### :gear: getBalance
 
 Given a `get_balance_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns the current balance of this address in `Satoshi` (10^8 Satoshi = 1 Bitcoin) in the specified Bitcoin network.
 
-| Method       | Type                                                              |
-| ------------ | ----------------------------------------------------------------- |
-| `getBalance` | `({ certified, ...params }: GetBalanceParams) => Promise<bigint>` |
+⚠️ Note that this method does not support certified calls because only canisters are allowed to get Bitcoin balance via update calls.
+
+| Method       | Type                                                   |
+| ------------ | ------------------------------------------------------ |
+| `getBalance` | `({ ...params }: GetBalanceParams) => Promise<bigint>` |
 
 Parameters:
 
 - `params.network`: Tesnet or mainnet.
 - `params.min_confirmations`: The optional filter parameter can be used to limit the set of considered UTXOs for the calculation of the balance to those with at least the provided number of confirmations in the same manner as for the `bitcoin_get_utxos` call.
 - `params.address`: A Bitcoin address.
-- `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L64)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L62)
 
 <!-- TSDOC_END -->
 
