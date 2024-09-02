@@ -281,8 +281,8 @@ Parameters:
 #### Methods
 
 - [create](#gear-create)
-- [getUtxos](#gear-getutxos)
-- [getBalance](#gear-getbalance)
+- [getUtxosQuery](#gear-getutxosquery)
+- [getBalanceQuery](#gear-getbalancequery)
 
 ##### :gear: create
 
@@ -292,15 +292,15 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L18)
 
-##### :gear: getUtxos
+##### :gear: getUtxosQuery
 
 Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns all unspent transaction outputs (UTXOs) associated with the provided address in the specified Bitcoin network based on the current view of the Bitcoin blockchain available to the Bitcoin component.
 
 ⚠️ Note that this method does not support certified calls because only canisters are allowed to get UTXOs via update calls.
 
-| Method     | Type                                                             |
-| ---------- | ---------------------------------------------------------------- |
-| `getUtxos` | `({ ...params }: GetUtxosParams) => Promise<get_utxos_response>` |
+| Method          | Type                                                             |
+| --------------- | ---------------------------------------------------------------- |
+| `getUtxosQuery` | `({ ...params }: GetUtxosParams) => Promise<get_utxos_response>` |
 
 Parameters:
 
@@ -310,15 +310,15 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L42)
 
-##### :gear: getBalance
+##### :gear: getBalanceQuery
 
 Given a `get_balance_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns the current balance of this address in `Satoshi` (10^8 Satoshi = 1 Bitcoin) in the specified Bitcoin network.
 
 ⚠️ Note that this method does not support certified calls because only canisters are allowed to get Bitcoin balance via update calls.
 
-| Method       | Type                                                   |
-| ------------ | ------------------------------------------------------ |
-| `getBalance` | `({ ...params }: GetBalanceParams) => Promise<bigint>` |
+| Method            | Type                                                   |
+| ----------------- | ------------------------------------------------------ |
+| `getBalanceQuery` | `({ ...params }: GetBalanceParams) => Promise<bigint>` |
 
 Parameters:
 
@@ -326,7 +326,7 @@ Parameters:
 - `params.min_confirmations`: The optional filter parameter can be used to limit the set of considered UTXOs for the calculation of the balance to those with at least the provided number of confirmations in the same manner as for the `bitcoin_get_utxos` call.
 - `params.address`: A Bitcoin address.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L62)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L64)
 
 <!-- TSDOC_END -->
 
