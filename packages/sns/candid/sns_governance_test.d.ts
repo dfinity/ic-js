@@ -138,6 +138,7 @@ export interface DefaultFollowees {
 export interface DefiniteCanisterSettingsArgs {
   freezing_threshold: bigint;
   controllers: Array<Principal>;
+  wasm_memory_limit: [] | [bigint];
   memory_allocation: bigint;
   compute_allocation: bigint;
 }

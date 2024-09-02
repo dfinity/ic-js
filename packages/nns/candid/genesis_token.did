@@ -1,4 +1,4 @@
-// Generated from IC repo commit 3d6a76e (2024-08-14 tags: release-2024-08-21_15-36-canister-snapshots) 'rs/nns/gtc/canister/gtc.did' by import-candid
+// Generated from IC repo commit 35bfcad (2024-08-29 tags: release-2024-08-29_01-30-base) 'rs/nns/gtc/canister/gtc.did' by import-candid
 type AccountState = record {
   authenticated_principal_id : opt principal;
   successfully_transferred_neurons : vec TransferredNeuron;
@@ -10,15 +10,32 @@ type AccountState = record {
   has_forwarded : bool;
   icpts : nat32;
 };
-type NeuronId = record { id : nat64 };
-type Result = variant { Ok : vec NeuronId; Err : text };
-type Result_1 = variant { Ok; Err : text };
-type Result_2 = variant { Ok : AccountState; Err : text };
+
+type NeuronId = record {
+  id : nat64
+};
+
+type Result = variant {
+  Ok : vec NeuronId;
+  Err : text
+};
+
+type Result_1 = variant {
+  Ok;
+  Err : text
+};
+
+type Result_2 = variant {
+  Ok : AccountState;
+  Err : text
+};
+
 type TransferredNeuron = record {
   error : opt text;
   timestamp_seconds : nat64;
   neuron_id : opt NeuronId;
 };
+
 service : {
   balance : (text) -> (nat32) query;
   claim_neurons : (text) -> (Result);

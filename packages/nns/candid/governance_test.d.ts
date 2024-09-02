@@ -70,17 +70,6 @@ export interface CanisterSummary {
   status: [] | [CanisterStatusResultV2];
   canister_id: [] | [Principal];
 }
-export interface CfNeuron {
-  has_created_neuron_recipes: [] | [boolean];
-  hotkeys: [] | [Principals];
-  nns_neuron_id: bigint;
-  amount_icp_e8s: bigint;
-}
-export interface CfParticipant {
-  controller: [] | [Principal];
-  hotkey_principal: string;
-  cf_neurons: Array<CfNeuron>;
-}
 export type Change = { ToRemove: NodeProvider } | { ToAdd: NodeProvider };
 export interface ChangeAutoStakeMaturity {
   requested_setting_for_auto_stake_maturity: boolean;
@@ -690,7 +679,6 @@ export type ProposalActionRequest =
 export interface ProposalData {
   id: [] | [NeuronId];
   failure_reason: [] | [GovernanceError];
-  cf_participants: Array<CfParticipant>;
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
   reward_event_round: bigint;
@@ -750,7 +738,9 @@ export type Result_2 = { Ok: Neuron } | { Err: GovernanceError };
 export type Result_3 =
   | { Ok: GovernanceCachedMetrics }
   | { Err: GovernanceError };
-export type Result_4 = { Ok: RewardNodeProviders } | { Err: GovernanceError };
+export type Result_4 =
+  | { Ok: MonthlyNodeProviderRewards }
+  | { Err: GovernanceError };
 export type Result_5 = { Ok: NeuronInfo } | { Err: GovernanceError };
 export type Result_6 = { Ok: Ok } | { Err: GovernanceError };
 export type Result_7 = { Ok: NodeProvider } | { Err: GovernanceError };
