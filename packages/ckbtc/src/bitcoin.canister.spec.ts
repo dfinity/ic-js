@@ -20,7 +20,7 @@ describe("BitcoinCanister", () => {
       ...services,
     });
 
-  describe("bitcoinGetUtxos", () => {
+  describe("bitcoinGetUtxosQuery", () => {
     const params: Omit<GetUtxosParams, "certified"> = {
       network: "testnet",
       filter: { minConfirmations: 2 },
@@ -55,11 +55,11 @@ describe("BitcoinCanister", () => {
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_utxos_query.mockResolvedValue(response);
 
-      const { getUtxos } = createBitcoinCanister({
+      const { getUtxosQuery } = createBitcoinCanister({
         serviceOverride: service,
       });
 
-      const res = await getUtxos({
+      const res = await getUtxosQuery({
         ...params,
       });
 
@@ -76,11 +76,11 @@ describe("BitcoinCanister", () => {
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_utxos_query.mockResolvedValue(response);
 
-      const { getUtxos } = createBitcoinCanister({
+      const { getUtxosQuery } = createBitcoinCanister({
         serviceOverride: service,
       });
 
-      await getUtxos({
+      await getUtxosQuery({
         ...params,
       });
 
@@ -95,7 +95,7 @@ describe("BitcoinCanister", () => {
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_utxos_query.mockResolvedValue(response);
 
-      const { getUtxos } = createBitcoinCanister({
+      const { getUtxosQuery } = createBitcoinCanister({
         serviceOverride: service,
       });
 
@@ -107,7 +107,7 @@ describe("BitcoinCanister", () => {
         },
       };
 
-      await getUtxos({
+      await getUtxosQuery({
         ...pageParams,
       });
 
@@ -123,12 +123,12 @@ describe("BitcoinCanister", () => {
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_utxos_query.mockRejectedValue(error);
 
-      const { getUtxos } = createBitcoinCanister({
+      const { getUtxosQuery } = createBitcoinCanister({
         serviceOverride: service,
       });
 
       const call = () =>
-        getUtxos({
+        getUtxosQuery({
           ...params,
         });
 
@@ -139,11 +139,11 @@ describe("BitcoinCanister", () => {
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_utxos_query.mockResolvedValue(response);
 
-      const { getUtxos } = createBitcoinCanister({
+      const { getUtxosQuery } = createBitcoinCanister({
         serviceOverride: service,
       });
 
-      await getUtxos({
+      await getUtxosQuery({
         ...params,
       });
 
@@ -151,7 +151,7 @@ describe("BitcoinCanister", () => {
     });
   });
 
-  describe("bitcoinGetBalance", () => {
+  describe("bitcoinGetBalanceQuery", () => {
     const params: Omit<GetBalanceParams, "certified"> = {
       network: "testnet",
       minConfirmations: 2,
@@ -164,11 +164,11 @@ describe("BitcoinCanister", () => {
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_balance_query.mockResolvedValue(response);
 
-      const { getBalance } = createBitcoinCanister({
+      const { getBalanceQuery } = createBitcoinCanister({
         serviceOverride: service,
       });
 
-      const res = await getBalance({
+      const res = await getBalanceQuery({
         ...params,
       });
 
@@ -185,12 +185,12 @@ describe("BitcoinCanister", () => {
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_balance_query.mockRejectedValue(error);
 
-      const { getBalance } = createBitcoinCanister({
+      const { getBalanceQuery } = createBitcoinCanister({
         serviceOverride: service,
       });
 
       const call = () =>
-        getBalance({
+        getBalanceQuery({
           ...params,
         });
 
@@ -201,11 +201,11 @@ describe("BitcoinCanister", () => {
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_balance_query.mockResolvedValue(response);
 
-      const { getBalance } = createBitcoinCanister({
+      const { getBalanceQuery } = createBitcoinCanister({
         serviceOverride: service,
       });
 
-      await getBalance({
+      await getBalanceQuery({
         ...params,
       });
 
