@@ -13,17 +13,14 @@ import { GetBalanceParams, GetUtxosParams } from "./types/bitcoin.params";
 
 describe("BitcoinCanister", () => {
   const createBitcoinCanister = (
-    services: Pick<
-      CanisterOptions<BitcoinService>,
-      "serviceOverride" | "certifiedServiceOverride"
-    >,
+    services: Pick<CanisterOptions<BitcoinService>, "serviceOverride">,
   ): BitcoinCanister =>
     BitcoinCanister.create({
       canisterId: bitcoinCanisterIdMock,
       ...services,
     });
 
-  describe("bitcoinGetUtxos", () => {
+  describe("bitcoinGetUtxosQuery", () => {
     const params: Omit<GetUtxosParams, "certified"> = {
       network: "testnet",
       filter: { minConfirmations: 2 },
@@ -54,146 +51,107 @@ describe("BitcoinCanister", () => {
       ],
     };
 
-    describe("certified", () => {
-      it("returns get utxos result when success", async () => {
-        const certifiedService = mock<ActorSubclass<BitcoinService>>();
-        certifiedService.bitcoin_get_utxos.mockResolvedValue(response);
+    it("returns get utxos result when success", async () => {
+      const service = mock<ActorSubclass<BitcoinService>>();
+      service.bitcoin_get_utxos_query.mockResolvedValue(response);
 
-        const service = mock<ActorSubclass<BitcoinService>>();
-
-        const { getUtxos } = await createBitcoinCanister({
-          certifiedServiceOverride: certifiedService,
-          serviceOverride: service,
-        });
-
-        const res = await getUtxos({
-          ...params,
-          certified: true,
-        });
-
-        expect(res).toEqual(response);
-        expect(certifiedService.bitcoin_get_utxos).toHaveBeenCalledWith({
-          network: { testnet: null },
-          filter: [{ min_confirmations: 2 }],
-          address: bitcoinAddressMock,
-        });
-        expect(service.bitcoin_get_utxos_query).not.toHaveBeenCalled();
+      const { getUtxosQuery } = createBitcoinCanister({
+        serviceOverride: service,
       });
 
-      it("call get utxos with min_confirmations", async () => {
-        const certifiedService = mock<ActorSubclass<BitcoinService>>();
-        certifiedService.bitcoin_get_utxos.mockResolvedValue(response);
-
-        const { getUtxos } = await createBitcoinCanister({
-          certifiedServiceOverride: certifiedService,
-        });
-
-        await getUtxos({
-          ...params,
-          certified: true,
-        });
-
-        expect(certifiedService.bitcoin_get_utxos).toHaveBeenCalledWith({
-          network: { testnet: null },
-          filter: [{ min_confirmations: 2 }],
-          address: bitcoinAddressMock,
-        });
+      const res = await getUtxosQuery({
+        ...params,
       });
 
-      it("call get utxos with page", async () => {
-        const certifiedService = mock<ActorSubclass<BitcoinService>>();
-        certifiedService.bitcoin_get_utxos.mockResolvedValue(response);
+      expect(res).toEqual(response);
+      expect(service.bitcoin_get_utxos_query).toHaveBeenCalledWith({
+        network: { testnet: null },
+        filter: [{ min_confirmations: 2 }],
+        address: bitcoinAddressMock,
+      });
+      expect(service.bitcoin_get_utxos).not.toHaveBeenCalled();
+    });
 
-        const { getUtxos } = await createBitcoinCanister({
-          certifiedServiceOverride: certifiedService,
-        });
+    it("call get utxos with min_confirmations", async () => {
+      const service = mock<ActorSubclass<BitcoinService>>();
+      service.bitcoin_get_utxos_query.mockResolvedValue(response);
 
-        const page = [1, 2, 3];
-        const pageParams: Omit<GetUtxosParams, "certified"> = {
-          ...params,
-          filter: {
-            page,
-          },
-        };
-
-        await getUtxos({
-          ...pageParams,
-          certified: true,
-        });
-
-        expect(certifiedService.bitcoin_get_utxos).toHaveBeenCalledWith({
-          network: { testnet: null },
-          filter: [{ page }],
-          address: bitcoinAddressMock,
-        });
+      const { getUtxosQuery } = createBitcoinCanister({
+        serviceOverride: service,
       });
 
-      it("throws Error", async () => {
-        const error = new Error("Test");
-        const certifiedService = mock<ActorSubclass<BitcoinService>>();
-        certifiedService.bitcoin_get_utxos.mockRejectedValue(error);
+      await getUtxosQuery({
+        ...params,
+      });
 
-        const { getUtxos } = await createBitcoinCanister({
-          certifiedServiceOverride: certifiedService,
-        });
-
-        const call = () =>
-          getUtxos({
-            ...params,
-            certified: true,
-          });
-
-        expect(call).rejects.toThrowError(Error);
+      expect(service.bitcoin_get_utxos_query).toHaveBeenCalledWith({
+        network: { testnet: null },
+        filter: [{ min_confirmations: 2 }],
+        address: bitcoinAddressMock,
       });
     });
 
-    describe("Not certified", () => {
-      it("returns get utxos query result when success", async () => {
-        const service = mock<ActorSubclass<BitcoinService>>();
-        service.bitcoin_get_utxos_query.mockResolvedValue(response);
+    it("call get utxos with page", async () => {
+      const service = mock<ActorSubclass<BitcoinService>>();
+      service.bitcoin_get_utxos_query.mockResolvedValue(response);
 
-        const certifiedService = mock<ActorSubclass<BitcoinService>>();
+      const { getUtxosQuery } = createBitcoinCanister({
+        serviceOverride: service,
+      });
 
-        const { getUtxos } = await createBitcoinCanister({
-          certifiedServiceOverride: certifiedService,
-          serviceOverride: service,
-        });
+      const page = [1, 2, 3];
+      const pageParams: Omit<GetUtxosParams, "certified"> = {
+        ...params,
+        filter: {
+          page,
+        },
+      };
 
-        const res = await getUtxos({
+      await getUtxosQuery({
+        ...pageParams,
+      });
+
+      expect(service.bitcoin_get_utxos_query).toHaveBeenCalledWith({
+        network: { testnet: null },
+        filter: [{ page }],
+        address: bitcoinAddressMock,
+      });
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<ActorSubclass<BitcoinService>>();
+      service.bitcoin_get_utxos_query.mockRejectedValue(error);
+
+      const { getUtxosQuery } = createBitcoinCanister({
+        serviceOverride: service,
+      });
+
+      const call = () =>
+        getUtxosQuery({
           ...params,
-          certified: false,
         });
 
-        expect(res).toEqual(response);
-        expect(service.bitcoin_get_utxos_query).toHaveBeenCalledWith({
-          network: { testnet: null },
-          filter: [{ min_confirmations: 2 }],
-          address: bitcoinAddressMock,
-        });
-        expect(certifiedService.bitcoin_get_utxos).not.toHaveBeenCalled();
+      expect(call).rejects.toThrowError(Error);
+    });
+
+    it("should not call certified end point", async () => {
+      const service = mock<ActorSubclass<BitcoinService>>();
+      service.bitcoin_get_utxos_query.mockResolvedValue(response);
+
+      const { getUtxosQuery } = createBitcoinCanister({
+        serviceOverride: service,
       });
 
-      it("throws Error", async () => {
-        const error = new Error("Test");
-        const service = mock<ActorSubclass<BitcoinService>>();
-        service.bitcoin_get_utxos_query.mockRejectedValue(error);
-
-        const { getUtxos } = await createBitcoinCanister({
-          serviceOverride: service,
-        });
-
-        const call = () =>
-          getUtxos({
-            ...params,
-            certified: false,
-          });
-
-        expect(call).rejects.toThrowError(Error);
+      await getUtxosQuery({
+        ...params,
       });
+
+      expect(service.bitcoin_get_utxos).not.toHaveBeenCalled();
     });
   });
 
-  describe("bitcoinGetBalance", () => {
+  describe("bitcoinGetBalanceQuery", () => {
     const params: Omit<GetBalanceParams, "certified"> = {
       network: "testnet",
       minConfirmations: 2,
@@ -202,94 +160,56 @@ describe("BitcoinCanister", () => {
 
     const response: satoshi = 1000n;
 
-    describe("certified", () => {
-      it("returns balance result when success", async () => {
-        const certifiedService = mock<ActorSubclass<BitcoinService>>();
-        certifiedService.bitcoin_get_balance.mockResolvedValue(response);
+    it("returns balance result when success", async () => {
+      const service = mock<ActorSubclass<BitcoinService>>();
+      service.bitcoin_get_balance_query.mockResolvedValue(response);
 
-        const service = mock<ActorSubclass<BitcoinService>>();
-
-        const { getBalance } = await createBitcoinCanister({
-          certifiedServiceOverride: certifiedService,
-          serviceOverride: service,
-        });
-
-        const res = await getBalance({
-          ...params,
-          certified: true,
-        });
-
-        expect(res).toEqual(response);
-        expect(certifiedService.bitcoin_get_balance).toHaveBeenCalledWith({
-          network: { testnet: null },
-          min_confirmations: [2],
-          address: bitcoinAddressMock,
-        });
-        expect(service.bitcoin_get_balance_query).not.toHaveBeenCalled();
+      const { getBalanceQuery } = createBitcoinCanister({
+        serviceOverride: service,
       });
 
-      it("throws Error", async () => {
-        const error = new Error("Test");
-        const certifiedService = mock<ActorSubclass<BitcoinService>>();
-        certifiedService.bitcoin_get_balance.mockRejectedValue(error);
+      const res = await getBalanceQuery({
+        ...params,
+      });
 
-        const { getBalance } = await createBitcoinCanister({
-          certifiedServiceOverride: certifiedService,
-        });
-
-        const call = () =>
-          getBalance({
-            ...params,
-            certified: true,
-          });
-
-        expect(call).rejects.toThrowError(Error);
+      expect(res).toEqual(response);
+      expect(service.bitcoin_get_balance_query).toHaveBeenCalledWith({
+        network: { testnet: null },
+        min_confirmations: [2],
+        address: bitcoinAddressMock,
       });
     });
 
-    describe("Not certified", () => {
-      it("returns balance query result when success", async () => {
-        const service = mock<ActorSubclass<BitcoinService>>();
-        service.bitcoin_get_balance_query.mockResolvedValue(response);
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<ActorSubclass<BitcoinService>>();
+      service.bitcoin_get_balance_query.mockRejectedValue(error);
 
-        const certifiedService = mock<ActorSubclass<BitcoinService>>();
+      const { getBalanceQuery } = createBitcoinCanister({
+        serviceOverride: service,
+      });
 
-        const { getBalance } = await createBitcoinCanister({
-          certifiedServiceOverride: certifiedService,
-          serviceOverride: service,
-        });
-
-        const res = await getBalance({
+      const call = () =>
+        getBalanceQuery({
           ...params,
-          certified: false,
         });
 
-        expect(res).toEqual(response);
-        expect(service.bitcoin_get_balance_query).toHaveBeenCalledWith({
-          network: { testnet: null },
-          min_confirmations: [2],
-          address: bitcoinAddressMock,
-        });
-        expect(certifiedService.bitcoin_get_balance).not.toHaveBeenCalled();
+      expect(call).rejects.toThrowError(Error);
+    });
+
+    it("should not call certified end point", async () => {
+      const service = mock<ActorSubclass<BitcoinService>>();
+      service.bitcoin_get_balance_query.mockResolvedValue(response);
+
+      const { getBalanceQuery } = createBitcoinCanister({
+        serviceOverride: service,
       });
 
-      it("throws Error", async () => {
-        const error = new Error("Test");
-        const service = mock<ActorSubclass<BitcoinService>>();
-        service.bitcoin_get_balance_query.mockRejectedValue(error);
-
-        const { getBalance } = await createBitcoinCanister({
-          serviceOverride: service,
-        });
-
-        const call = () =>
-          getBalance({
-            ...params,
-            certified: false,
-          });
-
-        expect(call).rejects.toThrowError(Error);
+      await getBalanceQuery({
+        ...params,
       });
+
+      expect(service.bitcoin_get_balance).not.toHaveBeenCalled();
     });
   });
 });

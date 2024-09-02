@@ -13,7 +13,7 @@ const mapBitcoinNetwork = (network: BitcoinNetwork): network =>
 export type GetUtxosParams = Omit<get_utxos_request, "network" | "filter"> & {
   network: BitcoinNetwork;
   filter?: { page: Uint8Array | number[] } | { minConfirmations: number };
-} & QueryParams;
+} & Omit<QueryParams, "certified">;
 
 export const toGetUtxosParams = ({
   network,
@@ -37,7 +37,7 @@ export type GetBalanceParams = Omit<
 > & {
   network: BitcoinNetwork;
   minConfirmations?: number;
-} & QueryParams;
+} & Omit<QueryParams, "certified">;
 
 export const toGetBalanceParams = ({
   network,
