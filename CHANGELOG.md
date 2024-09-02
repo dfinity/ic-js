@@ -1,16 +1,34 @@
-# Next
+# 2024.09.02-0830Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v3.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/cketh`         | v3.3.0  | Maintained ⚙️       |
+| `@dfinity/cmc`           | v3.2.0  | Maintained ⚙️       |
+| `@dfinity/ic-management` | v5.2.0  | Maintained ⚙️       |
+| `@dfinity/ledger-icp`    | v2.5.0  | Maintained ⚙️       |
+| `@dfinity/ledger-icrc`   | v2.5.0  | Maintained ⚙️       |
+| `@dfinity/nns`           | v6.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns-proto`     | v2.0.1  | Maintained ⚙️️      |
+| `@dfinity/sns`           | v3.2.0  | Maintained ⚙️       |
+| `@dfinity/utils`         | v2.5.0  | Maintained ⚙️       |
 
 ## Breaking changes
 
 - Rename values of enum Topic and NnsFunction to match the backend values.
 - Use different request/response types for NNS Governance proposals, and different fields for `InstallCode` proposals.
 - The `getUtxos` parameter `filter.min_confirmations` has been renamed to `filter.minConfirmations` for consistency with the general naming conventions used in `@dfinity/ckbtc`.
+- Only queries to `getUtxos` of the Bitcoin canister can be executed by external users — i.e., update calls can only be performed by the canister. This is why `getUtxos` now only supports non-certified calls and has been renamed to `getUtxosQuery`.
 
 ## Features
 
 - Provide a new utility to convert Candid `Nat` to `BigInt`. This utility is useful for interpreting the fees provided by the SNS Aggregator.
 - Support conversion of `InstallCode`, `StopOrStartCanister` and `UpdateCanisterSettings` actions, `SetVisibility` neuron operation, and `Neuron::visibility` attribute.
-- Add function `getBalance` to `BitcoinCanister` object of package `@dfinity/ckbtc`, that implements the `bitcoin_get_balance` method of the IC Bitcoin API.
+- Add function `getBalanceQuery` to `BitcoinCanister` object of package `@dfinity/ckbtc`, that implements the `bitcoin_get_balance_query` method of the IC Bitcoin API.
 
 ## Build
 
