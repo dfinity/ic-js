@@ -39,7 +39,9 @@ export class BitcoinCanister extends Canister<BitcoinService> {
    * @param {string} params.address A Bitcoin address.
    * @returns {Promise<bitcoin_get_utxos_result>} The UTXOs are returned sorted by block height in descending order.
    */
-  getUtxosQuery = ({ ...params }: GetUtxosParams): Promise<get_utxos_response> => {
+  getUtxosQuery = ({
+    ...params
+  }: GetUtxosParams): Promise<get_utxos_response> => {
     const { bitcoin_get_utxos_query } = this.caller({
       certified: false,
     });
