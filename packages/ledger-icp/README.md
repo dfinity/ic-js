@@ -162,7 +162,7 @@ const data = await metadata();
 
 ### :factory: LedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L31)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L36)
 
 #### Methods
 
@@ -173,6 +173,7 @@ const data = await metadata();
 - [transfer](#gear-transfer)
 - [icrc1Transfer](#gear-icrc1transfer)
 - [icrc2Approve](#gear-icrc2approve)
+- [icrc21ConsentMessage](#gear-icrc21consentmessage)
 
 ##### :gear: create
 
@@ -180,7 +181,7 @@ const data = await metadata();
 | -------- | ----------------------------------------------------- |
 | `create` | `(options?: LedgerCanisterOptions) => LedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L32)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L37)
 
 ##### :gear: accountBalance
 
@@ -199,7 +200,7 @@ Parameters:
 - `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
 - `params.certified`: query or update call.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L60)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L65)
 
 ##### :gear: metadata
 
@@ -213,7 +214,7 @@ Parameters:
 
 - `params`: - The parameters used to fetch the metadata, notably query or certified call.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L79)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L84)
 
 ##### :gear: transactionFee
 
@@ -227,7 +228,7 @@ Parameters:
 
 - `params`: - Optional query parameters for the request, defaulting to `{ certified: false }` for backwards compatibility reason.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L90)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L95)
 
 ##### :gear: transfer
 
@@ -238,7 +239,7 @@ Returns the index of the block containing the tx if it was successful.
 | ---------- | ----------------------------------------------- |
 | `transfer` | `(request: TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L108)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L113)
 
 ##### :gear: icrc1Transfer
 
@@ -249,7 +250,7 @@ Returns the index of the block containing the tx if it was successful.
 | --------------- | ---------------------------------------------------- |
 | `icrc1Transfer` | `(request: Icrc1TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L128)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L133)
 
 ##### :gear: icrc2Approve
 
@@ -265,7 +266,23 @@ Parameters:
 
 - `params`: - The parameters to approve.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L148)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L153)
+
+##### :gear: icrc21ConsentMessage
+
+Fetches the consent message for a specified canister call, intended to provide a human-readable message that helps users make informed decisions.
+
+Reference: https://github.com/dfinity/wg-identity-authentication/blob/main/topics/ICRC-21/icrc_21_consent_msg.md
+
+| Method                 | Type                                                                    |
+| ---------------------- | ----------------------------------------------------------------------- |
+| `icrc21ConsentMessage` | `(params: Icrc21ConsentMessageRequest) => Promise<icrc21_consent_info>` |
+
+Parameters:
+
+- `params`: - The request parameters containing the method name, arguments, and consent preferences (e.g., language).
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L175)
 
 ### :factory: IndexCanister
 
