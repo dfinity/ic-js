@@ -272,8 +272,6 @@ Parameters:
 
 Fetches the consent message for a specified canister call, intended to provide a human-readable message that helps users make informed decisions.
 
-Reference: https://github.com/dfinity/wg-identity-authentication/blob/main/topics/ICRC-21/icrc_21_consent_msg.md
-
 | Method                 | Type                                                                    |
 | ---------------------- | ----------------------------------------------------------------------- |
 | `icrc21ConsentMessage` | `(params: Icrc21ConsentMessageRequest) => Promise<icrc21_consent_info>` |
@@ -282,7 +280,7 @@ Parameters:
 
 - `params`: - The request parameters containing the method name, arguments, and consent preferences (e.g., language).
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L174)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L179)
 
 ### :factory: IndexCanister
 
