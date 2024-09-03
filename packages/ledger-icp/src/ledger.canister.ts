@@ -166,11 +166,16 @@ export class LedgerCanister extends Canister<LedgerService> {
   /**
    * Fetches the consent message for a specified canister call, intended to provide a human-readable message that helps users make informed decisions.
    *
-   * Reference: https://github.com/dfinity/wg-identity-authentication/blob/main/topics/ICRC-21/icrc_21_consent_msg.md
+   * @link: https://github.com/dfinity/wg-identity-authentication/blob/main/topics/ICRC-21/icrc_21_consent_msg.md
    *
    * @param {Icrc21ConsentMessageRequest} params - The request parameters containing the method name, arguments, and consent preferences (e.g., language).
-   * @returns {Promise<icrc21_consent_message_response>} - A promise that resolves to the consent message response, which includes the consent message in the specified language and other related information.
-   * */
+   * @returns {Promise<icrc21_consent_info>} - A promise that resolves to the consent message response, which includes the consent message in the specified language and other related information.
+   *
+   * @throws {InsufficientPaymentError} - ????
+   * @throws {UnsupportedCanisterCallError} - If the specified canister call is not supported.
+   * @throws {ConsentMessageUnavailableError} - If there is no consent message available.
+   * @throws {GenericError} - For any other generic errors.
+   */
   icrc21ConsentMessage = async (
     params: Icrc21ConsentMessageRequest,
   ): Promise<icrc21_consent_info> => {
