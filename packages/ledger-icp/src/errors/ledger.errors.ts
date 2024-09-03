@@ -1,6 +1,7 @@
 import type {
   Icrc1BlockIndex,
   Icrc1Tokens,
+  icrc21_error as Icrc21RawError,
   ApproveError as RawApproveError,
   Icrc1TransferError as RawIcrc1TransferError,
   TransferError as RawTransferError,
@@ -11,6 +12,7 @@ export class IcrcError extends Error {}
 
 export class TransferError extends IcrcError {}
 export class ApproveError extends IcrcError {}
+export class ConsentMessageError extends IcrcError {}
 
 export class InvalidSenderError extends TransferError {}
 
@@ -73,6 +75,10 @@ export class ExpiredError extends ApproveError {
     super();
   }
 }
+
+export class InsufficientPaymentError extends ConsentMessageError {}
+export class UnsupportedCanisterCallError extends ConsentMessageError {}
+export class ConsentMessageUnavailableError extends ConsentMessageError {}
 
 export const mapTransferError = (
   rawTransferError: RawTransferError,
@@ -182,5 +188,38 @@ export const mapIcrc2ApproveError = (
   // Edge case
   return new ApproveError(
     `Unknown error type ${JSON.stringify(rawApproveError)}`,
+  );
+};
+
+export const mapIcrc21ConsentMessageError = (
+  rawError: Icrc21RawError,
+): ConsentMessageError => {
+  if ("GenericError" in rawError) {
+    return new GenericError(
+      rawError.GenericError.description,
+      rawError.GenericError.error_code,
+    );
+  }
+
+  if ("InsufficientPayment" in rawError) {
+    return new InsufficientPaymentError(
+      rawError.InsufficientPayment.description,
+    );
+  }
+
+  if ("UnsupportedCanisterCall" in rawError) {
+    return new UnsupportedCanisterCallError(
+      rawError.UnsupportedCanisterCall.description,
+    );
+  }
+  if ("ConsentMessageUnavailable" in rawError) {
+    return new ConsentMessageUnavailableError(
+      rawError.ConsentMessageUnavailable.description,
+    );
+  }
+
+  // Edge case
+  return new ConsentMessageError(
+    `Unknown error type ${JSON.stringify(rawError)}`,
   );
 };

@@ -1,28 +1,33 @@
 import type { Principal } from "@dfinity/principal";
 import { Canister, createServices, type QueryParams } from "@dfinity/utils";
-import type {
+import {
   Icrc1BlockIndex,
   _SERVICE as LedgerService,
   Value,
+  icrc21_consent_info,
+  icrc21_consent_message_response,
 } from "../candid/ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
 import { idlFactory } from "../candid/ledger.idl";
 import {
   toIcrc1TransferRawRequest,
+  toIcrc21ConsentMessageRawRequest,
   toIcrc2ApproveRawRequest,
   toTransferRawRequest,
 } from "./canisters/ledger/ledger.request.converts";
 import { MAINNET_LEDGER_CANISTER_ID } from "./constants/canister_ids";
 import {
   mapIcrc1TransferError,
+  mapIcrc21ConsentMessageError,
   mapIcrc2ApproveError,
   mapTransferError,
 } from "./errors/ledger.errors";
 import type { BlockHeight } from "./types/common";
 import type { LedgerCanisterOptions } from "./types/ledger.options";
 import type { AccountBalanceParams } from "./types/ledger.params";
-import type {
+import {
   Icrc1TransferRequest,
+  Icrc21ConsentMessageRequest,
   Icrc2ApproveRequest,
   TransferRequest,
 } from "./types/ledger_converters";
@@ -154,6 +159,32 @@ export class LedgerCanister extends Canister<LedgerService> {
 
     if ("Err" in response) {
       throw mapIcrc2ApproveError(response.Err);
+    }
+
+    return response.Ok;
+  };
+
+  /**
+   * Fetches the consent message for a specified canister call, intended to provide a human-readable message that helps users make informed decisions.
+   *
+   * Reference: https://github.com/dfinity/wg-identity-authentication/blob/main/topics/ICRC-21/icrc_21_consent_msg.md
+   *
+   * @param {Icrc21ConsentMessageRequest} params - The request parameters containing the method name, arguments, and consent preferences (e.g., language).
+   * @returns {Promise<icrc21_consent_message_response>} - A promise that resolves to the consent message response, which includes the consent message in the specified language and other related information.
+   * */
+  icrc21ConsentMessage = async (
+    params: Icrc21ConsentMessageRequest,
+  ): Promise<icrc21_consent_info> => {
+    const { icrc21_canister_call_consent_message } = this.caller({
+      certified: true,
+    });
+
+    const response = await icrc21_canister_call_consent_message(
+      toIcrc21ConsentMessageRawRequest(params),
+    );
+
+    if ("Err" in response) {
+      throw mapIcrc21ConsentMessageError(response.Err);
     }
 
     return response.Ok;

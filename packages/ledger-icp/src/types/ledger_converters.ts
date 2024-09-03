@@ -2,6 +2,7 @@ import type {
   Account,
   Icrc1Timestamp,
   Icrc1Tokens,
+  icrc21_consent_message_request,
   SubAccount,
 } from "../../candid/ledger";
 import type { AccountIdentifier } from "../account_identifier";
@@ -53,4 +54,30 @@ export type Icrc2ApproveRequest = Omit<Icrc1TransferRequest, "to"> & {
   expected_allowance?: Icrc1Tokens;
   expires_at?: Icrc1Timestamp;
   spender: Account;
+};
+
+export type Icrc21ConsentMessageMetadata = {
+  utcOffsetMinutes?: number;
+  language: string;
+};
+
+export type Icrc21ConsentMessageDeviceSpec =
+  | { GenericDisplay: null }
+  | {
+      LineDisplay: {
+        charactersPerLine: number;
+        linesPerPage: number;
+      };
+    };
+
+export type Icrc21ConsentMessageSpec = {
+  metadata: Icrc21ConsentMessageMetadata;
+  deriveSpec?: Icrc21ConsentMessageDeviceSpec;
+};
+
+export type Icrc21ConsentMessageRequest = Omit<
+  icrc21_consent_message_request,
+  "user_preferences"
+> & {
+  userPreferences: Icrc21ConsentMessageSpec;
 };
