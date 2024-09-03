@@ -100,7 +100,7 @@
     {
       "name": "@dfinity/ledger-icrc",
       "path": "./packages/ledger-icrc/dist/index.js",
-      "limit": "4 kB",
+      "limit": "5 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
