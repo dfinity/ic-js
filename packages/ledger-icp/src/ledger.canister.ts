@@ -171,7 +171,7 @@ export class LedgerCanister extends Canister<LedgerService> {
    * @param {Icrc21ConsentMessageRequest} params - The request parameters containing the method name, arguments, and consent preferences (e.g., language).
    * @returns {Promise<icrc21_consent_info>} - A promise that resolves to the consent message response, which includes the consent message in the specified language and other related information.
    *
-   * @throws {InsufficientPaymentError} - ????
+   * @throws {InsufficientPaymentError} - This error is reserved for future use, in case payment extensions are introduced. For example, if consent messages, which are currently free, begin to require payments.
    * @throws {UnsupportedCanisterCallError} - If the specified canister call is not supported.
    * @throws {ConsentMessageUnavailableError} - If there is no consent message available.
    * @throws {GenericError} - For any other generic errors.
