@@ -8,8 +8,16 @@ import type {
   _SERVICE as IcrcLedgerService,
   TransferArg,
   TransferFromArgs,
+  icrc21_consent_message_response,
 } from "../candid/icrc_ledger";
-import { IcrcTransferError } from "./errors/ledger.errors";
+import {
+  ConsentMessageError,
+  ConsentMessageUnavailableError,
+  GenericError,
+  IcrcTransferError,
+  InsufficientPaymentError,
+  UnsupportedCanisterCallError,
+} from "./errors/ledger.errors";
 import { IcrcLedgerCanister } from "./ledger.canister";
 import {
   ledgerCanisterIdMock,
@@ -19,6 +27,7 @@ import {
 import {
   AllowanceParams,
   ApproveParams,
+  Icrc21ConsentMessageParams,
   TransferFromParams,
   TransferParams,
 } from "./types/ledger.params";
@@ -313,6 +322,322 @@ describe("Ledger canister", () => {
       });
       expect(service.icrc2_allowance).toBeCalledWith(allowanceParams);
       expect(res).toEqual(allowance);
+    });
+  });
+
+  describe("consentMessage", () => {
+    const consentMessageRequest: Icrc21ConsentMessageParams = {
+      method: "icrc1_transfer",
+      arg: new Uint8Array([1, 2, 3]),
+      userPreferences: {
+        metadata: {
+          language: "en-US",
+        },
+        deriveSpec: {
+          GenericDisplay: null,
+        },
+      },
+    };
+
+    const consentMessageResponse: icrc21_consent_message_response = {
+      Ok: {
+        consent_message: {
+          GenericDisplayMessage: "Transfer 1 ICP to account abcd",
+        },
+        metadata: {
+          language: "en-US",
+          utc_offset_minutes: [],
+        },
+      },
+    };
+
+    const consentMessageLineDisplayResponse: icrc21_consent_message_response = {
+      Ok: {
+        consent_message: {
+          LineDisplayMessage: {
+            pages: [
+              { lines: ["Transfer 1 ICP", "to account abcd"] },
+              { lines: ["Fee: 0.0001 ICP"] },
+            ],
+          },
+        },
+        metadata: {
+          language: "en-US",
+          utc_offset_minutes: [],
+        },
+      },
+    };
+
+    it("should fetch consent message successfully with GenericDisplayMessage", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc21_canister_call_consent_message.mockResolvedValue(
+        consentMessageResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const response = await ledger.consentMessage(consentMessageRequest);
+
+      expect(response).toEqual(consentMessageResponse.Ok);
+      expect(service.icrc21_canister_call_consent_message).toBeCalledWith({
+        method: consentMessageRequest.method,
+        arg: consentMessageRequest.arg,
+        user_preferences: {
+          metadata: {
+            language: "en-US",
+            utc_offset_minutes: [],
+          },
+          device_spec: [
+            {
+              GenericDisplay: null,
+            },
+          ],
+        },
+      });
+    });
+
+    it("should fetch consent message successfully with LineDisplayMessage", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc21_canister_call_consent_message.mockResolvedValue(
+        consentMessageLineDisplayResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        certifiedServiceOverride: service,
+        canisterId: ledgerCanisterIdMock,
+      });
+
+      const requestWithLineDisplay: Icrc21ConsentMessageParams = {
+        ...consentMessageRequest,
+        userPreferences: {
+          metadata: {
+            language: "en-US",
+          },
+          deriveSpec: {
+            LineDisplay: {
+              charactersPerLine: 20,
+              linesPerPage: 4,
+            },
+          },
+        },
+      };
+
+      const response = await ledger.consentMessage(requestWithLineDisplay);
+
+      expect(response).toEqual(consentMessageLineDisplayResponse.Ok);
+      expect(service.icrc21_canister_call_consent_message).toBeCalledWith({
+        method: requestWithLineDisplay.method,
+        arg: requestWithLineDisplay.arg,
+        user_preferences: {
+          metadata: {
+            language: "en-US",
+            utc_offset_minutes: [],
+          },
+          device_spec: [
+            {
+              LineDisplay: {
+                characters_per_line: 20,
+                lines_per_page: 4,
+              },
+            },
+          ],
+        },
+      });
+    });
+
+    it("should handle UTC offset in the request", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc21_canister_call_consent_message.mockResolvedValue(
+        consentMessageResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        certifiedServiceOverride: service,
+        canisterId: ledgerCanisterIdMock,
+      });
+
+      const requestWithUtcOffset: Icrc21ConsentMessageParams = {
+        ...consentMessageRequest,
+        userPreferences: {
+          metadata: {
+            language: "en-US",
+            utcOffsetMinutes: 120,
+          },
+          deriveSpec: {
+            GenericDisplay: null,
+          },
+        },
+      };
+
+      const response = await ledger.consentMessage(requestWithUtcOffset);
+
+      expect(response).toEqual(consentMessageResponse.Ok);
+      expect(service.icrc21_canister_call_consent_message).toBeCalledWith({
+        method: requestWithUtcOffset.method,
+        arg: requestWithUtcOffset.arg,
+        user_preferences: {
+          metadata: {
+            language: "en-US",
+            utc_offset_minutes: [120],
+          },
+          device_spec: [
+            {
+              GenericDisplay: null,
+            },
+          ],
+        },
+      });
+    });
+
+    it("should throw GenericError when the canister returns a GenericError", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+
+      const errorDescription = "An error occurred";
+      const errorResponse: icrc21_consent_message_response = {
+        Err: {
+          GenericError: {
+            description: errorDescription,
+            error_code: BigInt(500),
+          },
+        },
+      };
+
+      service.icrc21_canister_call_consent_message.mockResolvedValue(
+        errorResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        certifiedServiceOverride: service,
+        canisterId: ledgerCanisterIdMock,
+      });
+
+      await expect(
+        ledger.consentMessage(consentMessageRequest),
+      ).rejects.toThrowError(new GenericError(errorDescription, BigInt(500)));
+    });
+
+    it("should throw InsufficientPaymentError when the canister returns an InsufficientPayment error", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+
+      const insufficientPaymentDescription = "Payment is insufficient";
+      const insufficientPaymentErrorResponse: icrc21_consent_message_response =
+        {
+          Err: {
+            InsufficientPayment: {
+              description: insufficientPaymentDescription,
+            },
+          },
+        };
+
+      service.icrc21_canister_call_consent_message.mockResolvedValue(
+        insufficientPaymentErrorResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await expect(
+        ledger.consentMessage(consentMessageRequest),
+      ).rejects.toThrowError(
+        new InsufficientPaymentError(insufficientPaymentDescription),
+      );
+    });
+
+    it("should throw UnsupportedCanisterCallError when the canister returns an UnsupportedCanisterCallError error", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+
+      const unsupportedCanisterCallDescription =
+        "This canister call is not supported";
+      const unsupportedCanisterCallErrorResponse: icrc21_consent_message_response =
+        {
+          Err: {
+            UnsupportedCanisterCall: {
+              description: unsupportedCanisterCallDescription,
+            },
+          },
+        };
+
+      service.icrc21_canister_call_consent_message.mockResolvedValue(
+        unsupportedCanisterCallErrorResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await expect(
+        ledger.consentMessage(consentMessageRequest),
+      ).rejects.toThrowError(
+        new UnsupportedCanisterCallError(unsupportedCanisterCallDescription),
+      );
+    });
+
+    it("should throw ConsentMessageUnavailableError when the canister returns an ConsentMessageUnavailableError error", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+
+      const consentMessageUnavailableDescription =
+        "Consent message is unavailable";
+      const consentMessageUnavailableErrorResponse: icrc21_consent_message_response =
+        {
+          Err: {
+            ConsentMessageUnavailable: {
+              description: consentMessageUnavailableDescription,
+            },
+          },
+        };
+
+      service.icrc21_canister_call_consent_message.mockResolvedValue(
+        consentMessageUnavailableErrorResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await expect(
+        ledger.consentMessage(consentMessageRequest),
+      ).rejects.toThrowError(
+        new ConsentMessageUnavailableError(
+          consentMessageUnavailableDescription,
+        ),
+      );
+    });
+
+    it("should throw ConsentMessageError with correct message for an unknown error type", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+
+      const Err = {
+        UnknownErrorType: {
+          description: "This is an unknown error type",
+        },
+      };
+
+      const unknownErrorResponse: icrc21_consent_message_response = {
+        // @ts-expect-error: we are testing this on purpose
+        Err,
+      };
+
+      service.icrc21_canister_call_consent_message.mockResolvedValue(
+        unknownErrorResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await expect(
+        ledger.consentMessage(consentMessageRequest),
+      ).rejects.toThrowError(
+        new ConsentMessageError(`Unknown error type ${JSON.stringify(Err)}`),
+      );
     });
   });
 });

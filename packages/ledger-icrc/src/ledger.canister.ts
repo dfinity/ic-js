@@ -5,20 +5,26 @@ import type {
   BlockIndex,
   _SERVICE as IcrcLedgerService,
   Tokens,
+  icrc21_consent_info,
 } from "../candid/icrc_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc_ledger.idl";
 import {
   toApproveArgs,
+  toIcrc21ConsentMessageArgs,
   toTransferArg,
   toTransferFromArgs,
 } from "./converters/ledger.converters";
-import { IcrcTransferError } from "./errors/ledger.errors";
+import {
+  IcrcTransferError,
+  mapIcrc21ConsentMessageError,
+} from "./errors/ledger.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
 import type {
   AllowanceParams,
   ApproveParams,
   BalanceParams,
+  Icrc21ConsentMessageParams,
   TransferFromParams,
   TransferParams,
 } from "./types/ledger.params";
@@ -145,5 +151,36 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
   allowance = async (params: AllowanceParams): Promise<Allowance> => {
     const { certified, ...rest } = params;
     return this.caller({ certified }).icrc2_allowance({ ...rest });
+  };
+
+  /**
+   * Fetches the consent message for a specified canister call, intended to provide a human-readable message that helps users make informed decisions.
+   *
+   * @link: https://github.com/dfinity/wg-identity-authentication/blob/main/topics/ICRC-21/icrc_21_consent_msg.md
+   *
+   * @param {Icrc21ConsentMessageParams} params - The request parameters containing the method name, arguments, and consent preferences (e.g., language).
+   * @returns {Promise<icrc21_consent_info>} - A promise that resolves to the consent message response, which includes the consent message in the specified language and other related information.
+   *
+   * @throws {InsufficientPaymentError} - This error is reserved for future use, in case payment extensions are introduced. For example, if consent messages, which are currently free, begin to require payments.
+   * @throws {UnsupportedCanisterCallError} - If the specified canister call is not supported.
+   * @throws {ConsentMessageUnavailableError} - If there is no consent message available.
+   * @throws {GenericError} - For any other generic errors.
+   */
+  consentMessage = async (
+    params: Icrc21ConsentMessageParams,
+  ): Promise<icrc21_consent_info> => {
+    const { icrc21_canister_call_consent_message } = this.caller({
+      certified: true,
+    });
+
+    const response = await icrc21_canister_call_consent_message(
+      toIcrc21ConsentMessageArgs(params),
+    );
+
+    if ("Err" in response) {
+      throw mapIcrc21ConsentMessageError(response.Err);
+    }
+
+    return response.Ok;
   };
 }
