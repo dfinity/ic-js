@@ -165,6 +165,7 @@ export const idlFactory = ({ IDL }) => {
   const DefiniteCanisterSettingsArgs = IDL.Record({
     'freezing_threshold' : IDL.Nat,
     'controllers' : IDL.Vec(IDL.Principal),
+    'wasm_memory_limit' : IDL.Opt(IDL.Nat),
     'memory_allocation' : IDL.Nat,
     'compute_allocation' : IDL.Nat,
   });

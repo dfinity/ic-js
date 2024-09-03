@@ -476,17 +476,6 @@ export const idlFactory = ({ IDL }) => {
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
   });
-  const CfNeuron = IDL.Record({
-    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
-    'hotkeys' : IDL.Opt(Principals),
-    'nns_neuron_id' : IDL.Nat64,
-    'amount_icp_e8s' : IDL.Nat64,
-  });
-  const CfParticipant = IDL.Record({
-    'controller' : IDL.Opt(IDL.Principal),
-    'hotkey_principal' : IDL.Text,
-    'cf_neurons' : IDL.Vec(CfNeuron),
-  });
   const Ballot = IDL.Record({ 'vote' : IDL.Int32, 'voting_power' : IDL.Nat64 });
   const SwapParticipationLimits = IDL.Record({
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
@@ -564,7 +553,6 @@ export const idlFactory = ({ IDL }) => {
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(NeuronId),
     'failure_reason' : IDL.Opt(GovernanceError),
-    'cf_participants' : IDL.Vec(CfParticipant),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,
     'reward_event_round' : IDL.Nat64,
@@ -672,7 +660,7 @@ export const idlFactory = ({ IDL }) => {
     'Err' : GovernanceError,
   });
   const Result_4 = IDL.Variant({
-    'Ok' : RewardNodeProviders,
+    'Ok' : MonthlyNodeProviderRewards,
     'Err' : GovernanceError,
   });
   const NeuronInfo = IDL.Record({
@@ -1458,17 +1446,6 @@ export const init = ({ IDL }) => {
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
   });
-  const CfNeuron = IDL.Record({
-    'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
-    'hotkeys' : IDL.Opt(Principals),
-    'nns_neuron_id' : IDL.Nat64,
-    'amount_icp_e8s' : IDL.Nat64,
-  });
-  const CfParticipant = IDL.Record({
-    'controller' : IDL.Opt(IDL.Principal),
-    'hotkey_principal' : IDL.Text,
-    'cf_neurons' : IDL.Vec(CfNeuron),
-  });
   const Ballot = IDL.Record({ 'vote' : IDL.Int32, 'voting_power' : IDL.Nat64 });
   const SwapParticipationLimits = IDL.Record({
     'min_participant_icp_e8s' : IDL.Opt(IDL.Nat64),
@@ -1546,7 +1523,6 @@ export const init = ({ IDL }) => {
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(NeuronId),
     'failure_reason' : IDL.Opt(GovernanceError),
-    'cf_participants' : IDL.Vec(CfParticipant),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,
     'reward_event_round' : IDL.Nat64,
