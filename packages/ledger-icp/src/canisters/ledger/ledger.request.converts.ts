@@ -1,6 +1,11 @@
-import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
+import {
+  arrayOfNumberToUint8Array,
+  isNullish,
+  toNullable,
+} from "@dfinity/utils";
 import type {
   TransferArg as Icrc1TransferRawRequest,
+  icrc21_consent_message_request as Icrc21ConsentMessageRawRequest,
   ApproveArgs as Icrc2ApproveRawRequest,
   Tokens,
   TransferArgs as TransferRawRequest,
@@ -8,6 +13,7 @@ import type {
 import { TRANSACTION_FEE } from "../../constants/constants";
 import type {
   Icrc1TransferRequest,
+  Icrc21ConsentMessageRequest,
   Icrc2ApproveRequest,
   TransferRequest,
 } from "../../types/ledger_converters";
@@ -74,4 +80,32 @@ export const toIcrc2ApproveRawRequest = ({
   amount,
   expected_allowance: toNullable(expected_allowance),
   expires_at: toNullable(expires_at),
+});
+
+export const toIcrc21ConsentMessageRawRequest = ({
+  userPreferences: {
+    metadata: { utcOffsetMinutes, language },
+    deriveSpec,
+  },
+  ...rest
+}: Icrc21ConsentMessageRequest): Icrc21ConsentMessageRawRequest => ({
+  ...rest,
+  user_preferences: {
+    metadata: {
+      language,
+      utc_offset_minutes: toNullable(utcOffsetMinutes),
+    },
+    device_spec: isNullish(deriveSpec)
+      ? toNullable()
+      : toNullable(
+          "GenericDisplay" in deriveSpec
+            ? { GenericDisplay: null }
+            : {
+                LineDisplay: {
+                  characters_per_line: deriveSpec.LineDisplay.charactersPerLine,
+                  lines_per_page: deriveSpec.LineDisplay.linesPerPage,
+                },
+              },
+        ),
+  },
 });
