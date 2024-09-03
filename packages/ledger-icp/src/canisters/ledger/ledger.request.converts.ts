@@ -11,7 +11,7 @@ import type {
   TransferArgs as TransferRawRequest,
 } from "../../../candid/ledger";
 import { TRANSACTION_FEE } from "../../constants/constants";
-import {
+import type {
   Icrc1TransferRequest,
   Icrc21ConsentMessageRequest,
   Icrc2ApproveRequest,

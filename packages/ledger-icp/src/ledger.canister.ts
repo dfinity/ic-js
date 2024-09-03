@@ -1,11 +1,10 @@
 import type { Principal } from "@dfinity/principal";
 import { Canister, createServices, type QueryParams } from "@dfinity/utils";
-import {
+import type {
   Icrc1BlockIndex,
   _SERVICE as LedgerService,
   Value,
   icrc21_consent_info,
-  icrc21_consent_message_response,
 } from "../candid/ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
 import { idlFactory } from "../candid/ledger.idl";
@@ -25,7 +24,7 @@ import {
 import type { BlockHeight } from "./types/common";
 import type { LedgerCanisterOptions } from "./types/ledger.options";
 import type { AccountBalanceParams } from "./types/ledger.params";
-import {
+import type {
   Icrc1TransferRequest,
   Icrc21ConsentMessageRequest,
   Icrc2ApproveRequest,
