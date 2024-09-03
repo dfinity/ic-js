@@ -2,7 +2,7 @@
 
 ## Features
 
-- Add support for `icrc21_canister_call_consent_message` to `@dfinity/ledger-icp`.
+- Add support for `icrc21_canister_call_consent_message` to `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
 
 # 2024.09.02-0830Z
 
