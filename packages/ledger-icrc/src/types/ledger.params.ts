@@ -2,6 +2,7 @@ import type { QueryParams } from "@dfinity/utils";
 import type {
   Account,
   AllowanceArgs,
+  icrc21_consent_message_request as ConsentMessageArgs,
   Subaccount,
   Timestamp,
   Tokens,
@@ -77,3 +78,55 @@ export type ApproveParams = Omit<TransferParams, "to"> & {
  * Params to get the token allowance that the spender account can transfer from the specified account
  */
 export type AllowanceParams = AllowanceArgs & QueryParams;
+
+/**
+ * Metadata for the consent message in ICRC-21 specification.
+ * @param {number} [utcOffsetMinutes] - The user's local timezone offset in minutes from UTC. If absent, the default is UTC.
+ * @param {string} language - BCP-47 language tag. See https://www.rfc-editor.org/rfc/bcp/bcp47.txt
+ */
+export type Icrc21ConsentMessageMetadata = {
+  utcOffsetMinutes?: number;
+  language: string;
+};
+
+/**
+ * Device specification for displaying the consent message.
+ *
+ * @param {null} [GenericDisplay] -  A generic display able to handle large documents and do line wrapping and pagination / scrolling.  Text must be Markdown formatted, no external resources (e.g. images) are allowed.
+ * @param {Object} [LineDisplay] - Simple display able to handle lines of text with a maximum number of characters per line.
+ * @param {number} LineDisplay.charactersPerLine - Maximum number of characters that can be displayed per line.
+ * @param {number} LineDisplay.linesPerPage - Maximum number of lines that can be displayed at once on a single page.
+ */
+export type Icrc21ConsentMessageDeviceSpec =
+  | { GenericDisplay: null }
+  | {
+      LineDisplay: {
+        charactersPerLine: number;
+        linesPerPage: number;
+      };
+    };
+
+/**
+ * Specification for the consent message, including metadata and device preferences.
+ *
+ * @param {Icrc21ConsentMessageMetadata} metadata - Metadata of the consent message.
+ * @param {Icrc21ConsentMessageDeviceSpec} [deviceSpec] - Information about the device responsible for presenting the consent message to the user.
+ */
+export type Icrc21ConsentMessageSpec = {
+  metadata: Icrc21ConsentMessageMetadata;
+  deriveSpec?: Icrc21ConsentMessageDeviceSpec;
+};
+
+/**
+ * Parameters for the consent message request.
+ *
+ * @param {string} method - Method name of the canister call.
+ * @param {Uint8Array} arg - Argument of the canister call.
+ * @param {Icrc21ConsentMessageSpec} userPreferences - User preferences with regards to the consent message presented to the end-user.
+ */
+export type Icrc21ConsentMessageParams = Omit<
+  ConsentMessageArgs,
+  "user_preferences"
+> & {
+  userPreferences: Icrc21ConsentMessageSpec;
+};

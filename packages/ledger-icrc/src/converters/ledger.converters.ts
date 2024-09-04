@@ -1,11 +1,13 @@
-import { toNullable } from "@dfinity/utils";
+import { isNullish, toNullable } from "@dfinity/utils";
 import type {
   ApproveArgs,
+  icrc21_consent_message_request as ConsentMessageArgs,
   TransferArg,
   TransferFromArgs,
 } from "../../candid/icrc_ledger";
 import type {
   ApproveParams,
+  Icrc21ConsentMessageParams,
   TransferFromParams,
   TransferParams,
 } from "../types/ledger.params";
@@ -59,4 +61,32 @@ export const toApproveArgs = ({
   created_at_time: toNullable(created_at_time),
   expected_allowance: toNullable(expected_allowance),
   expires_at: toNullable(expires_at),
+});
+
+export const toIcrc21ConsentMessageArgs = ({
+  userPreferences: {
+    metadata: { utcOffsetMinutes, language },
+    deriveSpec,
+  },
+  ...rest
+}: Icrc21ConsentMessageParams): ConsentMessageArgs => ({
+  ...rest,
+  user_preferences: {
+    metadata: {
+      language,
+      utc_offset_minutes: toNullable(utcOffsetMinutes),
+    },
+    device_spec: isNullish(deriveSpec)
+      ? toNullable()
+      : toNullable(
+          "GenericDisplay" in deriveSpec
+            ? { GenericDisplay: null }
+            : {
+                LineDisplay: {
+                  characters_per_line: deriveSpec.LineDisplay.charactersPerLine,
+                  lines_per_page: deriveSpec.LineDisplay.linesPerPage,
+                },
+              },
+        ),
+  },
 });
