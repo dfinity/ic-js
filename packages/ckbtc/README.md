@@ -294,7 +294,7 @@ Parameters:
 
 ##### :gear: getUtxosQuery
 
-Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns all unspent transaction outputs (UTXOs) associated with the provided address in the specified Bitcoin network based on the current view of the Bitcoin blockchain available to the Bitcoin component.
+Given a `get_utxos_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet`, `testnet` or `regtest`), the function returns all unspent transaction outputs (UTXOs) associated with the provided address in the specified Bitcoin network based on the current view of the Bitcoin blockchain available to the Bitcoin component.
 
 ⚠️ Note that this method does not support certified calls because only canisters are allowed to get UTXOs via update calls.
 
@@ -312,7 +312,7 @@ Parameters:
 
 ##### :gear: getBalanceQuery
 
-Given a `get_balance_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet` or `testnet`), the function returns the current balance of this address in `Satoshi` (10^8 Satoshi = 1 Bitcoin) in the specified Bitcoin network.
+Given a `get_balance_request`, which must specify a Bitcoin address and a Bitcoin network (`mainnet`, `testnet` or `regtest`), the function returns the current balance of this address in `Satoshi` (10^8 Satoshi = 1 Bitcoin) in the specified Bitcoin network.
 
 ⚠️ Note that this method does not support certified calls because only canisters are allowed to get Bitcoin balance via update calls.
 
