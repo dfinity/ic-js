@@ -24,7 +24,6 @@ import type {
   Decimal as RawDecimal,
   DeveloperDistribution as RawDeveloperDistribution,
   Duration as RawDuration,
-  Followees as RawFollowees,
   GlobalTimeOfDay as RawGlobalTimeOfDay,
   GovernanceParameters as RawGovernanceParameters,
   Image as RawImage,
@@ -96,10 +95,6 @@ const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
 
 const fromNeuronId = (neuronId: NeuronId): RawNeuronId => ({
   id: neuronId,
-});
-
-const fromFollowees = (followees: Array<NeuronId>): RawFollowees => ({
-  followees: followees.map(fromNeuronId),
 });
 
 const fromNeuronIdOrSubaccount = (
