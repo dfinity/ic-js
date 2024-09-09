@@ -74,7 +74,6 @@ export interface ClaimOrRefreshResponse {
 }
 export interface ClaimSwapNeuronsRequest {
   neuron_recipes: [] | [NeuronRecipes];
-  neuron_parameters: Array<NeuronParameters>;
 }
 export interface ClaimSwapNeuronsResponse {
   claim_swap_neurons_result: [] | [ClaimSwapNeuronsResult];
