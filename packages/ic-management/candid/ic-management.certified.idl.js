@@ -12,12 +12,6 @@ export const idlFactory = ({ IDL }) => {
   });
   const satoshi = IDL.Nat64;
   const bitcoin_get_balance_result = satoshi;
-  const bitcoin_get_balance_query_args = IDL.Record({
-    'network' : bitcoin_network,
-    'address' : bitcoin_address,
-    'min_confirmations' : IDL.Opt(IDL.Nat32),
-  });
-  const bitcoin_get_balance_query_result = satoshi;
   const bitcoin_block_height = IDL.Nat32;
   const bitcoin_get_block_headers_args = IDL.Record({
     'start_height' : bitcoin_block_height,
@@ -57,22 +51,6 @@ export const idlFactory = ({ IDL }) => {
     'outpoint' : outpoint,
   });
   const bitcoin_get_utxos_result = IDL.Record({
-    'next_page' : IDL.Opt(IDL.Vec(IDL.Nat8)),
-    'tip_height' : bitcoin_block_height,
-    'tip_block_hash' : bitcoin_block_hash,
-    'utxos' : IDL.Vec(utxo),
-  });
-  const bitcoin_get_utxos_query_args = IDL.Record({
-    'network' : bitcoin_network,
-    'filter' : IDL.Opt(
-      IDL.Variant({
-        'page' : IDL.Vec(IDL.Nat8),
-        'min_confirmations' : IDL.Nat32,
-      })
-    ),
-    'address' : bitcoin_address,
-  });
-  const bitcoin_get_utxos_query_result = IDL.Record({
     'next_page' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'tip_height' : bitcoin_block_height,
     'tip_block_hash' : bitcoin_block_hash,
@@ -340,11 +318,6 @@ export const idlFactory = ({ IDL }) => {
         [bitcoin_get_balance_result],
         [],
       ),
-    'bitcoin_get_balance_query' : IDL.Func(
-        [bitcoin_get_balance_query_args],
-        [bitcoin_get_balance_query_result],
-        [],
-      ),
     'bitcoin_get_block_headers' : IDL.Func(
         [bitcoin_get_block_headers_args],
         [bitcoin_get_block_headers_result],
@@ -358,11 +331,6 @@ export const idlFactory = ({ IDL }) => {
     'bitcoin_get_utxos' : IDL.Func(
         [bitcoin_get_utxos_args],
         [bitcoin_get_utxos_result],
-        [],
-      ),
-    'bitcoin_get_utxos_query' : IDL.Func(
-        [bitcoin_get_utxos_query_args],
-        [bitcoin_get_utxos_query_result],
         [],
       ),
     'bitcoin_send_transaction' : IDL.Func(

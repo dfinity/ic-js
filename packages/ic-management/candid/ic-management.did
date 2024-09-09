@@ -1,4 +1,4 @@
-// Generated from dfinity/interface-spec commit 0a50e0c1eac44dbc0c02116ff110096a17c4c022 for file 'spec/_attachments/ic.did'
+// Generated from dfinity/interface-spec commit 45a23a737ec37cb8c9b098e377af857b4b55abda for file 'spec/_attachments/ic.did'
 type canister_id = principal;
 type wasm_module = blob;
 
@@ -126,22 +126,6 @@ type bitcoin_get_utxos_result = record {
     next_page : opt blob;
 };
 
-type bitcoin_get_utxos_query_args = record {
-    address : bitcoin_address;
-    network : bitcoin_network;
-    filter : opt variant {
-        min_confirmations : nat32;
-        page : blob;
-    };
-};
-
-type bitcoin_get_utxos_query_result = record {
-    utxos : vec utxo;
-    tip_block_hash : bitcoin_block_hash;
-    tip_height : bitcoin_block_height;
-    next_page : opt blob;
-};
-
 type bitcoin_get_balance_args = record {
     address : bitcoin_address;
     network : bitcoin_network;
@@ -149,14 +133,6 @@ type bitcoin_get_balance_args = record {
 };
 
 type bitcoin_get_balance_result = satoshi;
-
-type bitcoin_get_balance_query_args = record {
-    address : bitcoin_address;
-    network : bitcoin_network;
-    min_confirmations : opt nat32;
-};
-
-type bitcoin_get_balance_query_result = satoshi;
 
 type bitcoin_get_current_fee_percentiles_args = record {
     network : bitcoin_network;
@@ -425,9 +401,7 @@ service ic : {
 
     // bitcoin interface
     bitcoin_get_balance : (bitcoin_get_balance_args) -> (bitcoin_get_balance_result);
-    bitcoin_get_balance_query : (bitcoin_get_balance_query_args) -> (bitcoin_get_balance_query_result) query;
     bitcoin_get_utxos : (bitcoin_get_utxos_args) -> (bitcoin_get_utxos_result);
-    bitcoin_get_utxos_query : (bitcoin_get_utxos_query_args) -> (bitcoin_get_utxos_query_result) query;
     bitcoin_send_transaction : (bitcoin_send_transaction_args) -> ();
     bitcoin_get_current_fee_percentiles : (bitcoin_get_current_fee_percentiles_args) -> (bitcoin_get_current_fee_percentiles_result);
     bitcoin_get_block_headers : (bitcoin_get_block_headers_args) -> (bitcoin_get_block_headers_result);
