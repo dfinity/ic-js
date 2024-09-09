@@ -485,7 +485,6 @@ export const idlFactory = ({ IDL }) => {
   });
   const NeuronsFundNeuronPortion = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
-    'hotkey_principal' : IDL.Opt(IDL.Principal),
     'hotkeys' : IDL.Vec(IDL.Principal),
     'is_capped' : IDL.Opt(IDL.Bool),
     'maturity_equivalent_icp_e8s' : IDL.Opt(IDL.Nat64),
@@ -770,9 +769,6 @@ export const idlFactory = ({ IDL }) => {
     'CreateServiceNervousSystem' : CreateServiceNervousSystem,
     'ExecuteNnsFunction' : ExecuteNnsFunction,
     'RewardNodeProvider' : RewardNodeProvider,
-    'OpenSnsTokenSwap' : OpenSnsTokenSwap,
-    'SetSnsTokenSwapOpenTimeWindow' : SetSnsTokenSwapOpenTimeWindow,
-    'SetDefaultFollowees' : SetDefaultFollowees,
     'RewardNodeProviders' : RewardNodeProviders,
     'ManageNetworkEconomics' : NetworkEconomics,
     'ApproveGenesisKyc' : Principals,
@@ -873,7 +869,6 @@ export const idlFactory = ({ IDL }) => {
   });
   const NeuronsFundNeuron = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
-    'hotkey_principal' : IDL.Opt(IDL.Text),
     'hotkeys' : IDL.Opt(Principals),
     'is_capped' : IDL.Opt(IDL.Bool),
     'nns_neuron_id' : IDL.Opt(IDL.Nat64),
@@ -1470,7 +1465,6 @@ export const init = ({ IDL }) => {
   });
   const NeuronsFundNeuronPortion = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
-    'hotkey_principal' : IDL.Opt(IDL.Principal),
     'hotkeys' : IDL.Vec(IDL.Principal),
     'is_capped' : IDL.Opt(IDL.Bool),
     'maturity_equivalent_icp_e8s' : IDL.Opt(IDL.Nat64),

@@ -574,18 +574,6 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
     };
   }
 
-  if ("SetDefaultFollowees" in action) {
-    const setDefaultFollowees = action.SetDefaultFollowees;
-    return {
-      SetDefaultFollowees: {
-        default_followees: setDefaultFollowees.defaultFollowees.map((f) => [
-          f.topic as number,
-          fromFollowees(f.followees),
-        ]),
-      },
-    };
-  }
-
   if ("RegisterKnownNeuron" in action) {
     const knownNeuron = action.RegisterKnownNeuron;
     return {
@@ -600,74 +588,6 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
                 : [],
           },
         ],
-      },
-    };
-  }
-
-  if ("SetSnsTokenSwapOpenTimeWindow" in action) {
-    const { request, swapCanisterId } = action.SetSnsTokenSwapOpenTimeWindow;
-
-    return {
-      SetSnsTokenSwapOpenTimeWindow: {
-        request:
-          request === undefined
-            ? []
-            : [
-                {
-                  open_time_window:
-                    request.openTimeWindow === undefined
-                      ? []
-                      : [
-                          {
-                            start_timestamp_seconds:
-                              request.openTimeWindow.startTimestampSeconds,
-                            end_timestamp_seconds:
-                              request.openTimeWindow.endTimestampSeconds,
-                          },
-                        ],
-                },
-              ],
-
-        swap_canister_id:
-          swapCanisterId === undefined
-            ? []
-            : [Principal.fromText(swapCanisterId)],
-      },
-    };
-  }
-
-  if ("OpenSnsTokenSwap" in action) {
-    const { communityFundInvestmentE8s, targetSwapCanisterId, params } =
-      action.OpenSnsTokenSwap;
-
-    return {
-      OpenSnsTokenSwap: {
-        community_fund_investment_e8s: toNullable(communityFundInvestmentE8s),
-        target_swap_canister_id: toNullable(targetSwapCanisterId),
-        params:
-          params === undefined
-            ? []
-            : [
-                {
-                  min_participant_icp_e8s: params.minParticipantIcpE8s,
-                  max_icp_e8s: params.maxIcpE8s,
-                  swap_due_timestamp_seconds: params.swapDueTimestampSeconds,
-                  min_participants: params.minParticipants,
-                  sns_token_e8s: params.snsTokenE8s,
-                  max_participant_icp_e8s: params.maxParticipantIcpE8s,
-                  min_icp_e8s: params.minIcpE8s,
-                  sale_delay_seconds: toNullable(params.saleDelaySeconds),
-                  neuron_basket_construction_parameters: toNullable(
-                    params.neuronBasketConstructionParameters,
-                  ),
-                  max_direct_participation_icp_e8s: toNullable(
-                    params.maxDirectParticipationIcpE8s,
-                  ),
-                  min_direct_participation_icp_e8s: toNullable(
-                    params.minDirectParticipationIcpE8s,
-                  ),
-                },
-              ],
       },
     };
   }
