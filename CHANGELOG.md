@@ -1,5 +1,9 @@
 # Next
 
+## Breaking changes
+
+- Removed deprecated `OpenSnsTokenSwap`, `SetSnsTokenSwapOpenTimeWindow`, and `SetDefaultFollowees` from `ProposalActionRequest`.
+
 ## Features
 
 - Add support for `icrc21_canister_call_consent_message` to `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
