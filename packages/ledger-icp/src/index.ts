@@ -8,6 +8,7 @@ export type {
   Value,
 } from "../candid/ledger";
 export { AccountIdentifier, SubAccount } from "./account_identifier";
+export * from "./canisters/ledger/ledger.request.converts";
 export * from "./errors/ledger.errors";
 export { IndexCanister } from "./index.canister";
 export { LedgerCanister } from "./ledger.canister";

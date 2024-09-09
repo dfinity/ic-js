@@ -30,6 +30,7 @@ import {
 } from "./errors/ledger.errors";
 import { LedgerCanister } from "./ledger.canister";
 import { mockAccountIdentifier, mockPrincipal } from "./mocks/ledger.mock";
+import { mockConsentMessageRequest } from "./mocks/ledger.request.mock";
 import type {
   Icrc21ConsentMessageRequest,
   Icrc2ApproveRequest,
@@ -1059,19 +1060,6 @@ describe("LedgerCanister", () => {
   });
 
   describe("icrc21ConsentMessage", () => {
-    const consentMessageRequest: Icrc21ConsentMessageRequest = {
-      method: "icrc1_transfer",
-      arg: new Uint8Array([1, 2, 3]),
-      userPreferences: {
-        metadata: {
-          language: "en-US",
-        },
-        deriveSpec: {
-          GenericDisplay: null,
-        },
-      },
-    };
-
     const consentMessageResponse: icrc21_consent_message_response = {
       Ok: {
         consent_message: {
@@ -1111,12 +1099,14 @@ describe("LedgerCanister", () => {
         certifiedServiceOverride: service,
       });
 
-      const response = await ledger.icrc21ConsentMessage(consentMessageRequest);
+      const response = await ledger.icrc21ConsentMessage(
+        mockConsentMessageRequest,
+      );
 
       expect(response).toEqual(consentMessageResponse.Ok);
       expect(service.icrc21_canister_call_consent_message).toBeCalledWith({
-        method: consentMessageRequest.method,
-        arg: consentMessageRequest.arg,
+        method: mockConsentMessageRequest.method,
+        arg: mockConsentMessageRequest.arg,
         user_preferences: {
           metadata: {
             language: "en-US",
@@ -1142,7 +1132,7 @@ describe("LedgerCanister", () => {
       });
 
       const requestWithLineDisplay: Icrc21ConsentMessageRequest = {
-        ...consentMessageRequest,
+        ...mockConsentMessageRequest,
         userPreferences: {
           metadata: {
             language: "en-US",
@@ -1192,7 +1182,7 @@ describe("LedgerCanister", () => {
       });
 
       const requestWithUtcOffset: Icrc21ConsentMessageRequest = {
-        ...consentMessageRequest,
+        ...mockConsentMessageRequest,
         userPreferences: {
           metadata: {
             language: "en-US",
@@ -1246,7 +1236,7 @@ describe("LedgerCanister", () => {
       });
 
       await expect(
-        ledger.icrc21ConsentMessage(consentMessageRequest),
+        ledger.icrc21ConsentMessage(mockConsentMessageRequest),
       ).rejects.toThrowError(new GenericError(errorDescription, BigInt(500)));
     });
 
@@ -1272,7 +1262,7 @@ describe("LedgerCanister", () => {
       });
 
       await expect(
-        ledger.icrc21ConsentMessage(consentMessageRequest),
+        ledger.icrc21ConsentMessage(mockConsentMessageRequest),
       ).rejects.toThrowError(
         new InsufficientPaymentError(insufficientPaymentDescription),
       );
@@ -1301,7 +1291,7 @@ describe("LedgerCanister", () => {
       });
 
       await expect(
-        ledger.icrc21ConsentMessage(consentMessageRequest),
+        ledger.icrc21ConsentMessage(mockConsentMessageRequest),
       ).rejects.toThrowError(
         new UnsupportedCanisterCallError(unsupportedCanisterCallDescription),
       );
@@ -1330,7 +1320,7 @@ describe("LedgerCanister", () => {
       });
 
       await expect(
-        ledger.icrc21ConsentMessage(consentMessageRequest),
+        ledger.icrc21ConsentMessage(mockConsentMessageRequest),
       ).rejects.toThrowError(
         new ConsentMessageUnavailableError(
           consentMessageUnavailableDescription,
@@ -1361,7 +1351,7 @@ describe("LedgerCanister", () => {
       });
 
       await expect(
-        ledger.icrc21ConsentMessage(consentMessageRequest),
+        ledger.icrc21ConsentMessage(mockConsentMessageRequest),
       ).rejects.toThrowError(
         new ConsentMessageError(`Unknown error type ${JSON.stringify(Err)}`),
       );
