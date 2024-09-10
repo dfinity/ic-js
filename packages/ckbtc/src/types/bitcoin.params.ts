@@ -5,10 +5,13 @@ import type {
   network,
 } from "../../candid/bitcoin";
 
-export type BitcoinNetwork = "testnet" | "mainnet";
+export type BitcoinNetwork = "testnet" | "mainnet" | "regtest";
 
-const mapBitcoinNetwork = (network: BitcoinNetwork): network =>
-  network === "testnet" ? { testnet: null } : { mainnet: null };
+const mapBitcoinNetwork: Record<BitcoinNetwork, network> = {
+  mainnet: { mainnet: null },
+  testnet: { testnet: null },
+  regtest: { regtest: null },
+};
 
 export type GetUtxosParams = Omit<get_utxos_request, "network" | "filter"> & {
   network: BitcoinNetwork;
@@ -45,6 +48,6 @@ export const toGetBalanceParams = ({
   ...rest
 }: GetBalanceParams): get_balance_request => ({
   min_confirmations: toNullable(minConfirmations),
-  network: mapBitcoinNetwork(network),
+  network: mapBitcoinNetwork[network],
   ...rest,
 });

@@ -11,12 +11,6 @@ export interface bitcoin_get_balance_args {
   address: bitcoin_address;
   min_confirmations: [] | [number];
 }
-export interface bitcoin_get_balance_query_args {
-  network: bitcoin_network;
-  address: bitcoin_address;
-  min_confirmations: [] | [number];
-}
-export type bitcoin_get_balance_query_result = satoshi;
 export type bitcoin_get_balance_result = satoshi;
 export interface bitcoin_get_block_headers_args {
   start_height: bitcoin_block_height;
@@ -39,19 +33,6 @@ export interface bitcoin_get_utxos_args {
     | []
     | [{ page: Uint8Array | number[] } | { min_confirmations: number }];
   address: bitcoin_address;
-}
-export interface bitcoin_get_utxos_query_args {
-  network: bitcoin_network;
-  filter:
-    | []
-    | [{ page: Uint8Array | number[] } | { min_confirmations: number }];
-  address: bitcoin_address;
-}
-export interface bitcoin_get_utxos_query_result {
-  next_page: [] | [Uint8Array | number[]];
-  tip_height: bitcoin_block_height;
-  tip_block_hash: bitcoin_block_hash;
-  utxos: Array<utxo>;
 }
 export interface bitcoin_get_utxos_result {
   next_page: [] | [Uint8Array | number[]];
@@ -322,10 +303,6 @@ export interface _SERVICE {
     [bitcoin_get_balance_args],
     bitcoin_get_balance_result
   >;
-  bitcoin_get_balance_query: ActorMethod<
-    [bitcoin_get_balance_query_args],
-    bitcoin_get_balance_query_result
-  >;
   bitcoin_get_block_headers: ActorMethod<
     [bitcoin_get_block_headers_args],
     bitcoin_get_block_headers_result
@@ -337,10 +314,6 @@ export interface _SERVICE {
   bitcoin_get_utxos: ActorMethod<
     [bitcoin_get_utxos_args],
     bitcoin_get_utxos_result
-  >;
-  bitcoin_get_utxos_query: ActorMethod<
-    [bitcoin_get_utxos_query_args],
-    bitcoin_get_utxos_query_result
   >;
   bitcoin_send_transaction: ActorMethod<
     [bitcoin_send_transaction_args],

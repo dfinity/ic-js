@@ -575,7 +575,6 @@ export interface NeuronsFundMatchedFundingCurveCoefficients {
 }
 export interface NeuronsFundNeuron {
   controller: [] | [Principal];
-  hotkey_principal: [] | [string];
   hotkeys: [] | [Principals];
   is_capped: [] | [boolean];
   nns_neuron_id: [] | [bigint];
@@ -583,7 +582,6 @@ export interface NeuronsFundNeuron {
 }
 export interface NeuronsFundNeuronPortion {
   controller: [] | [Principal];
-  hotkey_principal: [] | [Principal];
   hotkeys: Array<Principal>;
   is_capped: [] | [boolean];
   maturity_equivalent_icp_e8s: [] | [bigint];
@@ -668,9 +666,6 @@ export type ProposalActionRequest =
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
   | { RewardNodeProvider: RewardNodeProvider }
-  | { OpenSnsTokenSwap: OpenSnsTokenSwap }
-  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
-  | { SetDefaultFollowees: SetDefaultFollowees }
   | { RewardNodeProviders: RewardNodeProviders }
   | { ManageNetworkEconomics: NetworkEconomics }
   | { ApproveGenesisKyc: Principals }

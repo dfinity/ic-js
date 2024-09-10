@@ -55,10 +55,7 @@ export type ProposalActionRequest =
   | { RewardNodeProvider: RewardNodeProvider }
   | { RewardNodeProviders: RewardNodeProviders }
   | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
-  | { SetDefaultFollowees: SetDefaultFollowees }
-  | { Motion: Motion }
-  | { SetSnsTokenSwapOpenTimeWindow: SetSnsTokenSwapOpenTimeWindow }
-  | { OpenSnsTokenSwap: OpenSnsTokenSwap };
+  | { Motion: Motion };
 export interface AddHotKey {
   newHotKey: Option<PrincipalString>;
 }
