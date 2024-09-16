@@ -42,6 +42,16 @@ export interface InitArg {
   more_controller_ids: Array<Principal>;
   minter_id: [] | [Principal];
 }
+export interface InstalledCanister {
+  canister_id: Principal;
+  installed_wasm_hash: string;
+}
+export interface InstalledLedgerSuite {
+  token_symbol: string;
+  ledger: InstalledCanister;
+  index: InstalledCanister;
+  archives: [] | [Array<Principal>];
+}
 export interface LedgerInitArg {
   decimals: number;
   token_symbol: string;
@@ -73,6 +83,12 @@ export interface ManagedCanisters {
   archives: Array<Principal>;
   ckerc20_token_symbol: string;
 }
+export interface ManagedLedgerSuite {
+  token_symbol: string;
+  ledger: [] | [ManagedCanisterStatus];
+  index: [] | [ManagedCanisterStatus];
+  archives: Array<Principal>;
+}
 export type OrchestratorArg =
   | { UpgradeArg: UpgradeArg }
   | { InitArg: InitArg }
@@ -80,6 +96,7 @@ export type OrchestratorArg =
 export interface OrchestratorInfo {
   cycles_management: CyclesManagement;
   managed_canisters: Array<ManagedCanisters>;
+  managed_pre_existing_ledger_suites: [] | [Array<ManagedLedgerSuite>];
   more_controller_ids: Array<Principal>;
   ledger_suite_version: [] | [LedgerSuiteVersion];
   minter_id: [] | [Principal];
@@ -97,6 +114,7 @@ export interface UpdateCyclesManagement {
   cycles_for_index_creation: [] | [bigint];
 }
 export interface UpgradeArg {
+  manage_ledger_suites: [] | [Array<InstalledLedgerSuite>];
   cycles_management: [] | [UpdateCyclesManagement];
   archive_compressed_wasm_hash: [] | [string];
   git_commit_hash: [] | [string];
