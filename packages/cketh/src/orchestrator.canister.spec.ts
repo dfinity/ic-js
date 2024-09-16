@@ -48,6 +48,8 @@ describe("ckETH orchestrator canister", () => {
         },
       };
 
+      const mockCanisterId = Principal.from("yfumr-cyaaa-aaaar-qaela-cai");
+
       const orchestratorInfoMock: OrchestratorInfo = {
         minter_id: [minterCanisterIdMock],
         more_controller_ids: [],
@@ -64,6 +66,16 @@ describe("ckETH orchestrator canister", () => {
             ledger_compressed_wasm_hash: "abcd",
             index_compressed_wasm_hash: "efgdh",
           },
+        ],
+        managed_pre_existing_ledger_suites: [
+          [
+            {
+              token_symbol: "def",
+              ledger: [{ Created: { canister_id: mockCanisterId } }],
+              index: [{ Created: { canister_id: mockCanisterId } }],
+              archives: [mockCanisterId],
+            },
+          ],
         ],
       };
 
