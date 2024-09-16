@@ -19,11 +19,9 @@ export interface CreateCanisterArg {
   settings: [] | [CanisterSettings];
   subnet_type: [] | [string];
 }
-export type CreateCanisterError =
-  | {
-      Refunded: { create_error: string; refund_amount: bigint };
-    }
-  | { RefundFailed: { create_error: string; refund_error: string } };
+export type CreateCanisterError = {
+  Refunded: { create_error: string; refund_amount: bigint };
+};
 export type CreateCanisterResult =
   | { Ok: Principal }
   | { Err: CreateCanisterError };

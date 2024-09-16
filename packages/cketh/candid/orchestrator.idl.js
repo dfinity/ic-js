@@ -1,5 +1,15 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/cketh/candid/orchestrator.did */
 export const idlFactory = ({ IDL }) => {
+  const InstalledCanister = IDL.Record({
+    'canister_id' : IDL.Principal,
+    'installed_wasm_hash' : IDL.Text,
+  });
+  const InstalledLedgerSuite = IDL.Record({
+    'token_symbol' : IDL.Text,
+    'ledger' : InstalledCanister,
+    'index' : InstalledCanister,
+    'archives' : IDL.Opt(IDL.Vec(IDL.Principal)),
+  });
   const UpdateCyclesManagement = IDL.Record({
     'cycles_top_up_increment' : IDL.Opt(IDL.Nat),
     'cycles_for_ledger_creation' : IDL.Opt(IDL.Nat),
@@ -7,6 +17,7 @@ export const idlFactory = ({ IDL }) => {
     'cycles_for_index_creation' : IDL.Opt(IDL.Nat),
   });
   const UpgradeArg = IDL.Record({
+    'manage_ledger_suites' : IDL.Opt(IDL.Vec(InstalledLedgerSuite)),
     'cycles_management' : IDL.Opt(UpdateCyclesManagement),
     'archive_compressed_wasm_hash' : IDL.Opt(IDL.Text),
     'git_commit_hash' : IDL.Opt(IDL.Text),
@@ -91,6 +102,12 @@ export const idlFactory = ({ IDL }) => {
     'archives' : IDL.Vec(IDL.Principal),
     'ckerc20_token_symbol' : IDL.Text,
   });
+  const ManagedLedgerSuite = IDL.Record({
+    'token_symbol' : IDL.Text,
+    'ledger' : IDL.Opt(ManagedCanisterStatus),
+    'index' : IDL.Opt(ManagedCanisterStatus),
+    'archives' : IDL.Vec(IDL.Principal),
+  });
   const LedgerSuiteVersion = IDL.Record({
     'archive_compressed_wasm_hash' : IDL.Text,
     'ledger_compressed_wasm_hash' : IDL.Text,
@@ -99,6 +116,7 @@ export const idlFactory = ({ IDL }) => {
   const OrchestratorInfo = IDL.Record({
     'cycles_management' : CyclesManagement,
     'managed_canisters' : IDL.Vec(ManagedCanisters),
+    'managed_pre_existing_ledger_suites' : IDL.Opt(IDL.Vec(ManagedLedgerSuite)),
     'more_controller_ids' : IDL.Vec(IDL.Principal),
     'ledger_suite_version' : IDL.Opt(LedgerSuiteVersion),
     'minter_id' : IDL.Opt(IDL.Principal),
@@ -114,6 +132,16 @@ export const idlFactory = ({ IDL }) => {
   });
 };
 export const init = ({ IDL }) => {
+  const InstalledCanister = IDL.Record({
+    'canister_id' : IDL.Principal,
+    'installed_wasm_hash' : IDL.Text,
+  });
+  const InstalledLedgerSuite = IDL.Record({
+    'token_symbol' : IDL.Text,
+    'ledger' : InstalledCanister,
+    'index' : InstalledCanister,
+    'archives' : IDL.Opt(IDL.Vec(IDL.Principal)),
+  });
   const UpdateCyclesManagement = IDL.Record({
     'cycles_top_up_increment' : IDL.Opt(IDL.Nat),
     'cycles_for_ledger_creation' : IDL.Opt(IDL.Nat),
@@ -121,6 +149,7 @@ export const init = ({ IDL }) => {
     'cycles_for_index_creation' : IDL.Opt(IDL.Nat),
   });
   const UpgradeArg = IDL.Record({
+    'manage_ledger_suites' : IDL.Opt(IDL.Vec(InstalledLedgerSuite)),
     'cycles_management' : IDL.Opt(UpdateCyclesManagement),
     'archive_compressed_wasm_hash' : IDL.Opt(IDL.Text),
     'git_commit_hash' : IDL.Opt(IDL.Text),

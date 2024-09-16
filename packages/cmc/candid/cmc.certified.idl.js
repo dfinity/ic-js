@@ -42,10 +42,6 @@ export const idlFactory = ({ IDL }) => {
       'create_error' : IDL.Text,
       'refund_amount' : IDL.Nat,
     }),
-    'RefundFailed' : IDL.Record({
-      'create_error' : IDL.Text,
-      'refund_error' : IDL.Text,
-    }),
   });
   const CreateCanisterResult = IDL.Variant({
     'Ok' : IDL.Principal,

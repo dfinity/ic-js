@@ -1,4 +1,4 @@
-// Generated from IC repo commit 843e71b (2024-08-14 tags: release-2024-09-06_01-30-canister-snapshots) 'rs/nns/cmc/cmc.did' by import-candid
+// Generated from IC repo commit afe1a18 (2024-09-11 tags: release-2024-09-12_01-30-base) 'rs/nns/cmc/cmc.did' by import-candid
 type Cycles = nat;
 type BlockIndex = nat64;
 type log_visibility = variant {
@@ -86,13 +86,6 @@ type CreateCanisterError = variant {
 
     // The reason why creating a canister failed.
     create_error : text;
-  };
-  RefundFailed : record {
-    // The reason why creating a canister failed.
-    create_error : text;
-
-    // The reason why refunding cycles failed.
-    refund_error : text;
   };
 };
 
