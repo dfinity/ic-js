@@ -1,4 +1,4 @@
-// Generated from IC repo commit afe1a18 (2024-09-11 tags: release-2024-09-12_01-30-base) 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit 0441f40 (2024-09-18 tags: release-2024-09-19_01-31-base) 'rs/sns/root/canister/root.did' by import-candid
 type CanisterCallError = record {
   code : opt int32;
   description : text;
@@ -140,7 +140,6 @@ type SetDappControllersResponse = record {
 type SnsRootCanister = record {
   dapp_canister_ids : vec principal;
   testflight : bool;
-  latest_ledger_archive_poll_timestamp_seconds : opt nat64;
   archive_canister_ids : vec principal;
   governance_canister_id : opt principal;
   index_canister_id : opt principal;

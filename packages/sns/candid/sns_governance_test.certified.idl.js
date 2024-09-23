@@ -374,6 +374,7 @@ export const idlFactory = ({ IDL }) => {
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Text, NeuronInFlightCommand)),
     'sns_metadata' : IDL.Opt(ManageSnsMetadata),
+    'migrated_root_wasm_memory_limit' : IDL.Opt(IDL.Bool),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Text, Neuron)),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });
@@ -980,6 +981,7 @@ export const init = ({ IDL }) => {
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Text, NeuronInFlightCommand)),
     'sns_metadata' : IDL.Opt(ManageSnsMetadata),
+    'migrated_root_wasm_memory_limit' : IDL.Opt(IDL.Bool),
     'neurons' : IDL.Vec(IDL.Tuple(IDL.Text, Neuron)),
     'genesis_timestamp_seconds' : IDL.Nat64,
   });
