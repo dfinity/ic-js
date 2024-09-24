@@ -117,7 +117,6 @@ export interface SetDappControllersResponse {
 export interface SnsRootCanister {
   dapp_canister_ids: Array<Principal>;
   testflight: boolean;
-  latest_ledger_archive_poll_timestamp_seconds: [] | [bigint];
   archive_canister_ids: Array<Principal>;
   governance_canister_id: [] | [Principal];
   index_canister_id: [] | [Principal];

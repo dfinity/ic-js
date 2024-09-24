@@ -234,6 +234,7 @@ export interface Governance {
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[string, NeuronInFlightCommand]>;
   sns_metadata: [] | [ManageSnsMetadata];
+  migrated_root_wasm_memory_limit: [] | [boolean];
   neurons: Array<[string, Neuron]>;
   genesis_timestamp_seconds: bigint;
 }

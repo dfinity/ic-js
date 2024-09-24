@@ -3,7 +3,6 @@ export const idlFactory = ({ IDL }) => {
   const SnsRootCanister = IDL.Record({
     'dapp_canister_ids' : IDL.Vec(IDL.Principal),
     'testflight' : IDL.Bool,
-    'latest_ledger_archive_poll_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'archive_canister_ids' : IDL.Vec(IDL.Principal),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
     'index_canister_id' : IDL.Opt(IDL.Principal),
@@ -169,7 +168,6 @@ export const init = ({ IDL }) => {
   const SnsRootCanister = IDL.Record({
     'dapp_canister_ids' : IDL.Vec(IDL.Principal),
     'testflight' : IDL.Bool,
-    'latest_ledger_archive_poll_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'archive_canister_ids' : IDL.Vec(IDL.Principal),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
     'index_canister_id' : IDL.Opt(IDL.Principal),
