@@ -37,9 +37,9 @@
   ],
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "peerDependencies": {
-    "@dfinity/agent": "^2.1.1",
-    "@dfinity/candid": "^2.1.1",
-    "@dfinity/principal": "^2.1.1",
+    "@dfinity/agent": "^2.1.2",
+    "@dfinity/candid": "^2.1.2",
+    "@dfinity/principal": "^2.1.2",
     "@dfinity/utils": "^2.5.0"
   }
 }
