@@ -98,6 +98,7 @@ export type log_visibility = { controllers: null } | { public: null };
 export interface _SERVICE {
   create_canister: ActorMethod<[CreateCanisterArg], CreateCanisterResult>;
   get_build_metadata: ActorMethod<[], string>;
+  get_default_subnets: ActorMethod<[], Array<Principal>>;
   get_icp_xdr_conversion_rate: ActorMethod<[], IcpXdrConversionRateResponse>;
   get_principals_authorized_to_create_canisters_to_subnets: ActorMethod<
     [],
