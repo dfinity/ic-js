@@ -10,6 +10,10 @@
 - Add support for `"regtest"` in `BitcoinNetwork`.
 - Expose `ledger-converters` utility modules in `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
 
+## Build
+
+- Incorporate Agent-js patch `v2.1.2`.
+
 # 2024.09.02-0830Z
 
 ## Overview
