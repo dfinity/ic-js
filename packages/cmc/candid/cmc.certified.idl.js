@@ -116,6 +116,7 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'get_build_metadata' : IDL.Func([], [IDL.Text], []),
+    'get_default_subnets' : IDL.Func([], [IDL.Vec(IDL.Principal)], []),
     'get_icp_xdr_conversion_rate' : IDL.Func(
         [],
         [IcpXdrConversionRateResponse],
