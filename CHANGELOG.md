@@ -8,6 +8,7 @@
 
 - Add support for `icrc21_canister_call_consent_message` to `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
 - Add support for `"regtest"` in `BitcoinNetwork`.
+- Expose `ledger-converters` utility modules in `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
 
 # 2024.09.02-0830Z
 
