@@ -26,6 +26,10 @@ The current status of the libraries at the time of the release is as follows:
 - Add support for `icrc21_canister_call_consent_message` to `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
 - Add support for `"regtest"` in `BitcoinNetwork`.
 
+## Build
+
+- Incorporate Agent-js patch `v2.1.2`.
+
 # 2024.09.02-0830Z
 
 ## Overview
