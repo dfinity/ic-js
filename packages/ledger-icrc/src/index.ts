@@ -6,6 +6,7 @@ export type {
   TransferError as IcrcTransferVariatError,
   Value as IcrcValue,
 } from "../candid/icrc_ledger";
+export * from "./converters/ledger.converters";
 export * from "./errors/index.errors";
 export * from "./errors/ledger.errors";
 export { IcrcIndexNgCanister } from "./index-ng.canister";
