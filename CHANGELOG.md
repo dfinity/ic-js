@@ -25,6 +25,7 @@ The current status of the libraries at the time of the release is as follows:
 
 - Add support for `icrc21_canister_call_consent_message` to `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
 - Add support for `"regtest"` in `BitcoinNetwork`.
+- Expose `ledger-converters` utility modules in `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
 
 ## Build
 
