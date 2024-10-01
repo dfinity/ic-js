@@ -6,22 +6,15 @@ import type {
   ProposalInfo,
 } from "../types/governance_converters";
 
-const voteForProposal = ({
-  ballots,
-  neuronId,
+const getNeuronVoteForProposal = ({
+  proposal: { ballots },
+  neuron: {neuronId},
 }: {
-  ballots: Ballot[];
-  neuronId: NeuronId | undefined;
-}): Vote | undefined => {
-  if (!neuronId) {
-    return undefined;
-  }
-
-  const ballot: Ballot | undefined = ballots.find(
+  proposal: ProposalInfo;
+  neuron: NeuronInfo;
+}): Vote | undefined => ballots.find(
     ({ neuronId: id }) => id === neuronId,
-  );
-  return ballot?.vote;
-};
+  )?.vote;
 
 /**
  * Filter the neurons that are ineligible to vote to a proposal.
@@ -70,18 +63,14 @@ export const votableNeurons = ({
 }: {
   neurons: NeuronInfo[];
   proposal: ProposalInfo;
-}): NeuronInfo[] => {
-  const { ballots } = proposal;
-
-  return neurons.filter(
-    ({ neuronId }: NeuronInfo) =>
-      voteForProposal({ ballots, neuronId }) === Vote.Unspecified &&
+}): NeuronInfo[] => neurons.filter(
+    (neuron: NeuronInfo) =>
+      getNeuronVoteForProposal({ proposal, neuron }) === Vote.Unspecified &&
       ineligibleNeurons({ neurons, proposal }).find(
         ({ neuronId: ineligibleNeuronId }: NeuronInfo) =>
-          ineligibleNeuronId === neuronId,
+          ineligibleNeuronId === neuron.neuronId,
       ) === undefined,
   );
-};
 
 /**
  * Filter the neurons that have voted for a proposal.
@@ -92,12 +81,12 @@ export const votableNeurons = ({
  */
 export const votedNeurons = ({
   neurons,
-  proposal: { ballots },
+  proposal,
 }: {
   neurons: NeuronInfo[];
   proposal: ProposalInfo;
 }): NeuronInfo[] =>
   neurons.filter(
-    ({ neuronId }: NeuronInfo) =>
-      voteForProposal({ ballots, neuronId }) !== Vote.Unspecified,
+    (neuron: NeuronInfo) =>
+      getNeuronVoteForProposal({ proposal, neuron }) !== Vote.Unspecified,
   );
