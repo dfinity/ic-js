@@ -40,7 +40,7 @@ describe("neurons-utils", () => {
     } as unknown as NeuronInfo,
   ];
 
-  const eligibleNeuronsDate: NeuronInfo[] = [
+  const eligibleNeuronsData: NeuronInfo[] = [
     {
       createdTimestampSeconds: proposalTimestampSeconds - BigInt(1),
       neuronId: proposalNeuronId,
@@ -101,7 +101,7 @@ describe("neurons-utils", () => {
       proposal,
       neurons: [
         {
-          ...eligibleNeuronsDate[0],
+          ...eligibleNeuronsData[0],
           recentBallots: [
             {
               proposalId,
@@ -120,15 +120,25 @@ describe("neurons-utils", () => {
         ...proposal,
         ballots: [
           {
-            neuronId: eligibleNeuronsDate[0].neuronId,
+            neuronId: eligibleNeuronsData[0].neuronId,
             vote: Vote.Unspecified,
+            votingPower: BigInt(1),
+          },
+          {
+            neuronId: eligibleNeuronsData[0].neuronId,
+            vote: Vote.Yes,
+            votingPower: BigInt(1),
+          },
+          {
+            neuronId: eligibleNeuronsData[0].neuronId,
+            vote: Vote.No,
             votingPower: BigInt(1),
           },
         ],
       },
       neurons: [
         {
-          ...eligibleNeuronsDate[0],
+          ...eligibleNeuronsData[0],
         },
       ],
     });
@@ -141,15 +151,20 @@ describe("neurons-utils", () => {
         ...proposal,
         ballots: [
           {
-            neuronId: eligibleNeuronsDate[0].neuronId,
+            neuronId: eligibleNeuronsData[0].neuronId,
             vote: Vote.Unspecified,
+            votingPower: BigInt(1),
+          },
+          {
+            neuronId: eligibleNeuronsData[1].neuronId,
+            vote: Vote.No,
             votingPower: BigInt(1),
           },
         ],
       },
       neurons: [
         {
-          ...eligibleNeuronsDate[0],
+          ...eligibleNeuronsData[0],
         },
       ],
     });
@@ -162,25 +177,25 @@ describe("neurons-utils", () => {
         ...proposal,
         ballots: [
           {
-            neuronId: eligibleNeuronsDate[0].neuronId,
+            neuronId: eligibleNeuronsData[0].neuronId,
             vote: Vote.Unspecified,
             votingPower: BigInt(0),
           },
           {
-            neuronId: eligibleNeuronsDate[1].neuronId,
-            vote: Vote.Unspecified,
+            neuronId: eligibleNeuronsData[1].neuronId,
+            vote: Vote.Yes,
             votingPower: BigInt(1),
           },
           {
-            neuronId: eligibleNeuronsDate[2].neuronId,
+            neuronId: eligibleNeuronsData[2].neuronId,
             vote: Vote.Unspecified,
             votingPower: BigInt(0),
           },
         ],
       },
-      neurons: eligibleNeuronsDate,
+      neurons: eligibleNeuronsData,
     });
-    expect(votable.length).toEqual(3);
+    expect(votable.length).toEqual(2);
   });
 
   it("should not have voted neurons because votable", () => {
@@ -189,7 +204,7 @@ describe("neurons-utils", () => {
         ...proposal,
         ballots: [
           {
-            neuronId: eligibleNeuronsDate[0].neuronId,
+            neuronId: eligibleNeuronsData[0].neuronId,
             vote: Vote.Unspecified,
             votingPower: BigInt(1),
           },
@@ -197,7 +212,7 @@ describe("neurons-utils", () => {
       },
       neurons: [
         {
-          ...eligibleNeuronsDate[0],
+          ...eligibleNeuronsData[0],
         },
       ],
     });
@@ -210,7 +225,7 @@ describe("neurons-utils", () => {
         ...proposal,
         ballots: [
           {
-            neuronId: eligibleNeuronsDate[0].neuronId,
+            neuronId: eligibleNeuronsData[0].neuronId,
             vote: Vote.Unspecified,
             votingPower: BigInt(1),
           },
@@ -218,7 +233,7 @@ describe("neurons-utils", () => {
       },
       neurons: [
         {
-          ...eligibleNeuronsDate[0],
+          ...eligibleNeuronsData[0],
         },
       ],
     });
@@ -230,7 +245,7 @@ describe("neurons-utils", () => {
       proposal,
       neurons: [
         {
-          ...eligibleNeuronsDate[0],
+          ...eligibleNeuronsData[0],
           recentBallots: [
             {
               proposalId,
