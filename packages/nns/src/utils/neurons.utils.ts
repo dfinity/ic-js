@@ -1,4 +1,4 @@
-import  { Vote } from "../enums/governance.enums";
+import { Vote } from "../enums/governance.enums";
 import type { NeuronId } from "../types/common";
 import type {
   Ballot,
