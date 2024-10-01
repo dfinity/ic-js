@@ -160,7 +160,7 @@ describe("neurons-utils", () => {
           {
             neuronId: eligibleNeuronsDate[0].neuronId,
             vote: Vote.Unspecified,
-            votingPower: BigInt(1),
+            votingPower: BigInt(0),
           },
           {
             neuronId: eligibleNeuronsDate[1].neuronId,
@@ -170,7 +170,7 @@ describe("neurons-utils", () => {
           {
             neuronId: eligibleNeuronsDate[2].neuronId,
             vote: Vote.Unspecified,
-            votingPower: BigInt(1),
+            votingPower: BigInt(0),
           },
         ],
       },
