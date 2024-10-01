@@ -47,6 +47,18 @@ describe("neurons-utils", () => {
       recentBallots: [],
       votingPower: BigInt(1),
     } as unknown as NeuronInfo,
+    {
+      createdTimestampSeconds: proposalTimestampSeconds - BigInt(2),
+      neuronId: proposalNeuronId + 1n,
+      recentBallots: [],
+      votingPower: BigInt(1),
+    } as unknown as NeuronInfo,
+    {
+      createdTimestampSeconds: proposalTimestampSeconds - BigInt(3),
+      neuronId: proposalNeuronId + 2n,
+      recentBallots: [],
+      votingPower: BigInt(1),
+    } as unknown as NeuronInfo,
   ];
 
   it("should has an ineligible neuron because created after proposal", () => {
@@ -104,16 +116,17 @@ describe("neurons-utils", () => {
 
   it("should have votable neurons because not yet voted", () => {
     const votable = votableNeurons({
-      proposal,
+      proposal: {
+        ...proposal,
+        ballots: [{
+          neuronId: eligibleNeuronsDate[0].neuronId,
+          vote: Vote.Unspecified,
+          votingPower: BigInt(1),
+        }],
+      },
       neurons: [
         {
           ...eligibleNeuronsDate[0],
-          recentBallots: [
-            {
-              proposalId: BigInt(4),
-              vote: Vote.No,
-            },
-          ],
         },
       ],
     });
@@ -122,11 +135,17 @@ describe("neurons-utils", () => {
 
   it("should have votable neurons because never voted", () => {
     const votable = votableNeurons({
-      proposal,
+      proposal: {
+        ...proposal,
+        ballots: [{
+          neuronId: eligibleNeuronsDate[0].neuronId,
+          vote: Vote.Unspecified,
+          votingPower: BigInt(1),
+        }],
+      },
       neurons: [
         {
           ...eligibleNeuronsDate[0],
-          recentBallots: [],
         },
       ],
     });
@@ -135,40 +154,44 @@ describe("neurons-utils", () => {
 
   it("should have votable neurons regardless of voting power", () => {
     const votable = votableNeurons({
-      proposal,
-      neurons: [
-        {
-          ...eligibleNeuronsDate[0],
-          recentBallots: [],
-          votingPower: BigInt(0),
-        },
-        {
-          ...eligibleNeuronsDate[0],
-          recentBallots: [],
-          votingPower: BigInt(1),
-        },
-        {
-          ...eligibleNeuronsDate[0],
-          recentBallots: [],
-          votingPower: BigInt(0),
-        },
-      ],
+      proposal: {
+        ...proposal,
+        ballots: [
+          {
+            neuronId: eligibleNeuronsDate[0].neuronId,
+            vote: Vote.Unspecified,
+            votingPower: BigInt(1),
+          },
+          {
+            neuronId: eligibleNeuronsDate[1].neuronId,
+            vote: Vote.Unspecified,
+            votingPower: BigInt(1),
+          },
+          {
+            neuronId: eligibleNeuronsDate[2].neuronId,
+            vote: Vote.Unspecified,
+            votingPower: BigInt(1),
+          },
+        ],
+      },
+      neurons: eligibleNeuronsDate,
     });
     expect(votable.length).toEqual(3);
   });
 
   it("should not have voted neurons because votable", () => {
     const voted = votedNeurons({
-      proposal,
+      proposal: {
+        ...proposal,
+        ballots: [{
+          neuronId: eligibleNeuronsDate[0].neuronId,
+          vote: Vote.Unspecified,
+          votingPower: BigInt(1),
+        }],
+      },
       neurons: [
         {
           ...eligibleNeuronsDate[0],
-          recentBallots: [
-            {
-              proposalId: BigInt(4),
-              vote: Vote.No,
-            },
-          ],
         },
       ],
     });
@@ -177,11 +200,17 @@ describe("neurons-utils", () => {
 
   it("should not have voted neurons because never voted", () => {
     const voted = votedNeurons({
-      proposal,
+      proposal: {
+        ...proposal,
+        ballots: [{
+          neuronId: eligibleNeuronsDate[0].neuronId,
+          vote: Vote.Unspecified,
+          votingPower: BigInt(1),
+        }],
+      },
       neurons: [
         {
           ...eligibleNeuronsDate[0],
-          recentBallots: [],
         },
       ],
     });
