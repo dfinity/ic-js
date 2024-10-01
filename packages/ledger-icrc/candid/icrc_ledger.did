@@ -1,4 +1,4 @@
-// Generated from IC repo commit 0441f40 (2024-09-18 tags: release-2024-09-19_01-31-base) 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
+// Generated from IC repo commit c43a488 (2024-09-27 tags: release-2024-09-26_01-31-no-canister-snapshots) 'rs/rosetta-api/icrc1/ledger/ledger.did' by import-candid
 type BlockIndex = nat;
 type Subaccount = blob;
 // Number of nanoseconds since the UNIX epoch in UTC timezone.

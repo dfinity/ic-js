@@ -118,11 +118,13 @@ describe("neurons-utils", () => {
     const votable = votableNeurons({
       proposal: {
         ...proposal,
-        ballots: [{
-          neuronId: eligibleNeuronsDate[0].neuronId,
-          vote: Vote.Unspecified,
-          votingPower: BigInt(1),
-        }],
+        ballots: [
+          {
+            neuronId: eligibleNeuronsDate[0].neuronId,
+            vote: Vote.Unspecified,
+            votingPower: BigInt(1),
+          },
+        ],
       },
       neurons: [
         {
@@ -137,11 +139,13 @@ describe("neurons-utils", () => {
     const votable = votableNeurons({
       proposal: {
         ...proposal,
-        ballots: [{
-          neuronId: eligibleNeuronsDate[0].neuronId,
-          vote: Vote.Unspecified,
-          votingPower: BigInt(1),
-        }],
+        ballots: [
+          {
+            neuronId: eligibleNeuronsDate[0].neuronId,
+            vote: Vote.Unspecified,
+            votingPower: BigInt(1),
+          },
+        ],
       },
       neurons: [
         {
@@ -183,11 +187,13 @@ describe("neurons-utils", () => {
     const voted = votedNeurons({
       proposal: {
         ...proposal,
-        ballots: [{
-          neuronId: eligibleNeuronsDate[0].neuronId,
-          vote: Vote.Unspecified,
-          votingPower: BigInt(1),
-        }],
+        ballots: [
+          {
+            neuronId: eligibleNeuronsDate[0].neuronId,
+            vote: Vote.Unspecified,
+            votingPower: BigInt(1),
+          },
+        ],
       },
       neurons: [
         {
@@ -202,11 +208,13 @@ describe("neurons-utils", () => {
     const voted = votedNeurons({
       proposal: {
         ...proposal,
-        ballots: [{
-          neuronId: eligibleNeuronsDate[0].neuronId,
-          vote: Vote.Unspecified,
-          votingPower: BigInt(1),
-        }],
+        ballots: [
+          {
+            neuronId: eligibleNeuronsDate[0].neuronId,
+            vote: Vote.Unspecified,
+            votingPower: BigInt(1),
+          },
+        ],
       },
       neurons: [
         {
