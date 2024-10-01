@@ -99,5 +99,5 @@ export const votedNeurons = ({
 }): NeuronInfo[] =>
   neurons.filter(
     ({ neuronId }: NeuronInfo) =>
-      voteForProposal({ ballots, neuronId }) !== undefined,
+      voteForProposal({ ballots, neuronId }) !== Vote.Unspecified,
   );
