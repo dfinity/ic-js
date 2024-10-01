@@ -1,4 +1,4 @@
-// Generated from IC repo commit 0441f40 (2024-09-18 tags: release-2024-09-19_01-31-base) 'rs/nns/cmc/cmc.did' by import-candid
+// Generated from IC repo commit c43a488 (2024-09-27 tags: release-2024-09-26_01-31-no-canister-snapshots) 'rs/nns/cmc/cmc.did' by import-candid
 type Cycles = nat;
 type BlockIndex = nat64;
 type log_visibility = variant {
@@ -235,6 +235,8 @@ service : (opt CyclesCanisterInitPayload) -> {
   // Returns the mapping from principals to subnets in which they are authorized
   // to create canisters.
   get_principals_authorized_to_create_canisters_to_subnets : () -> (PrincipalsAuthorizedToCreateCanistersToSubnetsResponse) query;
+
+  get_default_subnets: () -> (vec principal) query;
 
   get_build_metadata : () -> (text) query;
 };
