@@ -61,192 +61,145 @@ describe("neurons-utils", () => {
     } as unknown as NeuronInfo,
   ];
 
-  it("should has an ineligible neuron because created after proposal", () => {
-    const ineligible = ineligibleNeurons({
-      proposal,
-      neurons: ineligibleNeuronsDate,
+  describe("ineligibleNeurons", () => {
+    it("should has an ineligible neuron because created after proposal", () => {
+      const ineligible = ineligibleNeurons({
+        proposal,
+        neurons: ineligibleNeuronsDate,
+      });
+      expect(ineligible.length).toEqual(1);
     });
-    expect(ineligible.length).toEqual(1);
+
+    it("should has an ineligible neuron because dissolve too short", () => {
+      const ineligible = ineligibleNeurons({
+        proposal,
+        neurons: ineligibleNeuronsTooShort,
+      });
+      expect(ineligible.length).toEqual(1);
+    });
+
+    it("should has not ineligible neuron because empty", () => {
+      const ineligible = ineligibleNeurons({ proposal, neurons: [] });
+      expect(ineligible.length).toEqual(0);
+    });
   });
 
-  it("should has an ineligible neuron because dissolve too short", () => {
-    const ineligible = ineligibleNeurons({
-      proposal,
-      neurons: ineligibleNeuronsTooShort,
+  describe("votableNeurons", () => {
+    it("should not have votable neurons because ineligible", () => {
+      let votable = votableNeurons({
+        proposal,
+        neurons: ineligibleNeuronsDate,
+      });
+      expect(votable.length).toEqual(0);
+
+      votable = votableNeurons({
+        proposal,
+        neurons: ineligibleNeuronsTooShort,
+      });
+      expect(votable.length).toEqual(0);
     });
-    expect(ineligible.length).toEqual(1);
-  });
 
-  it("should has not ineligible neuron because empty", () => {
-    const ineligible = ineligibleNeurons({ proposal, neurons: [] });
-    expect(ineligible.length).toEqual(0);
-  });
-
-  it("should not have votable neurons because ineligible", () => {
-    let votable = votableNeurons({
-      proposal,
-      neurons: ineligibleNeuronsDate,
+    it("should not have votable neurons because already voted", () => {
+      const votable = votableNeurons({
+        proposal,
+        neurons: [
+          {
+            ...eligibleNeuronsData[0],
+            recentBallots: [
+              {
+                proposalId,
+                vote: Vote.No,
+              },
+            ],
+          },
+        ],
+      });
+      expect(votable.length).toEqual(0);
     });
-    expect(votable.length).toEqual(0);
 
-    votable = votableNeurons({
-      proposal,
-      neurons: ineligibleNeuronsTooShort,
-    });
-    expect(votable.length).toEqual(0);
-  });
-
-  it("should not have votable neurons because already voted", () => {
-    const votable = votableNeurons({
-      proposal,
-      neurons: [
-        {
-          ...eligibleNeuronsData[0],
-          recentBallots: [
+    it("should have votable neurons because not yet voted", () => {
+      const votable = votableNeurons({
+        proposal: {
+          ...proposal,
+          ballots: [
             {
-              proposalId,
+              neuronId: eligibleNeuronsData[0].neuronId,
+              vote: Vote.Unspecified,
+              votingPower: BigInt(1),
+            },
+            {
+              neuronId: eligibleNeuronsData[1].neuronId,
+              vote: Vote.Yes,
+              votingPower: BigInt(1),
+            },
+            {
+              neuronId: eligibleNeuronsData[2].neuronId,
               vote: Vote.No,
+              votingPower: BigInt(1),
             },
           ],
         },
-      ],
+        neurons: eligibleNeuronsData,
+      });
+      expect(votable.length).toEqual(1);
+      expect(votable).toEqual([eligibleNeuronsData[0]]);
     });
-    expect(votable.length).toEqual(0);
-  });
 
-  it("should have votable neurons because not yet voted", () => {
-    const votable = votableNeurons({
-      proposal: {
-        ...proposal,
-        ballots: [
-          {
-            neuronId: eligibleNeuronsData[0].neuronId,
-            vote: Vote.Unspecified,
-            votingPower: BigInt(1),
-          },
-          {
-            neuronId: eligibleNeuronsData[0].neuronId,
-            vote: Vote.Yes,
-            votingPower: BigInt(1),
-          },
-          {
-            neuronId: eligibleNeuronsData[0].neuronId,
-            vote: Vote.No,
-            votingPower: BigInt(1),
-          },
-        ],
-      },
-      neurons: eligibleNeuronsData,
-    });
-    expect(votable.length).toEqual(1);
-  });
-
-  it("should have votable neurons because never voted", () => {
-    const votable = votableNeurons({
-      proposal: {
-        ...proposal,
-        ballots: [
-          {
-            neuronId: eligibleNeuronsData[0].neuronId,
-            vote: Vote.Unspecified,
-            votingPower: BigInt(1),
-          },
-          {
-            neuronId: eligibleNeuronsData[1].neuronId,
-            vote: Vote.No,
-            votingPower: BigInt(1),
-          },
-        ],
-      },
-      neurons: eligibleNeuronsData,
-    });
-    expect(votable.length).toEqual(1);
-  });
-
-  it("should have votable neurons regardless of voting power", () => {
-    const votable = votableNeurons({
-      proposal: {
-        ...proposal,
-        ballots: [
-          {
-            neuronId: eligibleNeuronsData[0].neuronId,
-            vote: Vote.Unspecified,
-            votingPower: BigInt(0),
-          },
-          {
-            neuronId: eligibleNeuronsData[1].neuronId,
-            vote: Vote.Yes,
-            votingPower: BigInt(1),
-          },
-          {
-            neuronId: eligibleNeuronsData[2].neuronId,
-            vote: Vote.Unspecified,
-            votingPower: BigInt(0),
-          },
-        ],
-      },
-      neurons: eligibleNeuronsData,
-    });
-    expect(votable.length).toEqual(2);
-  });
-
-  it("should not have voted neurons because votable", () => {
-    const voted = votedNeurons({
-      proposal: {
-        ...proposal,
-        ballots: [
-          {
-            neuronId: eligibleNeuronsData[0].neuronId,
-            vote: Vote.Unspecified,
-            votingPower: BigInt(1),
-          },
-        ],
-      },
-      neurons: [
-        {
-          ...eligibleNeuronsData[0],
-        },
-      ],
-    });
-    expect(voted.length).toEqual(0);
-  });
-
-  it("should not have voted neurons because never voted", () => {
-    const voted = votedNeurons({
-      proposal: {
-        ...proposal,
-        ballots: [
-          {
-            neuronId: eligibleNeuronsData[0].neuronId,
-            vote: Vote.Unspecified,
-            votingPower: BigInt(1),
-          },
-        ],
-      },
-      neurons: [
-        {
-          ...eligibleNeuronsData[0],
-        },
-      ],
-    });
-    expect(voted.length).toEqual(0);
-  });
-
-  it("should have voted neurons because has voted", () => {
-    const voted = votedNeurons({
-      proposal,
-      neurons: [
-        {
-          ...eligibleNeuronsData[0],
-          recentBallots: [
+    it("should have votable neurons regardless of voting power", () => {
+      const votable = votableNeurons({
+        proposal: {
+          ...proposal,
+          ballots: [
             {
-              proposalId,
-              vote: Vote.No,
+              neuronId: eligibleNeuronsData[0].neuronId,
+              vote: Vote.Unspecified,
+              votingPower: BigInt(0),
+            },
+            {
+              neuronId: eligibleNeuronsData[1].neuronId,
+              vote: Vote.Yes,
+              votingPower: BigInt(1),
+            },
+            {
+              neuronId: eligibleNeuronsData[2].neuronId,
+              vote: Vote.Unspecified,
+              votingPower: BigInt(2),
             },
           ],
         },
-      ],
+        neurons: eligibleNeuronsData,
+      });
+      expect(votable.length).toEqual(2);
+      expect(votable).toEqual([eligibleNeuronsData[0], eligibleNeuronsData[2]]);
     });
-    expect(voted.length).toEqual(1);
+  });
+
+  describe("votedNeurons", () => {
+    it("should have only voted neurons", () => {
+      const voted = votedNeurons({
+        proposal: {
+          ...proposal,
+          ballots: [
+            {
+              neuronId: eligibleNeuronsData[0].neuronId,
+              vote: Vote.Unspecified,
+              votingPower: BigInt(1),
+            },
+            {
+              neuronId: eligibleNeuronsData[1].neuronId,
+              vote: Vote.Yes,
+              votingPower: BigInt(1),
+            },
+            {
+              neuronId: eligibleNeuronsData[2].neuronId,
+              vote: Vote.No,
+              votingPower: BigInt(1),
+            },
+          ],
+        },
+        neurons: eligibleNeuronsData,
+      });
+      expect(voted).toEqual([eligibleNeuronsData[1], eligibleNeuronsData[2]]);
+    });
   });
 });
