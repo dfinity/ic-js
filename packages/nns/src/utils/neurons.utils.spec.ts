@@ -136,11 +136,7 @@ describe("neurons-utils", () => {
           },
         ],
       },
-      neurons: [
-        {
-          ...eligibleNeuronsData[0],
-        },
-      ],
+      neurons: eligibleNeuronsData,
     });
     expect(votable.length).toEqual(1);
   });
@@ -162,11 +158,7 @@ describe("neurons-utils", () => {
           },
         ],
       },
-      neurons: [
-        {
-          ...eligibleNeuronsData[0],
-        },
-      ],
+      neurons: eligibleNeuronsData,
     });
     expect(votable.length).toEqual(1);
   });
