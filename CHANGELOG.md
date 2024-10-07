@@ -1,3 +1,9 @@
+# Next
+
+## Build
+
+- Downgrade Agent-js to `^2.0.0` to let consumers pick the compatible version they wish to use.
+
 # 2024.09.30-1100Z
 
 ## Overview
