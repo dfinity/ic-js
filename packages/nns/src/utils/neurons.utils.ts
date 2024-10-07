@@ -1,28 +1,18 @@
-import type { Vote } from "../enums/governance.enums";
+import { Vote } from "../enums/governance.enums";
 import type {
   Ballot,
-  BallotInfo,
   NeuronInfo,
-  ProposalId,
   ProposalInfo,
 } from "../types/governance_converters";
 
-const voteForProposal = ({
-  recentBallots,
-  proposalId,
+const getNeuronVoteForProposal = ({
+  proposal: { ballots },
+  neuron: { neuronId },
 }: {
-  recentBallots: BallotInfo[];
-  proposalId: ProposalId | undefined;
-}): Vote | undefined => {
-  if (!proposalId) {
-    return undefined;
-  }
-
-  const ballot: BallotInfo | undefined = recentBallots.find(
-    ({ proposalId: id }: BallotInfo) => id === proposalId,
-  );
-  return ballot?.vote;
-};
+  proposal: ProposalInfo;
+  neuron: NeuronInfo;
+}): Vote | undefined =>
+  ballots.find(({ neuronId: id }) => id === neuronId)?.vote;
 
 /**
  * Filter the neurons that are ineligible to vote to a proposal.
@@ -71,18 +61,15 @@ export const votableNeurons = ({
 }: {
   neurons: NeuronInfo[];
   proposal: ProposalInfo;
-}): NeuronInfo[] => {
-  const { id: proposalId } = proposal;
-
-  return neurons.filter(
-    ({ recentBallots, neuronId }: NeuronInfo) =>
-      voteForProposal({ recentBallots, proposalId }) === undefined &&
+}): NeuronInfo[] =>
+  neurons.filter(
+    (neuron: NeuronInfo) =>
+      getNeuronVoteForProposal({ proposal, neuron }) === Vote.Unspecified &&
       ineligibleNeurons({ neurons, proposal }).find(
         ({ neuronId: ineligibleNeuronId }: NeuronInfo) =>
-          ineligibleNeuronId === neuronId,
+          ineligibleNeuronId === neuron.neuronId,
       ) === undefined,
   );
-};
 
 /**
  * Filter the neurons that have voted for a proposal.
@@ -93,12 +80,12 @@ export const votableNeurons = ({
  */
 export const votedNeurons = ({
   neurons,
-  proposal: { id: proposalId },
+  proposal,
 }: {
   neurons: NeuronInfo[];
   proposal: ProposalInfo;
 }): NeuronInfo[] =>
   neurons.filter(
-    ({ recentBallots }: NeuronInfo) =>
-      voteForProposal({ recentBallots, proposalId }) !== undefined,
+    (neuron: NeuronInfo) =>
+      getNeuronVoteForProposal({ proposal, neuron }) !== Vote.Unspecified,
   );

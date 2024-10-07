@@ -96,7 +96,7 @@ Parameters:
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal to match against the selected neurons.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L39)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L29)
 
 #### :gear: votableNeurons
 
@@ -111,22 +111,22 @@ Parameters:
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal to match against the selected neurons.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L68)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L58)
 
 #### :gear: votedNeurons
 
 Filter the neurons that have voted for a proposal.
 
-| Function       | Type                                                                                                               |
-| -------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `votedNeurons` | `({ neurons, proposal: { id: proposalId }, }: { neurons: NeuronInfo[]; proposal: ProposalInfo; }) => NeuronInfo[]` |
+| Function       | Type                                                                                           |
+| -------------- | ---------------------------------------------------------------------------------------------- |
+| `votedNeurons` | `({ neurons, proposal, }: { neurons: NeuronInfo[]; proposal: ProposalInfo; }) => NeuronInfo[]` |
 
 Parameters:
 
 - `params.neurons`: The neurons to filter.
 - `params.proposal`: The proposal for which some neurons might have already voted.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L94)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/utils/neurons.utils.ts#L81)
 
 ### :factory: GenesisTokenCanister
 
