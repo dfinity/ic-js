@@ -976,16 +976,22 @@ export class GovernanceCanister {
   public getNeuron = async ({
     certified = true,
     neuronId,
+    includeEmptyNeurons = false,
   }: {
     certified: boolean;
     neuronId: NeuronId;
+    includeEmptyNeurons?: boolean;
   }): Promise<NeuronInfo | undefined> => {
     // The governance canister exposes two functions "get_neuron_info" and "get_full_neuron" that could probably be used to fetch the neuron details too.
     // However historically this function has been resolved with a single call "list_neurons".
 
+    //Visibility is not provided by old oldListNeuronsCertifiedService, and we pass include empty neurons to get correct visibility
     const [neuron]: NeuronInfo[] = await this.listNeurons({
       certified,
       neuronIds: [neuronId],
+      includeEmptyNeurons: includeEmptyNeurons
+        ? includeEmptyNeurons
+        : undefined,
     });
 
     return neuron;
