@@ -708,27 +708,70 @@ describe("GovernanceCanister", () => {
   });
 
   describe("GovernanceCanister.getNeuron", () => {
-    it("should fetch and convert a neuron", async () => {
+    it("should fetch and convert a neuron using old service", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
-      const governance = GovernanceCanister.create({
-        certifiedServiceOverride: service,
-        serviceOverride: service,
-        oldListNeuronsServiceOverride: service,
-      });
+      const certifiedService = mock<ActorSubclass<GovernanceService>>();
+      const oldService = mock<ActorSubclass<GovernanceService>>();
+      oldService.list_neurons.mockResolvedValue(mockListNeuronsResponse);
+      const neuronId = BigInt(1);
 
-      service.list_neurons.mockResolvedValue(
-        Promise.resolve(mockListNeuronsResponse),
-      );
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: certifiedService,
+        serviceOverride: service,
+        oldListNeuronsServiceOverride: oldService,
+      });
 
       const response = await governance.getNeuron({
         certified: true,
-        neuronId: BigInt(1),
+        neuronId: neuronId,
       });
 
-      expect(service.list_neurons).toBeCalled();
+      expect(oldService.list_neurons).toBeCalledWith({
+        neuron_ids: new BigUint64Array([neuronId]),
+        include_neurons_readable_by_caller: false,
+        include_empty_neurons_readable_by_caller: [],
+        include_public_neurons_in_full_neurons: [],
+      });
+
+      expect(certifiedService.list_neurons).not.toBeCalled();
       expect(response).not.toBeUndefined();
-      expect(Number(response?.neuronId)).toEqual(Number(mockNeuronId));
       expect(response?.state).toEqual(mockNeuronInfo.state);
+      expect(Number(response?.neuronId)).toEqual(Number(mockNeuronId));
+      expect(service.list_neurons).not.toBeCalled();
+      expect(oldService.list_neurons).toBeCalledTimes(1);
+    });
+    it("should fetch and convert a neuron with new service when includeEmptyNeurons is set to true", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      const certifiedService = mock<ActorSubclass<GovernanceService>>();
+      const oldService = mock<ActorSubclass<GovernanceService>>();
+      certifiedService.list_neurons.mockResolvedValue(mockListNeuronsResponse);
+      const neuronId = BigInt(1);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: certifiedService,
+        serviceOverride: service,
+        oldListNeuronsServiceOverride: oldService,
+      });
+
+      const response = await governance.getNeuron({
+        certified: true,
+        neuronId,
+        includeEmptyNeurons: true,
+      });
+
+      expect(certifiedService.list_neurons).toBeCalledWith({
+        neuron_ids: new BigUint64Array([neuronId]),
+        include_neurons_readable_by_caller: false,
+        include_empty_neurons_readable_by_caller: [true],
+        include_public_neurons_in_full_neurons: [],
+      });
+
+      expect(certifiedService.list_neurons).toBeCalledTimes(1);
+      expect(response).not.toBeUndefined();
+      expect(response?.state).toEqual(mockNeuronInfo.state);
+      expect(Number(response?.neuronId)).toEqual(Number(mockNeuronId));
+      expect(service.list_neurons).not.toBeCalled();
+      expect(oldService.list_neurons).not.toBeCalled();
     });
   });
 
