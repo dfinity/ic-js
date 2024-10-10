@@ -740,7 +740,7 @@ describe("GovernanceCanister", () => {
       expect(service.list_neurons).not.toBeCalled();
       expect(oldService.list_neurons).toBeCalledTimes(1);
     });
-    it("should fetch and convert a neuron with new service when includeEmptyNeurons is set to true", async () => {
+    it("should fetch and convert a neuron with new service when includeEmptyNeurons is set to false", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       const certifiedService = mock<ActorSubclass<GovernanceService>>();
       const oldService = mock<ActorSubclass<GovernanceService>>();
@@ -756,13 +756,13 @@ describe("GovernanceCanister", () => {
       const response = await governance.getNeuron({
         certified: true,
         neuronId,
-        includeEmptyNeurons: true,
+        includeEmptyNeurons: false,
       });
 
       expect(certifiedService.list_neurons).toBeCalledWith({
         neuron_ids: new BigUint64Array([neuronId]),
         include_neurons_readable_by_caller: false,
-        include_empty_neurons_readable_by_caller: [true],
+        include_empty_neurons_readable_by_caller: [false],
         include_public_neurons_in_full_neurons: [],
       });
 
