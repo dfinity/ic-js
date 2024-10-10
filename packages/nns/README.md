@@ -539,9 +539,9 @@ Uses query call only.
 
 Return the data of the neuron provided as id.
 
-| Method      | Type                                                                                                        |
-| ----------- | ----------------------------------------------------------------------------------------------------------- |
-| `getNeuron` | `({ certified, neuronId, }: { certified: boolean; neuronId: bigint; }) => Promise<NeuronInfo or undefined>` |
+| Method      | Type                                                                                                                                                                         |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `getNeuron` | `({ certified, neuronId, includeEmptyNeurons, }: { certified: boolean; neuronId: bigint; includeEmptyNeurons?: boolean or undefined; }) => Promise<NeuronInfo or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L976)
 
