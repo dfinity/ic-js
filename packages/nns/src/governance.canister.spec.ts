@@ -740,7 +740,7 @@ describe("GovernanceCanister", () => {
       expect(service.list_neurons).not.toBeCalled();
       expect(oldService.list_neurons).toBeCalledTimes(1);
     });
-    it("should fetch and convert a neuron with new service when includeEmptyNeurons is set to false", async () => {
+    it("should fetch and convert a neuron with certified service when includeEmptyNeurons is set to false", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       const certifiedService = mock<ActorSubclass<GovernanceService>>();
       const oldService = mock<ActorSubclass<GovernanceService>>();
