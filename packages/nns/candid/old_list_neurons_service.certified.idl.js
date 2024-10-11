@@ -1,9 +1,10 @@
 // This file was created manually by taking governance.certified.idl.js and
 // removing everything that isn't needed for `list_neurons` and then removing
-// `include_empty_neurons_readable_by_caller` from `ListNeurons`.
-// The Ledger hardware wallet doesn't support the
-// `include_empty_neurons_readable_by_caller` field, even when it's not set, so
-// we use this service for compatibility with the hardware wallet.
+// all fields except `neuron_ids` and `include_neurons_readable_by_caller` from
+// `ListNeurons`.
+// The Ledger hardware wallet app verion 2.4.9 doesn't support the newer fields,
+// even when they are optional and not set, so we use this service for
+// compatibility with the hardware wallet.
 export const idlFactory = ({ IDL }) => {
   const NeuronId = IDL.Record({ 'id' : IDL.Nat64 });
   const Followees = IDL.Record({ 'followees' : IDL.Vec(NeuronId) });
