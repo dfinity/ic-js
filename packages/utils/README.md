@@ -564,6 +564,89 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/canister.ts#L4)
 
+### :factory: AgentManager
+
+AgentManager class manages HttpAgent instances for different identities.
+
+It caches agents by identity to optimise resource usage and avoid unnecessary agent creation.
+Provides functionality to create new agents, retrieve cached agents, and clear the cache when needed.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L57)
+
+#### Methods
+
+- [create](#gear-create)
+- [getAgent](#gear-getagent)
+- [createAgent](#gear-createagent)
+- [clearAgents](#gear-clearagents)
+
+##### :gear: create
+
+Static factory method to create a new AgentManager instance.
+
+This method serves as an alternative to directly using the private constructor,
+making it more convenient to create instances of `AgentManager` using a simple and clear method.
+
+| Method   | Type                                           |
+| -------- | ---------------------------------------------- |
+| `create` | `(config: AgentManagerConfig) => AgentManager` |
+
+Parameters:
+
+- `config`: - Configuration options for the AgentManager instance.
+- `config.fetchRootKey`: - Whether to fetch the root key for certificate validation.
+- `config.host`: - The host to connect to.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L75)
+
+##### :gear: getAgent
+
+Get or create an HTTP agent for a given identity.
+
+If the agent for the specified identity has been created and cached, it is retrieved from the cache.
+If no agent exists for the identity, a new one is created, cached, and then returned.
+
+| Method     | Type                                                             |
+| ---------- | ---------------------------------------------------------------- |
+| `getAgent` | `({ identity, }: { identity: Identity; }) => Promise<HttpAgent>` |
+
+Parameters:
+
+- `identity`: - The identity to be used to create the agent.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L88)
+
+##### :gear: createAgent
+
+Create a new HTTP agent for a given identity.
+
+This method does not check the cache. It always creates a new agent.
+The agent is configured with the specified identity, fetchRootKey option, and the host.
+
+| Method        | Type                                                                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `createAgent` | `({ identity, verifyQuerySignatures, }: { identity: Identity; verifyQuerySignatures?: boolean or undefined; }) => Promise<HttpAgent>` |
+
+Parameters:
+
+- `identity`: - The identity to use for the agent.
+- `verifyQuerySignatures`: - Whether to verify query signatures for query calls.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L119)
+
+##### :gear: clearAgents
+
+Clear the cache of HTTP agents.
+
+This method removes all cached agents, forcing new agent creation on the next request for any identity.
+Useful when identities have changed or if you want to reset all active connections.
+
+| Method        | Type         |
+| ------------- | ------------ |
+| `clearAgents` | `() => void` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L140)
+
 ### :factory: InvalidPercentageError
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L1)
