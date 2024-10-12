@@ -9,3 +9,12 @@ export const mockPrincipal = Principal.fromText(mockPrincipalText);
 export const mockIdentity = {
   getPrincipal: () => mockPrincipal,
 } as unknown as Identity;
+
+export const mockPrincipalText2 =
+  "5uuwe-ggtgm-fonrs-rblmx-cfc23-pb3dg-iyfk2-dle5w-j5uev-ggmep-6ae";
+
+export const mockPrincipal2 = Principal.fromText(mockPrincipalText2);
+
+export const mockIdentity2 = {
+  getPrincipal: () => mockPrincipal2,
+} as unknown as Identity;
