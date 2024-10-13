@@ -1,32 +1,26 @@
-import { Actor } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+import { Canister, createServices } from "@dfinity/utils";
 import type {
+  _SERVICE as CMCCanisterService,
   Cycles,
   NotifyCreateCanisterArg,
   NotifyTopUpArg,
-  _SERVICE,
 } from "../candid/cmc";
+import { idlFactory as certifiedIdlFactory } from "../candid/cmc.certified.idl";
 import { idlFactory } from "../candid/cmc.idl";
 import { throwNotifyError } from "./cmc.errors";
 import type { CMCCanisterOptions } from "./cmc.options";
 
-export class CMCCanister {
-  private constructor(private readonly service: _SERVICE) {
-    this.service = service;
-  }
-
-  public static create(options: CMCCanisterOptions) {
-    const agent = options.agent;
-    const canisterId = options.canisterId;
-
-    const service =
-      options.serviceOverride ??
-      Actor.createActor<_SERVICE>(idlFactory, {
-        agent,
-        canisterId,
+export class CMCCanister extends Canister<CMCCanisterService> {
+  static create(options: CMCCanisterOptions): CMCCanister {
+    const { service, certifiedService, canisterId } =
+      createServices<CMCCanisterService>({
+        options,
+        idlFactory,
+        certifiedIdlFactory,
       });
 
-    return new CMCCanister(service);
+    return new CMCCanister(canisterId, service, certifiedService);
   }
 
   /**
