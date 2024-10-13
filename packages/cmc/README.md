@@ -55,7 +55,7 @@ const rate = await getIcpToCyclesConversionRate();
 
 ### :factory: CMCCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L13)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L14)
 
 #### Methods
 
@@ -70,7 +70,7 @@ const rate = await getIcpToCyclesConversionRate();
 | -------- | ---------------------------------------------- |
 | `create` | `(options: CMCCanisterOptions) => CMCCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L18)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L15)
 
 ##### :gear: getIcpToCyclesConversionRate
 
@@ -80,7 +80,7 @@ Returns conversion rate of ICP to Cycles
 | ------------------------------ | ----------------------- |
 | `getIcpToCyclesConversionRate` | `() => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L37)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L31)
 
 ##### :gear: notifyCreateCanister
 
@@ -91,7 +91,7 @@ It returns the new canister principal.
 | ---------------------- | ---------------------------------------------------------- |
 | `notifyCreateCanister` | `(request: NotifyCreateCanisterArg) => Promise<Principal>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L54)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L48)
 
 ##### :gear: notifyTopUp
 
@@ -102,6 +102,6 @@ It returns the new Cycles of the canister.
 | ------------- | ---------------------------------------------- |
 | `notifyTopUp` | `(request: NotifyTopUpArg) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L82)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L76)
 
 <!-- TSDOC_END -->
