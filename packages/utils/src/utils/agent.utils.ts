@@ -93,7 +93,12 @@ export class AgentManager {
     const key = identity.getPrincipal().toText();
 
     if (isNullish(this.agents) || isNullish(this.agents[key])) {
-      const agent = await this.createAgent({ identity });
+      const agent = await createAgent({
+        identity,
+        fetchRootKey: this.config.fetchRootKey,
+        host: this.config.host,
+        verifyQuerySignatures: true,
+      });
 
       this.agents = {
         ...(this.agents ?? {}),
@@ -114,30 +119,5 @@ export class AgentManager {
    */
   public clearAgents(): void {
     this.agents = undefined;
-  }
-
-  /**
-   * Create a new HTTP agent for a given identity.
-   *
-   * This method does not check the cache. It always creates a new agent.
-   * The agent is configured with the specified identity, fetchRootKey option, and the host.
-   *
-   * @param {Identity} identity - The identity to use for the agent.
-   * @param {boolean} [verifyQuerySignatures=true] - Whether to verify query signatures for query calls.
-   * @returns {Promise<HttpAgent>} The newly created HttpAgent instance.
-   */
-  private createAgent({
-    identity,
-    verifyQuerySignatures = true,
-  }: {
-    identity: Identity;
-    verifyQuerySignatures?: boolean;
-  }): Promise<HttpAgent> {
-    return createAgent({
-      identity,
-      fetchRootKey: this.config.fetchRootKey,
-      host: this.config.host,
-      verifyQuerySignatures,
-    });
   }
 }
