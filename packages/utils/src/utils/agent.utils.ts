@@ -9,7 +9,7 @@ import { isNullish, nonNullish } from "./nullish.utils";
 export const defaultAgent = (): Agent =>
   HttpAgent.createSync({
     host: "https://icp-api.io",
-    identity: new AnonymousIdentity(),
+    identity: new AnonymousIdentity()
   });
 
 /**
@@ -21,12 +21,12 @@ export const defaultAgent = (): Agent =>
  * @param retryTimes Set the number of retries the agent should perform before errorring.
  */
 export const createAgent = async ({
-  identity,
-  host,
-  fetchRootKey = false,
-  verifyQuerySignatures = false,
-  retryTimes,
-}: {
+                                    identity,
+                                    host,
+                                    fetchRootKey = false,
+                                    verifyQuerySignatures = false,
+                                    retryTimes
+                                  }: {
   identity: Identity;
   host?: string;
   fetchRootKey?: boolean;
@@ -39,7 +39,7 @@ export const createAgent = async ({
     ...(nonNullish(host) && { host }),
     verifyQuerySignatures,
     ...(nonNullish(retryTimes) && { retryTimes }),
-    shouldFetchRootKey: fetchRootKey,
+    shouldFetchRootKey: fetchRootKey
   });
 };
 
@@ -55,7 +55,7 @@ export interface AgentManagerConfig {
  * Provides functionality to create new agents, retrieve cached agents, and clear the cache when needed.
  */
 export class AgentManager {
-  private agents: Record<string, HttpAgent> | undefined = undefined;
+  private agents: Record<string, HttpAgent> | undefined | null = undefined;
 
   private constructor(private readonly config: AgentManagerConfig) {
     this.config = config;
@@ -86,8 +86,8 @@ export class AgentManager {
    * @returns {Promise<HttpAgent>} The HttpAgent associated with the given identity.
    */
   public async getAgent({
-    identity,
-  }: {
+                          identity
+                        }: {
     identity: Identity;
   }): Promise<HttpAgent> {
     const key = identity.getPrincipal().toText();
@@ -97,12 +97,12 @@ export class AgentManager {
         identity,
         fetchRootKey: this.config.fetchRootKey,
         host: this.config.host,
-        verifyQuerySignatures: true,
+        verifyQuerySignatures: true
       });
 
       this.agents = {
         ...(this.agents ?? {}),
-        [key]: agent,
+        [key]: agent
       };
 
       return agent;
@@ -118,6 +118,6 @@ export class AgentManager {
    * Useful when identities have changed or if you want to reset all active connections.
    */
   public clearAgents(): void {
-    this.agents = undefined;
+    this.agents = null;
   }
 }
