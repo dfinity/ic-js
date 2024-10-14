@@ -1,6 +1,7 @@
 import { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
+import type { QueryParams } from "@dfinity/utils/src";
 import { mock } from "jest-mock-extended";
 import type {
   _SERVICE as CMCService,
@@ -16,6 +17,7 @@ import {
   RefundedError,
   TransactionTooOldError,
 } from "./cmc.errors";
+import { mockPrincipalText } from "./cmc.mock";
 
 describe("CyclesMintingCanister", () => {
   const mockAgent: HttpAgent = mock<HttpAgent>();
@@ -289,6 +291,67 @@ describe("CyclesMintingCanister", () => {
         });
 
       expect(call).rejects.toThrowError(CMCError);
+    });
+  });
+
+  describe("CMCCanister.getDefaultSubnets", () => {
+    const expectedSubnets = [
+      Principal.fromText(mockPrincipalText),
+      Principal.fromText("aaaaa-aa"),
+    ];
+
+    it("should return a list of default subnets for a query", async () => {
+      const service = mock<CMCService>();
+      service.get_default_subnets.mockResolvedValue(expectedSubnets);
+
+      const cmc = await createCMC(service);
+
+      const callerSpy = jest.spyOn(
+        cmc as unknown as {
+          caller: (params: QueryParams) => Promise<CMCService>;
+        },
+        "caller",
+      );
+
+      const result = await cmc.getDefaultSubnets({ certified: false });
+
+      expect(result).toEqual(expectedSubnets);
+      expect(service.get_default_subnets).toHaveBeenCalledTimes(1);
+
+      expect(callerSpy).toHaveBeenCalledWith({ certified: false });
+    });
+
+    it("should return a list of default subnets for an update", async () => {
+      const service = mock<CMCService>();
+      service.get_default_subnets.mockResolvedValue(expectedSubnets);
+
+      const cmc = await createCMC(service);
+
+      const callerSpy = jest.spyOn(
+        cmc as unknown as {
+          caller: (params: QueryParams) => Promise<CMCService>;
+        },
+        "caller",
+      );
+
+      const result = await cmc.getDefaultSubnets({ certified: true });
+
+      expect(result).toEqual(expectedSubnets);
+      expect(service.get_default_subnets).toHaveBeenCalledTimes(1);
+
+      expect(callerSpy).toHaveBeenCalledWith({ certified: true });
+    });
+
+    it("should throw an error if the canister call ends in error", async () => {
+      const service = mock<CMCService>();
+      service.get_default_subnets.mockRejectedValue(new Error("Test"));
+
+      const cmc = await createCMC(service);
+
+      await expect(cmc.getDefaultSubnets({ certified: true })).rejects.toThrow(
+        "Test",
+      );
+      expect(service.get_default_subnets).toHaveBeenCalledTimes(1);
     });
   });
 });
