@@ -107,6 +107,16 @@ export class AgentManager {
   }
 
   /**
+   * Clear the cache of HTTP agents.
+   *
+   * This method removes all cached agents, forcing new agent creation on the next request for any identity.
+   * Useful when identities have changed or if you want to reset all active connections.
+   */
+  public clearAgents(): void {
+    this.agents = undefined;
+  }
+
+  /**
    * Create a new HTTP agent for a given identity.
    *
    * This method does not check the cache. It always creates a new agent.
@@ -116,7 +126,7 @@ export class AgentManager {
    * @param {boolean} [verifyQuerySignatures=true] - Whether to verify query signatures for query calls.
    * @returns {Promise<HttpAgent>} The newly created HttpAgent instance.
    */
-  public createAgent({
+  private createAgent({
     identity,
     verifyQuerySignatures = true,
   }: {
@@ -129,15 +139,5 @@ export class AgentManager {
       host: this.config.host,
       verifyQuerySignatures,
     });
-  }
-
-  /**
-   * Clear the cache of HTTP agents.
-   *
-   * This method removes all cached agents, forcing new agent creation on the next request for any identity.
-   * Useful when identities have changed or if you want to reset all active connections.
-   */
-  public clearAgents(): void {
-    this.agents = undefined;
   }
 }
