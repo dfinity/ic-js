@@ -1,3 +1,9 @@
+# Next
+
+## Breaking Changes
+
+- For consistency, the `CMCCanister.create` function now requires the `canisterId` option to be provided exclusively as a `Principal`.
+
 # 2024.10.09-1140Z
 
 ## Overview
