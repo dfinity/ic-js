@@ -63,7 +63,6 @@ const rate = await getIcpToCyclesConversionRate();
 - [getIcpToCyclesConversionRate](#gear-geticptocyclesconversionrate)
 - [notifyCreateCanister](#gear-notifycreatecanister)
 - [notifyTopUp](#gear-notifytopup)
-- [getDefaultSubnets](#gear-getdefaultsubnets)
 
 ##### :gear: create
 
@@ -104,22 +103,5 @@ It returns the new Cycles of the canister.
 | `notifyTopUp` | `(request: NotifyTopUpArg) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L76)
-
-##### :gear: getDefaultSubnets
-
-This function calls the `get_default_subnets` method of the CMC canister, which returns a list of
-default subnets as `Principal` objects. It can be called as query or update.
-
-| Method              | Type                                                    |
-| ------------------- | ------------------------------------------------------- |
-| `getDefaultSubnets` | `({ certified }?: QueryParams) => Promise<Principal[]>` |
-
-Parameters:
-
-- `params`: - The query parameters for the call.
-- `params.certified`: - Determines whether the response should be certified
-  (default: non-certified if not specified).
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L101)
 
 <!-- TSDOC_END -->
