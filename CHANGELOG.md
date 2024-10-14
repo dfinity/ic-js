@@ -4,6 +4,10 @@
 
 - For consistency, the `CMCCanister.create` function now requires the `canisterId` option to be provided exclusively as a `Principal`.
 
+## Features
+
+- Add support for `get_default_subnets` to `@dfinity/cmc`.
+
 # 2024.10.09-1140Z
 
 ## Overview
