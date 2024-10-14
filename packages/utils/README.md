@@ -577,7 +577,6 @@ Provides functionality to create new agents, retrieve cached agents, and clear t
 
 - [create](#gear-create)
 - [getAgent](#gear-getagent)
-- [createAgent](#gear-createagent)
 - [clearAgents](#gear-clearagents)
 
 ##### :gear: create
@@ -616,24 +615,6 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L88)
 
-##### :gear: createAgent
-
-Create a new HTTP agent for a given identity.
-
-This method does not check the cache. It always creates a new agent.
-The agent is configured with the specified identity, fetchRootKey option, and the host.
-
-| Method        | Type                                                                                                                                  |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `createAgent` | `({ identity, verifyQuerySignatures, }: { identity: Identity; verifyQuerySignatures?: boolean or undefined; }) => Promise<HttpAgent>` |
-
-Parameters:
-
-- `identity`: - The identity to use for the agent.
-- `verifyQuerySignatures`: - Whether to verify query signatures for query calls.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L119)
-
 ##### :gear: clearAgents
 
 Clear the cache of HTTP agents.
@@ -645,7 +626,7 @@ Useful when identities have changed or if you want to reset all active connectio
 | ------------- | ------------ |
 | `clearAgents` | `() => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L140)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L120)
 
 ### :factory: InvalidPercentageError
 
