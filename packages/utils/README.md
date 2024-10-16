@@ -128,13 +128,14 @@ Create an agent for a given identity
 
 Parameters:
 
-- `identity`: A mandatory identity to use for the agent
-- `host`: An optional host to connect to
-- `fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
-- `verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
-- `retryTimes`: Set the number of retries the agent should perform before errorring.
+- `params`: The parameters to create a new HTTP agent
+- `params.identity`: A mandatory identity to use for the agent
+- `params.host`: An optional host to connect to
+- `params.fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
+- `params.verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
+- `params.retryTimes`: Set the number of retries the agent should perform before errorring.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L24)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L26)
 
 #### :gear: createServices
 
