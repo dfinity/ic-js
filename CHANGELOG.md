@@ -1,3 +1,9 @@
+# Next
+
+## Features
+
+- Add class `AgentManager` in `@dfinity/utils` which scope is to manages HttpAgent instances for different identities.
+
 # 2024.10.09-1140Z
 
 ## Overview
