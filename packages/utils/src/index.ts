@@ -2,6 +2,7 @@ export * from "./enums/token.enums";
 export * from "./parser/token";
 export * from "./services/canister";
 export * from "./types/actor-type.utils";
+export type { CreateAgentParams } from "./types/agent.utils";
 export type { CanisterOptions } from "./types/canister.options";
 export type { QueryParams } from "./types/query.params";
 export * from "./utils/actor.utils";
