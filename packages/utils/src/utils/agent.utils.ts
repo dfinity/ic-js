@@ -1,5 +1,6 @@
-import type { Agent, Identity } from "@dfinity/agent";
+import type { Agent } from "@dfinity/agent";
 import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
+import type { CreateAgentParams } from "../types/agent.utils";
 import { nonNullish } from "./nullish.utils";
 
 /**
@@ -26,14 +27,7 @@ export const createAgent = async ({
   fetchRootKey = false,
   verifyQuerySignatures = false,
   retryTimes,
-}: {
-  identity: Identity;
-  host?: string;
-  fetchRootKey?: boolean;
-  // @deprecated Shipped as an opt-in feature but, will become the default in next major version
-  verifyQuerySignatures?: boolean;
-  retryTimes?: number;
-}): Promise<HttpAgent> => {
+}: CreateAgentParams): Promise<HttpAgent> => {
   return await HttpAgent.create({
     identity,
     ...(nonNullish(host) && { host }),
