@@ -1,10 +1,9 @@
-import type { Identity } from "@dfinity/agent";
+import type { HttpAgentOptions, Identity } from "@dfinity/agent";
 
-export interface CreateAgentParams {
+export type CreateAgentParams = Pick<
+  HttpAgentOptions,
+  "host" | "retryTimes" | "verifyQuerySignatures"
+> & {
   identity: Identity;
-  host?: string;
   fetchRootKey?: boolean;
-  // @deprecated Shipped as an opt-in feature but, will become the default in next major version
-  verifyQuerySignatures?: boolean;
-  retryTimes?: number;
-}
+};
