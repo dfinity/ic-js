@@ -1,32 +1,26 @@
-import { Actor } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
+import { Canister, createServices, type QueryParams } from "@dfinity/utils";
 import type {
+  _SERVICE as CMCCanisterService,
   Cycles,
   NotifyCreateCanisterArg,
   NotifyTopUpArg,
-  _SERVICE,
 } from "../candid/cmc";
+import { idlFactory as certifiedIdlFactory } from "../candid/cmc.certified.idl";
 import { idlFactory } from "../candid/cmc.idl";
 import { throwNotifyError } from "./cmc.errors";
 import type { CMCCanisterOptions } from "./cmc.options";
 
-export class CMCCanister {
-  private constructor(private readonly service: _SERVICE) {
-    this.service = service;
-  }
-
-  public static create(options: CMCCanisterOptions) {
-    const agent = options.agent;
-    const canisterId = options.canisterId;
-
-    const service =
-      options.serviceOverride ??
-      Actor.createActor<_SERVICE>(idlFactory, {
-        agent,
-        canisterId,
+export class CMCCanister extends Canister<CMCCanisterService> {
+  static create(options: CMCCanisterOptions): CMCCanister {
+    const { service, certifiedService, canisterId } =
+      createServices<CMCCanisterService>({
+        options,
+        idlFactory,
+        certifiedIdlFactory,
       });
 
-    return new CMCCanister(service);
+    return new CMCCanister(canisterId, service, certifiedService);
   }
 
   /**
@@ -91,5 +85,23 @@ export class CMCCanister {
     throw new Error(
       `Unsupported response type in notifyTopUp ${JSON.stringify(response)}`,
     );
+  };
+
+  /**
+   * This function calls the `get_default_subnets` method of the CMC canister, which returns a list of
+   * default subnets as `Principal` objects. It can be called as query or update.
+   *
+   * @param {Object} [params] - The query parameters for the call.
+   * @param {boolean} [params.certified] - Determines whether the response should be certified
+   * (default: non-certified if not specified).
+   *
+   * @returns {Promise<Principal[]>} - A promise that resolves to an array of `Principal` objects
+   * representing the default subnets.
+   */
+  public getDefaultSubnets = async ({ certified }: QueryParams = {}): Promise<
+    Principal[]
+  > => {
+    const { get_default_subnets } = this.caller({ certified });
+    return get_default_subnets();
   };
 }

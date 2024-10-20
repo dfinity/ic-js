@@ -1,7 +1,12 @@
 # Next
 
+## Breaking Changes
+
+- For consistency, the `CMCCanister.create` function now requires the `canisterId` option to be provided exclusively as a `Principal`.
+
 ## Features
 
+- Add support for `get_default_subnets` to `@dfinity/cmc`.
 - Add class `AgentManager` in `@dfinity/utils` which scope is to manages HttpAgent instances for different identities.
 
 # 2024.10.09-1140Z
