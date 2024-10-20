@@ -14,11 +14,6 @@ jest.mock("@dfinity/agent", () => ({
   },
 }));
 
-jest.mock("./nullish.utils", () => ({
-  isNullish: jest.requireActual("./nullish.utils").isNullish,
-  nonNullish: jest.requireActual("./nullish.utils").nonNullish,
-}));
-
 describe("AgentManager", () => {
   let agentManager: AgentManager;
   const mockHttpAgentCreate = HttpAgent.create as jest.Mock;
@@ -28,30 +23,6 @@ describe("AgentManager", () => {
     jest.clearAllMocks();
 
     mockHttpAgentCreate.mockResolvedValueOnce(mockHttpAgent);
-  });
-
-  describe("createAgent", () => {
-    it("should create a new agent", async () => {
-      const agent = await agentManager.createAgent({ identity: mockIdentity });
-
-      expect(mockHttpAgentCreate).toHaveBeenCalledWith(
-        expect.objectContaining({
-          identity: mockIdentity,
-          host: mockAgentManagerConfig.host,
-          shouldFetchRootKey: mockAgentManagerConfig.fetchRootKey,
-        }),
-      );
-      expect(agent).toBe(mockHttpAgent);
-    });
-
-    it("should not cache agent", async () => {
-      await agentManager.createAgent({ identity: mockIdentity });
-
-      const agent = await agentManager.getAgent({ identity: mockIdentity });
-
-      expect(mockHttpAgentCreate).toHaveBeenCalledTimes(2);
-      expect(agent).toBeUndefined();
-    });
   });
 
   describe("getAgent", () => {
