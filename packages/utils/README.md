@@ -116,25 +116,26 @@ Get a default agent that connects to mainnet with the anonymous identity.
 | -------------- | ------------- |
 | `defaultAgent` | `() => Agent` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L9)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L10)
 
 #### :gear: createAgent
 
 Create an agent for a given identity
 
-| Function      | Type                                                                                                                                                                                                                                                               |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, retryTimes, }: { identity: Identity; host?: string or undefined; fetchRootKey?: boolean or undefined; verifyQuerySignatures?: boolean or undefined; retryTimes?: number or undefined; }) => Promise<...>` |
+| Function      | Type                                                                                                              |
+| ------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `createAgent` | `({ identity, host, fetchRootKey, verifyQuerySignatures, retryTimes, }: CreateAgentParams) => Promise<HttpAgent>` |
 
 Parameters:
 
-- `identity`: A mandatory identity to use for the agent
-- `host`: An optional host to connect to
-- `fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
-- `verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
-- `retryTimes`: Set the number of retries the agent should perform before errorring.
+- `params`: The parameters to create a new HTTP agent
+- `params.identity`: A mandatory identity to use for the agent
+- `params.host`: An optional host to connect to, particularly useful for local development
+- `params.fetchRootKey`: Fetch root key for certificate validation during local development or on testnet
+- `params.verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
+- `params.retryTimes`: Set the number of retries the agent should perform before error.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L23)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L26)
 
 #### :gear: createServices
 
