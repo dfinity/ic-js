@@ -572,7 +572,7 @@ AgentManager class manages HttpAgent instances for different identities.
 It caches agents by identity to optimise resource usage and avoid unnecessary agent creation.
 Provides functionality to create new agents, retrieve cached agents, and clear the cache when needed.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L57)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L53)
 
 #### Methods
 
@@ -597,7 +597,7 @@ Parameters:
 - `config.fetchRootKey`: - Whether to fetch the root key for certificate validation.
 - `config.host`: - The host to connect to.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L75)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L71)
 
 ##### :gear: getAgent
 
@@ -614,7 +614,7 @@ Parameters:
 
 - `identity`: - The identity to be used to create the agent.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L88)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L84)
 
 ##### :gear: clearAgents
 
@@ -627,7 +627,7 @@ Useful when identities have changed or if you want to reset all active connectio
 | ------------- | ------------ |
 | `clearAgents` | `() => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L120)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L116)
 
 ### :factory: InvalidPercentageError
 
