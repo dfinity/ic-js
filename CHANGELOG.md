@@ -16,7 +16,7 @@
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status        |
-|--------------------------|---------|---------------|
+| ------------------------ | ------- | ------------- |
 | `@dfinity/ckbtc`         | v3.1.1  | Maintained ⚙️ |
 | `@dfinity/cketh`         | v3.3.2  | Maintained ⚙️ |
 | `@dfinity/cmc`           | v3.2.2  | Maintained ⚙️ |
@@ -39,7 +39,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v3.1.0  | Enhanced 🔧️        |
 | `@dfinity/cketh`         | v3.3.1  | Maintained ⚙️       |
 | `@dfinity/cmc`           | v3.2.1  | Maintained ⚙️       |
@@ -73,7 +73,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v3.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/cketh`         | v3.3.0  | Maintained ⚙️       |
 | `@dfinity/cmc`           | v3.2.0  | Maintained ⚙️       |
@@ -115,7 +115,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status         |
-|--------------------------|---------|----------------|
+| ------------------------ | ------- | -------------- |
 | `@dfinity/ckbtc`         | v2.5.0  | Maintained ⚙️  |
 | `@dfinity/cketh`         | v3.2.0  | Enhanced 🔧️   |
 | `@dfinity/cmc`           | v3.1.0  | Maintained ⚙️  |
@@ -151,7 +151,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status         |
-|--------------------------|---------|----------------|
+| ------------------------ | ------- | -------------- |
 | `@dfinity/ckbtc`         | v2.4.1  | Maintained ⚙️  |
 | `@dfinity/cketh`         | v3.1.1  | Maintained ⚙️  |
 | `@dfinity/cmc`           | v3.0.7  | Maintained ⚙️  |
@@ -178,7 +178,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.4.0  | Enhanced 🔧         |
 | `@dfinity/cketh`         | v3.1.0  | Enhanced 🔧         |
 | `@dfinity/cmc`           | v3.0.6  | Maintained ⚙️       |
@@ -210,7 +210,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.3.3  | Maintained ⚙️       |
 | `@dfinity/cketh`         | v3.0.1  | Maintained ⚙️       |
 | `@dfinity/cmc`           | v3.0.5  | Maintained ⚙️       |
@@ -251,7 +251,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.3.2  | Maintained ⚙️       |
 | `@dfinity/cketh`         | v3.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/cmc`           | v3.0.4  | Maintained ⚙️       |
@@ -302,7 +302,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status      |
-|--------------------------|---------|-------------|
+| ------------------------ | ------- | ----------- |
 | `@dfinity/ckbtc`         | v2.3.1  | Unchanged️️ |
 | `@dfinity/cketh`         | v2.0.1  | Unchanged️  |
 | `@dfinity/cmc`           | v3.0.3  | Unchanged️  |
@@ -325,7 +325,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status        |
-|--------------------------|---------|---------------|
+| ------------------------ | ------- | ------------- |
 | `@dfinity/ckbtc`         | v2.3.1  | Maintained ⚙️ |
 | `@dfinity/cketh`         | v2.0.1  | Maintained ⚙️ |
 | `@dfinity/cmc`           | v3.0.3  | Maintained ⚙️ |
@@ -359,7 +359,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.3.0  | Enhanced 🔧️        |
 | `@dfinity/cketh`         | v2.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/cmc`           | v3.0.2  | Unchanged️          |
@@ -368,7 +368,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/ledger-icrc`   | v2.1.3  | Enhanced 🔧         |
 | `@dfinity/nns`           | v4.0.1  | Unchanged️          |
 | `@dfinity/nns-proto`     | v1.0.1  | Unchanged️          |
-| `@dfinity/sns`           | v3.0.1  | Maintained ⚙        |
+| `@dfinity/sns`           | v3.0.1  | Maintained ⚙       |
 | `@dfinity/utils`         | v2.1.2  | Unchanged️          |
 
 ## Breaking Changes
@@ -393,7 +393,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.2.1  | Maintained ⚙️       |
 | `@dfinity/cketh`         | v1.0.2  | Maintained ⚙️       |
 | `@dfinity/cmc`           | v3.0.2  | Maintained ⚙️       |
@@ -421,7 +421,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.2.0  | Enhanced 🔧         |
 | `@dfinity/cketh`         | v1.0.1  | Maintained ⚙️       |
 | `@dfinity/cmc`           | v3.0.1  | Maintained ⚙️       |
@@ -456,7 +456,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.1.1  | Patched 🩹          |
 | `@dfinity/cketh`         | v1.0.0  | Launched 🚀         |
 | `@dfinity/cmc`           | v3.0.0  | Breaking Changes ⚠️ |
@@ -497,7 +497,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status     |
-|--------------------------|---------|------------|
+| ------------------------ | ------- | ---------- |
 | `@dfinity/ckbtc`         | v2.1.0  | Unchanged  |
 | `@dfinity/cketh`         | v0.0.1  | Unchanged  |
 | `@dfinity/cmc`           | v2.1.0  | Unchanged  |
@@ -520,7 +520,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status     |
-|--------------------------|---------|------------|
+| ------------------------ | ------- | ---------- |
 | `@dfinity/ckbtc`         | v2.1.0  | Unchanged  |
 | `@dfinity/cketh`         | v0.0.1  | New 🚀     |
 | `@dfinity/cmc`           | v2.1.0  | Unchanged  |
@@ -545,7 +545,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v2.1.0  | Enhanced 🔧         |
 | `@dfinity/cmc`           | v2.1.0  | Enhanced 🔧         |
 | `@dfinity/ic-management` | v2.1.0  | Enhanced 🔧         |
@@ -590,7 +590,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status      |
-|--------------------------|---------|-------------|
+| ------------------------ | ------- | ----------- |
 | `@dfinity/ckbtc`         | v2.0.0  | Enhanced 🔧 |
 | `@dfinity/cmc`           | v2.0.0  | Enhanced 🔧 |
 | `@dfinity/ic-management` | v2.0.0  | Enhanced 🔧 |
@@ -615,7 +615,7 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status      |
-|--------------------------|---------|-------------|
+| ------------------------ | ------- | ----------- |
 | `@dfinity/ckbtc`         | v1.1.0  | Enhanced 🔧 |
 | `@dfinity/cmc`           | v1.0.0  | Unchanged   |
 | `@dfinity/ic-management` | v1.0.0  | Unchanged   |
@@ -648,11 +648,11 @@ The current status of the libraries at the time of the release is as follows:
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status              |
-|--------------------------|---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v1.0.1  | Patched             |
 | `@dfinity/cmc`           | v1.0.0  | Unchanged           |
 | `@dfinity/ic-management` | v1.0.0  | Unchanged           |
-| `@dfinity/ledger`        | v1.0.0  | Deprecated ❌        |
+| `@dfinity/ledger`        | v1.0.0  | Deprecated ❌       |
 | `@dfinity/ledger-icp`    | v1.0.0  | New 🚀              |
 | `@dfinity/ledger-icrc`   | v1.0.0  | New 🚀              |
 | `@dfinity/nns`           | v2.0.0  | Breaking Changes ⚠️ |
@@ -1298,12 +1298,12 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 ### Features
 
 - governance new functions:
-    - `getProposal`
-    - `stakeNeuron`
-    - `registerVote`
-    - `increaseDissolveDelay`
-    - `getNeuron`
-    - `setFollowees`
+  - `getProposal`
+  - `stakeNeuron`
+  - `registerVote`
+  - `increaseDissolveDelay`
+  - `getNeuron`
+  - `setFollowees`
 - ledger `transfer` enhanced with support for subaccount
 - new utils to filter voted neurons and proposals
 - export `common` types
