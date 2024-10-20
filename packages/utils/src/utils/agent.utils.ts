@@ -1,7 +1,7 @@
 import type { Agent } from "@dfinity/agent";
 import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
-import { isNullish, nonNullish } from "./nullish.utils";
 import type { CreateAgentParams } from "../types/agent.utils";
+import { isNullish, nonNullish } from "./nullish.utils";
 
 /**
  * Get a default agent that connects to mainnet with the anonymous identity.
