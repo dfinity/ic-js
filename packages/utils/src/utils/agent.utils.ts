@@ -1,4 +1,4 @@
-import type { Agent } from "@dfinity/agent";
+import type { Agent, Identity } from "@dfinity/agent";
 import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
 import type { CreateAgentParams } from "../types/agent.utils";
 import { isNullish, nonNullish } from "./nullish.utils";
@@ -39,10 +39,10 @@ export const createAgent = async ({
   });
 };
 
-export interface AgentManagerConfig {
-  fetchRootKey: boolean;
-  host: string;
-}
+export type AgentManagerConfig = Pick<
+  CreateAgentParams,
+  "fetchRootKey" | "host"
+>;
 
 /**
  * AgentManager class manages HttpAgent instances for different identities.
