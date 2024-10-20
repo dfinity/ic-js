@@ -2,7 +2,8 @@
 
 ## Breaking Changes
 
-- For consistency, the `CMCCanister.create` function now requires the `canisterId` option to be provided exclusively as a `Principal`.
+- For consistency, the `CMCCanister.create` function now requires the `canisterId` option to be provided exclusively as
+  a `Principal`.
 
 ## Features
 
@@ -52,7 +53,8 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Breaking changes
 
-- Removed deprecated `OpenSnsTokenSwap`, `SetSnsTokenSwapOpenTimeWindow`, and `SetDefaultFollowees` from `ProposalActionRequest`.
+- Removed deprecated `OpenSnsTokenSwap`, `SetSnsTokenSwapOpenTimeWindow`, and `SetDefaultFollowees` from
+  `ProposalActionRequest`.
 
 ## Features
 
@@ -87,14 +89,20 @@ The current status of the libraries at the time of the release is as follows:
 
 - Rename values of enum Topic and NnsFunction to match the backend values.
 - Use different request/response types for NNS Governance proposals, and different fields for `InstallCode` proposals.
-- The `getUtxos` parameter `filter.min_confirmations` has been renamed to `filter.minConfirmations` for consistency with the general naming conventions used in `@dfinity/ckbtc`.
-- Only queries to `getUtxos` of the Bitcoin canister can be executed by external users — i.e., update calls can only be performed by the canister. This is why `getUtxos` now only supports non-certified calls and has been renamed to `getUtxosQuery`.
+- The `getUtxos` parameter `filter.min_confirmations` has been renamed to `filter.minConfirmations` for consistency with
+  the general naming conventions used in `@dfinity/ckbtc`.
+- Only queries to `getUtxos` of the Bitcoin canister can be executed by external users — i.e., update calls can only be
+  performed by the canister. This is why `getUtxos` now only supports non-certified calls and has been renamed to
+  `getUtxosQuery`.
 
 ## Features
 
-- Provide a new utility to convert Candid `Nat` to `BigInt`. This utility is useful for interpreting the fees provided by the SNS Aggregator.
-- Support conversion of `InstallCode`, `StopOrStartCanister` and `UpdateCanisterSettings` actions, `SetVisibility` neuron operation, and `Neuron::visibility` attribute.
-- Add function `getBalanceQuery` to `BitcoinCanister` object of package `@dfinity/ckbtc`, that implements the `bitcoin_get_balance_query` method of the IC Bitcoin API.
+- Provide a new utility to convert Candid `Nat` to `BigInt`. This utility is useful for interpreting the fees provided
+  by the SNS Aggregator.
+- Support conversion of `InstallCode`, `StopOrStartCanister` and `UpdateCanisterSettings` actions, `SetVisibility`
+  neuron operation, and `Neuron::visibility` attribute.
+- Add function `getBalanceQuery` to `BitcoinCanister` object of package `@dfinity/ckbtc`, that implements the
+  `bitcoin_get_balance_query` method of the IC Bitcoin API.
 
 ## Build
 
@@ -184,7 +192,8 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Breaking changes
 
-- `bitcoinGetUtxos` and `bitcoinGetUtxosQuery` have been removed from the `@dfinity/ic-management` library. Instead, use `getUtxos` from the new Bitcoin canister exposed in `@dfinity/ckbtc` to access similar data.
+- `bitcoinGetUtxos` and `bitcoinGetUtxosQuery` have been removed from the `@dfinity/ic-management` library. Instead, use
+  `getUtxos` from the new Bitcoin canister exposed in `@dfinity/ckbtc` to access similar data.
 
 ## Features
 
@@ -215,9 +224,11 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Breaking changes
 
-- `@dfinity/ic-management` function `canisterInfo` removed because users cannot call this method (see [documentation](https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-canister-info)).
+- `@dfinity/ic-management` function `canisterInfo` removed because users cannot call this method (
+  see [documentation](https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-canister-info)).
 - `@dfinity/nns-proto` was updated with the most recent proto types, some of which were not backwards compatible.
-- The size of the nns-proto-js library has noticeably increased, as it now exposes all types instead of just a manually picked subset.
+- The size of the nns-proto-js library has noticeably increased, as it now exposes all types instead of just a manually
+  picked subset.
 
 ## Features
 
@@ -230,7 +241,8 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Build
 
-- Upgrade `agent-js` dependencies to `v1.3.0` and revert the default retry times value to 10, given that the issue is fixed.
+- Upgrade `agent-js` dependencies to `v1.3.0` and revert the default retry times value to 10, given that the issue is
+  fixed.
 
 # 2024.04.29-0930Z
 
@@ -253,14 +265,17 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Breaking changes
 
-- Protocol buffers for hardware wallet transactions are no longer supported. Internet Computer Ledger app 2.4.9 or later is now required.
-- GovernanceCanister.listNeurons no longer throws an error when called with `certified: false` for hardware wallet transactions.
+- Protocol buffers for hardware wallet transactions are no longer supported. Internet Computer Ledger app 2.4.9 or later
+  is now required.
+- GovernanceCanister.listNeurons no longer throws an error when called with `certified: false` for hardware wallet
+  transactions.
 - Potential errors thrown by `withdrawEth` provide now unparsed details.
 
 ## Features
 
 - ICP transactions, as provided by the Index canister, have been extended to include their block timestamp information.
-- When no fee is specified when making an ICP transaction, use the mandatory fee of 10000 e8s (0.0001 ICP) instead of fetching the fee from the network.
+- When no fee is specified when making an ICP transaction, use the mandatory fee of 10000 e8s (0.0001 ICP) instead of
+  fetching the fee from the network.
 - Remove hardware wallet specific code paths from `@dfinity/ledger-icp`.
 - Remove hardware wallet specific options from LedgerCanister.
 - Remove dependency on `@dfinity/nns-proto` from `@dfinity/ledger-icp`.
@@ -268,11 +283,16 @@ The current status of the libraries at the time of the release is as follows:
 - Add support for `withdrawErc20`.
 - Additional fields related to ERC20 have been added to ckETH `minterInfo`.
 - Expose the function `ledger_id` for Index canister in the `ledger-icrc` library.
-- Set number of retries to 10 (as opposed to default 3) in `createAgent` utility to make the agent more resilient against watermark check failures.
+- Set number of retries to 10 (as opposed to default 3) in `createAgent` utility to make the agent more resilient
+  against watermark check failures.
 
 ## Build
 
-- Upgrade `agent-js` dependencies to `v1.2.1`. Note that it is advised to set the number of retries of the agent to 10 to prevent the potential issue `Timestamp failed to pass the watermark after retrying the configured 3 times. We cannot guarantee the integrity of the response since it could be a replay attack.` (see thread on the [forum](https://forum.dfinity.org/t/timestamp-failed-to-pass-the-watermark-after-retrying-the-configured-3-times/29180/3?u=peterparker)).
+- Upgrade `agent-js` dependencies to `v1.2.1`. Note that it is advised to set the number of retries of the agent to 10
+  to prevent the potential issue
+  `Timestamp failed to pass the watermark after retrying the configured 3 times. We cannot guarantee the integrity of the response since it could be a replay attack.` (
+  see thread on
+  the [forum](https://forum.dfinity.org/t/timestamp-failed-to-pass-the-watermark-after-retrying-the-configured-3-times/29180/3?u=peterparker)).
 - Upgrade `didc` to `0.3.7` that converts candid files into JS and TS.
 
 # 2024.03.25-1430Z
@@ -320,7 +340,8 @@ The current status of the libraries at the time of the release is as follows:
 ## Features
 
 - Support for the installation of large canisters with chunked code of the Wasm module in `@dfinity/ic-management`.
-- Update most recent did files for ledgers (new optional field for initialization) and ckETH (new optional field in event).
+- Update most recent did files for ledgers (new optional field for initialization) and ckETH (new optional field in
+  event).
 - Expose Utxo types in `@dfinity/ckbtc`.
 
 ## Build
@@ -353,14 +374,17 @@ The current status of the libraries at the time of the release is as follows:
 ## Breaking Changes
 
 - Fix typo in `ic-management` interfaces (`senderCanisterVerion` -> `senderCanisterVersion`).
-- ckETH `eip1559TransactionPrice` expect a parameters which can optionally be set to execute a query (new) or update call.
+- ckETH `eip1559TransactionPrice` expect a parameters which can optionally be set to execute a query (new) or update
+  call.
 
 ## Features
 
-- Support for new ckETH endpoint `get_minter_info` which returns internal minter parameters such as the minimal withdrawal amount, the last observed block number, etc.
+- Support for new ckETH endpoint `get_minter_info` which returns internal minter parameters such as the minimal
+  withdrawal amount, the last observed block number, etc.
 - Add support for `bitcoin_get_utxos` and `bitcoin_get_utxos_query` features to `@dfinity/ic-management` library.
 - Support for new ckBTC endpoint `get_known_utxos` which returns UTXOs of the given account known by the minter.
-- New `IndexNgCanister` in `@dfinity/ledger-icrc`, which can be used to interact with the newer version of the ICRC Index canister, notably exposing `getTransactions` as a `query` function.
+- New `IndexNgCanister` in `@dfinity/ledger-icrc`, which can be used to interact with the newer version of the ICRC
+  Index canister, notably exposing `getTransactions` as a `query` function.
 
 # 2024.02.21-0835Z
 
@@ -387,7 +411,8 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Build
 
-- Bump agent-js `v1.0.1` to hook on their semantic versioning, adopt last improvements and rollout a [security patch](https://github.com/dfinity/agent-js/security/advisories/GHSA-c9vv-fhgv-cjc3)
+- Bump agent-js `v1.0.1` to hook on their semantic versioning, adopt last improvements and rollout
+  a [security patch](https://github.com/dfinity/agent-js/security/advisories/GHSA-c9vv-fhgv-cjc3)
 
 # 2024.02.14-1600Z
 
@@ -410,13 +435,15 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Breaking changes
 
-- Replace duplicate string type `AccountIdentifier` in `@dfinity/nns` with `AccountIdentifierHex` of `@dfinity/ledger-icp`.
+- Replace duplicate string type `AccountIdentifier` in `@dfinity/nns` with `AccountIdentifierHex` of
+  `@dfinity/ledger-icp`.
 
 ## Features
 
 - Extend ckBTC `retrieveBtcStatusV2ByAccount` with optional `account` parameter.
 - Remove unused Uint8Array type `SubAccount` in `@dfinity/nns`.
-- Modify the `@dfinity/ledger-icp` package's `SubAccount.formID` function to support more than 256 subaccounts, enabling it to handle larger numbers.
+- Modify the `@dfinity/ledger-icp` package's `SubAccount.formID` function to support more than 256 subaccounts, enabling
+  it to handle larger numbers.
 
 ## Build
 
@@ -447,7 +474,8 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Features
 
-- Add support for converting ckETH to ETH through the `withdrawEth` function and integrate useful features such as `eip1559TransactionPrice`, `encodePrincipalToEthAddress`, and `retrieve_eth_status`.
+- Add support for converting ckETH to ETH through the `withdrawEth` function and integrate useful features such as
+  `eip1559TransactionPrice`, `encodePrincipalToEthAddress`, and `retrieve_eth_status`.
 - Upgrade candid files for `ic-management` canister and support new field `reserved_cycles_limit`.
 - Add "API Boundary Node Management" topic support.
 - Add optional field `logo` to `Token` type.
@@ -506,7 +534,9 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Features
 
-- Introduces an early first version of `@dfinity/cketh`, which is meant to provide functions for interfacing with ckETH. The library doesn't do much at the moment, but we're releasing it to integrate it into our pipelines, and features will be added iteratively as required.
+- Introduces an early first version of `@dfinity/cketh`, which is meant to provide functions for interfacing with ckETH.
+  The library doesn't do much at the moment, but we're releasing it to integrate it into our pipelines, and features
+  will be added iteratively as required.
 
 # 2023.12.20-1000Z
 
@@ -539,12 +569,15 @@ The current status of the libraries at the time of the release is as follows:
 - Make uint8ArrayToHexString also accept `number[]` as input.
 - Add a new type TokenAmountV2 which supports `decimals !== 8`.
 - Fix issue when converting token amount from small numbers with `TokenAmountV2`.
-- Bump agent-js to v0.20.2 in a non-breaking manner by introducing `verifyQuerySignatures` as an opt-in feature (for the time being).
-- Replace `https://ic0.app` by `https://icp-api.io` as the default host for the default anonymous agent provided by `defaultAgent`.
+- Bump agent-js to v0.20.2 in a non-breaking manner by introducing `verifyQuerySignatures` as an opt-in feature (for the
+  time being).
+- Replace `https://ic0.app` by `https://icp-api.io` as the default host for the default anonymous agent provided by
+  `defaultAgent`.
 
 ## Fix
 
-- Utilize ICP Index `accountBalance` and `getTransactions` with account identifier hex directly, eliminating the need for conversion with Buffer and resolving usage in non-polyfilled environments.
+- Utilize ICP Index `accountBalance` and `getTransactions` with account identifier hex directly, eliminating the need
+  for conversion with Buffer and resolving usage in non-polyfilled environments.
 
 ## Operations
 
@@ -595,10 +628,13 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Features
 
-- add support for ICP Index canister to library `@dfinity/ledger-icp`. New `IndexCanister` functions: `accountBalance` and `getTransactions`
+- add support for ICP Index canister to library `@dfinity/ledger-icp`. New `IndexCanister` functions: `accountBalance`
+  and `getTransactions`
 - expose few types - notably `BlockHeight` - for library `@dfinity/ledger-icp`
-- support new fields from swap canister response types: `min_direct_participation_icp_e8s`, `max_direct_participation_icp_e8s` and `neurons_fund_participation`
-- support new fields in the `CreateServiceNervousSystem` proposal action: `maximum_direct_participation_icp`, `minimum_direct_participation_icp` and `neurons_fund_participation`
+- support new fields from swap canister response types: `min_direct_participation_icp_e8s`,
+  `max_direct_participation_icp_e8s` and `neurons_fund_participation`
+- support new fields in the `CreateServiceNervousSystem` proposal action: `maximum_direct_participation_icp`,
+  `minimum_direct_participation_icp` and `neurons_fund_participation`
 - support new filter field `omit_large_fields` in `list_proposals`
 - add support for `retrieve_btc_with_approval` in `@dfinity/ckbtc`
 - new utility to convert seconds to a human-readable duration
@@ -634,9 +670,12 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Breaking Changes ⚠️
 
-- **ICP** ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called `@dfinity/ledger-icp`
-- **ICRC** ledger-related features have been moved as well. The library `@dfinity/ledger` has been deprecated, renamed, and replaced by `@dfinity/ledger-icrc`
-- remove the `ICP` class, which was deprecated a long time ago, from `@dfinity/nns`. Instead, utilize the token parsers from `@dfinity/utils`
+- **ICP** ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called
+  `@dfinity/ledger-icp`
+- **ICRC** ledger-related features have been moved as well. The library `@dfinity/ledger` has been deprecated, renamed,
+  and replaced by `@dfinity/ledger-icrc`
+- remove the `ICP` class, which was deprecated a long time ago, from `@dfinity/nns`. Instead, utilize the token parsers
+  from `@dfinity/utils`
 
 ## Build
 
@@ -669,7 +708,8 @@ The current status of the libraries at the time of the release is as follows:
 ## Build
 
 - bump did files in Cmc
-- starting from this version, we commit to adhering to [semantic versioning](https://semver.org/) for any libraries published in ic-js
+- starting from this version, we commit to adhering to [semantic versioning](https://semver.org/) for any libraries
+  published in ic-js
 
 # 0.18.4 (2023-09-05)
 
@@ -778,7 +818,8 @@ The current status of the libraries at the time of the release is as follows:
 
 ## Features
 
-- add a new utils function `decodePayment` to the `@dfinity/ledger` library. Useful to decode payment through QR code that contains target address and amount
+- add a new utils function `decodePayment` to the `@dfinity/ledger` library. Useful to decode payment through QR code
+  that contains target address and amount
 - add provisional create canister with cycles method
 - `CreateServiceNervousSystem` <-> `RawCreateServiceNervousSystem` transformations for Nns proposal
 - decode payment code (early support and not yet specified. see ICRC-22)
@@ -843,7 +884,8 @@ No particular changes. Resolve a version conflicts in npmjs.
 ## Features
 
 - introducing `@dfinity/ic-management` — a new library for interfacing with IC management canister
-- add `getMinterInfo` for ckBTC which returns internal minter parameters such as the minimal amount to retrieve BTC, minimal number of confirmations or KYT fee
+- add `getMinterInfo` for ckBTC which returns internal minter parameters such as the minimal amount to retrieve BTC,
+  minimal number of confirmations or KYT fee
 - add fee to nns stake neuron method
 - expose Sns index canister id in wrapper
 - add `simulateMergeNeurons` to Nns governance
@@ -877,7 +919,9 @@ No particular changes. Resolve a version conflicts in npmjs.
 
 ## Breaking Changes
 
-- the protobuf dependencies of `@dfinity/nns` have been extracted to a new peer dependency called `@dfinity/nns-proto`. In the NNS-dapp, we manually chunk the libraries. This change enables the dapp to load the required code of the hardware wallet only when necessary.
+- the protobuf dependencies of `@dfinity/nns` have been extracted to a new peer dependency called `@dfinity/nns-proto`.
+  In the NNS-dapp, we manually chunk the libraries. This change enables the dapp to load the required code of the
+  hardware wallet only when necessary.
 
 ## Features
 
@@ -923,7 +967,8 @@ No particular changes. Resolve a version conflicts in npmjs.
 ## Features
 
 - new utils moved from NNS-dapp: `isNullish`, `nonNullish`, `notEmptyString` and `debounce`
-- added ckBTC `updateBalance`, `getWithdrawalAccount`, `retrieveBtc`, `estimateWithdrawalFee` and `getDepositFee` functions
+- added ckBTC `updateBalance`, `getWithdrawalAccount`, `retrieveBtc`, `estimateWithdrawalFee` and `getDepositFee`
+  functions
 - parse and validate bitcoin address
 - review textual encoding for ICRC-1 account as in [dfinity/ICRC-1#98](https://github.com/dfinity/ICRC-1/pull/98)
 - add SNS action converters
@@ -1016,9 +1061,11 @@ No particular changes. Resolve a version conflicts in npmjs.
 
 Introducing `@dfinity/ledger` — A library for interfacing with ICRC ledgers on the Internet Computer.
 
-An ICRC-1 ledger is not only used in Sns projects but, in ckBTC too. It can also be integrated in various other scenario need by developers on the IC.
+An ICRC-1 ledger is not only used in Sns projects but, in ckBTC too. It can also be integrated in various other scenario
+need by developers on the IC.
 
-That's why we are launching this new library and why we refactored Sns ledger related features to create this new library.
+That's why we are launching this new library and why we refactored Sns ledger related features to create this new
+library.
 
 De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 
@@ -1110,13 +1157,15 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 
 ### Breaking changes
 
-- the development dependency `didc` has been bumped which leads to some types having to be converted from `number[]` to `Uint8Array`
+- the development dependency `didc` has been bumped which leads to some types having to be converted from `number[]` to
+  `Uint8Array`
 - new fields `stakedMaturityE8sEquivalent` and `autoStakeMaturity` in `Neuron`
 
 ### Features
 
 - new library `@dfinity/cmc`
-- new nns governance commands and actions: `ChangeAutoStakeMaturity`, `SetSnsTokenSwapOpenTimeWindow` and `OpenSnsTokenSwap`
+- new nns governance commands and actions: `ChangeAutoStakeMaturity`, `SetSnsTokenSwapOpenTimeWindow` and
+  `OpenSnsTokenSwap`
 - some new utilities added to transform arrays from various format to `Uint8Array`
 - new Sns utilities to encode and decode accounts to and from strings
 - `disburse` Sns neurons
@@ -1139,7 +1188,8 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 ### Features
 
 - new library `@dfinity/utils`
-- more Sns related features: `notifyParticipation`, `getUserCommitment`, some Sns neurons related features and governance `metadata`
+- more Sns related features: `notifyParticipation`, `getUserCommitment`, some Sns neurons related features and
+  governance `metadata`
 - new nns governance features: `setDissolveDelay` and `setNodeProviderAccount`
 - new generic interface `Token` and class `TokenAmount`
 - class `ICP` set as deprecated
@@ -1189,7 +1239,8 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 
 ## Features
 
-- Remove payload, payloadBytes and nnsFunctionName fields from proposal of type ExecuteNnsFunction action (moved to nns-dapp)
+- Remove payload, payloadBytes and nnsFunctionName fields from proposal of type ExecuteNnsFunction action (moved to
+  nns-dapp)
 - Use Candid interface by default for ledger canister and proto for hardware wallet
 - New function transactionFee to query the current transaction fee
 
