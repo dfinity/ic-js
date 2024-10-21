@@ -246,6 +246,11 @@ export const idlFactory = ({ IDL }) => {
     'neuron_attributes' : IDL.Opt(NeuronAttributes),
     'investor' : IDL.Opt(Investor),
   });
+  const Timers = IDL.Record({
+    'last_spawned_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'requires_periodic_tasks' : IDL.Opt(IDL.Bool),
+  });
   const CfNeuron = IDL.Record({
     'has_created_neuron_recipes' : IDL.Opt(IDL.Bool),
     'hotkeys' : IDL.Opt(Principals),
@@ -263,6 +268,7 @@ export const idlFactory = ({ IDL }) => {
     'next_ticket_id' : IDL.Opt(IDL.Nat64),
     'decentralization_sale_open_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'finalize_swap_in_progress' : IDL.Opt(IDL.Bool),
+    'timers' : IDL.Opt(Timers),
     'cf_participants' : IDL.Vec(CfParticipant),
     'init' : IDL.Opt(Init),
     'already_tried_to_auto_finalize' : IDL.Opt(IDL.Bool),
@@ -406,6 +412,7 @@ export const idlFactory = ({ IDL }) => {
         [RefreshBuyerTokensResponse],
         [],
       ),
+    'reset_timers' : IDL.Func([IDL.Record({})], [IDL.Record({})], []),
   });
 };
 export const init = ({ IDL }) => {

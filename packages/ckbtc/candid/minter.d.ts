@@ -34,6 +34,8 @@ export interface DefiniteCanisterSettings {
   freezing_threshold: bigint;
   controllers: Array<Principal>;
   reserved_cycles_limit: bigint;
+  log_visibility: LogVisibility;
+  wasm_memory_limit: bigint;
   memory_allocation: bigint;
   compute_allocation: bigint;
 }
@@ -129,6 +131,7 @@ export interface InitArgs {
   min_confirmations: [] | [number];
   kyt_fee: [] | [bigint];
 }
+export type LogVisibility = { controllers: null } | { public: null };
 export type MinterArg = { Upgrade: [] | [UpgradeArgs] } | { Init: InitArgs };
 export interface MinterInfo {
   retrieve_btc_min_amount: bigint;

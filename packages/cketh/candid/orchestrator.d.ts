@@ -30,6 +30,8 @@ export interface DefiniteCanisterSettings {
   freezing_threshold: bigint;
   controllers: Array<Principal>;
   reserved_cycles_limit: bigint;
+  log_visibility: LogVisibility;
+  wasm_memory_limit: bigint;
   memory_allocation: bigint;
   compute_allocation: bigint;
 }
@@ -64,6 +66,7 @@ export interface LedgerSuiteVersion {
   ledger_compressed_wasm_hash: string;
   index_compressed_wasm_hash: string;
 }
+export type LogVisibility = { controllers: null } | { public: null };
 export interface ManagedCanisterIds {
   ledger: [] | [Principal];
   index: [] | [Principal];
