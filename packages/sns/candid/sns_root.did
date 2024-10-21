@@ -1,4 +1,4 @@
-// Generated from IC repo commit c43a488 (2024-09-27 tags: release-2024-09-26_01-31-no-canister-snapshots) 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit 3c76b91 (2024-10-17 tags: release-2024-10-17_03-07-scheduler-changes-guestos-revert) 'rs/sns/root/canister/root.did' by import-candid
 type CanisterCallError = record {
   code : opt int32;
   description : text;

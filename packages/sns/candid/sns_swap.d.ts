@@ -325,6 +325,7 @@ export interface Swap {
   next_ticket_id: [] | [bigint];
   decentralization_sale_open_timestamp_seconds: [] | [bigint];
   finalize_swap_in_progress: [] | [boolean];
+  timers: [] | [Timers];
   cf_participants: Array<CfParticipant>;
   init: [] | [Init];
   already_tried_to_auto_finalize: [] | [boolean];
@@ -350,6 +351,11 @@ export interface Ticket {
   ticket_id: bigint;
   account: [] | [Icrc1Account];
   amount_icp_e8s: bigint;
+}
+export interface Timers {
+  last_spawned_timestamp_seconds: [] | [bigint];
+  last_reset_timestamp_seconds: [] | [bigint];
+  requires_periodic_tasks: [] | [boolean];
 }
 export interface TransferableAmount {
   transfer_fee_paid_e8s: [] | [bigint];
@@ -395,6 +401,7 @@ export interface _SERVICE {
     [RefreshBuyerTokensRequest],
     RefreshBuyerTokensResponse
   >;
+  reset_timers: ActorMethod<[{}], {}>;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
 export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];

@@ -36,6 +36,8 @@ export interface DefiniteCanisterSettings {
   freezing_threshold: bigint;
   controllers: Array<Principal>;
   reserved_cycles_limit: bigint;
+  log_visibility: LogVisibility;
+  wasm_memory_limit: bigint;
   memory_allocation: bigint;
   compute_allocation: bigint;
 }
@@ -232,6 +234,7 @@ export type LedgerError =
         failed_burn_amount: bigint;
       };
     };
+export type LogVisibility = { controllers: null } | { public: null };
 export type MinterArg = { UpgradeArg: UpgradeArg } | { InitArg: InitArg };
 export interface MinterInfo {
   eth_balance: [] | [bigint];

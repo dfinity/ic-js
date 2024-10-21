@@ -40,7 +40,7 @@ export interface Ballot {
 }
 export interface BallotInfo {
   vote: number;
-  proposal_id: [] | [NeuronId];
+  proposal_id: [] | [ProposalId];
 }
 export type By =
   | { NeuronIdOrSubaccount: {} }
@@ -206,7 +206,7 @@ export interface FollowersMap {
   followers_map: Array<[bigint, Followers]>;
 }
 export interface GetNeuronsFundAuditInfoRequest {
-  nns_proposal_id: [] | [NeuronId];
+  nns_proposal_id: [] | [ProposalId];
 }
 export interface GetNeuronsFundAuditInfoResponse {
   result: [] | [Result_6];
@@ -368,7 +368,7 @@ export interface ListNodeProvidersResponse {
 export interface ListProposalInfo {
   include_reward_status: Int32Array | number[];
   omit_large_fields: [] | [boolean];
-  before_proposal: [] | [NeuronId];
+  before_proposal: [] | [ProposalId];
   limit: number;
   exclude_topic: Int32Array | number[];
   include_all_manage_neuron_proposals: [] | [boolean];
@@ -385,7 +385,7 @@ export interface MakeProposalRequest {
 }
 export interface MakeProposalResponse {
   message: [] | [string];
-  proposal_id: [] | [NeuronId];
+  proposal_id: [] | [ProposalId];
 }
 export interface MakingSnsProposal {
   proposal: [] | [Proposal];
@@ -672,7 +672,7 @@ export type ProposalActionRequest =
   | { AddOrRemoveNodeProvider: AddOrRemoveNodeProvider }
   | { Motion: Motion };
 export interface ProposalData {
-  id: [] | [NeuronId];
+  id: [] | [ProposalId];
   failure_reason: [] | [GovernanceError];
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
@@ -690,8 +690,11 @@ export interface ProposalData {
   executed_timestamp_seconds: bigint;
   original_total_community_fund_maturity_e8s_equivalent: [] | [bigint];
 }
+export interface ProposalId {
+  id: bigint;
+}
 export interface ProposalInfo {
-  id: [] | [NeuronId];
+  id: [] | [ProposalId];
   status: number;
   topic: number;
   failure_reason: [] | [GovernanceError];
@@ -711,7 +714,7 @@ export interface ProposalInfo {
 }
 export interface RegisterVote {
   vote: number;
-  proposal: [] | [NeuronId];
+  proposal: [] | [ProposalId];
 }
 export interface RemoveHotKey {
   hot_key_to_remove: [] | [Principal];
@@ -748,7 +751,7 @@ export interface RewardEvent {
   total_available_e8s_equivalent: bigint;
   latest_round_available_e8s_equivalent: [] | [bigint];
   distributed_e8s_equivalent: bigint;
-  settled_proposals: Array<NeuronId>;
+  settled_proposals: Array<ProposalId>;
 }
 export type RewardMode =
   | { RewardToNeuron: RewardToNeuron }
