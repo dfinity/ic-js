@@ -53,9 +53,7 @@ export type AgentManagerConfig = Pick<
 export class AgentManager {
   private agents: Record<string, HttpAgent> | undefined | null = undefined;
 
-  private constructor(private readonly config: AgentManagerConfig) {
-    this.config = config;
-  }
+  private constructor(private readonly config: AgentManagerConfig) {}
 
   /**
    * Static factory method to create a new AgentManager instance.
