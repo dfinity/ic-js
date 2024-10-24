@@ -44,6 +44,11 @@ export interface Ballot {
   voting_power: bigint;
 }
 export type By = { MemoAndController: MemoAndController } | { NeuronId: {} };
+export interface CachedUpgradeSteps {
+  upgrade_steps: [] | [Versions];
+  response_timestamp_seconds: [] | [bigint];
+  requested_timestamp_seconds: [] | [bigint];
+}
 export interface CanisterStatusResultV2 {
   status: CanisterStatusType;
   memory_size: bigint;
@@ -217,8 +222,15 @@ export interface GetRunningSnsVersionResponse {
 export interface GetSnsInitializationParametersResponse {
   sns_initialization_parameters: string;
 }
+export type GetUpgradeJournalRequest = {};
+export interface GetUpgradeJournalResponse {
+  upgrade_steps: [] | [Versions];
+  response_timestamp_seconds: [] | [bigint];
+  target_version: [] | [Version];
+}
 export interface Governance {
   root_canister_id: [] | [Principal];
+  cached_upgrade_steps: [] | [CachedUpgradeSteps];
   id_to_nervous_system_functions: Array<[bigint, NervousSystemFunction]>;
   metrics: [] | [GovernanceCachedMetrics];
   maturity_modulation: [] | [MaturityModulation];
@@ -234,8 +246,8 @@ export interface Governance {
   proposals: Array<[bigint, ProposalData]>;
   in_flight_commands: Array<[string, NeuronInFlightCommand]>;
   sns_metadata: [] | [ManageSnsMetadata];
-  migrated_root_wasm_memory_limit: [] | [boolean];
   neurons: Array<[string, Neuron]>;
+  target_version: [] | [Version];
   genesis_timestamp_seconds: bigint;
 }
 export interface GovernanceCachedMetrics {
@@ -571,6 +583,9 @@ export interface Version {
   governance_wasm_hash: Uint8Array | number[];
   index_wasm_hash: Uint8Array | number[];
 }
+export interface Versions {
+  versions: Array<Version>;
+}
 export interface VotingRewardsParameters {
   final_reward_rate_basis_points: [] | [bigint];
   initial_reward_rate_basis_points: [] | [bigint];
@@ -599,6 +614,10 @@ export interface _SERVICE {
   get_sns_initialization_parameters: ActorMethod<
     [{}],
     GetSnsInitializationParametersResponse
+  >;
+  get_upgrade_journal: ActorMethod<
+    [GetUpgradeJournalRequest],
+    GetUpgradeJournalResponse
   >;
   list_nervous_system_functions: ActorMethod<
     [],

@@ -100,13 +100,13 @@ mkdir -p packages/cmc/candid
 import_did "rs/nns/cmc/cmc.did" "cmc.did" "cmc"
 
 mkdir -p packages/ledger-icp/candid
-import_did "rs/rosetta-api/icp_ledger/ledger.did" "ledger.did" "ledger-icp"
-import_did "rs/rosetta-api/icp_ledger/index/index.did" "index.did" "ledger-icp"
+import_did "rs/ledger_suite/icp/ledger.did" "ledger.did" "ledger-icp"
+import_did "rs/ledger_suite/icp/index/index.did" "index.did" "ledger-icp"
 
 mkdir -p packages/ledger-icrc/candid
-import_did "rs/rosetta-api/icrc1/ledger/ledger.did" "icrc_ledger.did" "ledger-icrc"
-import_did "rs/rosetta-api/icrc1/index/index.did" "icrc_index.did" "ledger-icrc"
-import_did "rs/rosetta-api/icrc1/index-ng/index-ng.did" "icrc_index-ng.did" "ledger-icrc"
+import_did "rs/ledger_suite/icrc1/ledger/ledger.did" "icrc_ledger.did" "ledger-icrc"
+import_did "rs/ledger_suite/icrc1/index/index.did" "icrc_index.did" "ledger-icrc"
+import_did "rs/ledger_suite/icrc1/index-ng/index-ng.did" "icrc_index-ng.did" "ledger-icrc"
 
 mkdir -p packages/ckbtc/candid
 import_did "rs/bitcoin/ckbtc/minter/ckbtc_minter.did" "minter.did" "ckbtc"

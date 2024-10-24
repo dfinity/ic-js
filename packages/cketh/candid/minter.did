@@ -1,4 +1,4 @@
-// Generated from IC repo commit c43a488 (2024-09-27 tags: release-2024-09-26_01-31-no-canister-snapshots) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit 3c76b91 (2024-10-17 tags: release-2024-10-17_03-07-scheduler-changes-guestos-revert) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -25,6 +25,13 @@ type DefiniteCanisterSettings = record {
   memory_allocation : nat;
   compute_allocation : nat;
   reserved_cycles_limit : nat;
+  log_visibility: LogVisibility;
+  wasm_memory_limit : nat;
+};
+
+type LogVisibility = variant {
+    controllers;
+    public;
 };
 
 type QueryStats = record {

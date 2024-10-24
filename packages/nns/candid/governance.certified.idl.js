@@ -59,9 +59,10 @@ export const idlFactory = ({ IDL }) => {
     'SetDissolveTimestamp' : SetDissolveTimestamp,
   });
   const Configure = IDL.Record({ 'operation' : IDL.Opt(Operation) });
+  const ProposalId = IDL.Record({ 'id' : IDL.Nat64 });
   const RegisterVote = IDL.Record({
     'vote' : IDL.Int32,
-    'proposal' : IDL.Opt(NeuronId),
+    'proposal' : IDL.Opt(ProposalId),
   });
   const Merge = IDL.Record({ 'source_neuron_id' : IDL.Opt(NeuronId) });
   const DisburseToNeuron = IDL.Record({
@@ -447,7 +448,7 @@ export const idlFactory = ({ IDL }) => {
     'total_available_e8s_equivalent' : IDL.Nat64,
     'latest_round_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'distributed_e8s_equivalent' : IDL.Nat64,
-    'settled_proposals' : IDL.Vec(NeuronId),
+    'settled_proposals' : IDL.Vec(ProposalId),
   });
   const NeuronStakeTransfer = IDL.Record({
     'to_subaccount' : IDL.Vec(IDL.Nat8),
@@ -550,7 +551,7 @@ export const idlFactory = ({ IDL }) => {
     'current_deadline_timestamp_seconds' : IDL.Nat64,
   });
   const ProposalData = IDL.Record({
-    'id' : IDL.Opt(NeuronId),
+    'id' : IDL.Opt(ProposalId),
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,
@@ -587,7 +588,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const BallotInfo = IDL.Record({
     'vote' : IDL.Int32,
-    'proposal_id' : IDL.Opt(NeuronId),
+    'proposal_id' : IDL.Opt(ProposalId),
   });
   const DissolveState = IDL.Variant({
     'DissolveDelaySeconds' : IDL.Nat64,
@@ -678,7 +679,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Result_5 = IDL.Variant({ 'Ok' : NeuronInfo, 'Err' : GovernanceError });
   const GetNeuronsFundAuditInfoRequest = IDL.Record({
-    'nns_proposal_id' : IDL.Opt(NeuronId),
+    'nns_proposal_id' : IDL.Opt(ProposalId),
   });
   const NeuronsFundAuditInfo = IDL.Record({
     'final_neurons_fund_participation' : IDL.Opt(NeuronsFundParticipation),
@@ -697,7 +698,7 @@ export const idlFactory = ({ IDL }) => {
     'Err' : GovernanceError,
   });
   const ProposalInfo = IDL.Record({
-    'id' : IDL.Opt(NeuronId),
+    'id' : IDL.Opt(ProposalId),
     'status' : IDL.Int32,
     'topic' : IDL.Int32,
     'failure_reason' : IDL.Opt(GovernanceError),
@@ -744,7 +745,7 @@ export const idlFactory = ({ IDL }) => {
   const ListProposalInfo = IDL.Record({
     'include_reward_status' : IDL.Vec(IDL.Int32),
     'omit_large_fields' : IDL.Opt(IDL.Bool),
-    'before_proposal' : IDL.Opt(NeuronId),
+    'before_proposal' : IDL.Opt(ProposalId),
     'limit' : IDL.Nat32,
     'exclude_topic' : IDL.Vec(IDL.Int32),
     'include_all_manage_neuron_proposals' : IDL.Opt(IDL.Bool),
@@ -814,7 +815,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const MakeProposalResponse = IDL.Record({
     'message' : IDL.Opt(IDL.Text),
-    'proposal_id' : IDL.Opt(NeuronId),
+    'proposal_id' : IDL.Opt(ProposalId),
   });
   const StakeMaturityResponse = IDL.Record({
     'maturity_e8s' : IDL.Nat64,
@@ -1023,9 +1024,10 @@ export const init = ({ IDL }) => {
     'SetDissolveTimestamp' : SetDissolveTimestamp,
   });
   const Configure = IDL.Record({ 'operation' : IDL.Opt(Operation) });
+  const ProposalId = IDL.Record({ 'id' : IDL.Nat64 });
   const RegisterVote = IDL.Record({
     'vote' : IDL.Int32,
-    'proposal' : IDL.Opt(NeuronId),
+    'proposal' : IDL.Opt(ProposalId),
   });
   const Merge = IDL.Record({ 'source_neuron_id' : IDL.Opt(NeuronId) });
   const DisburseToNeuron = IDL.Record({
@@ -1411,7 +1413,7 @@ export const init = ({ IDL }) => {
     'total_available_e8s_equivalent' : IDL.Nat64,
     'latest_round_available_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'distributed_e8s_equivalent' : IDL.Nat64,
-    'settled_proposals' : IDL.Vec(NeuronId),
+    'settled_proposals' : IDL.Vec(ProposalId),
   });
   const NeuronStakeTransfer = IDL.Record({
     'to_subaccount' : IDL.Vec(IDL.Nat8),
@@ -1514,7 +1516,7 @@ export const init = ({ IDL }) => {
     'current_deadline_timestamp_seconds' : IDL.Nat64,
   });
   const ProposalData = IDL.Record({
-    'id' : IDL.Opt(NeuronId),
+    'id' : IDL.Opt(ProposalId),
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,
@@ -1551,7 +1553,7 @@ export const init = ({ IDL }) => {
   });
   const BallotInfo = IDL.Record({
     'vote' : IDL.Int32,
-    'proposal_id' : IDL.Opt(NeuronId),
+    'proposal_id' : IDL.Opt(ProposalId),
   });
   const DissolveState = IDL.Variant({
     'DissolveDelaySeconds' : IDL.Nat64,
