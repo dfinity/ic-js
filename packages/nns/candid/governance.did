@@ -1,4 +1,4 @@
-// Generated from IC repo commit 3c76b91 (2024-10-17 tags: release-2024-10-17_03-07-scheduler-changes-guestos-revert) 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit a6ef593 (2024-10-24 tags: release-2024-10-23_03-07-ubuntu20.04) 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
