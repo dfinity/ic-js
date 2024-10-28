@@ -222,6 +222,9 @@ export interface GetRunningSnsVersionResponse {
 export interface GetSnsInitializationParametersResponse {
   sns_initialization_parameters: string;
 }
+export interface GetTimersResponse {
+  timers: [] | [Timers];
+}
 export type GetUpgradeJournalRequest = {};
 export interface GetUpgradeJournalResponse {
   upgrade_steps: [] | [Versions];
@@ -230,6 +233,7 @@ export interface GetUpgradeJournalResponse {
 }
 export interface Governance {
   root_canister_id: [] | [Principal];
+  timers: [] | [Timers];
   cached_upgrade_steps: [] | [CachedUpgradeSteps];
   id_to_nervous_system_functions: Array<[bigint, NervousSystemFunction]>;
   metrics: [] | [GovernanceCachedMetrics];
@@ -542,6 +546,10 @@ export interface Tally {
   total: bigint;
   timestamp_seconds: bigint;
 }
+export interface Timers {
+  last_spawned_timestamp_seconds: [] | [bigint];
+  last_reset_timestamp_seconds: [] | [bigint];
+}
 export interface Tokens {
   e8s: [] | [bigint];
 }
@@ -615,6 +623,7 @@ export interface _SERVICE {
     [{}],
     GetSnsInitializationParametersResponse
   >;
+  get_timers: ActorMethod<[{}], GetTimersResponse>;
   get_upgrade_journal: ActorMethod<
     [GetUpgradeJournalRequest],
     GetUpgradeJournalResponse
@@ -626,6 +635,7 @@ export interface _SERVICE {
   list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
   list_proposals: ActorMethod<[ListProposals], ListProposalsResponse>;
   manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
+  reset_timers: ActorMethod<[{}], {}>;
   set_mode: ActorMethod<[SetMode], {}>;
 }
 export declare const idlFactory: IDL.InterfaceFactory;

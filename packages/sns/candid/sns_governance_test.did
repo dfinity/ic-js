@@ -1,4 +1,4 @@
-// Generated from IC repo commit 3c76b91 (2024-10-17 tags: release-2024-10-17_03-07-scheduler-changes-guestos-revert) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit a6ef593 (2024-10-24 tags: release-2024-10-23_03-07-ubuntu20.04) 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;
@@ -301,6 +301,16 @@ type Governance = record {
   neurons : vec record { text; Neuron };
   genesis_timestamp_seconds : nat64;
   target_version: opt Version;
+  timers : opt Timers;
+};
+
+type Timers = record {
+  last_reset_timestamp_seconds : opt nat64;
+  last_spawned_timestamp_seconds : opt nat64;
+};
+
+type GetTimersResponse = record {
+  timers : opt Timers;
 };
 
 type GovernanceCachedMetrics = record {
@@ -762,4 +772,6 @@ service : (Governance) -> {
   set_mode : (SetMode) -> (record {});
   update_neuron : (Neuron) -> (opt GovernanceError);
   advance_target_version : (AdvanceTargetVersionRequest) -> (AdvanceTargetVersionResponse);
+  reset_timers : (record {}) -> (record {});
+  get_timers : (record {}) -> (GetTimersResponse) query;
 }

@@ -8,6 +8,11 @@
 ## Features
 
 - Add support for `get_default_subnets` to `@dfinity/cmc`.
+- Add class `AgentManager` in `@dfinity/utils` which caches `HttpAgent` instances for different identities.
+
+## Docs
+
+- Rename DFINITY LLC to DFINITY Stiftung in licences.
 
 # 2024.10.09-1140Z
 

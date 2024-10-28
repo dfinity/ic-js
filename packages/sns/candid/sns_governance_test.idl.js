@@ -1,5 +1,9 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_governance_test.did */
 export const idlFactory = ({ IDL }) => {
+  const Timers = IDL.Record({
+    'last_spawned_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const Version = IDL.Record({
     'archive_wasm_hash' : IDL.Vec(IDL.Nat8),
     'root_wasm_hash' : IDL.Vec(IDL.Nat8),
@@ -363,6 +367,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Governance = IDL.Record({
     'root_canister_id' : IDL.Opt(IDL.Principal),
+    'timers' : IDL.Opt(Timers),
     'cached_upgrade_steps' : IDL.Opt(CachedUpgradeSteps),
     'id_to_nervous_system_functions' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, NervousSystemFunction)
@@ -481,6 +486,7 @@ export const idlFactory = ({ IDL }) => {
   const GetSnsInitializationParametersResponse = IDL.Record({
     'sns_initialization_parameters' : IDL.Text,
   });
+  const GetTimersResponse = IDL.Record({ 'timers' : IDL.Opt(Timers) });
   const GetUpgradeJournalRequest = IDL.Record({});
   const GetUpgradeJournalResponse = IDL.Record({
     'upgrade_steps' : IDL.Opt(Versions),
@@ -619,6 +625,7 @@ export const idlFactory = ({ IDL }) => {
         [GetSnsInitializationParametersResponse],
         ['query'],
       ),
+    'get_timers' : IDL.Func([IDL.Record({})], [GetTimersResponse], ['query']),
     'get_upgrade_journal' : IDL.Func(
         [GetUpgradeJournalRequest],
         [GetUpgradeJournalResponse],
@@ -637,11 +644,16 @@ export const idlFactory = ({ IDL }) => {
       ),
     'manage_neuron' : IDL.Func([ManageNeuron], [ManageNeuronResponse], []),
     'mint_tokens' : IDL.Func([MintTokensRequest], [IDL.Record({})], []),
+    'reset_timers' : IDL.Func([IDL.Record({})], [IDL.Record({})], []),
     'set_mode' : IDL.Func([SetMode], [IDL.Record({})], []),
     'update_neuron' : IDL.Func([Neuron], [IDL.Opt(GovernanceError)], []),
   });
 };
 export const init = ({ IDL }) => {
+  const Timers = IDL.Record({
+    'last_spawned_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const Version = IDL.Record({
     'archive_wasm_hash' : IDL.Vec(IDL.Nat8),
     'root_wasm_hash' : IDL.Vec(IDL.Nat8),
@@ -1005,6 +1017,7 @@ export const init = ({ IDL }) => {
   });
   const Governance = IDL.Record({
     'root_canister_id' : IDL.Opt(IDL.Principal),
+    'timers' : IDL.Opt(Timers),
     'cached_upgrade_steps' : IDL.Opt(CachedUpgradeSteps),
     'id_to_nervous_system_functions' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, NervousSystemFunction)

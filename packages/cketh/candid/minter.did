@@ -1,4 +1,4 @@
-// Generated from IC repo commit 3c76b91 (2024-10-17 tags: release-2024-10-17_03-07-scheduler-changes-guestos-revert) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit a6ef593 (2024-10-24 tags: release-2024-10-23_03-07-ubuntu20.04) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -196,6 +196,10 @@ type MinterInfo = record {
 
     // Canister ID of the ckETH ledger.
     cketh_ledger_id: opt principal;
+
+    // Canister ID of the EVM RPC canister that handles the communication
+    // with the Ethereum blockchain.
+    evm_rpc_id : opt principal;
 };
 
 
