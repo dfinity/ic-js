@@ -12,7 +12,7 @@
 
 ## Docs
 
-- Rename DFINITY LLC to DFINITY Stiftung in liences.
+- Rename DFINITY LLC to DFINITY Stiftung in licences.
 
 # 2024.10.09-1140Z
 
