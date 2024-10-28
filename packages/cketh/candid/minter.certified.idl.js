@@ -241,6 +241,7 @@ export const idlFactory = ({ IDL }) => {
     'eth_balance' : IDL.Opt(IDL.Nat),
     'eth_helper_contract_address' : IDL.Opt(IDL.Text),
     'last_observed_block_number' : IDL.Opt(IDL.Nat),
+    'evm_rpc_id' : IDL.Opt(IDL.Principal),
     'erc20_helper_contract_address' : IDL.Opt(IDL.Text),
     'last_erc20_scraped_block_number' : IDL.Opt(IDL.Nat),
     'supported_ckerc20_tokens' : IDL.Opt(IDL.Vec(CkErc20Token)),

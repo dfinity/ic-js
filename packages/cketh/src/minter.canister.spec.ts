@@ -741,6 +741,9 @@ describe("ckETH minter canister", () => {
         supported_ckerc20_tokens: [],
         last_erc20_scraped_block_number: [5892643n],
         last_eth_scraped_block_number: [5892601n],
+        evm_rpc_id: toNullable(
+          Principal.fromText("7hfb6-caaaa-aaaar-qadga-cai"),
+        ),
       };
 
       const service = mock<ActorSubclass<CkETHMinterService>>();

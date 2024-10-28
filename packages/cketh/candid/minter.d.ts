@@ -240,6 +240,7 @@ export interface MinterInfo {
   eth_balance: [] | [bigint];
   eth_helper_contract_address: [] | [string];
   last_observed_block_number: [] | [bigint];
+  evm_rpc_id: [] | [Principal];
   erc20_helper_contract_address: [] | [string];
   last_erc20_scraped_block_number: [] | [bigint];
   supported_ckerc20_tokens: [] | [Array<CkErc20Token>];
