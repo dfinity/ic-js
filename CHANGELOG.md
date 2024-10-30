@@ -1,3 +1,9 @@
+# 2024.xx.yy-hhmmZ
+
+# Breaking changes
+
+- Remove `stakeNeuronIcrc1`.
+
 # 2024.10.29-1130Z
 
 ## Overview
