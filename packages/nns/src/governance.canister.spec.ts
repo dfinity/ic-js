@@ -1,5 +1,9 @@
 import { ActorSubclass, AnonymousIdentity } from "@dfinity/agent";
-import { InvalidAccountIDError, LedgerCanister } from "@dfinity/ledger-icp";
+import {
+  AccountIdentifier,
+  InvalidAccountIDError,
+  LedgerCanister,
+} from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
@@ -45,6 +49,24 @@ import {
   StopOrStartCanister,
   UpdateCanisterSettings,
 } from "./types/governance_converters";
+
+const nextRandomBytes: number[] = [];
+
+jest.mock("randombytes", () => ({
+  __esModule: true,
+  default: function (n: number) {
+    const nums: number[] = [];
+    for (let i = 0; i < n; i++) {
+      const nextByte = nextRandomBytes.shift();
+      if (nextByte !== undefined) {
+        nums.push(nextByte);
+      } else {
+        nums.push(Math.floor(Math.random() * 0x100));
+      }
+    }
+    return new Uint8Array(nums);
+  },
+}));
 
 const unexpectedGovernanceError: GovernanceErrorDetail = {
   error_message: "Error updating neuron",
@@ -197,17 +219,52 @@ describe("GovernanceCanister", () => {
         jest.fn().mockResolvedValue(BigInt(1)),
       );
 
+      const stake = 100_000_000n;
+      const controller = Principal.fromText("2amoo-gaqe4-3ekjz-wiu");
+
+      nextRandomBytes.push(123, 4, 56, 7, 8, 90, 1, 234, 5, 67);
+      const expectedMemo = 8864271569428021738n;
+      const expectedIcpAccount = AccountIdentifier.fromHex(
+        "911c1b8826981b7126dc62cf176f30550eefee5d31e2071143ca17e727b251e5",
+      );
+
+      expect(mockLedger.transfer).toBeCalledTimes(0);
+      expect(service.manage_neuron).toBeCalledTimes(0);
+
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
       const response = await governance.stakeNeuron({
-        stake: BigInt(100_000_000),
-        principal: new AnonymousIdentity().getPrincipal(),
+        stake,
+        principal: controller,
         ledgerCanister: mockLedger,
       });
 
-      expect(mockLedger.transfer).toBeCalled();
-      expect(service.manage_neuron).toBeCalled();
+      expect(mockLedger.transfer).toBeCalledTimes(1);
+      expect(mockLedger.transfer).toBeCalledWith({
+        amount: stake,
+        memo: expectedMemo,
+        to: expectedIcpAccount,
+      });
+      expect(service.manage_neuron).toBeCalledTimes(1);
+      expect(service.manage_neuron).toBeCalledWith({
+        command: [
+          {
+            ClaimOrRefresh: {
+              by: [
+                {
+                  MemoAndController: {
+                    controller: [controller],
+                    memo: expectedMemo,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        id: [],
+        neuron_id_or_subaccount: [],
+      });
       expect(response).toEqual(neuronId);
     });
 
@@ -300,133 +357,6 @@ describe("GovernanceCanister", () => {
         });
 
       expect(mockLedger.transfer).not.toBeCalled();
-      expect(service.claim_or_refresh_neuron_from_account).not.toBeCalled();
-
-      await expect(call).rejects.toThrow(
-        new InsufficientAmountError(BigInt(10_000_000)),
-      );
-    });
-  });
-
-  describe("GovernanceCanister.stakeNeuronIcrc1", () => {
-    it("creates new neuron successfully", async () => {
-      const neuronId = BigInt(10);
-      const serviceResponse: ManageNeuronResponse = {
-        command: [
-          { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
-        ],
-      };
-      const service = mock<ActorSubclass<GovernanceService>>();
-      service.manage_neuron.mockResolvedValue(serviceResponse);
-
-      const mockLedger = mock<LedgerCanister>();
-      mockLedger.icrc1Transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
-      );
-
-      const governance = GovernanceCanister.create({
-        certifiedServiceOverride: service,
-      });
-      const response = await governance.stakeNeuronIcrc1({
-        stake: BigInt(100_000_000),
-        principal: new AnonymousIdentity().getPrincipal(),
-        ledgerCanister: mockLedger,
-      });
-
-      expect(mockLedger.icrc1Transfer).toBeCalled();
-      expect(service.manage_neuron).toBeCalled();
-      expect(response).toEqual(neuronId);
-    });
-
-    it("stakeNeuron passes fee to the ledger transfer", async () => {
-      const neuronId = BigInt(10);
-      const serviceResponse: ManageNeuronResponse = {
-        command: [
-          { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
-        ],
-      };
-      const service = mock<ActorSubclass<GovernanceService>>();
-      service.manage_neuron.mockResolvedValue(serviceResponse);
-
-      const mockLedger = mock<LedgerCanister>();
-      mockLedger.icrc1Transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
-      );
-      const fee = BigInt(10_000);
-
-      const governance = GovernanceCanister.create({
-        certifiedServiceOverride: service,
-      });
-      const response = await governance.stakeNeuronIcrc1({
-        stake: BigInt(100_000_000),
-        principal: new AnonymousIdentity().getPrincipal(),
-        ledgerCanister: mockLedger,
-        fee,
-      });
-
-      expect(mockLedger.icrc1Transfer).toBeCalledWith(
-        expect.objectContaining({ fee }),
-      );
-    });
-
-    it("creates new neuron from subaccount successfully", async () => {
-      const neuronId = BigInt(10);
-      const serviceResponse: ManageNeuronResponse = {
-        command: [
-          { ClaimOrRefresh: { refreshed_neuron_id: [{ id: neuronId }] } },
-        ],
-      };
-      const service = mock<ActorSubclass<GovernanceService>>();
-      service.manage_neuron.mockResolvedValue(serviceResponse);
-
-      const mockLedger = mock<LedgerCanister>();
-      mockLedger.icrc1Transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
-      );
-
-      const governance = GovernanceCanister.create({
-        certifiedServiceOverride: service,
-      });
-      const response = await governance.stakeNeuronIcrc1({
-        stake: BigInt(100_000_000),
-        principal: new AnonymousIdentity().getPrincipal(),
-        ledgerCanister: mockLedger,
-        fromSubAccount: new Uint8Array([
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 1,
-        ]),
-      });
-
-      expect(mockLedger.icrc1Transfer).toBeCalled();
-      expect(service.manage_neuron).toBeCalled();
-      expect(response).toEqual(neuronId);
-    });
-
-    it("returns insufficient amount errors", async () => {
-      const neuronId = BigInt(1);
-      const clainNeuronResponse: ClaimOrRefreshNeuronFromAccountResponse = {
-        result: [{ NeuronId: { id: neuronId } }],
-      };
-      const service = mock<ActorSubclass<GovernanceService>>();
-      service.claim_or_refresh_neuron_from_account.mockResolvedValue(
-        clainNeuronResponse,
-      );
-
-      const mockLedger = mock<LedgerCanister>();
-      mockLedger.icrc1Transfer.mockImplementation(jest.fn());
-
-      const governance = GovernanceCanister.create({
-        certifiedServiceOverride: service,
-      });
-
-      const call = async () =>
-        await governance.stakeNeuronIcrc1({
-          stake: BigInt(10_000_000),
-          principal: new AnonymousIdentity().getPrincipal(),
-          ledgerCanister: mockLedger,
-        });
-
-      expect(mockLedger.icrc1Transfer).not.toBeCalled();
       expect(service.claim_or_refresh_neuron_from_account).not.toBeCalled();
 
       await expect(call).rejects.toThrow(
