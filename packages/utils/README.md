@@ -637,4 +637,16 @@ Useful when identities have changed or if you want to reset all active connectio
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L2)
 
+### :nut_and_bolt: Enum
+
+- [FromStringToTokenError](#gear-fromstringtotokenerror)
+
+#### :gear: FromStringToTokenError
+
+| Property                      | Type | Description |
+| ----------------------------- | ---- | ----------- |
+| `FractionalMoreThan8Decimals` | ``   |             |
+| `InvalidFormat`               | ``   |             |
+| `FractionalTooManyDecimals`   | ``   |             |
+
 <!-- TSDOC_END -->
