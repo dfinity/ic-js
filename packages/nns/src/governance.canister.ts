@@ -1,15 +1,9 @@
 import type { ActorSubclass, Agent } from "@dfinity/agent";
 import { Actor } from "@dfinity/agent";
 import type { LedgerCanister } from "@dfinity/ledger-icp";
-import {
-  AccountIdentifier,
-  SubAccount,
-  checkAccountId,
-} from "@dfinity/ledger-icp";
+import { AccountIdentifier, checkAccountId } from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
 import {
-  arrayOfNumberToUint8Array,
-  asciiStringToByteArray,
   assertPercentageNumber,
   createServices,
   fromNullable,
@@ -17,7 +11,6 @@ import {
   nonNullish,
   uint8ArrayToBigInt,
 } from "@dfinity/utils";
-import { sha256 } from "@noble/hashes/sha256";
 import randomBytes from "randombytes";
 import type {
   Command_1,
@@ -90,6 +83,7 @@ import type {
   ProposalId,
   ProposalInfo,
 } from "./types/governance_converters";
+import { memoToNeuronAccountIdentifier } from "./utils/neurons.utils";
 
 export class GovernanceCanister {
   private constructor(
@@ -269,10 +263,10 @@ export class GovernanceCanister {
 
     const nonceBytes = new Uint8Array(randomBytes(8));
     const nonce = uint8ArrayToBigInt(nonceBytes);
-    const toSubAccount = this.buildNeuronStakeSubAccount(nonceBytes, principal);
-    const accountIdentifier = AccountIdentifier.fromPrincipal({
-      principal: this.canisterId,
-      subAccount: toSubAccount,
+    const accountIdentifier = memoToNeuronAccountIdentifier({
+      controller: principal,
+      memo: nonce,
+      governanceCanisterId: this.canisterId,
     });
 
     // Send amount to the ledger.
@@ -868,32 +862,6 @@ export class GovernanceCanister {
     throw new UnrecognizedTypeError(
       `Unrecognized ClaimOrRefresh error in ${JSON.stringify(rawResponse)}`,
     );
-  };
-
-  private buildNeuronStakeSubAccount = (
-    nonce: Uint8Array,
-    principal: Principal,
-  ): SubAccount => {
-    return SubAccount.fromBytes(
-      this.getNeuronStakeSubAccountBytes(nonce, principal),
-    ) as SubAccount;
-  };
-
-  private getNeuronStakeSubAccountBytes = (
-    nonce: Uint8Array,
-    principal: Principal,
-  ): Uint8Array => {
-    const padding = asciiStringToByteArray("neuron-stake");
-    const shaObj = sha256.create();
-    shaObj.update(
-      arrayOfNumberToUint8Array([
-        0x0c,
-        ...padding,
-        ...principal.toUint8Array(),
-        ...nonce,
-      ]),
-    );
-    return shaObj.digest();
   };
 
   private getGovernanceService(certified: boolean): GovernanceService {

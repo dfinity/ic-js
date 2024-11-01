@@ -1,7 +1,11 @@
+import { Principal } from "@dfinity/principal";
+import { uint8ArrayToHexString } from "@dfinity/utils";
 import { Vote } from "../enums/governance.enums";
 import { NeuronInfo, ProposalInfo } from "../types/governance_converters";
 import {
   ineligibleNeurons,
+  memoToNeuronAccountIdentifier,
+  memoToNeuronSubaccount,
   votableNeurons,
   votedNeurons,
 } from "./neurons.utils";
@@ -200,6 +204,44 @@ describe("neurons-utils", () => {
         neurons: eligibleNeuronsData,
       });
       expect(voted).toEqual([eligibleNeuronsData[1], eligibleNeuronsData[2]]);
+    });
+  });
+
+  describe("memoToNeuronSubaccount", () => {
+    it("should calculate the neuron subaccount", () => {
+      // It's not that useful to do the same hashing here so we just use some
+      // hardcoded values for a "change detector" test.
+      const controller = Principal.fromText("6czrj-7isge-rrema");
+      const memo = 123123123n;
+
+      expect(
+        uint8ArrayToHexString(
+          memoToNeuronSubaccount({ controller, memo }).toUint8Array(),
+        ),
+      ).toEqual(
+        "21c6b6f1c9be307a956fd950687037203c6ceb3557ae5cc49b52010d4497b2d3",
+      );
+    });
+  });
+
+  describe("memoToNeuronAccountIdentifier", () => {
+    it("should calculate the neuron account identifier", () => {
+      // It's not that useful to do the same hashing here so we just use some
+      // hardcoded values for a "change detector" test.
+      const governanceCanisterId = Principal.fromText(
+        "rrkah-fqaaa-aaaaa-aaaaq-cai",
+      );
+      const controller = Principal.fromText("jl4mq-2sfmr-lekya");
+      const memo = 456456456n;
+      expect(
+        memoToNeuronAccountIdentifier({
+          controller,
+          memo,
+          governanceCanisterId,
+        }).toHex(),
+      ).toEqual(
+        "2a8523d6488286c937f25a855cc74e640da7115824eb6c78d89d503a37e6b3d8",
+      );
     });
   });
 });

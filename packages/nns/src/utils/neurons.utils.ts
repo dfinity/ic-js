@@ -1,3 +1,11 @@
+import { AccountIdentifier, SubAccount } from "@dfinity/ledger-icp";
+import type { Principal } from "@dfinity/principal";
+import {
+  arrayOfNumberToUint8Array,
+  asciiStringToByteArray,
+  bigIntToUint8Array,
+} from "@dfinity/utils";
+import { sha256 } from "@noble/hashes/sha256";
 import { Vote } from "../enums/governance.enums";
 import type {
   Ballot,
@@ -89,3 +97,40 @@ export const votedNeurons = ({
     (neuron: NeuronInfo) =>
       getNeuronVoteForProposal({ proposal, neuron }) !== Vote.Unspecified,
   );
+
+export const memoToNeuronSubaccount = ({
+  controller,
+  memo,
+}: {
+  controller: Principal;
+  memo: bigint;
+}): SubAccount => {
+  const padding = asciiStringToByteArray("neuron-stake");
+  const shaObj = sha256.create();
+  shaObj.update(
+    arrayOfNumberToUint8Array([
+      padding.length,
+      ...padding,
+      ...controller.toUint8Array(),
+      ...bigIntToUint8Array(memo),
+    ]),
+  );
+
+  return SubAccount.fromBytes(shaObj.digest()) as SubAccount;
+};
+
+export const memoToNeuronAccountIdentifier = ({
+  controller,
+  memo,
+  governanceCanisterId,
+}: {
+  controller: Principal;
+  memo: bigint;
+  governanceCanisterId: Principal;
+}): AccountIdentifier => {
+  const subAccount = memoToNeuronSubaccount({ controller, memo });
+  return AccountIdentifier.fromPrincipal({
+    principal: governanceCanisterId,
+    subAccount,
+  });
+};
