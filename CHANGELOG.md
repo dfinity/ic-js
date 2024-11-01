@@ -4,6 +4,10 @@
 
 - Remove `stakeNeuronIcrc1`.
 
+## Features
+
+- Added `memoToNeuronSubaccount` and `memoToNeuronAccountIdentifier`.
+
 # 2024.10.29-1130Z
 
 ## Overview
