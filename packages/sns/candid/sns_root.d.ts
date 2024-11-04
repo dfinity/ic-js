@@ -79,6 +79,9 @@ export interface GetSnsCanistersSummaryResponse {
   dapps: Array<CanisterSummary>;
   archives: Array<CanisterSummary>;
 }
+export interface GetTimersResponse {
+  timers: [] | [Timers];
+}
 export interface ListSnsCanistersResponse {
   root: [] | [Principal];
   swap: [] | [Principal];
@@ -116,12 +119,18 @@ export interface SetDappControllersResponse {
 }
 export interface SnsRootCanister {
   dapp_canister_ids: Array<Principal>;
+  timers: [] | [Timers];
   testflight: boolean;
   archive_canister_ids: Array<Principal>;
   governance_canister_id: [] | [Principal];
   index_canister_id: [] | [Principal];
   swap_canister_id: [] | [Principal];
   ledger_canister_id: [] | [Principal];
+}
+export interface Timers {
+  last_spawned_timestamp_seconds: [] | [bigint];
+  last_reset_timestamp_seconds: [] | [bigint];
+  requires_periodic_tasks: [] | [boolean];
 }
 export interface _SERVICE {
   canister_status: ActorMethod<[CanisterIdRecord], CanisterStatusResult>;
@@ -131,6 +140,7 @@ export interface _SERVICE {
     [GetSnsCanistersSummaryRequest],
     GetSnsCanistersSummaryResponse
   >;
+  get_timers: ActorMethod<[{}], GetTimersResponse>;
   list_sns_canisters: ActorMethod<[{}], ListSnsCanistersResponse>;
   manage_dapp_canister_settings: ActorMethod<
     [ManageDappCanisterSettingsRequest],
@@ -138,6 +148,7 @@ export interface _SERVICE {
   >;
   register_dapp_canister: ActorMethod<[RegisterDappCanisterRequest], {}>;
   register_dapp_canisters: ActorMethod<[RegisterDappCanistersRequest], {}>;
+  reset_timers: ActorMethod<[{}], {}>;
   set_dapp_controllers: ActorMethod<
     [SetDappControllersRequest],
     SetDappControllersResponse

@@ -367,6 +367,7 @@ export interface Neuron {
   dissolveState: Option<DissolveState>;
   followees: Array<Followees>;
   visibility: Option<NeuronVisibility>;
+  votingPowerRefreshedTimestampSeconds: Option<bigint>;
 }
 export type NeuronIdOrSubaccount =
   | { Subaccount: Array<number> }

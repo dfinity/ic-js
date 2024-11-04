@@ -1,7 +1,13 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_root.did */
 export const idlFactory = ({ IDL }) => {
+  const Timers = IDL.Record({
+    'last_spawned_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'requires_periodic_tasks' : IDL.Opt(IDL.Bool),
+  });
   const SnsRootCanister = IDL.Record({
     'dapp_canister_ids' : IDL.Vec(IDL.Principal),
+    'timers' : IDL.Opt(Timers),
     'testflight' : IDL.Bool,
     'archive_canister_ids' : IDL.Vec(IDL.Principal),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
@@ -82,6 +88,7 @@ export const idlFactory = ({ IDL }) => {
     'dapps' : IDL.Vec(CanisterSummary),
     'archives' : IDL.Vec(CanisterSummary),
   });
+  const GetTimersResponse = IDL.Record({ 'timers' : IDL.Opt(Timers) });
   const ListSnsCanistersResponse = IDL.Record({
     'root' : IDL.Opt(IDL.Principal),
     'swap' : IDL.Opt(IDL.Principal),
@@ -137,6 +144,7 @@ export const idlFactory = ({ IDL }) => {
         [GetSnsCanistersSummaryResponse],
         [],
       ),
+    'get_timers' : IDL.Func([IDL.Record({})], [GetTimersResponse], ['query']),
     'list_sns_canisters' : IDL.Func(
         [IDL.Record({})],
         [ListSnsCanistersResponse],
@@ -157,6 +165,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Record({})],
         [],
       ),
+    'reset_timers' : IDL.Func([IDL.Record({})], [IDL.Record({})], []),
     'set_dapp_controllers' : IDL.Func(
         [SetDappControllersRequest],
         [SetDappControllersResponse],
@@ -165,8 +174,14 @@ export const idlFactory = ({ IDL }) => {
   });
 };
 export const init = ({ IDL }) => {
+  const Timers = IDL.Record({
+    'last_spawned_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'requires_periodic_tasks' : IDL.Opt(IDL.Bool),
+  });
   const SnsRootCanister = IDL.Record({
     'dapp_canister_ids' : IDL.Vec(IDL.Principal),
+    'timers' : IDL.Opt(Timers),
     'testflight' : IDL.Bool,
     'archive_canister_ids' : IDL.Vec(IDL.Principal),
     'governance_canister_id' : IDL.Opt(IDL.Principal),

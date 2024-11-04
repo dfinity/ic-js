@@ -1,4 +1,4 @@
-// Generated from dfinity/interface-spec commit ac416ec82cd9fae4825824fea639f7ae32aec594 for file 'spec/_attachments/ic.did'
+// Generated from dfinity/interface-spec commit 9a5077e7f90f06a5c45e83bcdbec73a6e5427537 for file 'spec/_attachments/ic.did'
 type canister_id = principal;
 type wasm_module = blob;
 type snapshot_id = blob;
@@ -6,6 +6,7 @@ type snapshot_id = blob;
 type log_visibility = variant {
     controllers;
     public;
+    allowed_viewers : vec principal;
 };
 
 type canister_settings = record {

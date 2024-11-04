@@ -7,6 +7,7 @@
 ## Features
 
 - Added `memoToNeuronSubaccount` and `memoToNeuronAccountIdentifier`.
+- Support new neuron field `voting_power_refreshed_timestamp_seconds`.
 
 # 2024.10.29-1130Z
 

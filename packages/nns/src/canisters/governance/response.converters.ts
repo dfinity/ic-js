@@ -190,6 +190,9 @@ export const toNeuron = ({
     toFollowees({ topic, followees }),
   ),
   visibility: fromNullable(neuron.visibility) as NeuronVisibility | undefined,
+  votingPowerRefreshedTimestampSeconds: fromNullable(
+    neuron.voting_power_refreshed_timestamp_seconds,
+  ),
 });
 
 export const toRawNeuron = ({
@@ -241,6 +244,9 @@ export const toRawNeuron = ({
   transfer: [],
   // Not kept when converted to Neuron.
   known_neuron_data: [],
+  voting_power_refreshed_timestamp_seconds: toNullable(
+    neuron.votingPowerRefreshedTimestampSeconds,
+  ),
 });
 
 const toBallotInfo = ({ vote, proposal_id }: RawBallotInfo): BallotInfo => ({

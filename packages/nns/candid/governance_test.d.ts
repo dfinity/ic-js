@@ -471,6 +471,7 @@ export interface Neuron {
   staked_maturity_e8s_equivalent: [] | [bigint];
   controller: [] | [Principal];
   recent_ballots: Array<BallotInfo>;
+  voting_power_refreshed_timestamp_seconds: [] | [bigint];
   kyc_verified: boolean;
   neuron_type: [] | [number];
   not_for_profit: boolean;
@@ -518,6 +519,7 @@ export interface NeuronInFlightCommand {
 export interface NeuronInfo {
   dissolve_delay_seconds: bigint;
   recent_ballots: Array<BallotInfo>;
+  voting_power_refreshed_timestamp_seconds: [] | [bigint];
   neuron_type: [] | [number];
   created_timestamp_seconds: bigint;
   state: number;

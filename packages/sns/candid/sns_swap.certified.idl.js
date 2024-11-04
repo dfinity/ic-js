@@ -297,6 +297,7 @@ export const idlFactory = ({ IDL }) => {
     'swap' : IDL.Opt(Swap),
     'derived' : IDL.Opt(DerivedState),
   });
+  const GetTimersResponse = IDL.Record({ 'timers' : IDL.Opt(Timers) });
   const ListCommunityFundParticipantsRequest = IDL.Record({
     'offset' : IDL.Opt(IDL.Nat64),
     'limit' : IDL.Opt(IDL.Nat32),
@@ -386,6 +387,7 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'get_state' : IDL.Func([IDL.Record({})], [GetStateResponse], []),
+    'get_timers' : IDL.Func([IDL.Record({})], [GetTimersResponse], []),
     'list_community_fund_participants' : IDL.Func(
         [ListCommunityFundParticipantsRequest],
         [ListCommunityFundParticipantsResponse],
