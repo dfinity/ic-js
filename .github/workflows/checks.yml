@@ -148,7 +148,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Size check
-        # The limits are defined in packages.json.
+        # The limits are defined in package.json.
         uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
