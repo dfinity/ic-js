@@ -599,6 +599,7 @@ export const idlFactory = ({ IDL }) => {
     'staked_maturity_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'controller' : IDL.Opt(IDL.Principal),
     'recent_ballots' : IDL.Vec(BallotInfo),
+    'voting_power_refreshed_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'kyc_verified' : IDL.Bool,
     'neuron_type' : IDL.Opt(IDL.Int32),
     'not_for_profit' : IDL.Bool,
@@ -666,6 +667,7 @@ export const idlFactory = ({ IDL }) => {
   const NeuronInfo = IDL.Record({
     'dissolve_delay_seconds' : IDL.Nat64,
     'recent_ballots' : IDL.Vec(BallotInfo),
+    'voting_power_refreshed_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'neuron_type' : IDL.Opt(IDL.Int32),
     'created_timestamp_seconds' : IDL.Nat64,
     'state' : IDL.Int32,
@@ -1565,6 +1567,7 @@ export const init = ({ IDL }) => {
     'staked_maturity_e8s_equivalent' : IDL.Opt(IDL.Nat64),
     'controller' : IDL.Opt(IDL.Principal),
     'recent_ballots' : IDL.Vec(BallotInfo),
+    'voting_power_refreshed_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'kyc_verified' : IDL.Bool,
     'neuron_type' : IDL.Opt(IDL.Int32),
     'not_for_profit' : IDL.Bool,

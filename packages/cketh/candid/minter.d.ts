@@ -70,6 +70,7 @@ export interface Event {
           transaction_hash: string;
           value: bigint;
           log_index: bigint;
+          subaccount: [] | [Subaccount];
           block_number: bigint;
           erc20_contract_address: string;
           from_address: string;
@@ -99,6 +100,7 @@ export interface Event {
           transaction_hash: string;
           value: bigint;
           log_index: bigint;
+          subaccount: [] | [Subaccount];
           block_number: bigint;
           from_address: string;
         };
@@ -283,6 +285,7 @@ export type RetrieveEthStatus =
   | { TxSent: EthTransaction }
   | { TxCreated: null }
   | { Pending: null };
+export type Subaccount = Uint8Array | number[];
 export interface TransactionReceipt {
   effective_gas_price: bigint;
   status: { Success: null } | { Failure: null };

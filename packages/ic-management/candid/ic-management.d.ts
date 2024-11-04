@@ -228,7 +228,10 @@ export interface load_canister_snapshot_args {
   sender_canister_version: [] | [bigint];
   snapshot_id: snapshot_id;
 }
-export type log_visibility = { controllers: null } | { public: null };
+export type log_visibility =
+  | { controllers: null }
+  | { public: null }
+  | { allowed_viewers: Array<Principal> };
 export type millisatoshi_per_byte = bigint;
 export interface node_metrics {
   num_block_failures_total: bigint;

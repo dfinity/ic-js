@@ -83,6 +83,7 @@ export const idlFactory = ({ IDL }) => {
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'reserved_cycles' : IDL.Nat,
   });
+  const Subaccount = IDL.Vec(IDL.Nat8);
   const EventSource = IDL.Record({
     'transaction_hash' : IDL.Text,
     'log_index' : IDL.Nat,
@@ -131,6 +132,7 @@ export const idlFactory = ({ IDL }) => {
         'transaction_hash' : IDL.Text,
         'value' : IDL.Nat,
         'log_index' : IDL.Nat,
+        'subaccount' : IDL.Opt(Subaccount),
         'block_number' : IDL.Nat,
         'erc20_contract_address' : IDL.Text,
         'from_address' : IDL.Text,
@@ -154,6 +156,7 @@ export const idlFactory = ({ IDL }) => {
         'transaction_hash' : IDL.Text,
         'value' : IDL.Nat,
         'log_index' : IDL.Nat,
+        'subaccount' : IDL.Opt(Subaccount),
         'block_number' : IDL.Nat,
         'from_address' : IDL.Text,
       }),

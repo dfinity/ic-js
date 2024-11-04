@@ -227,6 +227,7 @@ export interface GetTimersResponse {
 }
 export type GetUpgradeJournalRequest = {};
 export interface GetUpgradeJournalResponse {
+  upgrade_journal: [] | [UpgradeJournal];
   upgrade_steps: [] | [Versions];
   response_timestamp_seconds: [] | [bigint];
   target_version: [] | [Version];
@@ -238,6 +239,7 @@ export interface Governance {
   id_to_nervous_system_functions: Array<[bigint, NervousSystemFunction]>;
   metrics: [] | [GovernanceCachedMetrics];
   maturity_modulation: [] | [MaturityModulation];
+  upgrade_journal: [] | [UpgradeJournal];
   mode: number;
   parameters: [] | [NervousSystemParameters];
   is_finalizing_disburse_maturity: [] | [boolean];
@@ -546,9 +548,14 @@ export interface Tally {
   total: bigint;
   timestamp_seconds: bigint;
 }
+export interface TargetVersionSet {
+  old_target_version: [] | [Version];
+  new_target_version: [] | [Version];
+}
 export interface Timers {
   last_spawned_timestamp_seconds: [] | [bigint];
   last_reset_timestamp_seconds: [] | [bigint];
+  requires_periodic_tasks: [] | [boolean];
 }
 export interface Tokens {
   e8s: [] | [bigint];
@@ -566,11 +573,50 @@ export interface UpgradeInProgress {
   proposal_id: bigint;
   target_version: [] | [Version];
 }
+export interface UpgradeJournal {
+  entries: Array<UpgradeJournalEntry>;
+}
+export interface UpgradeJournalEntry {
+  event:
+    | []
+    | [
+        | { TargetVersionSet: TargetVersionSet }
+        | { UpgradeOutcome: UpgradeOutcome }
+        | { UpgradeStarted: UpgradeStarted }
+        | { UpgradeStepsRefreshed: UpgradeStepsRefreshed }
+        | { TargetVersionReset: TargetVersionSet },
+      ];
+  timestamp_seconds: [] | [bigint];
+}
+export interface UpgradeOutcome {
+  status:
+    | []
+    | [
+        | { Success: {} }
+        | { Timeout: {} }
+        | { ExternalFailure: {} }
+        | { InvalidState: { version: [] | [Version] } },
+      ];
+  human_readable: [] | [string];
+}
 export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array | number[];
   mode: [] | [number];
   canister_id: [] | [Principal];
   canister_upgrade_arg: [] | [Uint8Array | number[]];
+}
+export interface UpgradeStarted {
+  current_version: [] | [Version];
+  expected_version: [] | [Version];
+  reason:
+    | []
+    | [
+        | { UpgradeSnsToNextVersionProposal: ProposalId }
+        | { BehindTargetVersion: {} },
+      ];
+}
+export interface UpgradeStepsRefreshed {
+  upgrade_steps: [] | [Versions];
 }
 export interface Valuation {
   token: [] | [number];

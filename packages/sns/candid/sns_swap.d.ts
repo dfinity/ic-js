@@ -142,6 +142,9 @@ export interface GetStateResponse {
   swap: [] | [Swap];
   derived: [] | [DerivedState];
 }
+export interface GetTimersResponse {
+  timers: [] | [Timers];
+}
 export interface GovernanceError {
   error_message: string;
   error_type: number;
@@ -383,6 +386,7 @@ export interface _SERVICE {
   get_open_ticket: ActorMethod<[{}], GetOpenTicketResponse>;
   get_sale_parameters: ActorMethod<[{}], GetSaleParametersResponse>;
   get_state: ActorMethod<[{}], GetStateResponse>;
+  get_timers: ActorMethod<[{}], GetTimersResponse>;
   list_community_fund_participants: ActorMethod<
     [ListCommunityFundParticipantsRequest],
     ListCommunityFundParticipantsResponse
