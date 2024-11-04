@@ -3,6 +3,7 @@ export const idlFactory = ({ IDL }) => {
   const Timers = IDL.Record({
     'last_spawned_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'requires_periodic_tasks' : IDL.Opt(IDL.Bool),
   });
   const Version = IDL.Record({
     'archive_wasm_hash' : IDL.Vec(IDL.Nat8),
@@ -63,6 +64,50 @@ export const idlFactory = ({ IDL }) => {
     'current_basis_points' : IDL.Opt(IDL.Int32),
     'updated_at_timestamp_seconds' : IDL.Opt(IDL.Nat64),
   });
+  const TargetVersionSet = IDL.Record({
+    'old_target_version' : IDL.Opt(Version),
+    'new_target_version' : IDL.Opt(Version),
+  });
+  const UpgradeOutcome = IDL.Record({
+    'status' : IDL.Opt(
+      IDL.Variant({
+        'Success' : IDL.Record({}),
+        'Timeout' : IDL.Record({}),
+        'ExternalFailure' : IDL.Record({}),
+        'InvalidState' : IDL.Record({ 'version' : IDL.Opt(Version) }),
+      })
+    ),
+    'human_readable' : IDL.Opt(IDL.Text),
+  });
+  const ProposalId = IDL.Record({ 'id' : IDL.Nat64 });
+  const UpgradeStarted = IDL.Record({
+    'current_version' : IDL.Opt(Version),
+    'expected_version' : IDL.Opt(Version),
+    'reason' : IDL.Opt(
+      IDL.Variant({
+        'UpgradeSnsToNextVersionProposal' : ProposalId,
+        'BehindTargetVersion' : IDL.Record({}),
+      })
+    ),
+  });
+  const UpgradeStepsRefreshed = IDL.Record({
+    'upgrade_steps' : IDL.Opt(Versions),
+  });
+  const UpgradeJournalEntry = IDL.Record({
+    'event' : IDL.Opt(
+      IDL.Variant({
+        'TargetVersionSet' : TargetVersionSet,
+        'UpgradeOutcome' : UpgradeOutcome,
+        'UpgradeStarted' : UpgradeStarted,
+        'UpgradeStepsRefreshed' : UpgradeStepsRefreshed,
+        'TargetVersionReset' : TargetVersionSet,
+      })
+    ),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const UpgradeJournal = IDL.Record({
+    'entries' : IDL.Vec(UpgradeJournalEntry),
+  });
   const NeuronId = IDL.Record({ 'id' : IDL.Vec(IDL.Nat8) });
   const Followees = IDL.Record({ 'followees' : IDL.Vec(NeuronId) });
   const DefaultFollowees = IDL.Record({
@@ -99,7 +144,6 @@ export const idlFactory = ({ IDL }) => {
     'maturity_modulation_disabled' : IDL.Opt(IDL.Bool),
     'max_number_of_principals_per_neuron' : IDL.Opt(IDL.Nat64),
   });
-  const ProposalId = IDL.Record({ 'id' : IDL.Nat64 });
   const RewardEvent = IDL.Record({
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'actual_timestamp_seconds' : IDL.Nat64,
@@ -374,6 +418,7 @@ export const idlFactory = ({ IDL }) => {
     ),
     'metrics' : IDL.Opt(GovernanceCachedMetrics),
     'maturity_modulation' : IDL.Opt(MaturityModulation),
+    'upgrade_journal' : IDL.Opt(UpgradeJournal),
     'mode' : IDL.Int32,
     'parameters' : IDL.Opt(NervousSystemParameters),
     'is_finalizing_disburse_maturity' : IDL.Opt(IDL.Bool),
@@ -489,6 +534,7 @@ export const idlFactory = ({ IDL }) => {
   const GetTimersResponse = IDL.Record({ 'timers' : IDL.Opt(Timers) });
   const GetUpgradeJournalRequest = IDL.Record({});
   const GetUpgradeJournalResponse = IDL.Record({
+    'upgrade_journal' : IDL.Opt(UpgradeJournal),
     'upgrade_steps' : IDL.Opt(Versions),
     'response_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'target_version' : IDL.Opt(Version),
@@ -653,6 +699,7 @@ export const init = ({ IDL }) => {
   const Timers = IDL.Record({
     'last_spawned_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'requires_periodic_tasks' : IDL.Opt(IDL.Bool),
   });
   const Version = IDL.Record({
     'archive_wasm_hash' : IDL.Vec(IDL.Nat8),
@@ -713,6 +760,50 @@ export const init = ({ IDL }) => {
     'current_basis_points' : IDL.Opt(IDL.Int32),
     'updated_at_timestamp_seconds' : IDL.Opt(IDL.Nat64),
   });
+  const TargetVersionSet = IDL.Record({
+    'old_target_version' : IDL.Opt(Version),
+    'new_target_version' : IDL.Opt(Version),
+  });
+  const UpgradeOutcome = IDL.Record({
+    'status' : IDL.Opt(
+      IDL.Variant({
+        'Success' : IDL.Record({}),
+        'Timeout' : IDL.Record({}),
+        'ExternalFailure' : IDL.Record({}),
+        'InvalidState' : IDL.Record({ 'version' : IDL.Opt(Version) }),
+      })
+    ),
+    'human_readable' : IDL.Opt(IDL.Text),
+  });
+  const ProposalId = IDL.Record({ 'id' : IDL.Nat64 });
+  const UpgradeStarted = IDL.Record({
+    'current_version' : IDL.Opt(Version),
+    'expected_version' : IDL.Opt(Version),
+    'reason' : IDL.Opt(
+      IDL.Variant({
+        'UpgradeSnsToNextVersionProposal' : ProposalId,
+        'BehindTargetVersion' : IDL.Record({}),
+      })
+    ),
+  });
+  const UpgradeStepsRefreshed = IDL.Record({
+    'upgrade_steps' : IDL.Opt(Versions),
+  });
+  const UpgradeJournalEntry = IDL.Record({
+    'event' : IDL.Opt(
+      IDL.Variant({
+        'TargetVersionSet' : TargetVersionSet,
+        'UpgradeOutcome' : UpgradeOutcome,
+        'UpgradeStarted' : UpgradeStarted,
+        'UpgradeStepsRefreshed' : UpgradeStepsRefreshed,
+        'TargetVersionReset' : TargetVersionSet,
+      })
+    ),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const UpgradeJournal = IDL.Record({
+    'entries' : IDL.Vec(UpgradeJournalEntry),
+  });
   const NeuronId = IDL.Record({ 'id' : IDL.Vec(IDL.Nat8) });
   const Followees = IDL.Record({ 'followees' : IDL.Vec(NeuronId) });
   const DefaultFollowees = IDL.Record({
@@ -749,7 +840,6 @@ export const init = ({ IDL }) => {
     'maturity_modulation_disabled' : IDL.Opt(IDL.Bool),
     'max_number_of_principals_per_neuron' : IDL.Opt(IDL.Nat64),
   });
-  const ProposalId = IDL.Record({ 'id' : IDL.Nat64 });
   const RewardEvent = IDL.Record({
     'rounds_since_last_distribution' : IDL.Opt(IDL.Nat64),
     'actual_timestamp_seconds' : IDL.Nat64,
@@ -1024,6 +1114,7 @@ export const init = ({ IDL }) => {
     ),
     'metrics' : IDL.Opt(GovernanceCachedMetrics),
     'maturity_modulation' : IDL.Opt(MaturityModulation),
+    'upgrade_journal' : IDL.Opt(UpgradeJournal),
     'mode' : IDL.Int32,
     'parameters' : IDL.Opt(NervousSystemParameters),
     'is_finalizing_disburse_maturity' : IDL.Opt(IDL.Bool),
