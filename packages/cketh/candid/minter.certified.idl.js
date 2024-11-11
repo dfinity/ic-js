@@ -6,6 +6,7 @@ export const idlFactory = ({ IDL }) => {
     'Latest' : IDL.Null,
   });
   const UpgradeArg = IDL.Record({
+    'deposit_with_subaccount_helper_contract_address' : IDL.Opt(IDL.Text),
     'next_transaction_nonce' : IDL.Opt(IDL.Nat),
     'evm_rpc_id' : IDL.Opt(IDL.Principal),
     'ledger_suite_orchestrator_id' : IDL.Opt(IDL.Principal),
@@ -13,6 +14,7 @@ export const idlFactory = ({ IDL }) => {
     'last_erc20_scraped_block_number' : IDL.Opt(IDL.Nat),
     'ethereum_contract_address' : IDL.Opt(IDL.Text),
     'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
+    'last_deposit_with_subaccount_scraped_block_number' : IDL.Opt(IDL.Nat),
     'ethereum_block_height' : IDL.Opt(BlockTag),
   });
   const EthereumNetwork = IDL.Variant({
@@ -148,6 +150,9 @@ export const idlFactory = ({ IDL }) => {
         'chain_id' : IDL.Nat,
         'address' : IDL.Text,
         'ckerc20_token_symbol' : IDL.Text,
+      }),
+      'SyncedDepositWithSubaccountToBlock' : IDL.Record({
+        'block_number' : IDL.Nat,
       }),
       'QuarantinedDeposit' : IDL.Record({ 'event_source' : EventSource }),
       'SyncedToBlock' : IDL.Record({ 'block_number' : IDL.Nat }),
@@ -412,6 +417,7 @@ export const init = ({ IDL }) => {
     'Latest' : IDL.Null,
   });
   const UpgradeArg = IDL.Record({
+    'deposit_with_subaccount_helper_contract_address' : IDL.Opt(IDL.Text),
     'next_transaction_nonce' : IDL.Opt(IDL.Nat),
     'evm_rpc_id' : IDL.Opt(IDL.Principal),
     'ledger_suite_orchestrator_id' : IDL.Opt(IDL.Principal),
@@ -419,6 +425,7 @@ export const init = ({ IDL }) => {
     'last_erc20_scraped_block_number' : IDL.Opt(IDL.Nat),
     'ethereum_contract_address' : IDL.Opt(IDL.Text),
     'minimum_withdrawal_amount' : IDL.Opt(IDL.Nat),
+    'last_deposit_with_subaccount_scraped_block_number' : IDL.Opt(IDL.Nat),
     'ethereum_block_height' : IDL.Opt(BlockTag),
   });
   const EthereumNetwork = IDL.Variant({

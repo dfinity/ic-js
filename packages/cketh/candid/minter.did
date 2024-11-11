@@ -1,4 +1,4 @@
-// Generated from IC repo commit 51f6f4e4ab (2024-10-31 tags: release-2024-10-31_03-09-ubuntu20.04) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit c47e172 (2024-10-25 tags: release-2024-11-07_03-07-6.11-kernel) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -111,6 +111,12 @@ type UpgradeArg = record {
     // The principal of the EVM RPC canister that handles the communication
     // with the Ethereum blockchain.
     evm_rpc_id : opt principal;
+
+    // Change the deposit with subaccount helper smart contract address.
+    deposit_with_subaccount_helper_contract_address : opt text;
+
+    // Change the last scraped block number of the deposit with subaccount helper smart contract.
+    last_deposit_with_subaccount_scraped_block_number : opt nat;
 };
 
 type MinterArg = variant { UpgradeArg : UpgradeArg; InitArg : InitArg };
@@ -448,6 +454,9 @@ type Event = record {
             block_number : nat;
         };
         SyncedErc20ToBlock : record {
+            block_number : nat;
+        };
+        SyncedDepositWithSubaccountToBlock : record {
             block_number : nat;
         };
         AcceptedEthWithdrawalRequest : record {

@@ -93,6 +93,10 @@ export const idlFactory = ({ IDL }) => {
   const UpgradeStepsRefreshed = IDL.Record({
     'upgrade_steps' : IDL.Opt(Versions),
   });
+  const TargetVersionReset = IDL.Record({
+    'old_target_version' : IDL.Opt(Version),
+    'new_target_version' : IDL.Opt(Version),
+  });
   const UpgradeJournalEntry = IDL.Record({
     'event' : IDL.Opt(
       IDL.Variant({
@@ -100,7 +104,7 @@ export const idlFactory = ({ IDL }) => {
         'UpgradeOutcome' : UpgradeOutcome,
         'UpgradeStarted' : UpgradeStarted,
         'UpgradeStepsRefreshed' : UpgradeStepsRefreshed,
-        'TargetVersionReset' : TargetVersionSet,
+        'TargetVersionReset' : TargetVersionReset,
       })
     ),
     'timestamp_seconds' : IDL.Opt(IDL.Nat64),
@@ -766,6 +770,10 @@ export const init = ({ IDL }) => {
   const UpgradeStepsRefreshed = IDL.Record({
     'upgrade_steps' : IDL.Opt(Versions),
   });
+  const TargetVersionReset = IDL.Record({
+    'old_target_version' : IDL.Opt(Version),
+    'new_target_version' : IDL.Opt(Version),
+  });
   const UpgradeJournalEntry = IDL.Record({
     'event' : IDL.Opt(
       IDL.Variant({
@@ -773,7 +781,7 @@ export const init = ({ IDL }) => {
         'UpgradeOutcome' : UpgradeOutcome,
         'UpgradeStarted' : UpgradeStarted,
         'UpgradeStepsRefreshed' : UpgradeStepsRefreshed,
-        'TargetVersionReset' : TargetVersionSet,
+        'TargetVersionReset' : TargetVersionReset,
       })
     ),
     'timestamp_seconds' : IDL.Opt(IDL.Nat64),

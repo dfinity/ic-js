@@ -548,6 +548,10 @@ export interface Tally {
   total: bigint;
   timestamp_seconds: bigint;
 }
+export interface TargetVersionReset {
+  old_target_version: [] | [Version];
+  new_target_version: [] | [Version];
+}
 export interface TargetVersionSet {
   old_target_version: [] | [Version];
   new_target_version: [] | [Version];
@@ -584,7 +588,7 @@ export interface UpgradeJournalEntry {
         | { UpgradeOutcome: UpgradeOutcome }
         | { UpgradeStarted: UpgradeStarted }
         | { UpgradeStepsRefreshed: UpgradeStepsRefreshed }
-        | { TargetVersionReset: TargetVersionSet },
+        | { TargetVersionReset: TargetVersionReset },
       ];
   timestamp_seconds: [] | [bigint];
 }

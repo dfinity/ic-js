@@ -92,6 +92,7 @@ export interface Event {
           ckerc20_token_symbol: string;
         };
       }
+    | { SyncedDepositWithSubaccountToBlock: { block_number: bigint } }
     | { QuarantinedDeposit: { event_source: EventSource } }
     | { SyncedToBlock: { block_number: bigint } }
     | {
@@ -324,6 +325,7 @@ export interface UnsignedTransaction {
   }>;
 }
 export interface UpgradeArg {
+  deposit_with_subaccount_helper_contract_address: [] | [string];
   next_transaction_nonce: [] | [bigint];
   evm_rpc_id: [] | [Principal];
   ledger_suite_orchestrator_id: [] | [Principal];
@@ -331,6 +333,7 @@ export interface UpgradeArg {
   last_erc20_scraped_block_number: [] | [bigint];
   ethereum_contract_address: [] | [string];
   minimum_withdrawal_amount: [] | [bigint];
+  last_deposit_with_subaccount_scraped_block_number: [] | [bigint];
   ethereum_block_height: [] | [BlockTag];
 }
 export interface WithdrawErc20Arg {
