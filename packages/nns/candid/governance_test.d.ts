@@ -684,6 +684,7 @@ export interface ProposalData {
   reject_cost_e8s: bigint;
   derived_proposal_information: [] | [DerivedProposalInformation];
   latest_tally: [] | [Tally];
+  total_potential_voting_power: [] | [bigint];
   sns_token_swap_lifecycle: [] | [number];
   decided_timestamp_seconds: bigint;
   proposal: [] | [Proposal];
@@ -708,6 +709,7 @@ export interface ProposalInfo {
   reject_cost_e8s: bigint;
   derived_proposal_information: [] | [DerivedProposalInformation];
   latest_tally: [] | [Tally];
+  total_potential_voting_power: [] | [bigint];
   reward_status: number;
   decided_timestamp_seconds: bigint;
   proposal: [] | [Proposal];
