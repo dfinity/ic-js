@@ -1,6 +1,6 @@
 import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { toNullable } from "@dfinity/utils";
+import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import {
   _SERVICE as CkETHMinterService,
@@ -100,10 +100,53 @@ describe("ckETH minter canister", () => {
       const { address, ...rest } = params;
       expect(service.withdraw_eth).toBeCalledWith({
         recipient: address,
+        from_subaccount: toNullable(),
         ...rest,
       });
 
       expect(res).toEqual(success);
+    });
+
+    it("should call with subaccount numbers", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.withdraw_eth.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const fromSubaccount = [1, 2, 3];
+
+      await canister.withdrawEth({
+        ...params,
+        fromSubaccount,
+      });
+
+      const { address, ...rest } = params;
+      expect(service.withdraw_eth).toHaveBeenNthCalledWith(1, {
+        recipient: address,
+        from_subaccount: toNullable(fromSubaccount),
+        ...rest,
+      });
+    });
+
+    it("should call with subaccount uintarray", async () => {
+      const service = mock<ActorSubclass<CkETHMinterService>>();
+      service.withdraw_eth.mockResolvedValue(ok);
+
+      const canister = minter(service);
+
+      const fromSubaccount = arrayOfNumberToUint8Array([1, 2, 3]);
+
+      await canister.withdrawEth({
+        ...params,
+        fromSubaccount,
+      });
+
+      const { address, ...rest } = params;
+      expect(service.withdraw_eth).toHaveBeenNthCalledWith(1, {
+        recipient: address,
+        from_subaccount: toNullable(fromSubaccount),
+        ...rest,
+      });
     });
 
     it("should throw MinterTemporarilyUnavailable", async () => {
@@ -236,11 +279,82 @@ describe("ckETH minter canister", () => {
       expect(service.withdraw_erc20).toBeCalledWith({
         recipient: address,
         ckerc20_ledger_id: ledgerCanisterIdMock,
+        from_cketh_subaccount: toNullable(),
+        from_ckerc20_subaccount: toNullable(),
         ...rest,
       });
 
       expect(res).toEqual(success);
     });
+
+    describe.each([[4, 5, 6], arrayOfNumberToUint8Array([7, 8, 9])])(
+      "should call with expected subaccount",
+      (account) => {
+        it("should call with ckEth subaccount", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+          service.withdraw_erc20.mockResolvedValue(ok);
+
+          const canister = minter(service);
+
+          await canister.withdrawErc20({
+            ...params,
+            fromCkEthSubaccount: account,
+          });
+
+          const { address, ledgerCanisterId, ...rest } = params;
+          expect(service.withdraw_erc20).toHaveBeenNthCalledWith(1, {
+            recipient: address,
+            ckerc20_ledger_id: ledgerCanisterIdMock,
+            from_cketh_subaccount: toNullable(account),
+            from_ckerc20_subaccount: toNullable(),
+            ...rest,
+          });
+        });
+
+        it("should call with ckErc20 subaccount", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+          service.withdraw_erc20.mockResolvedValue(ok);
+
+          const canister = minter(service);
+
+          await canister.withdrawErc20({
+            ...params,
+            fromCkErc20Subaccount: account,
+          });
+
+          const { address, ledgerCanisterId, ...rest } = params;
+          expect(service.withdraw_erc20).toHaveBeenNthCalledWith(1, {
+            recipient: address,
+            ckerc20_ledger_id: ledgerCanisterIdMock,
+            from_cketh_subaccount: toNullable(),
+            from_ckerc20_subaccount: toNullable(account),
+            ...rest,
+          });
+        });
+
+        it("should call with ckEth and ckErc20 subaccount", async () => {
+          const service = mock<ActorSubclass<CkETHMinterService>>();
+          service.withdraw_erc20.mockResolvedValue(ok);
+
+          const canister = minter(service);
+
+          await canister.withdrawErc20({
+            ...params,
+            fromCkEthSubaccount: account,
+            fromCkErc20Subaccount: account,
+          });
+
+          const { address, ledgerCanisterId, ...rest } = params;
+          expect(service.withdraw_erc20).toHaveBeenNthCalledWith(1, {
+            recipient: address,
+            ckerc20_ledger_id: ledgerCanisterIdMock,
+            from_cketh_subaccount: toNullable(account),
+            from_ckerc20_subaccount: toNullable(account),
+            ...rest,
+          });
+        });
+      },
+    );
 
     it("should throw MinterTemporarilyUnavailable", async () => {
       const service = mock<ActorSubclass<CkETHMinterService>>();
@@ -744,6 +858,7 @@ describe("ckETH minter canister", () => {
         evm_rpc_id: toNullable(
           Principal.fromText("7hfb6-caaaa-aaaar-qadga-cai"),
         ),
+        last_deposit_with_subaccount_scraped_block_number: [],
       };
 
       const service = mock<ActorSubclass<CkETHMinterService>>();
