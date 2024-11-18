@@ -123,7 +123,7 @@ describe("ckETH minter canister", () => {
       expect(service.withdraw_eth).toBeCalledTimes(1);
 
       const { address, ...rest } = params;
-      expect(service.withdraw_eth).toBeCalledWith(1, {
+      expect(service.withdraw_eth).toBeCalledWith({
         recipient: address,
         from_subaccount: toNullable(fromSubaccount),
         ...rest,
@@ -143,7 +143,7 @@ describe("ckETH minter canister", () => {
         fromSubaccount,
       });
 
-      expect(service.withdraw_erc20).toBeCalledTimes(1);
+      expect(service.withdraw_eth).toBeCalledTimes(1);
 
       const { address, ...rest } = params;
       expect(service.withdraw_eth).toHaveBeenCalledWith({
@@ -305,7 +305,7 @@ describe("ckETH minter canister", () => {
             fromCkEthSubaccount: account,
           });
 
-          expect(service.withdraw_eth).toBeCalledTimes(1);
+          expect(service.withdraw_erc20).toBeCalledTimes(1);
 
           const { address, ledgerCanisterId, ...rest } = params;
           expect(service.withdraw_erc20).toHaveBeenCalledWith({
