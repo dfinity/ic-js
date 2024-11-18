@@ -256,7 +256,6 @@ export interface MinterInfo {
     | []
     | [Array<{ balance: bigint; erc20_contract_address: string }>];
   minter_address: [] | [string];
-  last_deposit_with_subaccount_scraped_block_number: [] | [bigint];
   ethereum_block_height: [] | [BlockTag];
 }
 export interface QueryStats {
@@ -340,8 +339,6 @@ export interface UpgradeArg {
 export interface WithdrawErc20Arg {
   ckerc20_ledger_id: Principal;
   recipient: string;
-  from_cketh_subaccount: [] | [Subaccount];
-  from_ckerc20_subaccount: [] | [Subaccount];
   amount: bigint;
 }
 export type WithdrawErc20Error =
@@ -359,7 +356,6 @@ export type WithdrawErc20Error =
   | { RecipientAddressBlocked: { address: string } };
 export interface WithdrawalArg {
   recipient: string;
-  from_subaccount: [] | [Subaccount];
   amount: bigint;
 }
 export interface WithdrawalDetail {
