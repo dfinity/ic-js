@@ -120,8 +120,10 @@ describe("ckETH minter canister", () => {
         fromSubaccount,
       });
 
+      expect(service.withdraw_eth).toBeCalledTimes(1);
+
       const { address, ...rest } = params;
-      expect(service.withdraw_eth).toHaveBeenNthCalledWith(1, {
+      expect(service.withdraw_eth).toBeCalledWith(1, {
         recipient: address,
         from_subaccount: toNullable(fromSubaccount),
         ...rest,
@@ -141,8 +143,10 @@ describe("ckETH minter canister", () => {
         fromSubaccount,
       });
 
+      expect(service.withdraw_erc20).toBeCalledTimes(1);
+
       const { address, ...rest } = params;
-      expect(service.withdraw_eth).toHaveBeenNthCalledWith(1, {
+      expect(service.withdraw_eth).toHaveBeenCalledWith({
         recipient: address,
         from_subaccount: toNullable(fromSubaccount),
         ...rest,
@@ -301,8 +305,10 @@ describe("ckETH minter canister", () => {
             fromCkEthSubaccount: account,
           });
 
+          expect(service.withdraw_eth).toBeCalledTimes(1);
+
           const { address, ledgerCanisterId, ...rest } = params;
-          expect(service.withdraw_erc20).toHaveBeenNthCalledWith(1, {
+          expect(service.withdraw_erc20).toHaveBeenCalledWith({
             recipient: address,
             ckerc20_ledger_id: ledgerCanisterIdMock,
             from_cketh_subaccount: toNullable(account),
@@ -322,8 +328,10 @@ describe("ckETH minter canister", () => {
             fromCkErc20Subaccount: account,
           });
 
+          expect(service.withdraw_erc20).toBeCalledTimes(1);
+
           const { address, ledgerCanisterId, ...rest } = params;
-          expect(service.withdraw_erc20).toHaveBeenNthCalledWith(1, {
+          expect(service.withdraw_erc20).toHaveBeenCalledWith({
             recipient: address,
             ckerc20_ledger_id: ledgerCanisterIdMock,
             from_cketh_subaccount: toNullable(),
@@ -344,8 +352,10 @@ describe("ckETH minter canister", () => {
             fromCkErc20Subaccount: account,
           });
 
+          expect(service.withdraw_erc20).toBeCalledTimes(1);
+
           const { address, ledgerCanisterId, ...rest } = params;
-          expect(service.withdraw_erc20).toHaveBeenNthCalledWith(1, {
+          expect(service.withdraw_erc20).toHaveBeenCalledWith({
             recipient: address,
             ckerc20_ledger_id: ledgerCanisterIdMock,
             from_cketh_subaccount: toNullable(account),
