@@ -117,5 +117,5 @@ import_did "rs/ethereum/cketh/minter/cketh_minter.did" "minter.did" "cketh"
 import_did "rs/ethereum/ledger-suite-orchestrator/ledger_suite_orchestrator.did" "orchestrator.did" "cketh"
 
 mkdir -p packages/ic-management/candid
-download_did https://raw.githubusercontent.com/dfinity/interface-spec/master/spec/_attachments/ic.did "ic-management.did" "ic-management"
+download_did https://raw.githubusercontent.com/dfinity/portal/master/docs/references/_attachments/ic.did "ic-management.did" "ic-management"
 : Fin
