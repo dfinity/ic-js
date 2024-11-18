@@ -264,6 +264,7 @@ export const idlFactory = ({ IDL }) => {
       )
     ),
     'minter_address' : IDL.Opt(IDL.Text),
+    'last_deposit_with_subaccount_scraped_block_number' : IDL.Opt(IDL.Nat),
     'ethereum_block_height' : IDL.Opt(BlockTag),
   });
   const EthTransaction = IDL.Record({ 'transaction_hash' : IDL.Text });
@@ -289,6 +290,8 @@ export const idlFactory = ({ IDL }) => {
   const WithdrawErc20Arg = IDL.Record({
     'ckerc20_ledger_id' : IDL.Principal,
     'recipient' : IDL.Text,
+    'from_cketh_subaccount' : IDL.Opt(Subaccount),
+    'from_ckerc20_subaccount' : IDL.Opt(Subaccount),
     'amount' : IDL.Nat,
   });
   const RetrieveErc20Request = IDL.Record({
@@ -330,6 +333,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const WithdrawalArg = IDL.Record({
     'recipient' : IDL.Text,
+    'from_subaccount' : IDL.Opt(Subaccount),
     'amount' : IDL.Nat,
   });
   const RetrieveEthRequest = IDL.Record({ 'block_index' : IDL.Nat });
