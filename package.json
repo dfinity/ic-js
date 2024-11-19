@@ -52,7 +52,7 @@
     "node-fetch": "^3.3.2",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
-    "semver": "^7.6.0",
+    "semver": "^7.6.3",
     "size-limit": "^11.1.6",
     "text-encoding": "^0.7.0",
     "ts-jest": "^29.2.5",
@@ -179,6 +179,6 @@
     }
   ],
   "overrides": {
-    "semver": "^7.6.0"
+    "semver": "^7.6.3"
   }
 }
