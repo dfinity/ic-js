@@ -1,4 +1,4 @@
-// Generated from IC repo commit c47e172 (2024-10-25 tags: release-2024-11-07_03-07-6.11-kernel) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit cb3cb61 (2024-11-14 tags: release-2024-11-14_03-07-base) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -194,6 +194,9 @@ type InitArgs = record {
 
     /// The canister id of the KYT canister.
     kyt_principal: opt principal;
+
+    /// The canister id of the new KYT canister.
+    new_kyt_principal: opt principal;
 };
 
 // The upgrade parameters of the minter canister.
@@ -217,6 +220,9 @@ type UpgradeArgs = record {
 
     /// The principal of the KYT canister.
     kyt_principal : opt principal;
+
+    /// The principal of the new KYT canister.
+    new_kyt_principal : opt principal;
 };
 
 type RetrieveBtcStatus = variant {
@@ -308,6 +314,8 @@ type BitcoinAddress = variant {
 
 type MinterInfo = record {
     min_confirmations : nat32;
+    // This fee is based on the `retrieve_btc_min_amount` setting during canister
+    // initialization or upgrades, but may vary according to current network fees.
     retrieve_btc_min_amount : nat64;
     kyt_fee : nat64;
 };
