@@ -1,5 +1,6 @@
 import { hexStringToUint8Array, uint8ArrayToHexString } from "@dfinity/utils";
 import type { snapshot_id } from "../../candid/ic-management";
+import type { SnapshotIdText } from "../types/ic-management.params";
 
 /**
  * Encodes a snapshot ID into a hex string representation.
@@ -11,7 +12,7 @@ import type { snapshot_id } from "../../candid/ic-management";
  * @param {snapshot_id} snapshotId - The snapshot ID to encode, represented as a `Uint8Array` or an array of numbers.
  * @returns {string} The hex string representation of the snapshot ID.
  */
-export const encodeSnapshotId = (snapshotId: snapshot_id): string =>
+export const encodeSnapshotId = (snapshotId: snapshot_id): SnapshotIdText =>
   uint8ArrayToHexString(snapshotId);
 
 /**
@@ -24,5 +25,5 @@ export const encodeSnapshotId = (snapshotId: snapshot_id): string =>
  * @param {string} snapshotId - The hex string representation of the snapshot ID.
  * @returns {snapshot_id} The decoded snapshot ID as a `Uint8Array`.
  */
-export const decodeSnapshotId = (snapshotId: string): snapshot_id =>
+export const decodeSnapshotId = (snapshotId: SnapshotIdText): snapshot_id =>
   hexStringToUint8Array(snapshotId);
