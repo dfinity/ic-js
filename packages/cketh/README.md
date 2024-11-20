@@ -53,7 +53,7 @@ const address = await getSmartContractAddress({});
 
 ### :factory: CkETHMinterCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L23)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L29)
 
 #### Methods
 
@@ -71,7 +71,7 @@ const address = await getSmartContractAddress({});
 | -------- | ------------------------------------------------------------------------ |
 | `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L24)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L30)
 
 ##### :gear: getSmartContractAddress
 
@@ -86,7 +86,7 @@ Parameters:
 - `params`: The parameters to resolve the ckETH smart contract address.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L42)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L48)
 
 ##### :gear: withdrawEth
 
@@ -97,17 +97,18 @@ Preconditions:
 The caller allowed the minter's principal to spend its funds using
 [icrc2_approve] on the ckETH ledger.
 
-| Method        | Type                                                                                          |
-| ------------- | --------------------------------------------------------------------------------------------- |
-| `withdrawEth` | `({ address, ...rest }: { address: string; amount: bigint; }) => Promise<RetrieveEthRequest>` |
+| Method        | Type                                                                                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `withdrawEth` | `({ address, fromSubaccount, ...rest }: { address: string; amount: bigint; fromSubaccount?: Subaccount or undefined; }) => Promise<RetrieveEthRequest>` |
 
 Parameters:
 
 - `params`: The parameters to withdrawal ckETH to ETH.
 - `params.address`: The destination ETH address.
 - `params.amount`: The ETH amount in wei.
+- `params.fromSubaccount`: The optional subaccount to burn ckETH from.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L62)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L69)
 
 ##### :gear: withdrawErc20
 
@@ -118,18 +119,19 @@ Preconditions:
 The caller allowed the minter's principal to spend its funds using
 [icrc2_approve] on the ckErc20 ledger and to burn some of the user’s ckETH tokens to pay for the transaction fees on the CkETH ledger.
 
-| Method          | Type                                                                                                                                           |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `withdrawErc20` | `({ address, ledgerCanisterId, ...rest }: { address: string; amount: bigint; ledgerCanisterId: Principal; }) => Promise<RetrieveErc20Request>` |
+| Method          | Type                                                                                                                                                                                                                                                                      |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `withdrawErc20` | `({ address, ledgerCanisterId, fromCkEthSubaccount, fromCkErc20Subaccount, ...rest }: { address: string; amount: bigint; ledgerCanisterId: Principal; fromCkEthSubaccount?: Subaccount or undefined; fromCkErc20Subaccount?: Subaccount or undefined; }) => Promise<...>` |
 
 Parameters:
 
 - `params`: The parameters to withdrawal ckErc20 to Erc20.
 - `params.address`: The destination ETH address.
 - `params.amount`: The ETH amount in wei.
-- `params.ledgerCanisterId`: The ledger canister ID of the ckErc20.
+- `params.fromCkEthSubaccount`: The optional subaccount to burn ckETH from to pay for the transaction fee.
+- `params.fromCkEthSubaccount`: The optional subaccount to burn ckERC20 from.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L99)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L110)
 
 ##### :gear: eip1559TransactionPrice
 
@@ -145,7 +147,7 @@ Parameters:
 - `params.ckErc20LedgerId`: - The optional identifier for a particular ckERC20 ledger.
 - `params.certified`: - Indicates whether this is a certified query or an update call.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L134)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L151)
 
 ##### :gear: retrieveEthStatus
 
@@ -155,7 +157,7 @@ Retrieve the status of a withdrawal request.
 | ------------------- | ---------------------------------------------------- |
 | `retrieveEthStatus` | `(blockIndex: bigint) => Promise<RetrieveEthStatus>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L149)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L166)
 
 ##### :gear: getMinterInfo
 
@@ -170,7 +172,7 @@ Parameters:
 - `params`: The parameters to get the minter info.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L162)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L179)
 
 ### :factory: CkETHOrchestratorCanister
 

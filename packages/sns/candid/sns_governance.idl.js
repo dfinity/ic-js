@@ -68,6 +68,10 @@ export const idlFactory = ({ IDL }) => {
     'old_target_version' : IDL.Opt(Version),
     'new_target_version' : IDL.Opt(Version),
   });
+  const UpgradeStepsReset = IDL.Record({
+    'human_readable' : IDL.Opt(IDL.Text),
+    'upgrade_steps' : IDL.Opt(Versions),
+  });
   const UpgradeOutcome = IDL.Record({
     'status' : IDL.Opt(
       IDL.Variant({
@@ -101,6 +105,7 @@ export const idlFactory = ({ IDL }) => {
     'event' : IDL.Opt(
       IDL.Variant({
         'TargetVersionSet' : TargetVersionSet,
+        'UpgradeStepsReset' : UpgradeStepsReset,
         'UpgradeOutcome' : UpgradeOutcome,
         'UpgradeStarted' : UpgradeStarted,
         'UpgradeStepsRefreshed' : UpgradeStepsRefreshed,
@@ -157,7 +162,7 @@ export const idlFactory = ({ IDL }) => {
     'round' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(ProposalId),
   });
-  const UpgradeInProgress = IDL.Record({
+  const PendingVersion = IDL.Record({
     'mark_failed_at_seconds' : IDL.Nat64,
     'checking_upgrade_lock' : IDL.Nat64,
     'proposal_id' : IDL.Nat64,
@@ -429,7 +434,7 @@ export const idlFactory = ({ IDL }) => {
     'deployed_version' : IDL.Opt(Version),
     'sns_initialization_parameters' : IDL.Text,
     'latest_reward_event' : IDL.Opt(RewardEvent),
-    'pending_version' : IDL.Opt(UpgradeInProgress),
+    'pending_version' : IDL.Opt(PendingVersion),
     'swap_canister_id' : IDL.Opt(IDL.Principal),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
@@ -516,6 +521,12 @@ export const idlFactory = ({ IDL }) => {
     'settings' : DefiniteCanisterSettingsArgs,
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
+  const UpgradeInProgress = IDL.Record({
+    'mark_failed_at_seconds' : IDL.Nat64,
+    'checking_upgrade_lock' : IDL.Nat64,
+    'proposal_id' : IDL.Nat64,
+    'target_version' : IDL.Opt(Version),
   });
   const GetRunningSnsVersionResponse = IDL.Record({
     'deployed_version' : IDL.Opt(Version),
@@ -745,6 +756,10 @@ export const init = ({ IDL }) => {
     'old_target_version' : IDL.Opt(Version),
     'new_target_version' : IDL.Opt(Version),
   });
+  const UpgradeStepsReset = IDL.Record({
+    'human_readable' : IDL.Opt(IDL.Text),
+    'upgrade_steps' : IDL.Opt(Versions),
+  });
   const UpgradeOutcome = IDL.Record({
     'status' : IDL.Opt(
       IDL.Variant({
@@ -778,6 +793,7 @@ export const init = ({ IDL }) => {
     'event' : IDL.Opt(
       IDL.Variant({
         'TargetVersionSet' : TargetVersionSet,
+        'UpgradeStepsReset' : UpgradeStepsReset,
         'UpgradeOutcome' : UpgradeOutcome,
         'UpgradeStarted' : UpgradeStarted,
         'UpgradeStepsRefreshed' : UpgradeStepsRefreshed,
@@ -834,7 +850,7 @@ export const init = ({ IDL }) => {
     'round' : IDL.Nat64,
     'settled_proposals' : IDL.Vec(ProposalId),
   });
-  const UpgradeInProgress = IDL.Record({
+  const PendingVersion = IDL.Record({
     'mark_failed_at_seconds' : IDL.Nat64,
     'checking_upgrade_lock' : IDL.Nat64,
     'proposal_id' : IDL.Nat64,
@@ -1106,7 +1122,7 @@ export const init = ({ IDL }) => {
     'deployed_version' : IDL.Opt(Version),
     'sns_initialization_parameters' : IDL.Text,
     'latest_reward_event' : IDL.Opt(RewardEvent),
-    'pending_version' : IDL.Opt(UpgradeInProgress),
+    'pending_version' : IDL.Opt(PendingVersion),
     'swap_canister_id' : IDL.Opt(IDL.Principal),
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),

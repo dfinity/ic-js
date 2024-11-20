@@ -38,7 +38,6 @@
     "@size-limit/esbuild": "^11.1.6",
     "@size-limit/preset-small-lib": "^11.1.6",
     "@types/jest": "^29.5.14",
-    "@types/node": "^20.12.5",
     "@types/text-encoding": "^0.0.39",
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "esbuild": "^0.24.0",

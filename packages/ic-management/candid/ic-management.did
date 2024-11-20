@@ -1,4 +1,4 @@
-// Generated from dfinity/interface-spec commit 9a5077e7f90f06a5c45e83bcdbec73a6e5427537 for file 'spec/_attachments/ic.did'
+// Generated from dfinity/portal commit 407ec5b92d06618c4df9f52e98514c5f4f44313e for file 'docs/references/_attachments/ic.did'
 type canister_id = principal;
 type wasm_module = blob;
 type snapshot_id = blob;
