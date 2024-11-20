@@ -23,7 +23,7 @@ describe("ic-management.utils", () => {
     expect(decoded).toEqual(mockSnapshotId);
   });
 
-  test("should encodeSnapshotId and decodeSnapshotId", () => {
+  it("should encodeSnapshotId and decodeSnapshotId", () => {
     const encoded = encodeSnapshotId(mockSnapshotId);
     const decoded = decodeSnapshotId(encoded);
 
