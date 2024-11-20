@@ -9,6 +9,10 @@
 - Added `memoToNeuronSubaccount` and `memoToNeuronAccountIdentifier`.
 - Support new neuron field `voting_power_refreshed_timestamp_seconds`.
 
+## Build
+
+- Update the dev dependencies of the `ic-js` workspace.
+
 # 2024.10.29-1130Z
 
 ## Overview
