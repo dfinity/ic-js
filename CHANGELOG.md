@@ -11,7 +11,7 @@
 
 ## Build
 
-- Update the dev dependencies of the `ic-js` monorepo.
+- Update the dev dependencies of the `ic-js` workspace.
 
 # 2024.10.29-1130Z
 
