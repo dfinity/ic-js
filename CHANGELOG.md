@@ -8,6 +8,7 @@
 
 - Added `memoToNeuronSubaccount` and `memoToNeuronAccountIdentifier`.
 - Support new neuron field `voting_power_refreshed_timestamp_seconds`.
+- Add `nowInBigIntNanoSeconds` to `@dfinity/utils`, a trivial function that is actually used across all our dapps.
 
 # 2024.10.29-1130Z
 

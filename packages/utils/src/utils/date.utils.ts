@@ -106,3 +106,11 @@ const createLabel = (labelKey: LabelKey, amount: bigint): LabelInfo => ({
   labelKey,
   amount: Number(amount),
 });
+
+/**
+ * Returns the current timestamp in nanoseconds as a `bigint`.
+ *
+ * @returns {bigint} The current timestamp in nanoseconds.
+ */
+export const nowInBigIntNanoSeconds = (): bigint =>
+  BigInt(Date.now()) * BigInt(1e6);
