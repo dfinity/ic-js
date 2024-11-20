@@ -3,11 +3,14 @@ import { Principal } from "@dfinity/principal";
 import {
   createServices,
   hexStringToUint8Array,
+  nonNullish,
   toNullable,
 } from "@dfinity/utils";
 import type {
   _SERVICE as IcManagementService,
   chunk_hash,
+  snapshot_id,
+  take_canister_snapshot_result,
 } from "../candid/ic-management";
 import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certified.idl";
 import { idlFactory } from "../candid/ic-management.idl";
@@ -20,6 +23,7 @@ import {
   type InstallChunkedCodeParams,
   type InstallCodeParams,
   type ProvisionalCreateCanisterWithCyclesParams,
+  type SnapshotIdHex,
   type StoredChunksParams,
   type UninstallCodeParams,
   type UpdateSettingsParams,
@@ -29,6 +33,7 @@ import type {
   CanisterStatusResponse,
   FetchCanisterLogsResponse,
 } from "./types/ic-management.responses";
+import { decodeSnapshotId } from "./utils/ic-management.utils";
 
 export class ICManagementCanister {
   private constructor(private readonly service: IcManagementService) {
@@ -348,6 +353,43 @@ export class ICManagementCanister {
 
     return fetch_canister_logs({
       canister_id: canisterId,
+    });
+  };
+
+  /**
+   * This method takes a snapshot of the specified canister. A snapshot consists of the wasm memory, stable memory, certified variables, wasm chunk store and wasm binary.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-take_canister_snapshot
+   *
+   * @param {Object} params - Parameters for the snapshot operation.
+   * @param {Principal} params.canisterId - The ID of the canister for which the snapshot will be taken.
+   * @param {SnapshotIdHex | snapshot_id} [params.snapshotId] - The ID of the snapshot to replace, if applicable.
+   * Can be provided as a `string` or a `Uint8Array`.
+   * If not provided, a new snapshot will be created.
+   *
+   * @returns {Promise<take_canister_snapshot_result>} A promise that resolves with the snapshot details,
+   * including the snapshot ID, total size, and timestamp.
+   *
+   * @throws {Error} If the snapshot operation fails.
+   */
+  takeCanisterSnapshot = ({
+    canisterId,
+    snapshotId,
+  }: {
+    canisterId: Principal;
+    snapshotId?: SnapshotIdHex | snapshot_id;
+  }): Promise<take_canister_snapshot_result> => {
+    const { take_canister_snapshot } = this.service;
+
+    return take_canister_snapshot({
+      canister_id: canisterId,
+      replace_snapshot: toNullable(
+        nonNullish(snapshotId)
+          ? typeof snapshotId === "string"
+            ? decodeSnapshotId(snapshotId)
+            : snapshotId
+          : undefined,
+      ),
     });
   };
 }

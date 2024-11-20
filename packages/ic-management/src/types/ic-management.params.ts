@@ -132,3 +132,5 @@ export interface ProvisionalTopUpCanisterParams {
   canisterId: Principal;
   amount: bigint;
 }
+
+export type SnapshotIdHex = string;
