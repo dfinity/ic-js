@@ -8,6 +8,7 @@
 
 - Added `memoToNeuronSubaccount` and `memoToNeuronAccountIdentifier`.
 - Support new neuron field `voting_power_refreshed_timestamp_seconds`.
+- Add support for fetching the canister logs in `@dfinity@ic-management`.
 
 # 2024.10.29-1130Z
 
