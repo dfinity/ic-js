@@ -1,4 +1,3 @@
-import { uint8ArrayToHexString } from "@dfinity/utils";
 import { mockCanisterId } from "../ic-management.mock";
 import { decodeSnapshotId, encodeSnapshotId } from "./ic-management.utils";
 
@@ -10,16 +9,16 @@ describe("ic-management.utils", () => {
     ...mockLocalSubnetId,
   ]);
 
+  const snapshotIdHex = "000000000000000201010000000000000001";
+
   it("should correctly encode a snapshot ID with encodeSnapshotId", () => {
-    const expectedHex = uint8ArrayToHexString(mockSnapshotId);
     const encoded = encodeSnapshotId(mockSnapshotId);
 
-    expect(encoded).toBe(expectedHex);
+    expect(encoded).toBe(snapshotIdHex);
   });
 
   it("should correctly decode a snapshot ID with decodeSnapshotId", () => {
-    const hex = uint8ArrayToHexString(mockSnapshotId);
-    const decoded = decodeSnapshotId(hex);
+    const decoded = decodeSnapshotId(snapshotIdHex);
 
     expect(decoded).toEqual(mockSnapshotId);
   });
