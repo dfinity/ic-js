@@ -55,6 +55,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [decodeBase32](#gear-decodebase32)
 - [bigEndianCrc32](#gear-bigendiancrc32)
 - [secondsToDuration](#gear-secondstoduration)
+- [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
 - [debounce](#gear-debounce)
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
@@ -301,6 +302,16 @@ Parameters:
 - `options.i18n`: - The i18n object for customizing language and units. Defaults to English.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L43)
+
+#### :gear: nowInBigIntNanoSeconds
+
+Returns the current timestamp in nanoseconds as a `bigint`.
+
+| Function                 | Type           |
+| ------------------------ | -------------- |
+| `nowInBigIntNanoSeconds` | `() => bigint` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L115)
 
 #### :gear: debounce
 
