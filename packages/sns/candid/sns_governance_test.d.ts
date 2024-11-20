@@ -257,7 +257,7 @@ export interface Governance {
   deployed_version: [] | [Version];
   sns_initialization_parameters: string;
   latest_reward_event: [] | [RewardEvent];
-  pending_version: [] | [UpgradeInProgress];
+  pending_version: [] | [PendingVersion];
   swap_canister_id: [] | [Principal];
   ledger_canister_id: [] | [Principal];
   proposals: Array<[bigint, ProposalData]>;
@@ -469,6 +469,12 @@ export type Operation =
   | { IncreaseDissolveDelay: IncreaseDissolveDelay }
   | { SetDissolveTimestamp: SetDissolveTimestamp };
 export type Participant = { NeuronsFund: NeuronsFund } | { Direct: {} };
+export interface PendingVersion {
+  mark_failed_at_seconds: bigint;
+  checking_upgrade_lock: bigint;
+  proposal_id: bigint;
+  target_version: [] | [Version];
+}
 export interface Percentage {
   basis_points: [] | [bigint];
 }
@@ -600,6 +606,7 @@ export interface UpgradeJournalEntry {
     | []
     | [
         | { TargetVersionSet: TargetVersionSet }
+        | { UpgradeStepsReset: UpgradeStepsReset }
         | { UpgradeOutcome: UpgradeOutcome }
         | { UpgradeStarted: UpgradeStarted }
         | { UpgradeStepsRefreshed: UpgradeStepsRefreshed }
@@ -635,6 +642,10 @@ export interface UpgradeStarted {
       ];
 }
 export interface UpgradeStepsRefreshed {
+  upgrade_steps: [] | [Versions];
+}
+export interface UpgradeStepsReset {
+  human_readable: [] | [string];
   upgrade_steps: [] | [Versions];
 }
 export interface Valuation {
