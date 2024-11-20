@@ -9,6 +9,11 @@
 - Added `memoToNeuronSubaccount` and `memoToNeuronAccountIdentifier`.
 - Support new neuron field `voting_power_refreshed_timestamp_seconds`.
 - Add support for fetching the canister logs in `@dfinity@ic-management`.
+- Add `nowInBigIntNanoSeconds` to `@dfinity/utils`, a trivial function that is actually used across all our dapps.
+
+## Build
+
+- Update the dev dependencies of the `ic-js` workspace.
 
 # 2024.10.29-1130Z
 

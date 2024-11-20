@@ -1,5 +1,11 @@
+import type { Subaccount } from "@dfinity/ledger-icrc/candid/icrc_ledger";
 import type { Principal } from "@dfinity/principal";
-import { Canister, createServices, type QueryParams } from "@dfinity/utils";
+import {
+  Canister,
+  createServices,
+  toNullable,
+  type QueryParams,
+} from "@dfinity/utils";
 import type {
   _SERVICE as CkETHMinterService,
   Eip1559TransactionPrice,
@@ -57,14 +63,17 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
    * @param {Object} params The parameters to withdrawal ckETH to ETH.
    * @param {string} params.address The destination ETH address.
    * @param {bigint} params.amount The ETH amount in wei.
+   * @param {Subacount} params.fromSubaccount The optional subaccount to burn ckETH from.
    * @returns {Promise<RetrieveEthRequest>} The successful result or the operation.
    */
   withdrawEth = async ({
     address,
+    fromSubaccount,
     ...rest
   }: {
     address: string;
     amount: bigint;
+    fromSubaccount?: Subaccount;
   }): Promise<RetrieveEthRequest> => {
     const { withdraw_eth } = this.caller({
       certified: true,
@@ -72,6 +81,7 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
 
     const response = await withdraw_eth({
       recipient: address,
+      from_subaccount: toNullable(fromSubaccount),
       ...rest,
     });
 
@@ -93,17 +103,22 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
    * @param {Object} params The parameters to withdrawal ckErc20 to Erc20.
    * @param {string} params.address The destination ETH address.
    * @param {bigint} params.amount The ETH amount in wei.
-   * @param {Principal} params.ledgerCanisterId The ledger canister ID of the ckErc20.
+   * @param {Subaccount} params.fromCkEthSubaccount The optional subaccount to burn ckETH from to pay for the transaction fee.
+   * @param {Subaccount} params.fromCkEthSubaccount The optional subaccount to burn ckERC20 from.
    * @returns {Promise<RetrieveErc20Request>} The successful result or the operation.
    */
   withdrawErc20 = async ({
     address,
     ledgerCanisterId,
+    fromCkEthSubaccount,
+    fromCkErc20Subaccount,
     ...rest
   }: {
     address: string;
     amount: bigint;
     ledgerCanisterId: Principal;
+    fromCkEthSubaccount?: Subaccount;
+    fromCkErc20Subaccount?: Subaccount;
   }): Promise<RetrieveErc20Request> => {
     const { withdraw_erc20 } = this.caller({
       certified: true,
@@ -112,6 +127,8 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
     const response = await withdraw_erc20({
       recipient: address,
       ckerc20_ledger_id: ledgerCanisterId,
+      from_cketh_subaccount: toNullable(fromCkEthSubaccount),
+      from_ckerc20_subaccount: toNullable(fromCkErc20Subaccount),
       ...rest,
     });
 
