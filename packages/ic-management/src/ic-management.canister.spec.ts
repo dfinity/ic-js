@@ -25,7 +25,10 @@ import {
   type StoredChunksParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
-import { CanisterStatusResponse } from "./types/ic-management.responses";
+import {
+  CanisterStatusResponse,
+  type FetchCanisterLogsResponse,
+} from "./types/ic-management.responses";
 
 describe("ICManagementCanister", () => {
   const mockAgent: HttpAgent = mock<HttpAgent>();
@@ -663,6 +666,54 @@ describe("ICManagementCanister", () => {
       const icManagement = await createICManagement(service);
 
       const call = () => icManagement.installChunkedCode(params);
+
+      expect(call).rejects.toThrowError(Error);
+    });
+  });
+
+  describe("fetchCanisterLogs", () => {
+    it("returns canister logs when success", async () => {
+      const settings = {
+        freezing_threshold: BigInt(2),
+        controllers: [mockPrincipal],
+        memory_allocation: BigInt(4),
+        compute_allocation: BigInt(10),
+        reserved_cycles_limit: BigInt(11),
+        log_visibility: { controllers: null },
+        wasm_memory_limit: BigInt(500_00),
+      };
+      const response: FetchCanisterLogsResponse = {
+        canister_log_records: [
+          {
+            idx: 123n,
+            content: [1, 2, 3],
+            timestamp_nanos: 12345n,
+          },
+          {
+            idx: 456n,
+            content: [9, 8, 7],
+            timestamp_nanos: 12346n,
+          },
+        ],
+      };
+      const service = mock<IcManagementService>();
+      service.fetch_canister_logs.mockResolvedValue(response);
+
+      const icManagement = await createICManagement(service);
+
+      const res = await icManagement.fetchCanisterLogs(mockCanisterId);
+
+      expect(res).toEqual(response);
+    });
+
+    it("throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.fetch_canister_logs.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () => icManagement.fetchCanisterLogs(mockCanisterId);
 
       expect(call).rejects.toThrowError(Error);
     });

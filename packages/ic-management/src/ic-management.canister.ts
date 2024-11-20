@@ -25,7 +25,10 @@ import {
   type UpdateSettingsParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
-import type { CanisterStatusResponse } from "./types/ic-management.responses";
+import type {
+  CanisterStatusResponse,
+  FetchCanisterLogsResponse,
+} from "./types/ic-management.responses";
 
 export class ICManagementCanister {
   private constructor(private readonly service: IcManagementService) {
@@ -308,4 +311,17 @@ export class ICManagementCanister {
 
     return canister_id;
   };
+
+  /**
+   * Given a canister ID as input, this method returns a vector of logs of that canister including its trap messages. The canister logs are not collected in canister methods running in non-replicated mode (NRQ, CQ, CRy, CRt, CC, and F modes, as defined in Overview of imports). The total size of all returned logs does not exceed 4KiB. If new logs are added resulting in exceeding the maximum total log size of 4KiB, the oldest logs will be removed. Logs persist across canister upgrades and they are deleted if the canister is reinstalled or uninstalled.
+   *
+   * @param {Principal} canisterId
+   * @returns {Promise<FetchCanisterLogsResponse>}
+   */
+  fetchCanisterLogs = (
+    canisterId: Principal,
+  ): Promise<FetchCanisterLogsResponse> =>
+    this.service.fetch_canister_logs({
+      canister_id: canisterId,
+    });
 }
