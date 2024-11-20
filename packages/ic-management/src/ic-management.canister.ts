@@ -23,7 +23,7 @@ import {
   type InstallChunkedCodeParams,
   type InstallCodeParams,
   type ProvisionalCreateCanisterWithCyclesParams,
-  type SnapshotIdHex,
+  type SnapshotIdText,
   type StoredChunksParams,
   type UninstallCodeParams,
   type UpdateSettingsParams,
@@ -363,7 +363,7 @@ export class ICManagementCanister {
    *
    * @param {Object} params - Parameters for the snapshot operation.
    * @param {Principal} params.canisterId - The ID of the canister for which the snapshot will be taken.
-   * @param {SnapshotIdHex | snapshot_id} [params.snapshotId] - The ID of the snapshot to replace, if applicable.
+   * @param {SnapshotIdText | snapshot_id} [params.snapshotId] - The ID of the snapshot to replace, if applicable.
    * Can be provided as a `string` or a `Uint8Array`.
    * If not provided, a new snapshot will be created.
    *
@@ -377,7 +377,7 @@ export class ICManagementCanister {
     snapshotId,
   }: {
     canisterId: Principal;
-    snapshotId?: SnapshotIdHex | snapshot_id;
+    snapshotId?: SnapshotIdText | snapshot_id;
   }): Promise<take_canister_snapshot_result> => {
     const { take_canister_snapshot } = this.service;
 

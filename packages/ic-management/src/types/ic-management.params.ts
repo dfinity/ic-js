@@ -133,4 +133,4 @@ export interface ProvisionalTopUpCanisterParams {
   amount: bigint;
 }
 
-export type SnapshotIdHex = string;
+export type SnapshotIdText = string;
