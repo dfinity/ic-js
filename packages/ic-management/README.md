@@ -100,7 +100,7 @@ Update canister settings
 | ---------------- | ------------------------------------------------------------------------------------------- |
 | `updateSettings` | `({ canisterId, senderCanisterVersion, settings, }: UpdateSettingsParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L99)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L101)
 
 ##### :gear: installCode
 
@@ -110,7 +110,7 @@ Install code to a canister
 | ------------- | ----------------------------------------------------------------------------------------------------- |
 | `installCode` | `({ mode, canisterId, wasmModule, arg, senderCanisterVersion, }: InstallCodeParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L121)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L126)
 
 ##### :gear: uploadChunk
 
@@ -125,7 +125,7 @@ Parameters:
 - `params.canisterId`: The canister in which the chunks will be stored.
 - `params.chunk`: A chunk of Wasm module.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L146)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L154)
 
 ##### :gear: clearChunkStore
 
@@ -139,7 +139,7 @@ Parameters:
 
 - `params.canisterId`: The canister in which the chunks are stored.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L166)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L174)
 
 ##### :gear: storedChunks
 
@@ -153,7 +153,7 @@ Parameters:
 
 - `params.canisterId`: The canister in which the chunks are stored.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L185)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L193)
 
 ##### :gear: installChunkedCode
 
@@ -173,7 +173,7 @@ Parameters:
 - `params.storeCanisterId`: Specifies the canister in whose chunk storage the chunks are stored (this parameter defaults to target_canister if not specified).
 - `params.wasmModuleHash`: The Wasm module hash as hex string. Used to check that the SHA-256 hash of wasm_module is equal to the wasm_module_hash parameter and can calls install_code with parameters.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L210)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L218)
 
 ##### :gear: uninstallCode
 
@@ -183,7 +183,7 @@ Uninstall code from a canister
 | --------------- | -------------------------------------------------------------------------------- |
 | `uninstallCode` | `({ canisterId, senderCanisterVersion, }: UninstallCodeParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L243)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L251)
 
 ##### :gear: startCanister
 
@@ -193,7 +193,7 @@ Start a canister
 | --------------- | ------------------------------------------ |
 | `startCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L258)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L269)
 
 ##### :gear: stopCanister
 
@@ -203,7 +203,7 @@ Stop a canister
 | -------------- | ------------------------------------------ |
 | `stopCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L267)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L281)
 
 ##### :gear: canisterStatus
 
@@ -213,7 +213,7 @@ Get canister details (memory size, status, etc.)
 | ---------------- | ------------------------------------------------------------ |
 | `canisterStatus` | `(canisterId: Principal) => Promise<canister_status_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L276)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L292)
 
 ##### :gear: deleteCanister
 
@@ -223,7 +223,7 @@ Deletes a canister
 | ---------------- | ------------------------------------------ |
 | `deleteCanister` | `(canisterId: Principal) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L287)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L306)
 
 ##### :gear: provisionalCreateCanisterWithCycles
 
@@ -233,7 +233,7 @@ Creates a canister. Only available on development instances.
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `provisionalCreateCanisterWithCycles` | `({ settings, amount, canisterId, }?: ProvisionalCreateCanisterWithCyclesParams) => Promise<Principal>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L299)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L321)
 
 ##### :gear: fetchCanisterLogs
 
@@ -243,7 +243,7 @@ Given a canister ID as input, this method returns a vector of logs of that canis
 | ------------------- | ---------------------------------------------------------------- |
 | `fetchCanisterLogs` | `(canisterId: Principal) => Promise<fetch_canister_logs_result>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L321)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L344)
 
 <!-- TSDOC_END -->
 

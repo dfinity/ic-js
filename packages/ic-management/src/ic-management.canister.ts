@@ -79,7 +79,9 @@ export class ICManagementCanister {
     settings,
     senderCanisterVersion,
   }: CreateCanisterParams = {}): Promise<Principal> => {
-    const { canister_id } = await this.service.create_canister({
+    const { create_canister } = this.service;
+
+    const { canister_id } = await create_canister({
       settings: toNullable(toCanisterSettings(settings)),
       sender_canister_version: toNullable(senderCanisterVersion),
     });
@@ -100,12 +102,15 @@ export class ICManagementCanister {
     canisterId,
     senderCanisterVersion,
     settings,
-  }: UpdateSettingsParams): Promise<void> =>
-    this.service.update_settings({
+  }: UpdateSettingsParams): Promise<void> => {
+    const { update_settings } = this.service;
+
+    return update_settings({
       canister_id: canisterId,
       sender_canister_version: toNullable(senderCanisterVersion),
       settings: toCanisterSettings(settings),
     });
+  };
 
   /**
    * Install code to a canister
@@ -124,14 +129,17 @@ export class ICManagementCanister {
     wasmModule,
     arg,
     senderCanisterVersion,
-  }: InstallCodeParams): Promise<void> =>
-    this.service.install_code({
+  }: InstallCodeParams): Promise<void> => {
+    const { install_code } = this.service;
+
+    return install_code({
       mode: toInstallMode(mode),
       canister_id: canisterId,
       wasm_module: wasmModule,
       arg,
       sender_canister_version: toNullable(senderCanisterVersion),
     });
+  };
 
   /**
    * Upload chunks of Wasm modules that are too large to fit in a single message for installation purposes.
@@ -243,11 +251,14 @@ export class ICManagementCanister {
   uninstallCode = ({
     canisterId,
     senderCanisterVersion,
-  }: UninstallCodeParams): Promise<void> =>
-    this.service.uninstall_code({
+  }: UninstallCodeParams): Promise<void> => {
+    const { uninstall_code } = this.service;
+
+    return uninstall_code({
       canister_id: canisterId,
       sender_canister_version: toNullable(senderCanisterVersion),
     });
+  };
 
   /**
    * Start a canister
@@ -255,8 +266,11 @@ export class ICManagementCanister {
    * @param {Principal} canisterId
    * @returns {Promise<void>}
    */
-  startCanister = (canisterId: Principal): Promise<void> =>
-    this.service.start_canister({ canister_id: canisterId });
+  startCanister = (canisterId: Principal): Promise<void> => {
+    const { start_canister } = this.service;
+
+    return start_canister({ canister_id: canisterId });
+  };
 
   /**
    * Stop a canister
@@ -264,8 +278,10 @@ export class ICManagementCanister {
    * @param {Principal} canisterId
    * @returns {Promise<void>}
    */
-  stopCanister = (canisterId: Principal): Promise<void> =>
-    this.service.stop_canister({ canister_id: canisterId });
+  stopCanister = (canisterId: Principal): Promise<void> => {
+    const { stop_canister } = this.service;
+    return stop_canister({ canister_id: canisterId });
+  };
 
   /**
    * Get canister details (memory size, status, etc.)
@@ -273,10 +289,13 @@ export class ICManagementCanister {
    * @param {Principal} canisterId
    * @returns {Promise<CanisterStatusResponse>}
    */
-  canisterStatus = (canisterId: Principal): Promise<CanisterStatusResponse> =>
-    this.service.canister_status({
+  canisterStatus = (canisterId: Principal): Promise<CanisterStatusResponse> => {
+    const { canister_status } = this.service;
+
+    return canister_status({
       canister_id: canisterId,
     });
+  };
 
   /**
    * Deletes a canister
@@ -284,8 +303,11 @@ export class ICManagementCanister {
    * @param {Principal} canisterId
    * @returns {Promise<void>}
    */
-  deleteCanister = (canisterId: Principal): Promise<void> =>
-    this.service.delete_canister({ canister_id: canisterId });
+  deleteCanister = (canisterId: Principal): Promise<void> => {
+    const { delete_canister } = this.service;
+
+    return delete_canister({ canister_id: canisterId });
+  };
 
   /**
    * Creates a canister. Only available on development instances.
@@ -301,13 +323,14 @@ export class ICManagementCanister {
     amount,
     canisterId,
   }: ProvisionalCreateCanisterWithCyclesParams = {}): Promise<Principal> => {
-    const { canister_id } =
-      await this.service.provisional_create_canister_with_cycles({
-        settings: toNullable(toCanisterSettings(settings)),
-        amount: toNullable(amount),
-        specified_id: toNullable(canisterId),
-        sender_canister_version: [],
-      });
+    const { provisional_create_canister_with_cycles } = this.service;
+
+    const { canister_id } = await provisional_create_canister_with_cycles({
+      settings: toNullable(toCanisterSettings(settings)),
+      amount: toNullable(amount),
+      specified_id: toNullable(canisterId),
+      sender_canister_version: [],
+    });
 
     return canister_id;
   };
@@ -320,8 +343,11 @@ export class ICManagementCanister {
    */
   fetchCanisterLogs = (
     canisterId: Principal,
-  ): Promise<FetchCanisterLogsResponse> =>
-    this.service.fetch_canister_logs({
+  ): Promise<FetchCanisterLogsResponse> => {
+    const { fetch_canister_logs } = this.service;
+
+    return fetch_canister_logs({
       canister_id: canisterId,
     });
+  };
 }
