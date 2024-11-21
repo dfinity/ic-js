@@ -1,7 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { uint8ArrayToHexString } from "@dfinity/utils";
 import { Vote } from "../enums/governance.enums";
-import { NeuronInfo, ProposalInfo } from "../types/governance_converters";
+import type { NeuronInfo, ProposalInfo } from "../types/governance_converters";
 import {
   ineligibleNeurons,
   memoToNeuronAccountIdentifier,

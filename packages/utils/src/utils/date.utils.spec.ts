@@ -1,9 +1,6 @@
 import { describe } from "@jest/globals";
-import {
-  I18nSecondsToDuration,
-  nowInBigIntNanoSeconds,
-  secondsToDuration,
-} from "./date.utils";
+import type { I18nSecondsToDuration } from "./date.utils";
+import { nowInBigIntNanoSeconds, secondsToDuration } from "./date.utils";
 
 describe("date.utils", () => {
   const EN_TIME = {

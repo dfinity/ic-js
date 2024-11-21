@@ -1,8 +1,8 @@
-import { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import {
+import type {
   _SERVICE as CkETHMinterService,
   MinterInfo,
   RetrieveErc20Request,
@@ -58,7 +58,6 @@ describe("ckETH minter canister", () => {
 
       const canister = minter(service);
 
-      const owner = Principal.fromText("aaaaa-aa");
       const res = await canister.getSmartContractAddress();
       expect(service.smart_contract_address).toBeCalled();
       expect(res).toEqual(ckETHSmartContractAddressMock);
@@ -240,7 +239,7 @@ describe("ckETH minter canister", () => {
       const service = mock<ActorSubclass<CkETHMinterService>>();
 
       const error = { Err: { Test: null } as unknown };
-      // @ts-ignore we explicity want the results to throw some error type
+      // @ts-expect-error we explicity want the results to throw some error type
       service.withdraw_eth.mockResolvedValue(error);
 
       const canister = minter(service);
@@ -279,7 +278,7 @@ describe("ckETH minter canister", () => {
 
       expect(service.withdraw_erc20).toBeCalledTimes(1);
 
-      const { address, ledgerCanisterId, ...rest } = params;
+      const { address, ledgerCanisterId: _, ...rest } = params;
       expect(service.withdraw_erc20).toBeCalledWith({
         recipient: address,
         ckerc20_ledger_id: ledgerCanisterIdMock,
@@ -307,7 +306,7 @@ describe("ckETH minter canister", () => {
 
           expect(service.withdraw_erc20).toBeCalledTimes(1);
 
-          const { address, ledgerCanisterId, ...rest } = params;
+          const { address, ledgerCanisterId: _, ...rest } = params;
           expect(service.withdraw_erc20).toHaveBeenCalledWith({
             recipient: address,
             ckerc20_ledger_id: ledgerCanisterIdMock,
@@ -330,7 +329,7 @@ describe("ckETH minter canister", () => {
 
           expect(service.withdraw_erc20).toBeCalledTimes(1);
 
-          const { address, ledgerCanisterId, ...rest } = params;
+          const { address, ledgerCanisterId: _, ...rest } = params;
           expect(service.withdraw_erc20).toHaveBeenCalledWith({
             recipient: address,
             ckerc20_ledger_id: ledgerCanisterIdMock,
@@ -354,7 +353,7 @@ describe("ckETH minter canister", () => {
 
           expect(service.withdraw_erc20).toBeCalledTimes(1);
 
-          const { address, ledgerCanisterId, ...rest } = params;
+          const { address, ledgerCanisterId: _, ...rest } = params;
           expect(service.withdraw_erc20).toHaveBeenCalledWith({
             recipient: address,
             ckerc20_ledger_id: ledgerCanisterIdMock,
@@ -569,7 +568,7 @@ describe("ckETH minter canister", () => {
             },
           };
 
-          // @ts-ignore we explicity want the results to throw some error type
+          // @ts-expect-error we explicity want the results to throw some error type
           service.withdraw_erc20.mockResolvedValue(error);
 
           const canister = minter(service);
@@ -712,7 +711,7 @@ describe("ckETH minter canister", () => {
             },
           };
 
-          // @ts-ignore we explicity want the results to throw some error type
+          // @ts-expect-error we explicity want the results to throw some error type
           service.withdraw_erc20.mockResolvedValue(error);
 
           const canister = minter(service);
@@ -733,7 +732,7 @@ describe("ckETH minter canister", () => {
       const service = mock<ActorSubclass<CkETHMinterService>>();
 
       const error = { Err: { Test: null } as unknown };
-      // @ts-ignore we explicity want the results to throw some error type
+      // @ts-expect-error we explicity want the results to throw some error type
       service.withdraw_erc20.mockResolvedValue(error);
 
       const canister = minter(service);

@@ -6,7 +6,7 @@ import {
   CanisterInstallMode,
   LogVisibility,
 } from "../../enums/governance.enums";
-import { GovernanceParameters } from "../../types/governance_converters";
+import type { GovernanceParameters } from "../../types/governance_converters";
 import { toMakeProposalRawRequest } from "./request.converters";
 
 describe("request.converters", () => {
@@ -512,8 +512,6 @@ describe("request.converters", () => {
     });
 
     it("InstallCode", () => {
-      const principalId =
-        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe";
       const summary = "Proposal summary";
 
       const mockRequest = {
@@ -568,8 +566,6 @@ describe("request.converters", () => {
     });
 
     it("StopOrStartCanister", () => {
-      const principalId =
-        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe";
       const summary = "Proposal summary";
 
       const mockRequest = {
@@ -618,8 +614,6 @@ describe("request.converters", () => {
     });
 
     it("UpdateCanisterSettings", () => {
-      const principalId =
-        "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe";
       const summary = "Proposal summary";
 
       const mockRequest = {

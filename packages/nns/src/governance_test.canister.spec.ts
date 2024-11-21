@@ -1,4 +1,4 @@
-import { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
 import type { _SERVICE as GovernanceService } from "../candid/governance_test";
 import { toNeuron } from "./canisters/governance/response.converters";
