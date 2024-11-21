@@ -75,6 +75,7 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 - [fetchCanisterLogs](#gear-fetchcanisterlogs)
 - [takeCanisterSnapshot](#gear-takecanistersnapshot)
 - [listCanisterSnapshots](#gear-listcanistersnapshots)
+- [deleteCanisterSnapshot](#gear-deletecanistersnapshot)
 
 ##### :gear: create
 
@@ -279,6 +280,22 @@ Parameters:
 - `params.canisterId`: - The ID of the canister for which snapshots will be listed.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L405)
+
+##### :gear: deleteCanisterSnapshot
+
+Deletes a specific snapshot of a canister.
+
+| Method                   | Type                                                                                                            |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `deleteCanisterSnapshot` | `({ canisterId, snapshotId, }: { canisterId: Principal; snapshotId: string or snapshot_id; }) => Promise<void>` |
+
+Parameters:
+
+- `params`: - Parameters for the deletion operation.
+- `params.canisterId`: - The ID of the canister for which the snapshot will be deleted.
+- `params.snapshotId`: - The ID of the snapshot to delete.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L430)
 
 <!-- TSDOC_END -->
 
