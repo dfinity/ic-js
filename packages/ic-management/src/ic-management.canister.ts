@@ -445,4 +445,32 @@ export class ICManagementCanister {
       sender_canister_version: toNullable(senderCanisterVersion),
     });
   };
+
+  /**
+   * Deletes a specific snapshot of a canister.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-delete_canister_snapshot
+   *
+   * @param {Object} params - Parameters for the deletion operation.
+   * @param {Principal} params.canisterId - The ID of the canister for which the snapshot will be deleted.
+   * @param {snapshot_id} params.snapshotId - The ID of the snapshot to delete.
+   *
+   * @returns {Promise<void>} A promise that resolves when the snapshot is successfully deleted.
+   *
+   * @throws {Error} If the deletion operation fails.
+   */
+  deleteCanisterSnapshot = async ({
+    canisterId,
+    snapshotId,
+  }: {
+    canisterId: Principal;
+    snapshotId: SnapshotIdText | snapshot_id;
+  }): Promise<void> => {
+    const { delete_canister_snapshot } = this.service;
+
+    await delete_canister_snapshot({
+      canister_id: canisterId,
+      snapshot_id: mapSnapshotId(snapshotId),
+    });
+  };
 }
