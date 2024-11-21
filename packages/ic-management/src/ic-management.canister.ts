@@ -392,4 +392,39 @@ export class ICManagementCanister {
       ),
     });
   };
+
+  /**
+   * Loads a snapshot of a canister's state.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-load_canister_snapshot
+   *
+   * @param {Object} params - Parameters for the snapshot loading operation.
+   * @param {Principal} params.canisterId - The ID of the canister for which the snapshot will be loaded.
+   * @param {snapshot_id} params.snapshotId - The ID of the snapshot to load.
+   * @param {BigInt} [params.senderCanisterVersion] - The optional sender canister version. If provided, its value must be equal to ic0.canister_version.
+   *
+   * @returns {Promise<void>} A promise that resolves when the snapshot is successfully loaded.
+   *
+   * @throws {Error} If the snapshot loading operation fails.
+   */
+  loadCanisterSnapshot = async ({
+    canisterId,
+    snapshotId,
+    senderCanisterVersion,
+  }: {
+    canisterId: Principal;
+    snapshotId: SnapshotIdText | snapshot_id;
+    senderCanisterVersion?: bigint;
+  }): Promise<void> => {
+    const { load_canister_snapshot } = this.service;
+
+    await load_canister_snapshot({
+      canister_id: canisterId,
+      snapshot_id:
+        typeof snapshotId === "string"
+          ? decodeSnapshotId(snapshotId)
+          : snapshotId,
+      sender_canister_version: toNullable(senderCanisterVersion),
+    });
+  };
 }
