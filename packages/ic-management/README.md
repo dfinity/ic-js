@@ -278,7 +278,7 @@ Parameters:
 - `params`: - Parameters for the listing operation.
 - `params.canisterId`: - The ID of the canister for which snapshots will be listed.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L409)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L405)
 
 <!-- TSDOC_END -->
 
