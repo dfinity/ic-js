@@ -413,10 +413,7 @@ export class ICManagementCanister {
 
     await delete_canister_snapshot({
       canister_id: canisterId,
-      snapshot_id:
-        typeof snapshotId === "string"
-          ? decodeSnapshotId(snapshotId)
-          : snapshotId,
+      snapshot_id: mapSnapshotId(snapshotId),
     });
   };
 }
