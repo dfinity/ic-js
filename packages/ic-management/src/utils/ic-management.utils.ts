@@ -27,3 +27,17 @@ export const encodeSnapshotId = (snapshotId: snapshot_id): SnapshotIdText =>
  */
 export const decodeSnapshotId = (snapshotId: SnapshotIdText): snapshot_id =>
   hexStringToUint8Array(snapshotId);
+
+/**
+ * Maps a snapshot ID to the appropriate format for the IC interface.
+ *
+ * @param {SnapshotIdText | snapshot_id} snapshotId - The snapshot ID to map.
+ * It can either be a `string` (SnapshotIdText) or a `Uint8Array | number[]` (snapshot_id).
+ * If a `string` is provided, it is decoded into a `Uint8Array` using `decodeSnapshotId`.
+ *
+ * @returns {Uint8Array | number[]} The mapped snapshot ID.
+ */
+export const mapSnapshotId = (
+  snapshotId: SnapshotIdText | snapshot_id,
+): snapshot_id =>
+  typeof snapshotId === "string" ? decodeSnapshotId(snapshotId) : snapshotId;
