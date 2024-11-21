@@ -75,6 +75,7 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 - [fetchCanisterLogs](#gear-fetchcanisterlogs)
 - [takeCanisterSnapshot](#gear-takecanistersnapshot)
 - [listCanisterSnapshots](#gear-listcanistersnapshots)
+- [loadCanisterSnapshot](#gear-loadcanistersnapshot)
 
 ##### :gear: create
 
@@ -279,6 +280,23 @@ Parameters:
 - `params.canisterId`: - The ID of the canister for which snapshots will be listed.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L405)
+
+##### :gear: loadCanisterSnapshot
+
+Loads a snapshot of a canister's state.
+
+| Method                 | Type                                                                                                                                                                                |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `loadCanisterSnapshot` | `({ canisterId, snapshotId, senderCanisterVersion, }: { canisterId: Principal; snapshotId: string or snapshot_id; senderCanisterVersion?: bigint or undefined; }) => Promise<void>` |
+
+Parameters:
+
+- `params`: - Parameters for the snapshot loading operation.
+- `params.canisterId`: - The ID of the canister for which the snapshot will be loaded.
+- `params.snapshotId`: - The ID of the snapshot to load.
+- `params.senderCanisterVersion`: - The optional sender canister version. If provided, its value must be equal to ic0.canister_version.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L431)
 
 <!-- TSDOC_END -->
 
