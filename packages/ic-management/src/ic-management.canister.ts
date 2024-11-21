@@ -416,10 +416,7 @@ export class ICManagementCanister {
 
     await load_canister_snapshot({
       canister_id: canisterId,
-      snapshot_id:
-        typeof snapshotId === "string"
-          ? decodeSnapshotId(snapshotId)
-          : snapshotId,
+      snapshot_id: mapSnapshotId(snapshotId),
       sender_canister_version: toNullable(senderCanisterVersion),
     });
   };
