@@ -1,7 +1,7 @@
-import { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { mock } from "jest-mock-extended";
-import {
+import type {
   _SERVICE as CkETHOrchestratorService,
   ManagedCanisters,
   OrchestratorInfo,
