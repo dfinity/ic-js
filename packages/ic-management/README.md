@@ -75,7 +75,7 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 - [fetchCanisterLogs](#gear-fetchcanisterlogs)
 - [takeCanisterSnapshot](#gear-takecanistersnapshot)
 - [listCanisterSnapshots](#gear-listcanistersnapshots)
-- [deleteCanisterSnapshot](#gear-deletecanistersnapshot)
+- [loadCanisterSnapshot](#gear-loadcanistersnapshot)
 
 ##### :gear: create
 
@@ -281,21 +281,22 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L405)
 
-##### :gear: deleteCanisterSnapshot
+##### :gear: loadCanisterSnapshot
 
-Deletes a specific snapshot of a canister.
+Loads a snapshot of a canister's state.
 
-| Method                   | Type                                                                                                            |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| `deleteCanisterSnapshot` | `({ canisterId, snapshotId, }: { canisterId: Principal; snapshotId: string or snapshot_id; }) => Promise<void>` |
+| Method                 | Type                                                                                                                                                                                |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `loadCanisterSnapshot` | `({ canisterId, snapshotId, senderCanisterVersion, }: { canisterId: Principal; snapshotId: string or snapshot_id; senderCanisterVersion?: bigint or undefined; }) => Promise<void>` |
 
 Parameters:
 
-- `params`: - Parameters for the deletion operation.
-- `params.canisterId`: - The ID of the canister for which the snapshot will be deleted.
-- `params.snapshotId`: - The ID of the snapshot to delete.
+- `params`: - Parameters for the snapshot loading operation.
+- `params.canisterId`: - The ID of the canister for which the snapshot will be loaded.
+- `params.snapshotId`: - The ID of the snapshot to load.
+- `params.senderCanisterVersion`: - The optional sender canister version. If provided, its value must be equal to ic0.canister_version.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L430)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L431)
 
 <!-- TSDOC_END -->
 
