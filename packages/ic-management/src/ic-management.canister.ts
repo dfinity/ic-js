@@ -9,6 +9,7 @@ import {
 import type {
   _SERVICE as IcManagementService,
   chunk_hash,
+  list_canister_snapshots_result,
   snapshot_id,
   take_canister_snapshot_result,
 } from "../candid/ic-management";
@@ -33,7 +34,7 @@ import type {
   CanisterStatusResponse,
   FetchCanisterLogsResponse,
 } from "./types/ic-management.responses";
-import { decodeSnapshotId } from "./utils/ic-management.utils";
+import { mapSnapshotId } from "./utils/ic-management.utils";
 
 export class ICManagementCanister {
   private constructor(private readonly service: IcManagementService) {
@@ -384,12 +385,92 @@ export class ICManagementCanister {
     return take_canister_snapshot({
       canister_id: canisterId,
       replace_snapshot: toNullable(
-        nonNullish(snapshotId)
-          ? typeof snapshotId === "string"
-            ? decodeSnapshotId(snapshotId)
-            : snapshotId
-          : undefined,
+        nonNullish(snapshotId) ? mapSnapshotId(snapshotId) : undefined,
       ),
+    });
+  };
+
+  /**
+   * Lists the snapshots of a canister.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-list_canister_snapshots
+   *
+   * @param {Object} params - Parameters for the listing operation.
+   * @param {Principal} params.canisterId - The ID of the canister for which snapshots will be listed.
+   *
+   * @returns {Promise<list_canister_snapshots_result>} A promise that resolves with the list of snapshots.
+   *
+   * @throws {Error} If the operation fails.
+   */
+  listCanisterSnapshots = async ({
+    canisterId,
+  }: {
+    canisterId: Principal;
+  }): Promise<list_canister_snapshots_result> => {
+    const { list_canister_snapshots } = this.service;
+
+    return list_canister_snapshots({
+      canister_id: canisterId,
+    });
+  };
+
+  /**
+   * Loads a snapshot of a canister's state.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-load_canister_snapshot
+   *
+   * @param {Object} params - Parameters for the snapshot loading operation.
+   * @param {Principal} params.canisterId - The ID of the canister for which the snapshot will be loaded.
+   * @param {snapshot_id} params.snapshotId - The ID of the snapshot to load.
+   * @param {BigInt} [params.senderCanisterVersion] - The optional sender canister version. If provided, its value must be equal to ic0.canister_version.
+   *
+   * @returns {Promise<void>} A promise that resolves when the snapshot is successfully loaded.
+   *
+   * @throws {Error} If the snapshot loading operation fails.
+   */
+  loadCanisterSnapshot = async ({
+    canisterId,
+    snapshotId,
+    senderCanisterVersion,
+  }: {
+    canisterId: Principal;
+    snapshotId: SnapshotIdText | snapshot_id;
+    senderCanisterVersion?: bigint;
+  }): Promise<void> => {
+    const { load_canister_snapshot } = this.service;
+
+    await load_canister_snapshot({
+      canister_id: canisterId,
+      snapshot_id: mapSnapshotId(snapshotId),
+      sender_canister_version: toNullable(senderCanisterVersion),
+    });
+  };
+
+  /**
+   * Deletes a specific snapshot of a canister.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-delete_canister_snapshot
+   *
+   * @param {Object} params - Parameters for the deletion operation.
+   * @param {Principal} params.canisterId - The ID of the canister for which the snapshot will be deleted.
+   * @param {snapshot_id} params.snapshotId - The ID of the snapshot to delete.
+   *
+   * @returns {Promise<void>} A promise that resolves when the snapshot is successfully deleted.
+   *
+   * @throws {Error} If the deletion operation fails.
+   */
+  deleteCanisterSnapshot = async ({
+    canisterId,
+    snapshotId,
+  }: {
+    canisterId: Principal;
+    snapshotId: SnapshotIdText | snapshot_id;
+  }): Promise<void> => {
+    const { delete_canister_snapshot } = this.service;
+
+    await delete_canister_snapshot({
+      canister_id: canisterId,
+      snapshot_id: mapSnapshotId(snapshotId),
     });
   };
 }

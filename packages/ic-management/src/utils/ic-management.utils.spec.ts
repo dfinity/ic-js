@@ -1,5 +1,9 @@
 import { mockCanisterId } from "../ic-management.mock";
-import { decodeSnapshotId, encodeSnapshotId } from "./ic-management.utils";
+import {
+  decodeSnapshotId,
+  encodeSnapshotId,
+  mapSnapshotId,
+} from "./ic-management.utils";
 
 describe("ic-management.utils", () => {
   const mockLocalSubnetId = [0, 0, 0, 0, 0, 0, 0, 1];
@@ -28,5 +32,18 @@ describe("ic-management.utils", () => {
     const decoded = decodeSnapshotId(encoded);
 
     expect(decoded).toEqual(mockSnapshotId);
+  });
+
+  describe("mapSnapshotId", () => {
+    it("should map a Uint8Array snapshot ID without changes", () => {
+      const result = mapSnapshotId(mockSnapshotId);
+
+      expect(result).toEqual(mockSnapshotId);
+    });
+
+    it("should map a string snapshot ID by decoding it", () => {
+      const result = mapSnapshotId(snapshotIdHex);
+      expect(result).toEqual(mockSnapshotId);
+    });
   });
 });
