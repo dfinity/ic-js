@@ -1,6 +1,7 @@
 export type {
   canister_log_record,
   fetch_canister_logs_result,
+  list_canister_snapshots_result,
   snapshot_id,
 } from "../candid/ic-management";
 export { ICManagementCanister } from "./ic-management.canister";
