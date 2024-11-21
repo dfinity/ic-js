@@ -4,6 +4,7 @@ export type {
   chunk_hash,
   definite_canister_settings,
   fetch_canister_logs_result,
+  list_canister_snapshots_result,
   log_visibility,
   snapshot_id,
 } from "../candid/ic-management";
