@@ -280,7 +280,7 @@ Parameters:
 - `params.snapshotId`: - The ID of the snapshot to load.
 - `params.senderCanisterVersion`: - The optional sender canister version. If provided, its value must be equal to ic0.canister_version.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L410)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L406)
 
 <!-- TSDOC_END -->
 
