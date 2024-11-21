@@ -9,6 +9,7 @@ import {
 import type {
   _SERVICE as IcManagementService,
   chunk_hash,
+  list_canister_snapshots_result,
   snapshot_id,
   take_canister_snapshot_result,
 } from "../candid/ic-management";
@@ -386,6 +387,30 @@ export class ICManagementCanister {
       replace_snapshot: toNullable(
         nonNullish(snapshotId) ? mapSnapshotId(snapshotId) : undefined,
       ),
+    });
+  };
+
+  /**
+   * Lists the snapshots of a canister.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-list_canister_snapshots
+   *
+   * @param {Object} params - Parameters for the listing operation.
+   * @param {Principal} params.canisterId - The ID of the canister for which snapshots will be listed.
+   *
+   * @returns {Promise<list_canister_snapshots_result>} A promise that resolves with the list of snapshots.
+   *
+   * @throws {Error} If the operation fails.
+   */
+  listCanisterSnapshots = async ({
+    canisterId,
+  }: {
+    canisterId: Principal;
+  }): Promise<list_canister_snapshots_result> => {
+    const { list_canister_snapshots } = this.service;
+
+    return list_canister_snapshots({
+      canister_id: canisterId,
     });
   };
 

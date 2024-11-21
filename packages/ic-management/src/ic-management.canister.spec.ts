@@ -4,6 +4,7 @@ import { mock } from "jest-mock-extended";
 import type {
   _SERVICE as IcManagementService,
   chunk_hash,
+  list_canister_snapshots_result,
   take_canister_snapshot_result,
 } from "../candid/ic-management";
 import { ICManagementCanister } from "./ic-management.canister";
@@ -799,6 +800,72 @@ describe("ICManagementCanister", () => {
 
       const call = () =>
         icManagement.takeCanisterSnapshot({
+          canisterId: mockCanisterId,
+        });
+
+      await expect(call).rejects.toThrow(error);
+    });
+  });
+
+  describe("listCanisterSnapshots", () => {
+    const mockSnapshots = [
+      {
+        id: Uint8Array.from([1]),
+        total_size: 5000n,
+        taken_at_timestamp: 123n,
+      },
+      {
+        id: Uint8Array.from([2]),
+        total_size: 666n,
+        taken_at_timestamp: 456n,
+      },
+    ];
+
+    const mockResponse: list_canister_snapshots_result = mockSnapshots;
+
+    it("should return a list of snapshots for a canister", async () => {
+      const service = mock<IcManagementService>();
+      service.list_canister_snapshots.mockResolvedValue(mockResponse);
+
+      const icManagement = await createICManagement(service);
+
+      const res = await icManagement.listCanisterSnapshots({
+        canisterId: mockCanisterId,
+      });
+
+      expect(res).toEqual(mockSnapshots);
+
+      expect(service.list_canister_snapshots).toHaveBeenCalledWith({
+        canister_id: mockCanisterId,
+      });
+    });
+
+    it("should handle no snapshots and return an empty array", async () => {
+      const service = mock<IcManagementService>();
+      service.list_canister_snapshots.mockResolvedValue([]);
+
+      const icManagement = await createICManagement(service);
+
+      const res = await icManagement.listCanisterSnapshots({
+        canisterId: mockCanisterId,
+      });
+
+      expect(res).toEqual([]);
+
+      expect(service.list_canister_snapshots).toHaveBeenCalledWith({
+        canister_id: mockCanisterId,
+      });
+    });
+
+    it("should throw an error if list_canister_snapshots fails", async () => {
+      const error = new Error("Test error");
+      const service = mock<IcManagementService>();
+      service.list_canister_snapshots.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () =>
+        icManagement.listCanisterSnapshots({
           canisterId: mockCanisterId,
         });
 
