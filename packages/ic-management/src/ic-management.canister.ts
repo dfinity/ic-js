@@ -34,7 +34,7 @@ import type {
   CanisterStatusResponse,
   FetchCanisterLogsResponse,
 } from "./types/ic-management.responses";
-import { decodeSnapshotId } from "./utils/ic-management.utils";
+import { mapSnapshotId } from "./utils/ic-management.utils";
 
 export class ICManagementCanister {
   private constructor(private readonly service: IcManagementService) {
@@ -385,11 +385,7 @@ export class ICManagementCanister {
     return take_canister_snapshot({
       canister_id: canisterId,
       replace_snapshot: toNullable(
-        nonNullish(snapshotId)
-          ? typeof snapshotId === "string"
-            ? decodeSnapshotId(snapshotId)
-            : snapshotId
-          : undefined,
+        nonNullish(snapshotId) ? mapSnapshotId(snapshotId) : undefined,
       ),
     });
   };
