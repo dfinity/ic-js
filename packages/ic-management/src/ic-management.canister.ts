@@ -18,7 +18,6 @@ import { idlFactory } from "../candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
   toCanisterSettings,
-  toInstallMode,
   type ClearChunkStoreParams,
   type CreateCanisterParams,
   type InstallChunkedCodeParams,
@@ -130,19 +129,17 @@ export class ICManagementCanister {
    * @returns {Promise<void>}
    */
   installCode = ({
-    mode,
     canisterId,
     wasmModule,
-    arg,
     senderCanisterVersion,
+    ...rest
   }: InstallCodeParams): Promise<void> => {
     const { install_code } = this.service;
 
     return install_code({
-      mode: toInstallMode(mode),
+      ...rest,
       canister_id: canisterId,
       wasm_module: wasmModule,
-      arg,
       sender_canister_version: toNullable(senderCanisterVersion),
     });
   };
@@ -222,21 +219,19 @@ export class ICManagementCanister {
    * @returns {Promise<void>}
    */
   installChunkedCode = async ({
-    mode,
-    arg,
     senderCanisterVersion,
     chunkHashesList,
     targetCanisterId,
     storeCanisterId,
     wasmModuleHash,
+    ...rest
   }: InstallChunkedCodeParams): Promise<void> => {
     const { install_chunked_code } = this.service;
 
     await install_chunked_code({
-      mode: toInstallMode(mode),
+      ...rest,
       target_canister: targetCanisterId,
       store_canister: toNullable(storeCanisterId),
-      arg,
       sender_canister_version: toNullable(senderCanisterVersion),
       chunk_hashes_list: chunkHashesList,
       wasm_module_hash:

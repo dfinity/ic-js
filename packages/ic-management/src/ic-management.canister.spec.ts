@@ -1,8 +1,9 @@
 import { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { ServiceResponse, toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type {
+import {
   _SERVICE as IcManagementService,
+  canister_install_mode,
   chunk_hash,
   list_canister_snapshots_result,
   take_canister_snapshot_result,
@@ -18,10 +19,8 @@ import {
 import {
   CanisterSettings,
   InstallCodeParams,
-  InstallMode,
   LogVisibility,
   UnsupportedLogVisibility,
-  toInstallMode,
   type ClearChunkStoreParams,
   type InstallChunkedCodeParams,
   type StoredChunksParams,
@@ -35,6 +34,52 @@ import { decodeSnapshotId } from "./utils/ic-management.utils";
 
 describe("ICManagementCanister", () => {
   const mockAgent: HttpAgent = mock<HttpAgent>();
+
+  const mockInstallCodeModes: canister_install_mode[] = [
+    { install: null },
+    { reinstall: null },
+    { upgrade: [] },
+    {
+      upgrade: [
+        {
+          wasm_memory_persistence: [],
+          skip_pre_upgrade: [],
+        },
+      ],
+    },
+    {
+      upgrade: [
+        {
+          wasm_memory_persistence: [{ keep: null }],
+          skip_pre_upgrade: [],
+        },
+      ],
+    },
+    {
+      upgrade: [
+        {
+          wasm_memory_persistence: [{ replace: null }],
+          skip_pre_upgrade: [],
+        },
+      ],
+    },
+    {
+      upgrade: [
+        {
+          wasm_memory_persistence: [],
+          skip_pre_upgrade: [true],
+        },
+      ],
+    },
+    {
+      upgrade: [
+        {
+          wasm_memory_persistence: [{ replace: null }],
+          skip_pre_upgrade: [false],
+        },
+      ],
+    },
+  ];
 
   const createICManagement = async (service: IcManagementService) => {
     return ICManagementCanister.create({
@@ -209,7 +254,7 @@ describe("ICManagementCanister", () => {
   });
 
   describe("installCode", () => {
-    it.each([InstallMode.Install, InstallMode.Reinstall, InstallMode.Upgrade])(
+    it.each(mockInstallCodeModes)(
       "calls install_code with mode %s",
       async (mode) => {
         const params: InstallCodeParams = {
@@ -227,7 +272,7 @@ describe("ICManagementCanister", () => {
 
         expect(service.install_code).toHaveBeenCalledWith({
           wasm_module: params.wasmModule,
-          mode: toInstallMode(params.mode),
+          mode: params.mode,
           canister_id: params.canisterId,
           arg: params.arg,
           sender_canister_version: [],
@@ -238,7 +283,7 @@ describe("ICManagementCanister", () => {
     it("throws Error", async () => {
       const params: InstallCodeParams = {
         wasmModule: new Uint8Array([1, 2, 3]),
-        mode: InstallMode.Install,
+        mode: { install: null },
         arg: new Uint8Array(),
         canisterId: mockCanisterId,
       };
@@ -580,7 +625,7 @@ describe("ICManagementCanister", () => {
       chunkHashesList: [{ hash: [1, 2, 3] }, { hash: [4, 5, 6] }],
     };
 
-    it.each([InstallMode.Install, InstallMode.Reinstall, InstallMode.Upgrade])(
+    it.each(mockInstallCodeModes)(
       "calls install_chunked_code with mode %s",
       async (mode) => {
         const params: InstallChunkedCodeParams = {
@@ -597,7 +642,7 @@ describe("ICManagementCanister", () => {
 
         expect(service.install_chunked_code).toHaveBeenCalledWith({
           wasm_module_hash: params.wasmModuleHash,
-          mode: toInstallMode(params.mode),
+          mode: params.mode,
           target_canister: params.targetCanisterId,
           store_canister: toNullable(),
           arg: params.arg,
@@ -610,7 +655,7 @@ describe("ICManagementCanister", () => {
     it("should accept sha256 as hex string parameter", async () => {
       const params: InstallChunkedCodeParams = {
         ...installParams,
-        mode: InstallMode.Upgrade,
+        mode: { upgrade: [] },
         wasmModuleHash: sha256HashHex,
       };
       const service = mock<IcManagementService>();
@@ -622,7 +667,7 @@ describe("ICManagementCanister", () => {
 
       expect(service.install_chunked_code).toHaveBeenCalledWith({
         wasm_module_hash: sha256HashUint8Array,
-        mode: toInstallMode(params.mode),
+        mode: params.mode,
         target_canister: params.targetCanisterId,
         store_canister: toNullable(),
         arg: params.arg,
@@ -634,7 +679,7 @@ describe("ICManagementCanister", () => {
     it("should optionally target a particular store canister", async () => {
       const params: InstallChunkedCodeParams = {
         ...installParams,
-        mode: InstallMode.Upgrade,
+        mode: { upgrade: [] },
         wasmModuleHash: sha256HashHex,
         storeCanisterId: mockCanisterId,
       };
@@ -647,7 +692,7 @@ describe("ICManagementCanister", () => {
 
       expect(service.install_chunked_code).toHaveBeenCalledWith({
         wasm_module_hash: sha256HashUint8Array,
-        mode: toInstallMode(params.mode),
+        mode: { upgrade: [] },
         target_canister: params.targetCanisterId,
         store_canister: toNullable(mockCanisterId),
         arg: params.arg,
@@ -659,7 +704,7 @@ describe("ICManagementCanister", () => {
     it("throws Error", async () => {
       const params: InstallChunkedCodeParams = {
         ...installParams,
-        mode: InstallMode.Install,
+        mode: { install: null },
         wasmModuleHash: sha256HashUint8Array,
       };
       const error = new Error("Test");
