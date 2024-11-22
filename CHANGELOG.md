@@ -9,7 +9,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/ckbtc`         | v3.1.3  | Unchanged️          |
 | `@dfinity/cketh`         | v3.4.0  | Unchanged️          |
 | `@dfinity/cmc`           | v4.0.1  | Unchanged️          |
-| `@dfinity/ic-management` | v5.3.0  | Breaking Changes ⚠️ |
+| `@dfinity/ic-management` | v6.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/ledger-icp`    | v2.6.3  | Unchanged️          |
 | `@dfinity/ledger-icrc`   | v2.6.3  | Unchanged️          |
 | `@dfinity/nns`           | v8.0.0  | Unchanged️          |
