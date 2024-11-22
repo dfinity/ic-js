@@ -1,7 +1,8 @@
-import { ActorSubclass, HttpAgent } from "@dfinity/agent";
-import { ServiceResponse, toNullable } from "@dfinity/utils";
+import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
+import type { ServiceResponse } from "@dfinity/utils";
+import { toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import {
+import type {
   _SERVICE as IcManagementService,
   canister_install_mode,
   chunk_hash,
@@ -16,9 +17,11 @@ import {
   mockPrincipal,
   mockPrincipalText,
 } from "./ic-management.mock";
-import {
+import type {
   CanisterSettings,
   InstallCodeParams,
+} from "./types/ic-management.params";
+import {
   LogVisibility,
   UnsupportedLogVisibility,
   type ClearChunkStoreParams,
@@ -26,10 +29,8 @@ import {
   type StoredChunksParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
-import {
-  CanisterStatusResponse,
-  type FetchCanisterLogsResponse,
-} from "./types/ic-management.responses";
+import type { CanisterStatusResponse } from "./types/ic-management.responses";
+import { type FetchCanisterLogsResponse } from "./types/ic-management.responses";
 import { decodeSnapshotId } from "./utils/ic-management.utils";
 
 describe("ICManagementCanister", () => {
@@ -550,7 +551,7 @@ describe("ICManagementCanister", () => {
 
       const icManagement = await createICManagement(service);
 
-      const res = await icManagement.clearChunkStore(params);
+      await icManagement.clearChunkStore(params);
 
       expect(service.clear_chunk_store).toHaveBeenCalledWith({
         canister_id: params.canisterId,
@@ -721,15 +722,6 @@ describe("ICManagementCanister", () => {
 
   describe("fetchCanisterLogs", () => {
     it("returns canister logs when success", async () => {
-      const settings = {
-        freezing_threshold: BigInt(2),
-        controllers: [mockPrincipal],
-        memory_allocation: BigInt(4),
-        compute_allocation: BigInt(10),
-        reserved_cycles_limit: BigInt(11),
-        log_visibility: { controllers: null },
-        wasm_memory_limit: BigInt(500_00),
-      };
       const response: FetchCanisterLogsResponse = {
         canister_log_records: [
           {

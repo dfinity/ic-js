@@ -1,9 +1,7 @@
-import { Identity } from "@dfinity/agent";
+import type { Identity } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import {
-  CanisterSettings,
-  toCanisterSettings,
-} from "./types/ic-management.params";
+import type { CanisterSettings } from "./types/ic-management.params";
+import { toCanisterSettings } from "./types/ic-management.params";
 
 export const mockPrincipalText =
   "xlmdg-vkosz-ceopx-7wtgu-g3xmd-koiyc-awqaq-7modz-zf6r6-364rh-oqe";

@@ -10,7 +10,7 @@ import type {
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexNgCanister } from "./index-ng.canister";
 import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";
-import { IcrcAccount } from "./types/ledger.responses";
+import type { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
   afterEach(() => jest.clearAllMocks());
