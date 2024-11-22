@@ -121,7 +121,7 @@ export class ICManagementCanister {
    * Install code to a canister
    *
    * @param {Object} params
-   * @param {InstallMode} params.mode
+   * @param {canister_install_mode} params.mode
    * @param {Principal} params.canisterId
    * @param {Uint8Array} params.wasmModule
    * @param {Uint8Array} params.arg
@@ -209,7 +209,7 @@ export class ICManagementCanister {
    * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#ic-install_chunked_code
    *
    * @param {InstallChunkedCodeParams} params
-   * @param {InstallMode} params.mode Installation, re-installation or upgrade.
+   * @param {canister_install_mode} params.mode Installation, re-installation or upgrade.
    * @param {Uint8Array} params.arg The arguments of the canister.
    * @param {Uint8Array | undefined} params.senderCanisterVersion The optional sender_canister_version parameter can contain the caller's canister version.
    * @param {Array<chunk_hash>} params.chunkHashesList The list of chunks of the Wasm module to install.
