@@ -1,5 +1,5 @@
 import type { HttpAgent } from "@dfinity/agent";
-import { AgentManagerConfig } from "../utils/agent.utils";
+import type { AgentManagerConfig } from "../utils/agent.utils";
 
 export const mockHttpAgent = {
   call: jest.fn().mockResolvedValue({

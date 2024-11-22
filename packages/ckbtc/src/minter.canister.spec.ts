@@ -1,18 +1,16 @@
-import { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   Account,
   _SERVICE as CkBTCMinterService,
-  RetrieveBtcStatusV2,
-  Utxo,
-} from "../candid/minter";
-import {
   RetrieveBtcError,
   RetrieveBtcOk,
   RetrieveBtcStatus,
+  RetrieveBtcStatusV2,
   UpdateBalanceError,
+  Utxo,
 } from "../candid/minter";
 import {
   MinterAlreadyProcessingError,
@@ -28,7 +26,7 @@ import {
 } from "./errors/minter.errors";
 import { CkBTCMinterCanister } from "./minter.canister";
 import { bitcoinAddressMock, minterCanisterIdMock } from "./mocks/minter.mock";
-import { UpdateBalanceOk } from "./types/minter.responses";
+import type { UpdateBalanceOk } from "./types/minter.responses";
 
 describe("ckBTC minter canister", () => {
   const minter = (

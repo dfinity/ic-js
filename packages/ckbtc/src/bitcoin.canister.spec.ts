@@ -1,6 +1,5 @@
-import { ActorSubclass } from "@dfinity/agent";
-import { bitcoinAddressMock } from "@dfinity/ic-management/src/ic-management.mock";
-import { CanisterOptions } from "@dfinity/utils/src";
+import type { ActorSubclass } from "@dfinity/agent";
+import type { CanisterOptions } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   _SERVICE as BitcoinService,
@@ -8,8 +7,8 @@ import type {
   satoshi,
 } from "../candid/bitcoin";
 import { BitcoinCanister } from "./bitcoin.canister";
-import { bitcoinCanisterIdMock } from "./mocks/minter.mock";
-import { GetBalanceParams, GetUtxosParams } from "./types/bitcoin.params";
+import { bitcoinAddressMock, bitcoinCanisterIdMock } from "./mocks/minter.mock";
+import type { GetBalanceParams, GetUtxosParams } from "./types/bitcoin.params";
 
 describe("BitcoinCanister", () => {
   const createBitcoinCanister = (

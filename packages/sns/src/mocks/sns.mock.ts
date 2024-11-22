@@ -1,6 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import type { ListSnsCanistersResponse } from "../../candid/sns_root";
-import { Ticket } from "../../candid/sns_swap";
+import type { Ticket } from "../../candid/sns_swap";
 
 export const rootCanisterIdMock: Principal = Principal.fromText(
   "pin7y-wyaaa-aaaaa-aacpa-cai",

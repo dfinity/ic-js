@@ -1,4 +1,4 @@
-import { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
@@ -24,7 +24,7 @@ import {
   mockPrincipal,
   tokenMetadataResponseMock,
 } from "./mocks/ledger.mock";
-import {
+import type {
   AllowanceParams,
   ApproveParams,
   Icrc21ConsentMessageParams,
@@ -315,7 +315,6 @@ describe("Ledger canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const owner = Principal.fromText("aaaaa-aa");
       const res = await canister.allowance({
         ...allowanceParams,
         certified: true,

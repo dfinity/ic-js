@@ -1,7 +1,7 @@
-import { ActorSubclass, HttpAgent } from "@dfinity/agent";
+import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import type { QueryParams } from "@dfinity/utils";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
-import type { QueryParams } from "@dfinity/utils/src";
 import { mock } from "jest-mock-extended";
 import type {
   _SERVICE as CMCService,

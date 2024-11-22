@@ -40,7 +40,6 @@ describe("asserts-utils", () => {
       const getStringOrNull = (): string | null => "test";
       const value: string | null = getStringOrNull();
       assertNonNullish(value);
-      const nonNullValue: string = value;
     });
   });
 

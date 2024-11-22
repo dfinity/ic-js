@@ -1,12 +1,15 @@
-import type { TransferParams } from "@dfinity/ledger-icrc";
-import { IcrcIndexCanister, IcrcLedgerCanister } from "@dfinity/ledger-icrc";
+import type {
+  IcrcIndexCanister,
+  IcrcLedgerCanister,
+  TransferParams,
+} from "@dfinity/ledger-icrc";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import { ManageNeuronResponse, NeuronId } from "../candid/sns_governance";
+import type { ManageNeuronResponse, NeuronId } from "../candid/sns_governance";
 import { SnsNeuronPermissionType, SnsVote } from "./enums/governance.enums";
 import { SnsGovernanceError } from "./errors/governance.errors";
-import { SnsGovernanceCanister } from "./governance.canister";
+import type { SnsGovernanceCanister } from "./governance.canister";
 import {
   metadataMock,
   neuronIdMock,
@@ -15,9 +18,9 @@ import {
   proposalIdMock,
 } from "./mocks/governance.mock";
 import { mockPrincipal, tokenMetadataResponseMock } from "./mocks/ledger.mock";
-import { SnsRootCanister } from "./root.canister";
+import type { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
-import { SnsSwapCanister } from "./swap.canister";
+import type { SnsSwapCanister } from "./swap.canister";
 import type { SnsDisburseNeuronParams } from "./types/governance.params";
 
 describe("SnsWrapper", () => {

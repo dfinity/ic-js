@@ -1,13 +1,11 @@
-import { ActorSubclass, AnonymousIdentity } from "@dfinity/agent";
-import {
-  AccountIdentifier,
-  InvalidAccountIDError,
-  LedgerCanister,
-} from "@dfinity/ledger-icp";
+import type { ActorSubclass } from "@dfinity/agent";
+import { AnonymousIdentity } from "@dfinity/agent";
+import type { LedgerCanister } from "@dfinity/ledger-icp";
+import { AccountIdentifier, InvalidAccountIDError } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import {
+import type {
   ClaimOrRefreshNeuronFromAccountResponse,
   GovernanceError as GovernanceErrorDetail,
   _SERVICE as GovernanceService,
@@ -41,7 +39,7 @@ import {
   mockNeuronId,
   mockNeuronInfo,
 } from "./mocks/governance.mock";
-import {
+import type {
   Action,
   InstallCode,
   MakeProposalRequest,
@@ -287,7 +285,7 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const response = await governance.stakeNeuron({
+      await governance.stakeNeuron({
         stake: BigInt(100_000_000),
         principal: new AnonymousIdentity().getPrincipal(),
         ledgerCanister: mockLedger,
@@ -1260,7 +1258,7 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         serviceOverride: service,
       });
-      const response = await governance.claimOrRefreshNeuron({
+      await governance.claimOrRefreshNeuron({
         neuronId,
         by: { NeuronIdOrSubaccount: {} },
       });
@@ -1299,7 +1297,7 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const response = await governance.joinCommunityFund(neuronId);
+      await governance.joinCommunityFund(neuronId);
       expect(service.manage_neuron).toBeCalled();
     });
 
@@ -1997,7 +1995,7 @@ describe("GovernanceCanister", () => {
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
       });
-      const response = await governance.stopDissolving(neuronId);
+      await governance.stopDissolving(neuronId);
       expect(service.manage_neuron).toBeCalled();
     });
 

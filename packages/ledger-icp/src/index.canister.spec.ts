@@ -1,6 +1,6 @@
-import { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@dfinity/agent";
 import { mock } from "jest-mock-extended";
-import {
+import type {
   GetAccountIdentifierTransactionsError,
   GetAccountIdentifierTransactionsResponse,
   _SERVICE as IndexService,

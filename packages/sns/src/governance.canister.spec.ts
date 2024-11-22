@@ -38,7 +38,7 @@ import {
   proposalsMock,
 } from "./mocks/governance.mock";
 import { rootCanisterIdMock } from "./mocks/sns.mock";
-import {
+import type {
   SnsDisburseNeuronParams,
   SnsNeuronDisburseMaturityParams,
   SnsRegisterVoteParams,
@@ -219,9 +219,7 @@ describe("Governance canister", () => {
 
     it("should raise an error if call fails", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
-      const mockListProposals = service.list_proposals.mockRejectedValue(
-        new Error("error"),
-      );
+      service.list_proposals.mockRejectedValue(new Error("error"));
 
       const canister = SnsGovernanceCanister.create({
         canisterId: rootCanisterIdMock,
@@ -1061,7 +1059,6 @@ describe("Governance canister", () => {
     });
 
     it("should raise error", async () => {
-      const neuronId = { id: new Uint8Array() };
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
