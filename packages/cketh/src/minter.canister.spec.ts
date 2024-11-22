@@ -278,7 +278,8 @@ describe("ckETH minter canister", () => {
 
       expect(service.withdraw_erc20).toBeCalledTimes(1);
 
-      const { address, ledgerCanisterId: _, ...rest } = params;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { address, ledgerCanisterId, ...rest } = params;
       expect(service.withdraw_erc20).toBeCalledWith({
         recipient: address,
         ckerc20_ledger_id: ledgerCanisterIdMock,
@@ -306,7 +307,8 @@ describe("ckETH minter canister", () => {
 
           expect(service.withdraw_erc20).toBeCalledTimes(1);
 
-          const { address, ledgerCanisterId: _, ...rest } = params;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { address, ledgerCanisterId, ...rest } = params;
           expect(service.withdraw_erc20).toHaveBeenCalledWith({
             recipient: address,
             ckerc20_ledger_id: ledgerCanisterIdMock,
@@ -329,7 +331,8 @@ describe("ckETH minter canister", () => {
 
           expect(service.withdraw_erc20).toBeCalledTimes(1);
 
-          const { address, ledgerCanisterId: _, ...rest } = params;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { address, ledgerCanisterId, ...rest } = params;
           expect(service.withdraw_erc20).toHaveBeenCalledWith({
             recipient: address,
             ckerc20_ledger_id: ledgerCanisterIdMock,
@@ -353,7 +356,8 @@ describe("ckETH minter canister", () => {
 
           expect(service.withdraw_erc20).toBeCalledTimes(1);
 
-          const { address, ledgerCanisterId: _, ...rest } = params;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { address, ledgerCanisterId, ...rest } = params;
           expect(service.withdraw_erc20).toHaveBeenCalledWith({
             recipient: address,
             ckerc20_ledger_id: ledgerCanisterIdMock,

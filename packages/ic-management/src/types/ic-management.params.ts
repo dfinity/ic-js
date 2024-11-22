@@ -67,30 +67,8 @@ export interface UpdateSettingsParams {
   settings: CanisterSettings;
 }
 
-export enum InstallMode {
-  Install,
-  Reinstall,
-  Upgrade,
-}
-
-export const toInstallMode = (
-  installMode: InstallMode,
-): canister_install_mode => {
-  switch (installMode) {
-    case InstallMode.Install:
-      return { install: null };
-    case InstallMode.Reinstall:
-      return { reinstall: null };
-    case InstallMode.Upgrade:
-      // TODO: Support Upgrade mode skipping pre-upgrade and wasm_memory_persistence
-      // `upgrade` can also have `[{ skip_pre_upgrade: [] | [boolean] }]`
-      // or wasm_memory_persistence : opt variant {  keep;  replace;  };
-      return { upgrade: [] };
-  }
-};
-
 export interface InstallCodeParams {
-  mode: InstallMode;
+  mode: canister_install_mode;
   canisterId: Principal;
   wasmModule: Uint8Array;
   arg: Uint8Array;
