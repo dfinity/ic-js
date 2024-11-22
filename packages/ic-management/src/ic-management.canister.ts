@@ -46,7 +46,6 @@ export class ICManagementCanister {
     const transform = (
       _methodName: string,
       args: unknown[],
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _callConfig: CallConfig,
     ) => {
       const first = args[0] as { canister_id: string };
