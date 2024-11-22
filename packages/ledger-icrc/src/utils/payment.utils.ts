@@ -34,7 +34,6 @@ export const decodePayment = (
     return undefined;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, token, identifier, amount] = match;
 
   return {
