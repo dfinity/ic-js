@@ -18,7 +18,6 @@ import { idlFactory } from "../candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
   toCanisterSettings,
-  toInstallMode,
   type ClearChunkStoreParams,
   type CreateCanisterParams,
   type InstallChunkedCodeParams,
@@ -122,7 +121,7 @@ export class ICManagementCanister {
    * Install code to a canister
    *
    * @param {Object} params
-   * @param {InstallMode} params.mode
+   * @param {canister_install_mode} params.mode
    * @param {Principal} params.canisterId
    * @param {Uint8Array} params.wasmModule
    * @param {Uint8Array} params.arg
@@ -130,19 +129,17 @@ export class ICManagementCanister {
    * @returns {Promise<void>}
    */
   installCode = ({
-    mode,
     canisterId,
     wasmModule,
-    arg,
     senderCanisterVersion,
+    ...rest
   }: InstallCodeParams): Promise<void> => {
     const { install_code } = this.service;
 
     return install_code({
-      mode: toInstallMode(mode),
+      ...rest,
       canister_id: canisterId,
       wasm_module: wasmModule,
-      arg,
       sender_canister_version: toNullable(senderCanisterVersion),
     });
   };
@@ -212,7 +209,7 @@ export class ICManagementCanister {
    * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#ic-install_chunked_code
    *
    * @param {InstallChunkedCodeParams} params
-   * @param {InstallMode} params.mode Installation, re-installation or upgrade.
+   * @param {canister_install_mode} params.mode Installation, re-installation or upgrade.
    * @param {Uint8Array} params.arg The arguments of the canister.
    * @param {Uint8Array | undefined} params.senderCanisterVersion The optional sender_canister_version parameter can contain the caller's canister version.
    * @param {Array<chunk_hash>} params.chunkHashesList The list of chunks of the Wasm module to install.
@@ -222,21 +219,19 @@ export class ICManagementCanister {
    * @returns {Promise<void>}
    */
   installChunkedCode = async ({
-    mode,
-    arg,
     senderCanisterVersion,
     chunkHashesList,
     targetCanisterId,
     storeCanisterId,
     wasmModuleHash,
+    ...rest
   }: InstallChunkedCodeParams): Promise<void> => {
     const { install_chunked_code } = this.service;
 
     await install_chunked_code({
-      mode: toInstallMode(mode),
+      ...rest,
       target_canister: targetCanisterId,
       store_canister: toNullable(storeCanisterId),
-      arg,
       sender_canister_version: toNullable(senderCanisterVersion),
       chunk_hashes_list: chunkHashesList,
       wasm_module_hash:

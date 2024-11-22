@@ -1,4 +1,5 @@
 export type {
+  canister_install_mode,
   canister_log_record,
   canister_status_result,
   chunk_hash,

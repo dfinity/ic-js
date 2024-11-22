@@ -1,3 +1,9 @@
+# 2024.xx.yy-hhmmZ
+
+# Breaking changes
+
+- Inherits canister installation code arguments from Candid.
+
 # 2024.11.21-1600Z
 
 ## Overview
