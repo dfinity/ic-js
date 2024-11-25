@@ -98,6 +98,7 @@ export const idlFactory = ({ IDL }) => {
     'upgrade_steps' : IDL.Opt(Versions),
   });
   const TargetVersionReset = IDL.Record({
+    'human_readable' : IDL.Opt(IDL.Text),
     'old_target_version' : IDL.Opt(Version),
     'new_target_version' : IDL.Opt(Version),
   });
@@ -165,7 +166,7 @@ export const idlFactory = ({ IDL }) => {
   const PendingVersion = IDL.Record({
     'mark_failed_at_seconds' : IDL.Nat64,
     'checking_upgrade_lock' : IDL.Nat64,
-    'proposal_id' : IDL.Nat64,
+    'proposal_id' : IDL.Opt(IDL.Nat64),
     'target_version' : IDL.Opt(Version),
   });
   const GovernanceError = IDL.Record({
@@ -193,9 +194,21 @@ export const idlFactory = ({ IDL }) => {
   const MintSnsTokensActionAuxiliary = IDL.Record({
     'valuation' : IDL.Opt(Valuation),
   });
+  const SnsVersion = IDL.Record({
+    'archive_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'root_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'swap_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'ledger_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'governance_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'index_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
+  const AdvanceSnsTargetVersionActionAuxiliary = IDL.Record({
+    'target_version' : IDL.Opt(SnsVersion),
+  });
   const ActionAuxiliary = IDL.Variant({
     'TransferSnsTreasuryFunds' : MintSnsTokensActionAuxiliary,
     'MintSnsTokens' : MintSnsTokensActionAuxiliary,
+    'AdvanceSnsTargetVersion' : AdvanceSnsTargetVersionActionAuxiliary,
   });
   const Ballot = IDL.Record({
     'vote' : IDL.Int32,
@@ -244,6 +257,9 @@ export const idlFactory = ({ IDL }) => {
     'memo' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Opt(IDL.Nat64),
   });
+  const AdvanceSnsTargetVersion = IDL.Record({
+    'new_target' : IDL.Opt(SnsVersion),
+  });
   const ManageSnsMetadata = IDL.Record({
     'url' : IDL.Opt(IDL.Text),
     'logo' : IDL.Opt(IDL.Text),
@@ -272,6 +288,7 @@ export const idlFactory = ({ IDL }) => {
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'DeregisterDappCanisters' : DeregisterDappCanisters,
     'MintSnsTokens' : MintSnsTokens,
+    'AdvanceSnsTargetVersion' : AdvanceSnsTargetVersion,
     'Unspecified' : IDL.Record({}),
     'ManageSnsMetadata' : ManageSnsMetadata,
     'ExecuteGenericNervousSystemFunction' : ExecuteGenericNervousSystemFunction,
@@ -533,15 +550,16 @@ export const idlFactory = ({ IDL }) => {
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
-  const UpgradeInProgress = IDL.Record({
-    'mark_failed_at_seconds' : IDL.Nat64,
-    'checking_upgrade_lock' : IDL.Nat64,
-    'proposal_id' : IDL.Nat64,
-    'target_version' : IDL.Opt(Version),
-  });
   const GetRunningSnsVersionResponse = IDL.Record({
     'deployed_version' : IDL.Opt(Version),
-    'pending_version' : IDL.Opt(UpgradeInProgress),
+    'pending_version' : IDL.Opt(
+      IDL.Record({
+        'mark_failed_at_seconds' : IDL.Nat64,
+        'checking_upgrade_lock' : IDL.Nat64,
+        'proposal_id' : IDL.Nat64,
+        'target_version' : IDL.Opt(Version),
+      })
+    ),
   });
   const GetSnsInitializationParametersResponse = IDL.Record({
     'sns_initialization_parameters' : IDL.Text,
@@ -552,6 +570,7 @@ export const idlFactory = ({ IDL }) => {
     'upgrade_journal' : IDL.Opt(UpgradeJournal),
     'upgrade_steps' : IDL.Opt(Versions),
     'response_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'deployed_version' : IDL.Opt(Version),
     'target_version' : IDL.Opt(Version),
   });
   const ListNervousSystemFunctionsResponse = IDL.Record({
@@ -801,6 +820,7 @@ export const init = ({ IDL }) => {
     'upgrade_steps' : IDL.Opt(Versions),
   });
   const TargetVersionReset = IDL.Record({
+    'human_readable' : IDL.Opt(IDL.Text),
     'old_target_version' : IDL.Opt(Version),
     'new_target_version' : IDL.Opt(Version),
   });
@@ -868,7 +888,7 @@ export const init = ({ IDL }) => {
   const PendingVersion = IDL.Record({
     'mark_failed_at_seconds' : IDL.Nat64,
     'checking_upgrade_lock' : IDL.Nat64,
-    'proposal_id' : IDL.Nat64,
+    'proposal_id' : IDL.Opt(IDL.Nat64),
     'target_version' : IDL.Opt(Version),
   });
   const GovernanceError = IDL.Record({
@@ -896,9 +916,21 @@ export const init = ({ IDL }) => {
   const MintSnsTokensActionAuxiliary = IDL.Record({
     'valuation' : IDL.Opt(Valuation),
   });
+  const SnsVersion = IDL.Record({
+    'archive_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'root_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'swap_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'ledger_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'governance_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    'index_wasm_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
+  const AdvanceSnsTargetVersionActionAuxiliary = IDL.Record({
+    'target_version' : IDL.Opt(SnsVersion),
+  });
   const ActionAuxiliary = IDL.Variant({
     'TransferSnsTreasuryFunds' : MintSnsTokensActionAuxiliary,
     'MintSnsTokens' : MintSnsTokensActionAuxiliary,
+    'AdvanceSnsTargetVersion' : AdvanceSnsTargetVersionActionAuxiliary,
   });
   const Ballot = IDL.Record({
     'vote' : IDL.Int32,
@@ -947,6 +979,9 @@ export const init = ({ IDL }) => {
     'memo' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Opt(IDL.Nat64),
   });
+  const AdvanceSnsTargetVersion = IDL.Record({
+    'new_target' : IDL.Opt(SnsVersion),
+  });
   const ManageSnsMetadata = IDL.Record({
     'url' : IDL.Opt(IDL.Text),
     'logo' : IDL.Opt(IDL.Text),
@@ -975,6 +1010,7 @@ export const init = ({ IDL }) => {
     'UpgradeSnsControlledCanister' : UpgradeSnsControlledCanister,
     'DeregisterDappCanisters' : DeregisterDappCanisters,
     'MintSnsTokens' : MintSnsTokens,
+    'AdvanceSnsTargetVersion' : AdvanceSnsTargetVersion,
     'Unspecified' : IDL.Record({}),
     'ManageSnsMetadata' : ManageSnsMetadata,
     'ExecuteGenericNervousSystemFunction' : ExecuteGenericNervousSystemFunction,
