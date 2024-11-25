@@ -307,6 +307,12 @@ export interface stored_chunks_args {
   canister_id: canister_id;
 }
 export type stored_chunks_result = Array<chunk_hash>;
+export interface subnet_info_args {
+  subnet_id: Principal;
+}
+export interface subnet_info_result {
+  replica_version: string;
+}
 export interface take_canister_snapshot_args {
   replace_snapshot: [] | [snapshot_id];
   canister_id: canister_id;
@@ -404,6 +410,7 @@ export interface _SERVICE {
   start_canister: ActorMethod<[start_canister_args], undefined>;
   stop_canister: ActorMethod<[stop_canister_args], undefined>;
   stored_chunks: ActorMethod<[stored_chunks_args], stored_chunks_result>;
+  subnet_info: ActorMethod<[subnet_info_args], subnet_info_result>;
   take_canister_snapshot: ActorMethod<
     [take_canister_snapshot_args],
     take_canister_snapshot_result

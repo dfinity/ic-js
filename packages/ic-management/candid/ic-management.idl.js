@@ -323,6 +323,8 @@ export const idlFactory = ({ IDL }) => {
   const stop_canister_args = IDL.Record({ 'canister_id' : canister_id });
   const stored_chunks_args = IDL.Record({ 'canister_id' : canister_id });
   const stored_chunks_result = IDL.Vec(chunk_hash);
+  const subnet_info_args = IDL.Record({ 'subnet_id' : IDL.Principal });
+  const subnet_info_result = IDL.Record({ 'replica_version' : IDL.Text });
   const take_canister_snapshot_args = IDL.Record({
     'replace_snapshot' : IDL.Opt(snapshot_id),
     'canister_id' : canister_id,
@@ -448,6 +450,7 @@ export const idlFactory = ({ IDL }) => {
         [stored_chunks_result],
         [],
       ),
+    'subnet_info' : IDL.Func([subnet_info_args], [subnet_info_result], []),
     'take_canister_snapshot' : IDL.Func(
         [take_canister_snapshot_args],
         [take_canister_snapshot_result],
