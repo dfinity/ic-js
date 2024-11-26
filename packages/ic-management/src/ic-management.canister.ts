@@ -52,7 +52,7 @@ export class ICManagementCanister {
         { canister_id?: unknown; target_canister_id?: unknown }[],
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _callConfig: CallConfig,
-    ) => {
+    ): { effectiveCanisterId: Principal } => {
       const first = args[0];
 
       if (nonNullish(first) && typeof first === "object") {
