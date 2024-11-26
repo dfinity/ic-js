@@ -48,8 +48,10 @@ export class ICManagementCanister {
      */
     const transform = (
       _methodName: string,
-      args: Record<string, unknown> &
-        { canister_id?: unknown; target_canister_id?: unknown }[],
+      args: (Record<string, unknown> & {
+        canister_id?: unknown;
+        target_canister?: unknown;
+      })[],
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _callConfig: CallConfig,
     ): { effectiveCanisterId: Principal } => {
@@ -60,9 +62,9 @@ export class ICManagementCanister {
           return { effectiveCanisterId: Principal.from(first.canister_id) };
         }
 
-        if (nonNullish(first.target_canister_id)) {
+        if (nonNullish(first.target_canister)) {
           return {
-            effectiveCanisterId: Principal.from(first.target_canister_id),
+            effectiveCanisterId: Principal.from(first.target_canister),
           };
         }
       }
