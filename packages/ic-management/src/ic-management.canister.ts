@@ -41,20 +41,35 @@ export class ICManagementCanister {
   }
 
   public static create(options: ICManagementCanisterOptions) {
-    // Source getManagementCanister in agent-js.
-    // Allow usage of the ICManagementCanister wrapper locally.
+    /**
+     * Original source getManagementCanister in agent-js.
+     * Providing a transformer is required to determine the effective_canister_id when the request is an update call to the Management Canister (aaaaa-aa).
+     * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#http-effective-canister-id
+     */
     const transform = (
       _methodName: string,
-      args: unknown[],
+      args: Record<string, unknown> &
+        { canister_id?: unknown; target_canister_id?: unknown }[],
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _callConfig: CallConfig,
     ) => {
-      const first = args[0] as { canister_id: string };
-      let effectiveCanisterId = Principal.fromHex("");
-      if (first && typeof first === "object" && first.canister_id) {
-        effectiveCanisterId = Principal.from(first.canister_id as unknown);
+      const first = args[0];
+
+      if (nonNullish(first) && typeof first === "object") {
+        if (nonNullish(first.canister_id)) {
+          return { effectiveCanisterId: Principal.from(first.canister_id) };
+        }
+
+        if (nonNullish(first.target_canister_id)) {
+          return {
+            effectiveCanisterId: Principal.from(first.target_canister_id),
+          };
+        }
       }
-      return { effectiveCanisterId };
+
+      return {
+        effectiveCanisterId: Principal.fromHex(""),
+      };
     };
 
     const { service } = createServices<IcManagementService>({
