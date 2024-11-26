@@ -1,4 +1,3 @@
-import type { CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import {
   createServices,
@@ -34,6 +33,7 @@ import type {
   FetchCanisterLogsResponse,
 } from "./types/ic-management.responses";
 import { mapSnapshotId } from "./utils/ic-management.utils";
+import { transform } from "./utils/transform.utils";
 
 export class ICManagementCanister {
   private constructor(private readonly service: IcManagementService) {
@@ -41,21 +41,6 @@ export class ICManagementCanister {
   }
 
   public static create(options: ICManagementCanisterOptions) {
-    // Source getManagementCanister in agent-js.
-    // Allow usage of the ICManagementCanister wrapper locally.
-    const transform = (
-      _methodName: string,
-      args: unknown[],
-      _callConfig: CallConfig,
-    ) => {
-      const first = args[0] as { canister_id: string };
-      let effectiveCanisterId = Principal.fromHex("");
-      if (first && typeof first === "object" && first.canister_id) {
-        effectiveCanisterId = Principal.from(first.canister_id as unknown);
-      }
-      return { effectiveCanisterId };
-    };
-
     const { service } = createServices<IcManagementService>({
       options: {
         ...options,
