@@ -1,5 +1,11 @@
 # 2024.11.22-1600Z
 
+## Fix
+
+- The IC management function `install_chunked_code` failed on mainnet because the `target_canister` was not mapped as `effective_canister_id`, as defined by the IC specification.
+
+# 2024.11.22-1600Z
+
 ## Overview
 
 The current status of the libraries at the time of the release is as follows:
