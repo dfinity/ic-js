@@ -25,7 +25,7 @@ export const transform: CallTransform | QueryTransform = (
   })[],
   _callConfig: CallConfig,
 ): { effectiveCanisterId: Principal } => {
-  const first = args[0] as { canister_id: string };
+  const first = args[0];
 
   if (
     nonNullish(first) &&
