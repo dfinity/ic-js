@@ -21,7 +21,6 @@ export const transform: CallTransform | QueryTransform = (
   _methodName: string,
   args: (Record<string, unknown> & {
     canister_id?: unknown;
-    target_canister?: unknown;
   })[],
   _callConfig: CallConfig,
 ): { effectiveCanisterId: Principal } => {
