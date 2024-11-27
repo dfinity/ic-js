@@ -1,5 +1,6 @@
 import type { ActorConfig, CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
+import { nonNullish } from "@dfinity/utils";
 
 type CallTransform = Required<ActorConfig>["callTransform"];
 
@@ -18,13 +19,20 @@ type QueryTransform = Required<ActorConfig>["queryTransform"];
  **/
 export const transform: CallTransform | QueryTransform = (
   _methodName: string,
-  args: unknown[],
+  args: (Record<string, unknown> & {
+    canister_id?: unknown;
+  })[],
   _callConfig: CallConfig,
 ): { effectiveCanisterId: Principal } => {
-  const first = args[0] as { canister_id: string };
-  let effectiveCanisterId = Principal.fromHex("");
-  if (first && typeof first === "object" && first.canister_id) {
-    effectiveCanisterId = Principal.from(first.canister_id as unknown);
+  const first = args[0];
+
+  if (
+    nonNullish(first) &&
+    typeof first === "object" &&
+    nonNullish(first.canister_id)
+  ) {
+    return { effectiveCanisterId: Principal.from(first.canister_id) };
   }
-  return { effectiveCanisterId };
+
+  return { effectiveCanisterId: Principal.fromHex("") };
 };
