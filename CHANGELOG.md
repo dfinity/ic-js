@@ -1,8 +1,34 @@
-# 2024.11.22-1600Z
+# 2024.11.27-1300Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status        |
+| ------------------------ |---------|---------------|
+| `@dfinity/ckbtc`         | v3.1.4  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.1  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v4.0.2  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.0.1  | Patched 🩹    |
+| `@dfinity/ledger-icp`    | v2.6.3  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.6.3  | Unchanged️    |
+| `@dfinity/nns`           | v8.0.1  | Maintained ⚙️ |
+| `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
+| `@dfinity/sns`           | v3.2.5  | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.7.1  | Maintained ⚙️ |
+
+## Features
+
+- Added definition for `AdvanceSnsTargetVersion` to the SNS governance DID `Action` declarations.
 
 ## Fix
 
 - The IC management function `install_chunked_code` failed on mainnet because the `target_canister` was not mapped as `effective_canister_id`, as defined by the IC specification.
+
+## Chore
+
+- Enable eslint for tests.
+- Allow linter to permit underscore prefixes.
 
 # 2024.11.22-1600Z
 
