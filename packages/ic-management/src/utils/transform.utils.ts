@@ -18,20 +18,24 @@ type QueryTransform = Required<ActorConfig>["queryTransform"];
  * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#http-effective-canister-id
  **/
 export const transform: CallTransform | QueryTransform = (
-  _methodName: string,
+  methodName: string,
   args: (Record<string, unknown> & {
     canister_id?: unknown;
+    target_canister?: unknown;
   })[],
   _callConfig: CallConfig,
 ): { effectiveCanisterId: Principal } => {
   const first = args[0];
 
-  if (
-    nonNullish(first) &&
-    typeof first === "object" &&
-    nonNullish(first.canister_id)
-  ) {
-    return { effectiveCanisterId: Principal.from(first.canister_id) };
+  if (nonNullish(first) && typeof first === "object") {
+    if (
+      methodName === "install_chunked_code" &&
+      nonNullish(first.target_canister)
+    ) {
+      return { effectiveCanisterId: Principal.from(first.target_canister) };
+    } else if (nonNullish(first.canister_id)) {
+      return { effectiveCanisterId: Principal.from(first.canister_id) };
+    }
   }
 
   return { effectiveCanisterId: Principal.fromHex("") };
