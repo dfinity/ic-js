@@ -1,4 +1,4 @@
-// Generated from dfinity/portal commit 407ec5b92d06618c4df9f52e98514c5f4f44313e for file 'docs/references/_attachments/ic.did'
+// Generated from dfinity/portal commit 7b300dc97a1636f8134410e9a40f3556acf9b496 for file 'docs/references/_attachments/ic.did'
 type canister_id = principal;
 type wasm_module = blob;
 type snapshot_id = blob;
@@ -344,6 +344,14 @@ type node_metrics_history_result = vec record {
     node_metrics : vec node_metrics;
 };
 
+type subnet_info_args = record {
+    subnet_id : principal;
+};
+
+type subnet_info_result = record {
+    replica_version : text;
+};
+
 type provisional_create_canister_with_cycles_args = record {
     amount : opt nat;
     settings : opt canister_settings;
@@ -445,6 +453,9 @@ service ic : {
 
     // metrics interface
     node_metrics_history : (node_metrics_history_args) -> (node_metrics_history_result);
+
+    // subnet info
+    subnet_info : (subnet_info_args) -> (subnet_info_result);
 
     // provisional interfaces for the pre-ledger world
     provisional_create_canister_with_cycles : (provisional_create_canister_with_cycles_args) -> (provisional_create_canister_with_cycles_result);

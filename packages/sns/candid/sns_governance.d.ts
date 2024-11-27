@@ -19,6 +19,7 @@ export type Action =
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { DeregisterDappCanisters: DeregisterDappCanisters }
   | { MintSnsTokens: MintSnsTokens }
+  | { AdvanceSnsTargetVersion: AdvanceSnsTargetVersion }
   | { Unspecified: {} }
   | { ManageSnsMetadata: ManageSnsMetadata }
   | {
@@ -30,10 +31,17 @@ export type ActionAuxiliary =
   | {
       TransferSnsTreasuryFunds: MintSnsTokensActionAuxiliary;
     }
-  | { MintSnsTokens: MintSnsTokensActionAuxiliary };
+  | { MintSnsTokens: MintSnsTokensActionAuxiliary }
+  | { AdvanceSnsTargetVersion: AdvanceSnsTargetVersionActionAuxiliary };
 export interface AddNeuronPermissions {
   permissions_to_add: [] | [NeuronPermissionList];
   principal_id: [] | [Principal];
+}
+export interface AdvanceSnsTargetVersion {
+  new_target: [] | [SnsVersion];
+}
+export interface AdvanceSnsTargetVersionActionAuxiliary {
+  target_version: [] | [SnsVersion];
 }
 export interface Amount {
   e8s: bigint;
@@ -217,7 +225,16 @@ export interface GetProposalResponse {
 }
 export interface GetRunningSnsVersionResponse {
   deployed_version: [] | [Version];
-  pending_version: [] | [UpgradeInProgress];
+  pending_version:
+    | []
+    | [
+        {
+          mark_failed_at_seconds: bigint;
+          checking_upgrade_lock: bigint;
+          proposal_id: bigint;
+          target_version: [] | [Version];
+        },
+      ];
 }
 export interface GetSnsInitializationParametersResponse {
   sns_initialization_parameters: string;
@@ -230,6 +247,7 @@ export interface GetUpgradeJournalResponse {
   upgrade_journal: [] | [UpgradeJournal];
   upgrade_steps: [] | [Versions];
   response_timestamp_seconds: [] | [bigint];
+  deployed_version: [] | [Version];
   target_version: [] | [Version];
 }
 export interface Governance {
@@ -457,7 +475,7 @@ export type Participant = { NeuronsFund: NeuronsFund } | { Direct: {} };
 export interface PendingVersion {
   mark_failed_at_seconds: bigint;
   checking_upgrade_lock: bigint;
-  proposal_id: bigint;
+  proposal_id: [] | [bigint];
   target_version: [] | [Version];
 }
 export interface Percentage {
@@ -527,6 +545,14 @@ export interface SetDissolveTimestamp {
 export interface SetMode {
   mode: number;
 }
+export interface SnsVersion {
+  archive_wasm_hash: [] | [Uint8Array | number[]];
+  root_wasm_hash: [] | [Uint8Array | number[]];
+  swap_wasm_hash: [] | [Uint8Array | number[]];
+  ledger_wasm_hash: [] | [Uint8Array | number[]];
+  governance_wasm_hash: [] | [Uint8Array | number[]];
+  index_wasm_hash: [] | [Uint8Array | number[]];
+}
 export interface Split {
   memo: bigint;
   amount_e8s: bigint;
@@ -555,6 +581,7 @@ export interface Tally {
   timestamp_seconds: bigint;
 }
 export interface TargetVersionReset {
+  human_readable: [] | [string];
   old_target_version: [] | [Version];
   new_target_version: [] | [Version];
 }
@@ -580,7 +607,7 @@ export interface TransferSnsTreasuryFunds {
 export interface UpgradeInProgress {
   mark_failed_at_seconds: bigint;
   checking_upgrade_lock: bigint;
-  proposal_id: bigint;
+  proposal_id: [] | [bigint];
   target_version: [] | [Version];
 }
 export interface UpgradeJournal {

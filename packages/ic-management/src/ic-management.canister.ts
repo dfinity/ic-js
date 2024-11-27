@@ -1,4 +1,3 @@
-import type { CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import {
   createServices,
@@ -34,6 +33,7 @@ import type {
   FetchCanisterLogsResponse,
 } from "./types/ic-management.responses";
 import { mapSnapshotId } from "./utils/ic-management.utils";
+import { transform } from "./utils/transform.utils";
 
 export class ICManagementCanister {
   private constructor(private readonly service: IcManagementService) {
@@ -41,39 +41,6 @@ export class ICManagementCanister {
   }
 
   public static create(options: ICManagementCanisterOptions) {
-    /**
-     * Original source getManagementCanister in agent-js.
-     * Providing a transformer is required to determine the effective_canister_id when the request is an update call to the Management Canister (aaaaa-aa).
-     * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#http-effective-canister-id
-     */
-    const transform = (
-      _methodName: string,
-      args: (Record<string, unknown> & {
-        canister_id?: unknown;
-        target_canister?: unknown;
-      })[],
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      _callConfig: CallConfig,
-    ): { effectiveCanisterId: Principal } => {
-      const first = args[0];
-
-      if (nonNullish(first) && typeof first === "object") {
-        if (nonNullish(first.canister_id)) {
-          return { effectiveCanisterId: Principal.from(first.canister_id) };
-        }
-
-        if (nonNullish(first.target_canister)) {
-          return {
-            effectiveCanisterId: Principal.from(first.target_canister),
-          };
-        }
-      }
-
-      return {
-        effectiveCanisterId: Principal.fromHex(""),
-      };
-    };
-
     const { service } = createServices<IcManagementService>({
       options: {
         ...options,
