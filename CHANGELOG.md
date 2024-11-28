@@ -1,3 +1,9 @@
+# 2024.xx.yy-hhmmZ
+
+## Features
+
+- Expose a few additional types related to snapshots in `ic-management`.
+
 # 2024.11.27-1230Z
 
 ## Overview
