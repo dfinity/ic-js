@@ -1,4 +1,4 @@
-// Generated from IC repo commit 5d20289 (2024-11-21 tags: release-2024-11-21_03-11-24.04-base-kernel) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit f9085db (2024-11-28 tags: release-2024-11-28_03-15-revert-hashes-in-blocks) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -194,9 +194,6 @@ type InitArgs = record {
 
     /// The canister id of the KYT canister.
     kyt_principal: opt principal;
-
-    /// The canister id of the new KYT canister.
-    new_kyt_principal: opt principal;
 };
 
 // The upgrade parameters of the minter canister.
@@ -220,9 +217,6 @@ type UpgradeArgs = record {
 
     /// The principal of the KYT canister.
     kyt_principal : opt principal;
-
-    /// The principal of the new KYT canister.
-    new_kyt_principal : opt principal;
 };
 
 type RetrieveBtcStatus = variant {

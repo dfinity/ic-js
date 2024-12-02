@@ -744,6 +744,7 @@ export interface _SERVICE {
   list_proposals: ActorMethod<[ListProposals], ListProposalsResponse>;
   manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
   mint_tokens: ActorMethod<[MintTokensRequest], {}>;
+  refresh_cached_upgrade_steps: ActorMethod<[{}], {}>;
   reset_timers: ActorMethod<[{}], {}>;
   set_mode: ActorMethod<[SetMode], {}>;
   update_neuron: ActorMethod<[Neuron], [] | [GovernanceError]>;
