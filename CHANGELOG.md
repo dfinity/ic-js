@@ -3,6 +3,7 @@
 ## Features
 
 - Support `RefreshVotingPower` in `@dfinity/nns`.
+- Remove optional field `last_deposit_with_subaccount_scraped_block_number` from ckETH minter information.
 
 # 2024.11.27-1230Z
 
