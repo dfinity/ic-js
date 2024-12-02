@@ -125,7 +125,6 @@ export interface InitArgs {
   ecdsa_key_name: string;
   mode: Mode;
   retrieve_btc_min_amount: bigint;
-  new_kyt_principal: [] | [Principal];
   ledger_id: Principal;
   max_time_in_queue_nanos: bigint;
   btc_network: BtcNetwork;
@@ -231,7 +230,6 @@ export interface UpgradeArgs {
   kyt_principal: [] | [Principal];
   mode: [] | [Mode];
   retrieve_btc_min_amount: [] | [bigint];
-  new_kyt_principal: [] | [Principal];
   max_time_in_queue_nanos: [] | [bigint];
   min_confirmations: [] | [number];
   kyt_fee: [] | [bigint];

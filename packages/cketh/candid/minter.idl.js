@@ -264,7 +264,6 @@ export const idlFactory = ({ IDL }) => {
       )
     ),
     'minter_address' : IDL.Opt(IDL.Text),
-    'last_deposit_with_subaccount_scraped_block_number' : IDL.Opt(IDL.Nat),
     'ethereum_block_height' : IDL.Opt(BlockTag),
   });
   const EthTransaction = IDL.Record({ 'transaction_hash' : IDL.Text });
