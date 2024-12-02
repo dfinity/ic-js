@@ -106,7 +106,8 @@ export type Command =
   | { MergeMaturity: MergeMaturity }
   | { StakeMaturity: StakeMaturity }
   | { MakeProposal: Proposal }
-  | { Disburse: Disburse };
+  | { Disburse: Disburse }
+  | { RefreshVotingPower: RefreshVotingPower };
 export type ManageNeuronCommandRequest =
   | { Spawn: Spawn }
   | { Split: Split }
@@ -122,6 +123,9 @@ export type ManageNeuronCommandRequest =
   | { Disburse: Disburse };
 export interface Configure {
   operation: Option<Operation>;
+}
+export interface RefreshVotingPower {
+  // Intentionally left blank.
 }
 export interface Disburse {
   toAccountId: Option<AccountIdentifierHex>;

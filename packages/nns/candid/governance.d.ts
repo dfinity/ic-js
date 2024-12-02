@@ -91,6 +91,7 @@ export type Command =
   | { Spawn: Spawn }
   | { Split: Split }
   | { Follow: Follow }
+  | { RefreshVotingPower: RefreshVotingPower }
   | { ClaimOrRefresh: ClaimOrRefresh }
   | { Configure: Configure }
   | { RegisterVote: RegisterVote }
@@ -105,6 +106,7 @@ export type Command_1 =
   | { Spawn: SpawnResponse }
   | { Split: SpawnResponse }
   | { Follow: {} }
+  | { RefreshVotingPower: RefreshVotingPowerResponse }
   | { ClaimOrRefresh: ClaimOrRefreshResponse }
   | { Configure: {} }
   | { RegisterVote: {} }
@@ -716,6 +718,8 @@ export interface ProposalInfo {
   proposer: [] | [NeuronId];
   executed_timestamp_seconds: bigint;
 }
+export type RefreshVotingPower = {};
+export type RefreshVotingPowerResponse = {};
 export interface RegisterVote {
   vote: number;
   proposal: [] | [ProposalId];

@@ -1,3 +1,9 @@
+# YYYY.MM.DD-HHMMZ
+
+## Features
+
+- Support `RefreshVotingPower` in `@dfinity/nns`.
+
 # 2024.11.27-1230Z
 
 ## Overview
