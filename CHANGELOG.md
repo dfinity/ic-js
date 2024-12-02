@@ -1,7 +1,8 @@
-# 2024.xx.yy-hhmmZ
+# YYYY.MM.DD-HHMMZ
 
 ## Features
 
+- Support `RefreshVotingPower` in `@dfinity/nns`.
 - Expose a few additional types related to snapshots in `ic-management`.
 
 # 2024.11.27-1230Z

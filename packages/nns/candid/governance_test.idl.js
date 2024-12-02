@@ -22,6 +22,7 @@ export const idlFactory = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
+  const RefreshVotingPower = IDL.Record({});
   const ClaimOrRefreshNeuronFromAccount = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
     'memo' : IDL.Nat64,
@@ -86,6 +87,7 @@ export const idlFactory = ({ IDL }) => {
     'Spawn' : Spawn,
     'Split' : Split,
     'Follow' : Follow,
+    'RefreshVotingPower' : RefreshVotingPower,
     'ClaimOrRefresh' : ClaimOrRefresh,
     'Configure' : Configure,
     'RegisterVote' : RegisterVote,
@@ -808,6 +810,7 @@ export const idlFactory = ({ IDL }) => {
     })
   );
   const SpawnResponse = IDL.Record({ 'created_neuron_id' : IDL.Opt(NeuronId) });
+  const RefreshVotingPowerResponse = IDL.Record({});
   const ClaimOrRefreshResponse = IDL.Record({
     'refreshed_neuron_id' : IDL.Opt(NeuronId),
   });
@@ -835,6 +838,7 @@ export const idlFactory = ({ IDL }) => {
     'Spawn' : SpawnResponse,
     'Split' : SpawnResponse,
     'Follow' : IDL.Record({}),
+    'RefreshVotingPower' : RefreshVotingPowerResponse,
     'ClaimOrRefresh' : ClaimOrRefreshResponse,
     'Configure' : IDL.Record({}),
     'RegisterVote' : IDL.Record({}),
@@ -1008,6 +1012,7 @@ export const init = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
+  const RefreshVotingPower = IDL.Record({});
   const ClaimOrRefreshNeuronFromAccount = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
     'memo' : IDL.Nat64,
@@ -1072,6 +1077,7 @@ export const init = ({ IDL }) => {
     'Spawn' : Spawn,
     'Split' : Split,
     'Follow' : Follow,
+    'RefreshVotingPower' : RefreshVotingPower,
     'ClaimOrRefresh' : ClaimOrRefresh,
     'Configure' : Configure,
     'RegisterVote' : RegisterVote,

@@ -735,6 +735,13 @@ const toCommand = (command: RawCommand): Command => {
       },
     };
   }
+  if ("RefreshVotingPower" in command) {
+    return {
+      RefreshVotingPower: {
+        // Intentionally left blank.
+      },
+    };
+  }
 
   throw new UnsupportedValueError(command);
 };
