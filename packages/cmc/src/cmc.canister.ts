@@ -1,6 +1,6 @@
 import type { Principal } from "@dfinity/principal";
 import { Canister, createServices, type QueryParams } from "@dfinity/utils";
-import {
+import type {
   _SERVICE as CMCCanisterService,
   Cycles,
   NotifyCreateCanisterArg,
