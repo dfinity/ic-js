@@ -1,4 +1,4 @@
-// Generated from IC repo commit 5d20289 (2024-11-21 tags: release-2024-11-21_03-11-24.04-base-kernel) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit f9085db (2024-11-28 tags: release-2024-11-28_03-15-revert-hashes-in-blocks) 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;
@@ -860,4 +860,5 @@ service : (Governance) -> {
   advance_target_version : (AdvanceTargetVersionRequest) -> (AdvanceTargetVersionResponse);
   reset_timers : (record {}) -> (record {});
   get_timers : (record {}) -> (GetTimersResponse) query;
+  refresh_cached_upgrade_steps : (record {}) -> (record {});
 }

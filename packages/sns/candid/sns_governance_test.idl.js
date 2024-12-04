@@ -724,6 +724,11 @@ export const idlFactory = ({ IDL }) => {
       ),
     'manage_neuron' : IDL.Func([ManageNeuron], [ManageNeuronResponse], []),
     'mint_tokens' : IDL.Func([MintTokensRequest], [IDL.Record({})], []),
+    'refresh_cached_upgrade_steps' : IDL.Func(
+        [IDL.Record({})],
+        [IDL.Record({})],
+        [],
+      ),
     'reset_timers' : IDL.Func([IDL.Record({})], [IDL.Record({})], []),
     'set_mode' : IDL.Func([SetMode], [IDL.Record({})], []),
     'update_neuron' : IDL.Func([Neuron], [IDL.Opt(GovernanceError)], []),

@@ -256,7 +256,6 @@ export interface MinterInfo {
     | []
     | [Array<{ balance: bigint; erc20_contract_address: string }>];
   minter_address: [] | [string];
-  last_deposit_with_subaccount_scraped_block_number: [] | [bigint];
   ethereum_block_height: [] | [BlockTag];
 }
 export interface QueryStats {
