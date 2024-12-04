@@ -3,11 +3,12 @@ import { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type {
+import {
   _SERVICE as CMCService,
   IcpXdrConversionRateResponse,
   NotifyCreateCanisterResult,
   NotifyTopUpResult,
+  SubnetTypesToSubnetsResponse,
 } from "../candid/cmc";
 import { CMCCanister } from "./cmc.canister";
 import {
@@ -352,6 +353,83 @@ describe("CyclesMintingCanister", () => {
         "Test",
       );
       expect(service.get_default_subnets).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("CMCCanister.getSubnetTypesToSubnets", () => {
+    const expectedSubnets: SubnetTypesToSubnetsResponse = {
+      data: [
+        [
+          "european",
+          [
+            Principal.fromText(
+              "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+            ),
+          ],
+        ],
+        [
+          "fiduciary",
+          [
+            Principal.fromText(
+              "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+            ),
+          ],
+        ],
+      ],
+    };
+
+    it("should return a list of default subnets for a query", async () => {
+      const service = mock<CMCService>();
+      service.get_subnet_types_to_subnets.mockResolvedValue(expectedSubnets);
+
+      const cmc = await createCMC(service);
+
+      const callerSpy = jest.spyOn(
+        cmc as unknown as {
+          caller: (params: QueryParams) => Promise<CMCService>;
+        },
+        "caller",
+      );
+
+      const result = await cmc.getSubnetTypesToSubnets({ certified: false });
+
+      expect(result).toEqual(expectedSubnets);
+      expect(service.get_subnet_types_to_subnets).toHaveBeenCalledTimes(1);
+
+      expect(callerSpy).toHaveBeenCalledWith({ certified: false });
+    });
+
+    it("should return a list of default subnets for an update", async () => {
+      const service = mock<CMCService>();
+      service.get_subnet_types_to_subnets.mockResolvedValue(expectedSubnets);
+
+      const cmc = await createCMC(service);
+
+      const callerSpy = jest.spyOn(
+        cmc as unknown as {
+          caller: (params: QueryParams) => Promise<CMCService>;
+        },
+        "caller",
+      );
+
+      const result = await cmc.getSubnetTypesToSubnets({ certified: true });
+
+      expect(result).toEqual(expectedSubnets);
+      expect(service.get_subnet_types_to_subnets).toHaveBeenCalledTimes(1);
+
+      expect(callerSpy).toHaveBeenCalledWith({ certified: true });
+    });
+
+    it("should throw an error if the canister call ends in error", async () => {
+      const service = mock<CMCService>();
+      service.get_subnet_types_to_subnets.mockRejectedValue(new Error("Test"));
+
+      const cmc = await createCMC(service);
+
+      await expect(
+        cmc.getSubnetTypesToSubnets({ certified: true }),
+      ).rejects.toThrow("Test");
+      expect(service.get_subnet_types_to_subnets).toHaveBeenCalledTimes(1);
     });
   });
 });
