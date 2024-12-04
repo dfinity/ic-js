@@ -127,7 +127,7 @@ Parameters:
 
 This function calls the `get_subnet_types_to_subnets` method of the CMC canister, which returns a list of subnets where canisters can be created.
 These subnets are excluded from the random subnet selection process used by the CMC when no explicit subnet ID is provided
-during canister creation.
+during canister creation and therefore, not provided in the results of the similar function `get_default_subnets`.
 
 | Method                    | Type                                                                      |
 | ------------------------- | ------------------------------------------------------------------------- |
