@@ -5,6 +5,7 @@ import type {
   Cycles,
   NotifyCreateCanisterArg,
   NotifyTopUpArg,
+  SubnetTypesToSubnetsResponse,
 } from "../candid/cmc";
 import { idlFactory as certifiedIdlFactory } from "../candid/cmc.certified.idl";
 import { idlFactory } from "../candid/cmc.idl";
@@ -103,5 +104,24 @@ export class CMCCanister extends Canister<CMCCanisterService> {
   > => {
     const { get_default_subnets } = this.caller({ certified });
     return get_default_subnets();
+  };
+
+  /**
+   * This function calls the `get_subnet_types_to_subnets` method of the CMC canister, which returns a list of subnets where canisters can be created.
+   * These subnets are excluded from the random subnet selection process used by the CMC when no explicit subnet ID is provided
+   * during canister creation and therefore, not provided in the results of the similar function `get_default_subnets`.
+   *
+   * @param {Object} [params] - The optional query parameters for the call.
+   * @param {boolean} [params.certified=false] - Specifies whether the response should be certified.
+   * If not provided, the response defaults to non-certified.
+   *
+   * @returns {Promise<SubnetTypesToSubnetsResponse>} - A promise that resolves to an object representing
+   * the mapping of subnet types to subnets.
+   */
+  public getSubnetTypesToSubnets = async ({
+    certified,
+  }: QueryParams = {}): Promise<SubnetTypesToSubnetsResponse> => {
+    const { get_subnet_types_to_subnets } = this.caller({ certified });
+    return get_subnet_types_to_subnets();
   };
 }
