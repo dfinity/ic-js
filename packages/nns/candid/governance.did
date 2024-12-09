@@ -1,4 +1,4 @@
-// Generated from IC repo commit d9fe207 (2024-12-06 tags: release-2024-12-06_03-16-base) 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 29286b5f3c (2024-12-09) 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
@@ -123,6 +123,7 @@ type RefreshVotingPowerResponse = record {
   // minimal until we discover there is a "real need". YAGNI.
 };
 
+// KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
 type Command = variant {
   Spawn : Spawn;
   Split : Split;
@@ -137,6 +138,8 @@ type Command = variant {
   MergeMaturity : MergeMaturity;
   Disburse : Disburse;
   RefreshVotingPower : RefreshVotingPower;
+
+  // KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
 };
 
 type Command_1 = variant {
@@ -490,6 +493,7 @@ type ManageNeuron = record {
   neuron_id_or_subaccount : opt NeuronIdOrSubaccount;
 };
 
+// KEEP THIS IN SYNC WITH COMMAND!
 type ManageNeuronCommandRequest = variant {
   Spawn : Spawn;
   Split : Split;
@@ -503,6 +507,9 @@ type ManageNeuronCommandRequest = variant {
   StakeMaturity : StakeMaturity;
   MergeMaturity : MergeMaturity;
   Disburse : Disburse;
+  RefreshVotingPower : RefreshVotingPower;
+
+  // KEEP THIS IN SYNC WITH COMMAND!
 };
 
 type ManageNeuronRequest = record {

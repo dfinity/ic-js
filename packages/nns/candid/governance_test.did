@@ -1,4 +1,4 @@
-// Generated from IC repo commit d9fe207 (2024-12-06 tags: release-2024-12-06_03-16-base) 'rs/nns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 29286b5f3c (2024-12-09) 'rs/nns/governance/canister/governance_test.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
@@ -505,6 +505,7 @@ type ManageNeuronCommandRequest = variant {
   StakeMaturity : StakeMaturity;
   MergeMaturity : MergeMaturity;
   Disburse : Disburse;
+  RefreshVotingPower : RefreshVotingPower;
 };
 
 type ManageNeuronRequest = record {
