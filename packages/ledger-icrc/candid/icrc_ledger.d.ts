@@ -364,6 +364,7 @@ export interface _SERVICE {
     [],
     Array<{ url: string; block_type: string }>
   >;
+  is_ledger_ready: ActorMethod<[], boolean>;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
 export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];

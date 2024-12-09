@@ -459,6 +459,7 @@ export interface Motion {
 }
 export interface NetworkEconomics {
   neuron_minimum_stake_e8s: bigint;
+  voting_power_economics: [] | [VotingPowerEconomics];
   max_proposals_to_keep_per_topic: number;
   neuron_management_fee_per_proposal_e8s: bigint;
   reject_cost_e8s: bigint;
@@ -475,9 +476,11 @@ export interface Neuron {
   recent_ballots: Array<BallotInfo>;
   voting_power_refreshed_timestamp_seconds: [] | [bigint];
   kyc_verified: boolean;
+  potential_voting_power: [] | [bigint];
   neuron_type: [] | [number];
   not_for_profit: boolean;
   maturity_e8s_equivalent: bigint;
+  deciding_voting_power: [] | [bigint];
   cached_neuron_stake_e8s: bigint;
   created_timestamp_seconds: bigint;
   auto_stake_maturity: [] | [boolean];
@@ -522,7 +525,9 @@ export interface NeuronInfo {
   dissolve_delay_seconds: bigint;
   recent_ballots: Array<BallotInfo>;
   voting_power_refreshed_timestamp_seconds: [] | [bigint];
+  potential_voting_power: [] | [bigint];
   neuron_type: [] | [number];
+  deciding_voting_power: [] | [bigint];
   created_timestamp_seconds: bigint;
   state: number;
   stake_e8s: bigint;
@@ -884,6 +889,10 @@ export interface UpdateCanisterSettings {
 }
 export interface UpdateNodeProvider {
   reward_account: [] | [AccountIdentifier];
+}
+export interface VotingPowerEconomics {
+  start_reducing_voting_power_after_seconds: [] | [bigint];
+  clear_following_after_seconds: [] | [bigint];
 }
 export interface VotingRewardParameters {
   reward_rate_transition_duration: [] | [Duration];

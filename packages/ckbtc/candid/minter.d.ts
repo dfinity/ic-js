@@ -85,6 +85,13 @@ export type Event =
       };
     }
   | {
+      suspended_utxo: {
+        utxo: Utxo;
+        account: Account;
+        reason: SuspendedReason;
+      };
+    }
+  | {
       accepted_retrieve_btc_request: {
         received_at: bigint;
         block_index: bigint;
@@ -113,6 +120,7 @@ export type Event =
         submitted_at: bigint;
       };
     }
+  | { checked_utxo_v2: { utxo: Utxo; account: Account } }
   | { ignored_utxo: { utxo: Utxo } }
   | {
       reimbursed_failed_deposit: {
@@ -128,6 +136,8 @@ export interface InitArgs {
   ledger_id: Principal;
   max_time_in_queue_nanos: bigint;
   btc_network: BtcNetwork;
+  check_fee: [] | [bigint];
+  btc_checker_principal: [] | [Principal];
   min_confirmations: [] | [number];
   kyt_fee: [] | [bigint];
 }
@@ -213,6 +223,13 @@ export type RetrieveBtcWithApprovalError =
   | { AlreadyProcessing: null }
   | { AmountTooLow: bigint }
   | { InsufficientFunds: { balance: bigint } };
+export type SuspendedReason = { ValueTooSmall: null } | { Quarantined: null };
+export interface SuspendedUtxo {
+  utxo: Utxo;
+  earliest_retry: Timestamp;
+  reason: SuspendedReason;
+}
+export type Timestamp = bigint;
 export type UpdateBalanceError =
   | {
       GenericError: { error_message: string; error_code: bigint };
@@ -221,6 +238,7 @@ export type UpdateBalanceError =
   | { AlreadyProcessing: null }
   | {
       NoNewUtxos: {
+        suspended_utxos: [] | [Array<SuspendedUtxo>];
         required_confirmations: number;
         pending_utxos: [] | [Array<PendingUtxo>];
         current_confirmations: [] | [number];
@@ -231,6 +249,8 @@ export interface UpgradeArgs {
   mode: [] | [Mode];
   retrieve_btc_min_amount: [] | [bigint];
   max_time_in_queue_nanos: [] | [bigint];
+  check_fee: [] | [bigint];
+  btc_checker_principal: [] | [Principal];
   min_confirmations: [] | [number];
   kyt_fee: [] | [bigint];
 }

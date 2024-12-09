@@ -276,6 +276,10 @@ export const idlFactory = ({ IDL }) => {
     'use_registry_derived_rewards' : IDL.Opt(IDL.Bool),
     'rewards' : IDL.Vec(RewardNodeProvider),
   });
+  const VotingPowerEconomics = IDL.Record({
+    'start_reducing_voting_power_after_seconds' : IDL.Opt(IDL.Nat64),
+    'clear_following_after_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const Decimal = IDL.Record({ 'human_readable' : IDL.Opt(IDL.Text) });
   const NeuronsFundMatchedFundingCurveCoefficients = IDL.Record({
     'contribution_threshold_xdr' : IDL.Opt(Decimal),
@@ -292,6 +296,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const NetworkEconomics = IDL.Record({
     'neuron_minimum_stake_e8s' : IDL.Nat64,
+    'voting_power_economics' : IDL.Opt(VotingPowerEconomics),
     'max_proposals_to_keep_per_topic' : IDL.Nat32,
     'neuron_management_fee_per_proposal_e8s' : IDL.Nat64,
     'reject_cost_e8s' : IDL.Nat64,
@@ -604,9 +609,11 @@ export const idlFactory = ({ IDL }) => {
     'recent_ballots' : IDL.Vec(BallotInfo),
     'voting_power_refreshed_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'kyc_verified' : IDL.Bool,
+    'potential_voting_power' : IDL.Opt(IDL.Nat64),
     'neuron_type' : IDL.Opt(IDL.Int32),
     'not_for_profit' : IDL.Bool,
     'maturity_e8s_equivalent' : IDL.Nat64,
+    'deciding_voting_power' : IDL.Opt(IDL.Nat64),
     'cached_neuron_stake_e8s' : IDL.Nat64,
     'created_timestamp_seconds' : IDL.Nat64,
     'auto_stake_maturity' : IDL.Opt(IDL.Bool),
@@ -671,7 +678,9 @@ export const idlFactory = ({ IDL }) => {
     'dissolve_delay_seconds' : IDL.Nat64,
     'recent_ballots' : IDL.Vec(BallotInfo),
     'voting_power_refreshed_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'potential_voting_power' : IDL.Opt(IDL.Nat64),
     'neuron_type' : IDL.Opt(IDL.Int32),
+    'deciding_voting_power' : IDL.Opt(IDL.Nat64),
     'created_timestamp_seconds' : IDL.Nat64,
     'state' : IDL.Int32,
     'stake_e8s' : IDL.Nat64,
@@ -1250,6 +1259,10 @@ export const init = ({ IDL }) => {
     'use_registry_derived_rewards' : IDL.Opt(IDL.Bool),
     'rewards' : IDL.Vec(RewardNodeProvider),
   });
+  const VotingPowerEconomics = IDL.Record({
+    'start_reducing_voting_power_after_seconds' : IDL.Opt(IDL.Nat64),
+    'clear_following_after_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const Decimal = IDL.Record({ 'human_readable' : IDL.Opt(IDL.Text) });
   const NeuronsFundMatchedFundingCurveCoefficients = IDL.Record({
     'contribution_threshold_xdr' : IDL.Opt(Decimal),
@@ -1266,6 +1279,7 @@ export const init = ({ IDL }) => {
   });
   const NetworkEconomics = IDL.Record({
     'neuron_minimum_stake_e8s' : IDL.Nat64,
+    'voting_power_economics' : IDL.Opt(VotingPowerEconomics),
     'max_proposals_to_keep_per_topic' : IDL.Nat32,
     'neuron_management_fee_per_proposal_e8s' : IDL.Nat64,
     'reject_cost_e8s' : IDL.Nat64,
@@ -1578,9 +1592,11 @@ export const init = ({ IDL }) => {
     'recent_ballots' : IDL.Vec(BallotInfo),
     'voting_power_refreshed_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'kyc_verified' : IDL.Bool,
+    'potential_voting_power' : IDL.Opt(IDL.Nat64),
     'neuron_type' : IDL.Opt(IDL.Int32),
     'not_for_profit' : IDL.Bool,
     'maturity_e8s_equivalent' : IDL.Nat64,
+    'deciding_voting_power' : IDL.Opt(IDL.Nat64),
     'cached_neuron_stake_e8s' : IDL.Nat64,
     'created_timestamp_seconds' : IDL.Nat64,
     'auto_stake_maturity' : IDL.Opt(IDL.Bool),
