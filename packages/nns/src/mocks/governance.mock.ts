@@ -21,6 +21,8 @@ export const mockNeuronInfo: NeuronInfo = {
   age_seconds: one,
   visibility: [1],
   voting_power_refreshed_timestamp_seconds: [],
+  potential_voting_power: [one],
+  deciding_voting_power: [one],
 };
 export const mockNeuron: Neuron = {
   id: [{ id: mockNeuronId }],
@@ -46,6 +48,8 @@ export const mockNeuron: Neuron = {
   spawn_at_timestamp_seconds: [],
   visibility: [1],
   voting_power_refreshed_timestamp_seconds: [],
+  potential_voting_power: [one],
+  deciding_voting_power: [one],
 };
 export const mockListNeuronsResponse: ListNeuronsResponse = {
   neuron_infos: [[mockNeuronId, mockNeuronInfo]],
