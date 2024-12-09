@@ -46,7 +46,6 @@ import type {
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
   NeuronInfo as RawNeuronInfo,
   NeuronsFundEconomics as RawNeuronsFundEconomics,
-  VotingPowerEconomics as RawVotingPowerEconomics,
   NeuronsFundMatchedFundingCurveCoefficients as RawNeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
@@ -58,6 +57,7 @@ import type {
   SwapParameters as RawSwapParameters,
   Tally as RawTally,
   Tokens as RawTokens,
+  VotingPowerEconomics as RawVotingPowerEconomics,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
 import type {
@@ -101,7 +101,6 @@ import type {
   NeuronIdOrSubaccount,
   NeuronInfo,
   NeuronsFundEconomics,
-  VotingPowerEconomics,
   NeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider,
   Operation,
@@ -113,6 +112,7 @@ import type {
   SwapParameters,
   Tally,
   Tokens,
+  VotingPowerEconomics,
   VotingRewardParameters,
 } from "../../types/governance_converters";
 
@@ -951,10 +951,12 @@ const toVotingPowerEconomics = (
   }
 
   return {
-    startReducingVotingPowerAfterSeconds: fromNullable(rawVotingPowerEconomics
-      .start_reducing_voting_power_after_seconds),
-    clearFollowingAfterSeconds: fromNullable(rawVotingPowerEconomics
-      .clear_following_after_seconds),
+    startReducingVotingPowerAfterSeconds: fromNullable(
+      rawVotingPowerEconomics.start_reducing_voting_power_after_seconds,
+    ),
+    clearFollowingAfterSeconds: fromNullable(
+      rawVotingPowerEconomics.clear_following_after_seconds,
+    ),
   };
 };
 

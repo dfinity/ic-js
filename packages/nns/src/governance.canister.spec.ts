@@ -113,9 +113,11 @@ describe("GovernanceCanister", () => {
         },
       },
       votingPowerEconomics: {
-        startReducingVotingPowerAfterSeconds: BigInt(365.25 * 24 * 60 * 60 / 2),
-        clearFollowingAfterSeconds: BigInt(365.25 * 24 * 60 * 60 / 12),
-      }
+        startReducingVotingPowerAfterSeconds: BigInt(
+          (365.25 * 24 * 60 * 60) / 2,
+        ),
+        clearFollowingAfterSeconds: BigInt((365.25 * 24 * 60 * 60) / 12),
+      },
     },
   };
 
@@ -735,9 +737,11 @@ describe("GovernanceCanister", () => {
       };
 
       const rawVotingPowerEconomics = {
-        start_reducing_voting_power_after_seconds: [BigInt(365.25 * 24 * 60 * 60 / 2)],
-        clear_following_after_seconds: [BigInt(365.25 * 24 * 60 * 60 / 12)],
-      }
+        start_reducing_voting_power_after_seconds: [
+          BigInt((365.25 * 24 * 60 * 60) / 2),
+        ],
+        clear_following_after_seconds: [BigInt((365.25 * 24 * 60 * 60) / 12)],
+      };
 
       const rawProposal = {
         id: [{ id: 1n }],

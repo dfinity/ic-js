@@ -37,7 +37,6 @@ import type {
   NeuronId as RawNeuronId,
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
   NeuronsFundEconomics as RawNeuronsFundEconomics,
-  VotingPowerEconomics as RawVotingPowerEconomics,
   NeuronsFundMatchedFundingCurveCoefficients as RawNeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
@@ -46,6 +45,7 @@ import type {
   SwapDistribution as RawSwapDistribution,
   SwapParameters as RawSwapParameters,
   Tokens as RawTokens,
+  VotingPowerEconomics as RawVotingPowerEconomics,
   VotingRewardParameters as RawVotingRewardParameters,
 } from "../../../candid/governance";
 import type { NeuronVisibility, Vote } from "../../enums/governance.enums";
@@ -77,7 +77,6 @@ import type {
   NeuronDistribution,
   NeuronIdOrSubaccount,
   NeuronsFundEconomics,
-  VotingPowerEconomics,
   NeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider,
   Operation,
@@ -88,6 +87,7 @@ import type {
   SwapDistribution,
   SwapParameters,
   Tokens,
+  VotingPowerEconomics,
   VotingRewardParameters,
 } from "../../types/governance_converters";
 
@@ -954,14 +954,15 @@ const fromVotingPowerEconomics = (
   }
   return [
     {
-      start_reducing_voting_power_after_seconds:
-      toNullable(votingPowerEconomics.startReducingVotingPowerAfterSeconds),
-      clear_following_after_seconds: toNullable(
-        votingPowerEconomics.clearFollowingAfterSeconds
+      start_reducing_voting_power_after_seconds: toNullable(
+        votingPowerEconomics.startReducingVotingPowerAfterSeconds,
       ),
-    }
-  ]
-}
+      clear_following_after_seconds: toNullable(
+        votingPowerEconomics.clearFollowingAfterSeconds,
+      ),
+    },
+  ];
+};
 
 const fromRewardMode = (rewardMode: RewardMode): RawRewardMode => {
   if ("RewardToNeuron" in rewardMode) {

@@ -340,7 +340,7 @@ export interface NetworkEconomics {
 export interface VotingPowerEconomics {
   startReducingVotingPowerAfterSeconds: Option<bigint>;
   clearFollowingAfterSeconds: Option<bigint>;
-};
+}
 export interface NeuronsFundEconomics {
   maximumIcpXdrRate: Option<Percentage>;
   neuronsFundMatchedFundingCurveCoefficients: Option<NeuronsFundMatchedFundingCurveCoefficients>;
