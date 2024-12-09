@@ -246,6 +246,7 @@ export const idlFactory = ({ IDL }) => {
     'timestamp' : IDL.Nat64,
   });
   const MinterInfo = IDL.Record({
+    'deposit_with_subaccount_helper_contract_address' : IDL.Opt(IDL.Text),
     'eth_balance' : IDL.Opt(IDL.Nat),
     'eth_helper_contract_address' : IDL.Opt(IDL.Text),
     'last_observed_block_number' : IDL.Opt(IDL.Nat),
@@ -264,6 +265,7 @@ export const idlFactory = ({ IDL }) => {
       )
     ),
     'minter_address' : IDL.Opt(IDL.Text),
+    'last_deposit_with_subaccount_scraped_block_number' : IDL.Opt(IDL.Nat),
     'ethereum_block_height' : IDL.Opt(BlockTag),
   });
   const EthTransaction = IDL.Record({ 'transaction_hash' : IDL.Text });
