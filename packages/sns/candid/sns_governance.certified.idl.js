@@ -554,13 +554,17 @@ export const idlFactory = ({ IDL }) => {
     'sns_initialization_parameters' : IDL.Text,
   });
   const GetTimersResponse = IDL.Record({ 'timers' : IDL.Opt(Timers) });
-  const GetUpgradeJournalRequest = IDL.Record({});
+  const GetUpgradeJournalRequest = IDL.Record({
+    'offset' : IDL.Opt(IDL.Nat64),
+    'limit' : IDL.Opt(IDL.Nat64),
+  });
   const GetUpgradeJournalResponse = IDL.Record({
     'upgrade_journal' : IDL.Opt(UpgradeJournal),
     'upgrade_steps' : IDL.Opt(Versions),
     'response_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'deployed_version' : IDL.Opt(Version),
     'target_version' : IDL.Opt(Version),
+    'upgrade_journal_entry_count' : IDL.Opt(IDL.Nat64),
   });
   const ListNervousSystemFunctionsResponse = IDL.Record({
     'reserved_ids' : IDL.Vec(IDL.Nat64),

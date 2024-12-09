@@ -405,6 +405,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'block_type' : IDL.Text }))],
         [],
       ),
+    'is_ledger_ready' : IDL.Func([], [IDL.Bool], []),
   });
 };
 export const init = ({ IDL }) => {

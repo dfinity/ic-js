@@ -242,13 +242,17 @@ export interface GetSnsInitializationParametersResponse {
 export interface GetTimersResponse {
   timers: [] | [Timers];
 }
-export type GetUpgradeJournalRequest = {};
+export interface GetUpgradeJournalRequest {
+  offset: [] | [bigint];
+  limit: [] | [bigint];
+}
 export interface GetUpgradeJournalResponse {
   upgrade_journal: [] | [UpgradeJournal];
   upgrade_steps: [] | [Versions];
   response_timestamp_seconds: [] | [bigint];
   deployed_version: [] | [Version];
   target_version: [] | [Version];
+  upgrade_journal_entry_count: [] | [bigint];
 }
 export interface Governance {
   root_canister_id: [] | [Principal];

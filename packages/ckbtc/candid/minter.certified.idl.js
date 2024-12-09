@@ -11,6 +11,8 @@ export const idlFactory = ({ IDL }) => {
     'mode' : IDL.Opt(Mode),
     'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
     'max_time_in_queue_nanos' : IDL.Opt(IDL.Nat64),
+    'check_fee' : IDL.Opt(IDL.Nat64),
+    'btc_checker_principal' : IDL.Opt(IDL.Principal),
     'min_confirmations' : IDL.Opt(IDL.Nat32),
     'kyt_fee' : IDL.Opt(IDL.Nat64),
   });
@@ -27,6 +29,8 @@ export const idlFactory = ({ IDL }) => {
     'ledger_id' : IDL.Principal,
     'max_time_in_queue_nanos' : IDL.Nat64,
     'btc_network' : BtcNetwork,
+    'check_fee' : IDL.Opt(IDL.Nat64),
+    'btc_checker_principal' : IDL.Opt(IDL.Principal),
     'min_confirmations' : IDL.Opt(IDL.Nat32),
     'kyt_fee' : IDL.Opt(IDL.Nat64),
   });
@@ -84,6 +88,10 @@ export const idlFactory = ({ IDL }) => {
       'kyt_provider' : IDL.Principal,
     }),
   });
+  const SuspendedReason = IDL.Variant({
+    'ValueTooSmall' : IDL.Null,
+    'Quarantined' : IDL.Null,
+  });
   const BitcoinAddress = IDL.Variant({
     'p2wsh_v0' : IDL.Vec(IDL.Nat8),
     'p2tr_v1' : IDL.Vec(IDL.Nat8),
@@ -128,6 +136,11 @@ export const idlFactory = ({ IDL }) => {
       'amount' : IDL.Nat64,
       'kyt_provider' : IDL.Principal,
     }),
+    'suspended_utxo' : IDL.Record({
+      'utxo' : Utxo,
+      'account' : Account,
+      'reason' : SuspendedReason,
+    }),
     'accepted_retrieve_btc_request' : IDL.Record({
       'received_at' : IDL.Nat64,
       'block_index' : IDL.Nat64,
@@ -151,6 +164,7 @@ export const idlFactory = ({ IDL }) => {
       'new_txid' : IDL.Vec(IDL.Nat8),
       'submitted_at' : IDL.Nat64,
     }),
+    'checked_utxo_v2' : IDL.Record({ 'utxo' : Utxo, 'account' : Account }),
     'ignored_utxo' : IDL.Record({ 'utxo' : Utxo }),
     'reimbursed_failed_deposit' : IDL.Record({
       'burn_block_index' : IDL.Nat64,
@@ -236,6 +250,12 @@ export const idlFactory = ({ IDL }) => {
     }),
     'Checked' : Utxo,
   });
+  const Timestamp = IDL.Nat64;
+  const SuspendedUtxo = IDL.Record({
+    'utxo' : Utxo,
+    'earliest_retry' : Timestamp,
+    'reason' : SuspendedReason,
+  });
   const PendingUtxo = IDL.Record({
     'confirmations' : IDL.Nat32,
     'value' : IDL.Nat64,
@@ -249,6 +269,7 @@ export const idlFactory = ({ IDL }) => {
     'TemporarilyUnavailable' : IDL.Text,
     'AlreadyProcessing' : IDL.Null,
     'NoNewUtxos' : IDL.Record({
+      'suspended_utxos' : IDL.Opt(IDL.Vec(SuspendedUtxo)),
       'required_confirmations' : IDL.Nat32,
       'pending_utxos' : IDL.Opt(IDL.Vec(PendingUtxo)),
       'current_confirmations' : IDL.Opt(IDL.Nat32),
@@ -355,6 +376,8 @@ export const init = ({ IDL }) => {
     'mode' : IDL.Opt(Mode),
     'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
     'max_time_in_queue_nanos' : IDL.Opt(IDL.Nat64),
+    'check_fee' : IDL.Opt(IDL.Nat64),
+    'btc_checker_principal' : IDL.Opt(IDL.Principal),
     'min_confirmations' : IDL.Opt(IDL.Nat32),
     'kyt_fee' : IDL.Opt(IDL.Nat64),
   });
@@ -371,6 +394,8 @@ export const init = ({ IDL }) => {
     'ledger_id' : IDL.Principal,
     'max_time_in_queue_nanos' : IDL.Nat64,
     'btc_network' : BtcNetwork,
+    'check_fee' : IDL.Opt(IDL.Nat64),
+    'btc_checker_principal' : IDL.Opt(IDL.Principal),
     'min_confirmations' : IDL.Opt(IDL.Nat32),
     'kyt_fee' : IDL.Opt(IDL.Nat64),
   });
