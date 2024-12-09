@@ -6,6 +6,7 @@
 - Remove optional field `last_deposit_with_subaccount_scraped_block_number` from ckETH minter information.
 - Expose a few additional types related to snapshots in `ic-management`.
 - Add support for `get_subnet_types_to_subnets` to `@dfinity/cmc`.
+- Support `VotingPowerEconomics`, `potential_voting_power` and `deciding_voting_power` in `@dfinity/nns`.
 
 # 2024.11.27-1230Z
 
