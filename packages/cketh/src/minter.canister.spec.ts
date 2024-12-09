@@ -867,6 +867,10 @@ describe("ckETH minter canister", () => {
         evm_rpc_id: toNullable(
           Principal.fromText("7hfb6-caaaa-aaaar-qadga-cai"),
         ),
+        deposit_with_subaccount_helper_contract_address: toNullable(
+          ckETHSmartContractAddressMock,
+        ),
+        last_deposit_with_subaccount_scraped_block_number: [123n],
       };
 
       const service = mock<ActorSubclass<CkETHMinterService>>();
