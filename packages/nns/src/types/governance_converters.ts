@@ -335,7 +335,12 @@ export interface NetworkEconomics {
   minimumIcpXdrRate: bigint;
   maximumNodeProviderRewards: bigint;
   neuronsFundEconomics: Option<NeuronsFundEconomics>;
+  votingPowerEconomics: Option<VotingPowerEconomics>;
 }
+export interface VotingPowerEconomics {
+  startReducingVotingPowerAfterSeconds: Option<bigint>;
+  clearFollowingAfterSeconds: Option<bigint>;
+};
 export interface NeuronsFundEconomics {
   maximumIcpXdrRate: Option<Percentage>;
   neuronsFundMatchedFundingCurveCoefficients: Option<NeuronsFundMatchedFundingCurveCoefficients>;
@@ -372,6 +377,8 @@ export interface Neuron {
   followees: Array<Followees>;
   visibility: Option<NeuronVisibility>;
   votingPowerRefreshedTimestampSeconds: Option<bigint>;
+  potentialVotingPower: Option<bigint>;
+  decidingVotingPower: Option<bigint>;
 }
 export type NeuronIdOrSubaccount =
   | { Subaccount: Array<number> }

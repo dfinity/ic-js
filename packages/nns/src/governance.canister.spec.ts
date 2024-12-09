@@ -112,6 +112,10 @@ describe("GovernanceCanister", () => {
           basisPoints: 456n,
         },
       },
+      votingPowerEconomics: {
+        startReducingVotingPowerAfterSeconds: BigInt(365.25 * 24 * 60 * 60 / 2),
+        clearFollowingAfterSeconds: BigInt(365.25 * 24 * 60 * 60 / 12),
+      }
     },
   };
 
@@ -730,6 +734,11 @@ describe("GovernanceCanister", () => {
         ],
       };
 
+      const rawVotingPowerEconomics = {
+        start_reducing_voting_power_after_seconds: [BigInt(365.25 * 24 * 60 * 60 / 2)],
+        clear_following_after_seconds: [BigInt(365.25 * 24 * 60 * 60 / 12)],
+      }
+
       const rawProposal = {
         id: [{ id: 1n }],
         ballots: [],
@@ -750,6 +759,7 @@ describe("GovernanceCanister", () => {
                   minimum_icp_xdr_rate: BigInt(1),
                   maximum_node_provider_rewards_e8s: BigInt(10_000_000_000),
                   neurons_fund_economics: [rawNeuronFundsEconomics],
+                  voting_power_economics: [rawVotingPowerEconomics],
                 },
               },
             ],

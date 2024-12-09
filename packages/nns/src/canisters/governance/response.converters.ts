@@ -46,6 +46,7 @@ import type {
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
   NeuronInfo as RawNeuronInfo,
   NeuronsFundEconomics as RawNeuronsFundEconomics,
+  VotingPowerEconomics as RawVotingPowerEconomics,
   NeuronsFundMatchedFundingCurveCoefficients as RawNeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
@@ -100,6 +101,7 @@ import type {
   NeuronIdOrSubaccount,
   NeuronInfo,
   NeuronsFundEconomics,
+  VotingPowerEconomics,
   NeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider,
   Operation,
@@ -193,6 +195,8 @@ export const toNeuron = ({
   votingPowerRefreshedTimestampSeconds: fromNullable(
     neuron.voting_power_refreshed_timestamp_seconds,
   ),
+  potentialVotingPower: fromNullable(neuron.potential_voting_power),
+  decidingVotingPower: fromNullable(neuron.deciding_voting_power),
 });
 
 export const toRawNeuron = ({
@@ -247,6 +251,8 @@ export const toRawNeuron = ({
   voting_power_refreshed_timestamp_seconds: toNullable(
     neuron.votingPowerRefreshedTimestampSeconds,
   ),
+  potential_voting_power: toNullable(neuron.potentialVotingPower),
+  deciding_voting_power: toNullable(neuron.decidingVotingPower),
 });
 
 const toBallotInfo = ({ vote, proposal_id }: RawBallotInfo): BallotInfo => ({
@@ -374,6 +380,9 @@ const toAction = (action: RawAction): Action => {
           networkEconomics.maximum_node_provider_rewards_e8s,
         neuronsFundEconomics: toNeuronsFundEconomics(
           networkEconomics.neurons_fund_economics,
+        ),
+        votingPowerEconomics: toVotingPowerEconomics(
+          networkEconomics.voting_power_economics,
         ),
       },
     };
@@ -929,6 +938,23 @@ const toNeuronsFundEconomics = (
       max_theoretical_neurons_fund_participation_amount_xdr,
     ),
     minimumIcpXdrRate: toPercentage(minimum_icp_xdr_rate),
+  };
+};
+
+const toVotingPowerEconomics = (
+  votingPowerEconomics: [] | [RawVotingPowerEconomics],
+): Option<VotingPowerEconomics> => {
+  const rawVotingPowerEconomics = fromNullable(votingPowerEconomics);
+
+  if (isNullish(rawVotingPowerEconomics)) {
+    return undefined;
+  }
+
+  return {
+    startReducingVotingPowerAfterSeconds: fromNullable(rawVotingPowerEconomics
+      .start_reducing_voting_power_after_seconds),
+    clearFollowingAfterSeconds: fromNullable(rawVotingPowerEconomics
+      .clear_following_after_seconds),
   };
 };
 

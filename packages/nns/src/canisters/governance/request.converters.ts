@@ -37,6 +37,7 @@ import type {
   NeuronId as RawNeuronId,
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
   NeuronsFundEconomics as RawNeuronsFundEconomics,
+  VotingPowerEconomics as RawVotingPowerEconomics,
   NeuronsFundMatchedFundingCurveCoefficients as RawNeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider as RawNodeProvider,
   Operation as RawOperation,
@@ -76,6 +77,7 @@ import type {
   NeuronDistribution,
   NeuronIdOrSubaccount,
   NeuronsFundEconomics,
+  VotingPowerEconomics,
   NeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider,
   Operation,
@@ -513,6 +515,9 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
         neurons_fund_economics: fromNeuronsFundEconomics(
           networkEconomics.neuronsFundEconomics,
         ),
+        voting_power_economics: fromVotingPowerEconomics(
+          networkEconomics.votingPowerEconomics,
+        ),
       },
     };
   }
@@ -940,6 +945,23 @@ const fromNeuronsFundEconomics = (
     },
   ];
 };
+
+const fromVotingPowerEconomics = (
+  votingPowerEconomics: Option<VotingPowerEconomics>,
+): [] | [RawVotingPowerEconomics] => {
+  if (isNullish(votingPowerEconomics)) {
+    return [];
+  }
+  return [
+    {
+      start_reducing_voting_power_after_seconds:
+      toNullable(votingPowerEconomics.startReducingVotingPowerAfterSeconds),
+      clear_following_after_seconds: toNullable(
+        votingPowerEconomics.clearFollowingAfterSeconds
+      ),
+    }
+  ]
+}
 
 const fromRewardMode = (rewardMode: RewardMode): RawRewardMode => {
   if ("RewardToNeuron" in rewardMode) {
