@@ -403,6 +403,7 @@ export type ManageNeuronCommandRequest =
   | { Spawn: Spawn }
   | { Split: Split }
   | { Follow: Follow }
+  | { RefreshVotingPower: RefreshVotingPower }
   | { ClaimOrRefresh: ClaimOrRefresh }
   | { Configure: Configure }
   | { RegisterVote: RegisterVote }
