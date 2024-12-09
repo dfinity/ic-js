@@ -35,6 +35,8 @@ describe("response.converters", () => {
     transfer: [],
     known_neuron_data: [],
     voting_power_refreshed_timestamp_seconds: [],
+    potential_voting_power: [],
+    deciding_voting_power: [],
   };
 
   const defaultNeuron: Neuron = {
@@ -60,6 +62,8 @@ describe("response.converters", () => {
     followees: [],
     visibility: undefined,
     votingPowerRefreshedTimestampSeconds: undefined,
+    potentialVotingPower: undefined,
+    decidingVotingPower: undefined,
   };
 
   describe("toNeuron", () => {
@@ -85,6 +89,40 @@ describe("response.converters", () => {
       ).toEqual({
         ...defaultNeuron,
         votingPowerRefreshedTimestampSeconds: timestamp,
+      });
+    });
+
+    it("should convert potential voting power", () => {
+      const votingPower = 1_000_000n;
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            potential_voting_power: [votingPower],
+          },
+          canisterId: MAINNET_GOVERNANCE_CANISTER_ID,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        potentialVotingPower: votingPower,
+      });
+    });
+
+    it("should convert deciding voting power", () => {
+      const votingPower = 1_001_000n;
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            deciding_voting_power: [votingPower],
+          },
+          canisterId: MAINNET_GOVERNANCE_CANISTER_ID,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        decidingVotingPower: votingPower,
       });
     });
   });
