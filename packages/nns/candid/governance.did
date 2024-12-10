@@ -1,4 +1,4 @@
-// Generated from IC repo commit 29286b5f3c (2024-12-09) 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 0f35ac817b (2024-12-06) 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
@@ -124,6 +124,8 @@ type RefreshVotingPowerResponse = record {
 };
 
 // KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
+//
+// Deprecated. Use ManageNeuronCommandRequest instead. It is equivalent.
 type Command = variant {
   Spawn : Spawn;
   Split : Split;
@@ -494,6 +496,10 @@ type ManageNeuron = record {
 };
 
 // KEEP THIS IN SYNC WITH COMMAND!
+//
+// Command is deprecated, but people need time to migrate to this. Therefore, we
+// have not deleted Command yet. In the meantime, ManageNeuronCommandRequest
+// must be kept in sync with Command.
 type ManageNeuronCommandRequest = variant {
   Spawn : Spawn;
   Split : Split;
