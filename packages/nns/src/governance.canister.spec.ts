@@ -1924,6 +1924,43 @@ describe("GovernanceCanister", () => {
     });
   });
 
+  describe("GovernanceCanister.refreshVotingPower", () => {
+    it("successfully refreshes voting power of a neuron", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ RefreshVotingPower: {} }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      await governance.refreshVotingPower({
+        neuronId,
+      });
+      expect(service.manage_neuron).toBeCalledTimes(1);
+    });
+
+    it("throws error if response is error", async () => {
+      const neuronId = BigInt(10);
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ Error: error }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        governance.refreshVotingPower({
+          neuronId,
+        });
+      expect(call).rejects.toThrow(new GovernanceError(error));
+    });
+  });
+
   describe("GovernanceCanister.splitNeuron", () => {
     it("successfully splits neuron", async () => {
       const neuronId = BigInt(10);

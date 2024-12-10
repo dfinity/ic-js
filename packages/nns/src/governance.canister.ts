@@ -40,6 +40,7 @@ import {
   toManageNeuronsFollowRequest,
   toMergeMaturityRequest,
   toMergeRequest,
+  toRefreshVotingPowerRequest,
   toRegisterVoteRequest,
   toRemoveHotkeyRequest,
   toSetDissolveDelayRequest,
@@ -664,6 +665,28 @@ export class GovernanceCanister {
       neuronId,
       toAccountIdentifier,
       amount,
+    });
+
+    await manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Refreshes voting power of a neuron
+   * (Resets the `votingPowerRefreshedTimestampSeconds`
+   * parameter of the neuron to the current time).
+   *
+   * @throws {@link GovernanceError}
+   */
+  public refreshVotingPower = async ({
+    neuronId,
+  }: {
+    neuronId: NeuronId;
+  }): Promise<void> => {
+    const request = toRefreshVotingPowerRequest({
+      neuronId,
     });
 
     await manageNeuron({
