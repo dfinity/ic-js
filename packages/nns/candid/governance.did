@@ -1,4 +1,4 @@
-// Generated from IC repo commit d9fe207 (2024-12-06 tags: release-2024-12-06_03-16-base) 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 0f35ac817b (2024-12-06) 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
@@ -123,6 +123,9 @@ type RefreshVotingPowerResponse = record {
   // minimal until we discover there is a "real need". YAGNI.
 };
 
+// KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
+//
+// Deprecated. Use ManageNeuronCommandRequest instead. It is equivalent.
 type Command = variant {
   Spawn : Spawn;
   Split : Split;
@@ -137,6 +140,8 @@ type Command = variant {
   MergeMaturity : MergeMaturity;
   Disburse : Disburse;
   RefreshVotingPower : RefreshVotingPower;
+
+  // KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
 };
 
 type Command_1 = variant {
@@ -490,6 +495,11 @@ type ManageNeuron = record {
   neuron_id_or_subaccount : opt NeuronIdOrSubaccount;
 };
 
+// KEEP THIS IN SYNC WITH COMMAND!
+//
+// Command is deprecated, but people need time to migrate to this. Therefore, we
+// have not deleted Command yet. In the meantime, ManageNeuronCommandRequest
+// must be kept in sync with Command.
 type ManageNeuronCommandRequest = variant {
   Spawn : Spawn;
   Split : Split;
@@ -503,6 +513,9 @@ type ManageNeuronCommandRequest = variant {
   StakeMaturity : StakeMaturity;
   MergeMaturity : MergeMaturity;
   Disburse : Disburse;
+  RefreshVotingPower : RefreshVotingPower;
+
+  // KEEP THIS IN SYNC WITH COMMAND!
 };
 
 type ManageNeuronRequest = record {
