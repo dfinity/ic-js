@@ -82,8 +82,8 @@ jobs:
           # the pushing fail
           pull_strategy: "NO-PULL"
 
-      - name: Fail for docs issues without personal access token
+      - name: Fail for docs issues without GitHub App
         if: steps.check_can_add_commit.outputs.can_add_commit == 'false' && steps.check_docs.outputs.formatting_needed == 'true'
         run: |
-          echo "Docs changes are needed but couldn't be committed because the personal access token isn't available or this isn't a pull request."
+          echo "Docs changes are needed but couldn't be committed because the GitHub App Secret isn't available or this isn't a pull request."
           exit 1
