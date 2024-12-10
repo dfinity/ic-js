@@ -67,10 +67,10 @@ jobs:
           # the pushing fail
           pull_strategy: "NO-PULL"
 
-      - name: Fail for formatting issues without personal access token
+      - name: Fail for formatting issues without GitHub App
         if: steps.check_can_add_commit.outputs.can_add_commit == 'false' && steps.check_format.outputs.formatting_needed == 'true'
         run: |
-          echo "Formatting changes are needed but couldn't be committed because the personal access token isn't available or this isn't a pull request."
+          echo "Formatting changes are needed but couldn't be committed because the GitHub App secret isn't available or this isn't a pull request."
           exit 1
 
   build-candid:
