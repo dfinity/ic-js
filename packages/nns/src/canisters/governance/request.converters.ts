@@ -1436,6 +1436,20 @@ export const toDisburseNeuronRequest = ({
     },
   });
 
+export const toRefreshVotingPowerRequest = ({
+  neuronId,
+}: {
+  neuronId: NeuronId;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      RefreshVotingPower: {
+        // Intentionally left blank.
+      },
+    },
+  });
+
 export const toMergeMaturityRequest = ({
   neuronId,
   percentageToMerge,
