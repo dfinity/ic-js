@@ -685,11 +685,10 @@ export class GovernanceCanister {
   }: {
     neuronId: NeuronId;
   }): Promise<void> => {
-    
     const request = toRefreshVotingPowerRequest({
       neuronId,
     });
-    
+
     await manageNeuron({
       request,
       service: this.certifiedService,
