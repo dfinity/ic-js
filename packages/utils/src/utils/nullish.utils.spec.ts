@@ -48,7 +48,7 @@ describe("nullish-utils", () => {
     });
   });
 
-  describe("emptyString", () => {
+  describe("isEmptyString", () => {
     it("should determine empty", () => {
       expect(isEmptyString(null)).toBeTruthy();
       expect(isEmptyString(undefined)).toBeTruthy();
