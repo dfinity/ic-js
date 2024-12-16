@@ -42,4 +42,13 @@ describe("nullish-utils", () => {
       expect(notEmptyString("test")).toBeTruthy();
     });
   });
+
+  describe("emptyString", () => {
+    it("should determine empty", () => {
+      expect(notEmptyString(null)).toBeTruthy();
+      expect(notEmptyString(undefined)).toBeTruthy();
+      expect(notEmptyString("")).toBeTruthy();
+      expect(notEmptyString("test")).toBeFalsy();
+    });
+  });
 });
