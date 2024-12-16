@@ -1,4 +1,9 @@
-import { isNullish, nonNullish, notEmptyString } from "./nullish.utils";
+import {
+  isEmptyString,
+  isNullish,
+  nonNullish,
+  notEmptyString,
+} from "./nullish.utils";
 
 describe("nullish-utils", () => {
   describe("isNullish", () => {
@@ -40,6 +45,15 @@ describe("nullish-utils", () => {
       expect(notEmptyString(undefined)).toBeFalsy();
       expect(notEmptyString("")).toBeFalsy();
       expect(notEmptyString("test")).toBeTruthy();
+    });
+  });
+
+  describe("isEmptyString", () => {
+    it("should determine empty", () => {
+      expect(isEmptyString(null)).toBeTruthy();
+      expect(isEmptyString(undefined)).toBeTruthy();
+      expect(isEmptyString("")).toBeTruthy();
+      expect(isEmptyString("test")).toBeFalsy();
     });
   });
 });
