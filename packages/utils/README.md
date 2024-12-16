@@ -82,33 +82,45 @@ Parameters:
 
 #### :gear: isNullish
 
-Is null or undefined
+Checks if a given argument is null or undefined.
 
 | Function    | Type                                                                     |
 | ----------- | ------------------------------------------------------------------------ |
 | `isNullish` | `<T>(argument: T or null or undefined) => argument is null or undefined` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L2)
+Parameters:
+
+- `argument`: - The argument to check.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L8)
 
 #### :gear: nonNullish
 
-Not null and not undefined
+Checks if a given argument is neither null nor undefined.
 
 | Function     | Type                                                                  |
 | ------------ | --------------------------------------------------------------------- |
 | `nonNullish` | `<T>(argument: T or null or undefined) => argument is NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L7)
+Parameters:
+
+- `argument`: - The argument to check.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L19)
 
 #### :gear: notEmptyString
 
-Not null and not undefined and not empty
+Checks if a given value is not null, not undefined, and not an empty string.
 
 | Function         | Type                                              |
 | ---------------- | ------------------------------------------------- |
 | `notEmptyString` | `(value: string or null or undefined) => boolean` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L12)
+Parameters:
+
+- `value`: - The value to check.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L29)
 
 #### :gear: emptyString
 
