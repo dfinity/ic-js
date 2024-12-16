@@ -8,6 +8,7 @@
 - Expose a few additional types related to snapshots in `ic-management`.
 - Add support for `get_subnet_types_to_subnets` to `@dfinity/cmc`.
 - Support `VotingPowerEconomics`, `potential_voting_power` and `deciding_voting_power` in `@dfinity/nns`.
+- Add utility `emptyString` (the opposite of existing `notEmptyString`).
 
 # 2024.11.27-1230Z
 
