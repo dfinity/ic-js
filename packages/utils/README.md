@@ -35,6 +35,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [isNullish](#gear-isnullish)
 - [nonNullish](#gear-nonnullish)
 - [notEmptyString](#gear-notemptystring)
+- [emptyString](#gear-emptystring)
 - [defaultAgent](#gear-defaultagent)
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
@@ -108,6 +109,20 @@ Not null and not undefined and not empty
 | `notEmptyString` | `(value: string or null or undefined) => boolean` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L12)
+
+#### :gear: emptyString
+
+Checks if a given value is null, undefined, or an empty string.
+
+| Function      | Type                                              |
+| ------------- | ------------------------------------------------- |
+| `emptyString` | `(value: string or null or undefined) => boolean` |
+
+Parameters:
+
+- `value`: - The value to check.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L21)
 
 #### :gear: defaultAgent
 
