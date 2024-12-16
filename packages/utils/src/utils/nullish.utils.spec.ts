@@ -1,5 +1,5 @@
 import {
-  emptyString,
+  isEmptyString,
   isNullish,
   nonNullish,
   notEmptyString,
@@ -50,10 +50,10 @@ describe("nullish-utils", () => {
 
   describe("emptyString", () => {
     it("should determine empty", () => {
-      expect(emptyString(null)).toBeTruthy();
-      expect(emptyString(undefined)).toBeTruthy();
-      expect(emptyString("")).toBeTruthy();
-      expect(emptyString("test")).toBeFalsy();
+      expect(isEmptyString(null)).toBeTruthy();
+      expect(isEmptyString(undefined)).toBeTruthy();
+      expect(isEmptyString("")).toBeTruthy();
+      expect(isEmptyString("test")).toBeFalsy();
     });
   });
 });
