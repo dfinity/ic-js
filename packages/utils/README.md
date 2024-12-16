@@ -134,7 +134,7 @@ Parameters:
 
 - `value`: - The value to check.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L21)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L38)
 
 #### :gear: defaultAgent
 
