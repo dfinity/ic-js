@@ -179,7 +179,7 @@ Parameters:
 | ------------------ | --------------------------------------------------------------------------------- |
 | `assertNonNullish` | `<T>(value: T, message?: string or undefined) => asserts value is NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L7)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L4)
 
 #### :gear: asNonNullish
 
