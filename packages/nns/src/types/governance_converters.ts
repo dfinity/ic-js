@@ -393,6 +393,9 @@ export interface NeuronInfo {
   joinedCommunityFundTimestampSeconds: Option<bigint>;
   retrievedAtTimestampSeconds: bigint;
   votingPower: bigint;
+  votingPowerRefreshedTimestampSeconds: Option<bigint>;
+  decidingVotingPower: Option<bigint>;
+  potentialVotingPower: Option<bigint>;
   ageSeconds: bigint;
   fullNeuron: Option<Neuron>;
   visibility: Option<NeuronVisibility>;
