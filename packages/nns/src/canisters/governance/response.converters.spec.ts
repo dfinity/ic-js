@@ -1,8 +1,12 @@
 import { Principal } from "@dfinity/principal";
-import type { Neuron as RawNeuron } from "../../../candid/governance";
+import type {
+  Neuron as RawNeuron,
+  NeuronInfo as RawNeuronInfo,
+} from "../../../candid/governance";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
-import type { Neuron } from "../../types/governance_converters";
-import { toNeuron, toRawNeuron } from "./response.converters";
+import { NeuronState } from "../../enums/governance.enums";
+import type { Neuron, NeuronInfo } from "../../types/governance_converters";
+import { toNeuron, toNeuronInfo, toRawNeuron } from "./response.converters";
 
 describe("response.converters", () => {
   const neuronId = 123n;
@@ -10,6 +14,8 @@ describe("response.converters", () => {
   const controlledIdText = "souto-grxij-jbijj-tmr3q";
   const createdTimestampSeconds = 1_234_567_000n;
   const dissolveDelaySeconds = 8_640_000n;
+  const state = NeuronState.Locked;
+  const canisterId = MAINNET_GOVERNANCE_CANISTER_ID;
 
   const defaultCandidNeuron: RawNeuron = {
     id: [{ id: neuronId }],
@@ -66,12 +72,123 @@ describe("response.converters", () => {
     decidingVotingPower: undefined,
   };
 
+  const defaultCandidNeuronInfo: RawNeuronInfo = {
+    dissolve_delay_seconds: dissolveDelaySeconds,
+    recent_ballots: [],
+    voting_power_refreshed_timestamp_seconds: [],
+    potential_voting_power: [],
+    neuron_type: [],
+    deciding_voting_power: [],
+    created_timestamp_seconds: createdTimestampSeconds,
+    state,
+    stake_e8s: 0n,
+    joined_community_fund_timestamp_seconds: [],
+    retrieved_at_timestamp_seconds: 0n,
+    visibility: [],
+    known_neuron_data: [],
+    voting_power: 0n,
+    age_seconds: 0n,
+  };
+
+  const defaultNeuronInfo: NeuronInfo = {
+    neuronId,
+    dissolveDelaySeconds,
+    recentBallots: [],
+    neuronType: undefined,
+    createdTimestampSeconds,
+    state,
+    joinedCommunityFundTimestampSeconds: undefined,
+    retrievedAtTimestampSeconds: 0n,
+    votingPower: 0n,
+    votingPowerRefreshedTimestampSeconds: undefined,
+    decidingVotingPower: undefined,
+    potentialVotingPower: undefined,
+    ageSeconds: 0n,
+    fullNeuron: undefined,
+    visibility: undefined,
+  };
+
+  describe("toNeuronInfo", () => {
+    it("should convert a default candid NeuronInfo to ic-js NeuronInfo", () => {
+      expect(
+        toNeuronInfo({
+          neuronId,
+          neuronInfo: defaultCandidNeuronInfo,
+          rawNeuron: undefined,
+          canisterId,
+        }),
+      ).toEqual(defaultNeuronInfo);
+    });
+
+    it("should convert a fullNeuron", () => {
+      expect(
+        toNeuronInfo({
+          neuronId,
+          neuronInfo: defaultCandidNeuronInfo,
+          rawNeuron: defaultCandidNeuron,
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuronInfo,
+        fullNeuron: defaultNeuron,
+      });
+    });
+
+    it("should convert a voting power refreshed timestamp", () => {
+      const timestamp = 1_333_444_999n;
+      expect(
+        toNeuronInfo({
+          neuronId,
+          neuronInfo: {
+            ...defaultCandidNeuronInfo,
+            voting_power_refreshed_timestamp_seconds: [timestamp],
+          },
+          rawNeuron: undefined,
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuronInfo,
+        votingPowerRefreshedTimestampSeconds: timestamp,
+      });
+    });
+
+    it("should convert potential voting power", () => {
+      const potentialVotingPower = 1_000_000n;
+      expect(
+        toNeuronInfo({
+          neuronId,
+          neuronInfo: {
+            ...defaultCandidNeuronInfo,
+            potential_voting_power: [potentialVotingPower],
+          },
+          rawNeuron: undefined,
+          canisterId,
+        }),
+      ).toEqual({ ...defaultNeuronInfo, potentialVotingPower });
+    });
+
+    it("should convert deciding voting power", () => {
+      const decidingVotingPower = 1_001_000n;
+      expect(
+        toNeuronInfo({
+          neuronId,
+          neuronInfo: {
+            ...defaultCandidNeuronInfo,
+            deciding_voting_power: [decidingVotingPower],
+          },
+          rawNeuron: undefined,
+          canisterId,
+        }),
+      ).toEqual({ ...defaultNeuronInfo, decidingVotingPower });
+    });
+  });
+
   describe("toNeuron", () => {
     it("should convert a default candid Neuron to ic-js Neuron", () => {
       expect(
         toNeuron({
           neuron: defaultCandidNeuron,
-          canisterId: MAINNET_GOVERNANCE_CANISTER_ID,
+          canisterId,
         }),
       ).toEqual(defaultNeuron);
     });
@@ -84,7 +201,7 @@ describe("response.converters", () => {
             ...defaultCandidNeuron,
             voting_power_refreshed_timestamp_seconds: [timestamp],
           },
-          canisterId: MAINNET_GOVERNANCE_CANISTER_ID,
+          canisterId,
         }),
       ).toEqual({
         ...defaultNeuron,
@@ -101,7 +218,7 @@ describe("response.converters", () => {
             ...defaultCandidNeuron,
             potential_voting_power: [votingPower],
           },
-          canisterId: MAINNET_GOVERNANCE_CANISTER_ID,
+          canisterId,
         }),
       ).toEqual({
         ...defaultNeuron,
@@ -118,7 +235,7 @@ describe("response.converters", () => {
             ...defaultCandidNeuron,
             deciding_voting_power: [votingPower],
           },
-          canisterId: MAINNET_GOVERNANCE_CANISTER_ID,
+          canisterId,
         }),
       ).toEqual({
         ...defaultNeuron,
