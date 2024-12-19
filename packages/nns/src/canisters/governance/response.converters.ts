@@ -144,9 +144,11 @@ export const toNeuronInfo = ({
     retrievedAtTimestampSeconds: neuronInfo.retrieved_at_timestamp_seconds,
     /** @deprecated */
     votingPower: neuronInfo.voting_power,
-    votingPowerRefreshedTimestampSeconds : fromNullable(neuronInfo.voting_power_refreshed_timestamp_seconds),
-    decidingVotingPower : fromNullable(neuronInfo.deciding_voting_power),
-    potentialVotingPower : fromNullable(neuronInfo.potential_voting_power),
+    votingPowerRefreshedTimestampSeconds: fromNullable(
+      neuronInfo.voting_power_refreshed_timestamp_seconds,
+    ),
+    decidingVotingPower: fromNullable(neuronInfo.deciding_voting_power),
+    potentialVotingPower: fromNullable(neuronInfo.potential_voting_power),
     ageSeconds: neuronInfo.age_seconds,
     visibility: fromNullable(neuronInfo.visibility) as
       | NeuronVisibility
