@@ -22,6 +22,7 @@ export const transform: CallTransform | QueryTransform = (
   args: (Record<string, unknown> & {
     canister_id?: unknown;
     target_canister?: unknown;
+    specified_id?: unknown;
   })[],
   _callConfig: CallConfig,
 ): { effectiveCanisterId: Principal } => {
@@ -33,6 +34,11 @@ export const transform: CallTransform | QueryTransform = (
       nonNullish(first.target_canister)
     ) {
       return { effectiveCanisterId: Principal.from(first.target_canister) };
+    } else if (
+      methodName === "provisional_create_canister_with_cycles" &&
+      nonNullish(first.specified_id)
+    ) {
+      return { effectiveCanisterId: Principal.from(first.specified_id) };
     } else if (nonNullish(first.canister_id)) {
       return { effectiveCanisterId: Principal.from(first.canister_id) };
     }
