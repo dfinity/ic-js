@@ -58,6 +58,7 @@ const data = await metadata({});
 
 - [encodeIcrcAccount](#gear-encodeicrcaccount)
 - [decodeIcrcAccount](#gear-decodeicrcaccount)
+- [mapTokenMetadata](#gear-maptokenmetadata)
 - [decodePayment](#gear-decodepayment)
 
 #### :gear: encodeIcrcAccount
@@ -73,7 +74,7 @@ Parameters:
 
 - `account`: : Principal, subaccount?: Uint8Array }
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L21)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L27)
 
 #### :gear: decodeIcrcAccount
 
@@ -88,7 +89,26 @@ Parameters:
 
 - `accountString`: string
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L61)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L67)
+
+#### :gear: mapTokenMetadata
+
+Maps the token metadata information from a ledger response into a structured record.
+
+This utility processes an array of metadata key-value pairs provided by the ledger
+and extracts specific fields, such as symbol, name, fee, decimals, and logo. It then
+constructs a `IcrcTokenMetadata` record. If any required fields are missing,
+the function returns `undefined`.
+
+| Function           | Type                                                                      |
+| ------------------ | ------------------------------------------------------------------------- |
+| `mapTokenMetadata` | `(response: IcrcTokenMetadataResponse) => IcrcTokenMetadata or undefined` |
+
+Parameters:
+
+- `response`: - An array of key-value pairs representing token metadata.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L111)
 
 #### :gear: decodePayment
 

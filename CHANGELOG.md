@@ -9,6 +9,7 @@
 - Add support for `get_subnet_types_to_subnets` to `@dfinity/cmc`.
 - Support `VotingPowerEconomics`, `potential_voting_power` and `deciding_voting_power` in `@dfinity/nns`.
 - Add utility `isEmptyString` (the opposite of existing `notEmptyString`).
+- Add utility `mapTokenMetadata` in `@dfinity/ledger-icrc` to map the token metadata information from a ledger response into a structured record.
 
 # 2024.11.27-1230Z
 
