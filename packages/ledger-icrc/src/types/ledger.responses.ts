@@ -19,3 +19,11 @@ export interface IcrcAccount {
   owner: Principal;
   subaccount?: Subaccount;
 }
+
+export interface IcrcTokenMetadata {
+  name: string;
+  symbol: string;
+  fee: bigint;
+  decimals: number;
+  icon?: string;
+}
