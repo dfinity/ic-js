@@ -4,6 +4,7 @@ import {
   encodeBase32,
   hexStringToUint8Array,
   isNullish,
+  nonNullish,
   notEmptyString,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
@@ -110,7 +111,7 @@ export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
 export const mapTokenMetadata = (
   response: IcrcTokenMetadataResponse,
 ): IcrcTokenMetadata | undefined => {
-  const nullishToken: Partial<IcrcTokenMetadata> = response.reduce(
+  const nullishToken = response.reduce<Partial<IcrcTokenMetadata>>(
     (acc, [key, value]) => {
       switch (key) {
         case IcrcMetadataResponseEntries.SYMBOL:
@@ -137,14 +138,17 @@ export const mapTokenMetadata = (
     {},
   );
 
-  if (
-    isNullish(nullishToken.symbol) ||
-    isNullish(nullishToken.name) ||
-    isNullish(nullishToken.fee) ||
-    isNullish(nullishToken.decimals)
-  ) {
+  const isIcrcTokenMetadata = (
+    arg: Partial<IcrcTokenMetadata>,
+  ): arg is IcrcTokenMetadata =>
+    nonNullish(arg.symbol) &&
+    nonNullish(arg.name) &&
+    nonNullish(arg.fee) &&
+    nonNullish(arg.decimals);
+
+  if (!isIcrcTokenMetadata(nullishToken)) {
     return undefined;
   }
 
-  return nullishToken as IcrcTokenMetadata;
+  return nullishToken;
 };
