@@ -74,7 +74,7 @@ Parameters:
 
 - `account`: : Principal, subaccount?: Uint8Array }
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L26)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L27)
 
 #### :gear: decodeIcrcAccount
 
@@ -89,7 +89,7 @@ Parameters:
 
 - `accountString`: string
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L66)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L67)
 
 #### :gear: mapTokenMetadata
 
@@ -108,7 +108,7 @@ Parameters:
 
 - `response`: - An array of key-value pairs representing token metadata.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L110)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L111)
 
 #### :gear: decodePayment
 
