@@ -2,7 +2,7 @@
 
 ## Features
 
-- Expose few additional did types  in `@dfinity/ledger-icp`.
+- Expose few additional did types in `@dfinity/ledger-icp`.
 
 # 2024.12.23-1215Z
 
