@@ -1,5 +1,9 @@
 # YYYY.MM.DD-HHMMZ
 
+## Features
+
+- Expose types `IcrcApproveError` and `IcrcTransferFromError` in `@dfinity/ledger-icrc`.
+
 ## Fix
 
 - Typo in renamed exposed type `IcrcTransferVariatError`.
