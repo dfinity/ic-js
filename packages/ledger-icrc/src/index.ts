@@ -5,7 +5,7 @@ export type {
   Tokens as IcrcTokens,
   TransferArg as IcrcTransferArg,
   TransferFromError as IcrcTransferFromError,
-  TransferError as IcrcTransferVariatError,
+  TransferError as IcrcTransferVariantError,
   Value as IcrcValue,
 } from "../candid/icrc_ledger";
 export * from "./converters/ledger.converters";
