@@ -1,3 +1,9 @@
+# YYYY.MM.DD-HHMMZ
+
+## Fix
+
+- Typo in renamed exposed type `IcrcTransferVariatError`.
+
 # 2024.12.23-1215Z
 
 ## Overview

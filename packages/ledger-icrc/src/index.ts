@@ -3,7 +3,7 @@ export type {
   Subaccount as IcrcSubaccount,
   Tokens as IcrcTokens,
   TransferArg as IcrcTransferArg,
-  TransferError as IcrcTransferVariatError,
+  TransferError as IcrcTransferVariantError,
   Value as IcrcValue,
 } from "../candid/icrc_ledger";
 export * from "./converters/ledger.converters";
