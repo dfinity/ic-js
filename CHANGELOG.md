@@ -1,3 +1,9 @@
+# YYYY.MM.DD-HHMMZ
+
+## Features
+
+- Expose types `IcrcApproveError` and `IcrcTransferFromError` in `@dfinity/ledger-icrc`.
+
 # 2024.12.23-1215Z
 
 ## Overview

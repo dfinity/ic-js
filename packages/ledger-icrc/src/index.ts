@@ -1,8 +1,10 @@
 export type {
+  ApproveError as IcrcApproveError,
   BlockIndex as IcrcBlockIndex,
   Subaccount as IcrcSubaccount,
   Tokens as IcrcTokens,
   TransferArg as IcrcTransferArg,
+  TransferFromError as IcrcTransferFromError,
   TransferError as IcrcTransferVariatError,
   Value as IcrcValue,
 } from "../candid/icrc_ledger";
