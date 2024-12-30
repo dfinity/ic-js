@@ -3,6 +3,7 @@
 ## Features
 
 - Expose types `IcrcApproveError` and `IcrcTransferFromError` in `@dfinity/ledger-icrc`.
+- Expose few additional did types in `@dfinity/ledger-icp`.
 
 ## Fix
 

@@ -1,10 +1,16 @@
 export type * from "../candid/index";
 export type {
   Account as Icrc1Account,
+  ApproveError as Icrc1ApproveError,
   Icrc1BlockIndex,
   SubAccount as Icrc1SubAccount,
   Icrc1Timestamp,
   Icrc1Tokens,
+  Icrc1TransferError,
+  Icrc1TransferResult,
+  ApproveResult as Icrc2ApproveResult,
+  TransferFromError as Icrc2TransferFromError,
+  TransferFromResult as Icrc2TransferFromResult,
   Value,
 } from "../candid/ledger";
 export { AccountIdentifier, SubAccount } from "./account_identifier";
