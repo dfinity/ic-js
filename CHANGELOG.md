@@ -2,7 +2,12 @@
 
 ## Features
 
+- Expose types `IcrcApproveError` and `IcrcTransferFromError` in `@dfinity/ledger-icrc`.
 - Expose few additional did types in `@dfinity/ledger-icp`.
+
+## Fix
+
+- Typo in renamed exposed type `IcrcTransferVariatError`.
 
 # 2024.12.23-1215Z
 
