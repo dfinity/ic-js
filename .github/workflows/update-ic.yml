@@ -87,7 +87,7 @@ jobs:
           branch: bot-ic-update
           branch-suffix: timestamp # Creates a new branch & PR with every run.  If this gets spammy, please delete this line and instead block the PR from making a PR if there is already an open one.
           delete-branch: true
-          title: 'Update Candid Files'
+          title: 'bot: Update Candid Files'
           body: |
             # Motivation
             The canisters APIs have been updated.
