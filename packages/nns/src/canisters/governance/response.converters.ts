@@ -39,6 +39,7 @@ import type {
   LedgerParameters as RawLedgerParameters,
   ListNeuronsResponse as RawListNeuronsResponse,
   ListProposalInfoResponse as RawListProposalInfoResponse,
+  NetworkEconomics as RawNetworkEconomics,
   Neuron as RawNeuron,
   NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
   NeuronDistribution as RawNeuronDistribution,
@@ -95,6 +96,7 @@ import type {
   KnownNeuron,
   LedgerParameters,
   ListProposalsResponse,
+  NetworkEconomics,
   Neuron,
   NeuronBasketConstructionParameters,
   NeuronDistribution,
@@ -371,26 +373,7 @@ const toAction = (action: RawAction): Action => {
   if ("ManageNetworkEconomics" in action) {
     const networkEconomics = action.ManageNetworkEconomics;
     return {
-      ManageNetworkEconomics: {
-        neuronMinimumStake: networkEconomics.neuron_minimum_stake_e8s,
-        maxProposalsToKeepPerTopic:
-          networkEconomics.max_proposals_to_keep_per_topic,
-        neuronManagementFeePerProposal:
-          networkEconomics.neuron_management_fee_per_proposal_e8s,
-        rejectCost: networkEconomics.reject_cost_e8s,
-        transactionFee: networkEconomics.transaction_fee_e8s,
-        neuronSpawnDissolveDelaySeconds:
-          networkEconomics.neuron_spawn_dissolve_delay_seconds,
-        minimumIcpXdrRate: networkEconomics.minimum_icp_xdr_rate,
-        maximumNodeProviderRewards:
-          networkEconomics.maximum_node_provider_rewards_e8s,
-        neuronsFundEconomics: toNeuronsFundEconomics(
-          networkEconomics.neurons_fund_economics,
-        ),
-        votingPowerEconomics: toVotingPowerEconomics(
-          networkEconomics.voting_power_economics,
-        ),
-      },
+      ManageNetworkEconomics: toNetworkEconomics(networkEconomics),
     };
   }
   if ("RewardNodeProvider" in action) {
@@ -965,6 +948,28 @@ const toVotingPowerEconomics = (
     ),
   };
 };
+
+export const toNetworkEconomics = (
+  networkEconomics: RawNetworkEconomics,
+): NetworkEconomics => ({
+  neuronMinimumStake: networkEconomics.neuron_minimum_stake_e8s,
+  maxProposalsToKeepPerTopic: networkEconomics.max_proposals_to_keep_per_topic,
+  neuronManagementFeePerProposal:
+    networkEconomics.neuron_management_fee_per_proposal_e8s,
+  rejectCost: networkEconomics.reject_cost_e8s,
+  transactionFee: networkEconomics.transaction_fee_e8s,
+  neuronSpawnDissolveDelaySeconds:
+    networkEconomics.neuron_spawn_dissolve_delay_seconds,
+  minimumIcpXdrRate: networkEconomics.minimum_icp_xdr_rate,
+  maximumNodeProviderRewards:
+    networkEconomics.maximum_node_provider_rewards_e8s,
+  neuronsFundEconomics: toNeuronsFundEconomics(
+    networkEconomics.neurons_fund_economics,
+  ),
+  votingPowerEconomics: toVotingPowerEconomics(
+    networkEconomics.voting_power_economics,
+  ),
+});
 
 const toNodeProvider = (nodeProvider: RawNodeProvider): NodeProvider => {
   return {
