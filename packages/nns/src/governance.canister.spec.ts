@@ -2150,4 +2150,23 @@ describe("GovernanceCanister", () => {
       expect(rewardEvent).toBe(mockRewardEvent);
     });
   });
+
+  describe("getNetworkEconomicsParameters", () => {
+    it("gets the network economics parameters", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.get_network_economics_parameters.mockResolvedValue(
+        rawNetworkEconomics,
+      );
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const response = await governance.getNetworkEconomicsParameters({
+        certified: true,
+      });
+      expect(service.get_network_economics_parameters).toBeCalledTimes(1);
+      expect(response).toEqual(mockManageNetworkEconomics);
+    });
+  });
 });
