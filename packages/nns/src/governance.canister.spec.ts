@@ -13,9 +13,11 @@ import type {
   ManageNeuronResponse,
   NeuronsFundEconomics,
   InstallCode as RawInstallCode,
+  NetworkEconomics as RawNetworkEconomics,
   ProposalInfo as RawProposalInfo,
   StopOrStartCanister as RawStopOrStartCanister,
   UpdateCanisterSettings as RawUpdateCanisterSettings,
+  VotingPowerEconomics as RawVotingPowerEconomics,
   Result,
   RewardEvent,
 } from "../candid/governance";
@@ -71,6 +73,63 @@ const unexpectedGovernanceError: GovernanceErrorDetail = {
   error_type: 0,
 };
 
+const rawNeuronFundsEconomics: NeuronsFundEconomics = {
+  maximum_icp_xdr_rate: [
+    {
+      basis_points: [456n],
+    },
+  ],
+  max_theoretical_neurons_fund_participation_amount_xdr: [
+    {
+      human_readable: ["456"],
+    },
+  ],
+  neurons_fund_matched_funding_curve_coefficients: [
+    {
+      contribution_threshold_xdr: [
+        {
+          human_readable: ["789"],
+        },
+      ],
+      one_third_participation_milestone_xdr: [
+        {
+          human_readable: ["123"],
+        },
+      ],
+      full_participation_milestone_xdr: [
+        {
+          human_readable: ["456"],
+        },
+      ],
+    },
+  ],
+  minimum_icp_xdr_rate: [
+    {
+      basis_points: [123n],
+    },
+  ],
+};
+
+const rawVotingPowerEconomics: RawVotingPowerEconomics = {
+  start_reducing_voting_power_after_seconds: [
+    BigInt((365.25 * 24 * 60 * 60) / 2),
+  ],
+  clear_following_after_seconds: [BigInt((365.25 * 24 * 60 * 60) / 12)],
+};
+
+const rawNetworkEconomics: RawNetworkEconomics = {
+  neuron_minimum_stake_e8s: BigInt(100_000_000),
+  max_proposals_to_keep_per_topic: 1000,
+  neuron_management_fee_per_proposal_e8s: BigInt(10_000),
+  reject_cost_e8s: BigInt(10_000_000),
+  transaction_fee_e8s: BigInt(1000),
+  neuron_spawn_dissolve_delay_seconds: BigInt(3600 * 24 * 7),
+  minimum_icp_xdr_rate: BigInt(1),
+  maximum_node_provider_rewards_e8s: BigInt(10_000_000_000),
+  neurons_fund_economics: [rawNeuronFundsEconomics],
+  voting_power_economics: [rawVotingPowerEconomics],
+};
+
 describe("GovernanceCanister", () => {
   const error: GovernanceErrorDetail = {
     error_message: "Some error",
@@ -80,45 +139,44 @@ describe("GovernanceCanister", () => {
     command: [{ Error: error }],
   };
 
-  const mockManageNetworkEconomicsAction: Action = {
-    ManageNetworkEconomics: {
-      neuronMinimumStake: BigInt(100_000_000),
-      maxProposalsToKeepPerTopic: 1000,
-      neuronManagementFeePerProposal: BigInt(10_000),
-      rejectCost: BigInt(10_000_000),
-      transactionFee: BigInt(1000),
-      neuronSpawnDissolveDelaySeconds: BigInt(3600 * 24 * 7),
-      minimumIcpXdrRate: BigInt(1),
-      maximumNodeProviderRewards: BigInt(10_000_000_000),
-      neuronsFundEconomics: {
-        minimumIcpXdrRate: {
-          basisPoints: 123n,
+  const mockManageNetworkEconomics: NetworkEconomics = {
+    neuronMinimumStake: BigInt(100_000_000),
+    maxProposalsToKeepPerTopic: 1000,
+    neuronManagementFeePerProposal: BigInt(10_000),
+    rejectCost: BigInt(10_000_000),
+    transactionFee: BigInt(1000),
+    neuronSpawnDissolveDelaySeconds: BigInt(3600 * 24 * 7),
+    minimumIcpXdrRate: BigInt(1),
+    maximumNodeProviderRewards: BigInt(10_000_000_000),
+    neuronsFundEconomics: {
+      minimumIcpXdrRate: {
+        basisPoints: 123n,
+      },
+      maxTheoreticalNeuronsFundParticipationAmountXdr: {
+        humanReadable: "456",
+      },
+      neuronsFundMatchedFundingCurveCoefficients: {
+        contributionThresholdXdr: {
+          humanReadable: "789",
         },
-        maxTheoreticalNeuronsFundParticipationAmountXdr: {
+        oneThirdParticipationMilestoneXdr: {
+          humanReadable: "123",
+        },
+        fullParticipationMilestoneXdr: {
           humanReadable: "456",
         },
-        neuronsFundMatchedFundingCurveCoefficients: {
-          contributionThresholdXdr: {
-            humanReadable: "789",
-          },
-          oneThirdParticipationMilestoneXdr: {
-            humanReadable: "123",
-          },
-          fullParticipationMilestoneXdr: {
-            humanReadable: "456",
-          },
-        },
-        maximumIcpXdrRate: {
-          basisPoints: 456n,
-        },
       },
-      votingPowerEconomics: {
-        startReducingVotingPowerAfterSeconds: BigInt(
-          (365.25 * 24 * 60 * 60) / 2,
-        ),
-        clearFollowingAfterSeconds: BigInt((365.25 * 24 * 60 * 60) / 12),
+      maximumIcpXdrRate: {
+        basisPoints: 456n,
       },
     },
+    votingPowerEconomics: {
+      startReducingVotingPowerAfterSeconds: BigInt((365.25 * 24 * 60 * 60) / 2),
+      clearFollowingAfterSeconds: BigInt((365.25 * 24 * 60 * 60) / 12),
+    },
+  };
+  const mockManageNetworkEconomicsAction: Action = {
+    ManageNetworkEconomics: mockManageNetworkEconomics,
   };
 
   afterEach(() => {
@@ -699,50 +757,6 @@ describe("GovernanceCanister", () => {
         serviceOverride: service,
       });
 
-      const rawNeuronFundsEconomics: NeuronsFundEconomics = {
-        maximum_icp_xdr_rate: [
-          {
-            basis_points: [456n],
-          },
-        ],
-        max_theoretical_neurons_fund_participation_amount_xdr: [
-          {
-            human_readable: ["456"],
-          },
-        ],
-        neurons_fund_matched_funding_curve_coefficients: [
-          {
-            contribution_threshold_xdr: [
-              {
-                human_readable: ["789"],
-              },
-            ],
-            one_third_participation_milestone_xdr: [
-              {
-                human_readable: ["123"],
-              },
-            ],
-            full_participation_milestone_xdr: [
-              {
-                human_readable: ["456"],
-              },
-            ],
-          },
-        ],
-        minimum_icp_xdr_rate: [
-          {
-            basis_points: [123n],
-          },
-        ],
-      };
-
-      const rawVotingPowerEconomics = {
-        start_reducing_voting_power_after_seconds: [
-          BigInt((365.25 * 24 * 60 * 60) / 2),
-        ],
-        clear_following_after_seconds: [BigInt((365.25 * 24 * 60 * 60) / 12)],
-      };
-
       const rawProposal = {
         id: [{ id: 1n }],
         ballots: [],
@@ -753,18 +767,7 @@ describe("GovernanceCanister", () => {
             summary: "Here it goes the summary",
             action: [
               {
-                ManageNetworkEconomics: {
-                  neuron_minimum_stake_e8s: BigInt(100_000_000),
-                  max_proposals_to_keep_per_topic: 1000,
-                  neuron_management_fee_per_proposal_e8s: BigInt(10_000),
-                  reject_cost_e8s: BigInt(10_000_000),
-                  transaction_fee_e8s: BigInt(1000),
-                  neuron_spawn_dissolve_delay_seconds: BigInt(3600 * 24 * 7),
-                  minimum_icp_xdr_rate: BigInt(1),
-                  maximum_node_provider_rewards_e8s: BigInt(10_000_000_000),
-                  neurons_fund_economics: [rawNeuronFundsEconomics],
-                  voting_power_economics: [rawVotingPowerEconomics],
-                },
+                ManageNetworkEconomics: rawNetworkEconomics,
               },
             ],
           },
