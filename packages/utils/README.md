@@ -61,6 +61,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
+- [fromNullishNullable](#gear-fromnullishnullable)
 - [jsonReplacer](#gear-jsonreplacer)
 - [jsonReviver](#gear-jsonreviver)
 - [principalToSubAccount](#gear-principaltosubaccount)
@@ -390,6 +391,20 @@ Parameters:
 - `value`: - A Candid-style variant representing an optional value.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L35)
+
+#### :gear: fromNullishNullable
+
+Extracts the value from a nullish Candid-style variant representation.
+
+| Function              | Type                                                   |
+| --------------------- | ------------------------------------------------------ |
+| `fromNullishNullable` | `<T>(value: [] or [T] or undefined) => T or undefined` |
+
+Parameters:
+
+- `value`: - A Candid-style variant or `undefined`.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L50)
 
 #### :gear: jsonReplacer
 
