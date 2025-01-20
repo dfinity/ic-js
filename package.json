@@ -57,7 +57,7 @@
     "text-encoding": "^0.7.0",
     "ts-jest": "^29.2.5",
     "ts-protoc-gen": "^0.15.0",
-    "tsdoc-markdown": "^1.1.0",
+    "tsdoc-markdown": "^1.1.1",
     "typescript": "^5.4.4"
   },
   "size-limit": [
