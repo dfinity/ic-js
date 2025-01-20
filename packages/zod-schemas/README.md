@@ -29,54 +29,28 @@ npm i @dfinity/principal
 
 <!-- TSDOC_START -->
 
-### :toolbox: Functions
-
-- [createUrlSchema](#gear-createurlschema)
-
-#### :gear: createUrlSchema
-
-Creates a Zod schema for validating URLs. By default, it validates that the URL protocol is HTTPS and allow usage of HTTP only locally.
-
-| Function          | Type                                                                                                                                                                                     |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `createUrlSchema` | `({ additionalProtocols, allowHttpLocally, }: { additionalProtocols?: `${string}:`[] or undefined; allowHttpLocally?: boolean or undefined; }) => ZodEffects<ZodString, string, string>` |
-
-Parameters:
-
-- `options`: - Configuration options for the schema.
-- `options.additionalProtocols`: - Additional protocols to allow (e.g., "wss:" or "ftp:"). ⚠️ Usage of insecure protocols is discouraged.
-- `options.allowHttpLocally`: - Whether to allow HTTP for localhost and 127.0.0.1. Default: true.
-
-Examples:
-
-const schema = createUrlSchema({
-additionalProtocols: ["wss:"],
-allowHttpLocally: false
-});
-
-schema.parse("https://example.com"); // Valid
-schema.parse("wss://example.com"); // Valid
-schema.parse("http://localhost"); // Invalid if allowHttpLocally is false
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L27)
-
 ### :wrench: Constants
 
-- [UrlSchema](#gear-urlschema)
+- [PrincipalTextSchema](#gear-principaltextschema)
 
-#### :gear: UrlSchema
+#### :gear: PrincipalTextSchema
 
-Default URL schema that enforces HTTPS and allows HTTP locally.
+Zod schema to validate a string as a valid textual representation of a Principal.
 
-| Constant    | Type                                    |
-| ----------- | --------------------------------------- |
-| `UrlSchema` | `ZodEffects<ZodString, string, string>` |
+This schema checks if the provided string can be converted into a `Principal` instance.
+If the conversion fails, validation will return an error message.
+
+| Constant              | Type                                    |
+| --------------------- | --------------------------------------- |
+| `PrincipalTextSchema` | `ZodEffects<ZodString, string, string>` |
 
 Examples:
 
-UrlSchema.parse("https://example.com"); // Valid
-UrlSchema.parse("http://127.0.0.1"); // Valid (localhost exception)
+```typescript
+const result = PrincipalTextSchema.safeParse("aaaaa-aa");
+console.log(result.success); // true or false
+```
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L70)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/principal.ts#L16)
 
 <!-- TSDOC_END -->
