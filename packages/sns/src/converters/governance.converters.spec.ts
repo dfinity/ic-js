@@ -201,10 +201,23 @@ describe("governance converters", () => {
     it("converts UpgradeSnsControlledCanister action", () => {
       const new_canister_wasm = new Uint8Array();
       const canister_id = mockPrincipal;
+      const wasm_module_hash = new Uint8Array([1, 2, 3]);
+      const store_canister_id = Principal.fromHex("123f");
+      const chunk_hashes_list = [
+        new Uint8Array([4, 5, 6]),
+        new Uint8Array([7, 8, 9]),
+      ];
       const mode = 1;
       const action: ActionCandid = {
         UpgradeSnsControlledCanister: {
           new_canister_wasm,
+          chunked_canister_wasm: [
+            {
+              wasm_module_hash,
+              store_canister_id: [store_canister_id],
+              chunk_hashes_list,
+            },
+          ],
           canister_id: [canister_id],
           canister_upgrade_arg: [],
           mode: [mode],
@@ -213,6 +226,11 @@ describe("governance converters", () => {
       const expectedAction: Action = {
         UpgradeSnsControlledCanister: {
           new_canister_wasm: new Uint8Array(),
+          chunked_canister_wasm: {
+            wasm_module_hash,
+            store_canister_id,
+            chunk_hashes_list,
+          },
           canister_id,
           canister_upgrade_arg: undefined,
           mode,
