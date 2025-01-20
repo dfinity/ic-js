@@ -83,6 +83,11 @@ export type CanisterStatusType =
 export interface ChangeAutoStakeMaturity {
   requested_setting_for_auto_stake_maturity: boolean;
 }
+export interface ChunkedCanisterWasm {
+  wasm_module_hash: Uint8Array | number[];
+  chunk_hashes_list: Array<Uint8Array | number[]>;
+  store_canister_id: [] | [Principal];
+}
 export interface ClaimOrRefresh {
   by: [] | [By];
 }
@@ -153,6 +158,7 @@ export interface DefaultFollowees {
 }
 export interface DefiniteCanisterSettingsArgs {
   freezing_threshold: bigint;
+  wasm_memory_threshold: [] | [bigint];
   controllers: Array<Principal>;
   wasm_memory_limit: [] | [bigint];
   memory_allocation: bigint;
@@ -338,6 +344,7 @@ export interface ListProposalsResponse {
 }
 export interface ManageDappCanisterSettings {
   freezing_threshold: [] | [bigint];
+  wasm_memory_threshold: [] | [bigint];
   canister_ids: Array<Principal>;
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [number];
@@ -660,6 +667,7 @@ export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array | number[];
   mode: [] | [number];
   canister_id: [] | [Principal];
+  chunked_canister_wasm: [] | [ChunkedCanisterWasm];
   canister_upgrade_arg: [] | [Uint8Array | number[]];
 }
 export interface UpgradeStarted {
