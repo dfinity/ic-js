@@ -1,4 +1,4 @@
-# 2025.01.20-1730Z
+# 2025.01.20-1800Z
 
 ## Overview
 
@@ -16,7 +16,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
 | `@dfinity/sns`           | v3.2.8  | Maintained ⚙️ |
 | `@dfinity/utils`         | v2.9.0  | Enhanced 🔧️  |
-| `@dfinity/zod-schemas`   | v0.0.1  | Unchanged️    |
+| `@dfinity/zod-schemas`   | v0.0.2  | Maintained ⚙️ |
 
 # Features
 
