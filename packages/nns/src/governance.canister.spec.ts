@@ -912,6 +912,8 @@ describe("GovernanceCanister", () => {
     });
 
     it("should fetch and convert UpdateCanisterSettings on ProposalInfo", async () => {
+      const wasmMemoryThreshold = 222222n;
+
       const service = mock<ActorSubclass<GovernanceService>>();
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
@@ -930,6 +932,7 @@ describe("GovernanceCanister", () => {
             compute_allocation: [1n],
             memory_allocation: [123456n],
             wasm_memory_limit: [234567n],
+            wasm_memory_threshold: [wasmMemoryThreshold],
             freezing_threshold: [100n],
             log_visibility: [1],
           },
@@ -943,6 +946,7 @@ describe("GovernanceCanister", () => {
           computeAllocation: 1n,
           memoryAllocation: 123456n,
           wasmMemoryLimit: 234567n,
+          wasmMemoryThreshold,
           freezingThreshold: 100n,
           logVisibility: LogVisibility.Controllers,
         },

@@ -463,6 +463,9 @@ const fromCanisterSettings = (
           wasm_memory_limit: toNullable(canisterSettings.wasmMemoryLimit),
           compute_allocation: toNullable(canisterSettings.computeAllocation),
           memory_allocation: toNullable(canisterSettings.memoryAllocation),
+          wasm_memory_threshold: toNullable(
+            canisterSettings.wasmMemoryThreshold,
+          ),
         },
       ];
 };
