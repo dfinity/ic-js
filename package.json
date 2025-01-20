@@ -13,7 +13,8 @@
     "packages/cmc",
     "packages/ckbtc",
     "packages/ic-management",
-    "packages/cketh"
+    "packages/cketh",
+    "packages/zod-schemas"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",

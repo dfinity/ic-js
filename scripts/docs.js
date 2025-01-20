@@ -53,6 +53,8 @@ const icMgmtInputFiles = [
   "./packages/ic-management/src/ic-management.canister.ts",
 ];
 
+const zodSchemasInputFiles = ["./packages/zod-schemas/src/index.ts"];
+
 const buildOptions = {
   repo: { url: "https://github.com/dfinity/ic-js" },
 };
@@ -122,4 +124,11 @@ generateDocumentation({
   outputFile: "./packages/ic-management/README.md",
   markdownOptions,
   buildOptions,
+});
+
+generateDocumentation({
+  inputFiles: zodSchemasInputFiles,
+  outputFile: "./packages/zod-schemas/README.md",
+  markdownOptions,
+  buildOptions: { ...buildOptions, explore: true },
 });
