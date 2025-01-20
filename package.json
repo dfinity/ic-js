@@ -166,6 +166,16 @@
       ]
     },
     {
+      "name": "@dfinity/zod-schemas",
+      "path": "./packages/zod-schemas/dist/index.js",
+      "limit": "2 kB",
+      "gzip": true,
+      "ignore": [
+        "zod",
+        "@dfinity/principal"
+      ]
+    },
+    {
       "name": "@dfinity/ic-management",
       "path": "./packages/ic-management/dist/index.js",
       "limit": "4 kB",
