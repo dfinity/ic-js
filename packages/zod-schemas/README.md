@@ -35,11 +35,30 @@ npm i @dfinity/principal
 
 #### :gear: createUrlSchema
 
+Creates a Zod schema for validating URLs. By default, it validates that the URL protocol is HTTPS and allow usage of HTTP only locally.
+
 | Function          | Type                                                                                                                                                                                     |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `createUrlSchema` | `({ additionalProtocols, allowHttpLocally, }: { additionalProtocols?: `${string}:`[] or undefined; allowHttpLocally?: boolean or undefined; }) => ZodEffects<ZodString, string, string>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L5)
+Parameters:
+
+- `options`: - Configuration options for the schema.
+- `options.additionalProtocols`: - Additional protocols to allow (e.g., "wss:" or "ftp:"). ⚠️ Usage of insecure protocols is discouraged.
+- `options.allowHttpLocally`: - Whether to allow HTTP for localhost and 127.0.0.1. Default: true.
+
+Examples:
+
+const schema = createUrlSchema({
+additionalProtocols: ["wss:"],
+allowHttpLocally: false
+});
+
+schema.parse("https://example.com"); // Valid
+schema.parse("wss://example.com"); // Valid
+schema.parse("http://localhost"); // Invalid if allowHttpLocally is false
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L27)
 
 ### :wrench: Constants
 
@@ -47,10 +66,17 @@ npm i @dfinity/principal
 
 #### :gear: UrlSchema
 
+Default URL schema that enforces HTTPS and allows HTTP locally.
+
 | Constant    | Type                                    |
 | ----------- | --------------------------------------- |
 | `UrlSchema` | `ZodEffects<ZodString, string, string>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L38)
+Examples:
+
+UrlSchema.parse("https://example.com"); // Valid
+UrlSchema.parse("http://127.0.0.1"); // Valid (localhost exception)
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L70)
 
 <!-- TSDOC_END -->
