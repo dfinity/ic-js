@@ -61,6 +61,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
+- [fromNullishNullable](#gear-fromnullishnullable)
 - [jsonReplacer](#gear-jsonreplacer)
 - [jsonReviver](#gear-jsonreviver)
 - [principalToSubAccount](#gear-principaltosubaccount)
@@ -350,27 +351,60 @@ Returns the current timestamp in nanoseconds as a `bigint`.
 
 #### :gear: toNullable
 
+Converts a value into a Candid-style variant representation of an optional value.
+
 | Function     | Type                                               |
 | ------------ | -------------------------------------------------- |
 | `toNullable` | `<T>(value?: T or null or undefined) => [] or [T]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L4)
+Parameters:
+
+- `value`: - The value to convert into a Candid-style variant.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L11)
 
 #### :gear: fromNullable
+
+Extracts the value from a Candid-style variant representation of an optional value.
 
 | Function       | Type                                      |
 | -------------- | ----------------------------------------- |
 | `fromNullable` | `<T>(value: [] or [T]) => T or undefined` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L8)
+Parameters:
+
+- `value`: - A Candid-style variant representing an optional value.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L22)
 
 #### :gear: fromDefinedNullable
+
+Extracts the value from a Candid-style variant representation of an optional value,
+ensuring the value is defined. Throws an error if the array is empty or the value is nullish.
 
 | Function              | Type                         |
 | --------------------- | ---------------------------- |
 | `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L12)
+Parameters:
+
+- `value`: - A Candid-style variant representing an optional value.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L35)
+
+#### :gear: fromNullishNullable
+
+Extracts the value from a nullish Candid-style variant representation.
+
+| Function              | Type                                                   |
+| --------------------- | ------------------------------------------------------ |
+| `fromNullishNullable` | `<T>(value: [] or [T] or undefined) => T or undefined` |
+
+Parameters:
+
+- `value`: - A Candid-style variant or `undefined`.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L50)
 
 #### :gear: jsonReplacer
 
