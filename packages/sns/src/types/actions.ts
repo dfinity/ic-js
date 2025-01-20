@@ -83,8 +83,15 @@ export interface TransferSnsTreasuryFunds {
   amount_e8s: bigint;
 }
 
+export interface ChunkedCanisterWasm {
+  wasm_module_hash: Uint8Array | number[];
+  store_canister_id: Option<Principal>;
+  chunk_hashes_list: Array<Uint8Array | number[]>;
+}
+
 export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array | number[];
+  chunked_canister_wasm: Option<ChunkedCanisterWasm>;
   canister_id: Option<Principal>;
   canister_upgrade_arg: Option<Uint8Array | number[]>;
   mode: Option<number>;

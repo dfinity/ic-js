@@ -72,6 +72,11 @@ export type CanisterStatusType =
 export interface ChangeAutoStakeMaturity {
   requested_setting_for_auto_stake_maturity: boolean;
 }
+export interface ChunkedCanisterWasm {
+  wasm_module_hash: Uint8Array | number[];
+  chunk_hashes_list: Array<Uint8Array | number[]>;
+  store_canister_id: [] | [Principal];
+}
 export interface ClaimOrRefresh {
   by: [] | [By];
 }
@@ -647,6 +652,7 @@ export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array | number[];
   mode: [] | [number];
   canister_id: [] | [Principal];
+  chunked_canister_wasm: [] | [ChunkedCanisterWasm];
   canister_upgrade_arg: [] | [Uint8Array | number[]];
 }
 export interface UpgradeStarted {

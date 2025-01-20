@@ -3,6 +3,7 @@ import { fromNullable, toNullable } from "@dfinity/utils";
 import type {
   Account,
   Action as ActionCandid,
+  ChunkedCanisterWasm as ChunkedCanisterWasmCandid,
   Command,
   FunctionType as FunctionTypeCandid,
   GenericNervousSystemFunction as GenericNervousSystemFunctionCandid,
@@ -20,6 +21,7 @@ import type {
 import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
 import type {
   Action,
+  ChunkedCanisterWasm,
   FunctionType,
   GenericNervousSystemFunction,
   ManageSnsMetadata,
@@ -388,10 +390,26 @@ const convertManageSnsMetadata = (
   description: fromNullable(params.description),
 });
 
+const convertChunkedCanisterWasm = (
+  params: ChunkedCanisterWasmCandid | undefined,
+): ChunkedCanisterWasm | undefined => {
+  if (params === undefined) {
+    return undefined;
+  }
+  return {
+    wasm_module_hash: params.wasm_module_hash,
+    store_canister_id: fromNullable(params.store_canister_id),
+    chunk_hashes_list: params.chunk_hashes_list,
+  };
+};
+
 const convertUpgradeSnsControlledCanister = (
   params: UpgradeSnsControlledCanisterCandid,
 ): UpgradeSnsControlledCanister => ({
   new_canister_wasm: params.new_canister_wasm,
+  chunked_canister_wasm: convertChunkedCanisterWasm(
+    fromNullable(params.chunked_canister_wasm),
+  ),
   canister_id: fromNullable(params.canister_id),
   canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
   mode: fromNullable(params.mode),
