@@ -1,4 +1,22 @@
-# YYYY.MM.DD-HHMMZ
+# 2025.01.20-1030Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.5  | Unchanged️    |
+| `@dfinity/cketh`         | v3.4.2  | Unchanged️    |
+| `@dfinity/cmc`           | v4.1.0  | Unchanged️    |
+| `@dfinity/ic-management` | v6.0.2  | Unchanged️    |
+| `@dfinity/ledger-icp`    | v2.6.6  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.1  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.2.0  | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
+| `@dfinity/sns`           | v3.2.7  | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.8.0  | Unchanged️    |
+| `@dfinity/utils`         | v0.0.1  | New 🚀        |
 
 ## Features
 
@@ -6,6 +24,8 @@
 - Expose few additional did types in `@dfinity/ledger-icp`.
 - Add utility `fromNullishNullable` extracts the value from a nullish Candid-style variant representation.
 - Introduce a new zod-schemas library to provide a collection of reusable Zod schemas and validators for common data patterns in ICP applications.
+- Api get network economics parameters.
+- Update `old_list_neurons_service.certified.idl.js`.
 
 ## Fix
 
