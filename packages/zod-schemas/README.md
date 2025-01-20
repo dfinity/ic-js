@@ -29,4 +29,28 @@ npm i @dfinity/principal
 
 <!-- TSDOC_START -->
 
+### :wrench: Constants
+
+- [PrincipalTextSchema](#gear-principaltextschema)
+
+#### :gear: PrincipalTextSchema
+
+Zod schema to validate a string as a valid textual representation of a Principal.
+
+This schema checks if the provided string can be converted into a `Principal` instance.
+If the conversion fails, validation will return an error message.
+
+| Constant              | Type                                    |
+| --------------------- | --------------------------------------- |
+| `PrincipalTextSchema` | `ZodEffects<ZodString, string, string>` |
+
+Examples:
+
+```typescript
+const result = PrincipalTextSchema.safeParse("aaaaa-aa");
+console.log(result.success); // true or false
+```
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/principal.ts#L16)
+
 <!-- TSDOC_END -->
