@@ -3,6 +3,7 @@
 # Features
 
 - Support `CanisterSettings.wasm_memory_threshold` in `@dfinity/nns`.
+- Support `UpgradeSnsControlledCanister.chunked_canister_wasm` in `@dfinity/sns`.
 
 # 2025.01.20-1030Z
 
