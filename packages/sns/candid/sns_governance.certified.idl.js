@@ -242,10 +242,16 @@ export const idlFactory = ({ IDL }) => {
     'memo' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Nat64,
   });
+  const ChunkedCanisterWasm = IDL.Record({
+    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
+    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+    'store_canister_id' : IDL.Opt(IDL.Principal),
+  });
   const UpgradeSnsControlledCanister = IDL.Record({
     'new_canister_wasm' : IDL.Vec(IDL.Nat8),
     'mode' : IDL.Opt(IDL.Int32),
     'canister_id' : IDL.Opt(IDL.Principal),
+    'chunked_canister_wasm' : IDL.Opt(ChunkedCanisterWasm),
     'canister_upgrade_arg' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
   const DeregisterDappCanisters = IDL.Record({
@@ -947,10 +953,16 @@ export const init = ({ IDL }) => {
     'memo' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Nat64,
   });
+  const ChunkedCanisterWasm = IDL.Record({
+    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
+    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+    'store_canister_id' : IDL.Opt(IDL.Principal),
+  });
   const UpgradeSnsControlledCanister = IDL.Record({
     'new_canister_wasm' : IDL.Vec(IDL.Nat8),
     'mode' : IDL.Opt(IDL.Int32),
     'canister_id' : IDL.Opt(IDL.Principal),
+    'chunked_canister_wasm' : IDL.Opt(ChunkedCanisterWasm),
     'canister_upgrade_arg' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
   const DeregisterDappCanisters = IDL.Record({
