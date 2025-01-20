@@ -5,7 +5,7 @@
 The current status of the libraries at the time of the release is as follows:
 
 | Library                  | Version | Status        |
-|--------------------------| ------- | ------------- |
+| ------------------------ | ------- | ------------- |
 | `@dfinity/ckbtc`         | v3.1.5  | Unchanged️    |
 | `@dfinity/cketh`         | v3.4.2  | Unchanged️    |
 | `@dfinity/cmc`           | v4.1.0  | Unchanged️    |
@@ -16,7 +16,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
 | `@dfinity/sns`           | v3.2.7  | Maintained ⚙️ |
 | `@dfinity/utils`         | v2.8.0  | Unchanged️    |
-| `@dfinity/zod-schemas`         | v0.0.1  | New 🚀        |
+| `@dfinity/zod-schemas`   | v0.0.1  | New 🚀        |
 
 ## Features
 
