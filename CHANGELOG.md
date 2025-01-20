@@ -1,3 +1,9 @@
+# YYYY.MM.DD-HHMMZ
+
+# Features
+
+- Support `CanisterSettings.wasm_memory_threshold` in `@dfinity/nns`.
+
 # 2025.01.20-1030Z
 
 ## Overview

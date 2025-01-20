@@ -256,6 +256,7 @@ export interface CanisterSettings {
   wasmMemoryLimit: Option<bigint>;
   memoryAllocation: Option<bigint>;
   computeAllocation: Option<bigint>;
+  wasmMemoryThreshold: Option<bigint>;
 }
 export interface UpdateCanisterSettings {
   canisterId: Option<PrincipalString>;
