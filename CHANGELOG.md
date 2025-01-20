@@ -22,6 +22,8 @@ The current status of the libraries at the time of the release is as follows:
 
 - Expose types `IcrcApproveError` and `IcrcTransferFromError` in `@dfinity/ledger-icrc`.
 - Expose few additional did types in `@dfinity/ledger-icp`.
+- Add utility `fromNullishNullable` extracts the value from a nullish Candid-style variant representation.
+- Introduce a new zod-schemas library to provide a collection of reusable Zod schemas and validators for common data patterns in ICP applications.
 - Api get network economics parameters.
 - Update `old_list_neurons_service.certified.idl.js`.
 
