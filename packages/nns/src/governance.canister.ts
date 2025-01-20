@@ -54,6 +54,7 @@ import {
 import {
   toArrayOfNeuronInfo,
   toListProposalsResponse,
+  toNetworkEconomics,
   toNeuronInfo,
   toProposalInfo,
 } from "./canisters/governance/response.converters";
@@ -80,6 +81,7 @@ import type {
   ListProposalsRequest,
   ListProposalsResponse,
   MakeProposalRequest,
+  NetworkEconomics,
   NeuronInfo,
   ProposalId,
   ProposalInfo,
@@ -910,5 +912,20 @@ export class GovernanceCanister {
     });
 
     return neuron;
+  };
+
+  /**
+   * Return the [Network Economics](https://github.com/dfinity/ic/blob/d90e934eb440c730d44d9d9b1ece2cc3f9505d05/rs/nns/governance/proto/ic_nns_governance/pb/v1/governance.proto#L1847).
+   */
+  public getNetworkEconomicsParameters = async ({
+    certified = true,
+  }: {
+    certified: boolean;
+  }): Promise<NetworkEconomics> => {
+    const rawResponse =
+      await this.getGovernanceService(
+        certified,
+      ).get_network_economics_parameters();
+    return toNetworkEconomics(rawResponse);
   };
 }
