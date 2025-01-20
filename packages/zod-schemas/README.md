@@ -29,4 +29,28 @@ npm i @dfinity/principal
 
 <!-- TSDOC_START -->
 
+### :toolbox: Functions
+
+- [createUrlSchema](#gear-createurlschema)
+
+#### :gear: createUrlSchema
+
+| Function          | Type                                                                                                                                                                                     |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createUrlSchema` | `({ additionalProtocols, allowHttpLocally, }: { additionalProtocols?: `${string}:`[] or undefined; allowHttpLocally?: boolean or undefined; }) => ZodEffects<ZodString, string, string>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L5)
+
+### :wrench: Constants
+
+- [UrlSchema](#gear-urlschema)
+
+#### :gear: UrlSchema
+
+| Constant    | Type                                    |
+| ----------- | --------------------------------------- |
+| `UrlSchema` | `ZodEffects<ZodString, string, string>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L38)
+
 <!-- TSDOC_END -->
