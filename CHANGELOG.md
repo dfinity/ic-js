@@ -4,19 +4,19 @@
 
 The current status of the libraries at the time of the release is as follows:
 
-| Library                  | Version | Status        |
-| ------------------------ | ------- | ------------- |
-| `@dfinity/ckbtc`         | v3.1.6  | Maintained ⚙️ |
-| `@dfinity/cketh`         | v3.4.3  | Maintained ⚙️ |
-| `@dfinity/cmc`           | v4.1.1  | Maintained ⚙️ |
-| `@dfinity/ic-management` | v6.0.3  | Maintained ⚙️ |
-| `@dfinity/ledger-icp`    | v2.6.7  | Maintained ⚙️ |
-| `@dfinity/ledger-icrc`   | v2.7.2  | Maintained ⚙️ |
-| `@dfinity/nns`           | v8.2.1  | Maintained ⚙️ |
-| `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
-| `@dfinity/sns`           | v3.2.8  | Maintained ⚙️ |
-| `@dfinity/utils`         | v2.9.0  | Enhanced 🔧️  |
-| `@dfinity/zod-schemas`   | v0.0.1  | Unchanged️    |
+| Library                  | Version | Status         |
+| ------------------------ |---------|----------------|
+| `@dfinity/ckbtc`         | v3.1.6  | Maintained ⚙️  |
+| `@dfinity/cketh`         | v3.4.3  | Maintained ⚙️  |
+| `@dfinity/cmc`           | v4.1.1  | Maintained ⚙️  |
+| `@dfinity/ic-management` | v6.0.3  | Maintained ⚙️  |
+| `@dfinity/ledger-icp`    | v2.6.7  | Maintained ⚙️  |
+| `@dfinity/ledger-icrc`   | v2.7.2  | Maintained ⚙️  |
+| `@dfinity/nns`           | v8.2.1  | Maintained ⚙️  |
+| `@dfinity/nns-proto`     | v2.0.1  | Unchanged️     |
+| `@dfinity/sns`           | v3.2.8  | Maintained ⚙️  |
+| `@dfinity/utils`         | v2.9.0  | Enhanced 🔧️   |
+| `@dfinity/zod-schemas`   | v0.0.2  | Maintained ⚙️  |
 
 # Features
 

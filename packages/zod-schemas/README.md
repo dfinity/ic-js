@@ -25,7 +25,7 @@ npm i @dfinity/principal
 
 ## Features
 
-`utils-js` implements following features:
+The library implements following features:
 
 <!-- TSDOC_START -->
 
