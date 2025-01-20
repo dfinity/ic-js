@@ -1,9 +1,28 @@
-# YYYY.MM.DD-HHMMZ
+# 2025.01.20-1730Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.6  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.3  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v4.1.1  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.0.3  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v2.6.7  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.2  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.2.1  | Maintained ⚙️ |
+| `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
+| `@dfinity/sns`           | v3.2.8  | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.9.0  | Enhanced 🔧️  |
+| `@dfinity/zod-schemas`   | v0.0.1  | Unchanged️    |
 
 # Features
 
 - Support `CanisterSettings.wasm_memory_threshold` in `@dfinity/nns`.
 - Support `UpgradeSnsControlledCanister.chunked_canister_wasm` in `@dfinity/sns`.
+- Add utility `fromNullishNullable` extracts the value from a nullish Candid-style variant representation.
 
 # 2025.01.20-1030Z
 
@@ -29,7 +48,6 @@ The current status of the libraries at the time of the release is as follows:
 
 - Expose types `IcrcApproveError` and `IcrcTransferFromError` in `@dfinity/ledger-icrc`.
 - Expose few additional did types in `@dfinity/ledger-icp`.
-- Add utility `fromNullishNullable` extracts the value from a nullish Candid-style variant representation.
 - Introduce a new zod-schemas library to provide a collection of reusable Zod schemas and validators for common data patterns in ICP applications.
 - Api get network economics parameters.
 - Update `old_list_neurons_service.certified.idl.js`.
