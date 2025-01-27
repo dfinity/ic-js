@@ -3,6 +3,7 @@
 # Features
 
 - Support `NervousSystemParameters.automatically_advance_target_version` in `@dfinity/sns`.
+- Add converters to encode or decode base64 string into Uint8Array.
 
 # 2025.01.20-1800Z
 
