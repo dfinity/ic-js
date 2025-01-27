@@ -73,6 +73,7 @@ describe("governance converters", () => {
             max_number_of_principals_per_neuron,
           ],
           maturity_modulation_disabled: [false],
+          automatically_advance_target_version: [true],
         },
       };
       const expectedAction: Action = {
@@ -101,6 +102,7 @@ describe("governance converters", () => {
             round_duration_seconds,
           },
           max_number_of_principals_per_neuron,
+          automatically_advance_target_version: true,
         },
       };
       expect(fromCandidAction(action)).toEqual(expectedAction);

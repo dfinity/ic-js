@@ -523,4 +523,7 @@ const convertNervousSystemParams = (
   max_number_of_principals_per_neuron: fromNullable(
     params.max_number_of_principals_per_neuron,
   ),
+  automatically_advance_target_version: fromNullable(
+    params.automatically_advance_target_version,
+  ),
 });
