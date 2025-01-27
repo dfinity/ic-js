@@ -54,6 +54,8 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [candidNumberArrayToBigInt](#gear-candidnumberarraytobigint)
 - [encodeBase32](#gear-encodebase32)
 - [decodeBase32](#gear-decodebase32)
+- [uint8ArrayToBase64](#gear-uint8arraytobase64)
+- [base64ToUint8Array](#gear-base64touint8array)
 - [bigEndianCrc32](#gear-bigendiancrc32)
 - [secondsToDuration](#gear-secondstoduration)
 - [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
@@ -306,6 +308,34 @@ Parameters:
 - `input`: The base32 encoded string to decode.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base32.utils.ts#L67)
+
+#### :gear: uint8ArrayToBase64
+
+Converts a Uint8Array (binary data) to a base64 encoded string.
+
+| Function             | Type                                 |
+| -------------------- | ------------------------------------ |
+| `uint8ArrayToBase64` | `(uint8Array: Uint8Array) => string` |
+
+Parameters:
+
+- `uint8Array`: - The Uint8Array containing binary data to be encoded.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base64.utils.ts#L7)
+
+#### :gear: base64ToUint8Array
+
+Converts a base64 encoded string to a Uint8Array (binary data).
+
+| Function             | Type                                   |
+| -------------------- | -------------------------------------- |
+| `base64ToUint8Array` | `(base64String: string) => Uint8Array` |
+
+Parameters:
+
+- `base64String`: - The base64 encoded string to be decoded.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base64.utils.ts#L16)
 
 #### :gear: bigEndianCrc32
 
