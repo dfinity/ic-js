@@ -1,4 +1,4 @@
-// Generated from IC repo commit 233c1ee2ef (2025-01-16 tags: release-2025-01-16_16-18-base) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 4ba5834 (2025-01-22 tags: release-2025-01-23_03-04-hashes-in-blocks) 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;
@@ -496,6 +496,7 @@ type NervousSystemParameters = record {
   voting_rewards_parameters : opt VotingRewardsParameters;
   maturity_modulation_disabled : opt bool;
   max_number_of_principals_per_neuron : opt nat64;
+  automatically_advance_target_version : opt bool;
 };
 
 type Neuron = record {
@@ -799,6 +800,7 @@ type UpgradeStepsReset = record {
 type TargetVersionSet = record {
   new_target_version : opt Version;
   old_target_version : opt Version;
+  is_advanced_automatically : opt bool;
 };
 
 type TargetVersionReset = record {
