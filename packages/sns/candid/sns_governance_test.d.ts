@@ -413,6 +413,7 @@ export interface NervousSystemParameters {
   max_dissolve_delay_seconds: [] | [bigint];
   max_dissolve_delay_bonus_percentage: [] | [bigint];
   max_followees_per_function: [] | [bigint];
+  automatically_advance_target_version: [] | [boolean];
   neuron_claimer_permissions: [] | [NeuronPermissionList];
   neuron_minimum_stake_e8s: [] | [bigint];
   max_neuron_age_for_age_bonus: [] | [bigint];
@@ -614,6 +615,7 @@ export interface TargetVersionReset {
 export interface TargetVersionSet {
   old_target_version: [] | [Version];
   new_target_version: [] | [Version];
+  is_advanced_automatically: [] | [boolean];
 }
 export interface Timers {
   last_spawned_timestamp_seconds: [] | [bigint];

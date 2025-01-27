@@ -1,3 +1,9 @@
+# YYYY.MM.DD-HHMMZ
+
+# Features
+
+- Support `NervousSystemParameters.automatically_advance_target_version` in `@dfinity/sns`.
+
 # 2025.01.20-1800Z
 
 ## Overview

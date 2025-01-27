@@ -48,6 +48,7 @@ export interface NervousSystemParameters {
   neuron_grantable_permissions: Option<NeuronPermissionList>;
   voting_rewards_parameters: Option<VotingRewardsParameters>;
   max_number_of_principals_per_neuron: Option<bigint>;
+  automatically_advance_target_version: Option<boolean>;
 }
 
 export interface VotingRewardsParameters {
