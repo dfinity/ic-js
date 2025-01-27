@@ -1,4 +1,4 @@
-// Generated from IC repo commit aa705aaa62 (2025-01-08 tags: release-2025-01-09_03-19-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit 4ba5834 (2025-01-22 tags: release-2025-01-23_03-04-hashes-in-blocks) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;

@@ -67,6 +67,7 @@ export const idlFactory = ({ IDL }) => {
   const TargetVersionSet = IDL.Record({
     'old_target_version' : IDL.Opt(Version),
     'new_target_version' : IDL.Opt(Version),
+    'is_advanced_automatically' : IDL.Opt(IDL.Bool),
   });
   const UpgradeStepsReset = IDL.Record({
     'human_readable' : IDL.Opt(IDL.Text),
@@ -137,6 +138,7 @@ export const idlFactory = ({ IDL }) => {
     'max_dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_dissolve_delay_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'max_followees_per_function' : IDL.Opt(IDL.Nat64),
+    'automatically_advance_target_version' : IDL.Opt(IDL.Bool),
     'neuron_claimer_permissions' : IDL.Opt(NeuronPermissionList),
     'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
     'max_neuron_age_for_age_bonus' : IDL.Opt(IDL.Nat64),
@@ -778,6 +780,7 @@ export const init = ({ IDL }) => {
   const TargetVersionSet = IDL.Record({
     'old_target_version' : IDL.Opt(Version),
     'new_target_version' : IDL.Opt(Version),
+    'is_advanced_automatically' : IDL.Opt(IDL.Bool),
   });
   const UpgradeStepsReset = IDL.Record({
     'human_readable' : IDL.Opt(IDL.Text),
@@ -848,6 +851,7 @@ export const init = ({ IDL }) => {
     'max_dissolve_delay_seconds' : IDL.Opt(IDL.Nat64),
     'max_dissolve_delay_bonus_percentage' : IDL.Opt(IDL.Nat64),
     'max_followees_per_function' : IDL.Opt(IDL.Nat64),
+    'automatically_advance_target_version' : IDL.Opt(IDL.Bool),
     'neuron_claimer_permissions' : IDL.Opt(NeuronPermissionList),
     'neuron_minimum_stake_e8s' : IDL.Opt(IDL.Nat64),
     'max_neuron_age_for_age_bonus' : IDL.Opt(IDL.Nat64),

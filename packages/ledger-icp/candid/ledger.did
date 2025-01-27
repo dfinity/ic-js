@@ -1,4 +1,4 @@
-// Generated from IC repo commit aa705aaa62 (2025-01-08 tags: release-2025-01-09_03-19-base) 'rs/ledger_suite/icp/ledger.did' by import-candid
+// Generated from IC repo commit 4ba5834 (2025-01-22 tags: release-2025-01-23_03-04-hashes-in-blocks) 'rs/ledger_suite/icp/ledger.did' by import-candid
 // This is the official Ledger interface that is guaranteed to be backward compatible.
 
 // Amount of tokens, measured in 10^-8 of a token.
