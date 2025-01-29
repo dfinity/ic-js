@@ -4,6 +4,10 @@
 
 - Support `NervousSystemParameters.automatically_advance_target_version` in `@dfinity/sns`.
 
+# Fix
+
+- Expose certified flag in `getIcpToCyclesConversionRate` to make update call.
+
 # 2025.01.20-1800Z
 
 ## Overview
