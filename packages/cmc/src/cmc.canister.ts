@@ -40,6 +40,7 @@ export class CMCCanister extends Canister<CMCCanisterService> {
     }).get_icp_xdr_conversion_rate();
 
     // TODO: validate the certificate in the response - https://dfinity.atlassian.net/browse/GIX-150
+    // Example: https://github.com/dfinity/response-verification/tree/main/examples/certification/certified-counter
     return data.xdr_permyriad_per_icp;
   };
 
