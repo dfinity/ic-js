@@ -25,12 +25,19 @@ export class CMCCanister extends Canister<CMCCanisterService> {
   }
 
   /**
-   * Returns conversion rate of ICP to Cycles
+   * Returns conversion rate of ICP to Cycles. It can be called as query or update.
+   *
+   * @param {Object} [params] - The parameters for the call.
+   * @param {boolean} [params.certified] - Determines whether the response should be certified (default: non-certified)
    *
    * @returns Promise<BigInt>
    */
-  public getIcpToCyclesConversionRate = async (): Promise<bigint> => {
-    const { data } = await this.service.get_icp_xdr_conversion_rate();
+  public getIcpToCyclesConversionRate = async ({
+    certified,
+  }: QueryParams = {}): Promise<bigint> => {
+    const { data } = await this.caller({
+      certified,
+    }).get_icp_xdr_conversion_rate();
 
     return data.xdr_permyriad_per_icp;
   };
