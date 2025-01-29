@@ -1,12 +1,12 @@
 # YYYY.MM.DD-HHMMZ
 
-# Features
+## Breaking Changes
+
+- Default `getIcpToCyclesConversionRate` to an update call while providing a `certified` parameter for queries.
+
+## Features
 
 - Support `NervousSystemParameters.automatically_advance_target_version` in `@dfinity/sns`.
-
-# Fix
-
-- Expose certified flag in `getIcpToCyclesConversionRate` to make update call.
 
 # 2025.01.20-1800Z
 
