@@ -228,7 +228,7 @@ If an array of neuron IDs is provided, precisely those neurons will be fetched.
 If `certified` is true, the request is fetched as an update call, otherwise
 it is fetched using a query call.
 
-The backend treats `includeEmptyNeurons` as true if absent.
+The backend treats `includeEmptyNeurons` as false if absent.
 
 | Method        | Type                                                                                                                                                                                                                                                   |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
