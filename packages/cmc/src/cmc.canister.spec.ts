@@ -35,7 +35,7 @@ describe("CyclesMintingCanister", () => {
   };
 
   describe("CMCCanister.getIcpToCyclesConversionRate", () => {
-    it("should returns the conversion rate from ICP to cycles", async () => {
+    it("should returns the conversion rate from ICP to cycles for a query", async () => {
       const exchangeRate = BigInt(10_000);
       const response: IcpXdrConversionRateResponse = {
         certificate: arrayOfNumberToUint8Array([]),
@@ -49,10 +49,46 @@ describe("CyclesMintingCanister", () => {
       service.get_icp_xdr_conversion_rate.mockResolvedValue(response);
 
       const cmc = await createCMC(service);
+      const callerSpy = jest.spyOn(
+        cmc as unknown as {
+          caller: (params: QueryParams) => Promise<CMCService>;
+        },
+        "caller",
+      );
 
-      const res = await cmc.getIcpToCyclesConversionRate();
+      const res = await cmc.getIcpToCyclesConversionRate({ certified: false });
 
       expect(res).toEqual(exchangeRate);
+      expect(service.get_icp_xdr_conversion_rate).toHaveBeenCalledTimes(1);
+      expect(callerSpy).toHaveBeenCalledWith({ certified: false });
+    });
+
+    it("should returns the conversion rate from ICP to cycles for an update", async () => {
+      const exchangeRate = BigInt(10_000);
+      const response: IcpXdrConversionRateResponse = {
+        certificate: arrayOfNumberToUint8Array([]),
+        data: {
+          xdr_permyriad_per_icp: exchangeRate,
+          timestamp_seconds: BigInt(10),
+        },
+        hash_tree: arrayOfNumberToUint8Array([]),
+      };
+      const service = mock<CMCService>();
+      service.get_icp_xdr_conversion_rate.mockResolvedValue(response);
+
+      const cmc = await createCMC(service);
+      const callerSpy = jest.spyOn(
+        cmc as unknown as {
+          caller: (params: QueryParams) => Promise<CMCService>;
+        },
+        "caller",
+      );
+
+      const res = await cmc.getIcpToCyclesConversionRate({ certified: true });
+
+      expect(res).toEqual(exchangeRate);
+      expect(service.get_icp_xdr_conversion_rate).toHaveBeenCalledTimes(1);
+      expect(callerSpy).toHaveBeenCalledWith({ certified: true });
     });
   });
 
