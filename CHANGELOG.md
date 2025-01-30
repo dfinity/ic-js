@@ -1,4 +1,20 @@
-# YYYY.MM.DD-HHMMZ
+# 2025.01.30-0730Z
+
+## Overview
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v3.1.7  | Maintained ⚙️       |
+| `@dfinity/cketh`         | v3.4.4  | Maintained ⚙️       |
+| `@dfinity/cmc`           | v5.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ic-management` | v6.0.4  | Maintained ⚙️       |
+| `@dfinity/ledger-icp`    | v2.6.8  | Maintained ⚙️       |
+| `@dfinity/ledger-icrc`   | v2.7.3  | Maintained ⚙️       |
+| `@dfinity/nns`           | v8.2.2  | Maintained ⚙️       |
+| `@dfinity/nns-proto`     | v2.0.2  | Maintained ⚙️       |
+| `@dfinity/sns`           | v3.2.9  | Maintained ⚙️       |
+| `@dfinity/utils`         | v2.10.0 | Enhanced 🔧️        |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️          |
 
 ## Breaking Changes
 
