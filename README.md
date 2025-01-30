@@ -17,7 +17,7 @@ A collection of library for interfacing with the Internet Computer.
 - [ckETH](/packages/cketh): interfacing with **ckETH**
 - [ic-management](/packages/ic-management): interfacing with the **IC management canister**
 - [utils](/packages/utils): a collection of utilities and constants
-- [zod-schemas](/packages/utils): a collection of reusable Zod schemas and validators for common data patterns in ICP applications
+- [zod-schemas](/packages/zod-schemas): a collection of reusable Zod schemas and validators for common data patterns in ICP applications
 - [nns-proto](/packages/nns-proto): the protobuf source used by `nns-js` to support hardware wallets
 
 ## Installation
