@@ -3,7 +3,7 @@
 ## Overview
 
 | Library                  | Version | Status              |
-| ------------------------ |---------|---------------------|
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v3.1.7  | Maintained ⚙️       |
 | `@dfinity/cketh`         | v3.4.4  | Maintained ⚙️       |
 | `@dfinity/cmc`           | v5.0.0  | Breaking Changes ⚠️ |
