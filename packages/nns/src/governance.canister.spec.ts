@@ -449,6 +449,8 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [true],
         include_public_neurons_in_full_neurons: [true],
+        page_number: [],
+        page_size: [],
       });
       expect(certifiedService.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
@@ -475,6 +477,8 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [false],
         include_public_neurons_in_full_neurons: [],
+        page_number: [],
+        page_size: [],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
@@ -499,6 +503,8 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [],
         include_public_neurons_in_full_neurons: [false],
+        page_number: [],
+        page_size: [],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
@@ -524,6 +530,10 @@ describe("GovernanceCanister", () => {
         include_empty_neurons_readable_by_caller: [],
         // The field is present in the argument but ignored by the old service.
         include_public_neurons_in_full_neurons: [],
+        // The field is present in the argument but ignored by the old service.
+        page_number: [],
+        // The field is present in the argument but ignored by the old service.
+        page_size: [],
       });
       expect(oldService.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
@@ -549,6 +559,8 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [],
         include_public_neurons_in_full_neurons: [],
+        page_number: [],
+        page_size: [],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
