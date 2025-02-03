@@ -746,14 +746,17 @@ export const idlFactory = ({ IDL }) => {
     'known_neurons' : IDL.Vec(KnownNeuron),
   });
   const ListNeurons = IDL.Record({
+    'page_size' : IDL.Opt(IDL.Nat64),
     'include_public_neurons_in_full_neurons' : IDL.Opt(IDL.Bool),
     'neuron_ids' : IDL.Vec(IDL.Nat64),
+    'page_number' : IDL.Opt(IDL.Nat64),
     'include_empty_neurons_readable_by_caller' : IDL.Opt(IDL.Bool),
     'include_neurons_readable_by_caller' : IDL.Bool,
   });
   const ListNeuronsResponse = IDL.Record({
     'neuron_infos' : IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInfo)),
     'full_neurons' : IDL.Vec(Neuron),
+    'total_pages_available' : IDL.Opt(IDL.Nat64),
   });
   const DateRangeFilter = IDL.Record({
     'start_timestamp_seconds' : IDL.Opt(IDL.Nat64),

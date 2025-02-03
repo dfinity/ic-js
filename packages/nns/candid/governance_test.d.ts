@@ -352,14 +352,17 @@ export interface ListKnownNeuronsResponse {
   known_neurons: Array<KnownNeuron>;
 }
 export interface ListNeurons {
+  page_size: [] | [bigint];
   include_public_neurons_in_full_neurons: [] | [boolean];
   neuron_ids: BigUint64Array | bigint[];
+  page_number: [] | [bigint];
   include_empty_neurons_readable_by_caller: [] | [boolean];
   include_neurons_readable_by_caller: boolean;
 }
 export interface ListNeuronsResponse {
   neuron_infos: Array<[bigint, NeuronInfo]>;
   full_neurons: Array<Neuron>;
+  total_pages_available: [] | [bigint];
 }
 export interface ListNodeProviderRewardsRequest {
   date_filter: [] | [DateRangeFilter];
