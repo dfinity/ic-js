@@ -1,4 +1,4 @@
-// Generated from IC repo commit fb16293158 (2025-01-22 tags: release-2025-01-30_03-03-hashes-in-blocks) 'rs/nns/gtc/canister/gtc.did' by import-candid
+// Generated from IC repo commit fb16293 (2025-01-22 tags: release-2025-01-30_03-03-hashes-in-blocks) 'rs/nns/gtc/canister/gtc.did' by import-candid
 type AccountState = record {
   authenticated_principal_id : opt principal;
   successfully_transferred_neurons : vec TransferredNeuron;

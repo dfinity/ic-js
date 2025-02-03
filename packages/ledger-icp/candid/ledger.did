@@ -1,4 +1,4 @@
-// Generated from IC repo commit aa705aaa62 (2025-01-08 tags: release-2025-01-09_03-19-base) 'rs/ledger_suite/icp/ledger.did' by import-candid
+// Generated from IC repo commit fb16293 (2025-01-22 tags: release-2025-01-30_03-03-hashes-in-blocks) 'rs/ledger_suite/icp/ledger.did' by import-candid
 // This is the official Ledger interface that is guaranteed to be backward compatible.
 
 // Amount of tokens, measured in 10^-8 of a token.
@@ -303,8 +303,6 @@ type InitArgs = record {
     token_symbol: opt text;
     token_name: opt text;
     feature_flags : opt FeatureFlags;
-    maximum_number_of_accounts : opt nat64;
-    accounts_overflow_trim_quantity: opt nat64;
 };
 
 type Icrc1BlockIndex = nat;
