@@ -1,4 +1,4 @@
-// Generated from IC repo commit 4ba5834 (2025-01-22 tags: release-2025-01-23_03-04-hashes-in-blocks) 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit fb16293 (2025-01-22 tags: release-2025-01-30_03-03-hashes-in-blocks) 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;
