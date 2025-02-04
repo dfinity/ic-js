@@ -62,7 +62,7 @@ describe("AgentManager", () => {
     });
 
     it("should be used after deconstruction", async () => {
-      const {getAgent} = agentManager;
+      const { getAgent } = agentManager;
 
       const agent = await getAgent({ identity: mockIdentity });
 
@@ -70,7 +70,7 @@ describe("AgentManager", () => {
         expect.objectContaining({ identity: mockIdentity }),
       );
       expect(agent).toBe(mockHttpAgent);
-    })
+    });
   });
 
   describe("clearAgents", () => {
