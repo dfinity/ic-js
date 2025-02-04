@@ -79,11 +79,11 @@ export class AgentManager {
    * @param {Identity} identity - The identity to be used to create the agent.
    * @returns {Promise<HttpAgent>} The HttpAgent associated with the given identity.
    */
-  public async getAgent({
+  public getAgent = async ({
     identity,
   }: {
     identity: Identity;
-  }): Promise<HttpAgent> {
+  }): Promise<HttpAgent> => {
     const key = identity.getPrincipal().toText();
 
     if (isNullish(this.agents) || isNullish(this.agents[key])) {
@@ -103,7 +103,7 @@ export class AgentManager {
     }
 
     return this.agents[key];
-  }
+  };
 
   /**
    * Clear the cache of HTTP agents.

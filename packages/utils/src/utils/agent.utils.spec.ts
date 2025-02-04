@@ -60,6 +60,17 @@ describe("AgentManager", () => {
       expect(agent2).toBe(mockHttpAgent2);
       expect(agent2).not.toBe(mockHttpAgent);
     });
+
+    it("should be used after deconstruction", async () => {
+      const {getAgent} = agentManager;
+
+      const agent = await getAgent({ identity: mockIdentity });
+
+      expect(mockHttpAgentCreate).toHaveBeenCalledWith(
+        expect.objectContaining({ identity: mockIdentity }),
+      );
+      expect(agent).toBe(mockHttpAgent);
+    })
   });
 
   describe("clearAgents", () => {
