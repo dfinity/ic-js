@@ -27,7 +27,9 @@ describe("AgentManager", () => {
 
   describe("getAgent", () => {
     it("should create a new agent when there is none", async () => {
-      const agent = await agentManager.getAgent({ identity: mockIdentity });
+      const {getAgent} = agentManager;
+
+      const agent = await getAgent({ identity: mockIdentity });
 
       expect(mockHttpAgentCreate).toHaveBeenCalledWith(
         expect.objectContaining({ identity: mockIdentity }),
@@ -36,21 +38,25 @@ describe("AgentManager", () => {
     });
 
     it("should return cached agent if already created", async () => {
-      await agentManager.getAgent({ identity: mockIdentity });
+      const {getAgent} = agentManager;
 
-      const agent = await agentManager.getAgent({ identity: mockIdentity });
+      await getAgent({ identity: mockIdentity });
+
+      const agent = await getAgent({ identity: mockIdentity });
 
       expect(mockHttpAgentCreate).toHaveBeenCalledTimes(1);
       expect(agent).toBe(mockHttpAgent);
     });
 
     it("should handle multiple agents for multiple identities", async () => {
-      await agentManager.getAgent({ identity: mockIdentity });
+      const {getAgent} = agentManager;
+
+      await getAgent({ identity: mockIdentity });
 
       mockHttpAgentCreate.mockResolvedValueOnce(mockHttpAgent2);
 
-      const agent2 = await agentManager.getAgent({ identity: mockIdentity2 });
-      const agent1 = await agentManager.getAgent({ identity: mockIdentity });
+      const agent2 = await getAgent({ identity: mockIdentity2 });
+      const agent1 = await getAgent({ identity: mockIdentity });
 
       expect(mockHttpAgentCreate).toHaveBeenCalledTimes(2);
 
@@ -60,32 +66,23 @@ describe("AgentManager", () => {
       expect(agent2).toBe(mockHttpAgent2);
       expect(agent2).not.toBe(mockHttpAgent);
     });
-
-    it("should be used after deconstruction", async () => {
-      const { getAgent } = agentManager;
-
-      const agent = await getAgent({ identity: mockIdentity });
-
-      expect(mockHttpAgentCreate).toHaveBeenCalledWith(
-        expect.objectContaining({ identity: mockIdentity }),
-      );
-      expect(agent).toBe(mockHttpAgent);
-    });
   });
 
   describe("clearAgents", () => {
     it("should clear cached agents", async () => {
-      await agentManager.getAgent({ identity: mockIdentity });
+      const {getAgent, clearAgents} = agentManager;
 
-      const agentBefore = await agentManager.getAgent({
+      await getAgent({ identity: mockIdentity });
+
+      const agentBefore = await getAgent({
         identity: mockIdentity,
       });
 
       expect(agentBefore).toBe(mockHttpAgent);
 
-      agentManager.clearAgents();
+      clearAgents();
 
-      const agentAfter = await agentManager.getAgent({
+      const agentAfter = await getAgent({
         identity: mockIdentity,
       });
 

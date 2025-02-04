@@ -111,7 +111,7 @@ export class AgentManager {
    * This method removes all cached agents, forcing new agent creation on the next request for any identity.
    * Useful when identities have changed or if you want to reset all active connections.
    */
-  public clearAgents(): void {
+  public clearAgents = (): void => {
     this.agents = null;
   }
 }
