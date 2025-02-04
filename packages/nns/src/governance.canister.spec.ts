@@ -428,7 +428,7 @@ describe("GovernanceCanister", () => {
   });
 
   describe("GovernanceCanister.listNeurons", () => {
-    it("list user neurons", async () => {
+    it("list user neurons - backwards compability no pagination", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       const certifiedService = mock<ActorSubclass<GovernanceService>>();
       const oldService = mock<ActorSubclass<GovernanceService>>();
@@ -453,6 +453,95 @@ describe("GovernanceCanister", () => {
         page_size: [],
         neuron_subaccounts: [],
       });
+      expect(certifiedService.list_neurons).toBeCalledTimes(1);
+      expect(neurons.length).toBe(1);
+      expect(service.list_neurons).not.toBeCalled();
+      expect(oldService.list_neurons).not.toBeCalled();
+    });
+
+    it("list user neurons with pagination", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      const certifiedService = mock<ActorSubclass<GovernanceService>>();
+      const oldService = mock<ActorSubclass<GovernanceService>>();
+
+      certifiedService.list_neurons.mockResolvedValueOnce({
+        ...mockListNeuronsResponse,
+        total_pages_available: [2n],
+      });
+      certifiedService.list_neurons.mockResolvedValueOnce({
+        ...mockListNeuronsResponse,
+        total_pages_available: [2n],
+      });
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: certifiedService,
+        serviceOverride: service,
+        oldListNeuronsServiceOverride: oldService,
+      });
+
+      const neurons = await governance.listNeurons({
+        certified: true,
+        includeEmptyNeurons: true,
+        includePublicNeurons: true,
+      });
+
+      // Get first page and page number
+      expect(certifiedService.list_neurons).toHaveBeenNthCalledWith(1, {
+        neuron_ids: new BigUint64Array(),
+        include_neurons_readable_by_caller: true,
+        include_empty_neurons_readable_by_caller: [true],
+        include_public_neurons_in_full_neurons: [true],
+        page_number: [],
+        page_size: [500n],
+      });
+
+      // Second call fetching the second page
+      expect(certifiedService.list_neurons).toHaveBeenNthCalledWith(2, {
+        neuron_ids: new BigUint64Array(),
+        include_neurons_readable_by_caller: true,
+        include_empty_neurons_readable_by_caller: [true],
+        include_public_neurons_in_full_neurons: [true],
+        page_number: [1n],
+        page_size: [500n],
+      });
+
+      expect(certifiedService.list_neurons).toBeCalledTimes(2);
+      expect(neurons.length).toBe(2); // One neuron per page
+      expect(service.list_neurons).not.toBeCalled();
+      expect(oldService.list_neurons).not.toBeCalled();
+    });
+
+    it("list user neurons without pagination", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      const certifiedService = mock<ActorSubclass<GovernanceService>>();
+      const oldService = mock<ActorSubclass<GovernanceService>>();
+
+      certifiedService.list_neurons.mockResolvedValue({
+        ...mockListNeuronsResponse,
+        total_pages_available: [],
+      });
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: certifiedService,
+        serviceOverride: service,
+        oldListNeuronsServiceOverride: oldService,
+      });
+
+      const neurons = await governance.listNeurons({
+        certified: true,
+        includeEmptyNeurons: true,
+        includePublicNeurons: true,
+      });
+
+      expect(certifiedService.list_neurons).toBeCalledWith({
+        neuron_ids: new BigUint64Array(),
+        include_neurons_readable_by_caller: true,
+        include_empty_neurons_readable_by_caller: [true],
+        include_public_neurons_in_full_neurons: [true],
+        page_number: [],
+        page_size: [500n],
+      });
+
       expect(certifiedService.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
       expect(service.list_neurons).not.toBeCalled();
