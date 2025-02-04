@@ -27,7 +27,7 @@ describe("AgentManager", () => {
 
   describe("getAgent", () => {
     it("should create a new agent when there is none", async () => {
-      const {getAgent} = agentManager;
+      const { getAgent } = agentManager;
 
       const agent = await getAgent({ identity: mockIdentity });
 
@@ -38,7 +38,7 @@ describe("AgentManager", () => {
     });
 
     it("should return cached agent if already created", async () => {
-      const {getAgent} = agentManager;
+      const { getAgent } = agentManager;
 
       await getAgent({ identity: mockIdentity });
 
@@ -49,7 +49,7 @@ describe("AgentManager", () => {
     });
 
     it("should handle multiple agents for multiple identities", async () => {
-      const {getAgent} = agentManager;
+      const { getAgent } = agentManager;
 
       await getAgent({ identity: mockIdentity });
 
@@ -70,7 +70,7 @@ describe("AgentManager", () => {
 
   describe("clearAgents", () => {
     it("should clear cached agents", async () => {
-      const {getAgent, clearAgents} = agentManager;
+      const { getAgent, clearAgents } = agentManager;
 
       await getAgent({ identity: mockIdentity });
 

@@ -113,5 +113,5 @@ export class AgentManager {
    */
   public clearAgents = (): void => {
     this.agents = null;
-  }
+  };
 }
