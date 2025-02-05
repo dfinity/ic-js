@@ -186,3 +186,50 @@ export const bytesToHexString = (bytes: number[]): string =>
     (str, byte) => `${str}${byte.toString(16).padStart(2, "0")}`,
     "",
   );
+
+const countDecimals = (value: number): number => {
+  // "1e-7" -> 0.00000001
+  const asText = value.toFixed(10).replace(/0*$/, "");
+  const split: string[] = asText.split(".");
+
+  return Math.max(split[1]?.length ?? 0, 2);
+};
+
+export const formatTokenUlps = ({
+  value,
+  tokenDecimals,
+  defaultDisplayedDecimals,
+  maxDisplayedDecimals,
+  detailed = false,
+  extraDetailForSmallAmount = true,
+}: {
+  value: bigint;
+  tokenDecimals: number;
+  defaultDisplayedDecimals: number;
+  maxDisplayedDecimals: number;
+  detailed?: boolean | "height_decimals";
+  extraDetailForSmallAmount?: boolean;
+}): string => {
+  if (value === 0n) {
+    return "0";
+  }
+
+  const converted = Number(value) / 10 ** tokenDecimals;
+
+  const decimalsForAmount = (): number =>
+    converted < 0.01 && extraDetailForSmallAmount
+      ? Math.max(countDecimals(converted), defaultDisplayedDecimals)
+      : detailed
+      ? Math.min(countDecimals(converted), maxDisplayedDecimals)
+      : defaultDisplayedDecimals;
+
+  const decimals =
+    detailed === "height_decimals" ? maxDisplayedDecimals : decimalsForAmount();
+
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  })
+    .format(converted)
+    .replace(/,/g, "'");
+};
