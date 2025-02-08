@@ -6,7 +6,6 @@ import type { Principal } from "@dfinity/principal";
 import {
   assertPercentageNumber,
   createServices,
-  fromDefinedNullable,
   fromNullable,
   isNullish,
   nonNullish,
@@ -259,7 +258,8 @@ export class GovernanceCanister {
       response: rawResponse,
       canisterId: this.canisterId,
     });
-    const totalPages = fromDefinedNullable(rawResponse.total_pages_available);
+
+    const totalPages = fromNullable(rawResponse.total_pages_available) ?? 1n;
 
     return { neurons, totalPages };
   };
