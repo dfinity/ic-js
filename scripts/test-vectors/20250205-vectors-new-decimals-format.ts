@@ -19,7 +19,6 @@ import {
   defaultCaller,
   formatTokenUlps,
   splitAccount,
-  splitPrincipal,
   writeToJson,
 } from "./utils";
 
@@ -63,12 +62,9 @@ const createTestVector = (params: Params) => {
   let outputTxType = isStakeNeuron
     ? "Stake Neuron"
     : nonNullish(token)
-    ? `Send ${token.tokenSymbol}`
-    : "Send Tokens";
-  const canisterIdOutputs = splitPrincipal(params.canisterId).map(
-    (data, i, elements) =>
-      `Canister Id [${i + 1}/${elements.length}] : ${data}`,
-  );
+      ? `Send ${token.tokenSymbol}`
+      : "Send Tokens";
+  const canisterIdOutputs = [`Canister Id : ${params.canisterId.toText()}`];
 
   const fromOutputs = splitAccount(
     {
@@ -77,6 +73,7 @@ const createTestVector = (params: Params) => {
     },
     "From account",
   );
+
   const toOutputs = splitAccount(
     {
       owner: params.to.owner,
@@ -95,8 +92,8 @@ const createTestVector = (params: Params) => {
       })
     : BigInt(params.amount);
   const paymentOutput = nonNullish(token)
-    ? `Payment (${token.tokenSymbol}) : ${amountToken}`
-    : `Payment (Tokens) : ${amountToken}`;
+    ? `Amount (${token.tokenSymbol}) : ${amountToken}`
+    : `Amount (Tokens) : ${amountToken}`;
 
   // Do not show fee if it's not present in the request body.
   // Except if it's ICP, in which case we always show the fee.
@@ -121,23 +118,30 @@ const createTestVector = (params: Params) => {
       ? `Memo : ${uint8ArrayToBigInt(params.memo).toString()}`
       : "Memo : 0";
 
-  const output = [
-    outputTxType,
-    ...(isICP ? [] : canisterIdOutputs),
-    ...fromOutputs,
-    ...(isStakeNeuron ? [] : toOutputs),
-    paymentOutput,
-    ...(feeOutput !== undefined ? [feeOutput] : []),
-    memoOutput,
-  ];
+  // An array of arrays because each array of message shoule have the same index.
+  const output = [[outputTxType]];
+  if (!isICP) {
+    output.push(canisterIdOutputs);
+  }
+  output.push(fromOutputs);
+  if (!isStakeNeuron) {
+    output.push(toOutputs);
+  }
+  output.push([paymentOutput]);
+  if (feeOutput !== undefined) {
+    output.push([feeOutput]);
+  }
+  output.push([memoOutput]);
   return {
-    blob_candid: createBlob({
+    blob: createBlob({
       arg: IDL.encode(transferFn.argTypes, [rawRequestBody]),
       methodName: "icrc1_transfer",
       canisterId: params.canisterId,
       caller: params.owner,
     }),
-    output: output.map((element, index) => `${index + 1} | ${element}`),
+    output: output.flatMap((elements, index) =>
+      elements.map((element) => `${index} | ${element}`),
+    ),
     isICP,
     name: `ICRC1 Transfer ${
       nonNullish(token)
