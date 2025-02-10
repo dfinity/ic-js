@@ -62,6 +62,7 @@ export interface CanisterStatusResultV2 {
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
+  query_stats: [] | [QueryStats];
   idle_cycles_burned_per_day: bigint;
   module_hash: [] | [Uint8Array | number[]];
 }
@@ -528,6 +529,12 @@ export interface ProposalData {
 }
 export interface ProposalId {
   id: bigint;
+}
+export interface QueryStats {
+  response_payload_bytes_total: [] | [bigint];
+  num_instructions_total: [] | [bigint];
+  num_calls_total: [] | [bigint];
+  request_payload_bytes_total: [] | [bigint];
 }
 export interface RegisterDappCanisters {
   canister_ids: Array<Principal>;

@@ -170,11 +170,18 @@ export const idlFactory = ({ IDL }) => {
     'memory_allocation' : IDL.Nat,
     'compute_allocation' : IDL.Nat,
   });
+  const QueryStats = IDL.Record({
+    'response_payload_bytes_total' : IDL.Opt(IDL.Nat),
+    'num_instructions_total' : IDL.Opt(IDL.Nat),
+    'num_calls_total' : IDL.Opt(IDL.Nat),
+    'request_payload_bytes_total' : IDL.Opt(IDL.Nat),
+  });
   const CanisterStatusResultV2 = IDL.Record({
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
     'settings' : DefiniteCanisterSettingsArgs,
+    'query_stats' : IDL.Opt(QueryStats),
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
