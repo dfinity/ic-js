@@ -1031,7 +1031,7 @@ export const fromListNeurons = ({
   include_public_neurons_in_full_neurons: toNullable(includePublicNeurons),
   page_number: [],
   page_size: [],
-  neuron_subaccounts: neuronSubaccounts ? [neuronSubaccounts] : [],
+  neuron_subaccounts: toNullable(neuronSubaccounts),
 });
 
 export const fromManageNeuron = ({
