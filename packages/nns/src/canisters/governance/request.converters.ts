@@ -13,6 +13,7 @@ import {
 import type {
   Amount,
   ListProposalInfo,
+  NeuronSubaccount,
   AccountIdentifier as RawAccountIdentifier,
   ProposalActionRequest as RawAction,
   By as RawBy,
@@ -1017,10 +1018,12 @@ export const fromListNeurons = ({
   neuronIds,
   includeEmptyNeurons,
   includePublicNeurons,
+  neuronSubaccounts,
 }: {
   neuronIds?: NeuronId[];
   includeEmptyNeurons?: boolean;
   includePublicNeurons?: boolean;
+  neuronSubaccounts?: NeuronSubaccount[];
 }): RawListNeurons => ({
   neuron_ids: BigUint64Array.from(neuronIds ?? []),
   include_neurons_readable_by_caller: neuronIds ? false : true,
@@ -1028,6 +1031,7 @@ export const fromListNeurons = ({
   include_public_neurons_in_full_neurons: toNullable(includePublicNeurons),
   page_number: [],
   page_size: [],
+  neuron_subaccounts: neuronSubaccounts ? [neuronSubaccounts] : [],
 });
 
 export const fromManageNeuron = ({
