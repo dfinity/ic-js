@@ -357,6 +357,7 @@ export interface ListNeurons {
   neuron_ids: BigUint64Array | bigint[];
   page_number: [] | [bigint];
   include_empty_neurons_readable_by_caller: [] | [boolean];
+  neuron_subaccounts: [] | [Array<NeuronSubaccount>];
   include_neurons_readable_by_caller: boolean;
 }
 export interface ListNeuronsResponse {
@@ -553,6 +554,9 @@ export interface NeuronStakeTransfer {
   from_subaccount: Uint8Array | number[];
   transfer_timestamp: bigint;
   block_height: bigint;
+}
+export interface NeuronSubaccount {
+  subaccount: Uint8Array | number[];
 }
 export interface NeuronSubsetMetrics {
   total_maturity_e8s_equivalent: [] | [bigint];
