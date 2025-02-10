@@ -24,6 +24,7 @@
 
 - Support `NervousSystemParameters.automatically_advance_target_version` in `@dfinity/sns`.
 - Add converters to encode or decode base64 string into Uint8Array.
+- Support `neuron_subaccounts` in `list_neurons` from `@dfinity/nns`.
 
 # 2025.01.20-1800Z
 
