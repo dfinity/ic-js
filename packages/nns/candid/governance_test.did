@@ -1,4 +1,4 @@
-// Generated from IC repo commit fb16293 (2025-01-22 tags: release-2025-01-30_03-03-hashes-in-blocks) 'rs/nns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 14c8f44 (2025-02-07 tags: release-2025-02-06_12-26-revert-hashes-in-blocks) 'rs/nns/governance/canister/governance_test.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
@@ -441,6 +441,11 @@ type ListNeurons = record {
   include_neurons_readable_by_caller : bool;
   page_number: opt nat64;
   page_size: opt nat64;
+  neuron_subaccounts: opt vec NeuronSubaccount;
+};
+
+type NeuronSubaccount = record {
+  subaccount : blob;
 };
 
 type ListNeuronsResponse = record {

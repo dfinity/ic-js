@@ -745,12 +745,14 @@ export const idlFactory = ({ IDL }) => {
   const ListKnownNeuronsResponse = IDL.Record({
     'known_neurons' : IDL.Vec(KnownNeuron),
   });
+  const NeuronSubaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
   const ListNeurons = IDL.Record({
     'page_size' : IDL.Opt(IDL.Nat64),
     'include_public_neurons_in_full_neurons' : IDL.Opt(IDL.Bool),
     'neuron_ids' : IDL.Vec(IDL.Nat64),
     'page_number' : IDL.Opt(IDL.Nat64),
     'include_empty_neurons_readable_by_caller' : IDL.Opt(IDL.Bool),
+    'neuron_subaccounts' : IDL.Opt(IDL.Vec(NeuronSubaccount)),
     'include_neurons_readable_by_caller' : IDL.Bool,
   });
   const ListNeuronsResponse = IDL.Record({
