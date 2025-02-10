@@ -17,6 +17,7 @@ import type {
   _SERVICE as GovernanceService,
   ListProposalInfo,
   MergeResponse,
+  NeuronSubaccount,
   Neuron as RawNeuron,
   NeuronInfo as RawNeuronInfo,
   ProposalInfo as RawProposalInfo,
@@ -148,16 +149,19 @@ export class GovernanceCanister {
     neuronIds,
     includeEmptyNeurons,
     includePublicNeurons,
+    neuronSubaccounts,
   }: {
     certified: boolean;
     neuronIds?: NeuronId[];
     includeEmptyNeurons?: boolean;
     includePublicNeurons?: boolean;
+    neuronSubaccounts?: NeuronSubaccount[];
   }): Promise<NeuronInfo[]> => {
     const rawRequest = fromListNeurons({
       neuronIds,
       includeEmptyNeurons,
       includePublicNeurons,
+      neuronSubaccounts,
     });
     // The Ledger app version 2.4.9 does not support
     // include_empty_neurons_readable_by_caller nor include_public_neurons_in_full_neurons,
