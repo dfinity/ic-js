@@ -57,3 +57,7 @@ jobs:
         run: npm publish --provenance --tag next --workspace=packages/ic-management
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish Zod schemas
+        run: npm publish --provenance --tag next --workspace=packages/zod-schemas
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
