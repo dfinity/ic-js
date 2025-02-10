@@ -1,4 +1,4 @@
-// Generated from IC repo commit fb16293 (2025-01-22 tags: release-2025-01-30_03-03-hashes-in-blocks) 'rs/sns/swap/canister/swap.did' by import-candid
+// Generated from IC repo commit 14c8f44 (2025-02-07 tags: release-2025-02-06_12-26-revert-hashes-in-blocks) 'rs/sns/swap/canister/swap.did' by import-candid
 type BuyerState = record {
   icp : opt TransferableAmount;
   has_created_neuron_recipes : opt bool;
@@ -9,6 +9,13 @@ type CanisterCallError = record {
   description : text;
 };
 
+type QueryStats = record {
+  num_calls_total : opt nat;
+  num_instructions_total : opt nat;
+  request_payload_bytes_total : opt nat;
+  response_payload_bytes_total : opt nat;
+};
+
 type CanisterStatusResultV2 = record {
   status : CanisterStatusType;
   memory_size : nat;
@@ -16,6 +23,7 @@ type CanisterStatusResultV2 = record {
   settings : DefiniteCanisterSettingsArgs;
   idle_cycles_burned_per_day : nat;
   module_hash : opt blob;
+  query_stats : opt QueryStats;
 };
 
 type CanisterStatusType = variant {

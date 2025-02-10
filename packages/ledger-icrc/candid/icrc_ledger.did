@@ -1,4 +1,4 @@
-// Generated from IC repo commit fb16293 (2025-01-22 tags: release-2025-01-30_03-03-hashes-in-blocks) 'rs/ledger_suite/icrc1/ledger/ledger.did' by import-candid
+// Generated from IC repo commit 14c8f44 (2025-02-07 tags: release-2025-02-06_12-26-revert-hashes-in-blocks) 'rs/ledger_suite/icrc1/ledger/ledger.did' by import-candid
 type BlockIndex = nat;
 type Subaccount = blob;
 // Number of nanoseconds since the UNIX epoch in UTC timezone.
