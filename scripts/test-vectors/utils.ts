@@ -114,17 +114,37 @@ export const writeToJson = ({
 };
 
 export const splitPrincipal = (principal: Principal): string[] => {
-  const text = principal.toText();
-  const split = text.split("-");
+  return splitPrincipalText(principal.toText());
+};
+
+const splitPrincipalText = (principalText: string): string[] => {
+  const split = principalText.split("-");
   const groupedInThrees = [];
   for (let i = 0; i < split.length; i += 3) {
     groupedInThrees.push(split.slice(i, i + 3).join("-"));
   }
   const lines = [];
   for (let i = 0; i < groupedInThrees.length; i += 2) {
-    lines.push(groupedInThrees.slice(i, i + 2).join(" : "));
+    lines.push(groupedInThrees.slice(i, i + 2).join(" "));
   }
   return lines;
+};
+
+const splitText = (textToSplit: string): string[] => {
+  return (
+    textToSplit.match(/.{1,8}/g)?.reduce((acc, curr) => {
+      if (acc.length === 0) {
+        return [curr];
+      }
+      const lastItem = acc[acc.length - 1];
+      if (lastItem.length > 35) {
+        return [...acc, curr];
+      } else if (lastItem.length < 35) {
+        return [...acc.slice(0, -1), `${lastItem} ${curr}`];
+      }
+      return acc;
+    }, [] as string[]) ?? []
+  );
 };
 
 export const splitString = (
@@ -132,24 +152,10 @@ export const splitString = (
   screenText: string,
 ): string[] => {
   return (
-    textToSplit
-      .match(/.{1,8}/g)
-      ?.reduce((acc, curr) => {
-        if (acc.length === 0) {
-          return [curr];
-        }
-        const lastItem = acc[acc.length - 1];
-        if (lastItem.length > 18) {
-          return [...acc, curr];
-        } else if (lastItem.length < 18) {
-          return [...acc.slice(0, -1), `${lastItem} : ${curr}`];
-        }
-        return acc;
-      }, [] as string[])
-      ?.map(
-        (data, i, elements) =>
-          `${screenText} [${i + 1}/${elements.length}] : ${data}`,
-      ) || []
+    splitText(textToSplit).map(
+      (data, i, elements) =>
+        `${screenText} [${i + 1}/${elements.length}] ${data}`,
+    ) || []
   );
 };
 
@@ -157,7 +163,23 @@ export const splitAccount = (
   account: IcrcAccount,
   screenText: string,
 ): string[] => {
-  return splitString(encodeIcrcAccount(account), screenText);
+  const accountText = encodeIcrcAccount(account);
+  const split = accountText.split(".");
+  if (split.length === 1) {
+    return splitPrincipalText(accountText).map(
+      (data, i, elements) =>
+        `${screenText} [${i + 1}/${elements.length}] : ${data}`,
+    );
+  }
+
+  const firstPart = split[0];
+  const lines = splitPrincipalText(firstPart);
+  const secondPart = split[1];
+  const secondPartSplits = splitText(`.${secondPart}`);
+  return [...lines, ...(secondPartSplits ?? [])].map(
+    (data, i, elements) =>
+      `${screenText} [${i + 1}/${elements.length}] : ${data}`,
+  );
 };
 
 export const permissionMapper: Record<SnsNeuronPermissionType, string> = {
@@ -220,8 +242,8 @@ export const formatTokenUlps = ({
     converted < 0.01 && extraDetailForSmallAmount
       ? Math.max(countDecimals(converted), defaultDisplayedDecimals)
       : detailed
-      ? Math.min(countDecimals(converted), maxDisplayedDecimals)
-      : defaultDisplayedDecimals;
+        ? Math.min(countDecimals(converted), maxDisplayedDecimals)
+        : defaultDisplayedDecimals;
 
   const decimals =
     detailed === "height_decimals" ? maxDisplayedDecimals : decimalsForAmount();
