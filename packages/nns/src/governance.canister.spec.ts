@@ -435,7 +435,7 @@ describe("GovernanceCanister", () => {
 
       certifiedService.list_neurons.mockResolvedValue({
         ...mockListNeuronsResponse,
-        total_pages_available: [],
+        total_pages_available: [1n],
       });
 
       const governance = GovernanceCanister.create({
