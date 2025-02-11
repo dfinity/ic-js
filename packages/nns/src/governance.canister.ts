@@ -172,19 +172,20 @@ export class GovernanceCanister {
     }
 
     // Fetch the first page to get the total number of pages
-    const { neurons: firstPageNeurons, totalPages = 1n } =
+    const { neurons: firstPageNeurons, totalPages } =
       await this.fetchNeuronsPage({
         certified,
         neuronIds,
         includeEmptyNeurons,
         includePublicNeurons,
+        neuronSubaccounts,
       });
 
     // https://github.com/dfinity/ic/blob/de17b0d718d6f279e9da8cd0f1b5de17036a6102/rs/nns/governance/api/src/ic_nns_governance.pb.v1.rs#L3543
-    if (totalPages === 1n) return firstPageNeurons;
+    if (totalPages < 2n) return firstPageNeurons;
 
     const pagePromises = [];
-    for (let pageNumber = 1n; pageNumber <= totalPages; pageNumber++) {
+    for (let pageNumber = 1n; pageNumber < totalPages; pageNumber++) {
       pagePromises.push(
         this.fetchNeuronsPage({
           certified,
@@ -192,6 +193,7 @@ export class GovernanceCanister {
           includeEmptyNeurons,
           includePublicNeurons,
           pageNumber,
+          neuronSubaccounts,
         }),
       );
     }
@@ -234,12 +236,14 @@ export class GovernanceCanister {
     includeEmptyNeurons,
     includePublicNeurons,
     pageNumber,
+    neuronSubaccounts,
   }: {
     certified: boolean;
     neuronIds?: NeuronId[];
     includeEmptyNeurons?: boolean;
     includePublicNeurons?: boolean;
     pageNumber?: bigint;
+    neuronSubaccounts?: NeuronSubaccount[];
   }): Promise<{ neurons: NeuronInfo[]; totalPages: bigint }> => {
     // https://github.com/dfinity/ic/blob/59c4b87a337f1bd52a076c0f3e99acf155b79803/rs/nns/governance/src/governance.rs#L223
     const PAGE_SIZE = 500n;
@@ -248,6 +252,7 @@ export class GovernanceCanister {
       neuronIds,
       includeEmptyNeurons,
       includePublicNeurons,
+      neuronSubaccounts,
       pageNumber,
       pageSize: PAGE_SIZE,
     });

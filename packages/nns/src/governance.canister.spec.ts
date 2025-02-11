@@ -428,32 +428,40 @@ describe("GovernanceCanister", () => {
   });
 
   describe("GovernanceCanister.listNeurons", () => {
-    it("list user neurons - backwards compability no pagination", async () => {
+    it("list user neurons no pagination", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       const certifiedService = mock<ActorSubclass<GovernanceService>>();
       const oldService = mock<ActorSubclass<GovernanceService>>();
-      certifiedService.list_neurons.mockResolvedValue(mockListNeuronsResponse);
+
+      certifiedService.list_neurons.mockResolvedValue({
+        ...mockListNeuronsResponse,
+        total_pages_available: [],
+      });
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: certifiedService,
         serviceOverride: service,
         oldListNeuronsServiceOverride: oldService,
       });
+
+      expect(certifiedService.list_neurons).toBeCalledTimes(0);
+
       const neurons = await governance.listNeurons({
         certified: true,
         includeEmptyNeurons: true,
         includePublicNeurons: true,
       });
+
+      expect(certifiedService.list_neurons).toBeCalledTimes(1);
       expect(certifiedService.list_neurons).toBeCalledWith({
         neuron_ids: new BigUint64Array(),
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [true],
         include_public_neurons_in_full_neurons: [true],
-        page_number: [],
-        page_size: [],
         neuron_subaccounts: [],
+        page_number: [],
+        page_size: [500n],
       });
-      expect(certifiedService.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
       expect(service.list_neurons).not.toBeCalled();
       expect(oldService.list_neurons).not.toBeCalled();
@@ -479,18 +487,21 @@ describe("GovernanceCanister", () => {
         oldListNeuronsServiceOverride: oldService,
       });
 
+      expect(certifiedService.list_neurons).toBeCalledTimes(0);
+
       const neurons = await governance.listNeurons({
         certified: true,
         includeEmptyNeurons: true,
         includePublicNeurons: true,
       });
 
-      // Get first page and page number
+      // Get first page
       expect(certifiedService.list_neurons).toHaveBeenNthCalledWith(1, {
         neuron_ids: new BigUint64Array(),
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [true],
         include_public_neurons_in_full_neurons: [true],
+        neuron_subaccounts: [],
         page_number: [],
         page_size: [500n],
       });
@@ -501,49 +512,13 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [true],
         include_public_neurons_in_full_neurons: [true],
+        neuron_subaccounts: [],
         page_number: [1n],
         page_size: [500n],
       });
 
       expect(certifiedService.list_neurons).toBeCalledTimes(2);
       expect(neurons.length).toBe(2); // One neuron per page
-      expect(service.list_neurons).not.toBeCalled();
-      expect(oldService.list_neurons).not.toBeCalled();
-    });
-
-    it("list user neurons without pagination", async () => {
-      const service = mock<ActorSubclass<GovernanceService>>();
-      const certifiedService = mock<ActorSubclass<GovernanceService>>();
-      const oldService = mock<ActorSubclass<GovernanceService>>();
-
-      certifiedService.list_neurons.mockResolvedValue({
-        ...mockListNeuronsResponse,
-        total_pages_available: [],
-      });
-
-      const governance = GovernanceCanister.create({
-        certifiedServiceOverride: certifiedService,
-        serviceOverride: service,
-        oldListNeuronsServiceOverride: oldService,
-      });
-
-      const neurons = await governance.listNeurons({
-        certified: true,
-        includeEmptyNeurons: true,
-        includePublicNeurons: true,
-      });
-
-      expect(certifiedService.list_neurons).toBeCalledWith({
-        neuron_ids: new BigUint64Array(),
-        include_neurons_readable_by_caller: true,
-        include_empty_neurons_readable_by_caller: [true],
-        include_public_neurons_in_full_neurons: [true],
-        page_number: [],
-        page_size: [500n],
-      });
-
-      expect(certifiedService.list_neurons).toBeCalledTimes(1);
-      expect(neurons.length).toBe(1);
       expect(service.list_neurons).not.toBeCalled();
       expect(oldService.list_neurons).not.toBeCalled();
     });
@@ -567,9 +542,9 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [false],
         include_public_neurons_in_full_neurons: [],
-        page_number: [],
-        page_size: [],
         neuron_subaccounts: [],
+        page_number: [],
+        page_size: [500n],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
@@ -594,9 +569,9 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [],
         include_public_neurons_in_full_neurons: [false],
-        page_number: [],
-        page_size: [],
         neuron_subaccounts: [],
+        page_number: [],
+        page_size: [500n],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
       expect(neurons.length).toBe(1);
@@ -627,7 +602,7 @@ describe("GovernanceCanister", () => {
         include_empty_neurons_readable_by_caller: [true],
         include_public_neurons_in_full_neurons: [true],
         page_number: [],
-        page_size: [],
+        page_size: [500n],
         neuron_subaccounts: [
           [
             { subaccount: new Uint8Array([1, 2, 3]) },
@@ -691,7 +666,7 @@ describe("GovernanceCanister", () => {
         include_empty_neurons_readable_by_caller: [],
         include_public_neurons_in_full_neurons: [],
         page_number: [],
-        page_size: [],
+        page_size: [500n],
         neuron_subaccounts: [],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
