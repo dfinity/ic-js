@@ -19,6 +19,7 @@ import {
   defaultCaller,
   formatTokenUlps,
   splitAccount,
+  splitPrincipal,
   writeToJson,
 } from "./utils";
 
@@ -41,6 +42,8 @@ import {
 interface Params extends TransferParams {
   canisterId: Principal;
   owner: Principal;
+  // Used to differentiate test vectors with the same token
+  index: number;
 }
 
 // Fee is optional, if not provided, it will be set to 10000 which is the ICP fee
@@ -60,11 +63,13 @@ const createTestVector = (params: Params) => {
   );
 
   let outputTxType = isStakeNeuron
-    ? "Stake Neuron"
+    ? "Transaction type : Stake Neuron"
     : nonNullish(token)
-      ? `Send ${token.tokenSymbol}`
-      : "Send Tokens";
-  const canisterIdOutputs = [`Canister Id : ${params.canisterId.toText()}`];
+      ? `Transaction type : Send ${token.tokenSymbol}`
+      : "Transaction type : Send Tokens";
+  const canisterIdOutputs = [
+    `Canister Id : ${splitPrincipal(params.canisterId)}`,
+  ];
 
   const fromOutputs = splitAccount(
     {
@@ -145,7 +150,7 @@ const createTestVector = (params: Params) => {
     isICP,
     name: `ICRC1 Transfer ${
       nonNullish(token)
-        ? `${token?.tokenSymbol} - ${token?.decimals} decimals`
+        ? `${token?.tokenSymbol} (${params.index}) - ${token?.decimals} decimals`
         : "Unsupported Token"
     }`,
     canisterId: params.canisterId.toText(),
@@ -187,6 +192,7 @@ const main = () => {
         },
         amount: BigInt(1_000_000_000_000_000_000),
         canisterId: ckETHCanisterId,
+        index: 1,
       }),
       createTestVector({
         owner: principal1,
@@ -199,6 +205,7 @@ const main = () => {
         fee: BigInt(100_000_000_000_000),
         canisterId: ckETHCanisterId,
         created_at_time: BigInt(1629200000000000000),
+        index: 2,
       }),
       createTestVector({
         owner: principal1,
@@ -211,6 +218,7 @@ const main = () => {
         fee: BigInt(100_000_000_000_000),
         canisterId: ckETHCanisterId,
         created_at_time: BigInt(1629200000000000000),
+        index: 3,
       }),
       // ckUSDC (6 decimals)
       createTestVector({
@@ -224,6 +232,7 @@ const main = () => {
         fee: BigInt(300),
         canisterId: ckUsdcCanisterId,
         created_at_time: BigInt(1675249266635000000),
+        index: 1,
       }),
       createTestVector({
         owner: principal2,
@@ -235,6 +244,7 @@ const main = () => {
         memo: numberToUint8Array(11223312),
         canisterId: ckUsdcCanisterId,
         created_at_time: BigInt(1675249266635000000),
+        index: 2,
       }),
       createTestVector({
         owner: principal2,
@@ -248,6 +258,7 @@ const main = () => {
         fee: BigInt(200),
         canisterId: ckUsdcCanisterId,
         created_at_time: BigInt(1675249266635000000),
+        index: 3,
       }),
       // CHAT (8 decimals)
       createTestVector({
@@ -261,6 +272,7 @@ const main = () => {
         fee: BigInt(30_000),
         canisterId: chatCanisterId,
         created_at_time: BigInt(1675249266635000000),
+        index: 1,
       }),
       createTestVector({
         owner: principal2,
@@ -272,6 +284,7 @@ const main = () => {
         memo: numberToUint8Array(11223312),
         canisterId: chatCanisterId,
         created_at_time: BigInt(1675249266635000000),
+        index: 2,
       }),
       createTestVector({
         owner: principal2,
@@ -285,6 +298,7 @@ const main = () => {
         fee: BigInt(20_000),
         canisterId: chatCanisterId,
         created_at_time: BigInt(1675249266635000000),
+        index: 3,
       }),
       // Unsupported token
       createTestVector({
@@ -298,6 +312,7 @@ const main = () => {
         fee: BigInt(30_000),
         canisterId: unsupportedCanisterId,
         created_at_time: BigInt(1675249266635000000),
+        index: 1,
       }),
       createTestVector({
         owner: principal2,
@@ -309,6 +324,7 @@ const main = () => {
         memo: numberToUint8Array(11223312),
         canisterId: unsupportedCanisterId,
         created_at_time: BigInt(1675249266635000000),
+        index: 2,
       }),
       createTestVector({
         owner: principal2,
@@ -322,6 +338,7 @@ const main = () => {
         fee: BigInt(20_000),
         canisterId: unsupportedCanisterId,
         created_at_time: BigInt(1675249266635000000),
+        index: 3,
       }),
       // ICP
       createTestVector({
@@ -332,6 +349,7 @@ const main = () => {
         },
         amount: BigInt(100_000_000),
         canisterId: MAINNET_LEDGER_CANISTER_ID,
+        index: 1,
       }),
       createTestVector({
         owner: principal2,
@@ -341,6 +359,7 @@ const main = () => {
         },
         amount: BigInt(31_400_000),
         canisterId: MAINNET_LEDGER_CANISTER_ID,
+        index: 2,
       }),
       createTestVector({
         owner: principal2,
@@ -352,6 +371,7 @@ const main = () => {
         from_subaccount: subaccount2,
         canisterId: MAINNET_LEDGER_CANISTER_ID,
         created_at_time: BigInt(1675249266635000000),
+        index: 3,
       }),
       createTestVector({
         owner: principal2,
@@ -363,6 +383,7 @@ const main = () => {
         memo: numberToUint8Array(11223312),
         canisterId: MAINNET_LEDGER_CANISTER_ID,
         created_at_time: BigInt(1675249266635000000),
+        index: 4,
       }),
       createTestVector({
         owner: principal2,
@@ -374,6 +395,7 @@ const main = () => {
         fee: BigInt(100_000),
         canisterId: MAINNET_LEDGER_CANISTER_ID,
         created_at_time: BigInt(1629200000000000000),
+        index: 5,
       }),
       createTestVector({
         owner: principal2,
@@ -387,6 +409,7 @@ const main = () => {
         memo: numberToUint8Array(11223312),
         canisterId: MAINNET_LEDGER_CANISTER_ID,
         created_at_time: BigInt(1629200000000000000),
+        index: 6,
       }),
       createTestVector({
         owner: principal2,
@@ -400,6 +423,7 @@ const main = () => {
         memo: numberToUint8Array(11223312),
         canisterId: MAINNET_LEDGER_CANISTER_ID,
         created_at_time: BigInt(1675249266635000000),
+        index: 7,
       }),
       // Stake ICP
       createTestVector({
@@ -414,6 +438,7 @@ const main = () => {
         memo: numberToUint8Array(11223312),
         canisterId: MAINNET_LEDGER_CANISTER_ID,
         created_at_time: BigInt(1675249266635000000),
+        index: 8,
       }),
       createTestVector({
         owner: principal2,
@@ -425,6 +450,7 @@ const main = () => {
         memo: numberToUint8Array(11223312),
         canisterId: MAINNET_LEDGER_CANISTER_ID,
         created_at_time: BigInt(1675249266635000000),
+        index: 9,
       }),
     ];
 
