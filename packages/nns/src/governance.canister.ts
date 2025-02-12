@@ -144,8 +144,8 @@ export class GovernanceCanister {
    *
    * The backend treats `includeEmptyNeurons` as false if absent.
    *
-   * The response might be paginated. In this case, all pages will be fetched in parallel and
-   * combined into a single response.
+   * The response from the canister might be paginated. In this case, all pages will be fetched in parallel and
+   * combined into a single return value.
    */
   public listNeurons = async ({
     certified = true,
@@ -171,21 +171,24 @@ export class GovernanceCanister {
       });
     }
 
+    let pageNumber = 1n;
+
     // Fetch the first page to get the total number of pages
-    const { neurons: firstPageNeurons, totalPages } =
-      await this.fetchNeuronsPage({
-        certified,
-        neuronIds,
-        includeEmptyNeurons,
-        includePublicNeurons,
-        neuronSubaccounts,
-      });
+    const firstPageResult = await this.fetchNeuronsPage({
+      certified,
+      neuronIds,
+      includeEmptyNeurons,
+      includePublicNeurons,
+      neuronSubaccounts,
+      pageNumber,
+    });
+    const { neurons: firstPageNeurons, totalPages } = firstPageResult;
 
     // https://github.com/dfinity/ic/blob/de17b0d718d6f279e9da8cd0f1b5de17036a6102/rs/nns/governance/api/src/ic_nns_governance.pb.v1.rs#L3543
     if (totalPages < 2n) return firstPageNeurons;
 
     const pagePromises = [];
-    for (let pageNumber = 1n; pageNumber < totalPages; pageNumber++) {
+    for (pageNumber; pageNumber < totalPages; pageNumber++) {
       pagePromises.push(
         this.fetchNeuronsPage({
           certified,
@@ -198,10 +201,8 @@ export class GovernanceCanister {
       );
     }
 
-    const pageResults = await Promise.all(pagePromises);
-    const allNeurons = firstPageNeurons.concat(
-      ...pageResults.map((result) => result.neurons),
-    );
+    const pageResults = [firstPageResult, ...(await Promise.all(pagePromises))];
+    const allNeurons = pageResults.flatMap(({ neurons }) => neurons);
 
     return allNeurons;
   };
@@ -242,7 +243,7 @@ export class GovernanceCanister {
     neuronIds?: NeuronId[];
     includeEmptyNeurons?: boolean;
     includePublicNeurons?: boolean;
-    pageNumber?: bigint;
+    pageNumber: bigint;
     neuronSubaccounts?: NeuronSubaccount[];
   }): Promise<{ neurons: NeuronInfo[]; totalPages: bigint }> => {
     // https://github.com/dfinity/ic/blob/59c4b87a337f1bd52a076c0f3e99acf155b79803/rs/nns/governance/src/governance.rs#L223
