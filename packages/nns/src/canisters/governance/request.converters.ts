@@ -1019,19 +1019,23 @@ export const fromListNeurons = ({
   includeEmptyNeurons,
   includePublicNeurons,
   neuronSubaccounts,
+  pageNumber,
+  pageSize,
 }: {
   neuronIds?: NeuronId[];
   includeEmptyNeurons?: boolean;
   includePublicNeurons?: boolean;
   neuronSubaccounts?: NeuronSubaccount[];
+  pageNumber?: bigint;
+  pageSize?: bigint;
 }): RawListNeurons => ({
   neuron_ids: BigUint64Array.from(neuronIds ?? []),
   include_neurons_readable_by_caller: neuronIds ? false : true,
   include_empty_neurons_readable_by_caller: toNullable(includeEmptyNeurons),
   include_public_neurons_in_full_neurons: toNullable(includePublicNeurons),
-  page_number: [],
-  page_size: [],
   neuron_subaccounts: toNullable(neuronSubaccounts),
+  page_number: toNullable(pageNumber),
+  page_size: toNullable(pageSize),
 });
 
 export const fromManageNeuron = ({

@@ -143,6 +143,9 @@ export class GovernanceCanister {
    * it is fetched using a query call.
    *
    * The backend treats `includeEmptyNeurons` as false if absent.
+   *
+   * The response from the canister might be paginated. In this case, all pages will be fetched in parallel and
+   * combined into a single return value.
    */
   public listNeurons = async ({
     certified = true,
@@ -157,30 +160,112 @@ export class GovernanceCanister {
     includePublicNeurons?: boolean;
     neuronSubaccounts?: NeuronSubaccount[];
   }): Promise<NeuronInfo[]> => {
+    const useOldMethod =
+      isNullish(includeEmptyNeurons) &&
+      isNullish(includePublicNeurons) &&
+      certified;
+
+    if (useOldMethod) {
+      return this.fetchNeuronsWithOldMethodAndNoPagination({
+        neuronIds,
+      });
+    }
+
+    // Fetch the first page to get the total number of pages
+    const firstPageResult = await this.fetchNeuronsPage({
+      certified,
+      neuronIds,
+      includeEmptyNeurons,
+      includePublicNeurons,
+      neuronSubaccounts,
+      pageNumber: 1n,
+    });
+    const { neurons: firstPageNeurons, totalPages } = firstPageResult;
+
+    // https://github.com/dfinity/ic/blob/de17b0d718d6f279e9da8cd0f1b5de17036a6102/rs/nns/governance/api/src/ic_nns_governance.pb.v1.rs#L3543
+    if (totalPages < 2n) return firstPageNeurons;
+
+    const pagePromises = [];
+    for (let pageNumber = 1n; pageNumber < totalPages; pageNumber++) {
+      pagePromises.push(
+        this.fetchNeuronsPage({
+          certified,
+          neuronIds,
+          includeEmptyNeurons,
+          includePublicNeurons,
+          pageNumber,
+          neuronSubaccounts,
+        }),
+      );
+    }
+
+    const pageResults = [firstPageResult, ...(await Promise.all(pagePromises))];
+    const allNeurons = pageResults.flatMap(({ neurons }) => neurons);
+
+    return allNeurons;
+  };
+
+  // The Ledger app version 2.4.9 does not support
+  // include_empty_neurons_readable_by_caller nor include_public_neurons_in_full_neurons,
+  // even when the field is absent,
+  // so we use the old service (which does not have these fields) if possible,
+  // in case the call will be signed by the Ledger device. We only have a
+  // certified version of the old service.
+  private fetchNeuronsWithOldMethodAndNoPagination = async ({
+    neuronIds,
+  }: {
+    neuronIds?: NeuronId[];
+  }): Promise<NeuronInfo[]> => {
+    const rawRequest = fromListNeurons({
+      neuronIds,
+    });
+
+    const service = this.oldListNeuronsCertifiedService;
+    const rawResponse = await service.list_neurons(rawRequest);
+
+    return toArrayOfNeuronInfo({
+      response: rawResponse,
+      canisterId: this.canisterId,
+    });
+  };
+
+  private fetchNeuronsPage = async ({
+    certified,
+    neuronIds,
+    includeEmptyNeurons,
+    includePublicNeurons,
+    pageNumber,
+    neuronSubaccounts,
+  }: {
+    certified: boolean;
+    neuronIds?: NeuronId[];
+    includeEmptyNeurons?: boolean;
+    includePublicNeurons?: boolean;
+    pageNumber: bigint;
+    neuronSubaccounts?: NeuronSubaccount[];
+  }): Promise<{ neurons: NeuronInfo[]; totalPages: bigint }> => {
+    // https://github.com/dfinity/ic/blob/59c4b87a337f1bd52a076c0f3e99acf155b79803/rs/nns/governance/src/governance.rs#L223
+    const PAGE_SIZE = 500n;
+
     const rawRequest = fromListNeurons({
       neuronIds,
       includeEmptyNeurons,
       includePublicNeurons,
       neuronSubaccounts,
+      pageNumber,
+      pageSize: PAGE_SIZE,
     });
-    // The Ledger app version 2.4.9 does not support
-    // include_empty_neurons_readable_by_caller nor include_public_neurons_in_full_neurons,
-    // even when the field is absent,
-    // so we use the old service (which does not have these fields) if possible,
-    // in case the call will be signed by the Ledger device. We only have a
-    // certified version of the old service.
-    const useOldMethod =
-      isNullish(includeEmptyNeurons) &&
-      isNullish(includePublicNeurons) &&
-      certified;
-    const service = useOldMethod
-      ? this.oldListNeuronsCertifiedService
-      : this.getGovernanceService(certified);
-    const raw_response = await service.list_neurons(rawRequest);
-    return toArrayOfNeuronInfo({
-      response: raw_response,
+
+    const service = this.getGovernanceService(certified);
+    const rawResponse = await service.list_neurons(rawRequest);
+    const neurons = toArrayOfNeuronInfo({
+      response: rawResponse,
       canisterId: this.canisterId,
     });
+
+    const totalPages = fromNullable(rawResponse.total_pages_available) ?? 1n;
+
+    return { neurons, totalPages };
   };
 
   /**
