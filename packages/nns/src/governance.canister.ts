@@ -171,8 +171,6 @@ export class GovernanceCanister {
       });
     }
 
-    let pageNumber = 1n;
-
     // Fetch the first page to get the total number of pages
     const firstPageResult = await this.fetchNeuronsPage({
       certified,
@@ -180,7 +178,7 @@ export class GovernanceCanister {
       includeEmptyNeurons,
       includePublicNeurons,
       neuronSubaccounts,
-      pageNumber,
+      pageNumber: 1n,
     });
     const { neurons: firstPageNeurons, totalPages } = firstPageResult;
 
@@ -188,7 +186,7 @@ export class GovernanceCanister {
     if (totalPages < 2n) return firstPageNeurons;
 
     const pagePromises = [];
-    for (pageNumber; pageNumber < totalPages; pageNumber++) {
+    for (let pageNumber = 1n; pageNumber < totalPages; pageNumber++) {
       pagePromises.push(
         this.fetchNeuronsPage({
           certified,
