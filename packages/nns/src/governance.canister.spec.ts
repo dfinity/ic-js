@@ -459,7 +459,7 @@ describe("GovernanceCanister", () => {
         include_empty_neurons_readable_by_caller: [true],
         include_public_neurons_in_full_neurons: [true],
         neuron_subaccounts: [],
-        page_number: [1n],
+        page_number: [0n],
         page_size: [500n],
       });
       expect(neurons.length).toBe(1);
@@ -502,7 +502,7 @@ describe("GovernanceCanister", () => {
         include_empty_neurons_readable_by_caller: [true],
         include_public_neurons_in_full_neurons: [true],
         neuron_subaccounts: [],
-        page_number: [1n],
+        page_number: [0n],
         page_size: [500n],
       });
 
@@ -543,7 +543,7 @@ describe("GovernanceCanister", () => {
         include_empty_neurons_readable_by_caller: [false],
         include_public_neurons_in_full_neurons: [],
         neuron_subaccounts: [],
-        page_number: [1n],
+        page_number: [0n],
         page_size: [500n],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
@@ -570,7 +570,7 @@ describe("GovernanceCanister", () => {
         include_empty_neurons_readable_by_caller: [],
         include_public_neurons_in_full_neurons: [false],
         neuron_subaccounts: [],
-        page_number: [1n],
+        page_number: [0n],
         page_size: [500n],
       });
       expect(service.list_neurons).toBeCalledTimes(1);
@@ -601,7 +601,7 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [true],
         include_public_neurons_in_full_neurons: [true],
-        page_number: [1n],
+        page_number: [0n],
         page_size: [500n],
         neuron_subaccounts: [
           [
@@ -665,7 +665,7 @@ describe("GovernanceCanister", () => {
         include_neurons_readable_by_caller: true,
         include_empty_neurons_readable_by_caller: [],
         include_public_neurons_in_full_neurons: [],
-        page_number: [1n],
+        page_number: [0n],
         page_size: [500n],
         neuron_subaccounts: [],
       });

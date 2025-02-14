@@ -178,7 +178,7 @@ export class GovernanceCanister {
       includeEmptyNeurons,
       includePublicNeurons,
       neuronSubaccounts,
-      pageNumber: 1n,
+      pageNumber: 0n,
     });
     const { neurons: firstPageNeurons, totalPages } = firstPageResult;
 
