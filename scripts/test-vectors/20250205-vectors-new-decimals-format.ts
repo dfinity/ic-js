@@ -148,9 +148,9 @@ const createTestVector = (params: Params) => {
       elements.map((element) => `${index} | ${element}`),
     ),
     isICP,
-    name: `ICRC1 Transfer ${
+    name: `ICRC1 Transfer${params.index} ${
       nonNullish(token)
-        ? `${token?.tokenSymbol} (${params.index}) - ${token?.decimals} decimals`
+        ? `${token?.tokenSymbol} - ${token?.decimals} decimals`
         : "Unsupported Token"
     }`,
     canisterId: params.canisterId.toText(),
