@@ -148,6 +148,8 @@ const createTestVector = (params: Params) => {
       elements.map((element) => `${index} | ${element}`),
     ),
     isICP,
+    // ICP transactions without created time are valid for backward compatibility.
+    isValid: isICP || nonNullish(params.created_at_time),
     name: `ICRC1 Transfer${params.index} ${
       nonNullish(token)
         ? `${token?.tokenSymbol} - ${token?.decimals} decimals`
@@ -192,6 +194,7 @@ const main = () => {
         },
         amount: BigInt(1_000_000_000_000_000_000),
         canisterId: ckETHCanisterId,
+        created_at_time: BigInt(1629200000000000000),
         index: 1,
       }),
       createTestVector({
@@ -219,6 +222,16 @@ const main = () => {
         canisterId: ckETHCanisterId,
         created_at_time: BigInt(1629200000000000000),
         index: 3,
+      }),
+      createTestVector({
+        owner: principal1,
+        to: {
+          owner: principal2,
+          subaccount: [],
+        },
+        amount: BigInt(55_000_000_000_000_000_000),
+        canisterId: ckETHCanisterId,
+        index: 4,
       }),
       // ckUSDC (6 decimals)
       createTestVector({
