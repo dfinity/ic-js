@@ -2,19 +2,19 @@
 
 ## Overview
 
-| Library                  | Version | Status              |
-| ------------------------ |---------|---------------------|
-| `@dfinity/ckbtc`         | v3.1.8  | Maintained ⚙️       |
-| `@dfinity/cketh`         | v3.4.5  | Maintained ⚙️       |
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.8  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.5  | Maintained ⚙️ |
 | `@dfinity/cmc`           | v5.0.1  | Maintained ⚙️ |
-| `@dfinity/ic-management` | v6.0.5  | Maintained ⚙️       |
-| `@dfinity/ledger-icp`    | v2.6.9  | Maintained ⚙️       |
-| `@dfinity/ledger-icrc`   | v2.7.4  | Maintained ⚙️       |
-| `@dfinity/nns`           | v8.3.0  | Enhanced 🔧️       |
-| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️      |
-| `@dfinity/sns`           | v3.2.10 | Maintained ⚙️       |
-| `@dfinity/utils`         | v2.10.1 | Patched ⚙️          |
-| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️          |
+| `@dfinity/ic-management` | v6.0.5  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v2.6.9  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.4  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.3.0  | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v3.2.10 | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.10.1 | Patched ⚙️    |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
 
 ## Features
 
