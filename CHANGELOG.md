@@ -1,3 +1,39 @@
+# 2025.02.19-1030Z
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.8  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.5  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.1  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.0.5  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v2.6.9  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.4  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.3.0  | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v3.2.10 | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.10.1 | Patched ⚙️    |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
+
+## Features
+
+- Make methods of `AgentManager` usable after deconstruction.
+- Implement pagination for the `list_neurons` endpoint.
+- Update all Candid files to their latest versions.
+
+## Build
+
+- Bump `esbuild` to `v0.25.0`.
+
+## Chore
+
+- Add the `zod-schemas` library to the list of `next` versions.
+
+## Docs
+
+- Review JSDoc types for `Icrc2ApproveRequest`.
+
 # 2025.01.30-0730Z
 
 ## Overview
