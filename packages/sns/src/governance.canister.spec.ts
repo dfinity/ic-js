@@ -36,6 +36,7 @@ import {
   proposalIdMock,
   proposalMock,
   proposalsMock,
+  topicsMock,
 } from "./mocks/governance.mock";
 import { rootCanisterIdMock } from "./mocks/sns.mock";
 import type {
@@ -228,6 +229,25 @@ describe("Governance canister", () => {
 
       const call = () => canister.listProposals({});
       expect(call).rejects.toThrowError("error");
+    });
+  });
+
+  describe("listTopics", () => {
+    it("should return the list of topics", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_topics.mockResolvedValue({
+        topics: [topicsMock],
+        uncategorized_functions: [],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const { topics: expectedTopics } = await canister.listTopics({});
+      expect(mockListProposals).toBeCalled();
+      expect(expectedTopics).toEqual([topicsMock]);
     });
   });
 

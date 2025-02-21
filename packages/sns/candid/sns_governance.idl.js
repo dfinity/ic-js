@@ -19,7 +19,17 @@ export const idlFactory = ({ IDL }) => {
     'response_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'requested_timestamp_seconds' : IDL.Opt(IDL.Nat64),
   });
+  const Topic = IDL.Variant({
+    'DappCanisterManagement' : IDL.Null,
+    'DaoCommunitySettings' : IDL.Null,
+    'ApplicationBusinessLogic' : IDL.Null,
+    'CriticalDappOperations' : IDL.Null,
+    'TreasuryAssetManagement' : IDL.Null,
+    'Governance' : IDL.Null,
+    'SnsFrameworkManagement' : IDL.Null,
+  });
   const GenericNervousSystemFunction = IDL.Record({
+    'topic' : IDL.Opt(Topic),
     'validator_canister_id' : IDL.Opt(IDL.Principal),
     'target_canister_id' : IDL.Opt(IDL.Principal),
     'validator_method_name' : IDL.Opt(IDL.Text),
@@ -604,6 +614,19 @@ export const idlFactory = ({ IDL }) => {
     'include_ballots_by_caller' : IDL.Opt(IDL.Bool),
     'proposals' : IDL.Vec(ProposalData),
   });
+  const ListTopicsRequest = IDL.Record({});
+  const TopicInfo = IDL.Record({
+    'native_functions' : IDL.Opt(IDL.Vec(NervousSystemFunction)),
+    'topic' : IDL.Opt(Topic),
+    'is_critical' : IDL.Opt(IDL.Bool),
+    'name' : IDL.Opt(IDL.Text),
+    'description' : IDL.Opt(IDL.Text),
+    'custom_functions' : IDL.Opt(IDL.Vec(NervousSystemFunction)),
+  });
+  const ListTopicsResponse = IDL.Record({
+    'uncategorized_functions' : IDL.Opt(IDL.Vec(NervousSystemFunction)),
+    'topics' : IDL.Opt(IDL.Vec(TopicInfo)),
+  });
   const StakeMaturity = IDL.Record({
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
@@ -722,6 +745,11 @@ export const idlFactory = ({ IDL }) => {
         [ListProposalsResponse],
         ['query'],
       ),
+    'list_topics' : IDL.Func(
+        [ListTopicsRequest],
+        [ListTopicsResponse],
+        ['query'],
+      ),
     'manage_neuron' : IDL.Func([ManageNeuron], [ManageNeuronResponse], []),
     'reset_timers' : IDL.Func([IDL.Record({})], [IDL.Record({})], []),
     'set_mode' : IDL.Func([SetMode], [IDL.Record({})], []),
@@ -747,7 +775,17 @@ export const init = ({ IDL }) => {
     'response_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'requested_timestamp_seconds' : IDL.Opt(IDL.Nat64),
   });
+  const Topic = IDL.Variant({
+    'DappCanisterManagement' : IDL.Null,
+    'DaoCommunitySettings' : IDL.Null,
+    'ApplicationBusinessLogic' : IDL.Null,
+    'CriticalDappOperations' : IDL.Null,
+    'TreasuryAssetManagement' : IDL.Null,
+    'Governance' : IDL.Null,
+    'SnsFrameworkManagement' : IDL.Null,
+  });
   const GenericNervousSystemFunction = IDL.Record({
+    'topic' : IDL.Opt(Topic),
     'validator_canister_id' : IDL.Opt(IDL.Principal),
     'target_canister_id' : IDL.Opt(IDL.Principal),
     'validator_method_name' : IDL.Opt(IDL.Text),

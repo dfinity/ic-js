@@ -2,7 +2,9 @@ import { Principal } from "@dfinity/principal";
 import type {
   Action as ActionCandid,
   DefaultFollowees,
+  Topic,
 } from "../../candid/sns_governance";
+import { topicMock } from "../mocks/governance.mock";
 import type { Action } from "../types/actions";
 import { fromCandidAction } from "./governance.converters";
 
@@ -116,6 +118,8 @@ describe("governance converters", () => {
       const target_canister_id = Principal.fromHex("AB");
       const validator_method_name = "validator_method_name";
       const target_method_name = "target_method_name";
+      const topic: Topic = topicMock;
+
       const action: ActionCandid = {
         AddGenericNervousSystemFunction: {
           id,
@@ -128,6 +132,7 @@ describe("governance converters", () => {
                 target_canister_id: [target_canister_id],
                 validator_method_name: [validator_method_name],
                 target_method_name: [target_method_name],
+                topic: [topic],
               },
             },
           ],
@@ -144,6 +149,7 @@ describe("governance converters", () => {
               target_canister_id,
               validator_method_name,
               target_method_name,
+              topic,
             },
           },
         },

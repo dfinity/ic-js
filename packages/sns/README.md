@@ -100,13 +100,14 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 
 ### :factory: SnsGovernanceCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L63)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L65)
 
 #### Methods
 
 - [create](#gear-create)
 - [listNeurons](#gear-listneurons)
 - [listProposals](#gear-listproposals)
+- [listTopics](#gear-listtopics)
 - [getProposal](#gear-getproposal)
 - [listNervousSystemFunctions](#gear-listnervoussystemfunctions)
 - [metadata](#gear-metadata)
@@ -142,7 +143,7 @@ Parameters:
 
 - `options`: Miscellaneous options to initialize the canister. Its ID being the only mandatory parammeter.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L69)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L71)
 
 ##### :gear: listNeurons
 
@@ -152,7 +153,7 @@ List the neurons of the Sns
 | ------------- | ----------------------------------------------------- |
 | `listNeurons` | `(params: SnsListNeuronsParams) => Promise<Neuron[]>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L83)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L85)
 
 ##### :gear: listProposals
 
@@ -162,7 +163,17 @@ List the proposals of the Sns
 | --------------- | -------------------------------------------------------------------- |
 | `listProposals` | `(params: SnsListProposalsParams) => Promise<ListProposalsResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L97)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L99)
+
+##### :gear: listTopics
+
+List the topics of the Sns
+
+| Method       | Type                                                           |
+| ------------ | -------------------------------------------------------------- |
+| `listTopics` | `(params: SnsListTopicsParams) => Promise<ListTopicsResponse>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L114)
 
 ##### :gear: getProposal
 
@@ -172,7 +183,7 @@ Get the proposal of the Sns
 | ------------- | --------------------------------------------------------- |
 | `getProposal` | `(params: SnsGetProposalParams) => Promise<ProposalData>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L111)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L125)
 
 ##### :gear: listNervousSystemFunctions
 
@@ -183,7 +194,7 @@ Neurons can follow other neurons in specific Nervous System Functions.
 | ---------------------------- | ---------------------------------------------------------------------- |
 | `listNervousSystemFunctions` | `(params: QueryParams) => Promise<ListNervousSystemFunctionsResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L130)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L144)
 
 ##### :gear: metadata
 
@@ -193,7 +204,7 @@ Get the Sns metadata (title, description, etc.)
 | ---------- | ------------------------------------------------------- |
 | `metadata` | `(params: QueryParams) => Promise<GetMetadataResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L138)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L152)
 
 ##### :gear: nervousSystemParameters
 
@@ -203,7 +214,7 @@ Get the Sns nervous system parameters (default followees, max dissolve delay, ma
 | ------------------------- | ----------------------------------------------------------- |
 | `nervousSystemParameters` | `(params: QueryParams) => Promise<NervousSystemParameters>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L144)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L158)
 
 ##### :gear: getNeuron
 
@@ -213,7 +224,7 @@ Get the neuron of the Sns
 | ----------- | ------------------------------------------------- |
 | `getNeuron` | `(params: SnsGetNeuronParams) => Promise<Neuron>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L152)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L166)
 
 ##### :gear: queryNeuron
 
@@ -223,7 +234,7 @@ Same as `getNeuron` but returns undefined instead of raising error when not foun
 | ------------- | -------------------------------------------------------------- |
 | `queryNeuron` | `(params: SnsGetNeuronParams) => Promise<Neuron or undefined>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L170)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L184)
 
 ##### :gear: manageNeuron
 
@@ -233,7 +244,7 @@ Manage neuron. For advanced users.
 | -------------- | ---------------------------------------------------------- |
 | `manageNeuron` | `(request: ManageNeuron) => Promise<ManageNeuronResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L190)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L204)
 
 ##### :gear: addNeuronPermissions
 
@@ -243,7 +254,7 @@ Add permissions to a neuron for a specific principal
 | ---------------------- | ------------------------------------------------------- |
 | `addNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L203)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L217)
 
 ##### :gear: removeNeuronPermissions
 
@@ -253,7 +264,7 @@ Remove permissions to a neuron for a specific principal
 | ------------------------- | ------------------------------------------------------- |
 | `removeNeuronPermissions` | `(params: SnsNeuronPermissionsParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L213)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L227)
 
 ##### :gear: splitNeuron
 
@@ -263,7 +274,7 @@ Split neuron
 | ------------- | ------------------------------------------------------------------ |
 | `splitNeuron` | `(params: SnsSplitNeuronParams) => Promise<NeuronId or undefined>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L223)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L237)
 
 ##### :gear: disburse
 
@@ -273,7 +284,7 @@ Disburse neuron on Account
 | ---------- | ---------------------------------------------------- |
 | `disburse` | `(params: SnsDisburseNeuronParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L254)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L268)
 
 ##### :gear: startDissolving
 
@@ -283,7 +294,7 @@ Start dissolving process of a neuron
 | ----------------- | --------------------------------------- |
 | `startDissolving` | `(neuronId: NeuronId) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L262)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L276)
 
 ##### :gear: stopDissolving
 
@@ -293,7 +304,7 @@ Stop dissolving process of a neuron
 | ---------------- | --------------------------------------- |
 | `stopDissolving` | `(neuronId: NeuronId) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L270)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L284)
 
 ##### :gear: stakeMaturity
 
@@ -308,7 +319,7 @@ Parameters:
 - `neuronId`: The id of the neuron for which to stake the maturity
 - `percentageToStake`: Optional. Percentage of the current maturity to stake. If not provided, all of the neuron's current maturity will be staked.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L282)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L296)
 
 ##### :gear: disburseMaturity
 
@@ -324,7 +335,7 @@ Parameters:
 - `neuronId`: The id of the neuron for which to disburse the maturity
 - `percentageToDisburse`: What percentage of the available maturity to disburse.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L303)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L317)
 
 ##### :gear: autoStakeMaturity
 
@@ -339,7 +350,7 @@ Parameters:
 - `neuronId`: The id of the neuron for which to request a change of the auto stake feature
 - `autoStake`: `true` to enable the auto-stake maturity for this neuron, `false` to turn it off
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L319)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L333)
 
 ##### :gear: setDissolveTimestamp
 
@@ -349,7 +360,7 @@ Increase dissolve delay of a neuron
 | ---------------------- | ---------------------------------------------------------- |
 | `setDissolveTimestamp` | `(params: SnsSetDissolveTimestampParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L329)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L343)
 
 ##### :gear: increaseDissolveDelay
 
@@ -359,7 +370,7 @@ Increase dissolve delay of a neuron
 | ----------------------- | ----------------------------------------------------------- |
 | `increaseDissolveDelay` | `(params: SnsIncreaseDissolveDelayParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L339)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L353)
 
 ##### :gear: setTopicFollowees
 
@@ -369,7 +380,7 @@ Sets followees of a neuron for a specific Nervous System Function (topic)
 | ------------------- | ------------------------------------------------- |
 | `setTopicFollowees` | `(params: SnsSetTopicFollowees) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L349)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L363)
 
 ##### :gear: registerVote
 
@@ -379,7 +390,7 @@ Registers vote for a proposal from the neuron passed.
 | -------------- | -------------------------------------------------- |
 | `registerVote` | `(params: SnsRegisterVoteParams) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L357)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L371)
 
 ##### :gear: refreshNeuron
 
@@ -389,7 +400,7 @@ Refresh neuron
 | --------------- | --------------------------------------- |
 | `refreshNeuron` | `(neuronId: NeuronId) => Promise<void>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L365)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L379)
 
 ##### :gear: claimNeuron
 
@@ -399,7 +410,7 @@ Claim neuron
 | ------------- | -------------------------------------------------------------------------------- |
 | `claimNeuron` | `({ memo, controller, subaccount, }: SnsClaimNeuronParams) => Promise<NeuronId>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L375)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L389)
 
 ### :factory: SnsRootCanister
 
