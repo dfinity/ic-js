@@ -1,4 +1,4 @@
-// Generated from IC repo commit 2f02a660f6 (2025-02-13 tags: release-2025-02-20_10-16-disable-best-effort-messaging) 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 2f02a66 (2025-02-13 tags: release-2025-02-20_10-16-disable-best-effort-messaging) 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;
