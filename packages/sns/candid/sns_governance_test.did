@@ -1,4 +1,4 @@
-// Generated from IC repo commit 14c8f44 (2025-02-07 tags: release-2025-02-06_12-26-revert-hashes-in-blocks) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 2f02a660f6 (2025-02-13 tags: release-2025-02-20_10-16-disable-best-effort-messaging) 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;
@@ -236,6 +236,7 @@ type GenericNervousSystemFunction = record {
   target_canister_id : opt principal;
   validator_method_name : opt text;
   target_method_name : opt text;
+  topic: opt Topic;
 };
 
 type GetMaturityModulationResponse = record {
@@ -857,6 +858,32 @@ type GetUpgradeJournalResponse = record {
 type AdvanceTargetVersionRequest = record { target_version : opt Version; };
 type AdvanceTargetVersionResponse = record {};
 
+
+type Topic = variant {
+  DaoCommunitySettings;
+  SnsFrameworkManagement;
+  DappCanisterManagement;
+  ApplicationBusinessLogic;
+  Governance;
+  TreasuryAssetManagement;
+  CriticalDappOperations;
+};
+
+type TopicInfo = record {
+  topic : opt Topic;
+  name : opt text;
+  description : opt text;
+  native_functions : opt vec NervousSystemFunction;
+  custom_functions : opt vec NervousSystemFunction;
+  is_critical : opt bool;
+};
+
+type ListTopicsRequest = record {};
+type ListTopicsResponse = record {
+  topics: opt vec TopicInfo;
+  uncategorized_functions: opt vec NervousSystemFunction
+};
+
 service : (Governance) -> {
   add_maturity : (AddMaturityRequest) -> (AddMaturityResponse);
   claim_swap_neurons : (ClaimSwapNeuronsRequest) -> (ClaimSwapNeuronsResponse);
@@ -876,6 +903,7 @@ service : (Governance) -> {
   list_nervous_system_functions : () -> (ListNervousSystemFunctionsResponse) query;
   list_neurons : (ListNeurons) -> (ListNeuronsResponse) query;
   list_proposals : (ListProposals) -> (ListProposalsResponse) query;
+  list_topics : (ListTopicsRequest) -> (ListTopicsResponse) query;
   manage_neuron : (ManageNeuron) -> (ManageNeuronResponse);
   mint_tokens : (MintTokensRequest) -> (record {});
   set_mode : (SetMode) -> (record {});
