@@ -46,6 +46,7 @@ export const idlFactory = ({ IDL }) => {
   const LogVisibility = IDL.Variant({
     'controllers' : IDL.Null,
     'public' : IDL.Null,
+    'allowed_viewers' : IDL.Vec(IDL.Principal),
   });
   const DefiniteCanisterSettings = IDL.Record({
     'freezing_threshold' : IDL.Nat,
@@ -166,6 +167,10 @@ export const idlFactory = ({ IDL }) => {
     }),
     'checked_utxo_v2' : IDL.Record({ 'utxo' : Utxo, 'account' : Account }),
     'ignored_utxo' : IDL.Record({ 'utxo' : Utxo }),
+    'checked_utxo_mint_unknown' : IDL.Record({
+      'utxo' : Utxo,
+      'account' : Account,
+    }),
     'reimbursed_failed_deposit' : IDL.Record({
       'burn_block_index' : IDL.Nat64,
       'mint_block_index' : IDL.Nat64,

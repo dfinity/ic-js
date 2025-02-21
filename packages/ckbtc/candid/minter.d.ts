@@ -126,6 +126,7 @@ export type EventType =
     }
   | { checked_utxo_v2: { utxo: Utxo; account: Account } }
   | { ignored_utxo: { utxo: Utxo } }
+  | { checked_utxo_mint_unknown: { utxo: Utxo; account: Account } }
   | {
       reimbursed_failed_deposit: {
         burn_block_index: bigint;
@@ -145,7 +146,10 @@ export interface InitArgs {
   min_confirmations: [] | [number];
   kyt_fee: [] | [bigint];
 }
-export type LogVisibility = { controllers: null } | { public: null };
+export type LogVisibility =
+  | { controllers: null }
+  | { public: null }
+  | { allowed_viewers: Array<Principal> };
 export type MinterArg = { Upgrade: [] | [UpgradeArgs] } | { Init: InitArgs };
 export interface MinterInfo {
   retrieve_btc_min_amount: bigint;

@@ -66,7 +66,10 @@ export interface LedgerSuiteVersion {
   ledger_compressed_wasm_hash: string;
   index_compressed_wasm_hash: string;
 }
-export type LogVisibility = { controllers: null } | { public: null };
+export type LogVisibility =
+  | { controllers: null }
+  | { public: null }
+  | { allowed_viewers: Array<Principal> };
 export interface ManagedCanisterIds {
   ledger: [] | [Principal];
   index: [] | [Principal];
