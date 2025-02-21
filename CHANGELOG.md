@@ -4,13 +4,13 @@
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
-| `@dfinity/ckbtc`         | v3.1.8  | Unchanged️ |
-| `@dfinity/cketh`         | v3.4.5  | Unchanged️ |
-| `@dfinity/cmc`           | v5.0.1  | Unchanged️ |
+| `@dfinity/ckbtc`         | v3.1.8  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.5  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.1  | Maintained ⚙️ |
 | `@dfinity/ic-management` | v6.0.5  | Unchanged️ |
-| `@dfinity/ledger-icp`    | v2.6.9  | Unchanged️ |
-| `@dfinity/ledger-icrc`   | v2.7.4  | Unchanged️ |
-| `@dfinity/nns`           | v8.3.0  | Unchanged️ |
+| `@dfinity/ledger-icp`    | v2.6.9  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.4  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.3.0  | Maintained ⚙️  |
 | `@dfinity/nns-proto`     | v2.0.2  | Unchanged️ |
 | `@dfinity/sns`           | v3.3.0 | Enhanced 🔧️ |
 | `@dfinity/utils`         | v2.10.1 | Unchanged️ |
