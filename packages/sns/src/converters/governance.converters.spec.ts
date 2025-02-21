@@ -116,6 +116,7 @@ describe("governance converters", () => {
       const target_canister_id = Principal.fromHex("AB");
       const validator_method_name = "validator_method_name";
       const target_method_name = "target_method_name";
+
       const action: ActionCandid = {
         AddGenericNervousSystemFunction: {
           id,
@@ -128,6 +129,7 @@ describe("governance converters", () => {
                 target_canister_id: [target_canister_id],
                 validator_method_name: [validator_method_name],
                 target_method_name: [target_method_name],
+                topic: [],
               },
             },
           ],
