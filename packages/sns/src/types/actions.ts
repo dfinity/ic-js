@@ -7,6 +7,7 @@ import type {
   NeuronPermissionList,
   RegisterDappCanisters,
   Subaccount,
+  Topic,
 } from "../../candid/sns_governance";
 import type { Option } from "./common";
 
@@ -74,6 +75,7 @@ export interface GenericNervousSystemFunction {
   target_canister_id: Option<Principal>;
   validator_method_name: Option<string>;
   target_method_name: Option<string>;
+  topic: Option<Topic>;
 }
 
 export interface TransferSnsTreasuryFunds {

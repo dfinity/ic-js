@@ -52,6 +52,8 @@ export interface SnsListProposalsParams extends QueryParams {
   includeStatus?: SnsProposalDecisionStatus[];
 }
 
+export interface SnsListTopicsParams extends QueryParams {}
+
 /**
  * The parameters to get an sns proposal
  */

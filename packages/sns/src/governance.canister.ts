@@ -11,6 +11,7 @@ import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
   ListProposalsResponse,
+  ListTopicsResponse,
   ManageNeuron,
   ManageNeuronResponse,
   NervousSystemParameters,
@@ -50,6 +51,7 @@ import type {
   SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
   SnsListProposalsParams,
+  SnsListTopicsParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronDisburseMaturityParams,
   SnsNeuronPermissionsParams,
@@ -102,6 +104,18 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     const response = await this.caller({ certified }).list_proposals(
       toListProposalRequest(params),
     );
+    return response;
+  };
+
+  /**
+   *
+   * List the topics of the Sns
+   */
+  listTopics = async (
+    params: SnsListTopicsParams,
+  ): Promise<ListTopicsResponse> => {
+    const { certified } = params;
+    const response = await this.caller({ certified }).list_topics({});
     return response;
   };
 

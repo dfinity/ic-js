@@ -432,6 +432,7 @@ const convertGenericNervousSystemFunction = (
   target_canister_id: fromNullable(params.target_canister_id),
   validator_method_name: fromNullable(params.validator_method_name),
   target_method_name: fromNullable(params.target_method_name),
+  topic: fromNullable(params.topic),
 });
 
 const convertFunctionType = (
