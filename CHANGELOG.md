@@ -12,7 +12,7 @@
 | `@dfinity/ledger-icrc`   | v2.7.4  | Unchanged️ |
 | `@dfinity/nns`           | v8.3.0  | Unchanged️ |
 | `@dfinity/nns-proto`     | v2.0.2  | Unchanged️ |
-| `@dfinity/sns`           | v3.2.10 | Enhanced 🔧️ |
+| `@dfinity/sns`           | v3.3.0 | Enhanced 🔧️ |
 | `@dfinity/utils`         | v2.10.1 | Unchanged️ |
 | `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️ |
 
