@@ -212,6 +212,7 @@ export type FunctionType =
   | { NativeNervousSystemFunction: {} }
   | { GenericNervousSystemFunction: GenericNervousSystemFunction };
 export interface GenericNervousSystemFunction {
+  topic: [] | [Topic];
   validator_canister_id: [] | [Principal];
   target_canister_id: [] | [Principal];
   validator_method_name: [] | [string];
@@ -342,6 +343,11 @@ export interface ListProposals {
 export interface ListProposalsResponse {
   include_ballots_by_caller: [] | [boolean];
   proposals: Array<ProposalData>;
+}
+export type ListTopicsRequest = {};
+export interface ListTopicsResponse {
+  uncategorized_functions: [] | [Array<NervousSystemFunction>];
+  topics: [] | [Array<TopicInfo>];
 }
 export interface ManageDappCanisterSettings {
   freezing_threshold: [] | [bigint];
@@ -632,6 +638,22 @@ export interface Timers {
 export interface Tokens {
   e8s: [] | [bigint];
 }
+export type Topic =
+  | { DappCanisterManagement: null }
+  | { DaoCommunitySettings: null }
+  | { ApplicationBusinessLogic: null }
+  | { CriticalDappOperations: null }
+  | { TreasuryAssetManagement: null }
+  | { Governance: null }
+  | { SnsFrameworkManagement: null };
+export interface TopicInfo {
+  native_functions: [] | [Array<NervousSystemFunction>];
+  topic: [] | [Topic];
+  is_critical: [] | [boolean];
+  name: [] | [string];
+  description: [] | [string];
+  custom_functions: [] | [Array<NervousSystemFunction>];
+}
 export interface TransferSnsTreasuryFunds {
   from_treasury: number;
   to_principal: [] | [Principal];
@@ -763,6 +785,7 @@ export interface _SERVICE {
   >;
   list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
   list_proposals: ActorMethod<[ListProposals], ListProposalsResponse>;
+  list_topics: ActorMethod<[ListTopicsRequest], ListTopicsResponse>;
   manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
   mint_tokens: ActorMethod<[MintTokensRequest], {}>;
   refresh_cached_upgrade_steps: ActorMethod<[{}], {}>;
