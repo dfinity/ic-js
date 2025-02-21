@@ -1,3 +1,9 @@
+# YYYY.MM.DD-HHMMZ
+
+# Features
+
+- Support `topic` and `list_topics` in @dfinity/sns`.
+
 # 2025.02.19-1030Z
 
 ## Overview
