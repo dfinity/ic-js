@@ -386,20 +386,6 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L126)
 
-#### :gear: toBigIntNanoSeconds
-
-Converts a given `Date` object to a timestamp in nanoseconds as a `bigint`.
-
-| Function              | Type                     |
-| --------------------- | ------------------------ |
-| `toBigIntNanoSeconds` | `(date: Date) => bigint` |
-
-Parameters:
-
-- `date`: - The `Date` object to convert.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L124)
-
 #### :gear: debounce
 
 | Function   | Type                                                                              |
