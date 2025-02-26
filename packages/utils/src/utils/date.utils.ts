@@ -107,13 +107,15 @@ const createLabel = (labelKey: LabelKey, amount: bigint): LabelInfo => ({
   amount: Number(amount),
 });
 
+const NANOSECONDS_PER_MILLISECOND = BigInt(1e6);
+
 /**
  * Returns the current timestamp in nanoseconds as a `bigint`.
  *
  * @returns {bigint} The current timestamp in nanoseconds.
  */
 export const nowInBigIntNanoSeconds = (): bigint =>
-  BigInt(Date.now()) * BigInt(1e6);
+  BigInt(Date.now()) * NANOSECONDS_PER_MILLISECOND;
 
 /**
  * Converts a given `Date` object to a timestamp in nanoseconds as a `bigint`.
@@ -122,4 +124,4 @@ export const nowInBigIntNanoSeconds = (): bigint =>
  * @returns {bigint} The timestamp in nanoseconds.
  */
 export const toBigIntNanoSeconds = (date: Date): bigint =>
-  BigInt(date.getTime()) * BigInt(1e6);
+  BigInt(date.getTime()) * NANOSECONDS_PER_MILLISECOND;
