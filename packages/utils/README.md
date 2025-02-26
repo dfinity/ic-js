@@ -59,6 +59,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [bigEndianCrc32](#gear-bigendiancrc32)
 - [secondsToDuration](#gear-secondstoduration)
 - [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
+- [toBigIntNanoSeconds](#gear-tobigintnanoseconds)
 - [debounce](#gear-debounce)
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
@@ -370,6 +371,20 @@ Returns the current timestamp in nanoseconds as a `bigint`.
 | `nowInBigIntNanoSeconds` | `() => bigint` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L115)
+
+#### :gear: toBigIntNanoSeconds
+
+Converts a given `Date` object to a timestamp in nanoseconds as a `bigint`.
+
+| Function              | Type                     |
+| --------------------- | ------------------------ |
+| `toBigIntNanoSeconds` | `(date: Date) => bigint` |
+
+Parameters:
+
+- `date`: - The `Date` object to convert.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L124)
 
 #### :gear: debounce
 
