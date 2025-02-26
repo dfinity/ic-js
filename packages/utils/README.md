@@ -60,6 +60,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [secondsToDuration](#gear-secondstoduration)
 - [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
 - [toBigIntNanoSeconds](#gear-tobigintnanoseconds)
+- [isValidDate](#gear-isvaliddate)
 - [debounce](#gear-debounce)
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
@@ -385,6 +386,23 @@ Parameters:
 - `date`: - The `Date` object to convert.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L126)
+
+#### :gear: isValidDate
+
+Checks if the given value is a valid Date object.
+
+A valid Date must be an instance of `Date` and must not be `NaN`
+(e.g., `new Date('invalid')` is an invalid Date).
+
+| Function      | Type                                |
+| ------------- | ----------------------------------- |
+| `isValidDate` | `(value: unknown) => value is Date` |
+
+Parameters:
+
+- `value`: - The potential date to check.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L138)
 
 #### :gear: debounce
 
