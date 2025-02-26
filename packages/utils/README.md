@@ -453,23 +453,48 @@ Parameters:
 
 #### :gear: jsonReplacer
 
-A parser that interprets revived BigInt, Principal, and Uint8Array when constructing JavaScript values or objects.
+A custom replacer for `JSON.stringify` that converts specific types not natively supported
+by the API into JSON-compatible formats.
+
+Supported conversions:
+
+- `BigInt` → `{ "__bigint__": string }`
+- `Principal` → `{ "__principal__": string }`
+- `Uint8Array` → `{ "__uint8array__": number[] }`
 
 | Function       | Type                                        |
 | -------------- | ------------------------------------------- |
 | `jsonReplacer` | `(_key: string, value: unknown) => unknown` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L11)
+Parameters:
+
+- `_key`: - Ignored. Only provided for API compatibility.
+- `value`: - The value to transform before stringification.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L21)
 
 #### :gear: jsonReviver
 
-A function that alters the behavior of the stringification process for BigInt, Principal and Uint8Array.
+A custom reviver for `JSON.parse` that reconstructs specific types from their JSON-encoded representations.
+
+This reverses the transformations applied by `jsonReplacer`, restoring the original types.
+
+Supported conversions:
+
+- `{ "__bigint__": string }` → `BigInt`
+- `{ "__principal__": string }` → `Principal`
+- `{ "__uint8array__": number[] }` → `Uint8Array`
 
 | Function      | Type                                        |
 | ------------- | ------------------------------------------- |
 | `jsonReviver` | `(_key: string, value: unknown) => unknown` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L30)
+Parameters:
+
+- `_key`: - Ignored but provided for API compatibility.
+- `value`: - The parsed value to transform.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L51)
 
 #### :gear: principalToSubAccount
 
