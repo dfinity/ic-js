@@ -370,7 +370,7 @@ Returns the current timestamp in nanoseconds as a `bigint`.
 | ------------------------ | -------------- |
 | `nowInBigIntNanoSeconds` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L115)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L117)
 
 #### :gear: toBigIntNanoSeconds
 
@@ -384,7 +384,7 @@ Parameters:
 
 - `date`: - The `Date` object to convert.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L124)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L126)
 
 #### :gear: debounce
 
