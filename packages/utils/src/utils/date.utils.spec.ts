@@ -1,6 +1,8 @@
+import { Principal } from "@dfinity/principal";
 import { describe } from "@jest/globals";
-import type { I18nSecondsToDuration } from "./date.utils";
 import {
+  I18nSecondsToDuration,
+  isValidDate,
   nowInBigIntNanoSeconds,
   secondsToDuration,
   toBigIntNanoSeconds,
@@ -277,6 +279,35 @@ describe("date.utils", () => {
       const date = new Date();
       const result = toBigIntNanoSeconds(date);
       expect(typeof result).toBe("bigint");
+    });
+  });
+
+  describe("isValidDate", () => {
+    it("returns true for a valid Date object", () => {
+      expect(isValidDate(new Date())).toBe(true);
+      expect(isValidDate(new Date(2024, 1, 26))).toBe(true);
+      expect(isValidDate(new Date(Date.now()))).toBe(true);
+    });
+
+    it("returns false for an invalid Date object", () => {
+      expect(isValidDate(new Date("invalid"))).toBe(false);
+      expect(isValidDate(new Date(NaN))).toBe(false);
+    });
+
+    it("returns false for non-Date values", () => {
+      expect(isValidDate("2024-02-26")).toBe(false);
+      expect(isValidDate(Date.now())).toBe(false);
+      expect(isValidDate(123)).toBe(false);
+      expect(isValidDate(null)).toBe(false);
+      expect(isValidDate(undefined)).toBe(false);
+      expect(isValidDate({})).toBe(false);
+      expect(isValidDate([])).toBe(false);
+      expect(isValidDate(Symbol())).toBe(false);
+      expect(isValidDate(Principal.anonymous())).toBe(false);
+    });
+
+    it("returns false for objects with a Date-like structure", () => {
+      expect(isValidDate({ getTime: () => Date.now() })).toBe(false);
     });
   });
 });

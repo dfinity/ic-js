@@ -125,3 +125,15 @@ export const nowInBigIntNanoSeconds = (): bigint =>
  */
 export const toBigIntNanoSeconds = (date: Date): bigint =>
   BigInt(date.getTime()) * NANOSECONDS_PER_MILLISECOND;
+
+/**
+ * Checks if the given value is a valid Date object.
+ *
+ * A valid Date must be an instance of `Date` and must not be `NaN`
+ * (e.g., `new Date('invalid')` is an invalid Date).
+ *
+ * @param {unknown} value - The potential date to check.
+ * @returns {value is Date} `true` if the value is a valid Date object, otherwise `false`.
+ */
+export const isValidDate = (value: unknown): value is Date =>
+  value instanceof Date && !isNaN(value.getTime());
