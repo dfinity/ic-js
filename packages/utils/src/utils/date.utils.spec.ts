@@ -1,7 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { describe } from "@jest/globals";
+import type { I18nSecondsToDuration } from "./date.utils";
 import {
-  I18nSecondsToDuration,
   isValidDate,
   nowInBigIntNanoSeconds,
   secondsToDuration,
