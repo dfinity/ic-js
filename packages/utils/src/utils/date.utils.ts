@@ -107,7 +107,7 @@ const createLabel = (labelKey: LabelKey, amount: bigint): LabelInfo => ({
   amount: Number(amount),
 });
 
-const NANOSECONDS_PER_MILLISECOND = BigInt(1e6);
+const NANOSECONDS_PER_MILLISECOND = 1_000_000n;
 
 /**
  * Returns the current timestamp in nanoseconds as a `bigint`.
