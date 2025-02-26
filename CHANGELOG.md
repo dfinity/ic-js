@@ -16,9 +16,10 @@
 | `@dfinity/utils`         | v2.10.1 | Unchanged️    |
 | `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
 
-# Features
+## Features
 
-- Support `topic` and `list_topics` in @dfinity/sns`.
+- Support `topic` and `list_topics` in `@dfinity/sns`.
+- Add utility `toBigIntNanoSeconds` to convert `Date` object to timestamp in nanoseconds `bigint`.
 
 # 2025.02.19-1030Z
 
