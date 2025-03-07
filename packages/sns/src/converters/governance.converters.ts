@@ -322,6 +322,12 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     };
   }
 
+  if ("SetTopicsForCustomProposals" in action) {
+    return {
+      SetTopicsForCustomProposals: action.SetTopicsForCustomProposals,
+    };
+  }
+
   if ("RemoveGenericNervousSystemFunction" in action) {
     return {
       RemoveGenericNervousSystemFunction:
@@ -378,6 +384,7 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     return { Motion: action.Motion };
   }
 
+  // TODO: Find a better way to log this because JSON.stringify doesn't support BigInt.
   throw new Error(`Unknown action type ${JSON.stringify(action)}`);
 };
 
