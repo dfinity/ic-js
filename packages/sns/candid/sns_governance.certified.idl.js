@@ -244,6 +244,9 @@ export const idlFactory = ({ IDL }) => {
     'memory_allocation' : IDL.Opt(IDL.Nat64),
     'compute_allocation' : IDL.Opt(IDL.Nat64),
   });
+  const SetTopicsForCustomProposals = IDL.Record({
+    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
+  });
   const RegisterDappCanisters = IDL.Record({
     'canister_ids' : IDL.Vec(IDL.Principal),
   });
@@ -301,6 +304,7 @@ export const idlFactory = ({ IDL }) => {
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
     'ManageDappCanisterSettings' : ManageDappCanisterSettings,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
+    'SetTopicsForCustomProposals' : SetTopicsForCustomProposals,
     'UpgradeSnsToNextVersion' : IDL.Record({}),
     'RegisterDappCanisters' : RegisterDappCanisters,
     'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
@@ -988,6 +992,9 @@ export const init = ({ IDL }) => {
     'memory_allocation' : IDL.Opt(IDL.Nat64),
     'compute_allocation' : IDL.Opt(IDL.Nat64),
   });
+  const SetTopicsForCustomProposals = IDL.Record({
+    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
+  });
   const RegisterDappCanisters = IDL.Record({
     'canister_ids' : IDL.Vec(IDL.Principal),
   });
@@ -1045,6 +1052,7 @@ export const init = ({ IDL }) => {
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
     'ManageDappCanisterSettings' : ManageDappCanisterSettings,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
+    'SetTopicsForCustomProposals' : SetTopicsForCustomProposals,
     'UpgradeSnsToNextVersion' : IDL.Record({}),
     'RegisterDappCanisters' : RegisterDappCanisters,
     'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
