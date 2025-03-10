@@ -1,4 +1,4 @@
-// Generated from IC repo commit 2f02a66 (2025-02-13 tags: release-2025-02-20_10-16-disable-best-effort-messaging) 'rs/ledger_suite/icp/index/index.did' by import-candid
+// Generated from IC repo commit 9769228 (2025-02-13 tags: release-2025-03-06_03-10-disable-best-effort-messaging) 'rs/ledger_suite/icp/index/index.did' by import-candid
 type Account = record { owner : principal; subaccount : opt vec nat8 };
 type GetAccountIdentifierTransactionsArgs = record {
   max_results : nat64;
