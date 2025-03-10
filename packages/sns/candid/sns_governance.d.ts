@@ -13,6 +13,7 @@ export type Action =
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { RemoveGenericNervousSystemFunction: bigint }
+  | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { UpgradeSnsToNextVersion: {} }
   | { RegisterDappCanisters: RegisterDappCanisters }
   | { TransferSnsTreasuryFunds: TransferSnsTreasuryFunds }
@@ -569,6 +570,9 @@ export interface SetDissolveTimestamp {
 }
 export interface SetMode {
   mode: number;
+}
+export interface SetTopicsForCustomProposals {
+  custom_function_id_to_topic: Array<[bigint, Topic]>;
 }
 export interface SnsVersion {
   archive_wasm_hash: [] | [Uint8Array | number[]];

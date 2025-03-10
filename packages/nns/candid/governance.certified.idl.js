@@ -22,6 +22,14 @@ export const idlFactory = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
+  const Account = IDL.Record({
+    'owner' : IDL.Opt(IDL.Principal),
+    'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
+  const DisburseMaturity = IDL.Record({
+    'to_account' : IDL.Opt(Account),
+    'percentage_to_disburse' : IDL.Nat32,
+  });
   const RefreshVotingPower = IDL.Record({});
   const ClaimOrRefreshNeuronFromAccount = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
@@ -87,6 +95,7 @@ export const idlFactory = ({ IDL }) => {
     'Spawn' : Spawn,
     'Split' : Split,
     'Follow' : Follow,
+    'DisburseMaturity' : DisburseMaturity,
     'RefreshVotingPower' : RefreshVotingPower,
     'ClaimOrRefresh' : ClaimOrRefresh,
     'Configure' : Configure,
@@ -817,6 +826,7 @@ export const idlFactory = ({ IDL }) => {
     'Spawn' : Spawn,
     'Split' : Split,
     'Follow' : Follow,
+    'DisburseMaturity' : DisburseMaturity,
     'RefreshVotingPower' : RefreshVotingPower,
     'ClaimOrRefresh' : ClaimOrRefresh,
     'Configure' : Configure,
@@ -836,6 +846,9 @@ export const idlFactory = ({ IDL }) => {
     })
   );
   const SpawnResponse = IDL.Record({ 'created_neuron_id' : IDL.Opt(NeuronId) });
+  const DisburseMaturityResponse = IDL.Record({
+    'amount_disbursed_e8s' : IDL.Opt(IDL.Nat64),
+  });
   const RefreshVotingPowerResponse = IDL.Record({});
   const ClaimOrRefreshResponse = IDL.Record({
     'refreshed_neuron_id' : IDL.Opt(NeuronId),
@@ -864,6 +877,7 @@ export const idlFactory = ({ IDL }) => {
     'Spawn' : SpawnResponse,
     'Split' : SpawnResponse,
     'Follow' : IDL.Record({}),
+    'DisburseMaturity' : DisburseMaturityResponse,
     'RefreshVotingPower' : RefreshVotingPowerResponse,
     'ClaimOrRefresh' : ClaimOrRefreshResponse,
     'Configure' : IDL.Record({}),
@@ -1021,6 +1035,14 @@ export const init = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
+  const Account = IDL.Record({
+    'owner' : IDL.Opt(IDL.Principal),
+    'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+  });
+  const DisburseMaturity = IDL.Record({
+    'to_account' : IDL.Opt(Account),
+    'percentage_to_disburse' : IDL.Nat32,
+  });
   const RefreshVotingPower = IDL.Record({});
   const ClaimOrRefreshNeuronFromAccount = IDL.Record({
     'controller' : IDL.Opt(IDL.Principal),
@@ -1086,6 +1108,7 @@ export const init = ({ IDL }) => {
     'Spawn' : Spawn,
     'Split' : Split,
     'Follow' : Follow,
+    'DisburseMaturity' : DisburseMaturity,
     'RefreshVotingPower' : RefreshVotingPower,
     'ClaimOrRefresh' : ClaimOrRefresh,
     'Configure' : Configure,
