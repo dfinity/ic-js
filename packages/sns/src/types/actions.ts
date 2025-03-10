@@ -16,6 +16,7 @@ export type Action =
       ManageNervousSystemParameters: NervousSystemParameters;
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
+  | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { UpgradeSnsToNextVersion: Record<string, never> }
   | { RegisterDappCanisters: RegisterDappCanisters }
@@ -64,6 +65,10 @@ export interface NervousSystemFunction {
   name: string;
   description: Option<string>;
   function_type: Option<FunctionType>;
+}
+
+export interface SetTopicsForCustomProposals {
+  custom_function_id_to_topic: Array<[bigint, Topic]>;
 }
 
 export type FunctionType =

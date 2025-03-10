@@ -157,6 +157,15 @@ describe("governance converters", () => {
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
+    it("converts SetTopicsForCustomProposals action", () => {
+      const action: ActionCandid = {
+        SetTopicsForCustomProposals: {
+          custom_function_id_to_topic: [[BigInt(3), topicMock]],
+        },
+      };
+      expect(fromCandidAction(action)).toEqual(action);
+    });
+
     it("converts RemoveGenericNervousSystemFunction action", () => {
       const action: ActionCandid = {
         RemoveGenericNervousSystemFunction: BigInt(3),
