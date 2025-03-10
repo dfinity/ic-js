@@ -55,6 +55,6 @@
     "@dfinity/candid": "^2.0.0",
     "@dfinity/ledger-icp": "^2.6.11",
     "@dfinity/principal": "^2.0.0",
-    "@dfinity/utils": "^2.10.1"
+    "@dfinity/utils": "^2.11.0"
   }
 }
