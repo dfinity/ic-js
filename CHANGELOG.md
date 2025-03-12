@@ -1,8 +1,26 @@
-# Next version
+# 2025.03.10-1330Z
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.10 | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.7  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.3  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.0.6  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v2.6.11 | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.6  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.3.2  | Maintained ⚙️ |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v3.4.0  | Enhanced 🔧️  |
+| `@dfinity/utils`         | v2.11.0 | Enhanced 🔧️  |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
 
 ## Features
 
 - Add utility `toBigIntNanoSeconds` to convert `Date` object to timestamp in nanoseconds `bigint`.
+- Add support to a new type of action `SetTopicsForCustomProposals` in sns.
+- Update Candid files for `@dfinity/sns`.
 
 # 2025.02.21-1530Z
 
