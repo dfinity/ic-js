@@ -1467,6 +1467,23 @@ export const toDisburseNeuronRequest = ({
     },
   });
 
+export const toDisburseMaturityRequest = ({
+  neuronId,
+  percentageToDisburse,
+}: {
+  neuronId: NeuronId;
+  percentageToDisburse: number;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      DisburseMaturity: {
+        percentage_to_disburse: percentageToDisburse,
+        to_account: [],
+      },
+    },
+  });
+
 export const toRefreshVotingPowerRequest = ({
   neuronId,
 }: {
