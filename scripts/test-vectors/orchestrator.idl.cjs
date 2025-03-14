@@ -1,6 +1,6 @@
 const idlFactory = ({ IDL }) => {
   const Erc20Contract = IDL.Record({
-    chain_id: IDL.Nat64,
+    chain_id: IDL.Nat, // Changed from IDL.Nat64 to IDL.Nat
     address: IDL.Text,
   });
   const ManagedCanisterIds = IDL.Record({
@@ -22,10 +22,10 @@ const idlFactory = ({ IDL }) => {
     compute_allocation: IDL.Nat,
   });
   const QueryStats = IDL.Record({
-    response_payload_bytes_total: IDL.Nat64,
-    num_instructions_total: IDL.Nat64,
-    num_calls_total: IDL.Nat64,
-    request_payload_bytes_total: IDL.Nat64,
+    response_payload_bytes_total: IDL.Nat,
+    num_instructions_total: IDL.Nat,
+    num_calls_total: IDL.Nat,
+    request_payload_bytes_total: IDL.Nat,
   });
   const CanisterStatusType = IDL.Variant({
     stopped: IDL.Null,

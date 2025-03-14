@@ -27,7 +27,6 @@ const idlFactory = ({ IDL }) => {
     icrc1_decimals: IDL.Func([], [IDL.Nat8], ["query"]),
     icrc1_fee: IDL.Func([], [IDL.Nat], ["query"]),
     icrc1_total_supply: IDL.Func([], [IDL.Nat], ["query"]),
-    // Add any other methods you need here
   });
 };
 
