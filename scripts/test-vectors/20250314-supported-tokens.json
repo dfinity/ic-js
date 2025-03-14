@@ -1,0 +1,317 @@
+[
+  {
+    "tokenSymbol": "ICP",
+    "decimals": 8,
+    "ledgerCanisterId": "ryjl3-tyaaa-aaaaa-aaaba-cai"
+  },
+  {
+    "tokenSymbol": "ckBTC",
+    "decimals": 8,
+    "ledgerCanisterId": "mxzaz-hqaaa-aaaar-qaada-cai"
+  },
+  {
+    "tokenSymbol": "ckEURC",
+    "decimals": 6,
+    "ledgerCanisterId": "pe5t5-diaaa-aaaar-qahwa-cai"
+  },
+  {
+    "tokenSymbol": "ckUNI",
+    "decimals": 18,
+    "ledgerCanisterId": "ilzky-ayaaa-aaaar-qahha-cai"
+  },
+  {
+    "tokenSymbol": "ckWBTC",
+    "decimals": 8,
+    "ledgerCanisterId": "bptq2-faaaa-aaaar-qagxq-cai"
+  },
+  {
+    "tokenSymbol": "ckLINK",
+    "decimals": 18,
+    "ledgerCanisterId": "g4tto-rqaaa-aaaar-qageq-cai"
+  },
+  {
+    "tokenSymbol": "ckXAUT",
+    "decimals": 6,
+    "ledgerCanisterId": "nza5v-qaaaa-aaaar-qahzq-cai"
+  },
+  {
+    "tokenSymbol": "ckPEPE",
+    "decimals": 18,
+    "ledgerCanisterId": "etik7-oiaaa-aaaar-qagia-cai"
+  },
+  {
+    "tokenSymbol": "ckWSTETH",
+    "decimals": 18,
+    "ledgerCanisterId": "j2tuh-yqaaa-aaaar-qahcq-cai"
+  },
+  {
+    "tokenSymbol": "ckSHIB",
+    "decimals": 18,
+    "ledgerCanisterId": "fxffn-xiaaa-aaaar-qagoa-cai"
+  },
+  {
+    "tokenSymbol": "ckUSDC",
+    "decimals": 6,
+    "ledgerCanisterId": "xevnm-gaaaa-aaaar-qafnq-cai"
+  },
+  {
+    "tokenSymbol": "ckUSDT",
+    "decimals": 6,
+    "ledgerCanisterId": "cngnf-vqaaa-aaaar-qag4q-cai"
+  },
+  {
+    "tokenSymbol": "ckOCT",
+    "decimals": 18,
+    "ledgerCanisterId": "ebo5g-cyaaa-aaaar-qagla-cai"
+  },
+  {
+    "tokenSymbol": "DKP",
+    "decimals": 8,
+    "ledgerCanisterId": "zfcdd-tqaaa-aaaaq-aaaga-cai"
+  },
+  {
+    "tokenSymbol": "CHAT",
+    "decimals": 8,
+    "ledgerCanisterId": "2ouva-viaaa-aaaaq-aaamq-cai"
+  },
+  {
+    "tokenSymbol": "SOC",
+    "decimals": 8,
+    "ledgerCanisterId": "7ajy4-sqaaa-aaaaq-aaaqa-cai"
+  },
+  {
+    "tokenSymbol": "KINIC",
+    "decimals": 8,
+    "ledgerCanisterId": "73mez-iiaaa-aaaaq-aaasq-cai"
+  },
+  {
+    "tokenSymbol": "DOLR",
+    "decimals": 8,
+    "ledgerCanisterId": "6rdgd-kyaaa-aaaaq-aaavq-cai"
+  },
+  {
+    "tokenSymbol": "GHOST",
+    "decimals": 8,
+    "ledgerCanisterId": "4q2s2-oqaaa-aaaaq-aaaya-cai"
+  },
+  {
+    "tokenSymbol": "GHOST",
+    "decimals": 8,
+    "ledgerCanisterId": "4c4fd-caaaa-aaaaq-aaa3a-cai"
+  },
+  {
+    "tokenSymbol": "CAT",
+    "decimals": 8,
+    "ledgerCanisterId": "5bqmf-wyaaa-aaaaq-aaa5q-cai"
+  },
+  {
+    "tokenSymbol": "EMC",
+    "decimals": 8,
+    "ledgerCanisterId": "wedc6-xiaaa-aaaaq-aabaq-cai"
+  },
+  {
+    "tokenSymbol": "MOD",
+    "decimals": 8,
+    "ledgerCanisterId": "wrett-waaaa-aaaaq-aabda-cai"
+  },
+  {
+    "tokenSymbol": "DCD",
+    "decimals": 8,
+    "ledgerCanisterId": "xsi2v-cyaaa-aaaaq-aabfq-cai"
+  },
+  {
+    "tokenSymbol": "BOOM",
+    "decimals": 8,
+    "ledgerCanisterId": "vtrom-gqaaa-aaaaq-aabia-cai"
+  },
+  {
+    "tokenSymbol": "SEER",
+    "decimals": 8,
+    "ledgerCanisterId": "viusj-4iaaa-aaaaq-aabkq-cai"
+  },
+  {
+    "tokenSymbol": "CTZ",
+    "decimals": 8,
+    "ledgerCanisterId": "uf2wh-taaaa-aaaaq-aabna-cai"
+  },
+  {
+    "tokenSymbol": "SEER",
+    "decimals": 8,
+    "ledgerCanisterId": "rffwt-piaaa-aaaaq-aabqq-cai"
+  },
+  {
+    "tokenSymbol": "NUA",
+    "decimals": 8,
+    "ledgerCanisterId": "rxdbk-dyaaa-aaaaq-aabtq-cai"
+  },
+  {
+    "tokenSymbol": "SONIC",
+    "decimals": 8,
+    "ledgerCanisterId": "qbizb-wiaaa-aaaaq-aabwq-cai"
+  },
+  {
+    "tokenSymbol": "QRO",
+    "decimals": 8,
+    "ledgerCanisterId": "sotaq-jqaaa-aaaaq-aab2a-cai"
+  },
+  {
+    "tokenSymbol": "TRAX",
+    "decimals": 8,
+    "ledgerCanisterId": "tn7jw-5iaaa-aaaaq-aab4q-cai"
+  },
+  {
+    "tokenSymbol": "GOLDAO",
+    "decimals": 8,
+    "ledgerCanisterId": "tyyy3-4aaaa-aaaaq-aab7a-cai"
+  },
+  {
+    "tokenSymbol": "TRAX",
+    "decimals": 8,
+    "ledgerCanisterId": "emww2-4yaaa-aaaaq-aacbq-cai"
+  },
+  {
+    "tokenSymbol": "NTN",
+    "decimals": 8,
+    "ledgerCanisterId": "f54if-eqaaa-aaaaq-aacea-cai"
+  },
+  {
+    "tokenSymbol": "SNEED",
+    "decimals": 8,
+    "ledgerCanisterId": "hvgxa-wqaaa-aaaaq-aacia-cai"
+  },
+  {
+    "tokenSymbol": "ICL",
+    "decimals": 8,
+    "ledgerCanisterId": "hhaaz-2aaaa-aaaaq-aacla-cai"
+  },
+  {
+    "tokenSymbol": "ELNA",
+    "decimals": 8,
+    "ledgerCanisterId": "gemj7-oyaaa-aaaaq-aacnq-cai"
+  },
+  {
+    "tokenSymbol": "ICFC",
+    "decimals": 8,
+    "ledgerCanisterId": "ddsp7-7iaaa-aaaaq-aacqq-cai"
+  },
+  {
+    "tokenSymbol": "PANDA",
+    "decimals": 8,
+    "ledgerCanisterId": "druyg-tyaaa-aaaaq-aactq-cai"
+  },
+  {
+    "tokenSymbol": "ICS",
+    "decimals": 8,
+    "ledgerCanisterId": "ca6gz-lqaaa-aaaaq-aacwa-cai"
+  },
+  {
+    "tokenSymbol": "YUKU",
+    "decimals": 8,
+    "ledgerCanisterId": "atbfz-diaaa-aaaaq-aacyq-cai"
+  },
+  {
+    "tokenSymbol": "EST",
+    "decimals": 8,
+    "ledgerCanisterId": "bliq2-niaaa-aaaaq-aac4q-cai"
+  },
+  {
+    "tokenSymbol": "MORA",
+    "decimals": 8,
+    "ledgerCanisterId": "bzohd-byaaa-aaaaq-aac7q-cai"
+  },
+  {
+    "tokenSymbol": "MOTOKO",
+    "decimals": 8,
+    "ledgerCanisterId": "k45jy-aiaaa-aaaaq-aadcq-cai"
+  },
+  {
+    "tokenSymbol": "CONF",
+    "decimals": 8,
+    "ledgerCanisterId": "lrtnw-paaaa-aaaaq-aadfa-cai"
+  },
+  {
+    "tokenSymbol": "OGY",
+    "decimals": 8,
+    "ledgerCanisterId": "lkwrt-vyaaa-aaaaq-aadhq-cai"
+  },
+  {
+    "tokenSymbol": "WTN",
+    "decimals": 8,
+    "ledgerCanisterId": "jcmow-hyaaa-aaaaq-aadlq-cai"
+  },
+  {
+    "tokenSymbol": "---",
+    "decimals": 8,
+    "ledgerCanisterId": "itgqj-7qaaa-aaaaq-aadoa-cai"
+  },
+  {
+    "tokenSymbol": "DOGMI",
+    "decimals": 8,
+    "ledgerCanisterId": "np5km-uyaaa-aaaaq-aadrq-cai"
+  },
+  {
+    "tokenSymbol": "ICVC",
+    "decimals": 8,
+    "ledgerCanisterId": "m6xut-mqaaa-aaaaq-aadua-cai"
+  },
+  {
+    "tokenSymbol": "JUNOBUILD",
+    "decimals": 8,
+    "ledgerCanisterId": "mmrdk-aaaaa-aaaaq-aadxa-cai"
+  },
+  {
+    "tokenSymbol": "KONG",
+    "decimals": 8,
+    "ledgerCanisterId": "o7oak-iyaaa-aaaaq-aadzq-cai"
+  },
+  {
+    "tokenSymbol": "ICTO",
+    "decimals": 8,
+    "ledgerCanisterId": "p3dpy-ryaaa-aaaaq-aad7q-cai"
+  },
+  {
+    "tokenSymbol": "CANI",
+    "decimals": 8,
+    "ledgerCanisterId": "p7vqo-eyaaa-aaaaq-aaeca-cai"
+  },
+  {
+    "tokenSymbol": "WELL",
+    "decimals": 8,
+    "ledgerCanisterId": "o4zzi-qaaaa-aaaaq-aaeeq-cai"
+  },
+  {
+    "tokenSymbol": "ALICE",
+    "decimals": 8,
+    "ledgerCanisterId": "oj6if-riaaa-aaaaq-aaeha-cai"
+  },
+  {
+    "tokenSymbol": "NFIDW",
+    "decimals": 8,
+    "ledgerCanisterId": "mih44-vaaaa-aaaaq-aaekq-cai"
+  },
+  {
+    "tokenSymbol": "FUEL",
+    "decimals": 8,
+    "ledgerCanisterId": "nfjys-2iaaa-aaaaq-aaena-cai"
+  },
+  {
+    "tokenSymbol": "ICE",
+    "decimals": 8,
+    "ledgerCanisterId": "ifwyg-gaaaa-aaaaq-aaeqq-cai"
+  },
+  {
+    "tokenSymbol": "DAO",
+    "decimals": 8,
+    "ledgerCanisterId": "ixqp7-kqaaa-aaaaq-aaetq-cai"
+  },
+  {
+    "tokenSymbol": "CECIL",
+    "decimals": 8,
+    "ledgerCanisterId": "jg2ra-syaaa-aaaaq-aaewa-cai"
+  },
+  {
+    "tokenSymbol": "ICX",
+    "decimals": 8,
+    "ledgerCanisterId": "lvfsa-2aaaa-aaaaq-aaeyq-cai"
+  }
+]
