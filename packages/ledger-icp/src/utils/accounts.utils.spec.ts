@@ -21,7 +21,11 @@ describe("accounts-utils", () => {
     });
 
     it("should return true if valid account id", () => {
-      expect(isIcpAccountIdentifier("cd70bfa0f092c38a0ff8643d4617219761eb61d199b15418c0b1114d59e30f8e")).toBe(true);
+      expect(
+        isIcpAccountIdentifier(
+          "cd70bfa0f092c38a0ff8643d4617219761eb61d199b15418c0b1114d59e30f8e",
+        ),
+      ).toBe(true);
     });
 
     it("should return false if not valid account id", () => {
