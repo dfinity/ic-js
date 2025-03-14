@@ -1,3 +1,10 @@
+# Next version
+
+## Features
+
+- Add utility `isIcpAccountIdentifier` to check if a string is a valid ICP account identifier.
+
+
 # 2025.03.10-1330Z
 
 ## Overview
