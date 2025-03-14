@@ -2,6 +2,10 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
+export interface Account {
+  owner: [] | [Principal];
+  subaccount: [] | [Uint8Array | number[]];
+}
 export interface AccountIdentifier {
   hash: Uint8Array | number[];
 }
@@ -92,6 +96,7 @@ export type Command =
   | { Spawn: Spawn }
   | { Split: Split }
   | { Follow: Follow }
+  | { DisburseMaturity: DisburseMaturity }
   | { RefreshVotingPower: RefreshVotingPower }
   | { ClaimOrRefresh: ClaimOrRefresh }
   | { Configure: Configure }
@@ -107,6 +112,7 @@ export type Command_1 =
   | { Spawn: SpawnResponse }
   | { Split: SpawnResponse }
   | { Follow: {} }
+  | { DisburseMaturity: DisburseMaturityResponse }
   | { RefreshVotingPower: RefreshVotingPowerResponse }
   | { ClaimOrRefresh: ClaimOrRefreshResponse }
   | { Configure: {} }
@@ -174,6 +180,13 @@ export interface DeveloperDistribution {
 export interface Disburse {
   to_account: [] | [AccountIdentifier];
   amount: [] | [Amount];
+}
+export interface DisburseMaturity {
+  to_account: [] | [Account];
+  percentage_to_disburse: number;
+}
+export interface DisburseMaturityResponse {
+  amount_disbursed_e8s: [] | [bigint];
 }
 export interface DisburseResponse {
   transfer_block_height: bigint;
@@ -410,6 +423,7 @@ export type ManageNeuronCommandRequest =
   | { Spawn: Spawn }
   | { Split: Split }
   | { Follow: Follow }
+  | { DisburseMaturity: DisburseMaturity }
   | { RefreshVotingPower: RefreshVotingPower }
   | { ClaimOrRefresh: ClaimOrRefresh }
   | { Configure: Configure }

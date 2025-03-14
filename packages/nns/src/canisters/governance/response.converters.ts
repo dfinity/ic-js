@@ -15,6 +15,7 @@ import {
 } from "@dfinity/utils";
 import type {
   Params,
+  Account as RawAccount,
   AccountIdentifier as RawAccountIdentifier,
   Action as RawAction,
   Amount as RawAmount,
@@ -76,6 +77,7 @@ import type {
   Option,
 } from "../../types/common";
 import type {
+  Account,
   Action,
   Ballot,
   BallotInfo,
@@ -325,6 +327,13 @@ const toBallot = ({
     votingPower,
   };
 };
+
+const toAccount = (account: RawAccount): Account => ({
+  owner: fromNullable(account.owner),
+  subaccount: uint8ArrayToArrayOfNumber(
+    Uint8Array.from(account.subaccount[0] ?? []),
+  ),
+});
 
 const toProposal = ({
   title,
@@ -633,6 +642,17 @@ const toCommand = (command: RawCommand): Command => {
       Follow: {
         topic: follow.topic,
         followees: follow.followees.map(toNeuronId),
+      },
+    };
+  }
+  if ("DisburseMaturity" in command) {
+    const disburseMaturity = command.DisburseMaturity;
+    return {
+      DisburseMaturity: {
+        toAccount: disburseMaturity.to_account.length
+          ? toAccount(disburseMaturity.to_account[0])
+          : undefined,
+        percentageToDisburse: disburseMaturity.percentage_to_disburse,
       },
     };
   }

@@ -55,9 +55,6 @@ export const idlFactory = ({ IDL }) => {
   const DeveloperDistribution = IDL.Record({
     'developer_neurons' : IDL.Vec(NeuronDistribution),
   });
-  const AirdropDistribution = IDL.Record({
-    'airdrop_neurons' : IDL.Vec(NeuronDistribution),
-  });
   const SwapDistribution = IDL.Record({
     'total_e8s' : IDL.Nat64,
     'initial_swap_amount_e8s' : IDL.Nat64,
@@ -65,7 +62,6 @@ export const idlFactory = ({ IDL }) => {
   const FractionalDeveloperVotingPower = IDL.Record({
     'treasury_distribution' : IDL.Opt(TreasuryDistribution),
     'developer_distribution' : IDL.Opt(DeveloperDistribution),
-    'airdrop_distribution' : IDL.Opt(AirdropDistribution),
     'swap_distribution' : IDL.Opt(SwapDistribution),
   });
   const InitialTokenDistribution = IDL.Variant({
