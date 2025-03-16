@@ -102,9 +102,26 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L65)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
+
+##### :gear: create
+
+Instantiate a canister to interact with the governance of a Sns project.
+
+| Method   | Type                                                               |
+| -------- | ------------------------------------------------------------------ |
+| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsGovernanceCanister` |
+
+Parameters:
+
+- `options`: Miscellaneous options to initialize the canister. Its ID being the only mandatory parammeter.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L71)
+
+#### Methods
+
 - [listNeurons](#gear-listneurons)
 - [listProposals](#gear-listproposals)
 - [listTopics](#gear-listtopics)
@@ -130,20 +147,6 @@ Lookup for the canister ids of a Sns and initialize the wrapper to access its fe
 - [registerVote](#gear-registervote)
 - [refreshNeuron](#gear-refreshneuron)
 - [claimNeuron](#gear-claimneuron)
-
-##### :gear: create
-
-Instantiate a canister to interact with the governance of a Sns project.
-
-| Method   | Type                                                               |
-| -------- | ------------------------------------------------------------------ |
-| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsGovernanceCanister` |
-
-Parameters:
-
-- `options`: Miscellaneous options to initialize the canister. Its ID being the only mandatory parammeter.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L71)
 
 ##### :gear: listNeurons
 
@@ -416,10 +419,9 @@ Claim neuron
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L10)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [listSnsCanisters](#gear-listsnscanisters)
 
 ##### :gear: create
 
@@ -428,6 +430,10 @@ Claim neuron
 | `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsRootCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L11)
+
+#### Methods
+
+- [listSnsCanisters](#gear-listsnscanisters)
 
 ##### :gear: listSnsCanisters
 
@@ -449,9 +455,20 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L33)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
+
+##### :gear: create
+
+| Method   | Type                                                         |
+| -------- | ------------------------------------------------------------ |
+| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsSwapCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L34)
+
+#### Methods
+
 - [state](#gear-state)
 - [notifyPaymentFailure](#gear-notifypaymentfailure)
 - [notifyParticipation](#gear-notifyparticipation)
@@ -462,14 +479,6 @@ Parameters:
 - [newSaleTicket](#gear-newsaleticket)
 - [getLifecycle](#gear-getlifecycle)
 - [getFinalizationStatus](#gear-getfinalizationstatus)
-
-##### :gear: create
-
-| Method   | Type                                                         |
-| -------- | ------------------------------------------------------------ |
-| `create` | `(options: SnsCanisterOptions<_SERVICE>) => SnsSwapCanister` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L34)
 
 ##### :gear: state
 

@@ -167,9 +167,20 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L33)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
+
+##### :gear: create
+
+| Method   | Type                                                                   |
+| -------- | ---------------------------------------------------------------------- |
+| `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L34)
+
+#### Methods
+
 - [metadata](#gear-metadata)
 - [transactionFee](#gear-transactionfee)
 - [balance](#gear-balance)
@@ -179,14 +190,6 @@ Parameters:
 - [approve](#gear-approve)
 - [allowance](#gear-allowance)
 - [consentMessage](#gear-consentmessage)
-
-##### :gear: create
-
-| Method   | Type                                                                   |
-| -------- | ---------------------------------------------------------------------- |
-| `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L34)
 
 ##### :gear: metadata
 
@@ -312,11 +315,9 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L14)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getTransactions](#gear-gettransactions)
-- [ledgerId](#gear-ledgerid)
 
 ##### :gear: create
 
@@ -325,6 +326,11 @@ Parameters:
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L15)
+
+#### Methods
+
+- [getTransactions](#gear-gettransactions)
+- [ledgerId](#gear-ledgerid)
 
 ##### :gear: getTransactions
 
@@ -355,11 +361,9 @@ Returns the ledger canister ID related to the index canister.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L15)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getTransactions](#gear-gettransactions)
-- [ledgerId](#gear-ledgerid)
 
 ##### :gear: create
 
@@ -368,6 +372,11 @@ Returns the ledger canister ID related to the index canister.
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexNgCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L16)
+
+#### Methods
+
+- [getTransactions](#gear-gettransactions)
+- [ledgerId](#gear-ledgerid)
 
 ##### :gear: getTransactions
 
