@@ -167,6 +167,7 @@ describe("ICManagementCanister", () => {
           reserved_cycles_limit: [],
           log_visibility: [],
           wasm_memory_limit: [],
+          wasm_memory_threshold: [],
         },
       });
     });
@@ -393,6 +394,7 @@ describe("ICManagementCanister", () => {
         reserved_cycles_limit: BigInt(11),
         log_visibility: { controllers: null },
         wasm_memory_limit: BigInt(500_00),
+        wasm_memory_threshold: BigInt(100),
       };
       const response: CanisterStatusResponse = {
         status: { running: null },
@@ -407,6 +409,16 @@ describe("ICManagementCanister", () => {
           num_instructions_total: 100_000n,
           response_payload_bytes_total: 200n,
           request_payload_bytes_total: 300n,
+        },
+        memory_metrics: {
+          wasm_binary_size: BigInt(2_000_900),
+          wasm_chunk_store_size: BigInt(2_100_800),
+          canister_history_size: BigInt(2_200_700),
+          stable_memory_size: BigInt(2_300_600),
+          snapshots_size: BigInt(2_400_500),
+          wasm_memory_size: BigInt(2_500_400),
+          global_memory_size: BigInt(2_600_300),
+          custom_sections_size: BigInt(2_700_200),
         },
       };
       const service = mock<IcManagementService>();

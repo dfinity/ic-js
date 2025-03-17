@@ -21,6 +21,7 @@ export interface CanisterSettings {
   reservedCyclesLimit?: bigint;
   logVisibility?: LogVisibility;
   wasmMemoryLimit?: bigint;
+  wasmMemoryThreshold?: bigint;
 }
 
 export class UnsupportedLogVisibility extends Error {}
@@ -33,6 +34,7 @@ export const toCanisterSettings = ({
   reservedCyclesLimit,
   logVisibility,
   wasmMemoryLimit,
+  wasmMemoryThreshold,
 }: CanisterSettings = {}): canister_settings => {
   const toLogVisibility = (): log_visibility => {
     switch (logVisibility) {
@@ -53,6 +55,7 @@ export const toCanisterSettings = ({
     reserved_cycles_limit: toNullable(reservedCyclesLimit),
     log_visibility: isNullish(logVisibility) ? [] : [toLogVisibility()],
     wasm_memory_limit: toNullable(wasmMemoryLimit),
+    wasm_memory_threshold: toNullable(wasmMemoryThreshold),
   };
 };
 
