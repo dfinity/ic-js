@@ -330,6 +330,7 @@ export const idlFactory = ({ IDL }) => {
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(ProposalId),
     'payload_text_rendering' : IDL.Opt(IDL.Text),
+    'topic' : IDL.Opt(Topic),
     'action' : IDL.Nat64,
     'failure_reason' : IDL.Opt(GovernanceError),
     'action_auxiliary' : IDL.Opt(ActionAuxiliary),
@@ -1118,6 +1119,7 @@ export const init = ({ IDL }) => {
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(ProposalId),
     'payload_text_rendering' : IDL.Opt(IDL.Text),
+    'topic' : IDL.Opt(Topic),
     'action' : IDL.Nat64,
     'failure_reason' : IDL.Opt(GovernanceError),
     'action_auxiliary' : IDL.Opt(ActionAuxiliary),
