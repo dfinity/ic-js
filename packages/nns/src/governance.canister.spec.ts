@@ -2292,4 +2292,41 @@ describe("GovernanceCanister", () => {
       expect(response).toEqual(mockManageNetworkEconomics);
     });
   });
+
+  describe("disburseMaturity", () => {
+    it("disburses maturity", async () => {
+      const neuronId = BigInt(10);
+      const percentageToDisburse = 25;
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ DisburseMaturity: { amount_disbursed_e8s: [BigInt(25)] } }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      await governance.disburseMaturity({
+        neuronId,
+        percentageToDisburse,
+      });
+      expect(service.manage_neuron).toBeCalledTimes(1);
+      expect(service.manage_neuron).toBeCalledWith({
+        command: [
+          {
+            DisburseMaturity: {
+              percentage_to_disburse: 25,
+              to_account: [],
+            },
+          },
+        ],
+        id: [
+          {
+            id: 10n,
+          },
+        ],
+        neuron_id_or_subaccount: [],
+      });
+    });
+  });
 });
