@@ -352,6 +352,7 @@ export interface NetworkEconomics {
 }
 export interface VotingPowerEconomics {
   startReducingVotingPowerAfterSeconds: Option<bigint>;
+  neuronMinimumDissolveDelayToVoteSeconds: Option<bigint>;
   clearFollowingAfterSeconds: Option<bigint>;
 }
 export interface NeuronsFundEconomics {
