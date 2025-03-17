@@ -113,6 +113,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const definite_canister_settings = IDL.Record({
     'freezing_threshold' : IDL.Nat,
+    'wasm_memory_threshold' : IDL.Nat,
     'controllers' : IDL.Vec(IDL.Principal),
     'reserved_cycles_limit' : IDL.Nat,
     'log_visibility' : log_visibility,
@@ -121,6 +122,16 @@ export const idlFactory = ({ IDL }) => {
     'compute_allocation' : IDL.Nat,
   });
   const canister_status_result = IDL.Record({
+    'memory_metrics' : IDL.Record({
+      'wasm_binary_size' : IDL.Nat,
+      'wasm_chunk_store_size' : IDL.Nat,
+      'canister_history_size' : IDL.Nat,
+      'stable_memory_size' : IDL.Nat,
+      'snapshots_size' : IDL.Nat,
+      'wasm_memory_size' : IDL.Nat,
+      'global_memory_size' : IDL.Nat,
+      'custom_sections_size' : IDL.Nat,
+    }),
     'status' : IDL.Variant({
       'stopped' : IDL.Null,
       'stopping' : IDL.Null,
@@ -142,6 +153,7 @@ export const idlFactory = ({ IDL }) => {
   const clear_chunk_store_args = IDL.Record({ 'canister_id' : canister_id });
   const canister_settings = IDL.Record({
     'freezing_threshold' : IDL.Opt(IDL.Nat),
+    'wasm_memory_threshold' : IDL.Opt(IDL.Nat),
     'controllers' : IDL.Opt(IDL.Vec(IDL.Principal)),
     'reserved_cycles_limit' : IDL.Opt(IDL.Nat),
     'log_visibility' : IDL.Opt(log_visibility),
