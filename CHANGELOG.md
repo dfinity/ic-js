@@ -3,6 +3,8 @@
 ## Features
 
 - Add utility `isIcpAccountIdentifier` to check if a string is a valid ICP account identifier.
+- Utility `notEmptyString` to use a type predicate, ensuring that the input is a string type when it returns true.
+- Support `disburseMaturity` in `@dfinity/nns`.
 - Update `@dfinity/ic-management` to support optional new setting `wasm_memory_threshold` and return the new `memory_metrics`.
 
 # 2025.03.10-1330Z

@@ -33,6 +33,7 @@ import {
   toAddHotkeyRequest,
   toAutoStakeMaturityRequest,
   toClaimOrRefreshRequest,
+  toDisburseMaturityRequest,
   toDisburseNeuronRequest,
   toIncreaseDissolveDelayRequest,
   toJoinCommunityFundRequest,
@@ -1016,5 +1017,36 @@ export class GovernanceCanister {
         certified,
       ).get_network_economics_parameters();
     return toNetworkEconomics(rawResponse);
+  };
+
+  /**
+   * Disburses a neuron's maturity (always certified).
+   * Reference: https://github.com/dfinity/ic/blob/ca2be53acf413bb92478ee7694ac0fb92af07030/rs/sns/governance/src/governance.rs#L1614
+   *
+   * @preconditions
+   * - The neuron exists
+   * - The caller is authorized to perform this neuron operation (NeuronPermissionType::DisburseMaturity)
+   * - The given percentage_to_merge is between 1 and 100 (inclusive)
+   * - The neuron's id is not yet in the list of neurons with ongoing operations
+   * - The e8s equivalent of the amount of maturity to disburse is more than the transaction fee.
+   */
+  public disburseMaturity = async ({
+    neuronId,
+    percentageToDisburse,
+  }: {
+    neuronId: NeuronId;
+    percentageToDisburse: number;
+  }): Promise<void> => {
+    // To keep it simple in this initial version, no account is provided,
+    // so the transfer occurs to the caller’s account.
+    const request = toDisburseMaturityRequest({
+      neuronId,
+      percentageToDisburse,
+    });
+
+    await manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
   };
 }

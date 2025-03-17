@@ -9,9 +9,6 @@ export interface AddWasmRequest {
 export interface AddWasmResponse {
   result: [] | [Result];
 }
-export interface AirdropDistribution {
-  airdrop_neurons: Array<NeuronDistribution>;
-}
 export interface Canister {
   id: [] | [Principal];
 }
@@ -48,7 +45,6 @@ export interface DeveloperDistribution {
 export interface FractionalDeveloperVotingPower {
   treasury_distribution: [] | [TreasuryDistribution];
   developer_distribution: [] | [DeveloperDistribution];
-  airdrop_distribution: [] | [AirdropDistribution];
   swap_distribution: [] | [SwapDistribution];
 }
 export interface GetAllowedPrincipalsResponse {
