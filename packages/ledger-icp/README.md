@@ -60,14 +60,10 @@ const data = await metadata();
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L10)
 
-#### Methods
+#### Static Methods
 
 - [fromHex](#gear-fromhex)
 - [fromPrincipal](#gear-fromprincipal)
-- [toHex](#gear-tohex)
-- [toUint8Array](#gear-touint8array)
-- [toNumbers](#gear-tonumbers)
-- [toAccountIdentifierHash](#gear-toaccountidentifierhash)
 
 ##### :gear: fromHex
 
@@ -84,6 +80,13 @@ const data = await metadata();
 | `fromPrincipal` | `({ principal, subAccount, }: { principal: Principal; subAccount?: SubAccount or undefined; }) => AccountIdentifier` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L17)
+
+#### Methods
+
+- [toHex](#gear-tohex)
+- [toUint8Array](#gear-touint8array)
+- [toNumbers](#gear-tonumbers)
+- [toAccountIdentifierHash](#gear-toaccountidentifierhash)
 
 ##### :gear: toHex
 
@@ -121,12 +124,11 @@ const data = await metadata();
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L62)
 
-#### Methods
+#### Static Methods
 
 - [fromBytes](#gear-frombytes)
 - [fromPrincipal](#gear-fromprincipal)
 - [fromID](#gear-fromid)
-- [toUint8Array](#gear-touint8array)
 
 ##### :gear: fromBytes
 
@@ -152,6 +154,10 @@ const data = await metadata();
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L86)
 
+#### Methods
+
+- [toUint8Array](#gear-touint8array)
+
 ##### :gear: toUint8Array
 
 | Method         | Type               |
@@ -164,16 +170,9 @@ const data = await metadata();
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L35)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [accountBalance](#gear-accountbalance)
-- [metadata](#gear-metadata)
-- [transactionFee](#gear-transactionfee)
-- [transfer](#gear-transfer)
-- [icrc1Transfer](#gear-icrc1transfer)
-- [icrc2Approve](#gear-icrc2approve)
-- [icrc21ConsentMessage](#gear-icrc21consentmessage)
 
 ##### :gear: create
 
@@ -182,6 +181,16 @@ const data = await metadata();
 | `create` | `(options?: LedgerCanisterOptions) => LedgerCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L36)
+
+#### Methods
+
+- [accountBalance](#gear-accountbalance)
+- [metadata](#gear-metadata)
+- [transactionFee](#gear-transactionfee)
+- [transfer](#gear-transfer)
+- [icrc1Transfer](#gear-icrc1transfer)
+- [icrc2Approve](#gear-icrc2approve)
+- [icrc21ConsentMessage](#gear-icrc21consentmessage)
 
 ##### :gear: accountBalance
 
@@ -286,11 +295,9 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L19)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [accountBalance](#gear-accountbalance)
-- [getTransactions](#gear-gettransactions)
 
 ##### :gear: create
 
@@ -299,6 +306,11 @@ Parameters:
 | `create` | `({ canisterId: optionsCanisterId, ...options }: CanisterOptions<_SERVICE>) => IndexCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L20)
+
+#### Methods
+
+- [accountBalance](#gear-accountbalance)
+- [getTransactions](#gear-gettransactions)
 
 ##### :gear: accountBalance
 

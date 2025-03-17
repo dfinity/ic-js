@@ -56,9 +56,20 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L38)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
+
+##### :gear: create
+
+| Method   | Type                                                             |
+| -------- | ---------------------------------------------------------------- |
+| `create` | `(options: ICManagementCanisterOptions) => ICManagementCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L43)
+
+#### Methods
+
 - [createCanister](#gear-createcanister)
 - [updateSettings](#gear-updatesettings)
 - [installCode](#gear-installcode)
@@ -77,14 +88,6 @@ const { status, memory_size, ...rest } = await canisterStatus(YOUR_CANISTER_ID);
 - [listCanisterSnapshots](#gear-listcanistersnapshots)
 - [loadCanisterSnapshot](#gear-loadcanistersnapshot)
 - [deleteCanisterSnapshot](#gear-deletecanistersnapshot)
-
-##### :gear: create
-
-| Method   | Type                                                             |
-| -------- | ---------------------------------------------------------------- |
-| `create` | `(options: ICManagementCanisterOptions) => ICManagementCanister` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L43)
 
 ##### :gear: createCanister
 

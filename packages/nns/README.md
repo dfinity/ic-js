@@ -150,10 +150,9 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/genesis_token.canister.ts#L9)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [claimNeurons](#gear-claimneurons)
 
 ##### :gear: create
 
@@ -162,6 +161,10 @@ Parameters:
 | `create` | `(options?: CanisterOptions<_SERVICE>) => GenesisTokenCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/genesis_token.canister.ts#L14)
+
+#### Methods
+
+- [claimNeurons](#gear-claimneurons)
 
 ##### :gear: claimNeurons
 
@@ -175,9 +178,20 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L93)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
+
+##### :gear: create
+
+| Method   | Type                                                          |
+| -------- | ------------------------------------------------------------- |
+| `create` | `(options?: GovernanceCanisterOptions) => GovernanceCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L108)
+
+#### Methods
+
 - [listNeurons](#gear-listneurons)
 - [listKnownNeurons](#gear-listknownneurons)
 - [getLastestRewardEvent](#gear-getlastestrewardevent)
@@ -211,14 +225,6 @@ Parameters:
 - [getNeuron](#gear-getneuron)
 - [getNetworkEconomicsParameters](#gear-getnetworkeconomicsparameters)
 - [disburseMaturity](#gear-disbursematurity)
-
-##### :gear: create
-
-| Method   | Type                                                          |
-| -------- | ------------------------------------------------------------- |
-| `create` | `(options?: GovernanceCanisterOptions) => GovernanceCanister` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L108)
 
 ##### :gear: listNeurons
 
@@ -597,10 +603,9 @@ Reference: https://github.com/dfinity/ic/blob/ca2be53acf413bb92478ee7694ac0fb92a
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/sns_wasm.canister.ts#L10)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [listSnses](#gear-listsnses)
 
 ##### :gear: create
 
@@ -609,6 +614,10 @@ Reference: https://github.com/dfinity/ic/blob/ca2be53acf413bb92478ee7694ac0fb92a
 | `create` | `(options?: CanisterOptions<_SERVICE>) => SnsWasmCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/sns_wasm.canister.ts#L16)
+
+#### Methods
+
+- [listSnses](#gear-listsnses)
 
 ##### :gear: listSnses
 
