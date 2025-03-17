@@ -513,6 +513,7 @@ export interface Proposal {
 export interface ProposalData {
   id: [] | [ProposalId];
   payload_text_rendering: [] | [string];
+  topic: [] | [Topic];
   action: bigint;
   failure_reason: [] | [GovernanceError];
   action_auxiliary: [] | [ActionAuxiliary];
