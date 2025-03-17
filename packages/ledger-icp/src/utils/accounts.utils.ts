@@ -1,4 +1,4 @@
-import { bigEndianCrc32 } from "@dfinity/utils";
+import { bigEndianCrc32, isNullish } from "@dfinity/utils";
 import { InvalidAccountIDError } from "../errors/ledger.errors";
 
 /**
@@ -24,4 +24,29 @@ export const checkAccountId = (accountId: string): void => {
       )}\nFound checksum: ${foundChecksum.toString("hex")}`,
     );
   }
+};
+
+/**
+ * Checks if a given string (or undefined) is a valid ICP account identifier.
+ *
+ * It uses the `checkAccountId` function to validate the checksum, but it does not throw an error.
+ *
+ * @param {string | undefined} address The putative ICP account identifier.
+ */
+
+export const isIcpAccountIdentifier = (
+  address: string | undefined,
+): boolean => {
+  if (isNullish(address)) {
+    return false;
+  }
+
+  try {
+    checkAccountId(address);
+    return true;
+  } catch (_: unknown) {
+    // We do not parse the error
+  }
+
+  return false;
 };

@@ -116,9 +116,9 @@ Parameters:
 
 Checks if a given value is not null, not undefined, and not an empty string.
 
-| Function         | Type                                              |
-| ---------------- | ------------------------------------------------- |
-| `notEmptyString` | `(value: string or null or undefined) => boolean` |
+| Function         | Type                                                      |
+| ---------------- | --------------------------------------------------------- |
+| `notEmptyString` | `(value: string or null or undefined) => value is string` |
 
 Parameters:
 
@@ -138,7 +138,7 @@ Parameters:
 
 - `value`: - The value to check.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L38)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L39)
 
 #### :gear: defaultAgent
 
