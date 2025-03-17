@@ -963,6 +963,9 @@ const toVotingPowerEconomics = (
     startReducingVotingPowerAfterSeconds: fromNullable(
       rawVotingPowerEconomics.start_reducing_voting_power_after_seconds,
     ),
+    neuronMinimumDissolveDelayToVoteSeconds: fromNullable(
+      rawVotingPowerEconomics.neuron_minimum_dissolve_delay_to_vote_seconds,
+    ),
     clearFollowingAfterSeconds: fromNullable(
       rawVotingPowerEconomics.clear_following_after_seconds,
     ),
