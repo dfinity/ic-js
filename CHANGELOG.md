@@ -1,3 +1,9 @@
+# Next version
+
+## Features
+
+- Support `disburseMaturity` in `@dfinity/nns`.
+
 # 2025.03.10-1330Z
 
 ## Overview
