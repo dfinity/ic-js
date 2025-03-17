@@ -57,14 +57,9 @@ const rate = await getIcpToCyclesConversionRate();
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L15)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getIcpToCyclesConversionRate](#gear-geticptocyclesconversionrate)
-- [notifyCreateCanister](#gear-notifycreatecanister)
-- [notifyTopUp](#gear-notifytopup)
-- [getDefaultSubnets](#gear-getdefaultsubnets)
-- [getSubnetTypesToSubnets](#gear-getsubnettypestosubnets)
 
 ##### :gear: create
 
@@ -73,6 +68,14 @@ const rate = await getIcpToCyclesConversionRate();
 | `create` | `(options: CMCCanisterOptions) => CMCCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L16)
+
+#### Methods
+
+- [getIcpToCyclesConversionRate](#gear-geticptocyclesconversionrate)
+- [notifyCreateCanister](#gear-notifycreatecanister)
+- [notifyTopUp](#gear-notifytopup)
+- [getDefaultSubnets](#gear-getdefaultsubnets)
+- [getSubnetTypesToSubnets](#gear-getsubnettypestosubnets)
 
 ##### :gear: getIcpToCyclesConversionRate
 
