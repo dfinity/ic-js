@@ -388,11 +388,22 @@ Parameters:
 
 #### :gear: debounce
 
+Creates a debounced version of the provided function.
+
+The debounced function postpones its execution until after a certain amount of time
+has elapsed since the last time it was invoked. This is useful for limiting the rate
+at which a function is called (e.g. in response to user input or events).
+
 | Function   | Type                                                                              |
 | ---------- | --------------------------------------------------------------------------------- |
 | `debounce` | `(func: Function, timeout?: number or undefined) => (...args: unknown[]) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L2)
+Parameters:
+
+- `func`: - The function to debounce. It will only be called after no new calls happen within the specified timeout.
+- `timeout`: - The debounce delay in milliseconds. Defaults to 300ms if not provided or invalid.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L13)
 
 #### :gear: toNullable
 
