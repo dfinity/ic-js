@@ -114,6 +114,9 @@ const rawVotingPowerEconomics: RawVotingPowerEconomics = {
   start_reducing_voting_power_after_seconds: [
     BigInt((365.25 * 24 * 60 * 60) / 2),
   ],
+  neuron_minimum_dissolve_delay_to_vote_seconds: [
+    BigInt((365.25 * 24 * 60 * 60) / 2),
+  ],
   clear_following_after_seconds: [BigInt((365.25 * 24 * 60 * 60) / 12)],
 };
 
@@ -172,6 +175,9 @@ describe("GovernanceCanister", () => {
     },
     votingPowerEconomics: {
       startReducingVotingPowerAfterSeconds: BigInt((365.25 * 24 * 60 * 60) / 2),
+      neuronMinimumDissolveDelayToVoteSeconds: BigInt(
+        (365.25 * 24 * 60 * 60) / 2,
+      ),
       clearFollowingAfterSeconds: BigInt((365.25 * 24 * 60 * 60) / 12),
     },
   };
