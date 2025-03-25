@@ -1,6 +1,6 @@
 import type { QueryParams } from "@dfinity/utils";
 import { Canister, createServices, toNullable } from "@dfinity/utils";
-import {
+import type {
   Allowance,
   BlockIndex,
   GetBlocksResult,
