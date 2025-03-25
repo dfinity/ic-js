@@ -22,9 +22,6 @@ export const mockPrincipalText =
 
 export const mockPrincipal = Principal.fromText(mockPrincipalText);
 
-export const mockStatus: Status = {
-  num_blocks_synced: 12_345n,
-};
 
 export const ledgerCanisterIdMock: Principal = Principal.fromText(
   "ktxdj-qiaaa-aaaaa-aacqa-cai",

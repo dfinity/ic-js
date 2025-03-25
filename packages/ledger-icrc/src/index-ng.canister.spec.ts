@@ -12,9 +12,9 @@ import { IcrcIndexNgCanister } from "./index-ng.canister";
 import {
   indexCanisterIdMock,
   ledgerCanisterIdMock,
-  mockStatus,
 } from "./mocks/ledger.mock";
 import type { IcrcAccount } from "./types/ledger.responses";
+import type { Status } from "@dfinity/ledger-icp/candid";
 
 describe("Index canister", () => {
   afterEach(() => jest.clearAllMocks());
@@ -154,6 +154,10 @@ describe("Index canister", () => {
 
   describe("status", () => {
     it("should return the status of the index canister", async () => {
+       const mockStatus: Status = {
+        num_blocks_synced: 12_345n,
+      };
+
       const service = mock<ActorSubclass<IcrcIndexNgService>>();
       service.status.mockResolvedValue(mockStatus);
 
