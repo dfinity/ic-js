@@ -314,11 +314,17 @@ Parameters:
 
 ##### :gear: getBlocks
 
-| Method      | Type                                                      |
-| ----------- | --------------------------------------------------------- |
-| `getBlocks` | `(params: GetBlocksParams) => Promise<GetBlocksResponse>` |
+Fetches the blocks information from the ledger canister,
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L189)
+| Method      | Type                                                    |
+| ----------- | ------------------------------------------------------- |
+| `getBlocks` | `(params: GetBlocksParams) => Promise<GetBlocksResult>` |
+
+Parameters:
+
+- `params`: The parameters to get the blocks.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L195)
 
 ### :factory: IcrcIndexCanister
 
