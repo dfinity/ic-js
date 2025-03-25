@@ -176,7 +176,7 @@ describe("query", () => {
 
           const start = Date.now();
           await queryAndUpdate(mockParams);
-          const duration = Date.now() - start;
+          const duration = Date.now() - start + delay / 50; // 2% margin in case of rounding
 
           expect(duration).toBeGreaterThanOrEqual(delay);
         });
