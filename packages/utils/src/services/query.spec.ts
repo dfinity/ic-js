@@ -13,9 +13,11 @@ describe("query", () => {
   describe("queryAndUpdate", () => {
     const delay = 100;
 
+    const requestResponse = "response";
     const queryResponse = "query response";
     const updateResponse = "update response";
 
+    const requestErrorObj = new Error("Request failed");
     const queryErrorObj = new Error("Query failed");
     const updateErrorObj = new Error("Update failed");
 
@@ -44,7 +46,7 @@ describe("query", () => {
         strategy,
       } = params;
 
-      const requestMock: jest.Mock = jest.fn().mockResolvedValue("response");
+      const requestMock: jest.Mock = jest.fn().mockResolvedValue(requestResponse);
       const onLoadMock: jest.Mock = jest.fn();
       const onErrorMock: jest.Mock = jest.fn();
       const onCertifiedErrorMock: jest.Mock = jest.fn();
@@ -74,8 +76,7 @@ describe("query", () => {
             );
 
       if (requestError) {
-        console.error("Request failed");
-        requestMock.mockReset().mockRejectedValue(new Error("Request failed"));
+        requestMock.mockReset().mockRejectedValue(requestErrorObj);
       }
 
       if (queryError) {
@@ -124,7 +125,7 @@ describe("query", () => {
       it("should make a `query` request (`certified: false`) and an `update` request (`certified: true`)", async () => {
         const { mockParams, requestMock } = createMockParams();
 
-        requestMock.mockResolvedValue("response");
+        requestMock.mockResolvedValue(requestResponse);
 
         await queryAndUpdate(mockParams);
 
@@ -979,7 +980,7 @@ describe("query", () => {
       it("should only perform a `query` request (`certified: false`)", async () => {
         const { mockParams, requestMock } = createMockParams();
 
-        requestMock.mockResolvedValue("response");
+        requestMock.mockResolvedValue(requestResponse);
 
         await queryAndUpdate(mockParams);
 
@@ -989,6 +990,65 @@ describe("query", () => {
           identity: mockIdentity,
         });
       });
+
+      it("should call `onLoad` with `query` response", async () => {
+        const { mockParams, onLoadMock } = createMockParams();
+
+        await queryAndUpdate(mockParams);
+
+        expect(onLoadMock).toHaveBeenCalledTimes(1);
+        expect(onLoadMock).toHaveBeenNthCalledWith(1, {
+          certified: false,
+          response: 'response',
+        });
+      });
+
+      it("should call `onError` if `query` fails", async () => {
+        params = {...params , requestError: true};
+
+        const { mockParams, onErrorMock } = createMockParams();
+
+        await queryAndUpdate(mockParams);
+
+        expect(onErrorMock).toHaveBeenCalledTimes(1);
+        expect(onErrorMock).toHaveBeenNthCalledWith(1, {
+          certified: false,
+          error: requestErrorObj,
+          identity: mockIdentity,
+        });
+      });
+
+      it("should not call `onCertifiedError` if `query` fails", async () => {
+        params = {...params , requestError: true};
+
+        const { mockParams, onCertifiedErrorMock } = createMockParams();
+
+        await queryAndUpdate(mockParams);
+
+        expect(onCertifiedErrorMock).not.toHaveBeenCalled()
+      });
+
+      it("should log the console error if `query` fails", async () => {
+        params = {...params , requestError: true};
+
+        const { mockParams } = createMockParams();
+
+        await queryAndUpdate(mockParams);
+
+        expect(console.error).toHaveBeenCalledTimes(1);
+        expect(console.error).toHaveBeenNthCalledWith(1, requestErrorObj);
+      });
+
+      it("should not log the console error when `onCertifiedError` is nullish", async () => {
+        const { mockParams } = createMockParams();
+
+        await queryAndUpdate({
+          ...mockParams,
+          onCertifiedError: undefined,
+        });
+
+        expect(console.error).not.toHaveBeenCalled();
+      })
     });
 
     describe("strategy: `update`", () => {
@@ -999,7 +1059,7 @@ describe("query", () => {
       it("should only perform an `update` request (`certified: true`)", async () => {
         const { mockParams, requestMock } = createMockParams();
 
-        requestMock.mockResolvedValue("response");
+        requestMock.mockResolvedValue(requestResponse);
 
         await queryAndUpdate(mockParams);
 
@@ -1014,7 +1074,7 @@ describe("query", () => {
     it("should work with null identity", async () => {
       const { mockParams, requestMock } = createMockParams();
 
-      requestMock.mockResolvedValue("response");
+      requestMock.mockResolvedValue(requestResponse);
 
       await queryAndUpdate({ ...mockParams, identity: null });
 
@@ -1032,7 +1092,7 @@ describe("query", () => {
     it("should work with undefined identity", async () => {
       const { mockParams, requestMock } = createMockParams();
 
-      requestMock.mockResolvedValue("response");
+      requestMock.mockResolvedValue(requestResponse);
 
       await queryAndUpdate({ ...mockParams, identity: undefined });
 
