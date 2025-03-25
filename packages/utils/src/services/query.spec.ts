@@ -46,7 +46,9 @@ describe("query", () => {
         strategy,
       } = params;
 
-      const requestMock: jest.Mock = jest.fn().mockResolvedValue(requestResponse);
+      const requestMock: jest.Mock = jest
+        .fn()
+        .mockResolvedValue(requestResponse);
       const onLoadMock: jest.Mock = jest.fn();
       const onErrorMock: jest.Mock = jest.fn();
       const onCertifiedErrorMock: jest.Mock = jest.fn();
@@ -999,12 +1001,12 @@ describe("query", () => {
         expect(onLoadMock).toHaveBeenCalledTimes(1);
         expect(onLoadMock).toHaveBeenNthCalledWith(1, {
           certified: false,
-          response: 'response',
+          response: requestResponse,
         });
       });
 
       it("should call `onError` if `query` fails", async () => {
-        params = {...params , requestError: true};
+        params = { ...params, requestError: true };
 
         const { mockParams, onErrorMock } = createMockParams();
 
@@ -1019,17 +1021,17 @@ describe("query", () => {
       });
 
       it("should not call `onCertifiedError` if `query` fails", async () => {
-        params = {...params , requestError: true};
+        params = { ...params, requestError: true };
 
         const { mockParams, onCertifiedErrorMock } = createMockParams();
 
         await queryAndUpdate(mockParams);
 
-        expect(onCertifiedErrorMock).not.toHaveBeenCalled()
+        expect(onCertifiedErrorMock).not.toHaveBeenCalled();
       });
 
       it("should log the console error if `query` fails", async () => {
-        params = {...params , requestError: true};
+        params = { ...params, requestError: true };
 
         const { mockParams } = createMockParams();
 
@@ -1040,6 +1042,8 @@ describe("query", () => {
       });
 
       it("should not log the console error when `onCertifiedError` is nullish", async () => {
+        params = { ...params, requestError: true };
+        
         const { mockParams } = createMockParams();
 
         await queryAndUpdate({
@@ -1048,7 +1052,7 @@ describe("query", () => {
         });
 
         expect(console.error).not.toHaveBeenCalled();
-      })
+      });
     });
 
     describe("strategy: `update`", () => {
@@ -1068,6 +1072,71 @@ describe("query", () => {
           certified: true,
           identity: mockIdentity,
         });
+      });
+
+      it("should call `onLoad` with `update` response", async () => {
+        const { mockParams, onLoadMock } = createMockParams();
+
+        await queryAndUpdate(mockParams);
+
+        expect(onLoadMock).toHaveBeenCalledTimes(1);
+        expect(onLoadMock).toHaveBeenNthCalledWith(1, {
+          certified: true,
+          response: requestResponse,
+        });
+      });
+
+      it("should call `onError` if `update` fails", async () => {
+        params = { ...params, requestError: true };
+
+        const { mockParams, onErrorMock } = createMockParams();
+
+        await queryAndUpdate(mockParams);
+
+        expect(onErrorMock).toHaveBeenCalledTimes(1);
+        expect(onErrorMock).toHaveBeenNthCalledWith(1, {
+          certified: true,
+          error: requestErrorObj,
+          identity: mockIdentity,
+        });
+      });
+
+      it("should call `onCertifiedError` if `update` fails", async () => {
+        params = { ...params, requestError: true };
+
+        const { mockParams, onCertifiedErrorMock } = createMockParams();
+
+        await queryAndUpdate(mockParams);
+
+        expect(onCertifiedErrorMock).toHaveBeenCalledTimes(1);
+        expect(onCertifiedErrorMock).toHaveBeenNthCalledWith(1, {
+          error: requestErrorObj,
+          identity: mockIdentity,
+        });
+      });
+
+      it("should log the console error if `update` fails", async () => {
+        params = { ...params, requestError: true };
+
+        const { mockParams } = createMockParams();
+
+        await queryAndUpdate(mockParams);
+
+        expect(console.error).toHaveBeenCalledTimes(1);
+        expect(console.error).toHaveBeenNthCalledWith(1, requestErrorObj);
+      });
+
+      it("should not log the console error when `onCertifiedError` is nullish", async () => {
+        params = { ...params, requestError: true };
+
+        const { mockParams } = createMockParams();
+
+        await queryAndUpdate({
+          ...mockParams,
+          onCertifiedError: undefined,
+        });
+
+        expect(console.error).not.toHaveBeenCalled();
       });
     });
 
