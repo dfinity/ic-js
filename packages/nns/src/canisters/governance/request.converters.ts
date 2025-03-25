@@ -14,6 +14,7 @@ import type {
   Amount,
   ListProposalInfo,
   NeuronSubaccount,
+  Account as RawAccount,
   AccountIdentifier as RawAccountIdentifier,
   ProposalActionRequest as RawAction,
   By as RawBy,
@@ -53,6 +54,7 @@ import type { NeuronVisibility, Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { E8s, NeuronId, Option } from "../../types/common";
 import type {
+  Account,
   By,
   CanisterSettings,
   Change,
@@ -658,6 +660,17 @@ const fromCommand = (command: ManageNeuronCommandRequest): RawCommand => {
       },
     };
   }
+  if ("DisburseMaturity" in command) {
+    const disburseMaturity = command.DisburseMaturity;
+    return {
+      DisburseMaturity: {
+        to_account: disburseMaturity.toAccount
+          ? [fromAccount(disburseMaturity.toAccount)]
+          : [],
+        percentage_to_disburse: disburseMaturity.percentageToDisburse,
+      },
+    };
+  }
   if ("ClaimOrRefresh" in command) {
     const claimOrRefresh = command.ClaimOrRefresh;
     return {
@@ -847,6 +860,11 @@ const fromOperation = (operation: Operation): RawOperation => {
   throw new UnsupportedValueError(operation);
 };
 
+const fromAccount = (account: Account): RawAccount => ({
+  owner: toNullable(account.owner),
+  subaccount: account.subaccount ? [account.subaccount] : [],
+});
+
 const fromChange = (change: Change): RawChange => {
   if ("ToRemove" in change) {
     return {
@@ -960,6 +978,9 @@ const fromVotingPowerEconomics = (
     {
       start_reducing_voting_power_after_seconds: toNullable(
         votingPowerEconomics.startReducingVotingPowerAfterSeconds,
+      ),
+      neuron_minimum_dissolve_delay_to_vote_seconds: toNullable(
+        votingPowerEconomics.neuronMinimumDissolveDelayToVoteSeconds,
       ),
       clear_following_after_seconds: toNullable(
         votingPowerEconomics.clearFollowingAfterSeconds,
@@ -1445,6 +1466,23 @@ export const toDisburseNeuronRequest = ({
             ? [toAccountIdentifier.toAccountIdentifierHash()]
             : [],
         amount: amount !== undefined ? [fromAmount(amount)] : [],
+      },
+    },
+  });
+
+export const toDisburseMaturityRequest = ({
+  neuronId,
+  percentageToDisburse,
+}: {
+  neuronId: NeuronId;
+  percentageToDisburse: number;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      DisburseMaturity: {
+        percentage_to_disburse: percentageToDisburse,
+        to_account: [],
       },
     },
   });

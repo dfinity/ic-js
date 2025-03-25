@@ -2,6 +2,10 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
+export interface Account {
+  owner: [] | [Principal];
+  subaccount: [] | [Uint8Array | number[]];
+}
 export interface AccountIdentifier {
   hash: Uint8Array | number[];
 }
@@ -92,6 +96,7 @@ export type Command =
   | { Spawn: Spawn }
   | { Split: Split }
   | { Follow: Follow }
+  | { DisburseMaturity: DisburseMaturity }
   | { RefreshVotingPower: RefreshVotingPower }
   | { ClaimOrRefresh: ClaimOrRefresh }
   | { Configure: Configure }
@@ -107,6 +112,7 @@ export type Command_1 =
   | { Spawn: SpawnResponse }
   | { Split: SpawnResponse }
   | { Follow: {} }
+  | { DisburseMaturity: DisburseMaturityResponse }
   | { RefreshVotingPower: RefreshVotingPowerResponse }
   | { ClaimOrRefresh: ClaimOrRefreshResponse }
   | { Configure: {} }
@@ -175,6 +181,13 @@ export interface Disburse {
   to_account: [] | [AccountIdentifier];
   amount: [] | [Amount];
 }
+export interface DisburseMaturity {
+  to_account: [] | [Account];
+  percentage_to_disburse: number;
+}
+export interface DisburseMaturityResponse {
+  amount_disbursed_e8s: [] | [bigint];
+}
 export interface DisburseResponse {
   transfer_block_height: bigint;
 }
@@ -234,7 +247,6 @@ export interface Governance {
   to_claim_transfers: Array<NeuronStakeTransfer>;
   short_voting_period_seconds: bigint;
   topic_followee_index: Array<[number, FollowersMap]>;
-  migrations: [] | [Migrations];
   proposals: Array<[bigint, ProposalData]>;
   xdr_conversion_rate: [] | [XdrConversionRate];
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
@@ -410,6 +422,7 @@ export type ManageNeuronCommandRequest =
   | { Spawn: Spawn }
   | { Split: Split }
   | { Follow: Follow }
+  | { DisburseMaturity: DisburseMaturity }
   | { RefreshVotingPower: RefreshVotingPower }
   | { ClaimOrRefresh: ClaimOrRefresh }
   | { Configure: Configure }
@@ -443,15 +456,6 @@ export interface MergeResponse {
   source_neuron: [] | [Neuron];
   target_neuron_info: [] | [NeuronInfo];
   source_neuron_info: [] | [NeuronInfo];
-}
-export interface Migration {
-  status: [] | [number];
-  failure_reason: [] | [string];
-  progress: [] | [Progress];
-}
-export interface Migrations {
-  neuron_indexes_migration: [] | [Migration];
-  copy_inactive_neurons_to_stable_memory_migration: [] | [Migration];
 }
 export interface MonthlyNodeProviderRewards {
   minimum_xdr_permyriad_per_icp: [] | [bigint];
@@ -674,7 +678,6 @@ export interface Percentage {
 export interface Principals {
   principals: Array<Principal>;
 }
-export type Progress = { LastNeuronId: NeuronId };
 export interface Proposal {
   url: string;
   title: [] | [string];
@@ -907,6 +910,7 @@ export interface UpdateNodeProvider {
 }
 export interface VotingPowerEconomics {
   start_reducing_voting_power_after_seconds: [] | [bigint];
+  neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
   clear_following_after_seconds: [] | [bigint];
 }
 export interface VotingRewardParameters {

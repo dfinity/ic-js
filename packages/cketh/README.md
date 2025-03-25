@@ -55,15 +55,9 @@ const address = await getSmartContractAddress({});
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L29)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getSmartContractAddress](#gear-getsmartcontractaddress)
-- [withdrawEth](#gear-withdraweth)
-- [withdrawErc20](#gear-withdrawerc20)
-- [eip1559TransactionPrice](#gear-eip1559transactionprice)
-- [retrieveEthStatus](#gear-retrieveethstatus)
-- [getMinterInfo](#gear-getminterinfo)
 
 ##### :gear: create
 
@@ -72,6 +66,15 @@ const address = await getSmartContractAddress({});
 | `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L30)
+
+#### Methods
+
+- [getSmartContractAddress](#gear-getsmartcontractaddress)
+- [withdrawEth](#gear-withdraweth)
+- [withdrawErc20](#gear-withdrawerc20)
+- [eip1559TransactionPrice](#gear-eip1559transactionprice)
+- [retrieveEthStatus](#gear-retrieveethstatus)
+- [getMinterInfo](#gear-getminterinfo)
 
 ##### :gear: getSmartContractAddress
 
@@ -180,10 +183,9 @@ Class representing the CkETH Orchestrator Canister, which manages the Ledger and
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L15)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getOrchestratorInfo](#gear-getorchestratorinfo)
 
 ##### :gear: create
 
@@ -198,6 +200,10 @@ Parameters:
 - `options`: - Options for creating the canister.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L21)
+
+#### Methods
+
+- [getOrchestratorInfo](#gear-getorchestratorinfo)
 
 ##### :gear: getOrchestratorInfo
 

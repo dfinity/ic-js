@@ -107,7 +107,9 @@ export type Command =
   | { StakeMaturity: StakeMaturity }
   | { MakeProposal: Proposal }
   | { Disburse: Disburse }
-  | { RefreshVotingPower: RefreshVotingPower };
+  | { RefreshVotingPower: RefreshVotingPower }
+  | { DisburseMaturity: DisburseMaturity };
+// Command_1
 export type ManageNeuronCommandRequest =
   | { Spawn: Spawn }
   | { Split: Split }
@@ -120,7 +122,8 @@ export type ManageNeuronCommandRequest =
   | { MergeMaturity: MergeMaturity }
   | { StakeMaturity: StakeMaturity }
   | { MakeProposal: MakeProposalRequest }
-  | { Disburse: Disburse };
+  | { Disburse: Disburse }
+  | { DisburseMaturity: DisburseMaturity };
 export interface Configure {
   operation: Option<Operation>;
 }
@@ -155,6 +158,15 @@ export interface Follow {
 export interface Followees {
   topic: Topic;
   followees: Array<NeuronId>;
+}
+
+export interface Account {
+  owner: Option<Principal>;
+  subaccount: Option<Array<number>>;
+}
+export interface DisburseMaturity {
+  toAccount: Option<Account>;
+  percentageToDisburse: number;
 }
 
 export interface IncreaseDissolveDelay {
@@ -340,6 +352,7 @@ export interface NetworkEconomics {
 }
 export interface VotingPowerEconomics {
   startReducingVotingPowerAfterSeconds: Option<bigint>;
+  neuronMinimumDissolveDelayToVoteSeconds: Option<bigint>;
   clearFollowingAfterSeconds: Option<bigint>;
 }
 export interface NeuronsFundEconomics {

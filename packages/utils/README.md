@@ -388,11 +388,22 @@ Parameters:
 
 #### :gear: debounce
 
+Creates a debounced version of the provided function.
+
+The debounced function postpones its execution until after a certain amount of time
+has elapsed since the last time it was invoked. This is useful for limiting the rate
+at which a function is called (e.g. in response to user input or events).
+
 | Function   | Type                                                                              |
 | ---------- | --------------------------------------------------------------------------------- |
 | `debounce` | `(func: Function, timeout?: number or undefined) => (...args: unknown[]) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L2)
+Parameters:
+
+- `func`: - The function to debounce. It will only be called after no new calls happen within the specified timeout.
+- `timeout`: - The debounce delay in milliseconds. Defaults to 300ms if not provided or invalid.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L13)
 
 #### :gear: toNullable
 
@@ -556,12 +567,11 @@ Represents an amount of tokens.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L130)
 
-#### Methods
+#### Static Methods
 
 - [fromE8s](#gear-frome8s)
 - [fromString](#gear-fromstring)
 - [fromNumber](#gear-fromnumber)
-- [toE8s](#gear-toe8s)
 
 ##### :gear: fromE8s
 
@@ -614,6 +624,10 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L198)
 
+#### Methods
+
+- [toE8s](#gear-toe8s)
+
 ##### :gear: toE8s
 
 | Method  | Type           |
@@ -628,13 +642,11 @@ Represents an amount of tokens.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L236)
 
-#### Methods
+#### Static Methods
 
 - [fromUlps](#gear-fromulps)
 - [fromString](#gear-fromstring)
 - [fromNumber](#gear-fromnumber)
-- [toUlps](#gear-toulps)
-- [toE8s](#gear-toe8s)
 
 ##### :gear: fromUlps
 
@@ -687,6 +699,11 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L294)
 
+#### Methods
+
+- [toUlps](#gear-toulps)
+- [toE8s](#gear-toe8s)
+
 ##### :gear: toUlps
 
 | Method   | Type           |
@@ -716,11 +733,9 @@ Provides functionality to create new agents, retrieve cached agents, and clear t
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L53)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getAgent](#gear-getagent)
-- [clearAgents](#gear-clearagents)
 
 ##### :gear: create
 
@@ -740,6 +755,11 @@ Parameters:
 - `config.host`: - The host to connect to.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L69)
+
+#### Methods
+
+- [getAgent](#gear-getagent)
+- [clearAgents](#gear-clearagents)
 
 ##### :gear: getAgent
 

@@ -114,6 +114,9 @@ const rawVotingPowerEconomics: RawVotingPowerEconomics = {
   start_reducing_voting_power_after_seconds: [
     BigInt((365.25 * 24 * 60 * 60) / 2),
   ],
+  neuron_minimum_dissolve_delay_to_vote_seconds: [
+    BigInt((365.25 * 24 * 60 * 60) / 2),
+  ],
   clear_following_after_seconds: [BigInt((365.25 * 24 * 60 * 60) / 12)],
 };
 
@@ -172,6 +175,9 @@ describe("GovernanceCanister", () => {
     },
     votingPowerEconomics: {
       startReducingVotingPowerAfterSeconds: BigInt((365.25 * 24 * 60 * 60) / 2),
+      neuronMinimumDissolveDelayToVoteSeconds: BigInt(
+        (365.25 * 24 * 60 * 60) / 2,
+      ),
       clearFollowingAfterSeconds: BigInt((365.25 * 24 * 60 * 60) / 12),
     },
   };
@@ -2290,6 +2296,43 @@ describe("GovernanceCanister", () => {
       });
       expect(service.get_network_economics_parameters).toBeCalledTimes(1);
       expect(response).toEqual(mockManageNetworkEconomics);
+    });
+  });
+
+  describe("disburseMaturity", () => {
+    it("disburses maturity", async () => {
+      const neuronId = BigInt(10);
+      const percentageToDisburse = 25;
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ DisburseMaturity: { amount_disbursed_e8s: [BigInt(25)] } }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      await governance.disburseMaturity({
+        neuronId,
+        percentageToDisburse,
+      });
+      expect(service.manage_neuron).toBeCalledTimes(1);
+      expect(service.manage_neuron).toBeCalledWith({
+        command: [
+          {
+            DisburseMaturity: {
+              percentage_to_disburse: 25,
+              to_account: [],
+            },
+          },
+        ],
+        id: [
+          {
+            id: 10n,
+          },
+        ],
+        neuron_id_or_subaccount: [],
+      });
     });
   });
 });
