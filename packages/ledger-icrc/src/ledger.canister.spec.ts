@@ -1,13 +1,11 @@
-import type { ActorMethod, ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
-import type {
+import {
   Allowance,
   ApproveArgs,
-  BlockRange,
-  GetBlocksArgs,
-  GetBlocksResponse,
+  GetBlocksResult,
   _SERVICE as IcrcLedgerService,
   TransferArg,
   TransferFromArgs,
@@ -646,33 +644,34 @@ describe("Ledger canister", () => {
   describe("getBlocks", () => {
     it("should return the blocks of the ledger canister", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
-      const blocks: GetBlocksResponse = {
-        certificate: [Uint8Array.from([1, 2, 3, 4])],
-        first_index: 1000n,
+      const blocks: GetBlocksResult = {
+        log_length: 2820n,
         blocks: [],
-        chain_length: 2816n,
         archived_blocks: [
           {
-            callback: [] as unknown as ActorMethod<[GetBlocksArgs], BlockRange>,
-            start: 0n,
-            length: 1n,
+            args: [{ start: 0n, length: 1n }],
+            callback: [
+              Principal.fromText("aaaaa-aa"),
+              "icrc3_get_blocks",
+            ],
           },
         ],
       };
-      service.get_blocks.mockResolvedValue(blocks);
+      service.icrc3_get_blocks.mockResolvedValue(blocks);
 
       const canister = IcrcLedgerCanister.create({
         canisterId: ledgerCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
-      const res = await canister.getBlocks({ start: 0n, length: 1n });
-
-      expect(service.get_blocks).toHaveBeenCalledTimes(1);
-      expect(service.get_blocks).toHaveBeenNthCalledWith(1, {
-        start: 0n,
-        length: 1n,
+      const res = await canister.getBlocks({
+        options: [{ start: 0n, length: 1n }],
       });
+
+      expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
+      expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, [
+        { start: 0n, length: 1n },
+      ]);
 
       expect(res).toEqual(blocks);
     });

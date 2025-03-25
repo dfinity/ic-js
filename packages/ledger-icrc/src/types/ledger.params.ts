@@ -135,4 +135,6 @@ export type Icrc21ConsentMessageParams = Omit<
 /**
  * Parameters to get the canister blocks.
  */
-export type GetBlocksParams = GetBlocksArgs & QueryParams;
+export type GetBlocksParams = QueryParams & {
+  options: GetBlocksArgs[];
+};
