@@ -9,7 +9,11 @@ import type {
 } from "../candid/icrc_index-ng";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexNgCanister } from "./index-ng.canister";
-import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";
+import {
+  indexCanisterIdMock,
+  ledgerCanisterIdMock,
+  mockStatus,
+} from "./mocks/ledger.mock";
 import type { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
@@ -101,7 +105,7 @@ describe("Index canister", () => {
       service.icrc1_balance_of.mockResolvedValue(balance);
 
       const canister = IcrcIndexNgCanister.create({
-        canisterId: ledgerCanisterIdMock,
+        canisterId: indexCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
@@ -119,7 +123,7 @@ describe("Index canister", () => {
       service.icrc1_balance_of.mockResolvedValue(balance);
 
       const canister = IcrcIndexNgCanister.create({
-        canisterId: ledgerCanisterIdMock,
+        canisterId: indexCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
@@ -134,17 +138,32 @@ describe("Index canister", () => {
   });
 
   describe("ledger_id", () => {
-    it("should return the balance of subaccount", async () => {
+    it("should return the ledger ID associated with the index canister", async () => {
       const service = mock<ActorSubclass<IcrcIndexNgService>>();
       service.ledger_id.mockResolvedValue(ledgerCanisterIdMock);
 
       const canister = IcrcIndexNgCanister.create({
-        canisterId: ledgerCanisterIdMock,
+        canisterId: indexCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
       const res = await canister.ledgerId({});
       expect(res).toEqual(ledgerCanisterIdMock);
+    });
+  });
+
+  describe("status", () => {
+    it("should return the status of the index canister", async () => {
+      const service = mock<ActorSubclass<IcrcIndexNgService>>();
+      service.status.mockResolvedValue(mockStatus);
+
+      const canister = IcrcIndexNgCanister.create({
+        canisterId: indexCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.status({});
+      expect(res).toEqual(mockStatus);
     });
   });
 });
