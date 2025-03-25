@@ -1,10 +1,13 @@
-import type { ActorSubclass } from "@dfinity/agent";
+import type { ActorMethod, ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   Allowance,
   ApproveArgs,
+  BlockRange,
+  GetBlocksArgs,
+  GetBlocksResponse,
   _SERVICE as IcrcLedgerService,
   TransferArg,
   TransferFromArgs,
@@ -637,6 +640,41 @@ describe("Ledger canister", () => {
       ).rejects.toThrowError(
         new ConsentMessageError(`Unknown error type ${JSON.stringify(Err)}`),
       );
+    });
+  });
+
+  describe("getBlocks", () => {
+    it("should return the blocks of the ledger canister", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const blocks: GetBlocksResponse = {
+        certificate: ["abcd" as unknown as Uint8Array],
+        first_index: 1000n,
+        blocks: [],
+        chain_length: 2816n,
+        archived_blocks: [
+          {
+            callback: [] as unknown as ActorMethod<[GetBlocksArgs], BlockRange>,
+            start: 0n,
+            length: 1n,
+          },
+        ],
+      };
+      service.get_blocks.mockResolvedValue(blocks);
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getBlocks({ start: 0n, length: 1n });
+
+      expect(service.get_blocks).toHaveBeenCalledTimes(1);
+      expect(service.get_blocks).toHaveBeenNthCalledWith(1, {
+        start: 0n,
+        length: 1n,
+      });
+
+      expect(res).toEqual(blocks);
     });
   });
 });

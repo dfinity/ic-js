@@ -3,6 +3,7 @@ import type {
   Account,
   AllowanceArgs,
   icrc21_consent_message_request as ConsentMessageArgs,
+  GetBlocksArgs,
   Subaccount,
   Timestamp,
   Tokens,
@@ -130,3 +131,8 @@ export type Icrc21ConsentMessageParams = Omit<
 > & {
   userPreferences: Icrc21ConsentMessageSpec;
 };
+
+/**
+ * Parameters to get the canister blocks.
+ */
+export type GetBlocksParams = GetBlocksArgs & QueryParams;
