@@ -411,7 +411,11 @@ Returns the status of the index canister.
 | -------- | ------------------------------------------ |
 | `status` | `(params: QueryParams) => Promise<Status>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L68)
+Parameters:
+
+- `params`: The parameters to get the status of the index canister.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L71)
 
 <!-- TSDOC_END -->
 
