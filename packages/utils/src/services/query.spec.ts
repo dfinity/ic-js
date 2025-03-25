@@ -1,12 +1,12 @@
 import { expect } from "@jest/globals";
 import { mockIdentity } from "../mocks/identity.mock";
 import { nonNullish } from "../utils/nullish.utils";
+import { queryAndUpdate } from "./query";
 import type {
   QueryAndUpdateParams,
   QueryAndUpdatePromiseResolution,
-  QueryAndUpdateRequestParams,
-} from "./query";
-import { queryAndUpdate } from "./query";
+  QueryAndUpdateRequestParams
+} from "../types/query-and-update.params";
 
 describe("query", () => {
   describe("queryAndUpdate", () => {
