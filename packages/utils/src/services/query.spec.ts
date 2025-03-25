@@ -10,46 +10,13 @@ import { queryAndUpdate } from "./query";
 
 describe("query", () => {
   describe("queryAndUpdate", () => {
-    // const requestMock: jest.Mock = jest.fn();
-    // const onLoadMock: jest.Mock = jest.fn();
-    // const onErrorMock: jest.Mock = jest.fn();
-    // const onCertifiedErrorMock: jest.Mock = jest.fn();
-
     const delay = 100;
-
-    // const mockBaseParams: QueryAndUpdateParams<string> = {
-    //   request: requestMock,
-    //   onLoad: onLoadMock,
-    //   onError: onErrorMock,
-    //   onCertifiedError: onCertifiedErrorMock,
-    //   identity: mockIdentity,
-    // };
 
     const queryResponse = "query response";
     const updateResponse = "update response";
 
-    const queryError = new Error("Query failed");
-    const updateError = new Error("Update failed");
-
-    // const mockQueryResult: jest.Mock = jest.fn();
-    // const mockUpdateResult: jest.Mock = jest.fn();
-
-    // const mockRequestFasterQuery = ({
-    //   certified,
-    // }: QueryAndUpdateRequestParams) =>
-    //   certified
-    //     ? new Promise((resolve) =>
-    //         setTimeout(() => resolve(mockUpdateResult()), delay),
-    //       )
-    //     : mockQueryResult();
-    // const mockRequestFasterUpdate = ({
-    //   certified,
-    // }: QueryAndUpdateRequestParams) =>
-    //   certified
-    //     ? mockUpdateResult()
-    //     : new Promise((resolve) =>
-    //         setTimeout(() => resolve(mockQueryResult()), delay),
-    //       );
+    const queryErrorObj = new Error("Query failed");
+    const updateErrorObj = new Error("Update failed");
 
     let params: {
       faster?: "query" | "update";
@@ -98,24 +65,23 @@ describe("query", () => {
               setTimeout(() => resolve(mockQueryResult()), delay),
             );
 
+      if (requestError) {
+        console.error("Request failed");
+        requestMock.mockReset().mockRejectedValue(new Error("Request failed"));
+      }
+
+      if (queryError) {
+        mockQueryResult.mockReset().mockRejectedValueOnce(queryErrorObj);
+      }
+
+      if (updateError) {
+        mockUpdateResult.mockReset().mockRejectedValueOnce(updateErrorObj);
+      }
+
       if (nonNullish(faster)) {
         requestMock.mockImplementation(
           faster === "query" ? mockRequestFasterQuery : mockRequestFasterUpdate,
         );
-      }
-
-      if (requestError) {
-        requestMock
-          .mockReset()
-          .mockRejectedValueOnce(new Error("Request failed"));
-      }
-
-      if (queryError) {
-        mockQueryResult.mockReset().mockRejectedValueOnce(queryError);
-      }
-
-      if (updateError) {
-        mockUpdateResult.mockReset().mockRejectedValueOnce(updateError);
       }
 
       const mockParams: QueryAndUpdateParams<string> = {
@@ -332,7 +298,7 @@ describe("query", () => {
             expect(onErrorMock).toHaveBeenCalledTimes(1);
             expect(onErrorMock).toHaveBeenNthCalledWith(1, {
               certified: false,
-              error: queryError,
+              error: queryErrorObj,
               identity: mockIdentity,
             });
           });
@@ -343,7 +309,7 @@ describe("query", () => {
             await queryAndUpdate(mockParams);
 
             expect(console.error).toHaveBeenCalledTimes(1);
-            expect(console.error).toHaveBeenNthCalledWith(1, queryError);
+            expect(console.error).toHaveBeenNthCalledWith(1, queryErrorObj);
           });
 
           it("should not log the console error when `onCertifiedError` is nullish", async () => {
@@ -376,7 +342,7 @@ describe("query", () => {
             expect(onErrorMock).toHaveBeenCalledTimes(1);
             expect(onErrorMock).toHaveBeenNthCalledWith(1, {
               certified: false,
-              error: queryError,
+              error: queryErrorObj,
               identity: mockIdentity,
             });
           });
@@ -395,7 +361,7 @@ describe("query", () => {
             await queryAndUpdate(mockParams);
 
             expect(console.error).toHaveBeenCalledTimes(1);
-            expect(console.error).toHaveBeenNthCalledWith(1, queryError);
+            expect(console.error).toHaveBeenNthCalledWith(1, queryErrorObj);
           });
 
           it("should not log the console error when `onCertifiedError` is nullish", async () => {
@@ -463,7 +429,7 @@ describe("query", () => {
             expect(onErrorMock).toHaveBeenCalledTimes(1);
             expect(onErrorMock).toHaveBeenNthCalledWith(1, {
               certified: true,
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -475,7 +441,7 @@ describe("query", () => {
 
             expect(onCertifiedErrorMock).toHaveBeenCalledTimes(1);
             expect(onCertifiedErrorMock).toHaveBeenNthCalledWith(1, {
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -486,7 +452,7 @@ describe("query", () => {
             await queryAndUpdate(mockParams);
 
             expect(console.error).toHaveBeenCalledTimes(1);
-            expect(console.error).toHaveBeenNthCalledWith(1, updateError);
+            expect(console.error).toHaveBeenNthCalledWith(1, updateErrorObj);
           });
 
           it("should not log the console error when `onCertifiedError` is nullish", async () => {
@@ -530,7 +496,7 @@ describe("query", () => {
             expect(onErrorMock).toHaveBeenCalledTimes(1);
             expect(onErrorMock).toHaveBeenNthCalledWith(1, {
               certified: false,
-              error: queryError,
+              error: queryErrorObj,
               identity: mockIdentity,
             });
           });
@@ -549,7 +515,7 @@ describe("query", () => {
             await queryAndUpdate(mockParams);
 
             expect(console.error).toHaveBeenCalledTimes(1);
-            expect(console.error).toHaveBeenNthCalledWith(1, queryError);
+            expect(console.error).toHaveBeenNthCalledWith(1, queryErrorObj);
           });
 
           it("should not log the console error when `onCertifiedError` is nullish", async () => {
@@ -582,12 +548,12 @@ describe("query", () => {
             expect(onErrorMock).toHaveBeenCalledTimes(2);
             expect(onErrorMock).toHaveBeenNthCalledWith(1, {
               certified: false,
-              error: queryError,
+              error: queryErrorObj,
               identity: mockIdentity,
             });
             expect(onErrorMock).toHaveBeenNthCalledWith(2, {
               certified: true,
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -599,7 +565,7 @@ describe("query", () => {
 
             expect(onCertifiedErrorMock).toHaveBeenCalledTimes(1);
             expect(onCertifiedErrorMock).toHaveBeenNthCalledWith(1, {
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -610,8 +576,8 @@ describe("query", () => {
             await queryAndUpdate(mockParams);
 
             expect(console.error).toHaveBeenCalledTimes(2);
-            expect(console.error).toHaveBeenNthCalledWith(1, queryError);
-            expect(console.error).toHaveBeenNthCalledWith(2, updateError);
+            expect(console.error).toHaveBeenNthCalledWith(1, queryErrorObj);
+            expect(console.error).toHaveBeenNthCalledWith(2, updateErrorObj);
           });
 
           it("should not log the console error when `onCertifiedError` is nullish", async () => {
@@ -673,7 +639,7 @@ describe("query", () => {
             expect(onErrorMock).toHaveBeenCalledTimes(1);
             expect(onErrorMock).toHaveBeenNthCalledWith(1, {
               certified: true,
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -685,7 +651,7 @@ describe("query", () => {
 
             expect(onCertifiedErrorMock).toHaveBeenCalledTimes(1);
             expect(onCertifiedErrorMock).toHaveBeenNthCalledWith(1, {
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -696,7 +662,7 @@ describe("query", () => {
             await queryAndUpdate(mockParams);
 
             expect(console.error).toHaveBeenCalledTimes(1);
-            expect(console.error).toHaveBeenNthCalledWith(1, updateError);
+            expect(console.error).toHaveBeenNthCalledWith(1, updateErrorObj);
           });
 
           it("should not log the console error when `onCertifiedError` is nullish", async () => {
@@ -767,7 +733,7 @@ describe("query", () => {
             expect(onErrorMock).toHaveBeenCalledTimes(1);
             expect(onErrorMock).toHaveBeenNthCalledWith(1, {
               certified: true,
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -779,7 +745,7 @@ describe("query", () => {
 
             expect(onCertifiedErrorMock).toHaveBeenCalledTimes(1);
             expect(onCertifiedErrorMock).toHaveBeenNthCalledWith(1, {
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -790,7 +756,7 @@ describe("query", () => {
             await queryAndUpdate(mockParams);
 
             expect(console.error).toHaveBeenCalledTimes(1);
-            expect(console.error).toHaveBeenNthCalledWith(1, updateError);
+            expect(console.error).toHaveBeenNthCalledWith(1, updateErrorObj);
           });
 
           it("should not log the console error when `onCertifiedError` is nullish", async () => {
@@ -850,7 +816,7 @@ describe("query", () => {
             expect(onErrorMock).toHaveBeenCalledTimes(1);
             expect(onErrorMock).toHaveBeenNthCalledWith(1, {
               certified: true,
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -862,7 +828,7 @@ describe("query", () => {
 
             expect(onCertifiedErrorMock).toHaveBeenCalledTimes(1);
             expect(onCertifiedErrorMock).toHaveBeenNthCalledWith(1, {
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -873,7 +839,7 @@ describe("query", () => {
             await queryAndUpdate(mockParams);
 
             expect(console.error).toHaveBeenCalledTimes(1);
-            expect(console.error).toHaveBeenNthCalledWith(1, updateError);
+            expect(console.error).toHaveBeenNthCalledWith(1, updateErrorObj);
           });
 
           it("should not log the console error when `onCertifiedError` is nullish", async () => {
@@ -952,7 +918,7 @@ describe("query", () => {
             expect(onErrorMock).toHaveBeenCalledTimes(1);
             expect(onErrorMock).toHaveBeenNthCalledWith(1, {
               certified: true,
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -964,7 +930,7 @@ describe("query", () => {
 
             expect(onCertifiedErrorMock).toHaveBeenCalledTimes(1);
             expect(onCertifiedErrorMock).toHaveBeenNthCalledWith(1, {
-              error: updateError,
+              error: updateErrorObj,
               identity: mockIdentity,
             });
           });
@@ -975,7 +941,7 @@ describe("query", () => {
             await queryAndUpdate(mockParams);
 
             expect(console.error).toHaveBeenCalledTimes(1);
-            expect(console.error).toHaveBeenNthCalledWith(1, updateError);
+            expect(console.error).toHaveBeenNthCalledWith(1, updateErrorObj);
           });
 
           it("should not log the console error when `onCertifiedError` is nullish", async () => {
