@@ -5,7 +5,7 @@ import type { QueryAndUpdateParams } from "../types/query-and-update.params";
  * This service performs a query (not-certified) call and/or an update (certified) call, and handles the results.
  *
  * It is useful because it can do both type of calls for security reasons.
- * For example, malicious nodes can forge transactions and balance if no update is performed to certify the results.
+ * For example, malicious nodes can forge transactions and balance when calling an Index canister, if no update is performed to certify the results.
  *
  * Furthermore, it can handle the results of the calls in different ways:
  * - `query` only performs a query call.
