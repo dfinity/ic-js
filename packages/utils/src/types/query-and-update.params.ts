@@ -8,7 +8,7 @@ export interface QueryAndUpdateRequestParams {
 }
 
 export type QueryAndUpdateRequest<R> = (
-  options: QueryAndUpdateRequestParams
+  options: QueryAndUpdateRequestParams,
 ) => Promise<R>;
 
 export type QueryAndUpdateOnResponse<R> = (options: {
@@ -25,11 +25,11 @@ export interface QueryAndUpdateOnErrorOptions<E = unknown> {
 export type QueryAndUpdateOnError<E = unknown> = (
   options: {
     certified: boolean;
-  } & QueryAndUpdateOnErrorOptions<E>
+  } & QueryAndUpdateOnErrorOptions<E>,
 ) => void;
 
 export type QueryAndUpdateOnCertifiedError<E = unknown> = (
-  options: QueryAndUpdateOnErrorOptions<E>
+  options: QueryAndUpdateOnErrorOptions<E>,
 ) => void;
 
 export type QueryAndUpdateStrategy = "query_and_update" | "query" | "update";

@@ -1,5 +1,5 @@
 import { isNullish } from "@dfinity/utils";
-import type{ QueryAndUpdateParams } from "../types/query-and-update.params";
+import type { QueryAndUpdateParams } from "../types/query-and-update.params";
 
 /**
  * Perform a query and an update for security reasons.
