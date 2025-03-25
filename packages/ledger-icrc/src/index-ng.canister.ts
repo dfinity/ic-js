@@ -64,6 +64,9 @@ export class IcrcIndexNgCanister extends IcrcCanister<IcrcIndexNgService> {
 
   /**
    * Returns the status of the index canister.
+   *
+   * @param {QueryParams} params The parameters to get the status of the index canister.
+   * @returns {Promise<Status>} The status of the index canister.
    */
   status = (params: QueryParams): Promise<Status> =>
     this.caller(params).status();
