@@ -1043,7 +1043,7 @@ describe("query", () => {
 
       it("should not log the console error when `onCertifiedError` is nullish", async () => {
         params = { ...params, requestError: true };
-        
+
         const { mockParams } = createMockParams();
 
         await queryAndUpdate({
