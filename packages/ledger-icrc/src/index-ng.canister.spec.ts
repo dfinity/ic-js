@@ -1,4 +1,5 @@
 import type { ActorSubclass } from "@dfinity/agent";
+import type { Status } from "@dfinity/ledger-icp/candid";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
@@ -9,12 +10,8 @@ import type {
 } from "../candid/icrc_index-ng";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexNgCanister } from "./index-ng.canister";
-import {
-  indexCanisterIdMock,
-  ledgerCanisterIdMock,
-} from "./mocks/ledger.mock";
+import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";
 import type { IcrcAccount } from "./types/ledger.responses";
-import type { Status } from "@dfinity/ledger-icp/candid";
 
 describe("Index canister", () => {
   afterEach(() => jest.clearAllMocks());
@@ -154,7 +151,7 @@ describe("Index canister", () => {
 
   describe("status", () => {
     it("should return the status of the index canister", async () => {
-       const mockStatus: Status = {
+      const mockStatus: Status = {
         num_blocks_synced: 12_345n,
       };
 
