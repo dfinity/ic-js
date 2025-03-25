@@ -647,7 +647,7 @@ describe("Ledger canister", () => {
     it("should return the blocks of the ledger canister", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const blocks: GetBlocksResponse = {
-        certificate: ["abcd" as unknown as Uint8Array],
+        certificate: [Uint8Array.from([1, 2, 3, 4])],
         first_index: 1000n,
         blocks: [],
         chain_length: 2816n,
