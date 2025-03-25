@@ -650,10 +650,7 @@ describe("Ledger canister", () => {
         archived_blocks: [
           {
             args: [{ start: 0n, length: 1n }],
-            callback: [
-              Principal.fromText("aaaaa-aa"),
-              "icrc3_get_blocks",
-            ],
+            callback: [Principal.fromText("aaaaa-aa"), "icrc3_get_blocks"],
           },
         ],
       };
@@ -691,7 +688,7 @@ describe("Ledger canister", () => {
       certifiedServiceOverride: service,
     });
 
-    const res = await canister.getBlocks({ options: []});
+    const res = await canister.getBlocks({ options: [] });
 
     expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
     expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, []);
