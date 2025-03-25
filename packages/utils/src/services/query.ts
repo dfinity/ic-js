@@ -14,20 +14,20 @@ import type { QueryAndUpdateParams } from "../types/query-and-update.params";
  *
  * The resolution can be:
  * - `all_settled` waits for all calls to settle.
- * - `race` waits for the first call to settle.
+ * - `race` waits for the first call to settle (typically, `query` is the fastest one).
  *
  * Once the call(s) are done, the response is handled by the `onLoad` callback.
- * However, if an error occurs, the error is handled by the `onError` callback, if provided.
- * If the error is from the update call, the `onCertifiedError` callback is called too, if provided.
+ * However, if an error occurs, it is handled by the `onError` callback, if provided.
+ * In addition, if the error is from the update call, the `onCertifiedError` callback is called too, if provided.
  *
  * @param {QueryAndUpdateParams<R, E>} params The parameters to perform the request.
  * @param {QueryAndUpdateRequest<R>} params.request The request to perform.
  * @param {QueryAndUpdateOnResponse<R>} params.onLoad The callback to handle the response of the request.
- * @param {QueryAndUpdateOnError<E>} params.onError The callback to handle the error of the request.
- * @param {QueryAndUpdateOnCertifiedError<E>} params.onCertifiedError The additional callback to handle the error of the update request.
- * @param {QueryAndUpdateStrategy} params.strategy The strategy to use. Default is `query_and_update`.
+ * @param {QueryAndUpdateOnError<E>} [params.onError] The callback to handle the error of the request.
+ * @param {QueryAndUpdateOnCertifiedError<E>} [params.onCertifiedError] The additional callback to handle the error of the update request.
+ * @param {QueryAndUpdateStrategy} [params.strategy="query_and_update"] The strategy to use. Default is `query_and_update`.
  * @param {OptionIdentity} params.identity The identity to use for the request.
- * @param {QueryAndUpdatePromiseResolution} params.resolution The resolution to use. Default is `race`.
+ * @param {QueryAndUpdatePromiseResolution} [params.resolution="race"] The resolution to use. Default is `race`.
  *
  * @template R The type of the response.
  * @template E The type of the error.
