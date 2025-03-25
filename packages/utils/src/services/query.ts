@@ -1,5 +1,5 @@
-import { isNullish } from "@dfinity/utils";
 import type { QueryAndUpdateParams } from "../types/query-and-update.params";
+import { isNullish } from "../utils/nullish.utils";
 
 /**
  * This service performs a query (not-certified) call and/or an update (certified) call, and handles the results.
