@@ -662,7 +662,7 @@ describe("Ledger canister", () => {
       });
 
       const res = await canister.getBlocks({
-        options: [{ start: 0n, length: 1n }],
+        args: [{ start: 0n, length: 1n }],
       });
 
       expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
@@ -688,7 +688,7 @@ describe("Ledger canister", () => {
       certifiedServiceOverride: service,
     });
 
-    const res = await canister.getBlocks({ options: [] });
+    const res = await canister.getBlocks({ args: [] });
 
     expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
     expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, []);
