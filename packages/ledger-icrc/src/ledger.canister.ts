@@ -3,6 +3,7 @@ import { Canister, createServices, toNullable } from "@dfinity/utils";
 import type {
   Allowance,
   BlockIndex,
+  GetBlocksResult,
   _SERVICE as IcrcLedgerService,
   Tokens,
   icrc21_consent_info,
@@ -24,6 +25,7 @@ import type {
   AllowanceParams,
   ApproveParams,
   BalanceParams,
+  GetBlocksParams,
   Icrc21ConsentMessageParams,
   TransferFromParams,
   TransferParams,
@@ -183,4 +185,13 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
 
     return response.Ok;
   };
+
+  /**
+   * Fetches the blocks information from the ledger canister,
+   *
+   * @param {GetBlocksParams} params The parameters to get the blocks.
+   * @returns {Promise<GetBlocksResult>} The list of blocks.
+   */
+  getBlocks = (params: GetBlocksParams): Promise<GetBlocksResult> =>
+    this.caller({ certified: params.certified }).icrc3_get_blocks(params.args);
 }
