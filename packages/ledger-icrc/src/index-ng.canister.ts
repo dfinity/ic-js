@@ -3,6 +3,7 @@ import { createServices, type QueryParams } from "@dfinity/utils";
 import type {
   GetTransactions,
   _SERVICE as IcrcIndexNgService,
+  Status,
 } from "../candid/icrc_index-ng";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc_index-ng.certified.idl";
 import { idlFactory } from "../candid/icrc_index-ng.idl";
@@ -60,4 +61,13 @@ export class IcrcIndexNgCanister extends IcrcCanister<IcrcIndexNgService> {
     const { ledger_id } = this.caller(params);
     return ledger_id();
   };
+
+  /**
+   * Returns the status of the index canister.
+   *
+   * @param {QueryParams} params The parameters to get the status of the index canister.
+   * @returns {Promise<Status>} The status of the index canister.
+   */
+  status = (params: QueryParams): Promise<Status> =>
+    this.caller(params).status();
 }
