@@ -63,6 +63,8 @@ jobs:
           
           # Begin debug
           
+          git diff | grep FolloweesForTopic
+          
           DIFF="$(git diff)"
           CLEANED_DIFF="$(echo "$DIFF" | grep -vE '^\+\/\/ Generated from IC repo.*$' | grep -vE '^\-\/\/ Generated from IC repo.*$')"
           
