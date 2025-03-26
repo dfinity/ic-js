@@ -374,7 +374,7 @@ Returns the ledger canister ID related to the index canister.
 
 ### :factory: IcrcIndexNgCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L15)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L16)
 
 #### Static Methods
 
@@ -386,12 +386,13 @@ Returns the ledger canister ID related to the index canister.
 | -------- | ----------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexNgCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L16)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L17)
 
 #### Methods
 
 - [getTransactions](#gear-gettransactions)
 - [ledgerId](#gear-ledgerid)
+- [status](#gear-status)
 
 ##### :gear: getTransactions
 
@@ -405,7 +406,7 @@ Parameters:
 
 - `params`: The parameters to get the transactions of an account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L41)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L42)
 
 ##### :gear: ledgerId
 
@@ -415,7 +416,21 @@ Returns the ledger canister ID related to the index canister.
 | ---------- | --------------------------------------------- |
 | `ledgerId` | `(params: QueryParams) => Promise<Principal>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L59)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L60)
+
+##### :gear: status
+
+Returns the status of the index canister.
+
+| Method   | Type                                       |
+| -------- | ------------------------------------------ |
+| `status` | `(params: QueryParams) => Promise<Status>` |
+
+Parameters:
+
+- `params`: The parameters to get the status of the index canister.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L71)
 
 <!-- TSDOC_END -->
 
