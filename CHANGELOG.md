@@ -7,6 +7,7 @@
 - Support `disburseMaturity` in `@dfinity/nns`.
 - Update `@dfinity/ic-management` to support optional new setting `wasm_memory_threshold` and return the new `memory_metrics`.
 - Add `neuronMinimumDissolveDelayToVoteSeconds` to nns `VotingPowerEconomics`.
+- Expose method `status` in class `IcrcIndexNgCanister`.
 - New service util `queryAndUpdate` that aids in executing a request and handling the results, for both type of calls.
 
 # 2025.03.10-1330Z
