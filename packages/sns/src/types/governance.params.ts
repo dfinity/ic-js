@@ -5,7 +5,7 @@ import type {
 } from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
-import type { NeuronId, ProposalId } from "../../candid/sns_governance";
+import type { NeuronId, ProposalId, Topic } from "../../candid/sns_governance";
 import type {
   SnsNeuronPermissionType,
   SnsProposalDecisionStatus,
@@ -139,11 +139,24 @@ export interface SnsIncreaseDissolveDelayParams
 }
 
 /**
- * The parameters to increase dissolve delay
+ * The parameters to follow by ns-function
  */
 export interface SnsSetTopicFollowees extends SnsNeuronManagementParams {
   functionId: bigint;
   followees: NeuronId[];
+}
+
+/**
+ * The parameters to follow by topic
+ */
+export interface SnsSetFollowingParams extends SnsNeuronManagementParams {
+  topicFollowing: Array<{
+    topic: Topic;
+    followees: Array<{
+      neuronId: NeuronId;
+      alias?: string;
+    }>;
+  }>;
 }
 
 /**

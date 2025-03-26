@@ -42,6 +42,7 @@ import type {
   SnsNeuronStakeMaturityParams,
   SnsRegisterVoteParams,
   SnsSetDissolveTimestampParams,
+  SnsSetFollowingParams,
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "../types/governance.params";
@@ -248,6 +249,26 @@ export const toFollowRequest = ({
       Follow: {
         function_id: functionId,
         followees,
+      },
+    },
+  ],
+});
+
+export const toSetFollowingRequest = ({
+  neuronId,
+  topicFollowing,
+}: SnsSetFollowingParams): ManageNeuron => ({
+  subaccount: neuronId.id,
+  command: [
+    {
+      SetFollowing: {
+        topic_following: topicFollowing.map(({ topic, followees }) => ({
+          topic: [topic],
+          followees: followees.map(({ neuronId, alias }) => ({
+            neuron_id: toNullable(neuronId),
+            alias: toNullable(alias),
+          })),
+        })),
       },
     },
   ],
