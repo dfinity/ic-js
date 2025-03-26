@@ -61,11 +61,27 @@ jobs:
           # ... Note: Ignores how we got here.
           set +x # Printing the diff to stderr repeatedly can be very noisy.
           
-          # Debug
-          git diff
+          # Begin debug
           
+          DIFF="$(git diff)"
+          CLEANED_DIFF="$(echo "$DIFF" | grep -vE '^\+\/\/ Generated from IC repo.*$' | grep -vE '^\-\/\/ Generated from IC repo.*$')"
+          
+          if [[ -z "$CLEANED_DIFF" ]]; then
+            echo "NO changes with CLEANED_DIFF"
+          else
+            echo "Changes DETECTED with CLEANED_DIFF"
+          fi
           
           DIFF_IGNORING_PROVENANCE="$(git diff -I '\/\/ Generated from IC repo.*')"
+          
+          if [[ "${DIFF_IGNORING_PROVENANCE:-}" == "" ]]
+            echo "NO changes with DIFF_IGNORING_PROVENANCE"
+          else
+            echo "Changes DETECTED with DIFF_IGNORING_PROVENANCE"
+          fi
+          
+          # End Debug
+          
           if [[ "${DIFF_IGNORING_PROVENANCE:-}" == "" ]]
           then
             commit="$(cd ic && git rev-parse --short HEAD)"
