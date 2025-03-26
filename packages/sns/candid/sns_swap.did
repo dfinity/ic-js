@@ -1,4 +1,4 @@
-// Generated from IC repo commit f6f5e0927d (2025-03-13 tags: release-2025-03-14_03-10-base) 'rs/sns/swap/canister/swap.did' by import-candid
+// Generated from IC repo commit fdd946f771 (2025-03-26) 'rs/sns/swap/canister/swap.did' by import-candid
 type BuyerState = record {
   icp : opt TransferableAmount;
   has_created_neuron_recipes : opt bool;
