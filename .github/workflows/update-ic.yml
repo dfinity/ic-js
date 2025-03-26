@@ -60,6 +60,11 @@ jobs:
           # Checks whether it was all for nothing.
           # ... Note: Ignores how we got here.
           set +x # Printing the diff to stderr repeatedly can be very noisy.
+          
+          # Debug
+          git diff
+          
+          
           DIFF_IGNORING_PROVENANCE="$(git diff -I '\/\/ Generated from IC repo.*')"
           if [[ "${DIFF_IGNORING_PROVENANCE:-}" == "" ]]
           then
