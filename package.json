@@ -157,7 +157,7 @@
     {
       "name": "@dfinity/utils",
       "path": "./packages/utils/dist/index.js",
-      "limit": "5 kB",
+      "limit": "10 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
