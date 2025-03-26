@@ -74,7 +74,7 @@ jobs:
           
           DIFF_IGNORING_PROVENANCE="$(git diff -I '\/\/ Generated from IC repo.*')"
           
-          if [[ "${DIFF_IGNORING_PROVENANCE:-}" == "" ]]
+          if [[ "${DIFF_IGNORING_PROVENANCE:-}" == "" ]]; then
             echo "NO changes with DIFF_IGNORING_PROVENANCE"
           else
             echo "Changes DETECTED with DIFF_IGNORING_PROVENANCE"
