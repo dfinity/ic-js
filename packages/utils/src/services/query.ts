@@ -26,7 +26,7 @@ import { isNullish } from "../utils/nullish.utils";
  * @param {QueryAndUpdateOnError<E>} [params.onError] The callback to handle the error of the request.
  * @param {QueryAndUpdateOnCertifiedError<E>} [params.onCertifiedError] The additional callback to handle the error of the update request.
  * @param {QueryAndUpdateStrategy} [params.strategy="query_and_update"] The strategy to use. Default is `query_and_update`.
- * @param {OptionIdentity} params.identity The identity to use for the request.
+ * @param {QueryAndUpdateIdentity} params.identity The identity to use for the request.
  * @param {QueryAndUpdatePromiseResolution} [params.resolution="race"] The resolution to use. Default is `race`.
  *
  * @template R The type of the response.

@@ -1,10 +1,10 @@
 import type { Identity } from "@dfinity/agent";
 
-export type OptionIdentity = Identity | undefined | null;
+export type QueryAndUpdateIdentity = Identity | undefined | null;
 
 export interface QueryAndUpdateRequestParams {
   certified: boolean;
-  identity: OptionIdentity;
+  identity: QueryAndUpdateIdentity;
 }
 
 export type QueryAndUpdateRequest<R> = (
@@ -19,7 +19,7 @@ export type QueryAndUpdateOnResponse<R> = (options: {
 export interface QueryAndUpdateOnErrorOptions<E = unknown> {
   error: E;
   // The identity used for the request
-  identity: OptionIdentity;
+  identity: QueryAndUpdateIdentity;
 }
 
 export type QueryAndUpdateOnError<E = unknown> = (
@@ -42,6 +42,6 @@ export interface QueryAndUpdateParams<R, E = unknown> {
   onError?: QueryAndUpdateOnError<E>;
   onCertifiedError?: QueryAndUpdateOnCertifiedError<E>;
   strategy?: QueryAndUpdateStrategy;
-  identity: OptionIdentity;
+  identity: QueryAndUpdateIdentity;
   resolution?: QueryAndUpdatePromiseResolution;
 }
