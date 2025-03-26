@@ -8,6 +8,7 @@
 - Update `@dfinity/ic-management` to support optional new setting `wasm_memory_threshold` and return the new `memory_metrics`.
 - Add `neuronMinimumDissolveDelayToVoteSeconds` to nns `VotingPowerEconomics`.
 - Expose method `status` in class `IcrcIndexNgCanister`.
+- Expose method `icrc3_get_blocks` in class `IcrcLedgerCanister`.
 - New service util `queryAndUpdate` that aids in executing a request and handling the results, for both type of calls.
 
 # 2025.03.10-1330Z
