@@ -1,4 +1,3 @@
-import { expect } from "@jest/globals";
 import { mockIdentity } from "../mocks/identity.mock";
 import type {
   QueryAndUpdateParams,
