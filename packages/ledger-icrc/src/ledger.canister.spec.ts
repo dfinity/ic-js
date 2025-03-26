@@ -650,7 +650,7 @@ describe("Ledger canister", () => {
         archived_blocks: [
           {
             args: [{ start: 0n, length: 1n }],
-            callback: [Principal.fromText("aaaaa-aa"), "icrc3_get_blocks"],
+            callback: [ledgerCanisterIdMock, "icrc3_get_blocks"],
           },
         ],
       };
