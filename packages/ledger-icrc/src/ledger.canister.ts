@@ -193,7 +193,5 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    * @returns {Promise<GetBlocksResult>} The list of blocks.
    */
   getBlocks = (params: GetBlocksParams): Promise<GetBlocksResult> =>
-    this.caller({ certified: params.certified }).icrc3_get_blocks(
-      params.args,
-    );
+    this.caller({ certified: params.certified }).icrc3_get_blocks(params.args);
 }
