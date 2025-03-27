@@ -22,15 +22,13 @@ export interface QueryAndUpdateOnErrorOptions<E = unknown> {
   identity: QueryAndUpdateIdentity;
 }
 
-export type QueryAndUpdateOnError<E = unknown> = (
-  options: {
-    certified: boolean;
-  } & QueryAndUpdateOnErrorOptions<E>,
-) => void;
-
-export type QueryAndUpdateOnCertifiedError<E = unknown> = (
+type QueryAndUpdateOnError<E = unknown> = (
   options: QueryAndUpdateOnErrorOptions<E>,
 ) => void;
+
+export type QueryAndUpdateOnQueryError<E = unknown> = QueryAndUpdateOnError<E>;
+
+export type QueryAndUpdateOnUpdateError<E = unknown> = QueryAndUpdateOnError<E>;
 
 export type QueryAndUpdateStrategy = "query_and_update" | "query" | "update";
 
@@ -39,8 +37,8 @@ export type QueryAndUpdatePromiseResolution = "all_settled" | "race";
 export interface QueryAndUpdateParams<R, E = unknown> {
   request: QueryAndUpdateRequest<R>;
   onLoad: QueryAndUpdateOnResponse<R>;
-  onError?: QueryAndUpdateOnError<E>;
-  onCertifiedError?: QueryAndUpdateOnCertifiedError<E>;
+  onQueryError?: QueryAndUpdateOnQueryError<E>;
+  onUpdateError?: QueryAndUpdateOnUpdateError<E>;
   strategy?: QueryAndUpdateStrategy;
   identity: QueryAndUpdateIdentity;
   resolution?: QueryAndUpdatePromiseResolution;
