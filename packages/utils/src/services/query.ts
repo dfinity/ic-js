@@ -62,7 +62,6 @@ export const queryAndUpdate = async <R, E = unknown>({
           onQueryError?.({ error, identity });
         }
 
-        // Handling certified is handled as: just console error query error and do something with the update error
         if (isNullish(onUpdateError)) {
           return;
         }
