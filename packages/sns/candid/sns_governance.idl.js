@@ -382,6 +382,17 @@ export const idlFactory = ({ IDL }) => {
     'vote' : IDL.Int32,
     'proposal' : IDL.Opt(ProposalId),
   });
+  const Followee = IDL.Record({
+    'alias' : IDL.Opt(IDL.Text),
+    'neuron_id' : IDL.Opt(NeuronId),
+  });
+  const FolloweesForTopic = IDL.Record({
+    'topic' : IDL.Opt(Topic),
+    'followees' : IDL.Vec(Followee),
+  });
+  const SetFollowing = IDL.Record({
+    'topic_following' : IDL.Vec(FolloweesForTopic),
+  });
   const FinalizeDisburseMaturity = IDL.Record({
     'amount_to_be_disbursed_e8s' : IDL.Nat64,
     'to_account' : IDL.Opt(Account),
@@ -415,6 +426,7 @@ export const idlFactory = ({ IDL }) => {
     'DisburseMaturity' : DisburseMaturity,
     'Configure' : Configure,
     'RegisterVote' : RegisterVote,
+    'SetFollowing' : SetFollowing,
     'SyncCommand' : IDL.Record({}),
     'MakeProposal' : Proposal,
     'FinalizeDisburseMaturity' : FinalizeDisburseMaturity,
@@ -449,6 +461,13 @@ export const idlFactory = ({ IDL }) => {
     'maturity_e8s_equivalent' : IDL.Nat64,
     'cached_neuron_stake_e8s' : IDL.Nat64,
     'created_timestamp_seconds' : IDL.Nat64,
+    'topic_followees' : IDL.Opt(
+      IDL.Record({
+        'topic_id_to_followees' : IDL.Vec(
+          IDL.Tuple(IDL.Nat64, FolloweesForTopic)
+        ),
+      })
+    ),
     'source_nns_neuron_id' : IDL.Opt(IDL.Nat64),
     'auto_stake_maturity' : IDL.Opt(IDL.Bool),
     'aging_since_timestamp_seconds' : IDL.Nat64,
@@ -642,6 +661,7 @@ export const idlFactory = ({ IDL }) => {
     'ClaimOrRefresh' : ClaimOrRefresh,
     'Configure' : Configure,
     'RegisterVote' : RegisterVote,
+    'SetFollowing' : SetFollowing,
     'MakeProposal' : Proposal,
     'StakeMaturity' : StakeMaturity,
     'RemoveNeuronPermissions' : RemoveNeuronPermissions,
@@ -678,6 +698,7 @@ export const idlFactory = ({ IDL }) => {
     'ClaimOrRefresh' : ClaimOrRefreshResponse,
     'Configure' : IDL.Record({}),
     'RegisterVote' : IDL.Record({}),
+    'SetFollowing' : IDL.Record({}),
     'MakeProposal' : GetProposal,
     'RemoveNeuronPermission' : IDL.Record({}),
     'StakeMaturity' : StakeMaturityResponse,
@@ -1143,6 +1164,17 @@ export const init = ({ IDL }) => {
     'vote' : IDL.Int32,
     'proposal' : IDL.Opt(ProposalId),
   });
+  const Followee = IDL.Record({
+    'alias' : IDL.Opt(IDL.Text),
+    'neuron_id' : IDL.Opt(NeuronId),
+  });
+  const FolloweesForTopic = IDL.Record({
+    'topic' : IDL.Opt(Topic),
+    'followees' : IDL.Vec(Followee),
+  });
+  const SetFollowing = IDL.Record({
+    'topic_following' : IDL.Vec(FolloweesForTopic),
+  });
   const FinalizeDisburseMaturity = IDL.Record({
     'amount_to_be_disbursed_e8s' : IDL.Nat64,
     'to_account' : IDL.Opt(Account),
@@ -1176,6 +1208,7 @@ export const init = ({ IDL }) => {
     'DisburseMaturity' : DisburseMaturity,
     'Configure' : Configure,
     'RegisterVote' : RegisterVote,
+    'SetFollowing' : SetFollowing,
     'SyncCommand' : IDL.Record({}),
     'MakeProposal' : Proposal,
     'FinalizeDisburseMaturity' : FinalizeDisburseMaturity,
@@ -1210,6 +1243,13 @@ export const init = ({ IDL }) => {
     'maturity_e8s_equivalent' : IDL.Nat64,
     'cached_neuron_stake_e8s' : IDL.Nat64,
     'created_timestamp_seconds' : IDL.Nat64,
+    'topic_followees' : IDL.Opt(
+      IDL.Record({
+        'topic_id_to_followees' : IDL.Vec(
+          IDL.Tuple(IDL.Nat64, FolloweesForTopic)
+        ),
+      })
+    ),
     'source_nns_neuron_id' : IDL.Opt(IDL.Nat64),
     'auto_stake_maturity' : IDL.Opt(IDL.Bool),
     'aging_since_timestamp_seconds' : IDL.Nat64,
