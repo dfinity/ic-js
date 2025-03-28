@@ -54,6 +54,7 @@ import type {
   SnsNeuronStakeMaturityParams,
   SnsRegisterVoteParams,
   SnsSetDissolveTimestampParams,
+  SnsSetFollowingParams,
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
   SnsStakeNeuronParams,
@@ -374,6 +375,10 @@ export class SnsWrapper {
   // Always certified
   setTopicFollowees = (params: SnsSetTopicFollowees): Promise<void> =>
     this.governance.setTopicFollowees(params);
+
+  // Always certified
+  setFollowing = (params: SnsSetFollowingParams): Promise<void> =>
+    this.governance.setFollowing(params);
 
   // Always certified
   registerVote = async (params: SnsRegisterVoteParams): Promise<void> =>
