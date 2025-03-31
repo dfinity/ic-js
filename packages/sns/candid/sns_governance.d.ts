@@ -104,6 +104,7 @@ export type Command =
   | { ClaimOrRefresh: ClaimOrRefresh }
   | { Configure: Configure }
   | { RegisterVote: RegisterVote }
+  | { SetFollowing: SetFollowing }
   | { MakeProposal: Proposal }
   | { StakeMaturity: StakeMaturity }
   | { RemoveNeuronPermissions: RemoveNeuronPermissions }
@@ -118,6 +119,7 @@ export type Command_1 =
   | { ClaimOrRefresh: ClaimOrRefreshResponse }
   | { Configure: {} }
   | { RegisterVote: {} }
+  | { SetFollowing: {} }
   | { MakeProposal: GetProposal }
   | { RemoveNeuronPermission: {} }
   | { StakeMaturity: StakeMaturityResponse }
@@ -130,6 +132,7 @@ export type Command_2 =
   | { DisburseMaturity: DisburseMaturity }
   | { Configure: Configure }
   | { RegisterVote: RegisterVote }
+  | { SetFollowing: SetFollowing }
   | { SyncCommand: {} }
   | { MakeProposal: Proposal }
   | { FinalizeDisburseMaturity: FinalizeDisburseMaturity }
@@ -195,8 +198,16 @@ export interface Follow {
   function_id: bigint;
   followees: Array<NeuronId>;
 }
+export interface Followee {
+  alias: [] | [string];
+  neuron_id: [] | [NeuronId];
+}
 export interface Followees {
   followees: Array<NeuronId>;
+}
+export interface FolloweesForTopic {
+  topic: [] | [Topic];
+  followees: Array<Followee>;
 }
 export type FunctionType =
   | { NativeNervousSystemFunction: {} }
@@ -431,6 +442,9 @@ export interface Neuron {
   maturity_e8s_equivalent: bigint;
   cached_neuron_stake_e8s: bigint;
   created_timestamp_seconds: bigint;
+  topic_followees:
+    | []
+    | [{ topic_id_to_followees: Array<[bigint, FolloweesForTopic]> }];
   source_nns_neuron_id: [] | [bigint];
   auto_stake_maturity: [] | [boolean];
   aging_since_timestamp_seconds: bigint;
@@ -450,15 +464,6 @@ export interface NeuronIds {
 export interface NeuronInFlightCommand {
   command: [] | [Command_2];
   timestamp: bigint;
-}
-export interface NeuronParameters {
-  controller: [] | [Principal];
-  dissolve_delay_seconds: [] | [bigint];
-  source_nns_neuron_id: [] | [bigint];
-  stake_e8s: [] | [bigint];
-  followees: Array<NeuronId>;
-  hotkey: [] | [Principal];
-  neuron_id: [] | [NeuronId];
 }
 export interface NeuronPermission {
   principal: [] | [Principal];
@@ -568,6 +573,9 @@ export interface RewardEvent {
 }
 export interface SetDissolveTimestamp {
   dissolve_timestamp_seconds: bigint;
+}
+export interface SetFollowing {
+  topic_following: Array<FolloweesForTopic>;
 }
 export interface SetMode {
   mode: number;
