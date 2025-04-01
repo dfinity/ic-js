@@ -54,12 +54,12 @@ export const queryAndUpdate = async <R, E = unknown>({
         onLoad({ certified, response });
       })
       .catch((error: E) => {
-        if (certifiedDone) {
-          return;
-        }
-
         if (!certified) {
           onQueryError?.({ error, identity });
+        }
+
+        if (certifiedDone) {
+          return;
         }
 
         if (isNullish(onUpdateError)) {
