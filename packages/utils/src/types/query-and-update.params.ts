@@ -22,7 +22,6 @@ export interface QueryAndUpdateOnErrorOptions<E = unknown> {
   identity: QueryAndUpdateIdentity;
 }
 
-
 export type QueryAndUpdateOnError<E = unknown> = (
   options: QueryAndUpdateOnErrorOptions<E>,
 ) => void;
