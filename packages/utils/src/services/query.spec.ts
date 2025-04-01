@@ -347,7 +347,7 @@ describe("query", () => {
               };
             });
 
-            it("should call `onError` only with `query` error", async () => {
+            it("should call `onError` with `query` error", async () => {
               const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
