@@ -26,9 +26,9 @@ type QueryAndUpdateOnError<E = unknown> = (
   options: QueryAndUpdateOnErrorOptions<E>,
 ) => void;
 
-export type QueryAndUpdateOnQueryError<E = unknown> = QueryAndUpdateOnError<E>
+export type QueryAndUpdateOnQueryError<E = unknown> = QueryAndUpdateOnError<E>;
 
-export type QueryAndUpdateOnUpdateError<E = unknown> = QueryAndUpdateOnError<E>
+export type QueryAndUpdateOnUpdateError<E = unknown> = QueryAndUpdateOnError<E>;
 
 export type QueryAndUpdateStrategy = "query_and_update" | "query" | "update";
 
