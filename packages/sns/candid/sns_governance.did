@@ -1,4 +1,4 @@
-// Generated from IC repo commit 10e1480992 (2025-04-01) 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit fdd946f771 (2025-03-26) 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;
@@ -520,7 +520,7 @@ type Neuron = record {
   disburse_maturity_in_progress : vec DisburseMaturityInProgress;
   followees : vec record { nat64; Followees };
   topic_followees : opt record {
-    topic_id_to_followees : vec record { int32; FolloweesForTopic };
+    topic_id_to_followees : vec record { nat64; FolloweesForTopic };
   };
   neuron_fees_e8s : nat64;
 };

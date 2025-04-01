@@ -464,7 +464,7 @@ export const idlFactory = ({ IDL }) => {
     'topic_followees' : IDL.Opt(
       IDL.Record({
         'topic_id_to_followees' : IDL.Vec(
-          IDL.Tuple(IDL.Int32, FolloweesForTopic)
+          IDL.Tuple(IDL.Nat64, FolloweesForTopic)
         ),
       })
     ),
@@ -1246,7 +1246,7 @@ export const init = ({ IDL }) => {
     'topic_followees' : IDL.Opt(
       IDL.Record({
         'topic_id_to_followees' : IDL.Vec(
-          IDL.Tuple(IDL.Int32, FolloweesForTopic)
+          IDL.Tuple(IDL.Nat64, FolloweesForTopic)
         ),
       })
     ),

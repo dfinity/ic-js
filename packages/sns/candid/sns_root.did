@@ -1,4 +1,4 @@
-// Generated from IC repo commit 10e1480992 (2025-04-01) 'rs/sns/root/canister/root.did' by import-candid
+// Generated from IC repo commit fdd946f771 (2025-03-26) 'rs/sns/root/canister/root.did' by import-candid
 type CanisterCallError = record {
   code : opt int32;
   description : text;
