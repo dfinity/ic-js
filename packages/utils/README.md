@@ -36,6 +36,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [nonNullish](#gear-nonnullish)
 - [notEmptyString](#gear-notemptystring)
 - [isEmptyString](#gear-isemptystring)
+- [queryAndUpdate](#gear-queryandupdate)
 - [defaultAgent](#gear-defaultagent)
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
@@ -139,6 +140,45 @@ Parameters:
 - `value`: - The value to check.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L39)
+
+#### :gear: queryAndUpdate
+
+This service performs a query (not-certified) call and/or an update (certified) call, and handles the results.
+
+It is useful because it can do both type of calls for security reasons.
+For example, malicious nodes can forge transactions and balance when calling an Index canister, if no update is performed to certify the results.
+
+Furthermore, it can handle the results of the calls in different ways:
+
+- `query` only performs a query call.
+- `update` only performs an update call.
+- `query_and_update` performs both calls.
+
+The resolution can be:
+
+- `all_settled` waits for all calls to settle.
+- `race` waits for the first call to settle (typically, `query` is the fastest one).
+
+Once the call(s) are done, the response is handled by the `onLoad` callback.
+However, if an error occurs, it is handled by the `onError` callback, if provided.
+In addition, if the error is from the update call, the `onCertifiedError` callback is called too, if provided.
+
+| Function         | Type                                                                                                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `queryAndUpdate` | `<R, E = unknown>({ request, onLoad, onError, onCertifiedError, strategy, identity, resolution, }: QueryAndUpdateParams<R, E>) => Promise<void>` |
+
+Parameters:
+
+- `params`: The parameters to perform the request.
+- `params.request`: The request to perform.
+- `params.onLoad`: The callback to handle the response of the request.
+- `params.onError`: The callback to handle the error of the request.
+- `params.onCertifiedError`: The additional callback to handle the error of the update request.
+- `params.strategy`: The strategy to use. Default is `query_and_update`.
+- `params.identity`: The identity to use for the request.
+- `params.resolution`: The resolution to use. Default is `race`.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/query.ts#L37)
 
 #### :gear: defaultAgent
 
