@@ -161,11 +161,11 @@ The resolution can be:
 
 Once the call(s) are done, the response is handled by the `onLoad` callback.
 However, if an error occurs, it is handled by the `onError` callback, if provided.
-In addition, if the error is from the update call, the `onCertifiedError` callback is called too, if provided.
+In addition, if the error is from the update call, the `onUpdateError` callback is called too, if provided.
 
-| Function         | Type                                                                                                                                             |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `queryAndUpdate` | `<R, E = unknown>({ request, onLoad, onError, onCertifiedError, strategy, identity, resolution, }: QueryAndUpdateParams<R, E>) => Promise<void>` |
+| Function         | Type                                                                                                                                          |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `queryAndUpdate` | `<R, E = unknown>({ request, onLoad, onError, onUpdateError, strategy, identity, resolution, }: QueryAndUpdateParams<R, E>) => Promise<void>` |
 
 Parameters:
 
@@ -173,7 +173,7 @@ Parameters:
 - `params.request`: The request to perform.
 - `params.onLoad`: The callback to handle the response of the request.
 - `params.onError`: The callback to handle the error of the request.
-- `params.onCertifiedError`: The additional callback to handle the error of the update request.
+- `params.onUpdateError`: The additional callback to handle the error of the update request.
 - `params.strategy`: The strategy to use. Default is `query_and_update`.
 - `params.identity`: The identity to use for the request.
 - `params.resolution`: The resolution to use. Default is `race`.
