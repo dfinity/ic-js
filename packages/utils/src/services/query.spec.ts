@@ -909,6 +909,11 @@ describe("query", () => {
                 error: queryErrorObj,
                 identity: mockIdentity,
               });
+              expect(onErrorMock).toHaveBeenNthCalledWith(2, {
+                certified: false,
+                error: queryErrorObj,
+                identity: mockIdentity,
+              });
             });
 
             it("should call `onUpdateError` with `update` error", async () => {
