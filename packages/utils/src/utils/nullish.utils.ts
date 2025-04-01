@@ -36,5 +36,5 @@ export const notEmptyString = (
  * @param {string | undefined | null} value - The value to check.
  * @returns {boolean} `true` if the value is null, undefined, or an empty string; otherwise, `false`.
  */
-export const isEmptyString = (value: string | undefined | null): boolean =>
+export const isEmptyString = (value: string | undefined | null): value is undefined | null | '' =>
   !notEmptyString(value);
