@@ -23,12 +23,10 @@ export interface QueryAndUpdateOnErrorOptions<E = unknown> {
 }
 
 export type QueryAndUpdateOnError<E = unknown> = (
-  options: {
-    certified: boolean;
-  } & QueryAndUpdateOnErrorOptions<E>,
+  options: QueryAndUpdateOnErrorOptions<E>,
 ) => void;
 
-export type QueryAndUpdateOnCertifiedError<E = unknown> = (
+export type QueryAndUpdateOnUpdateError<E = unknown> = (
   options: QueryAndUpdateOnErrorOptions<E>,
 ) => void;
 
@@ -40,7 +38,7 @@ export interface QueryAndUpdateParams<R, E = unknown> {
   request: QueryAndUpdateRequest<R>;
   onLoad: QueryAndUpdateOnResponse<R>;
   onError?: QueryAndUpdateOnError<E>;
-  onCertifiedError?: QueryAndUpdateOnCertifiedError<E>;
+  onUpdateError?: QueryAndUpdateOnUpdateError<E>;
   strategy?: QueryAndUpdateStrategy;
   identity: QueryAndUpdateIdentity;
   resolution?: QueryAndUpdatePromiseResolution;

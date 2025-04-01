@@ -160,25 +160,24 @@ The resolution can be:
 - `race` waits for the first call to settle (typically, `query` is the fastest one).
 
 Once the call(s) are done, the response is handled by the `onLoad` callback.
-However, if an error occurs, it is handled by the `onError` callback, if provided.
-In addition, if the error is from the update call, the `onCertifiedError` callback is called too, if provided.
+However, if an error occurs, it is handled by the error callbacks, if provided: one for the query call and one for the update call.
 
-| Function         | Type                                                                                                                                             |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `queryAndUpdate` | `<R, E = unknown>({ request, onLoad, onError, onCertifiedError, strategy, identity, resolution, }: QueryAndUpdateParams<R, E>) => Promise<void>` |
+| Function         | Type                                                                                                                                          |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `queryAndUpdate` | `<R, E = unknown>({ request, onLoad, onError, onUpdateError, strategy, identity, resolution, }: QueryAndUpdateParams<R, E>) => Promise<void>` |
 
 Parameters:
 
 - `params`: The parameters to perform the request.
 - `params.request`: The request to perform.
 - `params.onLoad`: The callback to handle the response of the request.
-- `params.onError`: The callback to handle the error of the request.
-- `params.onCertifiedError`: The additional callback to handle the error of the update request.
+- `params.onError`: The callback to handle the error of the `query` request.
+- `params.onUpdateError`: The callback to handle the error of the `update` request.
 - `params.strategy`: The strategy to use. Default is `query_and_update`.
 - `params.identity`: The identity to use for the request.
 - `params.resolution`: The resolution to use. Default is `race`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/query.ts#L37)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/query.ts#L36)
 
 #### :gear: defaultAgent
 
