@@ -18,13 +18,13 @@ import { isNullish } from "../utils/nullish.utils";
  *
  * Once the call(s) are done, the response is handled by the `onLoad` callback.
  * However, if an error occurs, it is handled by the `onError` callback, if provided.
- * In addition, if the error is from the update call, the `onCertifiedError` callback is called too, if provided.
+ * In addition, if the error is from the update call, the `onUpdateError` callback is called too, if provided.
  *
  * @param {QueryAndUpdateParams<R, E>} params The parameters to perform the request.
  * @param {QueryAndUpdateRequest<R>} params.request The request to perform.
  * @param {QueryAndUpdateOnResponse<R>} params.onLoad The callback to handle the response of the request.
  * @param {QueryAndUpdateOnError<E>} [params.onError] The callback to handle the error of the request.
- * @param {QueryAndUpdateOnCertifiedError<E>} [params.onCertifiedError] The additional callback to handle the error of the update request.
+ * @param {QueryAndUpdateOnUpdateError<E>} [params.onUpdateError] The additional callback to handle the error of the update request.
  * @param {QueryAndUpdateStrategy} [params.strategy="query_and_update"] The strategy to use. Default is `query_and_update`.
  * @param {QueryAndUpdateIdentity} params.identity The identity to use for the request.
  * @param {QueryAndUpdatePromiseResolution} [params.resolution="race"] The resolution to use. Default is `race`.
@@ -38,7 +38,7 @@ export const queryAndUpdate = async <R, E = unknown>({
   request,
   onLoad,
   onError,
-  onCertifiedError,
+  onUpdateError,
   strategy = "query_and_update",
   identity,
   resolution = "race",
@@ -62,7 +62,7 @@ export const queryAndUpdate = async <R, E = unknown>({
         onError?.({ certified, error, identity });
 
         // Handling certified is handled as: just console error query error and do something with the update error
-        if (isNullish(onCertifiedError)) {
+        if (isNullish(onUpdateError)) {
           return;
         }
 
@@ -72,7 +72,7 @@ export const queryAndUpdate = async <R, E = unknown>({
           return;
         }
 
-        onCertifiedError?.({ error, identity });
+        onUpdateError?.({ error, identity });
       })
       .finally(() => (certifiedDone = certifiedDone || certified));
 
