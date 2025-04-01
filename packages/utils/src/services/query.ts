@@ -72,7 +72,7 @@ export const queryAndUpdate = async <R, E = unknown>({
           return;
         }
 
-        onUpdateError?.({ error, identity });
+        onUpdateError({ error, identity });
       })
       .finally(() => (certifiedDone = certifiedDone || certified));
 
