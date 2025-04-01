@@ -33,7 +33,7 @@ describe("query", () => {
       mockParams: QueryAndUpdateParams<string>;
       requestMock: jest.Mock;
       onLoadMock: jest.Mock;
-      onQueryErrorMock: jest.Mock;
+      onErrorMock: jest.Mock;
       onUpdateErrorMock: jest.Mock;
     } => {
       const {
@@ -49,7 +49,7 @@ describe("query", () => {
         .fn()
         .mockResolvedValue(requestResponse);
       const onLoadMock: jest.Mock = jest.fn();
-      const onQueryErrorMock: jest.Mock = jest.fn();
+      const onErrorMock: jest.Mock = jest.fn();
       const onUpdateErrorMock: jest.Mock = jest.fn();
 
       const mockQueryResult: jest.Mock = jest
@@ -97,7 +97,7 @@ describe("query", () => {
       const mockParams: QueryAndUpdateParams<string> = {
         request: requestMock,
         onLoad: onLoadMock,
-        onQueryError: onQueryErrorMock,
+        onError: onErrorMock,
         onUpdateError: onUpdateErrorMock,
         identity: mockIdentity,
         resolution,
@@ -108,7 +108,7 @@ describe("query", () => {
         mockParams,
         requestMock,
         onLoadMock,
-        onQueryErrorMock,
+        onErrorMock,
         onUpdateErrorMock,
       };
     };
@@ -182,12 +182,12 @@ describe("query", () => {
       });
 
       describe("when both requests succeed", () => {
-        it("should not call `onQueryError`", async () => {
-          const { mockParams, onQueryErrorMock } = createMockParams();
+        it("should not call `onError`", async () => {
+          const { mockParams, onErrorMock } = createMockParams();
 
           await queryAndUpdate(mockParams);
 
-          expect(onQueryErrorMock).not.toHaveBeenCalled();
+          expect(onErrorMock).not.toHaveBeenCalled();
         });
 
         it("should not call `onUpdateError`", async () => {
@@ -262,12 +262,12 @@ describe("query", () => {
               });
             });
 
-            it("should not call `onQueryError`", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should not call `onError`", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).not.toHaveBeenCalled();
+              expect(onErrorMock).not.toHaveBeenCalled();
             });
 
             it("should ignore `update` error and not call `onUpdateError`", async () => {
@@ -304,13 +304,13 @@ describe("query", () => {
               expect(onLoadMock).not.toHaveBeenCalled();
             });
 
-            it("should ignore `update` response and call `onQueryError` with query error", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should ignore `update` response and call `onError` with query error", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).toHaveBeenCalledTimes(1);
-              expect(onQueryErrorMock).toHaveBeenNthCalledWith(1, {
+              expect(onErrorMock).toHaveBeenCalledTimes(1);
+              expect(onErrorMock).toHaveBeenNthCalledWith(1, {
                 error: queryErrorObj,
                 identity: mockIdentity,
               });
@@ -347,13 +347,13 @@ describe("query", () => {
               };
             });
 
-            it("should call `onQueryError` only with `query` error", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should call `onError` only with `query` error", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).toHaveBeenCalledTimes(1);
-              expect(onQueryErrorMock).toHaveBeenNthCalledWith(1, {
+              expect(onErrorMock).toHaveBeenCalledTimes(1);
+              expect(onErrorMock).toHaveBeenNthCalledWith(1, {
                 error: queryErrorObj,
                 identity: mockIdentity,
               });
@@ -433,12 +433,12 @@ describe("query", () => {
               });
             });
 
-            it("should not call `onQueryError", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should not call `onError", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).not.toHaveBeenCalled();
+              expect(onErrorMock).not.toHaveBeenCalled();
             });
 
             it("should call `onUpdateError` with `update` error", async () => {
@@ -495,13 +495,13 @@ describe("query", () => {
               });
             });
 
-            it("should call `onQueryError` with `query` error", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should call `onError` with `query` error", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).toHaveBeenCalledTimes(1);
-              expect(onQueryErrorMock).toHaveBeenNthCalledWith(1, {
+              expect(onErrorMock).toHaveBeenCalledTimes(1);
+              expect(onErrorMock).toHaveBeenNthCalledWith(1, {
                 error: queryErrorObj,
                 identity: mockIdentity,
               });
@@ -546,13 +546,13 @@ describe("query", () => {
               };
             });
 
-            it("should call `onQueryError` with `query` error", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should call `onError` with `query` error", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).toHaveBeenCalledTimes(1);
-              expect(onQueryErrorMock).toHaveBeenNthCalledWith(1, {
+              expect(onErrorMock).toHaveBeenCalledTimes(1);
+              expect(onErrorMock).toHaveBeenNthCalledWith(1, {
                 error: queryErrorObj,
                 identity: mockIdentity,
               });
@@ -631,12 +631,12 @@ describe("query", () => {
               expect(onLoadMock).not.toHaveBeenCalled();
             });
 
-            it("should not call `onQueryError`", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should not call `onError`", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).not.toHaveBeenCalled();
+              expect(onErrorMock).not.toHaveBeenCalled();
             });
 
             it("should ignore `query` response and call `onUpdateError` with `update` error", async () => {
@@ -693,12 +693,12 @@ describe("query", () => {
               });
             });
 
-            it("should ignore `query` error and not call `onQueryError`", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should ignore `query` error and not call `onError`", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).not.toHaveBeenCalled();
+              expect(onErrorMock).not.toHaveBeenCalled();
             });
 
             it("should ignore `query` error and not log the console error", async () => {
@@ -720,12 +720,12 @@ describe("query", () => {
               };
             });
 
-            it("should ignore `query` error and not call `onQueryError`", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should ignore `query` error and not call `onError`", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).not.toHaveBeenCalled();
+              expect(onErrorMock).not.toHaveBeenCalled();
             });
 
             it("should call `onUpdateError` with `update` error", async () => {
@@ -798,12 +798,12 @@ describe("query", () => {
               expect(onLoadMock).not.toHaveBeenCalled();
             });
 
-            it("should not call `onQueryError`", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should not call `onError`", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).not.toHaveBeenCalled();
+              expect(onErrorMock).not.toHaveBeenCalled();
             });
 
             it("should call `onUpdateError` with `update` error", async () => {
@@ -860,13 +860,13 @@ describe("query", () => {
               });
             });
 
-            it("should call `onQueryError` with `query` error", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should call `onError` with `query` error", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).toHaveBeenCalledTimes(1);
-              expect(onQueryErrorMock).toHaveBeenNthCalledWith(1, {
+              expect(onErrorMock).toHaveBeenCalledTimes(1);
+              expect(onErrorMock).toHaveBeenNthCalledWith(1, {
                 error: queryErrorObj,
                 identity: mockIdentity,
               });
@@ -899,18 +899,13 @@ describe("query", () => {
               };
             });
 
-            it("should call `onQueryError` with `query` error", async () => {
-              const { mockParams, onQueryErrorMock } = createMockParams();
+            it("should call `onError` with `query` error", async () => {
+              const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onQueryErrorMock).toHaveBeenCalledTimes(1);
-              expect(onQueryErrorMock).toHaveBeenNthCalledWith(1, {
-                error: queryErrorObj,
-                identity: mockIdentity,
-              });
-              expect(onErrorMock).toHaveBeenNthCalledWith(2, {
-                certified: false,
+              expect(onErrorMock).toHaveBeenCalledTimes(1);
+              expect(onErrorMock).toHaveBeenNthCalledWith(1, {
                 error: queryErrorObj,
                 identity: mockIdentity,
               });
@@ -983,15 +978,15 @@ describe("query", () => {
         });
       });
 
-      it("should call `onQueryError` if `query` fails", async () => {
+      it("should call `onError` if `query` fails", async () => {
         params = { ...params, requestError: true };
 
-        const { mockParams, onQueryErrorMock } = createMockParams();
+        const { mockParams, onErrorMock } = createMockParams();
 
         await queryAndUpdate(mockParams);
 
-        expect(onQueryErrorMock).toHaveBeenCalledTimes(1);
-        expect(onQueryErrorMock).toHaveBeenNthCalledWith(1, {
+        expect(onErrorMock).toHaveBeenCalledTimes(1);
+        expect(onErrorMock).toHaveBeenNthCalledWith(1, {
           error: requestErrorObj,
           identity: mockIdentity,
         });
@@ -1063,14 +1058,14 @@ describe("query", () => {
         });
       });
 
-      it("should not call `onQueryError` if `update` fails", async () => {
+      it("should not call `onError` if `update` fails", async () => {
         params = { ...params, requestError: true };
 
-        const { mockParams, onQueryErrorMock } = createMockParams();
+        const { mockParams, onErrorMock } = createMockParams();
 
         await queryAndUpdate(mockParams);
 
-        expect(onQueryErrorMock).not.toHaveBeenCalled();
+        expect(onErrorMock).not.toHaveBeenCalled();
       });
 
       it("should call `onUpdateError` if `update` fails", async () => {

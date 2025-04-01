@@ -22,7 +22,7 @@ import { isNullish } from "../utils/nullish.utils";
  * @param {QueryAndUpdateParams<R, E>} params The parameters to perform the request.
  * @param {QueryAndUpdateRequest<R>} params.request The request to perform.
  * @param {QueryAndUpdateOnResponse<R>} params.onLoad The callback to handle the response of the request.
- * @param {QueryAndUpdateOnQueryError<E>} [params.onQueryError] The callback to handle the error of the `query` request.
+ * @param {QueryAndUpdateOnError<E>} [params.onError] The callback to handle the error of the `query` request.
  * @param {QueryAndUpdateOnUpdateError<E>} [params.onUpdateError] The callback to handle the error of the `update` request.
  * @param {QueryAndUpdateStrategy} [params.strategy="query_and_update"] The strategy to use. Default is `query_and_update`.
  * @param {QueryAndUpdateIdentity} params.identity The identity to use for the request.
@@ -36,7 +36,7 @@ import { isNullish } from "../utils/nullish.utils";
 export const queryAndUpdate = async <R, E = unknown>({
   request,
   onLoad,
-  onQueryError,
+  onError,
   onUpdateError,
   strategy = "query_and_update",
   identity,
@@ -55,7 +55,7 @@ export const queryAndUpdate = async <R, E = unknown>({
       })
       .catch((error: E) => {
         if (!certified) {
-          onQueryError?.({ error, identity });
+          onError?.({ error, identity });
         }
 
         if (certifiedDone) {

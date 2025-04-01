@@ -22,13 +22,14 @@ export interface QueryAndUpdateOnErrorOptions<E = unknown> {
   identity: QueryAndUpdateIdentity;
 }
 
-type QueryAndUpdateOnError<E = unknown> = (
+
+export type QueryAndUpdateOnError<E = unknown> = (
   options: QueryAndUpdateOnErrorOptions<E>,
 ) => void;
 
-export type QueryAndUpdateOnQueryError<E = unknown> = QueryAndUpdateOnError<E>;
-
-export type QueryAndUpdateOnUpdateError<E = unknown> = QueryAndUpdateOnError<E>;
+export type QueryAndUpdateOnUpdateError<E = unknown> = (
+  options: QueryAndUpdateOnErrorOptions<E>,
+) => void;
 
 export type QueryAndUpdateStrategy = "query_and_update" | "query" | "update";
 
@@ -37,7 +38,7 @@ export type QueryAndUpdatePromiseResolution = "all_settled" | "race";
 export interface QueryAndUpdateParams<R, E = unknown> {
   request: QueryAndUpdateRequest<R>;
   onLoad: QueryAndUpdateOnResponse<R>;
-  onQueryError?: QueryAndUpdateOnQueryError<E>;
+  onError?: QueryAndUpdateOnError<E>;
   onUpdateError?: QueryAndUpdateOnUpdateError<E>;
   strategy?: QueryAndUpdateStrategy;
   identity: QueryAndUpdateIdentity;
