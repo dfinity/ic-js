@@ -889,12 +889,17 @@ describe("query", () => {
               });
             });
 
-            it("should ignore `query` error and not call `onError`", async () => {
+            it("should call `onError` only with `query` error", async () => {
               const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onErrorMock).not.toHaveBeenCalled();
+              expect(onErrorMock).toHaveBeenCalledTimes(1);
+              expect(onErrorMock).toHaveBeenNthCalledWith(1, {
+                certified: false,
+                error: queryErrorObj,
+                identity: mockIdentity,
+              });
             });
 
             it("should not call `onCertifiedError`", async () => {
@@ -924,15 +929,20 @@ describe("query", () => {
               };
             });
 
-            it("should call `onError` only with `update` error", async () => {
+            it("should call `onError` first with `update` error and then with `query` error", async () => {
               const { mockParams, onErrorMock } = createMockParams();
 
               await queryAndUpdate(mockParams);
 
-              expect(onErrorMock).toHaveBeenCalledTimes(1);
+              expect(onErrorMock).toHaveBeenCalledTimes(2);
               expect(onErrorMock).toHaveBeenNthCalledWith(1, {
                 certified: true,
                 error: updateErrorObj,
+                identity: mockIdentity,
+              });
+              expect(onErrorMock).toHaveBeenNthCalledWith(2, {
+                certified: false,
+                error: queryErrorObj,
                 identity: mockIdentity,
               });
             });
