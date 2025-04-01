@@ -23,9 +23,7 @@ export interface QueryAndUpdateOnErrorOptions<E = unknown> {
 }
 
 export type QueryAndUpdateOnError<E = unknown> = (
-  options: {
-    certified: boolean;
-  } & QueryAndUpdateOnErrorOptions<E>,
+  options: QueryAndUpdateOnErrorOptions<E>,
 ) => void;
 
 export type QueryAndUpdateOnUpdateError<E = unknown> = (
