@@ -2,6 +2,8 @@ export type {
   Action as SnsAction,
   Ballot as SnsBallot,
   DefaultFollowees as SnsDefaultFollowees,
+  Followee as SnsFollowee,
+  FolloweesForTopic as SnsFolloweesForTopic,
   FunctionType as SnsFunctionType,
   GetMetadataResponse as SnsGetMetadataResponse,
   ListNervousSystemFunctionsResponse as SnsListNervousSystemFunctionsResponse,
@@ -18,6 +20,8 @@ export type {
   ProposalId as SnsProposalId,
   Tally as SnsTally,
   VotingRewardsParameters as SnsVotingRewardsParameters,
+  Topic as SnsTopic,
+  TopicInfo as SnsTopicInfo,
 } from "../candid/sns_governance";
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
 export type {
