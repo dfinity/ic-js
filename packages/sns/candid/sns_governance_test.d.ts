@@ -459,7 +459,7 @@ export interface Neuron {
   created_timestamp_seconds: bigint;
   topic_followees:
     | []
-    | [{ topic_id_to_followees: Array<[bigint, FolloweesForTopic]> }];
+    | [{ topic_id_to_followees: Array<[number, FolloweesForTopic]> }];
   source_nns_neuron_id: [] | [bigint];
   auto_stake_maturity: [] | [boolean];
   aging_since_timestamp_seconds: bigint;

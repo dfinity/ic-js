@@ -36,6 +36,7 @@ import {
   toRegisterVoteRequest,
   toRemovePermissionsRequest,
   toSetDissolveTimestampRequest,
+  toSetFollowingRequest,
   toSplitNeuronRequest,
   toStakeMaturityRequest,
   toStartDissolvingNeuronRequest,
@@ -58,6 +59,7 @@ import type {
   SnsNeuronStakeMaturityParams,
   SnsRegisterVoteParams,
   SnsSetDissolveTimestampParams,
+  SnsSetFollowingParams,
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
@@ -358,10 +360,19 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   };
 
   /**
-   * Sets followees of a neuron for a specific Nervous System Function (topic)
+   * Sets followees of a neuron for a specific Nervous System Function
+   * @deprecated will be replaced by `setFollowing` in the future.
    */
   setTopicFollowees = async (params: SnsSetTopicFollowees): Promise<void> => {
     const request: ManageNeuron = toFollowRequest(params);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Sets followees of a neuron for topics
+   */
+  setFollowing = async (params: SnsSetFollowingParams): Promise<void> => {
+    const request: ManageNeuron = toSetFollowingRequest(params);
     await this.manageNeuron(request);
   };
 

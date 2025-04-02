@@ -14,6 +14,7 @@ import type {
   NervousSystemParameters,
   NeuronId,
   _SERVICE as SnsGovernanceService,
+  Topic,
 } from "../candid/sns_governance";
 import {
   DEFAULT_PROPOSALS_LIMIT,
@@ -903,6 +904,114 @@ describe("Governance canister", () => {
 
       await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
+    });
+  });
+
+  describe("setFollowing", () => {
+    const neuronId: NeuronId = {
+      id: arrayOfNumberToUint8Array([0, 1, 2]),
+    };
+    const neuronId1: NeuronId = {
+      id: arrayOfNumberToUint8Array([1, 2, 3]),
+    };
+    const neuronId2: NeuronId = {
+      id: arrayOfNumberToUint8Array([2, 3, 4]),
+    };
+    const topic1: Topic = { DappCanisterManagement: null };
+    const topic2: Topic = { Governance: null };
+    const alias: string = "alias";
+
+    it("should call manageNeuron", async () => {
+      const request: ManageNeuron = {
+        subaccount: neuronId.id,
+        command: [
+          {
+            SetFollowing: {
+              topic_following: [
+                {
+                  topic: [topic1],
+                  followees: [
+                    {
+                      neuron_id: [neuronId1],
+                      alias: [alias],
+                    },
+                    {
+                      neuron_id: [neuronId2],
+                      alias: [],
+                    },
+                  ],
+                },
+                {
+                  topic: [topic2],
+                  followees: [
+                    {
+                      neuron_id: [neuronId2],
+                      alias: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue({
+        command: [{ SetFollowing: {} }],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await canister.setFollowing({
+        neuronId,
+        topicFollowing: [
+          {
+            topic: topic1,
+            followees: [
+              {
+                neuronId: neuronId1,
+                alias,
+              },
+              {
+                neuronId: neuronId2,
+              },
+            ],
+          },
+          {
+            topic: topic2,
+            followees: [
+              {
+                neuronId: neuronId2,
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(service.manage_neuron).toHaveBeenCalled();
+      expect(service.manage_neuron).toHaveBeenCalledWith(request);
+    });
+
+    it("should raise an error", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      service.manage_neuron.mockResolvedValue(mockErrorCommand);
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+      const call = () =>
+        canister.setFollowing({
+          neuronId,
+          topicFollowing: [],
+        });
+
+      await expect(call).rejects.toThrow(SnsGovernanceError);
+      expect(service.manage_neuron).toHaveBeenCalled();
     });
   });
 
