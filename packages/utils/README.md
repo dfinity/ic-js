@@ -131,9 +131,9 @@ Parameters:
 
 Checks if a given value is null, undefined, or an empty string.
 
-| Function        | Type                                              |
-| --------------- | ------------------------------------------------- |
-| `isEmptyString` | `(value: string or null or undefined) => boolean` |
+| Function        | Type                                                                       |
+| --------------- | -------------------------------------------------------------------------- |
+| `isEmptyString` | `(value: string or null or undefined) => value is "" or null or undefined` |
 
 Parameters:
 
