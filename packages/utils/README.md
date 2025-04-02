@@ -162,16 +162,16 @@ The resolution can be:
 Once the call(s) are done, the response is handled by the `onLoad` callback.
 However, if an error occurs, it is handled by the error callbacks, if provided: one for the query call and one for the update call.
 
-| Function         | Type                                                                                                                                          |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `queryAndUpdate` | `<R, E = unknown>({ request, onLoad, onError, onUpdateError, strategy, identity, resolution, }: QueryAndUpdateParams<R, E>) => Promise<void>` |
+| Function         | Type                                                                                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `queryAndUpdate` | `<R, E = unknown>({ request, onLoad, onQueryError, onUpdateError, strategy, identity, resolution, }: QueryAndUpdateParams<R, E>) => Promise<void>` |
 
 Parameters:
 
 - `params`: The parameters to perform the request.
 - `params.request`: The request to perform.
 - `params.onLoad`: The callback to handle the response of the request.
-- `params.onError`: The callback to handle the error of the `query` request.
+- `params.onQueryError`: The callback to handle the error of the `query` request.
 - `params.onUpdateError`: The callback to handle the error of the `update` request.
 - `params.strategy`: The strategy to use. Default is `query_and_update`.
 - `params.identity`: The identity to use for the request.
