@@ -19,9 +19,9 @@ export type {
   ProposalData as SnsProposalData,
   ProposalId as SnsProposalId,
   Tally as SnsTally,
-  VotingRewardsParameters as SnsVotingRewardsParameters,
   Topic as SnsTopic,
   TopicInfo as SnsTopicInfo,
+  VotingRewardsParameters as SnsVotingRewardsParameters,
 } from "../candid/sns_governance";
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
 export type {
