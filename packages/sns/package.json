@@ -38,7 +38,7 @@
   "peerDependencies": {
     "@dfinity/agent": "^2.0.0",
     "@dfinity/candid": "^2.0.0",
-    "@dfinity/ledger-icrc": "^2.7.6",
+    "@dfinity/ledger-icrc": "^2.8.0",
     "@dfinity/principal": "^2.0.0",
     "@dfinity/utils": "^2.11.0"
   },
