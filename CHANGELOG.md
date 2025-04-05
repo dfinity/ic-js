@@ -3,12 +3,12 @@
 ## Overview
 
 | Library                  | Version | Status       |
-| ------------------------ | ------- | ------------ |
-| `@dfinity/ckbtc`         | v3.1.10 | Unchanged️   |
-| `@dfinity/cketh`         | v3.4.7  | Unchanged️   |
-| `@dfinity/cmc`           | v5.0.3  | Unchanged️   |
+| ------------------------ |---------| ------------ |
+| `@dfinity/ckbtc`         | v3.1.11 | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.8  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.4  | Maintained ⚙️ |
 | `@dfinity/ic-management` | v6.1.0  | Enhanced 🔧️ |
-| `@dfinity/ledger-icp`    | v2.6.11 | Unchanged️   |
+| `@dfinity/ledger-icp`    | v2.6.12 | Maintained ⚙️ |
 | `@dfinity/ledger-icrc`   | v2.8.0  | Enhanced 🔧️ |
 | `@dfinity/nns`           | v8.4.0  | Enhanced 🔧️ |
 | `@dfinity/nns-proto`     | v2.0.2  | Unchanged️   |
