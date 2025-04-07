@@ -487,10 +487,6 @@ export const idlFactory = ({ IDL }) => {
     'transfer_timestamp' : IDL.Nat64,
     'block_height' : IDL.Nat64,
   });
-  const Followers = IDL.Record({ 'followers' : IDL.Vec(NeuronId) });
-  const FollowersMap = IDL.Record({
-    'followers_map' : IDL.Vec(IDL.Tuple(IDL.Nat64, Followers)),
-  });
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
@@ -660,7 +656,6 @@ export const idlFactory = ({ IDL }) => {
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'to_claim_transfers' : IDL.Vec(NeuronStakeTransfer),
     'short_voting_period_seconds' : IDL.Nat64,
-    'topic_followee_index' : IDL.Vec(IDL.Tuple(IDL.Int32, FollowersMap)),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'xdr_conversion_rate' : IDL.Opt(XdrConversionRate),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInFlightCommand)),
@@ -1491,10 +1486,6 @@ export const init = ({ IDL }) => {
     'transfer_timestamp' : IDL.Nat64,
     'block_height' : IDL.Nat64,
   });
-  const Followers = IDL.Record({ 'followers' : IDL.Vec(NeuronId) });
-  const FollowersMap = IDL.Record({
-    'followers_map' : IDL.Vec(IDL.Tuple(IDL.Nat64, Followers)),
-  });
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
@@ -1664,7 +1655,6 @@ export const init = ({ IDL }) => {
     'latest_reward_event' : IDL.Opt(RewardEvent),
     'to_claim_transfers' : IDL.Vec(NeuronStakeTransfer),
     'short_voting_period_seconds' : IDL.Nat64,
-    'topic_followee_index' : IDL.Vec(IDL.Tuple(IDL.Int32, FollowersMap)),
     'proposals' : IDL.Vec(IDL.Tuple(IDL.Nat64, ProposalData)),
     'xdr_conversion_rate' : IDL.Opt(XdrConversionRate),
     'in_flight_commands' : IDL.Vec(IDL.Tuple(IDL.Nat64, NeuronInFlightCommand)),
