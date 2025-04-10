@@ -1,4 +1,4 @@
-// Generated from IC repo commit 3ae3649 (2025-03-26 tags: release-2025-03-27_03-14-base) 'rs/nns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 148ccc9 (2025-04-04 tags: rosetta-icrc-release-1.2.0) 'rs/nns/governance/canister/governance_test.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
@@ -279,16 +279,6 @@ type Followees = record {
   followees : vec NeuronId;
 };
 
-type Followers = record {
-  followers : vec NeuronId;
-};
-
-type FollowersMap = record {
-  followers_map : vec record {
-  nat64;
-  Followers;
-} };
-
 type GetNeuronsFundAuditInfoRequest = record {
   nns_proposal_id : opt ProposalId;
 };
@@ -317,7 +307,6 @@ type Governance = record {
   latest_reward_event : opt RewardEvent;
   to_claim_transfers : vec NeuronStakeTransfer;
   short_voting_period_seconds : nat64;
-  topic_followee_index : vec record { int32; FollowersMap };
   proposals : vec record { nat64; ProposalData };
   xdr_conversion_rate : opt XdrConversionRate;
   in_flight_commands : vec record { nat64; NeuronInFlightCommand };

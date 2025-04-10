@@ -215,12 +215,6 @@ export interface Follow {
 export interface Followees {
   followees: Array<NeuronId>;
 }
-export interface Followers {
-  followers: Array<NeuronId>;
-}
-export interface FollowersMap {
-  followers_map: Array<[bigint, Followers]>;
-}
 export interface GetNeuronsFundAuditInfoRequest {
   nns_proposal_id: [] | [ProposalId];
 }
@@ -246,7 +240,6 @@ export interface Governance {
   latest_reward_event: [] | [RewardEvent];
   to_claim_transfers: Array<NeuronStakeTransfer>;
   short_voting_period_seconds: bigint;
-  topic_followee_index: Array<[number, FollowersMap]>;
   proposals: Array<[bigint, ProposalData]>;
   xdr_conversion_rate: [] | [XdrConversionRate];
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
