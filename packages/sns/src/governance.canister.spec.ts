@@ -245,6 +245,7 @@ describe("Governance canister", () => {
         includeTopics: [
           { DappCanisterManagement: null },
           { SnsFrameworkManagement: null },
+          null,
         ],
       };
 
@@ -260,6 +261,7 @@ describe("Governance canister", () => {
           [
             { topic: [{ DappCanisterManagement: null }] },
             { topic: [{ SnsFrameworkManagement: null }] },
+            { topic: [] },
           ],
         ],
       });

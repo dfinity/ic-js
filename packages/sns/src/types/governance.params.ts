@@ -55,7 +55,9 @@ export interface SnsListProposalsParams extends QueryParams {
   // that have one of the define topics should be included
   // in the list.
   // If this list is empty, no restriction is applied.
-  includeTopics?: Topic[];
+  // If there is null, then proposals without a topic are included.
+  // Ref: https://github.com/dfinity/ic/blob/23abac5891de0ebde5c49c0fe91a1aab39c6241f/rs/sns/governance/api/src/ic_sns_governance.pb.v1.rs#L2140
+  includeTopics?: Array<Topic | null>;
 }
 
 export interface SnsListTopicsParams extends QueryParams {}
