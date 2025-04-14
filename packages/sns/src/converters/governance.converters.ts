@@ -318,12 +318,18 @@ export const toListProposalRequest = ({
   includeRewardStatus,
   includeStatus,
   limit,
+  includeTopics,
 }: SnsListProposalsParams): ListProposals => ({
   exclude_type: BigUint64Array.from(excludeType ?? []),
   before_proposal: toNullable(beforeProposal),
   include_reward_status: Int32Array.from(includeRewardStatus ?? []),
   include_status: Int32Array.from(includeStatus ?? []),
   limit: limit ?? DEFAULT_PROPOSALS_LIMIT,
+  include_topics: toNullable(
+    includeTopics?.map((topic) => ({
+      topic: toNullable(topic),
+    })) ?? [],
+  ),
 });
 
 export const fromCandidAction = (action: ActionCandid): Action => {

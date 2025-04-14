@@ -112,6 +112,7 @@ describe("Governance canister", () => {
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
         include_ballots_by_caller: [],
+        include_topic_filtering: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -145,6 +146,7 @@ describe("Governance canister", () => {
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
         include_ballots_by_caller: [],
+        include_topic_filtering: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -167,6 +169,7 @@ describe("Governance canister", () => {
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
         include_ballots_by_caller: [],
+        include_topic_filtering: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -198,6 +201,7 @@ describe("Governance canister", () => {
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
         include_ballots_by_caller: [],
+        include_topic_filtering: [],
       });
 
       const canister = SnsGovernanceCanister.create({
