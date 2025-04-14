@@ -638,16 +638,19 @@ export const idlFactory = ({ IDL }) => {
     'start_page_at' : IDL.Opt(NeuronId),
   });
   const ListNeuronsResponse = IDL.Record({ 'neurons' : IDL.Vec(Neuron) });
+  const TopicSelector = IDL.Record({ 'topic' : IDL.Opt(Topic) });
   const ListProposals = IDL.Record({
     'include_reward_status' : IDL.Vec(IDL.Int32),
     'before_proposal' : IDL.Opt(ProposalId),
     'limit' : IDL.Nat32,
     'exclude_type' : IDL.Vec(IDL.Nat64),
+    'include_topics' : IDL.Opt(IDL.Vec(TopicSelector)),
     'include_status' : IDL.Vec(IDL.Int32),
   });
   const ListProposalsResponse = IDL.Record({
     'include_ballots_by_caller' : IDL.Opt(IDL.Bool),
     'proposals' : IDL.Vec(ProposalData),
+    'include_topic_filtering' : IDL.Opt(IDL.Bool),
   });
   const ListTopicsRequest = IDL.Record({});
   const TopicInfo = IDL.Record({

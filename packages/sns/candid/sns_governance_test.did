@@ -1,4 +1,4 @@
-// Generated from IC repo commit 148ccc9 (2025-04-04 tags: rosetta-icrc-release-1.2.0) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 579b8ba (2025-04-11 tags: release-2025-04-11_13-20-base) 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;
@@ -381,10 +381,16 @@ type ListProposals = record {
   limit : nat32;
   exclude_type : vec nat64;
   include_status : vec int32;
+  include_topics : opt vec TopicSelector;
+};
+
+type TopicSelector = record {
+  topic : opt Topic;
 };
 
 type ListProposalsResponse = record {
   include_ballots_by_caller : opt bool;
+  include_topic_filtering : opt bool;
   proposals : vec ProposalData;
 };
 

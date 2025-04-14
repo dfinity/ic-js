@@ -339,11 +339,13 @@ export interface ListProposals {
   before_proposal: [] | [ProposalId];
   limit: number;
   exclude_type: BigUint64Array | bigint[];
+  include_topics: [] | [Array<TopicSelector>];
   include_status: Int32Array | number[];
 }
 export interface ListProposalsResponse {
   include_ballots_by_caller: [] | [boolean];
   proposals: Array<ProposalData>;
+  include_topic_filtering: [] | [boolean];
 }
 export type ListTopicsRequest = {};
 export interface ListTopicsResponse {
@@ -651,6 +653,9 @@ export interface TopicInfo {
   name: [] | [string];
   description: [] | [string];
   custom_functions: [] | [Array<NervousSystemFunction>];
+}
+export interface TopicSelector {
+  topic: [] | [Topic];
 }
 export interface TransferSnsTreasuryFunds {
   from_treasury: number;

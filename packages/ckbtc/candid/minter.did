@@ -1,4 +1,4 @@
-// Generated from IC repo commit 148ccc9 (2025-04-04 tags: rosetta-icrc-release-1.2.0) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit 579b8ba (2025-04-11 tags: release-2025-04-11_13-20-base) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -437,6 +437,7 @@ service : (minter_arg : MinterArg) -> {
     // endpoint.
     //
     // If the owner is not set, it defaults to the caller's principal.
+    // The resolved owner must be a non-anonymous principal.
     get_btc_address : (record { owner: opt principal; subaccount : opt blob }) -> (text);
 
     // Returns UTXOs of the given account known by the minter (with no
