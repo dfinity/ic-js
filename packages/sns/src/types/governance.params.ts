@@ -52,7 +52,7 @@ export interface SnsListProposalsParams extends QueryParams {
   includeStatus?: SnsProposalDecisionStatus[];
 
   // A list of proposal topics, specifying that only proposals
-  // that have one of the define topics should be included
+  // that have one of the defined topics should be included
   // in the list.
   // If this list is empty, no restriction is applied.
   // If there is null, then proposals without a topic are included.
