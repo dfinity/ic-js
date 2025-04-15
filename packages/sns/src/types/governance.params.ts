@@ -45,11 +45,19 @@ export interface SnsListProposalsParams extends QueryParams {
   // A list of proposal types, specifying that proposals of the given
   // types should be excluded in this list.
   excludeType?: bigint[];
-  // A list of proposal decision statuses, specifying that only proposals that
+  // A list of proposal decision statuses, specifying that only proposals
   // that have one of the define decision statuses should be included
   // in the list.
   // If this list is empty, no restriction is applied.
   includeStatus?: SnsProposalDecisionStatus[];
+
+  // A list of proposal topics, specifying that only proposals
+  // that have one of the defined topics should be included
+  // in the list.
+  // If this list is empty, no restriction is applied.
+  // If there is null, then proposals without a topic are included.
+  // Ref: https://github.com/dfinity/ic/blob/23abac5891de0ebde5c49c0fe91a1aab39c6241f/rs/sns/governance/api/src/ic_sns_governance.pb.v1.rs#L2140
+  includeTopics?: Array<Topic | null>;
 }
 
 export interface SnsListTopicsParams extends QueryParams {}

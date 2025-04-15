@@ -112,6 +112,7 @@ describe("Governance canister", () => {
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
         include_ballots_by_caller: [],
+        include_topic_filtering: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -145,6 +146,7 @@ describe("Governance canister", () => {
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
         include_ballots_by_caller: [],
+        include_topic_filtering: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -159,6 +161,7 @@ describe("Governance canister", () => {
         include_reward_status: Int32Array.from([]),
         include_status: Int32Array.from([]),
         limit: DEFAULT_PROPOSALS_LIMIT,
+        include_topics: [[]],
       });
     });
 
@@ -167,6 +170,7 @@ describe("Governance canister", () => {
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
         include_ballots_by_caller: [],
+        include_topic_filtering: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -190,6 +194,7 @@ describe("Governance canister", () => {
         include_reward_status: Int32Array.from(params.includeRewardStatus),
         include_status: Int32Array.from(params.includeStatus),
         limit: DEFAULT_PROPOSALS_LIMIT,
+        include_topics: [[]],
       });
     });
 
@@ -198,6 +203,7 @@ describe("Governance canister", () => {
       const mockListProposals = service.list_proposals.mockResolvedValue({
         proposals: proposalsMock,
         include_ballots_by_caller: [],
+        include_topic_filtering: [],
       });
 
       const canister = SnsGovernanceCanister.create({
@@ -216,6 +222,48 @@ describe("Governance canister", () => {
         include_reward_status: Int32Array.from([]),
         include_status: Int32Array.from([]),
         limit: params.limit,
+        include_topics: [[]],
+      });
+    });
+
+    it("should use include topics params", async () => {
+      const service = mock<ActorSubclass<SnsGovernanceService>>();
+      const mockListProposals = service.list_proposals.mockResolvedValue({
+        proposals: proposalsMock,
+        include_ballots_by_caller: [],
+        include_topic_filtering: [true],
+      });
+
+      const canister = SnsGovernanceCanister.create({
+        canisterId: rootCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const params = {
+        limit: 100,
+        beforeProposal: { id: BigInt(2) },
+        includeTopics: [
+          { DappCanisterManagement: null },
+          { SnsFrameworkManagement: null },
+          null,
+        ],
+      };
+
+      await canister.listProposals(params);
+
+      expect(mockListProposals).toBeCalledWith({
+        exclude_type: BigUint64Array.from([]),
+        before_proposal: [params.beforeProposal],
+        include_reward_status: Int32Array.from([]),
+        include_status: Int32Array.from([]),
+        limit: params.limit,
+        include_topics: [
+          [
+            { topic: [{ DappCanisterManagement: null }] },
+            { topic: [{ SnsFrameworkManagement: null }] },
+            { topic: [] },
+          ],
+        ],
       });
     });
 

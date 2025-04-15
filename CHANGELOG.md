@@ -1,3 +1,9 @@
+# Next Version
+
+## Features
+
+- Updated `@dfinity/sns` to add support for filtering SNS proposals by topics
+
 # v68
 
 ## Overview
