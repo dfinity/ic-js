@@ -53,6 +53,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [hexStringToUint8Array](#gear-hexstringtouint8array)
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
 - [candidNumberArrayToBigInt](#gear-candidnumberarraytobigint)
+- [hexToString](#gear-hashtohex)
 - [encodeBase32](#gear-encodebase32)
 - [decodeBase32](#gear-decodebase32)
 - [uint8ArrayToBase64](#gear-uint8arraytobase64)
@@ -319,6 +320,14 @@ Parameters:
 | `candidNumberArrayToBigInt` | `(array: number[]) => bigint` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
+
+#### :gear: hashToHex
+
+| Function      | Type                               |
+| ------------- | ---------------------------------- |
+| `hextostring` | `(input: string): Promise<string>` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L23)
 
 #### :gear: encodeBase32
 
