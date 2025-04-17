@@ -14,6 +14,7 @@ export * from "./utils/asserts.utils";
 export * from "./utils/base32.utils";
 export * from "./utils/base64.utils";
 export * from "./utils/crc.utils";
+export * from "./utils/crypto.utils";
 export * from "./utils/date.utils";
 export * from "./utils/debounce.utils";
 export * from "./utils/did.utils";

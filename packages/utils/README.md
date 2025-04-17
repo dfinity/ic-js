@@ -58,6 +58,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [uint8ArrayToBase64](#gear-uint8arraytobase64)
 - [base64ToUint8Array](#gear-base64touint8array)
 - [bigEndianCrc32](#gear-bigendiancrc32)
+- [hashToHex](#gear-hashtohex)
 - [secondsToDuration](#gear-secondstoduration)
 - [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
 - [toBigIntNanoSeconds](#gear-tobigintnanoseconds)
@@ -384,6 +385,20 @@ Parameters:
 | `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
+
+#### :gear: hashToHex
+
+Computes the SHA-256 hash of a UTF-8 string and encodes the result as a hexadecimal string.
+
+| Function    | Type                                 |
+| ----------- | ------------------------------------ |
+| `hashToHex` | `(input: string) => Promise<string>` |
+
+Parameters:
+
+- `input`: - A UTF-8 encoded string to hash.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L23)
 
 #### :gear: secondsToDuration
 
