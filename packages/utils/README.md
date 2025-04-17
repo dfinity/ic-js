@@ -53,12 +53,12 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [hexStringToUint8Array](#gear-hexstringtouint8array)
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
 - [candidNumberArrayToBigInt](#gear-candidnumberarraytobigint)
-- [hexToString](#gear-hashtohex)
 - [encodeBase32](#gear-encodebase32)
 - [decodeBase32](#gear-decodebase32)
 - [uint8ArrayToBase64](#gear-uint8arraytobase64)
 - [base64ToUint8Array](#gear-base64touint8array)
 - [bigEndianCrc32](#gear-bigendiancrc32)
+- [hashToHex](#gear-hashtohex)
 - [secondsToDuration](#gear-secondstoduration)
 - [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
 - [toBigIntNanoSeconds](#gear-tobigintnanoseconds)
@@ -321,14 +321,6 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
 
-#### :gear: hashToHex
-
-| Function      | Type                               |
-| ------------- | ---------------------------------- |
-| `hextostring` | `(input: string): Promise<string>` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L23)
-
 #### :gear: encodeBase32
 
 Encode an Uint8Array to a base32 string.
@@ -393,6 +385,20 @@ Parameters:
 | `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
+
+#### :gear: hashToHex
+
+Computes the SHA-256 hash of a UTF-8 string and encodes the result as a hexadecimal string.
+
+| Function    | Type                                 |
+| ----------- | ------------------------------------ |
+| `hashToHex` | `(input: string) => Promise<string>` |
+
+Parameters:
+
+- `input`: - A UTF-8 encoded string to hash.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L23)
 
 #### :gear: secondsToDuration
 
