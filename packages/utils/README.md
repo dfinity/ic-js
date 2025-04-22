@@ -70,6 +70,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [jsonReviver](#gear-jsonreviver)
 - [principalToSubAccount](#gear-principaltosubaccount)
 - [smallerVersion](#gear-smallerversion)
+- [generateHash](#gear-generatehash)
 
 #### :gear: convertStringToE8s
 
@@ -576,6 +577,23 @@ Parameters:
 - `params.currentVersion`: Ex: "2.0.0"
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L28)
+
+#### :gear: generateHash
+
+Generates a SHA-256 hash from the given object.
+
+The object is first stringified using a custom `jsonReplacer`, then
+hashed using the SubtleCrypto API. The resulting hash is returned as a hex string.
+
+| Function       | Type                                               |
+| -------------- | -------------------------------------------------- |
+| `generateHash` | `<T extends object>(params: T) => Promise<string>` |
+
+Parameters:
+
+- `params`: - The object to hash.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L14)
 
 ### :wrench: Constants
 
