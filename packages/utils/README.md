@@ -58,6 +58,9 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [uint8ArrayToBase64](#gear-uint8arraytobase64)
 - [base64ToUint8Array](#gear-base64touint8array)
 - [bigEndianCrc32](#gear-bigendiancrc32)
+- [jsonReplacer](#gear-jsonreplacer)
+- [jsonReviver](#gear-jsonreviver)
+- [generateHash](#gear-generatehash)
 - [secondsToDuration](#gear-secondstoduration)
 - [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
 - [toBigIntNanoSeconds](#gear-tobigintnanoseconds)
@@ -66,11 +69,8 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
 - [fromNullishNullable](#gear-fromnullishnullable)
-- [jsonReplacer](#gear-jsonreplacer)
-- [jsonReviver](#gear-jsonreviver)
 - [principalToSubAccount](#gear-principaltosubaccount)
 - [smallerVersion](#gear-smallerversion)
-- [generateHash](#gear-generatehash)
 
 #### :gear: convertStringToE8s
 
@@ -386,6 +386,68 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
 
+#### :gear: jsonReplacer
+
+A custom replacer for `JSON.stringify` that converts specific types not natively supported
+by the API into JSON-compatible formats.
+
+Supported conversions:
+
+- `BigInt` → `{ "__bigint__": string }`
+- `Principal` → `{ "__principal__": string }`
+- `Uint8Array` → `{ "__uint8array__": number[] }`
+
+| Function       | Type                                        |
+| -------------- | ------------------------------------------- |
+| `jsonReplacer` | `(_key: string, value: unknown) => unknown` |
+
+Parameters:
+
+- `_key`: - Ignored. Only provided for API compatibility.
+- `value`: - The value to transform before stringification.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L21)
+
+#### :gear: jsonReviver
+
+A custom reviver for `JSON.parse` that reconstructs specific types from their JSON-encoded representations.
+
+This reverses the transformations applied by `jsonReplacer`, restoring the original types.
+
+Supported conversions:
+
+- `{ "__bigint__": string }` → `BigInt`
+- `{ "__principal__": string }` → `Principal`
+- `{ "__uint8array__": number[] }` → `Uint8Array`
+
+| Function      | Type                                        |
+| ------------- | ------------------------------------------- |
+| `jsonReviver` | `(_key: string, value: unknown) => unknown` |
+
+Parameters:
+
+- `_key`: - Ignored but provided for API compatibility.
+- `value`: - The parsed value to transform.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L51)
+
+#### :gear: generateHash
+
+Generates a SHA-256 hash from the given object.
+
+The object is first stringified using a custom `jsonReplacer`, then
+hashed using the SubtleCrypto API. The resulting hash is returned as a hex string.
+
+| Function       | Type                                               |
+| -------------- | -------------------------------------------------- |
+| `generateHash` | `<T extends object>(params: T) => Promise<string>` |
+
+Parameters:
+
+- `params`: - The object to hash.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L14)
+
 #### :gear: secondsToDuration
 
 Convert seconds to a human-readable duration, such as "6 days, 10 hours."
@@ -502,51 +564,6 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L50)
 
-#### :gear: jsonReplacer
-
-A custom replacer for `JSON.stringify` that converts specific types not natively supported
-by the API into JSON-compatible formats.
-
-Supported conversions:
-
-- `BigInt` → `{ "__bigint__": string }`
-- `Principal` → `{ "__principal__": string }`
-- `Uint8Array` → `{ "__uint8array__": number[] }`
-
-| Function       | Type                                        |
-| -------------- | ------------------------------------------- |
-| `jsonReplacer` | `(_key: string, value: unknown) => unknown` |
-
-Parameters:
-
-- `_key`: - Ignored. Only provided for API compatibility.
-- `value`: - The value to transform before stringification.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L21)
-
-#### :gear: jsonReviver
-
-A custom reviver for `JSON.parse` that reconstructs specific types from their JSON-encoded representations.
-
-This reverses the transformations applied by `jsonReplacer`, restoring the original types.
-
-Supported conversions:
-
-- `{ "__bigint__": string }` → `BigInt`
-- `{ "__principal__": string }` → `Principal`
-- `{ "__uint8array__": number[] }` → `Uint8Array`
-
-| Function      | Type                                        |
-| ------------- | ------------------------------------------- |
-| `jsonReviver` | `(_key: string, value: unknown) => unknown` |
-
-Parameters:
-
-- `_key`: - Ignored but provided for API compatibility.
-- `value`: - The parsed value to transform.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L51)
-
 #### :gear: principalToSubAccount
 
 Convert a principal to a Uint8Array 32 length.
@@ -577,23 +594,6 @@ Parameters:
 - `params.currentVersion`: Ex: "2.0.0"
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L28)
-
-#### :gear: generateHash
-
-Generates a SHA-256 hash from the given object.
-
-The object is first stringified using a custom `jsonReplacer`, then
-hashed using the SubtleCrypto API. The resulting hash is returned as a hex string.
-
-| Function       | Type                                               |
-| -------------- | -------------------------------------------------- |
-| `generateHash` | `<T extends object>(params: T) => Promise<string>` |
-
-Parameters:
-
-- `params`: - The object to hash.
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L14)
 
 ### :wrench: Constants
 
