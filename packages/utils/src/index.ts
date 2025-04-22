@@ -21,3 +21,4 @@ export * from "./utils/json.utils";
 export * from "./utils/nullish.utils";
 export * from "./utils/principal.utils";
 export * from "./utils/version.utils";
+export * from "./utils/crypto.utils";
