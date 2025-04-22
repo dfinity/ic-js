@@ -3,7 +3,7 @@
 ## Features
 
 - Updated `@dfinity/sns` to add support for filtering SNS proposals by topics.
-- Add `hashObject` utility to generate a SHA-256 hash from the given object.
+- Add `hashObject` and `hashText` utilities to generate a SHA-256 hash from the given object.
 
 # v68
 
