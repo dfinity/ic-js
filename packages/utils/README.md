@@ -61,6 +61,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [jsonReplacer](#gear-jsonreplacer)
 - [jsonReviver](#gear-jsonreviver)
 - [generateHash](#gear-generatehash)
+- [generateHashText](#gear-generatehashtext)
 - [secondsToDuration](#gear-secondstoduration)
 - [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
 - [toBigIntNanoSeconds](#gear-tobigintnanoseconds)
@@ -447,6 +448,23 @@ Parameters:
 - `params`: - The object to hash.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L14)
+
+#### :gear: generateHashText
+
+Generates a SHA-256 hash from a plain text string.
+
+The string is UTF-8 encoded and hashed using the SubtleCrypto API.
+The resulting hash is returned as a hexadecimal string.
+
+| Function           | Type                                |
+| ------------------ | ----------------------------------- |
+| `generateHashText` | `(text: string) => Promise<string>` |
+
+Parameters:
+
+- `text`: - The text to hash.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L31)
 
 #### :gear: secondsToDuration
 
