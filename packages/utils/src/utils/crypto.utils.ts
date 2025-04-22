@@ -16,7 +16,7 @@ export const generateHash = async <T extends object>(
 ): Promise<string> => {
   const jsonString = JSON.stringify(params, jsonReplacer);
 
-  return await generateHashText(jsonString);
+  return await hashText(jsonString);
 };
 
 /**
@@ -28,7 +28,7 @@ export const generateHash = async <T extends object>(
  * @param {string} text - The text to hash.
  * @returns {Promise<string>} A promise that resolves to the hex string of the SHA-256 hash.
  */
-export const generateHashText = async (text: string): Promise<string> => {
+export const hashText = async (text: string): Promise<string> => {
   const dataBuffer = new TextEncoder().encode(text);
   const hashBuffer = await crypto.subtle.digest("SHA-256", dataBuffer);
 

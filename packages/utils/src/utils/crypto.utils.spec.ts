@@ -1,6 +1,6 @@
 import { Expiry, SubmitRequestType } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { generateHash, generateHashText } from "./crypto.utils";
+import { generateHash, hashText } from "./crypto.utils";
 
 describe("crypto.utils", () => {
   const hexRegex = /^[0-9a-fA-F]{64}$/;
@@ -117,30 +117,30 @@ describe("crypto.utils", () => {
     });
   });
 
-  describe("generateHashText", () => {
+  describe("hashText", () => {
     it("returns a valid 64-character hex string for a simple string", async () => {
-      const hash = await generateHashText("hello world");
+      const hash = await hashText("hello world");
       expect(hash).toHaveLength(64);
       expect(hash).toMatch(hexRegex);
     });
 
     it("returns different hashes for different strings", async () => {
-      const hash1 = await generateHashText("hello");
-      const hash2 = await generateHashText("world");
+      const hash1 = await hashText("hello");
+      const hash2 = await hashText("world");
 
       expect(hash1).not.toBe(hash2);
     });
 
     it("returns the same hash for the same input", async () => {
       const input = "repeatable input";
-      const hash1 = await generateHashText(input);
-      const hash2 = await generateHashText(input);
+      const hash1 = await hashText(input);
+      const hash2 = await hashText(input);
 
       expect(hash1).toBe(hash2);
     });
 
     it("returns expected hash for a known string", async () => {
-      const hash = await generateHashText("abc");
+      const hash = await hashText("abc");
       expect(hash).toBe(
         "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
       );
@@ -148,7 +148,7 @@ describe("crypto.utils", () => {
 
     it("handles non-string input (TextEncoder.encode implicitly use toString())", async () => {
       // @ts-expect-error intentionally passing non-string input
-      const hash = await generateHashText({});
+      const hash = await hashText({});
       expect(typeof hash).toBe("string");
       expect(hash).toMatch(/^[0-9a-f]{64}$/i);
     });
