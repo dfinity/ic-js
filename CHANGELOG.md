@@ -2,7 +2,8 @@
 
 ## Features
 
-- Updated `@dfinity/sns` to add support for filtering SNS proposals by topics
+- Updated `@dfinity/sns` to add support for filtering SNS proposals by topics.
+- Add `generateHash` utility to generate a SHA-256 hash from the given object.
 
 # v68
 
