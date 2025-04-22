@@ -1,8 +1,8 @@
 import { Expiry, SubmitRequestType } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { generateHashObject } from "./crypto.utils";
+import { hashObject } from "./crypto.utils";
 
-describe("generateHashObject", () => {
+describe("hashObject", () => {
   const mockCanisterId = "doked-biaaa-aaaar-qag2a-cai";
 
   const mockPrincipalText =
@@ -12,7 +12,7 @@ describe("generateHashObject", () => {
 
   it("returns a valid 64-character hex string for basic string params", async () => {
     const params = { key1: "value1", key2: "value2" };
-    const hash = await generateHashObject(params);
+    const hash = await hashObject(params);
 
     expect(hash).toHaveLength(64);
     expect(hash).toMatch(hexRegex);
@@ -22,22 +22,22 @@ describe("generateHashObject", () => {
     const hashInput1 = { key: "value1" };
     const hashInput2 = { key: "value2" };
 
-    const hash1 = await generateHashObject(hashInput1);
-    const hash2 = await generateHashObject(hashInput2);
+    const hash1 = await hashObject(hashInput1);
+    const hash2 = await hashObject(hashInput2);
 
     expect(hash1).not.toBe(hash2);
   });
 
   it("returns the same hash for the same input object", async () => {
     const input = { a: "1", b: "2" };
-    const hash1 = await generateHashObject(input);
-    const hash2 = await generateHashObject(input);
+    const hash1 = await hashObject(input);
+    const hash2 = await hashObject(input);
 
     expect(hash1).toBe(hash2);
   });
 
   it("returns the expected hash for simple value", async () => {
-    const hash = await generateHashObject({ a: 123 });
+    const hash = await hashObject({ a: 123 });
     expect(hash).toEqual(
       "917cbcf20ffdb44b525db310004af7597b512c57cf37ad585d9b37b5e6617cca",
     );
@@ -50,7 +50,7 @@ describe("generateHashObject", () => {
       key: new Uint8Array([1, 2, 3, 4]),
     };
 
-    const hash = await generateHashObject(payload);
+    const hash = await hashObject(payload);
 
     expect(hash).toEqual(
       "7809e083f1e990698332f9328280d37d0d6b4637d2a2d8e2fdce0ccf13d9a40e",
@@ -59,8 +59,8 @@ describe("generateHashObject", () => {
 
   describe("handles complex value types", () => {
     it("handles BigInt values and distinguishes them correctly", async () => {
-      const hash1 = await generateHashObject({ amount: 123n });
-      const hash2 = await generateHashObject({ amount: 456n });
+      const hash1 = await hashObject({ amount: 123n });
+      const hash2 = await hashObject({ amount: 456n });
 
       expect(hash1).not.toBe(hash2);
       expect(hash1).toMatch(hexRegex);
@@ -72,15 +72,15 @@ describe("generateHashObject", () => {
         "ids2f-skxn7-4uwrl-lgtdm-mcv3m-m324f-vjn73-xg6xq-uea7b-37klk-nqe",
       );
 
-      const hashA = await generateHashObject({ user: principalA });
-      const hashB = await generateHashObject({ user: principalB });
+      const hashA = await hashObject({ user: principalA });
+      const hashB = await hashObject({ user: principalB });
 
       expect(hashA).not.toBe(hashB);
       expect(hashA).toMatch(hexRegex);
     });
 
     it("handles Uint8Array values correctly", async () => {
-      const hash = await generateHashObject({
+      const hash = await hashObject({
         key: new Uint8Array([1, 2, 3, 4]),
       });
 
@@ -92,7 +92,7 @@ describe("generateHashObject", () => {
         constructor(private value: number) {}
       }
 
-      const hash = await generateHashObject({
+      const hash = await hashObject({
         expiry: new Tmp(1_000_000),
       });
 
@@ -110,7 +110,7 @@ describe("generateHashObject", () => {
         request_type: SubmitRequestType.Call,
       };
 
-      const hash = await generateHashObject(complexPayload);
+      const hash = await hashObject(complexPayload);
       expect(hash).toMatch(hexRegex);
     });
   });
