@@ -11,7 +11,7 @@ import { jsonReplacer } from "./json.utils";
  * @param {T} params - The object to hash.
  * @returns {Promise<string>} A promise that resolves to the hex string of the SHA-256 hash.
  */
-export const generateHash = async <T extends object>(
+export const generateHashObject = async <T extends object>(
   params: T,
 ): Promise<string> => {
   const jsonString = JSON.stringify(params, jsonReplacer);
