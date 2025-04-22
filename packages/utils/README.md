@@ -60,7 +60,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [bigEndianCrc32](#gear-bigendiancrc32)
 - [jsonReplacer](#gear-jsonreplacer)
 - [jsonReviver](#gear-jsonreviver)
-- [generateHash](#gear-generatehash)
+- [generateHashObject](#gear-generatehashobject)
 - [secondsToDuration](#gear-secondstoduration)
 - [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
 - [toBigIntNanoSeconds](#gear-tobigintnanoseconds)
@@ -431,16 +431,16 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L51)
 
-#### :gear: generateHash
+#### :gear: generateHashObject
 
 Generates a SHA-256 hash from the given object.
 
 The object is first stringified using a custom `jsonReplacer`, then
 hashed using the SubtleCrypto API. The resulting hash is returned as a hex string.
 
-| Function       | Type                                               |
-| -------------- | -------------------------------------------------- |
-| `generateHash` | `<T extends object>(params: T) => Promise<string>` |
+| Function             | Type                                               |
+| -------------------- | -------------------------------------------------- |
+| `generateHashObject` | `<T extends object>(params: T) => Promise<string>` |
 
 Parameters:
 
