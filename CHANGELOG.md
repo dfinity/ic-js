@@ -19,7 +19,7 @@
 ## Features
 
 - Updated `@dfinity/sns` to add support for filtering SNS proposals by topics.
-- Removed `topic_followee_index` in NNS Governance Candid type.
+- Removed (unused) `topic_followee_index` in NNS Governance Candid type.
 - Added `hashObject` and `hashText` utilities to generate a SHA-256 hash from the given object.
 
 ## Chore
