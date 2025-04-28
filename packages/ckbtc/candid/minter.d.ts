@@ -134,6 +134,7 @@ export type EventType =
       };
     };
 export interface InitArgs {
+  get_utxos_cache_expiration_seconds: [] | [bigint];
   kyt_principal: [] | [Principal];
   ecdsa_key_name: string;
   mode: Mode;
@@ -253,6 +254,7 @@ export type UpdateBalanceError =
       };
     };
 export interface UpgradeArgs {
+  get_utxos_cache_expiration_seconds: [] | [bigint];
   kyt_principal: [] | [Principal];
   mode: [] | [Mode];
   retrieve_btc_min_amount: [] | [bigint];

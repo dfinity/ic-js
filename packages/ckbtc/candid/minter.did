@@ -1,4 +1,4 @@
-// Generated from IC repo commit 579b8ba (2025-04-11 tags: release-2025-04-11_13-20-base) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit f8131bf (2025-04-23 tags: release-2025-04-24_03-18-base) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -209,6 +209,9 @@ type InitArgs = record {
 
     /// The canister id of the KYT canister (deprecated, use btc_checker_principal instead).
     kyt_principal: opt principal;
+
+    /// The expiration duration (in seconds) for cached entries in the get_utxos cache.
+    get_utxos_cache_expiration_seconds: opt nat64;
 };
 
 // The upgrade parameters of the minter canister.
@@ -238,6 +241,9 @@ type UpgradeArgs = record {
 
     /// The canister id of the KYT canister (deprecated, use btc_checker_principal instead).
     kyt_principal: opt principal;
+
+    /// The expiration duration (in seconds) for cached entries in the get_utxos cache.
+    get_utxos_cache_expiration_seconds: opt nat64;
 };
 
 type RetrieveBtcStatus = variant {

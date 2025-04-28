@@ -7,6 +7,7 @@ export const idlFactory = ({ IDL }) => {
     'GeneralAvailability' : IDL.Null,
   });
   const UpgradeArgs = IDL.Record({
+    'get_utxos_cache_expiration_seconds' : IDL.Opt(IDL.Nat64),
     'kyt_principal' : IDL.Opt(IDL.Principal),
     'mode' : IDL.Opt(Mode),
     'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
@@ -22,6 +23,7 @@ export const idlFactory = ({ IDL }) => {
     'Testnet' : IDL.Null,
   });
   const InitArgs = IDL.Record({
+    'get_utxos_cache_expiration_seconds' : IDL.Opt(IDL.Nat64),
     'kyt_principal' : IDL.Opt(IDL.Principal),
     'ecdsa_key_name' : IDL.Text,
     'mode' : Mode,
@@ -381,6 +383,7 @@ export const init = ({ IDL }) => {
     'GeneralAvailability' : IDL.Null,
   });
   const UpgradeArgs = IDL.Record({
+    'get_utxos_cache_expiration_seconds' : IDL.Opt(IDL.Nat64),
     'kyt_principal' : IDL.Opt(IDL.Principal),
     'mode' : IDL.Opt(Mode),
     'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
@@ -396,6 +399,7 @@ export const init = ({ IDL }) => {
     'Testnet' : IDL.Null,
   });
   const InitArgs = IDL.Record({
+    'get_utxos_cache_expiration_seconds' : IDL.Opt(IDL.Nat64),
     'kyt_principal' : IDL.Opt(IDL.Principal),
     'ecdsa_key_name' : IDL.Text,
     'mode' : Mode,
