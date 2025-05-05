@@ -26,32 +26,32 @@ export const idlFactory = ({ IDL }) => {
     'from' : Account,
     'memo' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'created_at_time' : IDL.Opt(IDL.Nat64),
-    'amount' : IDL.Nat,
+    'amount' : Tokens,
     'spender' : IDL.Opt(Account),
   });
   const Mint = IDL.Record({
     'to' : Account,
     'memo' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'created_at_time' : IDL.Opt(IDL.Nat64),
-    'amount' : IDL.Nat,
+    'amount' : Tokens,
   });
   const Approve = IDL.Record({
-    'fee' : IDL.Opt(IDL.Nat),
+    'fee' : IDL.Opt(Tokens),
     'from' : Account,
     'memo' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'created_at_time' : IDL.Opt(IDL.Nat64),
-    'amount' : IDL.Nat,
-    'expected_allowance' : IDL.Opt(IDL.Nat),
+    'amount' : Tokens,
+    'expected_allowance' : IDL.Opt(Tokens),
     'expires_at' : IDL.Opt(IDL.Nat64),
     'spender' : Account,
   });
   const Transfer = IDL.Record({
     'to' : Account,
-    'fee' : IDL.Opt(IDL.Nat),
+    'fee' : IDL.Opt(Tokens),
     'from' : Account,
     'memo' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'created_at_time' : IDL.Opt(IDL.Nat64),
-    'amount' : IDL.Nat,
+    'amount' : Tokens,
     'spender' : IDL.Opt(Account),
   });
   const Transaction = IDL.Record({
