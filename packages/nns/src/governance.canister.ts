@@ -186,7 +186,10 @@ export class GovernanceCanister {
     // https://github.com/dfinity/ic/blob/de17b0d718d6f279e9da8cd0f1b5de17036a6102/rs/nns/governance/api/src/ic_nns_governance.pb.v1.rs#L3543
     if (totalPages < 2n) return firstPageNeurons;
 
-    const pagePromises = [];
+    const pagePromises: Promise<{
+      neurons: NeuronInfo[];
+      totalPages: bigint;
+    }>[] = [];
     for (let pageNumber = 1n; pageNumber < totalPages; pageNumber++) {
       pagePromises.push(
         this.fetchNeuronsPage({
