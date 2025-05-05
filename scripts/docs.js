@@ -55,6 +55,8 @@ const icMgmtInputFiles = [
 
 const zodSchemasInputFiles = ["./packages/zod-schemas/src/index.ts"];
 
+const ledgerDipSchemasInputFiles = ["./packages/ledger-dip/src/index.ts"];
+
 const buildOptions = {
   repo: { url: "https://github.com/dfinity/ic-js" },
 };
@@ -94,6 +96,13 @@ generateDocumentation({
 generateDocumentation({
   inputFiles: ledgerICPInputFiles,
   outputFile: "./packages/ledger-icp/README.md",
+  markdownOptions,
+  buildOptions,
+});
+
+generateDocumentation({
+  inputFiles: ledgerDipSchemasInputFiles,
+  outputFile: "./packages/ledger-dip/README.md",
   markdownOptions,
   buildOptions,
 });

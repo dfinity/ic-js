@@ -7,6 +7,7 @@ npm ci
 node ./scripts/update-version.mjs utils
 node ./scripts/update-version.mjs zod-schemas
 node ./scripts/update-version.mjs nns-proto
+node ./scripts/update-version.mjs ledger-dip
 node ./scripts/update-version.mjs ledger-icp
 node ./scripts/update-version.mjs ledger-icrc
 node ./scripts/update-version.mjs nns

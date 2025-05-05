@@ -117,4 +117,7 @@ import_did "rs/ethereum/ledger-suite-orchestrator/ledger_suite_orchestrator.did"
 
 mkdir -p packages/ic-management/candid
 download_did https://raw.githubusercontent.com/dfinity/portal/master/docs/references/_attachments/ic.did "ic-management.did" "ic-management"
+
+mkdir -p packages/ledger-icrc/candid
+download_did https://raw.githubusercontent.com/Psychedelic/DIP20/main/rust/token/token.did "dip-ledger.did" "ledger-dip"
 : Fin

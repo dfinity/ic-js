@@ -14,7 +14,8 @@
     "packages/ckbtc",
     "packages/ic-management",
     "packages/cketh",
-    "packages/zod-schemas"
+    "packages/zod-schemas",
+    "packages/ledger-dip"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -121,6 +122,12 @@
         "@dfinity/utils",
         "@dfinity/nns-proto"
       ]
+    },
+    {
+      "name": "@dfinity/ledger-dip",
+      "path": "./packages/ledger-dip/dist/index.js",
+      "limit": "2 kB",
+      "gzip": true
     },
     {
       "name": "@dfinity/nns",
