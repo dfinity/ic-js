@@ -1,4 +1,4 @@
-// Generated from IC repo commit f8131bf (2025-04-23 tags: release-2025-04-24_03-18-base) 'rs/ledger_suite/icrc1/index-ng/index-ng.did' by import-candid
+// Generated from IC repo commit f195ba7 (2025-04-30 tags: release-2025-05-01_03-23-base) 'rs/ledger_suite/icrc1/index-ng/index-ng.did' by import-candid
 type Tokens = nat;
 
 type InitArg = record {
@@ -62,12 +62,12 @@ type Transaction = record {
 };
 
 type Approve = record {
-  fee : opt nat;
+  fee : opt Tokens;
   from : Account;
   memo : opt vec nat8;
   created_at_time : opt nat64;
-  amount : nat;
-  expected_allowance : opt nat;
+  amount : Tokens;
+  expected_allowance : opt Tokens;
   expires_at : opt nat64;
   spender : Account;
 };
@@ -76,7 +76,7 @@ type Burn = record {
   from : Account;
   memo : opt vec nat8;
   created_at_time : opt nat64;
-  amount : nat;
+  amount : Tokens;
   spender : opt Account;
 };
 
@@ -84,16 +84,16 @@ type Mint = record {
   to : Account;
   memo : opt vec nat8;
   created_at_time : opt nat64;
-  amount : nat;
+  amount : Tokens;
 };
 
 type Transfer = record {
   to : Account;
-  fee : opt nat;
+  fee : opt Tokens;
   from : Account;
   memo : opt vec nat8;
   created_at_time : opt nat64;
-  amount : nat;
+  amount : Tokens;
   spender : opt Account;
 };
 
