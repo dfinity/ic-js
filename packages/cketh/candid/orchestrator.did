@@ -1,4 +1,4 @@
-// Generated from IC repo commit f8131bf (2025-04-23 tags: release-2025-04-24_03-18-base) 'rs/ethereum/ledger-suite-orchestrator/ledger_suite_orchestrator.did' by import-candid
+// Generated from IC repo commit f195ba7 (2025-04-30 tags: release-2025-05-01_03-23-base) 'rs/ethereum/ledger-suite-orchestrator/ledger_suite_orchestrator.did' by import-candid
 type OrchestratorArg = variant {
     UpgradeArg : UpgradeArg;
     InitArg : InitArg;

@@ -7,12 +7,12 @@ export interface Account {
   subaccount: [] | [SubAccount];
 }
 export interface Approve {
-  fee: [] | [bigint];
+  fee: [] | [Tokens];
   from: Account;
   memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
-  amount: bigint;
-  expected_allowance: [] | [bigint];
+  amount: Tokens;
+  expected_allowance: [] | [Tokens];
   expires_at: [] | [bigint];
   spender: Account;
 }
@@ -22,7 +22,7 @@ export interface Burn {
   from: Account;
   memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
-  amount: bigint;
+  amount: Tokens;
   spender: [] | [Account];
 }
 export interface FeeCollectorRanges {
@@ -66,7 +66,7 @@ export interface Mint {
   to: Account;
   memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
-  amount: bigint;
+  amount: Tokens;
 }
 export interface Status {
   num_blocks_synced: BlockIndex;
@@ -87,11 +87,11 @@ export interface TransactionWithId {
 }
 export interface Transfer {
   to: Account;
-  fee: [] | [bigint];
+  fee: [] | [Tokens];
   from: Account;
   memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [bigint];
-  amount: bigint;
+  amount: Tokens;
   spender: [] | [Account];
 }
 export interface UpgradeArg {
