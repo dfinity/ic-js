@@ -130,6 +130,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependencies
         run: npm ci
+      - name: Build utils
+        run: npm run build -w packages/utils
       - name: Lint
         run: npm run lint
 
