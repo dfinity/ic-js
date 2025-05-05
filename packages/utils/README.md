@@ -523,7 +523,7 @@ Parameters:
 - `func`: - The function to debounce. It will only be called after no new calls happen within the specified timeout.
 - `timeout`: - The debounce delay in milliseconds. Defaults to 300ms if not provided or invalid.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L13)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L12)
 
 #### :gear: toNullable
 
