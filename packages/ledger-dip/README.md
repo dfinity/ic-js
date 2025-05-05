@@ -1,6 +1,6 @@
 # ledger-dip-js
 
-A library for interfacing with [DIP ledger](https://github.com/dfinity/ic/tree/master/rs/rosetta-api/icrc1) on the Internet Computer.
+A library for interfacing with [DIP ledger](https://github.com/Psychedelic/DIP20) on the Internet Computer.
 
 [![npm version](https://img.shields.io/npm/v/@dfinity/ledger-dip.svg?logo=npm)](https://www.npmjs.com/package/@dfinity/ledger-dip) [![GitHub license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
