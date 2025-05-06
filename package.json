@@ -36,17 +36,12 @@
     "url": "https://github.com/dfinity/ic-js"
   },
   "devDependencies": {
+    "@dfinity/eslint-config-oisy-wallet": "^0.1.9",
     "@size-limit/esbuild": "^11.2.0",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@types/jest": "^29.5.14",
     "@types/text-encoding": "^0.0.39",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
     "esbuild": "^0.25.0",
-    "eslint": "^8.57.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.7",
     "node-fetch": "^3.3.2",
