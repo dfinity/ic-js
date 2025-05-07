@@ -256,7 +256,7 @@ Parameters:
 | -------------------- | ------------------------------- |
 | `bigIntToUint8Array` | `(value: bigint) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L15)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L14)
 
 #### :gear: numberToUint8Array
 
@@ -264,7 +264,7 @@ Parameters:
 | -------------------- | ------------------------------- |
 | `numberToUint8Array` | `(value: number) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L31)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L30)
 
 #### :gear: arrayBufferToUint8Array
 
@@ -272,7 +272,7 @@ Parameters:
 | ------------------------- | ------------------------------------- |
 | `arrayBufferToUint8Array` | `(buffer: ArrayBuffer) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L40)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L39)
 
 #### :gear: uint8ArrayToArrayOfNumber
 
@@ -280,7 +280,7 @@ Parameters:
 | --------------------------- | --------------------------------- |
 | `uint8ArrayToArrayOfNumber` | `(array: Uint8Array) => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L43)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L42)
 
 #### :gear: arrayOfNumberToUint8Array
 
@@ -288,7 +288,7 @@ Parameters:
 | --------------------------- | ----------------------------------- |
 | `arrayOfNumberToUint8Array` | `(numbers: number[]) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L46)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L45)
 
 #### :gear: asciiStringToByteArray
 
@@ -296,7 +296,7 @@ Parameters:
 | ------------------------ | ---------------------------- |
 | `asciiStringToByteArray` | `(text: string) => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L49)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L48)
 
 #### :gear: hexStringToUint8Array
 
@@ -304,7 +304,7 @@ Parameters:
 | ----------------------- | ----------------------------------- |
 | `hexStringToUint8Array` | `(hexString: string) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L52)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L51)
 
 #### :gear: uint8ArrayToHexString
 
@@ -312,7 +312,7 @@ Parameters:
 | ----------------------- | ------------------------------------------- |
 | `uint8ArrayToHexString` | `(bytes: Uint8Array or number[]) => string` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L60)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L59)
 
 #### :gear: candidNumberArrayToBigInt
 
@@ -320,7 +320,7 @@ Parameters:
 | --------------------------- | ----------------------------- |
 | `candidNumberArrayToBigInt` | `(array: number[]) => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L69)
 
 #### :gear: encodeBase32
 
@@ -523,7 +523,7 @@ Parameters:
 - `func`: - The function to debounce. It will only be called after no new calls happen within the specified timeout.
 - `timeout`: - The debounce delay in milliseconds. Defaults to 300ms if not provided or invalid.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L12)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L13)
 
 #### :gear: toNullable
 

@@ -332,10 +332,10 @@ export class TokenAmountV2 {
   public toE8s(): bigint {
     if (this.token.decimals < 8) {
       return this.ulps * 10n ** BigInt(8 - this.token.decimals);
-    } else if (this.token.decimals === 8) {
-      return this.ulps;
-    } else {
-      return this.ulps / 10n ** BigInt(this.token.decimals - 8);
     }
+    if (this.token.decimals === 8) {
+      return this.ulps;
+    }
+    return this.ulps / 10n ** BigInt(this.token.decimals - 8);
   }
 }

@@ -996,7 +996,8 @@ const fromRewardMode = (rewardMode: RewardMode): RawRewardMode => {
         dissolve_delay_seconds: rewardMode.RewardToNeuron.dissolveDelaySeconds,
       },
     };
-  } else if ("RewardToAccount" in rewardMode) {
+  }
+  if ("RewardToAccount" in rewardMode) {
     return {
       RewardToAccount: {
         to_account:
@@ -1005,10 +1006,9 @@ const fromRewardMode = (rewardMode: RewardMode): RawRewardMode => {
             : [],
       },
     };
-  } else {
-    // If there's a missing rewardMode above, this line will cause a compiler error.
-    throw new UnsupportedValueError(rewardMode);
   }
+  // If there's a missing rewardMode above, this line will cause a compiler error.
+  throw new UnsupportedValueError(rewardMode);
 };
 
 const fromClaimOrRefreshBy = (by: By): RawBy => {
@@ -1016,11 +1016,13 @@ const fromClaimOrRefreshBy = (by: By): RawBy => {
     return {
       NeuronIdOrSubaccount: {},
     };
-  } else if ("Memo" in by) {
+  }
+  if ("Memo" in by) {
     return {
       Memo: by.Memo,
     };
-  } else if ("MemoAndController" in by) {
+  }
+  if ("MemoAndController" in by) {
     return {
       MemoAndController: {
         memo: by.MemoAndController.memo,
@@ -1029,10 +1031,9 @@ const fromClaimOrRefreshBy = (by: By): RawBy => {
           : [],
       },
     };
-  } else {
-    // Ensures all cases are covered at compile-time.
-    throw new UnsupportedValueError(by);
   }
+  // Ensures all cases are covered at compile-time.
+  throw new UnsupportedValueError(by);
 };
 
 export const fromListNeurons = ({

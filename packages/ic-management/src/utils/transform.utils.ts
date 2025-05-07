@@ -33,7 +33,8 @@ export const transform: CallTransform | QueryTransform = (
       nonNullish(first.target_canister)
     ) {
       return { effectiveCanisterId: Principal.from(first.target_canister) };
-    } else if (nonNullish(first.canister_id)) {
+    }
+    if (nonNullish(first.canister_id)) {
       return { effectiveCanisterId: Principal.from(first.canister_id) };
     }
   }
