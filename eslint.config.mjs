@@ -23,7 +23,6 @@ export default [
       "@typescript-eslint/prefer-nullish-coalescing": "off",
       "no-else-return": "off",
       "@typescript-eslint/no-unsafe-function-type": "off",
-      "@typescript-eslint/consistent-type-imports": "off",
       "prefer-template": "off",
       curly: "off",
     },
