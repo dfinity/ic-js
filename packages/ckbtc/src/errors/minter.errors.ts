@@ -22,7 +22,7 @@ export class MinterNoNewUtxosError extends MinterUpdateBalanceError {
     required_confirmations: number;
   }) {
     super();
-    this.pendingUtxos = fromNullable(pending_utxos) || [];
+    this.pendingUtxos = fromNullable(pending_utxos) ?? [];
     this.requiredConfirmations = required_confirmations;
   }
 }
