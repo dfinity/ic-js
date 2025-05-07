@@ -22,6 +22,6 @@ export class GovernanceError extends Error {
  */
 export class UnsupportedValueError extends Error {
   constructor(value: never) {
-    super("Unsupported value: " + value);
+    super(`Unsupported value: ${value}`);
   }
 }
