@@ -6,13 +6,13 @@ import {
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
-import {
-  type _SERVICE as CkBTCMinterService,
-  type MinterInfo,
-  type RetrieveBtcOk,
-  type RetrieveBtcStatus,
-  type Utxo,
-  type Account as WithdrawalAccount,
+import type {
+  _SERVICE as CkBTCMinterService,
+  MinterInfo,
+  RetrieveBtcOk,
+  RetrieveBtcStatus,
+  Utxo,
+  Account as WithdrawalAccount,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
