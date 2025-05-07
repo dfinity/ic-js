@@ -19,7 +19,6 @@ export default [
       "no-useless-rename": "off",
       "prefer-destructuring": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
-      "no-else-return": "off",
     },
   },
   {
