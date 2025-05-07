@@ -30,7 +30,7 @@ import {
   type UploadChunkParams,
 } from "./types/ic-management.params";
 import type { CanisterStatusResponse } from "./types/ic-management.responses";
-import { type FetchCanisterLogsResponse } from "./types/ic-management.responses";
+import type { FetchCanisterLogsResponse } from "./types/ic-management.responses";
 import { decodeSnapshotId } from "./utils/ic-management.utils";
 
 describe("ICManagementCanister", () => {

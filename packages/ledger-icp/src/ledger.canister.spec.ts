@@ -7,9 +7,9 @@ import type {
   Value,
   icrc21_consent_message_response,
 } from "../candid/ledger";
-import {
-  type Account,
-  type ApproveArgs as Icrc2ApproveRawRequest,
+import type {
+  Account,
+  ApproveArgs as Icrc2ApproveRawRequest,
 } from "../candid/ledger";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
