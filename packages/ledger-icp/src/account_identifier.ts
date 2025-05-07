@@ -84,7 +84,9 @@ export class SubAccount {
   }
 
   public static fromID(id: number): SubAccount {
-    if (id < 0) throw new Error("Number cannot be negative");
+    if (id < 0) {
+      throw new Error("Number cannot be negative");
+    }
 
     if (id > Number.MAX_SAFE_INTEGER) {
       throw new Error("Number is too large to fit in 32 bytes.");
