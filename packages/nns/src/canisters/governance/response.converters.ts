@@ -275,12 +275,10 @@ const toDissolveState = (dissolveState: RawDissolveState): DissolveState => {
     return {
       DissolveDelaySeconds: dissolveState.DissolveDelaySeconds,
     };
-  } else {
-    return {
-      WhenDissolvedTimestampSeconds:
-        dissolveState.WhenDissolvedTimestampSeconds,
-    };
   }
+  return {
+    WhenDissolvedTimestampSeconds: dissolveState.WhenDissolvedTimestampSeconds,
+  };
 };
 
 const toFollowees = ({
@@ -1019,7 +1017,8 @@ const toRewardMode = (rewardMode: RawRewardMode): RewardMode => {
         dissolveDelaySeconds: rewardMode.RewardToNeuron.dissolve_delay_seconds,
       },
     };
-  } else if ("RewardToAccount" in rewardMode) {
+  }
+  if ("RewardToAccount" in rewardMode) {
     return {
       RewardToAccount: {
         toAccount:
@@ -1029,10 +1028,9 @@ const toRewardMode = (rewardMode: RawRewardMode): RewardMode => {
             : undefined,
       },
     };
-  } else {
-    // Ensures all cases are covered at compile-time.
-    throw new UnsupportedValueError(rewardMode);
   }
+  // Ensures all cases are covered at compile-time.
+  throw new UnsupportedValueError(rewardMode);
 };
 
 const toClaimOrRefreshBy = (by: RawBy): By => {
@@ -1040,11 +1038,13 @@ const toClaimOrRefreshBy = (by: RawBy): By => {
     return {
       NeuronIdOrSubaccount: {},
     };
-  } else if ("Memo" in by) {
+  }
+  if ("Memo" in by) {
     return {
       Memo: by.Memo,
     };
-  } else if ("MemoAndController" in by) {
+  }
+  if ("MemoAndController" in by) {
     return {
       MemoAndController: {
         memo: by.MemoAndController.memo,
@@ -1053,10 +1053,9 @@ const toClaimOrRefreshBy = (by: RawBy): By => {
           : undefined,
       },
     };
-  } else {
-    // Ensures all cases are covered at compile-time.
-    throw new UnsupportedValueError(by);
   }
+  // Ensures all cases are covered at compile-time.
+  throw new UnsupportedValueError(by);
 };
 
 export const toProposalInfo = (
