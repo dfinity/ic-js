@@ -25,7 +25,6 @@ export default [
       "@typescript-eslint/no-unsafe-function-type": "off",
       "@typescript-eslint/consistent-type-imports": "off",
       "prefer-template": "off",
-      curly: "off",
     },
   },
   {
