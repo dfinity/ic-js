@@ -20,7 +20,6 @@ export default [
       "prefer-destructuring": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
       "no-else-return": "off",
-      "@typescript-eslint/consistent-type-imports": "off",
     },
   },
   {
