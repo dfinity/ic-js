@@ -967,7 +967,7 @@ describe("Governance canister", () => {
     };
     const topic1: Topic = { DappCanisterManagement: null };
     const topic2: Topic = { Governance: null };
-    const alias: string = "alias";
+    const alias = "alias";
 
     it("should call manageNeuron", async () => {
       const request: ManageNeuron = {

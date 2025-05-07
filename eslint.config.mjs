@@ -18,7 +18,6 @@ export default [
       "@typescript-eslint/no-unnecessary-type-assertion": "off",
       "no-useless-rename": "off",
       "prefer-destructuring": "off",
-      "@typescript-eslint/no-inferrable-types": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
       "no-else-return": "off",
       "@typescript-eslint/consistent-type-imports": "off",
