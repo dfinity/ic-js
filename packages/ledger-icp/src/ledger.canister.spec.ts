@@ -3,13 +3,11 @@ import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
+  Account,
+  ApproveArgs as Icrc2ApproveRawRequest,
   _SERVICE as LedgerService,
   Value,
   icrc21_consent_message_response,
-} from "../candid/ledger";
-import {
-  type Account,
-  type ApproveArgs as Icrc2ApproveRawRequest,
 } from "../candid/ledger";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
