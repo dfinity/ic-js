@@ -1,6 +1,6 @@
 import type { Principal } from "@dfinity/principal";
 import { createServices, type QueryParams } from "@dfinity/utils";
-import { SubAccount } from "../candid/icrc_index";
+import type { SubAccount } from "../candid/icrc_index";
 import type {
   GetTransactions,
   _SERVICE as IcrcIndexNgService,

@@ -3,7 +3,7 @@ import type {
   Account,
   GetAccountTransactionsArgs,
 } from "../../candid/icrc_index";
-import { ListSubaccountsArgs } from "../../candid/icrc_index-ng";
+import type { ListSubaccountsArgs } from "../../candid/icrc_index-ng";
 import type { ListSubaccountsParams } from "../types/index-ng.params";
 import type { GetAccountTransactionsParams } from "../types/index.params";
 import type { IcrcAccount } from "../types/ledger.responses";
