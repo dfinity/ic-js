@@ -435,7 +435,7 @@ Parameters:
 
 ##### :gear: listSubaccounts
 
-Returns the list of subaccounts for a given Principal
+Returns the list of subaccounts for a given owner
 
 | Method            | Type                                                                       |
 | ----------------- | -------------------------------------------------------------------------- |
@@ -443,7 +443,7 @@ Returns the list of subaccounts for a given Principal
 
 Parameters:
 
-- `params`: The parameters to get the list of subaccounts from principal.
+- `params`: The parameters to get the list of subaccounts.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L87)
 
