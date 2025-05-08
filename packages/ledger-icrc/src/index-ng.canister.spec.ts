@@ -6,6 +6,7 @@ import { mock } from "jest-mock-extended";
 import type {
   Account,
   _SERVICE as IcrcIndexNgService,
+  SubAccount,
   Transaction,
 } from "../candid/icrc_index-ng";
 import { IndexError } from "./errors/index.errors";
@@ -165,6 +166,61 @@ describe("Index canister", () => {
 
       const res = await canister.status({});
       expect(res).toEqual(mockStatus);
+    });
+  });
+
+  describe("listSubaccounts", () => {
+    const mockSubaccounts: SubAccount[] = [
+      new Uint8Array([1, 2, 3, 4]),
+      new Uint8Array([5, 6, 7, 8]),
+    ];
+
+    it("should return the list of subaccounts for a Principal", async () => {
+      const service = mock<ActorSubclass<IcrcIndexNgService>>();
+      service.list_subaccounts.mockResolvedValue(mockSubaccounts);
+
+      const canister = IcrcIndexNgCanister.create({
+        canisterId: indexCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const res = await canister.listSubaccounts({
+        owner,
+      });
+
+      expect(service.list_subaccounts).toHaveBeenCalledTimes(1);
+      expect(service.list_subaccounts).toHaveBeenCalledWith({
+        owner,
+        start: [],
+      });
+      expect(res).toEqual(mockSubaccounts);
+    });
+
+    it("should pass the start parameter when provided", async () => {
+      const service = mock<ActorSubclass<IcrcIndexNgService>>();
+      service.list_subaccounts.mockResolvedValue(mockSubaccounts);
+
+      const canister = IcrcIndexNgCanister.create({
+        canisterId: indexCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const startSubaccount = new Uint8Array([1, 2, 3, 4]);
+
+      const res = await canister.listSubaccounts({
+        owner,
+        start: startSubaccount,
+        certified: true,
+      });
+
+      expect(service.list_subaccounts).toHaveBeenCalledTimes(1);
+      expect(service.list_subaccounts).toHaveBeenCalledWith({
+        owner,
+        start: [startSubaccount],
+      });
+      expect(res).toEqual(mockSubaccounts);
     });
   });
 });
