@@ -79,9 +79,9 @@ export class IcrcIndexNgCanister extends IcrcCanister<IcrcIndexNgService> {
     this.caller(params).status();
 
   /**
-   * Returns the list of subaccounts for a given Principal
+   * Returns the list of subaccounts for a given owner
    *
-   * @param {ListSubaccountsParams} params The parameters to get the list of subaccounts from principal.
+   * @param {ListSubaccountsParams} params The parameters to get the list of subaccounts.
    * @returns {Promise<Array<SubAccount>>} The list of subaccounts
    */
   listSubaccounts = ({

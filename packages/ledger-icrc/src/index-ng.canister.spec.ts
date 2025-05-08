@@ -11,7 +11,11 @@ import type {
 } from "../candid/icrc_index-ng";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexNgCanister } from "./index-ng.canister";
-import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";
+import {
+  indexCanisterIdMock,
+  ledgerCanisterIdMock,
+  mockPrincipal,
+} from "./mocks/ledger.mock";
 import type { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
@@ -175,7 +179,7 @@ describe("Index canister", () => {
       new Uint8Array([5, 6, 7, 8]),
     ];
 
-    it("should return the list of subaccounts for a Principal", async () => {
+    it("should return the list of subaccounts for a owner", async () => {
       const service = mock<ActorSubclass<IcrcIndexNgService>>();
       service.list_subaccounts.mockResolvedValue(mockSubaccounts);
 
@@ -184,7 +188,7 @@ describe("Index canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const owner = Principal.fromText("aaaaa-aa");
+      const owner = mockPrincipal;
       const res = await canister.listSubaccounts({
         owner,
       });
@@ -206,7 +210,7 @@ describe("Index canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const owner = Principal.fromText("aaaaa-aa");
+      const owner = mockPrincipal;
       const startSubaccount = new Uint8Array([1, 2, 3, 4]);
 
       const res = await canister.listSubaccounts({
