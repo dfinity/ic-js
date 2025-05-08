@@ -374,7 +374,7 @@ Returns the ledger canister ID related to the index canister.
 
 ### :factory: IcrcIndexNgCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L16)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L23)
 
 #### Static Methods
 
@@ -386,13 +386,14 @@ Returns the ledger canister ID related to the index canister.
 | -------- | ----------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexNgCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L17)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L24)
 
 #### Methods
 
 - [getTransactions](#gear-gettransactions)
 - [ledgerId](#gear-ledgerid)
 - [status](#gear-status)
+- [listSubaccounts](#gear-listsubaccounts)
 
 ##### :gear: getTransactions
 
@@ -406,7 +407,7 @@ Parameters:
 
 - `params`: The parameters to get the transactions of an account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L42)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L49)
 
 ##### :gear: ledgerId
 
@@ -416,7 +417,7 @@ Returns the ledger canister ID related to the index canister.
 | ---------- | --------------------------------------------- |
 | `ledgerId` | `(params: QueryParams) => Promise<Principal>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L60)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L67)
 
 ##### :gear: status
 
@@ -430,7 +431,21 @@ Parameters:
 
 - `params`: The parameters to get the status of the index canister.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L71)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L78)
+
+##### :gear: listSubaccounts
+
+Returns the list of subaccounts for a given Principal
+
+| Method            | Type                                                                       |
+| ----------------- | -------------------------------------------------------------------------- |
+| `listSubaccounts` | `({ certified, ...rest }: ListSubaccountsParams) => Promise<SubAccount[]>` |
+
+Parameters:
+
+- `params`: The parameters to get the list of subaccounts from principal.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L87)
 
 <!-- TSDOC_END -->
 
