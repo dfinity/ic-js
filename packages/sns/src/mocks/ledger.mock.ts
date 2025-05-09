@@ -1,5 +1,7 @@
-import type { IcrcValue } from "@dfinity/ledger-icrc";
-import { IcrcMetadataResponseEntries } from "@dfinity/ledger-icrc";
+import {
+  IcrcMetadataResponseEntries,
+  type IcrcValue,
+} from "@dfinity/ledger-icrc";
 import { Principal } from "@dfinity/principal";
 
 export const tokenMetadataResponseMock: [

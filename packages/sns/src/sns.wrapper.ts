@@ -11,8 +11,11 @@ import type {
   TransferParams,
 } from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
-import type { QueryParams } from "@dfinity/utils";
-import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
+import {
+  bigIntToUint8Array,
+  toNullable,
+  type QueryParams,
+} from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,

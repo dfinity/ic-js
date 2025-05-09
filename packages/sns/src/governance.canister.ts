@@ -1,11 +1,11 @@
 import type { Principal } from "@dfinity/principal";
-import type { QueryParams } from "@dfinity/utils";
 import {
-  assertPercentageNumber,
   Canister,
+  assertPercentageNumber,
   createServices,
   fromNullable,
   toNullable,
+  type QueryParams,
 } from "@dfinity/utils";
 import type {
   GetMetadataResponse,

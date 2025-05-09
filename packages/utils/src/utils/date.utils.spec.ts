@@ -1,9 +1,9 @@
 import { describe } from "@jest/globals";
-import type { I18nSecondsToDuration } from "./date.utils";
 import {
   nowInBigIntNanoSeconds,
   secondsToDuration,
   toBigIntNanoSeconds,
+  type I18nSecondsToDuration,
 } from "./date.utils";
 
 describe("date.utils", () => {

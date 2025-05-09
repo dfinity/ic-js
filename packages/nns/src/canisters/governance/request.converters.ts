@@ -1,8 +1,8 @@
-import type {
-  AccountIdentifier as AccountIdentifierClass,
-  AccountIdentifierHex,
+import {
+  accountIdentifierToBytes,
+  type AccountIdentifier as AccountIdentifierClass,
+  type AccountIdentifierHex,
 } from "@dfinity/ledger-icp";
-import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import {
   arrayBufferToUint8Array,

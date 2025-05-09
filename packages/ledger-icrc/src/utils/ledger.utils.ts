@@ -8,12 +8,12 @@ import {
   notEmptyString,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
-import type {
-  IcrcAccount,
-  IcrcTokenMetadata,
-  IcrcTokenMetadataResponse,
+import {
+  IcrcMetadataResponseEntries,
+  type IcrcAccount,
+  type IcrcTokenMetadata,
+  type IcrcTokenMetadataResponse,
 } from "../types/ledger.responses";
-import { IcrcMetadataResponseEntries } from "../types/ledger.responses";
 
 const MAX_SUBACCOUNT_HEX_LENGTH = 64;
 
