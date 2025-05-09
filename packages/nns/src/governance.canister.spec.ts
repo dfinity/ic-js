@@ -54,7 +54,7 @@ const nextRandomBytes: number[] = [];
 
 jest.mock("randombytes", () => ({
   __esModule: true,
-  default: (n: number): Uint8Array => {
+  default(n: number): Uint8Array {
     const nums: number[] = [];
     for (let i = 0; i < n; i++) {
       const nextByte = nextRandomBytes.shift();
