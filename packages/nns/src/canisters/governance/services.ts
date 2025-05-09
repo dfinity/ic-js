@@ -1,3 +1,4 @@
+import { isNullish } from "@dfinity/utils";
 import type {
   Command_1,
   _SERVICE as GovernanceService,
@@ -5,7 +6,6 @@ import type {
   ManageNeuronResponse,
 } from "../../../candid/governance";
 import { GovernanceError } from "../../errors/governance.errors";
-import { isNullish } from "@dfinity/utils";
 
 /**
  * Checks a Manage Neuron Response for error and returns successful response data.
