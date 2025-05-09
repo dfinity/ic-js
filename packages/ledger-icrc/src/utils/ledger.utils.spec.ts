@@ -97,7 +97,7 @@ describe("ledger-utils", () => {
       subaccount1[31] = 1;
       const account1 = {
         owner: Principal.fromText("2vxsx-fae"),
-        subaccount: subaccount,
+        subaccount,
       };
       expect(decodeIcrcAccount(encodeIcrcAccount(account1))).toEqual(account1);
 
