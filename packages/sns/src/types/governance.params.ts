@@ -60,7 +60,7 @@ export interface SnsListProposalsParams extends QueryParams {
   includeTopics?: Array<Topic | null>;
 }
 
-export interface SnsListTopicsParams extends QueryParams {}
+export type SnsListTopicsParams = QueryParams;
 
 /**
  * The parameters to get an sns proposal

@@ -5,7 +5,6 @@ export default [
   {
     rules: {
       "require-await": "off",
-      "@typescript-eslint/no-empty-object-type": "off",
       "import/no-relative-parent-imports": "off",
       "local-rules/use-option-type-wrapper": "off",
       "@typescript-eslint/no-unused-vars": "off",
