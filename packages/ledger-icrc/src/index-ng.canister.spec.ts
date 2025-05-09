@@ -52,7 +52,7 @@ describe("Index canister", () => {
       };
       const transactionWithId = {
         id: BigInt(1),
-        transaction: transaction,
+        transaction,
       };
       const service = mock<ActorSubclass<IcrcIndexNgService>>();
       service.get_account_transactions.mockResolvedValue({

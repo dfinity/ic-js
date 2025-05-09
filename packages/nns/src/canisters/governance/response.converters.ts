@@ -135,7 +135,7 @@ export const toNeuronInfo = ({
     ? toNeuron({ neuron: rawNeuron, canisterId })
     : undefined;
   return {
-    neuronId: neuronId,
+    neuronId,
     dissolveDelaySeconds: neuronInfo.dissolve_delay_seconds,
     recentBallots: neuronInfo.recent_ballots.map(toBallotInfo),
     neuronType: fromNullable(neuronInfo.neuron_type) as NeuronType | undefined,
@@ -157,7 +157,7 @@ export const toNeuronInfo = ({
     visibility: fromNullable(neuronInfo.visibility) as
       | NeuronVisibility
       | undefined,
-    fullNeuron: fullNeuron,
+    fullNeuron,
   };
 };
 
