@@ -12,8 +12,6 @@ export default [
       "local-rules/use-option-type-wrapper": "off",
       "arrow-body-style": "off",
       "local-rules/prefer-object-params": "off",
-      "prefer-arrow/prefer-arrow-functions": "off",
-      "func-style": "off",
       "import/no-duplicates": "off",
       "no-useless-rename": "off",
     },
