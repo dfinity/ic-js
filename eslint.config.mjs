@@ -5,7 +5,6 @@ export default [
   {
     rules: {
       "require-await": "off",
-      "@typescript-eslint/no-empty-object-type": "off",
       "import/no-relative-parent-imports": "off",
       // Enforcing Option<Type> for nullish values would require every library to define or depend on such a wrapper.
       // This rule is more appropriate in applications where null and undefined have distinct meanings.
