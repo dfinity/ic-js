@@ -18,7 +18,7 @@ export const PrincipalTextSchema = z.string().refine(
     try {
       Principal.fromText(principal);
       return true;
-    } catch (err: unknown) {
+    } catch (_err: unknown) {
       return false;
     }
   },

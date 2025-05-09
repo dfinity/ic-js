@@ -1,3 +1,9 @@
+# Next version
+
+## Features
+
+- Expose method `listSubaccounts` in class `IcrcIndexNgCanister`.
+
 # v69
 
 ## Overview
