@@ -17,6 +17,7 @@ type QueryTransform = Required<ActorConfig>["queryTransform"];
  *
  * @link https://internetcomputer.org/docs/current/references/ic-interface-spec/#http-effective-canister-id
  **/
+// eslint-disable-next-line local-rules/prefer-object-params
 export const transform: CallTransform | QueryTransform = (
   methodName: string,
   args: (Record<string, unknown> & {

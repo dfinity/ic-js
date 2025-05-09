@@ -20,10 +20,16 @@ export const encodePrincipalToEthAddress = (principal: Principal): string => {
  * @param {number} b A byte.
  * @return {string} An updated string.
  */
-const appendHexByte = (s: string, b: number): string => {
-  s += ((b >> 4) & 0x0f).toString(16);
-  s += (b & 0x0f).toString(16);
-  return s;
+const appendHexByte = ({
+  stringToAppend,
+  bytes,
+}: {
+  stringToAppend: string;
+  bytes: number;
+}): string => {
+  stringToAppend += ((bytes >> 4) & 0x0f).toString(16);
+  stringToAppend += (bytes & 0x0f).toString(16);
+  return stringToAppend;
 };
 
 /**
@@ -34,9 +40,9 @@ const appendHexByte = (s: string, b: number): string => {
 const bytes32Encode = (bytes: Uint8Array): string => {
   const n = bytes.length;
   let s = "0x";
-  s = appendHexByte(s, n);
+  s = appendHexByte({ stringToAppend: s, bytes: n });
   for (let i = 0; i < bytes.length; i++) {
-    s = appendHexByte(s, bytes[i]);
+    s = appendHexByte({ stringToAppend: s, bytes: bytes[i] });
   }
   for (let i = 0; i < 31 - bytes.length; i++) {
     s += "00";

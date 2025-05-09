@@ -173,6 +173,7 @@ describe("ledger-utils", () => {
 
     it.each(missingFieldCases)(
       "should return undefined for %s",
+      // eslint-disable-next-line local-rules/prefer-object-params
       (_, response) => {
         const result = mapTokenMetadata(response);
         expect(result).toBeUndefined();
@@ -216,6 +217,7 @@ describe("ledger-utils", () => {
 
     it.each(invalidFieldCases)(
       "should return undefined for %s",
+      // eslint-disable-next-line local-rules/prefer-object-params
       (_, response) => {
         const result = mapTokenMetadata(response);
         expect(result).toBeUndefined();

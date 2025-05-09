@@ -59,12 +59,12 @@ export const secondsToDuration = ({
   days -= daysInYears(years);
 
   const periods = [
-    createLabel("year", years),
-    createLabel("day", days),
-    createLabel("hour", hours),
-    createLabel("minute", minutes),
+    createLabel({ labelKey: "year", amount: years }),
+    createLabel({ labelKey: "day", amount: days }),
+    createLabel({ labelKey: "hour", amount: hours }),
+    createLabel({ labelKey: "minute", amount: minutes }),
     ...(seconds > BigInt(0) && seconds < BigInt(60)
-      ? [createLabel("second", seconds)]
+      ? [createLabel({ labelKey: "second", amount: seconds })]
       : []),
   ];
 
@@ -102,7 +102,13 @@ type LabelInfo = {
   labelKey: LabelKey;
   amount: number;
 };
-const createLabel = (labelKey: LabelKey, amount: bigint): LabelInfo => ({
+const createLabel = ({
+  labelKey,
+  amount,
+}: {
+  labelKey: LabelKey;
+  amount: bigint;
+}): LabelInfo => ({
   labelKey,
   amount: Number(amount),
 });

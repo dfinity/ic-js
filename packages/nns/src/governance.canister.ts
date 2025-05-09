@@ -522,6 +522,7 @@ export class GovernanceCanister {
    *
    * @throws {@link GovernanceError}
    */
+  // eslint-disable-next-line local-rules/prefer-object-params
   public setVisibility = async (
     neuronId: NeuronId,
     visibility: NeuronVisibility,
