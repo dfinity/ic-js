@@ -25,7 +25,7 @@ export const transform: CallTransform | QueryTransform = (
   })[],
   _callConfig: CallConfig,
 ): { effectiveCanisterId: Principal } => {
-  const first = args[0];
+  const [first] = args;
 
   if (nonNullish(first) && typeof first === "object") {
     if (
