@@ -232,7 +232,7 @@ Parameters:
 | -------------- | ---------------------------------------------------------------- |
 | `asNonNullish` | `<T>(value: T, message?: string or undefined) => NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L16)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L18)
 
 #### :gear: assertPercentageNumber
 
@@ -240,7 +240,7 @@ Parameters:
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L21)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L23)
 
 #### :gear: uint8ArrayToBigInt
 
@@ -407,7 +407,7 @@ Parameters:
 - `_key`: - Ignored. Only provided for API compatibility.
 - `value`: - The value to transform before stringification.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L21)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L22)
 
 #### :gear: jsonReviver
 
@@ -430,7 +430,7 @@ Parameters:
 - `_key`: - Ignored but provided for API compatibility.
 - `value`: - The parsed value to transform.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L51)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L53)
 
 #### :gear: hashObject
 
@@ -490,7 +490,7 @@ Returns the current timestamp in nanoseconds as a `bigint`.
 | ------------------------ | -------------- |
 | `nowInBigIntNanoSeconds` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L117)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L123)
 
 #### :gear: toBigIntNanoSeconds
 
@@ -504,7 +504,7 @@ Parameters:
 
 - `date`: - The `Date` object to convert.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L126)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L132)
 
 #### :gear: debounce
 
@@ -611,7 +611,7 @@ Parameters:
 - `params.minVersion`: Ex: "1.0.0"
 - `params.currentVersion`: Ex: "2.0.0"
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L28)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L34)
 
 ### :wrench: Constants
 
