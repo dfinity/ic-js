@@ -453,7 +453,7 @@ const toAction = (action: RawAction): Action => {
   }
 
   if ("SetSnsTokenSwapOpenTimeWindow" in action) {
-    const SetSnsTokenSwapOpenTimeWindow = action.SetSnsTokenSwapOpenTimeWindow;
+    const { SetSnsTokenSwapOpenTimeWindow } = action;
     const request = SetSnsTokenSwapOpenTimeWindow.request?.length
       ? {
           openTimeWindow: SetSnsTokenSwapOpenTimeWindow.request[0]
@@ -484,7 +484,7 @@ const toAction = (action: RawAction): Action => {
   }
 
   if ("OpenSnsTokenSwap" in action) {
-    const OpenSnsTokenSwap = action.OpenSnsTokenSwap;
+    const { OpenSnsTokenSwap } = action;
     const params: Params | undefined = fromNullable(OpenSnsTokenSwap.params);
 
     return {

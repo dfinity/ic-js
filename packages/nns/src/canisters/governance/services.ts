@@ -15,7 +15,7 @@ export const getSuccessfulCommandFromResponse = (
   response: ManageNeuronResponse,
 ): Command_1 => {
   const { command } = response;
-  const data = command[0];
+  const [data] = command;
   if (!data) {
     throw new GovernanceError({
       error_message: "Error updating neuron",
