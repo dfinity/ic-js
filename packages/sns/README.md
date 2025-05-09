@@ -549,7 +549,7 @@ Get sale parameters
 | ------------------- | --------------------------------------------------------------------- |
 | `getSaleParameters` | `({ certified, }: QueryParams) => Promise<GetSaleParametersResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L93)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L92)
 
 ##### :gear: getOpenTicket
 
@@ -559,7 +559,7 @@ Return a sale ticket if created and not yet removed (payment flow)
 | --------------- | ------------------------------------------------------- |
 | `getOpenTicket` | `(params: QueryParams) => Promise<Ticket or undefined>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L102)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L100)
 
 ##### :gear: newSaleTicket
 
@@ -569,7 +569,7 @@ Create a sale ticket (payment flow)
 | --------------- | -------------------------------------------------- |
 | `newSaleTicket` | `(params: NewSaleTicketParams) => Promise<Ticket>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L119)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L117)
 
 ##### :gear: getLifecycle
 
@@ -579,7 +579,7 @@ Get sale lifecycle state
 | -------------- | -------------------------------------------------------- |
 | `getLifecycle` | `(params: QueryParams) => Promise<GetLifecycleResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L144)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L142)
 
 ##### :gear: getFinalizationStatus
 
@@ -589,7 +589,7 @@ Get sale lifecycle state
 | ----------------------- | --------------------------------------------------------------------- |
 | `getFinalizationStatus` | `(params: QueryParams) => Promise<GetAutoFinalizationStatusResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L151)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/swap.canister.ts#L148)
 
 ### :factory: SnsWrapper
 
