@@ -19,7 +19,6 @@ import type {
   NeuronId,
   ProposalData,
   _SERVICE as SnsGovernanceService,
-  SplitResponse,
 } from "../candid/sns_governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";
@@ -251,7 +250,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     }
 
     if ("Split" in response) {
-      const split = response.Split as SplitResponse;
+      const split = response.Split;
       const neuronId = fromNullable(split.created_neuron_id) as NeuronId;
 
       if (neuronId !== undefined) {
