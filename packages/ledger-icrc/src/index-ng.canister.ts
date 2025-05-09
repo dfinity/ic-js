@@ -1,5 +1,6 @@
 import type { Principal } from "@dfinity/principal";
 import { createServices, type QueryParams } from "@dfinity/utils";
+import type { SubAccount } from "../candid/icrc_index";
 import type {
   GetTransactions,
   _SERVICE as IcrcIndexNgService,
@@ -8,10 +9,16 @@ import type {
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc_index-ng.certified.idl";
 import { idlFactory } from "../candid/icrc_index-ng.idl";
 import { IcrcCanister } from "./canister";
-import { toGetTransactionsArgs } from "./converters/index.converters";
+import {
+  toGetTransactionsArgs,
+  toListSubaccountsParams,
+} from "./converters/index.converters";
 import { IndexError } from "./errors/index.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
-import type { GetIndexNgAccountTransactionsParams } from "./types/index-ng.params";
+import type {
+  GetIndexNgAccountTransactionsParams,
+  ListSubaccountsParams,
+} from "./types/index-ng.params";
 
 export class IcrcIndexNgCanister extends IcrcCanister<IcrcIndexNgService> {
   static create(options: IcrcLedgerCanisterOptions<IcrcIndexNgService>) {
@@ -70,4 +77,16 @@ export class IcrcIndexNgCanister extends IcrcCanister<IcrcIndexNgService> {
    */
   status = (params: QueryParams): Promise<Status> =>
     this.caller(params).status();
+
+  /**
+   * Returns the list of subaccounts for a given owner.
+   *
+   * @param {ListSubaccountsParams} params The parameters to get the list of subaccounts.
+   * @returns {Promise<Array<SubAccount>>} The list of subaccounts.
+   */
+  listSubaccounts = ({
+    certified,
+    ...rest
+  }: ListSubaccountsParams): Promise<Array<SubAccount>> =>
+    this.caller({ certified }).list_subaccounts(toListSubaccountsParams(rest));
 }

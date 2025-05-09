@@ -173,9 +173,9 @@ List the proposals of the Sns
 
 List the topics of the Sns
 
-| Method       | Type                                                           |
-| ------------ | -------------------------------------------------------------- |
-| `listTopics` | `(params: SnsListTopicsParams) => Promise<ListTopicsResponse>` |
+| Method       | Type                                                   |
+| ------------ | ------------------------------------------------------ |
+| `listTopics` | `(params: QueryParams) => Promise<ListTopicsResponse>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/governance.canister.ts#L115)
 

@@ -435,7 +435,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     command,
   }: ManageNeuronResponse): void => {
     // TODO: use upcoming fromDefinedNullable
-    const firstCommand = command[0];
+    const [firstCommand] = command;
     if (firstCommand !== undefined && "Error" in firstCommand) {
       throw new SnsGovernanceError(firstCommand.Error.error_message);
     }
