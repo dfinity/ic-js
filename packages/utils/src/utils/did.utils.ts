@@ -8,9 +8,8 @@ import { nonNullish } from "./nullish.utils";
  * @param {T | null | undefined} value - The value to convert into a Candid-style variant.
  * @returns {[] | [T]} A Candid-style variant representation: an empty array for `null` and `undefined` or an array with the value.
  */
-export const toNullable = <T>(value?: T | null): [] | [T] => {
-  return nonNullish(value) ? [value] : [];
-};
+export const toNullable = <T>(value?: T | null): [] | [T] =>
+  nonNullish(value) ? [value] : [];
 
 /**
  * Extracts the value from a Candid-style variant representation of an optional value.
@@ -19,9 +18,7 @@ export const toNullable = <T>(value?: T | null): [] | [T] => {
  * @param {[] | [T]} value - A Candid-style variant representing an optional value.
  * @returns {T | undefined} The extracted value, or `undefined` if the array is empty.
  */
-export const fromNullable = <T>(value: [] | [T]): T | undefined => {
-  return value?.[0];
-};
+export const fromNullable = <T>(value: [] | [T]): T | undefined => value?.[0];
 
 /**
  * Extracts the value from a Candid-style variant representation of an optional value,
