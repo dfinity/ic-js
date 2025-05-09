@@ -213,7 +213,7 @@ describe("IndexCanister", () => {
       });
     });
 
-    it("throws errors", async () => {
+    it("throws errors", () => {
       const transactionsErrorMock = {
         Err: {
           message: "Test error",

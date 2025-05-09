@@ -6,13 +6,13 @@ export const mockHttpAgent = {
     ok: true,
     status: 200,
     statusText: "OK",
-    json: async () => ({ data: "mocked call result" }),
+    json: () => ({ data: "mocked call result" }),
   }),
   query: jest.fn().mockResolvedValue({
     ok: true,
     status: 200,
     statusText: "OK",
-    json: async () => ({ data: "mocked query result" }),
+    json: () => ({ data: "mocked query result" }),
   }),
   fetchRootKey: jest.fn().mockResolvedValue(undefined),
 } as unknown as HttpAgent;
@@ -22,13 +22,13 @@ export const mockHttpAgent2 = {
     ok: true,
     status: 200,
     statusText: "OK",
-    json: async () => ({ data: "mocked call result" }),
+    json: () => ({ data: "mocked call result" }),
   }),
   query: jest.fn().mockResolvedValue({
     ok: true,
     status: 200,
     statusText: "OK",
-    json: async () => ({ data: "mocked query result" }),
+    json: () => ({ data: "mocked query result" }),
   }),
   fetchRootKey: jest.fn().mockResolvedValue(undefined),
 } as unknown as HttpAgent;

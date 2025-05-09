@@ -305,9 +305,7 @@ export class GovernanceCanister {
    * it's fetched using a query call.
    *
    */
-  public getLastestRewardEvent = async (
-    certified = true,
-  ): Promise<RewardEvent> =>
+  public getLastestRewardEvent = (certified = true): Promise<RewardEvent> =>
     this.getGovernanceService(certified).get_latest_reward_event();
 
   /**

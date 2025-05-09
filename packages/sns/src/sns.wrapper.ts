@@ -324,7 +324,7 @@ export class SnsWrapper {
     return this.governance.refreshNeuron(neuronId);
   };
 
-  getNeuronBalance = async (neuronId: NeuronId): Promise<IcrcTokens> => {
+  getNeuronBalance = (neuronId: NeuronId): Promise<IcrcTokens> => {
     const account = {
       ...this.owner,
       subaccount: Uint8Array.from(neuronId.id),
@@ -384,7 +384,7 @@ export class SnsWrapper {
     this.governance.setFollowing(params);
 
   // Always certified
-  registerVote = async (params: SnsRegisterVoteParams): Promise<void> =>
+  registerVote = (params: SnsRegisterVoteParams): Promise<void> =>
     this.governance.registerVote(params);
 
   swapState = (

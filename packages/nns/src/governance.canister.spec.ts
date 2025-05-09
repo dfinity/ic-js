@@ -1140,7 +1140,7 @@ describe("GovernanceCanister", () => {
       expect(response).toBe(neuronId);
     });
 
-    it("throws in unexpected response", async () => {
+    it("throws in unexpected response", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
@@ -1413,7 +1413,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response does not match", async () => {
+    it("throws error if response does not match", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
@@ -1449,7 +1449,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1481,7 +1481,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1550,7 +1550,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalledWith(command(false));
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1583,7 +1583,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1618,7 +1618,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1668,7 +1668,7 @@ describe("GovernanceCanister", () => {
       });
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1715,7 +1715,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const sourceNeuronId = BigInt(10);
       const targetNeuronId = BigInt(13);
       const serviceResponse: ManageNeuronResponse = {
@@ -1768,7 +1768,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const sourceNeuronId = BigInt(12);
       const targetNeuronId = BigInt(15);
       const serviceResponse: ManageNeuronResponse = {
@@ -1814,7 +1814,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if percentage not valid", async () => {
+    it("throws error if percentage not valid", () => {
       const service = mock<ActorSubclass<GovernanceService>>();
 
       const governance = GovernanceCanister.create({
@@ -1829,7 +1829,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
@@ -1922,7 +1922,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
@@ -1970,7 +1970,7 @@ describe("GovernanceCanister", () => {
       expect(response).toBe(neuronId);
     });
 
-    it("throws error if percentage not valid", async () => {
+    it("throws error if percentage not valid", () => {
       const service = mock<ActorSubclass<GovernanceService>>();
 
       const governance = GovernanceCanister.create({
@@ -1985,7 +1985,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
@@ -2022,7 +2022,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -2040,7 +2040,7 @@ describe("GovernanceCanister", () => {
       expect(call).rejects.toThrow(new GovernanceError(error));
     });
 
-    it("throws error if invalid account id", async () => {
+    it("throws error if invalid account id", () => {
       const neuronId = BigInt(10);
       const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockImplementation(jest.fn());
@@ -2076,7 +2076,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalledTimes(1);
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -2115,7 +2115,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const amount = BigInt(600_000_000);
       const serviceResponse: ManageNeuronResponse = {
@@ -2152,7 +2152,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -2184,7 +2184,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -2242,7 +2242,7 @@ describe("GovernanceCanister", () => {
       expect(response).toEqual(undefined);
     });
 
-    it("throws error if response is error", async () => {
+    it("throws error if response is error", () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };

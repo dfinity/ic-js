@@ -79,7 +79,7 @@ describe("Index canister", () => {
       expect(res.transactions).toEqual([transactionWithId]);
     });
 
-    it("raises error when Err in response", async () => {
+    it("raises error when Err in response", () => {
       const service = mock<ActorSubclass<IcrcIndexNgService>>();
       service.get_account_transactions.mockResolvedValue({
         Err: {

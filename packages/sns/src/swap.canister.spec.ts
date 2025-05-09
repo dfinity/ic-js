@@ -78,7 +78,7 @@ describe("Swap canister", () => {
     expect(res).toEqual(saleTicketMock);
   });
 
-  it("should throw open sale ticket", async () => {
+  it("should throw open sale ticket", () => {
     const mockResponse: GetOpenTicketResponse = {
       result: [
         {
@@ -129,7 +129,7 @@ describe("Swap canister", () => {
     expect(ticket).toEqual(saleTicketMock);
   });
 
-  it("should throw new sale ticket error", async () => {
+  it("should throw new sale ticket error", () => {
     const min_amount_icp_e8s_included = 123n;
     const max_amount_icp_e8s_included = 321n;
 
@@ -264,7 +264,7 @@ describe("Swap canister", () => {
       expect(res).toEqual(mockResponse);
     });
 
-    it("throw UnsupportedMethodError if method not supported", async () => {
+    it("throw UnsupportedMethodError if method not supported", () => {
       const errorMessage = `Call failed:
       Canister: s55qq-oqaaa-aaaaa-aaakq-cai
       Method: get_auto_finalization_status (query)
@@ -287,7 +287,7 @@ describe("Swap canister", () => {
       );
     });
 
-    it("throw forward error if not unsupported method error", async () => {
+    it("throw forward error if not unsupported method error", () => {
       const errorMessage = "Another error";
       const err = new Error(errorMessage);
 

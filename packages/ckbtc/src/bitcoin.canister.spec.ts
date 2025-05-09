@@ -117,7 +117,7 @@ describe("BitcoinCanister", () => {
       });
     });
 
-    it("throws Error", async () => {
+    it("throws Error", () => {
       const error = new Error("Test");
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_utxos_query.mockRejectedValue(error);
@@ -179,7 +179,7 @@ describe("BitcoinCanister", () => {
       });
     });
 
-    it("throws Error", async () => {
+    it("throws Error", () => {
       const error = new Error("Test");
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_balance_query.mockRejectedValue(error);

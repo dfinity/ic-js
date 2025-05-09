@@ -894,8 +894,8 @@ describe("ckETH minter canister", () => {
 
       const canister = minter(service);
 
-      expect(() =>
-        canister.getMinterInfo({ certified: true }),
+      expect(
+        async () => await canister.getMinterInfo({ certified: true }),
       ).rejects.toThrowError();
     });
   });

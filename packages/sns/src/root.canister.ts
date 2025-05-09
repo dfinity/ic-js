@@ -29,7 +29,7 @@ export class SnsRootCanister extends Canister<SnsRootService> {
    *
    * @returns {ListSnsCanistersResponse} - A list of canisters ('root' | 'governance' | 'ledger' | 'dapps' | 'swap' | 'archives')
    */
-  listSnsCanisters = async ({
+  listSnsCanisters = ({
     certified = true,
   }: {
     certified?: boolean;
