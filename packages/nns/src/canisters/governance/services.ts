@@ -1,3 +1,4 @@
+import { isNullish } from "@dfinity/utils";
 import type {
   Command_1,
   _SERVICE as GovernanceService,
@@ -16,7 +17,7 @@ export const getSuccessfulCommandFromResponse = (
 ): Command_1 => {
   const { command } = response;
   const [data] = command;
-  if (!data) {
+  if (isNullish(data)) {
     throw new GovernanceError({
       error_message: "Error updating neuron",
       error_type: 0,
