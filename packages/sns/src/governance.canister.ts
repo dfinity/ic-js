@@ -251,7 +251,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     }
 
     if ("Split" in response) {
-      const split = response.Split as SplitResponse;
+      const split = response.Split;
       const neuronId = fromNullable(split.created_neuron_id) as NeuronId;
 
       if (neuronId !== undefined) {
