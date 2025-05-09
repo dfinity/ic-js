@@ -83,18 +83,16 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    */
   getDerivedState = async ({
     certified,
-  }: QueryParams): Promise<GetDerivedStateResponse> => {
-    return this.caller({ certified }).get_derived_state({});
-  };
+  }: QueryParams): Promise<GetDerivedStateResponse> =>
+    this.caller({ certified }).get_derived_state({});
 
   /**
    * Get sale parameters
    */
   getSaleParameters = async ({
     certified,
-  }: QueryParams): Promise<GetSaleParametersResponse> => {
-    return this.caller({ certified }).get_sale_parameters({});
-  };
+  }: QueryParams): Promise<GetSaleParametersResponse> =>
+    this.caller({ certified }).get_sale_parameters({});
 
   /**
    * Return a sale ticket if created and not yet removed (payment flow)
@@ -141,9 +139,8 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
   /**
    * Get sale lifecycle state
    */
-  getLifecycle = async (params: QueryParams): Promise<GetLifecycleResponse> => {
-    return this.caller(params).get_lifecycle({});
-  };
+  getLifecycle = async (params: QueryParams): Promise<GetLifecycleResponse> =>
+    this.caller(params).get_lifecycle({});
 
   /**
    * Get sale lifecycle state

@@ -33,7 +33,6 @@ export class SnsRootCanister extends Canister<SnsRootService> {
     certified = true,
   }: {
     certified?: boolean;
-  }): Promise<ListSnsCanistersResponse> => {
-    return this.caller({ certified }).list_sns_canisters({});
-  };
+  }): Promise<ListSnsCanistersResponse> =>
+    this.caller({ certified }).list_sns_canisters({});
 }

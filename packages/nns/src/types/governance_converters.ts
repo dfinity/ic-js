@@ -127,6 +127,7 @@ export type ManageNeuronCommandRequest =
 export interface Configure {
   operation: Option<Operation>;
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface RefreshVotingPower {
   // Intentionally left blank.
 }

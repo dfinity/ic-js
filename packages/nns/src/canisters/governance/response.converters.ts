@@ -135,7 +135,7 @@ export const toNeuronInfo = ({
     ? toNeuron({ neuron: rawNeuron, canisterId })
     : undefined;
   return {
-    neuronId: neuronId,
+    neuronId,
     dissolveDelaySeconds: neuronInfo.dissolve_delay_seconds,
     recentBallots: neuronInfo.recent_ballots.map(toBallotInfo),
     neuronType: fromNullable(neuronInfo.neuron_type) as NeuronType | undefined,
@@ -157,7 +157,7 @@ export const toNeuronInfo = ({
     visibility: fromNullable(neuronInfo.visibility) as
       | NeuronVisibility
       | undefined,
-    fullNeuron: fullNeuron,
+    fullNeuron,
   };
 };
 
@@ -453,7 +453,7 @@ const toAction = (action: RawAction): Action => {
   }
 
   if ("SetSnsTokenSwapOpenTimeWindow" in action) {
-    const SetSnsTokenSwapOpenTimeWindow = action.SetSnsTokenSwapOpenTimeWindow;
+    const { SetSnsTokenSwapOpenTimeWindow } = action;
     const request = SetSnsTokenSwapOpenTimeWindow.request?.length
       ? {
           openTimeWindow: SetSnsTokenSwapOpenTimeWindow.request[0]
@@ -484,7 +484,7 @@ const toAction = (action: RawAction): Action => {
   }
 
   if ("OpenSnsTokenSwap" in action) {
-    const OpenSnsTokenSwap = action.OpenSnsTokenSwap;
+    const { OpenSnsTokenSwap } = action;
     const params: Params | undefined = fromNullable(OpenSnsTokenSwap.params);
 
     return {
@@ -603,14 +603,12 @@ const toAction = (action: RawAction): Action => {
   throw new UnsupportedValueError(action);
 };
 
-const toTally = (tally: RawTally): Tally => {
-  return {
-    no: tally.no,
-    yes: tally.yes,
-    total: tally.total,
-    timestampSeconds: tally.timestamp_seconds,
-  };
-};
+const toTally = (tally: RawTally): Tally => ({
+  no: tally.no,
+  yes: tally.yes,
+  total: tally.total,
+  timestampSeconds: tally.timestamp_seconds,
+});
 
 const toCommand = (command: RawCommand): Command => {
   if ("Spawn" in command) {
@@ -992,18 +990,14 @@ export const toNetworkEconomics = (
   ),
 });
 
-const toNodeProvider = (nodeProvider: RawNodeProvider): NodeProvider => {
-  return {
-    id: nodeProvider.id.length ? nodeProvider.id[0].toString() : undefined,
-    rewardAccount: nodeProvider.reward_account.length
-      ? toAccountIdentifier(nodeProvider.reward_account[0])
-      : undefined,
-  };
-};
+const toNodeProvider = (nodeProvider: RawNodeProvider): NodeProvider => ({
+  id: nodeProvider.id.length ? nodeProvider.id[0].toString() : undefined,
+  rewardAccount: nodeProvider.reward_account.length
+    ? toAccountIdentifier(nodeProvider.reward_account[0])
+    : undefined,
+});
 
-const toAmount = (amount: RawAmount): E8s => {
-  return amount.e8s;
-};
+const toAmount = (amount: RawAmount): E8s => amount.e8s;
 
 const toAccountIdentifier = (
   accountIdentifier: RawAccountIdentifier,
@@ -1115,84 +1109,73 @@ export const toListProposalsResponse = ({
 export const toKnownNeuron = ({
   id,
   known_neuron_data,
-}: RawKnownNeuron): KnownNeuron => {
-  return {
-    id: id[0]?.id ?? BigInt(0),
-    name: known_neuron_data[0]?.name ?? "",
-    description: known_neuron_data[0]?.description[0] ?? "",
-  };
-};
+}: RawKnownNeuron): KnownNeuron => ({
+  id: id[0]?.id ?? BigInt(0),
+  name: known_neuron_data[0]?.name ?? "",
+  description: known_neuron_data[0]?.description[0] ?? "",
+});
 
 const toPercentage = (
   percentage: RawPercentage | undefined,
-): Percentage | undefined => {
-  return percentage === undefined
+): Percentage | undefined =>
+  percentage === undefined
     ? undefined
     : {
         basisPoints: fromNullable(percentage.basis_points),
       };
-};
 
-const toDuration = (
-  duration: RawDuration | undefined,
-): Duration | undefined => {
-  return duration === undefined
+const toDuration = (duration: RawDuration | undefined): Duration | undefined =>
+  duration === undefined
     ? undefined
     : {
         seconds: fromNullable(duration.seconds),
       };
-};
 
 const toGlobalTimeOfDay = (
   time: RawGlobalTimeOfDay | undefined,
-): GlobalTimeOfDay | undefined => {
-  return time === undefined
+): GlobalTimeOfDay | undefined =>
+  time === undefined
     ? undefined
     : {
         secondsAfterUtcMidnight: fromNullable(time.seconds_after_utc_midnight),
       };
-};
 
 const toCountries = (
   countries: RawCountries | undefined,
-): Countries | undefined => {
-  return countries === undefined
+): Countries | undefined =>
+  countries === undefined
     ? undefined
     : ({
         isoCodes: countries.iso_codes,
       } as Countries);
-};
 
-const toTokens = (tokens: RawTokens | undefined): Tokens | undefined => {
-  return tokens === undefined
+const toTokens = (tokens: RawTokens | undefined): Tokens | undefined =>
+  tokens === undefined
     ? undefined
     : {
         e8s: fromNullable(tokens.e8s),
       };
-};
 
 const toCanisterIdString = (
   canister: RawCanister | undefined,
-): CanisterIdString | undefined => {
-  return canister === undefined
+): CanisterIdString | undefined =>
+  canister === undefined
     ? undefined
     : canister.id.length === 0
       ? undefined
       : fromDefinedNullable(canister.id).toString();
-};
 
-const toImage = (image: RawImage | undefined): Image | undefined => {
-  return image === undefined
+const toImage = (image: RawImage | undefined): Image | undefined =>
+  image === undefined
     ? undefined
     : {
         base64Encoding: fromNullable(image.base64_encoding),
       };
-};
 
 const toLedgerParameters = (
   ledgerParameters: RawLedgerParameters | undefined,
-): LedgerParameters | undefined => {
-  return ledgerParameters === undefined
+): LedgerParameters | undefined =>
+  ledgerParameters === undefined
     ? undefined
     : {
         transactionFee: toTokens(
@@ -1202,12 +1185,11 @@ const toLedgerParameters = (
         tokenLogo: toImage(fromNullable(ledgerParameters.token_logo)),
         tokenName: fromNullable(ledgerParameters.token_name),
       };
-};
 
 const toVotingRewardParameters = (
   votingRewardParameters: RawVotingRewardParameters | undefined,
-): VotingRewardParameters | undefined => {
-  return votingRewardParameters === undefined
+): VotingRewardParameters | undefined =>
+  votingRewardParameters === undefined
     ? undefined
     : {
         rewardRateTransitionDuration: toDuration(
@@ -1220,12 +1202,11 @@ const toVotingRewardParameters = (
           fromNullable(votingRewardParameters.final_reward_rate),
         ),
       };
-};
 
 const toGovernanceParameters = (
   governanceParameters: RawGovernanceParameters | undefined,
-): GovernanceParameters | undefined => {
-  return governanceParameters === undefined
+): GovernanceParameters | undefined =>
+  governanceParameters === undefined
     ? undefined
     : {
         neuronMaximumDissolveDelayBonus: toPercentage(
@@ -1265,14 +1246,13 @@ const toGovernanceParameters = (
           fromNullable(governanceParameters.voting_reward_parameters),
         ),
       };
-};
 
 const toNeuronBasketConstructionParameters = (
   neuronBasketConstructionParameters:
     | RawNeuronBasketConstructionParameters
     | undefined,
-): NeuronBasketConstructionParameters | undefined => {
-  return neuronBasketConstructionParameters === undefined
+): NeuronBasketConstructionParameters | undefined =>
+  neuronBasketConstructionParameters === undefined
     ? undefined
     : {
         dissolveDelayInterval: toDuration(
@@ -1282,12 +1262,11 @@ const toNeuronBasketConstructionParameters = (
         ),
         count: fromNullable(neuronBasketConstructionParameters.count),
       };
-};
 
 const toSwapParameters = (
   swapParameters: RawSwapParameters | undefined,
-): SwapParameters | undefined => {
-  return swapParameters === undefined
+): SwapParameters | undefined =>
+  swapParameters === undefined
     ? undefined
     : {
         minimumParticipants: fromNullable(swapParameters.minimum_participants),
@@ -1322,22 +1301,20 @@ const toSwapParameters = (
           swapParameters.neurons_fund_participation,
         ),
       };
-};
 
 const toSwapDistribution = (
   swapDistribution: RawSwapDistribution | undefined,
-): SwapDistribution | undefined => {
-  return swapDistribution === undefined
+): SwapDistribution | undefined =>
+  swapDistribution === undefined
     ? undefined
     : {
         total: toTokens(fromNullable(swapDistribution.total)),
       };
-};
 
 const toNeuronDistribution = (
   neuronDistribution: RawNeuronDistribution | undefined,
-): NeuronDistribution | undefined => {
-  return neuronDistribution === undefined
+): NeuronDistribution | undefined =>
+  neuronDistribution === undefined
     ? undefined
     : {
         controller:
@@ -1353,24 +1330,22 @@ const toNeuronDistribution = (
         ),
         stake: toTokens(fromNullable(neuronDistribution.stake)),
       };
-};
 
 const toDeveloperDistribution = (
   developerDistribution: RawDeveloperDistribution | undefined,
-): DeveloperDistribution | undefined => {
-  return developerDistribution === undefined
+): DeveloperDistribution | undefined =>
+  developerDistribution === undefined
     ? undefined
     : {
         developerNeurons: developerDistribution.developer_neurons.map(
           toNeuronDistribution,
         ) as Array<NeuronDistribution>,
       };
-};
 
 const toInitialTokenDistribution = (
   initialTokenDistribution: RawInitialTokenDistribution | undefined,
-): InitialTokenDistribution | undefined => {
-  return initialTokenDistribution === undefined
+): InitialTokenDistribution | undefined =>
+  initialTokenDistribution === undefined
     ? undefined
     : {
         treasuryDistribution: toSwapDistribution(
@@ -1383,12 +1358,11 @@ const toInitialTokenDistribution = (
           fromNullable(initialTokenDistribution.swap_distribution),
         ),
       };
-};
 
 const toCanisterSettings = (
   canisterSettings: RawCanisterSettings | undefined,
-): CanisterSettings | undefined => {
-  return canisterSettings === undefined
+): CanisterSettings | undefined =>
+  canisterSettings === undefined
     ? undefined
     : {
         freezingThreshold: fromNullable(canisterSettings.freezing_threshold),
@@ -1405,4 +1379,3 @@ const toCanisterSettings = (
           canisterSettings.wasm_memory_threshold,
         ),
       };
-};

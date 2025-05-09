@@ -27,7 +27,7 @@ export const encodeBase32 = (input: Uint8Array): string => {
   // The output string in base32.
   let output = "";
 
-  function encodeByte(byte: number): number {
+  const encodeByte = (byte: number): number => {
     if (skip < 0) {
       // we have a carry from the previous byte
       bits |= byte >> -skip;
@@ -49,7 +49,7 @@ export const encodeBase32 = (input: Uint8Array): string => {
     }
 
     return 0;
-  }
+  };
 
   for (let i = 0; i < input.length; ) {
     i += encodeByte(input[i]);
@@ -64,7 +64,7 @@ export const encodeBase32 = (input: Uint8Array): string => {
  * @param input The input string to decode.
  * @param input The base32 encoded string to decode.
  */
-export function decodeBase32(input: string): Uint8Array {
+export const decodeBase32 = (input: string): Uint8Array => {
   // how many bits we have from the previous character.
   let skip = 0;
   // current byte we're producing.
@@ -73,7 +73,7 @@ export function decodeBase32(input: string): Uint8Array {
   const output = new Uint8Array(((input.length * 4) / 3) | 0);
   let o = 0;
 
-  function decodeChar(char: string) {
+  const decodeChar = (char: string) => {
     // Consume a character from the stream, store
     // the output in this.output. As before, better
     // to use update().
@@ -96,11 +96,11 @@ export function decodeBase32(input: string): Uint8Array {
         byte = 0;
       }
     }
-  }
+  };
 
   for (const c of input) {
     decodeChar(c);
   }
 
   return output.slice(0, o);
-}
+};

@@ -102,7 +102,7 @@ export class SnsWrapper {
     governance,
     ledger,
     swap,
-    index: index,
+    index,
     certified,
   }: SnsWrapperOptions) {
     this.root = root;

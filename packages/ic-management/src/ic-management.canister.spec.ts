@@ -81,12 +81,11 @@ describe("ICManagementCanister", () => {
     },
   ];
 
-  const createICManagement = async (service: IcManagementService) => {
-    return ICManagementCanister.create({
+  const createICManagement = async (service: IcManagementService) =>
+    ICManagementCanister.create({
       agent: mockAgent,
       serviceOverride: service as ActorSubclass<IcManagementService>,
     });
-  };
 
   describe("createCanister", () => {
     it("returns canister id when success", async () => {

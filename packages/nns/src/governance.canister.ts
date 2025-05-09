@@ -307,9 +307,8 @@ export class GovernanceCanister {
    */
   public getLastestRewardEvent = async (
     certified = true,
-  ): Promise<RewardEvent> => {
-    return this.getGovernanceService(certified).get_latest_reward_event();
-  };
+  ): Promise<RewardEvent> =>
+    this.getGovernanceService(certified).get_latest_reward_event();
 
   /**
    * Returns the list of proposals made for the community to vote on,
