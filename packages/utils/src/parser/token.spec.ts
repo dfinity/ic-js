@@ -167,9 +167,7 @@ describe("TokenAmountV2 with 18 decimals", () => {
         amount: 1234000000000000000000n,
       }),
     );
-    expect(
-      TokenAmountV2.fromString({ token, amount: "000001234" }),
-    ).toEqual(
+    expect(TokenAmountV2.fromString({ token, amount: "000001234" })).toEqual(
       TokenAmountV2.fromUlps({
         token,
         amount: 1234000000000000000000n,
@@ -193,25 +191,19 @@ describe("TokenAmountV2 with 18 decimals", () => {
         amount: 1000000000000000000000n,
       }),
     );
-    expect(
-      TokenAmountV2.fromString({ token, amount: "1'000'000" }),
-    ).toEqual(
+    expect(TokenAmountV2.fromString({ token, amount: "1'000'000" })).toEqual(
       TokenAmountV2.fromUlps({
         token,
         amount: 1000000000000000000000000n,
       }),
     );
-    expect(
-      TokenAmountV2.fromString({ token, amount: "1'000'000" }),
-    ).toEqual(
+    expect(TokenAmountV2.fromString({ token, amount: "1'000'000" })).toEqual(
       TokenAmountV2.fromNumber({
         token,
         amount: 1_000_000,
       }),
     );
-    expect(
-      TokenAmountV2.fromString({ token, amount: "1'000'000" }),
-    ).toEqual(
+    expect(TokenAmountV2.fromString({ token, amount: "1'000'000" })).toEqual(
       TokenAmountV2.fromUlps({
         token,
         amount: 1000000000000000000000000n,
@@ -232,20 +224,18 @@ describe("TokenAmountV2 with 18 decimals", () => {
     expect(TokenAmountV2.fromString({ token, amount: "0.1" })).toEqual(
       TokenAmountV2.fromNumber({ token, amount: 0.1 }),
     );
-    expect(
-      TokenAmountV2.fromString({ token, amount: "45.1231" }),
-    ).toEqual(TokenAmountV2.fromNumber({ token, amount: 45.1231 }));
-    expect(
-      TokenAmountV2.fromString({ token, amount: "0.3319" }),
-    ).toEqual(TokenAmountV2.fromNumber({ token, amount: 0.3319 }));
-    expect(
-      TokenAmountV2.fromString({ token, amount: "0.0001" }),
-    ).toEqual(
+    expect(TokenAmountV2.fromString({ token, amount: "45.1231" })).toEqual(
+      TokenAmountV2.fromNumber({ token, amount: 45.1231 }),
+    );
+    expect(TokenAmountV2.fromString({ token, amount: "0.3319" })).toEqual(
+      TokenAmountV2.fromNumber({ token, amount: 0.3319 }),
+    );
+    expect(TokenAmountV2.fromString({ token, amount: "0.0001" })).toEqual(
       TokenAmountV2.fromUlps({ token, amount: 100000000000000n }),
     );
-    expect(
-      TokenAmountV2.fromString({ token, amount: "0.00000001" }),
-    ).toEqual(TokenAmountV2.fromUlps({ token, amount: 10000000000n }));
+    expect(TokenAmountV2.fromString({ token, amount: "0.00000001" })).toEqual(
+      TokenAmountV2.fromUlps({ token, amount: 10000000000n }),
+    );
     expect(
       TokenAmountV2.fromString({
         token,
@@ -331,9 +321,9 @@ describe("TokenAmountV2 with 18 decimals", () => {
     expect(TokenAmountV2.fromString({ token, amount: "3.a" })).toBe(
       FromStringToTokenError.InvalidFormat,
     );
-    expect(
-      TokenAmountV2.fromString({ token, amount: "123asdf$#@~!" }),
-    ).toBe(FromStringToTokenError.InvalidFormat);
+    expect(TokenAmountV2.fromString({ token, amount: "123asdf$#@~!" })).toBe(
+      FromStringToTokenError.InvalidFormat,
+    );
   });
 
   it("does not support scientific notation as string", () => {
@@ -509,17 +499,13 @@ describe("TokenAmountV2 with 8 decimals", () => {
         amount: 123400000000n,
       }),
     );
-    expect(
-      TokenAmountV2.fromNumber({ token, amount: 0.00000002 }),
-    ).toEqual(
+    expect(TokenAmountV2.fromNumber({ token, amount: 0.00000002 })).toEqual(
       TokenAmountV2.fromUlps({
         token,
         amount: 2n,
       }),
     );
-    expect(
-      TokenAmountV2.fromNumber({ token, amount: 0.00000001 }),
-    ).toEqual(
+    expect(TokenAmountV2.fromNumber({ token, amount: 0.00000001 })).toEqual(
       TokenAmountV2.fromUlps({
         token,
         amount: 1n,
