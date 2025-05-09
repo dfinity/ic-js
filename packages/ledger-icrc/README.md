@@ -435,7 +435,7 @@ Parameters:
 
 ##### :gear: listSubaccounts
 
-Returns the list of subaccounts for a given owner
+Returns the list of subaccounts for a given owner.
 
 | Method            | Type                                                                       |
 | ----------------- | -------------------------------------------------------------------------- |
