@@ -49,7 +49,7 @@ export const encodeBase32 = (input: Uint8Array): string => {
     }
 
     return 0;
-  }
+  };
 
   for (let i = 0; i < input.length; ) {
     i += encodeByte(input[i]);
@@ -96,11 +96,11 @@ export const decodeBase32 = (input: string): Uint8Array => {
         byte = 0;
       }
     }
-  }
+  };
 
   for (const c of input) {
     decodeChar(c);
   }
 
   return output.slice(0, o);
-}
+};
