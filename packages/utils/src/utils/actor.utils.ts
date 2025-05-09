@@ -1,5 +1,9 @@
-import type { ActorConfig, ActorSubclass, Agent } from "@dfinity/agent";
-import { Actor } from "@dfinity/agent";
+import {
+  Actor,
+  type ActorConfig,
+  type ActorSubclass,
+  type Agent,
+} from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 import type { CanisterOptions } from "../types/canister.options";

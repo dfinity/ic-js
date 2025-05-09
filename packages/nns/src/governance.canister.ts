@@ -1,7 +1,9 @@
-import type { ActorSubclass, Agent } from "@dfinity/agent";
-import { Actor } from "@dfinity/agent";
-import type { LedgerCanister } from "@dfinity/ledger-icp";
-import { AccountIdentifier, checkAccountId } from "@dfinity/ledger-icp";
+import { Actor, type ActorSubclass, type Agent } from "@dfinity/agent";
+import {
+  AccountIdentifier,
+  checkAccountId,
+  type LedgerCanister,
+} from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
 import {
   assertPercentageNumber,

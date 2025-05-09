@@ -1,5 +1,9 @@
-import type { Agent, Identity } from "@dfinity/agent";
-import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
+import {
+  AnonymousIdentity,
+  HttpAgent,
+  type Agent,
+  type Identity,
+} from "@dfinity/agent";
 import type { CreateAgentParams } from "../types/agent.utils";
 import { isNullish, nonNullish } from "./nullish.utils";
 

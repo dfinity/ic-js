@@ -14,7 +14,6 @@ export default [
       "prefer-arrow/prefer-arrow-functions": "off",
       "func-style": "off",
       "object-shorthand": "off",
-      "import/no-duplicates": "off",
       "@typescript-eslint/no-unnecessary-type-assertion": "off",
       "no-useless-rename": "off",
       "prefer-destructuring": "off",

@@ -1,7 +1,7 @@
-import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import {
   accountIdentifierFromBytes,
   principalToAccountIdentifier,
+  type AccountIdentifierHex,
 } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import {

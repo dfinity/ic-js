@@ -1,9 +1,9 @@
-import type { QueryParams } from "@dfinity/utils";
 import {
   Canister,
   createServices,
   fromDefinedNullable,
   fromNullable,
+  type QueryParams,
 } from "@dfinity/utils";
 import type {
   BuyerState,
