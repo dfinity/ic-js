@@ -447,8 +447,7 @@ const fromInstallCode = (installCode: InstallCodeRequest): RawInstallCode => {
 
 const fromCanisterSettings = (
   canisterSettings: Option<CanisterSettings>,
-): [RawCanisterSettings] | [] =>
-  canisterSettings === undefined
+): [RawCanisterSettings] | [] => canisterSettings === undefined
     ? []
     : [
         {
@@ -880,12 +879,12 @@ const fromChange = (change: Change): RawChange => {
 };
 
 const fromNodeProvider = (nodeProvider: NodeProvider): RawNodeProvider => ({
-  id: nodeProvider.id != null ? [Principal.fromText(nodeProvider.id)] : [],
-  reward_account:
-    nodeProvider.rewardAccount != null
-      ? [fromAccountIdentifier(nodeProvider.rewardAccount)]
-      : [],
-});
+    id: nodeProvider.id != null ? [Principal.fromText(nodeProvider.id)] : [],
+    reward_account:
+      nodeProvider.rewardAccount != null
+        ? [fromAccountIdentifier(nodeProvider.rewardAccount)]
+        : [],
+  });
 
 const fromAmount = (amount: E8s): Amount => ({
   e8s: amount,
@@ -1078,17 +1077,17 @@ export const fromListProposalsRequest = ({
   includeAllManageNeuronProposals,
   omitLargeFields,
 }: ListProposalsRequest): ListProposalInfo => ({
-  include_reward_status: Int32Array.from(includeRewardStatus),
-  before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
-  limit: limit,
-  exclude_topic: Int32Array.from(excludeTopic),
-  include_all_manage_neuron_proposals:
-    includeAllManageNeuronProposals !== undefined
-      ? [includeAllManageNeuronProposals]
-      : [],
-  include_status: Int32Array.from(includeStatus),
-  omit_large_fields: toNullable(omitLargeFields),
-});
+    include_reward_status: Int32Array.from(includeRewardStatus),
+    before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
+    limit,
+    exclude_topic: Int32Array.from(excludeTopic),
+    include_all_manage_neuron_proposals:
+      includeAllManageNeuronProposals !== undefined
+        ? [includeAllManageNeuronProposals]
+        : [],
+    include_status: Int32Array.from(includeStatus),
+    omit_large_fields: toNullable(omitLargeFields),
+  });
 
 /* Protobuf is not supported yet
 export const fromAddHotKeyRequest = (request: AddHotKeyRequest): PbManageNeuron => {
