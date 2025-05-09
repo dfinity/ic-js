@@ -11,7 +11,6 @@ export default [
       "@typescript-eslint/no-unused-vars": "off",
       "arrow-body-style": "off",
       "local-rules/prefer-object-params": "off",
-      "prefer-arrow/prefer-arrow-functions": "off",
       "object-shorthand": "off",
       "import/no-duplicates": "off",
       "@typescript-eslint/no-unnecessary-type-assertion": "off",
