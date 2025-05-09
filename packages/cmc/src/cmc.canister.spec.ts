@@ -23,7 +23,7 @@ import { mockPrincipalText } from "./cmc.mock";
 describe("CyclesMintingCanister", () => {
   const mockAgent: HttpAgent = mock<HttpAgent>();
 
-  const createCMC = async (service: CMCService) => {
+  const createCMC = (service: CMCService): CMCCanister => {
     const canisterId = Principal.fromText("aaaaa-aa");
 
     return CMCCanister.create({

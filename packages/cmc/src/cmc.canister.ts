@@ -107,7 +107,7 @@ export class CMCCanister extends Canister<CMCCanisterService> {
    * @returns {Promise<Principal[]>} - A promise that resolves to an array of `Principal` objects
    * representing the default subnets.
    */
-  public getDefaultSubnets = async ({ certified }: QueryParams = {}): Promise<
+  public getDefaultSubnets = ({ certified }: QueryParams = {}): Promise<
     Principal[]
   > => {
     const { get_default_subnets } = this.caller({ certified });
@@ -126,7 +126,7 @@ export class CMCCanister extends Canister<CMCCanisterService> {
    * @returns {Promise<SubnetTypesToSubnetsResponse>} - A promise that resolves to an object representing
    * the mapping of subnet types to subnets.
    */
-  public getSubnetTypesToSubnets = async ({
+  public getSubnetTypesToSubnets = ({
     certified,
   }: QueryParams = {}): Promise<SubnetTypesToSubnetsResponse> => {
     const { get_subnet_types_to_subnets } = this.caller({ certified });

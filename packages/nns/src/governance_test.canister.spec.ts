@@ -38,7 +38,7 @@ describe("GovernanceTestCanister", () => {
       expect(service.update_neuron).toBeCalledTimes(1);
     });
 
-    it("should not update accountIdentifier", async () => {
+    it("should not update accountIdentifier", () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
 

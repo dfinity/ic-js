@@ -150,7 +150,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    *
    * @returns {Allowance} The token allowance. If there is no active approval, the ledger MUST return `{ allowance = 0; expires_at = null }`.
    */
-  allowance = async (params: AllowanceParams): Promise<Allowance> => {
+  allowance = (params: AllowanceParams): Promise<Allowance> => {
     const { certified, ...rest } = params;
     return this.caller({ certified }).icrc2_allowance({ ...rest });
   };

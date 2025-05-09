@@ -290,7 +290,7 @@ describe("LedgerCanister", () => {
         });
       });
 
-      it("handles duplicate transaction", async () => {
+      it("handles duplicate transaction", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -313,7 +313,7 @@ describe("LedgerCanister", () => {
         expect(call).rejects.toThrowError(TxDuplicateError);
       });
 
-      it("handles insufficient balance", async () => {
+      it("handles insufficient balance", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -338,7 +338,7 @@ describe("LedgerCanister", () => {
         expect(call).rejects.toThrowError(InsufficientFundsError);
       });
 
-      it("handles old tx", async () => {
+      it("handles old tx", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -361,7 +361,7 @@ describe("LedgerCanister", () => {
         expect(call).rejects.toThrowError(TxTooOldError);
       });
 
-      it("handles bad fee", async () => {
+      it("handles bad fee", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -386,7 +386,7 @@ describe("LedgerCanister", () => {
         expect(call).rejects.toThrowError(BadFeeError);
       });
 
-      it("handles transaction created in the future", async () => {
+      it("handles transaction created in the future", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -593,7 +593,7 @@ describe("LedgerCanister", () => {
         });
       });
 
-      it("handles duplicate transaction", async () => {
+      it("handles duplicate transaction", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.icrc1_transfer.mockResolvedValue({
           Err: {
@@ -616,7 +616,7 @@ describe("LedgerCanister", () => {
         expect(call).rejects.toThrowError(TxDuplicateError);
       });
 
-      it("handles insufficient balance", async () => {
+      it("handles insufficient balance", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.icrc1_transfer.mockResolvedValue({
           Err: {
@@ -639,7 +639,7 @@ describe("LedgerCanister", () => {
         expect(call).rejects.toThrowError(InsufficientFundsError);
       });
 
-      it("handles old tx", async () => {
+      it("handles old tx", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.icrc1_transfer.mockResolvedValue({
           Err: {
@@ -660,7 +660,7 @@ describe("LedgerCanister", () => {
         expect(call).rejects.toThrowError(TxTooOldError);
       });
 
-      it("handles bad fee", async () => {
+      it("handles bad fee", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.icrc1_transfer.mockResolvedValue({
           Err: {
@@ -683,7 +683,7 @@ describe("LedgerCanister", () => {
         expect(call).rejects.toThrowError(BadFeeError);
       });
 
-      it("handles transaction created in the future", async () => {
+      it("handles transaction created in the future", () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.icrc1_transfer.mockResolvedValue({
           Err: {
@@ -896,7 +896,7 @@ describe("LedgerCanister", () => {
       });
     });
 
-    it("should raise GenericError", async () => {
+    it("should raise GenericError", () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
         Err: {
@@ -914,7 +914,7 @@ describe("LedgerCanister", () => {
       expect(call).rejects.toThrowError(GenericError);
     });
 
-    it("should raise TemporarilyUnavailableError", async () => {
+    it("should raise TemporarilyUnavailableError", () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
         Err: {
@@ -932,7 +932,7 @@ describe("LedgerCanister", () => {
       expect(call).rejects.toThrowError(TemporarilyUnavailableError);
     });
 
-    it("should raise DuplicateError", async () => {
+    it("should raise DuplicateError", () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
         Err: {
@@ -950,7 +950,7 @@ describe("LedgerCanister", () => {
       expect(call).rejects.toThrowError(DuplicateError);
     });
 
-    it("should raise BadFeeError", async () => {
+    it("should raise BadFeeError", () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
         Err: {
@@ -968,7 +968,7 @@ describe("LedgerCanister", () => {
       expect(call).rejects.toThrowError(BadFeeError);
     });
 
-    it("should raise AllowanceChangedError", async () => {
+    it("should raise AllowanceChangedError", () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
         Err: {
@@ -986,7 +986,7 @@ describe("LedgerCanister", () => {
       expect(call).rejects.toThrowError(AllowanceChangedError);
     });
 
-    it("should raise CreatedInFutureError", async () => {
+    it("should raise CreatedInFutureError", () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
         Err: {
@@ -1004,7 +1004,7 @@ describe("LedgerCanister", () => {
       expect(call).rejects.toThrowError(CreatedInFutureError);
     });
 
-    it("should raise TooOldError", async () => {
+    it("should raise TooOldError", () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
         Err: {
@@ -1022,7 +1022,7 @@ describe("LedgerCanister", () => {
       expect(call).rejects.toThrowError(TooOldError);
     });
 
-    it("should raise ExpiredError", async () => {
+    it("should raise ExpiredError", () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
         Err: {
@@ -1040,7 +1040,7 @@ describe("LedgerCanister", () => {
       expect(call).rejects.toThrowError(ExpiredError);
     });
 
-    it("should raise InsufficientFundsError", async () => {
+    it("should raise InsufficientFundsError", () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc2_approve.mockResolvedValue({
         Err: {

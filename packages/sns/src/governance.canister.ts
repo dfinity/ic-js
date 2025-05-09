@@ -143,7 +143,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    * List Nervous System Functions
    * Neurons can follow other neurons in specific Nervous System Functions.
    */
-  listNervousSystemFunctions = async (
+  listNervousSystemFunctions = (
     params: QueryParams,
   ): Promise<ListNervousSystemFunctionsResponse> =>
     this.caller(params).list_nervous_system_functions();
