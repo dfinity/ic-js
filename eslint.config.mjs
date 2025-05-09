@@ -13,7 +13,6 @@ export default [
       "arrow-body-style": "off",
       "local-rules/prefer-object-params": "off",
       "import/no-duplicates": "off",
-      "no-useless-rename": "off",
     },
   },
   {
