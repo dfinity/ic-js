@@ -50,7 +50,7 @@ export class GovernanceTestCanister {
     const rawListNeuronsResponse = await this.certifiedService.list_neurons(
       rawListNeuronsRequest,
     );
-    const currentNeuron = rawListNeuronsResponse.full_neurons[0];
+    const [currentNeuron] = rawListNeuronsResponse.full_neurons;
     const currentAccountIdentifier = principalToAccountIdentifier(
       this.canisterId,
       Uint8Array.from(currentNeuron.account),

@@ -93,7 +93,7 @@ const parseBase58Address = ({
 
   validateBase58Checksum(decoded);
 
-  const version = decoded[0];
+  const [version] = decoded;
 
   const versionNetwork = Base58AddressTypes[version];
 
