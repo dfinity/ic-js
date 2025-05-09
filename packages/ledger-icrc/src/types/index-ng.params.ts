@@ -1,4 +1,3 @@
-import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
 import type { Subaccount } from "../../candid/icrc_ledger";
 import type { IcrcNgTxId } from "./index-ng.types";
@@ -11,6 +10,6 @@ export type GetIndexNgAccountTransactionsParams = {
 } & QueryParams;
 
 export type ListSubaccountsParams = {
-  owner: Principal;
   start?: Subaccount;
-} & QueryParams;
+} & Pick<IcrcAccount, "owner"> &
+  QueryParams;
