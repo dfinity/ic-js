@@ -37,6 +37,7 @@ describe("date.utils", () => {
     second_plural: "secondes",
   };
 
+  // eslint-disable-next-line local-rules/prefer-object-params
   const test = (
     i18nResult: I18nSecondsToDuration,
     i18n?: I18nSecondsToDuration,

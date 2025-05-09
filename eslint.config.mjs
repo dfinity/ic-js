@@ -13,7 +13,6 @@ export default [
       // This rule is more appropriate in applications where null and undefined have distinct meanings.
       // That is why, for now, it's disabled in this repo.
       "local-rules/use-option-type-wrapper": "off",
-      "local-rules/prefer-object-params": "off",
     },
   },
   {

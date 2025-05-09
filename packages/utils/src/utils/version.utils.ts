@@ -1,5 +1,11 @@
 const AMOUNT_VERSION_PARTS = 3;
-const addZeros = (nums: number[], amountZeros: number): number[] =>
+const addZeros = ({
+  nums,
+  amountZeros,
+}: {
+  nums: number[];
+  amountZeros: number;
+}): number[] =>
   amountZeros > nums.length
     ? [...nums, ...[...Array(amountZeros - nums.length).keys()].map(() => 0)]
     : nums;
@@ -32,14 +38,14 @@ export const smallerVersion = ({
   minVersion: string;
   currentVersion: string;
 }): boolean => {
-  const minVersionStandarized = addZeros(
-    minVersion.split(".").map(convertToNumber),
-    AMOUNT_VERSION_PARTS,
-  ).join(".");
-  const currentVersionStandarized = addZeros(
-    currentVersion.split(".").map(convertToNumber),
-    AMOUNT_VERSION_PARTS,
-  ).join(".");
+  const minVersionStandarized = addZeros({
+    nums: minVersion.split(".").map(convertToNumber),
+    amountZeros: AMOUNT_VERSION_PARTS,
+  }).join(".");
+  const currentVersionStandarized = addZeros({
+    nums: currentVersion.split(".").map(convertToNumber),
+    amountZeros: AMOUNT_VERSION_PARTS,
+  }).join(".");
   // Versions need to have the same number of parts to be comparable
   // Source: https://stackoverflow.com/a/65687141
   return (
