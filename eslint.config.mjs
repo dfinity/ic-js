@@ -17,7 +17,6 @@ export default [
       "import/no-duplicates": "off",
       "@typescript-eslint/no-unnecessary-type-assertion": "off",
       "no-useless-rename": "off",
-      "prefer-destructuring": "off",
     },
   },
   {
