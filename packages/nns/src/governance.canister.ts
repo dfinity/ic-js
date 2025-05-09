@@ -1,7 +1,9 @@
-import type { ActorSubclass, Agent } from "@dfinity/agent";
-import { Actor } from "@dfinity/agent";
-import type { LedgerCanister } from "@dfinity/ledger-icp";
-import { AccountIdentifier, checkAccountId } from "@dfinity/ledger-icp";
+import { Actor, type ActorSubclass, type Agent } from "@dfinity/agent";
+import {
+  AccountIdentifier,
+  checkAccountId,
+  type LedgerCanister,
+} from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
 import {
   assertPercentageNumber,
@@ -303,9 +305,8 @@ export class GovernanceCanister {
    * it's fetched using a query call.
    *
    */
-  public getLastestRewardEvent = (certified = true): Promise<RewardEvent> => {
-    return this.getGovernanceService(certified).get_latest_reward_event();
-  };
+  public getLastestRewardEvent = (certified = true): Promise<RewardEvent> =>
+    this.getGovernanceService(certified).get_latest_reward_event();
 
   /**
    * Returns the list of proposals made for the community to vote on,

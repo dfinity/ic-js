@@ -189,7 +189,7 @@ Get a default agent that connects to mainnet with the anonymous identity.
 | -------------- | ------------- |
 | `defaultAgent` | `() => Agent` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L10)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L14)
 
 #### :gear: createAgent
 
@@ -208,7 +208,7 @@ Parameters:
 - `params.verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
 - `params.retryTimes`: Set the number of retries the agent should perform before error.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L26)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L30)
 
 #### :gear: createServices
 
@@ -216,7 +216,7 @@ Parameters:
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, callTransform, queryTransform, }, idlFactory, certifiedIdlFactory, }: { options: Required<Pick<CanisterOptions<T>, "canisterId">> and Omit<CanisterOptions<T>, "canisterId"> and Pick<...>; idlFactory: InterfaceFactory; certifiedId...` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/actor.utils.ts#L13)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/actor.utils.ts#L17)
 
 #### :gear: assertNonNullish
 
@@ -551,7 +551,7 @@ Parameters:
 
 - `value`: - A Candid-style variant representing an optional value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L22)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L21)
 
 #### :gear: fromDefinedNullable
 
@@ -566,7 +566,7 @@ Parameters:
 
 - `value`: - A Candid-style variant representing an optional value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L35)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L32)
 
 #### :gear: fromNullishNullable
 
@@ -580,7 +580,7 @@ Parameters:
 
 - `value`: - A Candid-style variant or `undefined`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L50)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L47)
 
 #### :gear: principalToSubAccount
 
@@ -806,7 +806,7 @@ AgentManager class manages HttpAgent instances for different identities.
 It caches agents by identity to optimise resource usage and avoid unnecessary agent creation.
 Provides functionality to create new agents, retrieve cached agents, and clear the cache when needed.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L53)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L56)
 
 #### Static Methods
 
@@ -829,7 +829,7 @@ Parameters:
 - `config.fetchRootKey`: - Whether to fetch the root key for certificate validation.
 - `config.host`: - The host to connect to.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L69)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L72)
 
 #### Methods
 
@@ -851,7 +851,7 @@ Parameters:
 
 - `identity`: - The identity to be used to create the agent.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L82)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L85)
 
 ##### :gear: clearAgents
 
@@ -864,7 +864,7 @@ Useful when identities have changed or if you want to reset all active connectio
 | ------------- | ------------ |
 | `clearAgents` | `() => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L114)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L117)
 
 ### :factory: InvalidPercentageError
 

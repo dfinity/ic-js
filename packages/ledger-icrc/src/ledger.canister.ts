@@ -1,5 +1,9 @@
-import type { QueryParams } from "@dfinity/utils";
-import { Canister, createServices, toNullable } from "@dfinity/utils";
+import {
+  Canister,
+  createServices,
+  toNullable,
+  type QueryParams,
+} from "@dfinity/utils";
 import type {
   Allowance,
   BlockIndex,
@@ -93,9 +97,8 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
   /**
    * Returns the total supply of tokens.
    */
-  totalTokensSupply = (params: QueryParams): Promise<Tokens> => {
-    return this.caller(params).icrc1_total_supply();
-  };
+  totalTokensSupply = (params: QueryParams): Promise<Tokens> =>
+    this.caller(params).icrc1_total_supply();
 
   /**
    * Transfers a token amount from the `from` account to the `to` account using the allowance of the spender's account (`SpenderAccount = { owner = caller; subaccount = spender_subaccount }`). The ledger draws the fees from the `from` account.

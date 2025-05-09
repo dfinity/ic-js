@@ -1,5 +1,9 @@
-import type { Agent, Identity } from "@dfinity/agent";
-import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
+import {
+  AnonymousIdentity,
+  HttpAgent,
+  type Agent,
+  type Identity,
+} from "@dfinity/agent";
 import type { CreateAgentParams } from "../types/agent.utils";
 import { isNullish, nonNullish } from "./nullish.utils";
 
@@ -29,15 +33,14 @@ export const createAgent = async ({
   fetchRootKey = false,
   verifyQuerySignatures = false,
   retryTimes,
-}: CreateAgentParams): Promise<HttpAgent> => {
-  return await HttpAgent.create({
+}: CreateAgentParams): Promise<HttpAgent> =>
+  await HttpAgent.create({
     identity,
     ...(nonNullish(host) && { host }),
     verifyQuerySignatures,
     ...(nonNullish(retryTimes) && { retryTimes }),
     shouldFetchRootKey: fetchRootKey,
   });
-};
 
 export type AgentManagerConfig = Pick<
   CreateAgentParams,

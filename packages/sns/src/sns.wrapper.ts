@@ -11,8 +11,11 @@ import type {
   TransferParams,
 } from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
-import type { QueryParams } from "@dfinity/utils";
-import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
+import {
+  bigIntToUint8Array,
+  toNullable,
+  type QueryParams,
+} from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
@@ -99,7 +102,7 @@ export class SnsWrapper {
     governance,
     ledger,
     swap,
-    index: index,
+    index,
     certified,
   }: SnsWrapperOptions) {
     this.root = root;

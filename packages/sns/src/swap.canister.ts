@@ -1,9 +1,9 @@
-import type { QueryParams } from "@dfinity/utils";
 import {
   Canister,
   createServices,
   fromDefinedNullable,
   fromNullable,
+  type QueryParams,
 } from "@dfinity/utils";
 import type {
   BuyerState,
@@ -83,18 +83,16 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
    */
   getDerivedState = ({
     certified,
-  }: QueryParams): Promise<GetDerivedStateResponse> => {
-    return this.caller({ certified }).get_derived_state({});
-  };
+  }: QueryParams): Promise<GetDerivedStateResponse> =>
+    this.caller({ certified }).get_derived_state({});
 
   /**
    * Get sale parameters
    */
   getSaleParameters = ({
     certified,
-  }: QueryParams): Promise<GetSaleParametersResponse> => {
-    return this.caller({ certified }).get_sale_parameters({});
-  };
+  }: QueryParams): Promise<GetSaleParametersResponse> =>
+    this.caller({ certified }).get_sale_parameters({});
 
   /**
    * Return a sale ticket if created and not yet removed (payment flow)
@@ -141,9 +139,8 @@ export class SnsSwapCanister extends Canister<SnsSwapService> {
   /**
    * Get sale lifecycle state
    */
-  getLifecycle = (params: QueryParams): Promise<GetLifecycleResponse> => {
-    return this.caller(params).get_lifecycle({});
-  };
+  getLifecycle = (params: QueryParams): Promise<GetLifecycleResponse> =>
+    this.caller(params).get_lifecycle({});
 
   /**
    * Get sale lifecycle state

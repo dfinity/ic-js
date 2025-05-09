@@ -1,6 +1,5 @@
 import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
-import type { ServiceResponse } from "@dfinity/utils";
-import { toNullable } from "@dfinity/utils";
+import { toNullable, type ServiceResponse } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   _SERVICE as IcManagementService,
@@ -17,15 +16,13 @@ import {
   mockPrincipal,
   mockPrincipalText,
 } from "./ic-management.mock";
-import type {
-  CanisterSettings,
-  InstallCodeParams,
-} from "./types/ic-management.params";
 import {
   LogVisibility,
   UnsupportedLogVisibility,
+  type CanisterSettings,
   type ClearChunkStoreParams,
   type InstallChunkedCodeParams,
+  type InstallCodeParams,
   type StoredChunksParams,
   type UploadChunkParams,
 } from "./types/ic-management.params";
@@ -86,12 +83,11 @@ describe("ICManagementCanister", () => {
 
   const createICManagement = (
     service: IcManagementService,
-  ): ICManagementCanister => {
-    return ICManagementCanister.create({
+  ): ICManagementCanister =>
+    ICManagementCanister.create({
       agent: mockAgent,
       serviceOverride: service as ActorSubclass<IcManagementService>,
     });
-  };
 
   describe("createCanister", () => {
     it("returns canister id when success", async () => {

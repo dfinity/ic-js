@@ -1,7 +1,9 @@
-import type { ActorSubclass } from "@dfinity/agent";
-import { AnonymousIdentity } from "@dfinity/agent";
-import type { LedgerCanister } from "@dfinity/ledger-icp";
-import { AccountIdentifier, InvalidAccountIDError } from "@dfinity/ledger-icp";
+import { AnonymousIdentity, type ActorSubclass } from "@dfinity/agent";
+import {
+  AccountIdentifier,
+  InvalidAccountIDError,
+  type LedgerCanister,
+} from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
@@ -54,7 +56,7 @@ const nextRandomBytes: number[] = [];
 
 jest.mock("randombytes", () => ({
   __esModule: true,
-  default: function (n: number) {
+  default: (n: number): Uint8Array => {
     const nums: number[] = [];
     for (let i = 0; i < n; i++) {
       const nextByte = nextRandomBytes.shift();
