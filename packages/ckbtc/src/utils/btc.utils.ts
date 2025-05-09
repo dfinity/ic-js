@@ -53,7 +53,7 @@ const parseBase58Address = ({
   const decodeBase58 = (address: string): Uint8Array => {
     try {
       return base58_to_binary(address);
-    } catch (error) {
+    } catch (_error: unknown) {
       throw new ParseBtcAddressInvalidError();
     }
   };
@@ -130,7 +130,7 @@ const parseBip173Address = ({
       }
 
       return bech32.decode(address);
-    } catch (error) {
+    } catch (_error: unknown) {
       throw new ParseBtcAddressMalformedAddressError();
     }
   };
