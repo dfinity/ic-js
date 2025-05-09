@@ -36,7 +36,7 @@
     "url": "https://github.com/dfinity/ic-js"
   },
   "devDependencies": {
-    "@dfinity/eslint-config-oisy-wallet": "^0.1.9",
+    "@dfinity/eslint-config-oisy-wallet": "^0.1.10",
     "@size-limit/esbuild": "^11.2.0",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@types/jest": "^29.5.14",
