@@ -9,7 +9,6 @@ export default [
       "import/no-relative-parent-imports": "off",
       "local-rules/use-option-type-wrapper": "off",
       "@typescript-eslint/no-unused-vars": "off",
-      "arrow-body-style": "off",
       "local-rules/prefer-object-params": "off",
       "prefer-arrow/prefer-arrow-functions": "off",
       "func-style": "off",

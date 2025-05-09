@@ -29,15 +29,14 @@ export const createAgent = async ({
   fetchRootKey = false,
   verifyQuerySignatures = false,
   retryTimes,
-}: CreateAgentParams): Promise<HttpAgent> => {
-  return await HttpAgent.create({
+}: CreateAgentParams): Promise<HttpAgent> =>
+  await HttpAgent.create({
     identity,
     ...(nonNullish(host) && { host }),
     verifyQuerySignatures,
     ...(nonNullish(retryTimes) && { retryTimes }),
     shouldFetchRootKey: fetchRootKey,
   });
-};
 
 export type AgentManagerConfig = Pick<
   CreateAgentParams,
