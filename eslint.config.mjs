@@ -6,6 +6,10 @@ export default [
     rules: {
       "require-await": "off",
       "@typescript-eslint/no-empty-object-type": "off",
+      // This rule is disabled because the candid declarations folder is referenced by the canisters and indexes
+      // using relative parent paths. Resolving this would require either restructuring the folder
+      // (which impacts the build pipeline) or setting up path aliases (which requires configuration).
+      // Since neither is a current priority, the rule remains off.
       "import/no-relative-parent-imports": "off",
       "local-rules/use-option-type-wrapper": "off",
       "@typescript-eslint/no-unused-vars": "off",
