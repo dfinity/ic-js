@@ -179,7 +179,7 @@ describe("Index canister", () => {
       new Uint8Array([5, 6, 7, 8]),
     ];
 
-    it("should return the list of subaccounts for a owner", async () => {
+    it("should return the list of subaccounts for an owner", async () => {
       const service = mock<ActorSubclass<IcrcIndexNgService>>();
       service.list_subaccounts.mockResolvedValue(mockSubaccounts);
 
