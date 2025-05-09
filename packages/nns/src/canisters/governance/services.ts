@@ -5,6 +5,7 @@ import type {
   ManageNeuronResponse,
 } from "../../../candid/governance";
 import { GovernanceError } from "../../errors/governance.errors";
+import { isNullish } from "@dfinity/utils";
 
 /**
  * Checks a Manage Neuron Response for error and returns successful response data.
@@ -16,7 +17,7 @@ export const getSuccessfulCommandFromResponse = (
 ): Command_1 => {
   const { command } = response;
   const data = command[0];
-  if (!data) {
+  if (isNullish(data)) {
     throw new GovernanceError({
       error_message: "Error updating neuron",
       error_type: 0,
