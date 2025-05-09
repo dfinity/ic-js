@@ -127,6 +127,7 @@ export type ManageNeuronCommandRequest =
 export interface Configure {
   operation: Option<Operation>;
 }
+
 export interface RefreshVotingPower {
   // Intentionally left blank.
 }
