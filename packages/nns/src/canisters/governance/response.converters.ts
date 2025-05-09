@@ -135,7 +135,7 @@ export const toNeuronInfo = ({
     ? toNeuron({ neuron: rawNeuron, canisterId })
     : undefined;
   return {
-    neuronId: neuronId,
+    neuronId,
     dissolveDelaySeconds: neuronInfo.dissolve_delay_seconds,
     recentBallots: neuronInfo.recent_ballots.map(toBallotInfo),
     neuronType: fromNullable(neuronInfo.neuron_type) as NeuronType | undefined,
@@ -157,7 +157,7 @@ export const toNeuronInfo = ({
     visibility: fromNullable(neuronInfo.visibility) as
       | NeuronVisibility
       | undefined,
-    fullNeuron: fullNeuron,
+    fullNeuron,
   };
 };
 
@@ -453,7 +453,7 @@ const toAction = (action: RawAction): Action => {
   }
 
   if ("SetSnsTokenSwapOpenTimeWindow" in action) {
-    const SetSnsTokenSwapOpenTimeWindow = action.SetSnsTokenSwapOpenTimeWindow;
+    const { SetSnsTokenSwapOpenTimeWindow } = action;
     const request = SetSnsTokenSwapOpenTimeWindow.request?.length
       ? {
           openTimeWindow: SetSnsTokenSwapOpenTimeWindow.request[0]
@@ -484,7 +484,7 @@ const toAction = (action: RawAction): Action => {
   }
 
   if ("OpenSnsTokenSwap" in action) {
-    const OpenSnsTokenSwap = action.OpenSnsTokenSwap;
+    const { OpenSnsTokenSwap } = action;
     const params: Params | undefined = fromNullable(OpenSnsTokenSwap.params);
 
     return {
