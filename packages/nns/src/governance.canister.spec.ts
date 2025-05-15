@@ -1401,7 +1401,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response does not match", () => {
+    it("throws error if response does not match", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
@@ -1417,7 +1417,7 @@ describe("GovernanceCanister", () => {
           neuronId,
           by: { NeuronIdOrSubaccount: {} },
         });
-      expect(call).rejects.toThrowError();
+      await expect(call).rejects.toThrowError();
     });
   });
 

@@ -133,7 +133,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(RefundedError);
+      await expect(call).rejects.toThrowError(RefundedError);
     });
 
     it("throws InvalidaTransactionError error", async () => {
@@ -154,7 +154,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(InvalidaTransactionError);
+      await expect(call).rejects.toThrowError(InvalidaTransactionError);
     });
 
     it("throws ProcessingError error", async () => {
@@ -175,7 +175,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(ProcessingError);
+      await expect(call).rejects.toThrowError(ProcessingError);
     });
 
     it("throws TransactionTooOldError error", async () => {
@@ -196,7 +196,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(TransactionTooOldError);
+      await expect(call).rejects.toThrowError(TransactionTooOldError);
     });
 
     it("throws CMCError error", async () => {
@@ -217,7 +217,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(CMCError);
+      await expect(call).rejects.toThrowError(CMCError);
     });
   });
 
@@ -254,7 +254,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(RefundedError);
+      await expect(call).rejects.toThrowError(RefundedError);
     });
 
     it("throws InvalidaTransactionError error", async () => {
@@ -272,7 +272,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(InvalidaTransactionError);
+      await expect(call).rejects.toThrowError(InvalidaTransactionError);
     });
 
     it("throws ProcessingError error", async () => {
@@ -290,7 +290,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(ProcessingError);
+      await expect(call).rejects.toThrowError(ProcessingError);
     });
 
     it("throws TransactionTooOldError error", async () => {
@@ -308,7 +308,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(TransactionTooOldError);
+      await expect(call).rejects.toThrowError(TransactionTooOldError);
     });
 
     it("throws CMCError error", async () => {
@@ -326,7 +326,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(CMCError);
+      await expect(call).rejects.toThrowError(CMCError);
     });
   });
 

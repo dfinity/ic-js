@@ -177,7 +177,7 @@ describe("ckETH minter canister", () => {
 
       const call = () => canister.withdrawEth(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterAmountTooLowError({ details: error.Err.AmountTooLow }),
       );
     });
