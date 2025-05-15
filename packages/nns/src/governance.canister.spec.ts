@@ -6,7 +6,7 @@ import {
 } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   ClaimOrRefreshNeuronFromAccountResponse,
   GovernanceError as GovernanceErrorDetail,
@@ -54,7 +54,7 @@ import type {
 
 const nextRandomBytes: number[] = [];
 
-jest.mock("randombytes", () => ({
+vi.mock("randombytes", () => ({
   __esModule: true,
   default: (n: number): Uint8Array => {
     const nums: number[] = [];
@@ -188,7 +188,7 @@ describe("GovernanceCanister", () => {
   };
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("GovernanceCanister.listKnownNeurons", () => {
@@ -286,7 +286,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
+        vi.fn().mockResolvedValue(BigInt(1)),
       );
 
       const stake = 100_000_000n;
@@ -350,7 +350,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
+        vi.fn().mockResolvedValue(BigInt(1)),
       );
       const fee = BigInt(10_000);
 
@@ -381,7 +381,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
+        vi.fn().mockResolvedValue(BigInt(1)),
       );
 
       const governance = GovernanceCanister.create({
@@ -413,7 +413,7 @@ describe("GovernanceCanister", () => {
       );
 
       const mockLedger = mock<LedgerCanister>();
-      mockLedger.transfer.mockImplementation(jest.fn());
+      mockLedger.transfer.mockImplementation(vi.fn());
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
@@ -835,9 +835,7 @@ describe("GovernanceCanister", () => {
         oldListNeuronsServiceOverride: service,
       });
 
-      service.list_neurons.mockResolvedValue(
-        Promise.resolve(mockListNeuronsResponse),
-      );
+      service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
 
       const response = await governance.getNeuron({
         certified: true,
@@ -865,9 +863,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const response = await governance.getProposal({
         proposalId: BigInt(1),
       });
@@ -902,9 +898,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const response = await governance.getProposal({
         proposalId: BigInt(1),
       });
@@ -963,9 +957,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const proposalId = 5467n;
       const response = await governance.getProposal({
         proposalId,
@@ -1018,9 +1010,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const proposalId = 5467n;
       const response = await governance.getProposal({
         proposalId,
@@ -1097,9 +1087,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const response = await governance.getProposal({
         proposalId: 1n,
       });
@@ -2043,7 +2031,7 @@ describe("GovernanceCanister", () => {
     it("throws error if invalid account id", () => {
       const neuronId = BigInt(10);
       const service = mock<ActorSubclass<GovernanceService>>();
-      service.manage_neuron.mockImplementation(jest.fn());
+      service.manage_neuron.mockImplementation(vi.fn());
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,

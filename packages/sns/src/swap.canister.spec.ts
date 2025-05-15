@@ -1,6 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   BuyerState,
   GetAutoFinalizationStatusResponse,
@@ -27,7 +27,7 @@ import { saleTicketMock, swapCanisterIdMock } from "./mocks/sns.mock";
 import { SnsSwapCanister } from "./swap.canister";
 
 describe("Swap canister", () => {
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => vi.clearAllMocks());
 
   it("should return the state of the swap canister", async () => {
     const mockSwap: Swap = {

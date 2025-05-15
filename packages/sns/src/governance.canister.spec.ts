@@ -4,7 +4,7 @@ import {
   arrayOfNumberToUint8Array,
   InvalidPercentageError,
 } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   ListNervousSystemFunctionsResponse,
   ListProposalsResponse,
