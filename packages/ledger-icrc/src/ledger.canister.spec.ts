@@ -148,7 +148,7 @@ describe("Ledger canister", () => {
       expect(service.icrc1_transfer).toBeCalledWith(transferArg);
     });
 
-    it("should raise IcrcTransferError error", () => {
+    it("should raise IcrcTransferError error", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const errorResponse = {
         Err: {
@@ -165,7 +165,7 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.transfer(transferParams);
-      expect(call).rejects.toThrow(IcrcTransferError);
+      await expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
 
@@ -211,7 +211,7 @@ describe("Ledger canister", () => {
       expect(service.icrc2_transfer_from).toBeCalledWith(transferArg);
     });
 
-    it("should raise IcrcTransferError error", () => {
+    it("should raise IcrcTransferError error", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const errorResponse = {
         Err: {
@@ -228,7 +228,7 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.transferFrom(transferParams);
-      expect(call).rejects.toThrow(IcrcTransferError);
+      await expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
 
@@ -269,7 +269,7 @@ describe("Ledger canister", () => {
       expect(service.icrc2_approve).toBeCalledWith(approveArg);
     });
 
-    it("should raise IcrcTransferError error", () => {
+    it("should raise IcrcTransferError error", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const errorResponse = {
         Err: {
@@ -286,7 +286,7 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.approve(approveParams);
-      expect(call).rejects.toThrow(IcrcTransferError);
+      await expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
 

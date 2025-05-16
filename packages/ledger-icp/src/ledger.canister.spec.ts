@@ -290,7 +290,7 @@ describe("LedgerCanister", () => {
         });
       });
 
-      it("handles duplicate transaction", () => {
+      it("handles duplicate transaction", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -310,10 +310,10 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(TxDuplicateError);
+        await expect(call).rejects.toThrowError(TxDuplicateError);
       });
 
-      it("handles insufficient balance", () => {
+      it("handles insufficient balance", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -335,10 +335,10 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(InsufficientFundsError);
+        await expect(call).rejects.toThrowError(InsufficientFundsError);
       });
 
-      it("handles old tx", () => {
+      it("handles old tx", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -358,10 +358,10 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(TxTooOldError);
+        await expect(call).rejects.toThrowError(TxTooOldError);
       });
 
-      it("handles bad fee", () => {
+      it("handles bad fee", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -383,10 +383,10 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(BadFeeError);
+        await expect(call).rejects.toThrowError(BadFeeError);
       });
 
-      it("handles transaction created in the future", () => {
+      it("handles transaction created in the future", async () => {
         const service = mock<ActorSubclass<LedgerService>>();
         service.transfer.mockResolvedValue({
           Err: {
@@ -404,7 +404,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(TxCreatedInFutureError);
+        await expect(call).rejects.toThrowError(TxCreatedInFutureError);
       });
     });
   });
