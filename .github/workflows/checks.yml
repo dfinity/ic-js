@@ -43,8 +43,9 @@ jobs:
       - name: Format shell scripts
         run: ./scripts/fmt-sh
 
-      - name: Install ts dependencies
-        run: npm ci
+      - name: Prepare
+        uses: ./.github/actions/prepare
+
       - name: Format ts
         run: npm run format
 
@@ -117,8 +118,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install dependencies
-        run: npm ci
+      - name: Prepare
+        uses: ./.github/actions/prepare
       - name: Build
         run: npm run build --workspaces
 
@@ -128,8 +129,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install dependencies
-        run: npm ci
+      - name: Prepare
+        uses: ./.github/actions/prepare
       - name: Build utils
         run: npm run build -w packages/utils
       - name: Lint
@@ -141,8 +142,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install dependencies
-        run: npm ci
+      - name: Prepare
+        uses: ./.github/actions/prepare
       - name: Build
         run: npm run build --workspaces
       - name: Test
