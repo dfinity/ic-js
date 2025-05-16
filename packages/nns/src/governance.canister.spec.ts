@@ -1128,7 +1128,7 @@ describe("GovernanceCanister", () => {
       expect(response).toBe(neuronId);
     });
 
-    it("throws in unexpected response", () => {
+    it("throws in unexpected response", async () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Configure: {} }],
       };
@@ -1144,7 +1144,7 @@ describe("GovernanceCanister", () => {
           memo: BigInt(1),
           controller: principal,
         });
-      expect(call).rejects.toThrow(UnrecognizedTypeError);
+      await expect(call).rejects.toThrow(UnrecognizedTypeError);
     });
   });
 

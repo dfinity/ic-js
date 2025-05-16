@@ -79,7 +79,7 @@ describe("Index canister", () => {
       expect(res.transactions).toEqual([transactionWithId]);
     });
 
-    it("raises error when Err in response", () => {
+    it("raises error when Err in response", async () => {
       const service = mock<ActorSubclass<IcrcIndexNgService>>();
       service.get_account_transactions.mockResolvedValue({
         Err: {
@@ -96,7 +96,7 @@ describe("Index canister", () => {
           account: fakeSnsAccount,
           max_results: BigInt(10),
         });
-      expect(call).rejects.toThrowError(IndexError);
+      await expect(call).rejects.toThrowError(IndexError);
     });
   });
 

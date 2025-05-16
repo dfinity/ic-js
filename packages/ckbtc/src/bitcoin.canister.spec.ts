@@ -117,7 +117,7 @@ describe("BitcoinCanister", () => {
       });
     });
 
-    it("throws Error", () => {
+    it("throws Error", async () => {
       const error = new Error("Test");
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_utxos_query.mockRejectedValue(error);
@@ -131,7 +131,7 @@ describe("BitcoinCanister", () => {
           ...params,
         });
 
-      expect(call).rejects.toThrowError(Error);
+      await expect(call).rejects.toThrowError(Error);
     });
 
     it("should not call certified end point", async () => {
@@ -179,7 +179,7 @@ describe("BitcoinCanister", () => {
       });
     });
 
-    it("throws Error", () => {
+    it("throws Error", async () => {
       const error = new Error("Test");
       const service = mock<ActorSubclass<BitcoinService>>();
       service.bitcoin_get_balance_query.mockRejectedValue(error);
@@ -193,7 +193,7 @@ describe("BitcoinCanister", () => {
           ...params,
         });
 
-      expect(call).rejects.toThrowError(Error);
+      await expect(call).rejects.toThrowError(Error);
     });
 
     it("should not call certified end point", async () => {
