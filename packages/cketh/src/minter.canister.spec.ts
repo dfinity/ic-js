@@ -718,7 +718,7 @@ describe("ckETH minter canister", () => {
 
           const call = () => canister.withdrawErc20(params);
 
-          await expect(call).rejects.toThrowError(
+          await expect(call).rejects.toThrow(
             new LedgerError({
               msg: "Unsupported response type in ledger for minter.withdrawErc20",
               details: error.Err,
