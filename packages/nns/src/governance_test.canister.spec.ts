@@ -38,7 +38,7 @@ describe("GovernanceTestCanister", () => {
       expect(service.update_neuron).toBeCalledTimes(1);
     });
 
-    it("should not update accountIdentifier", () => {
+    it("should not update accountIdentifier", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
 
@@ -56,7 +56,7 @@ describe("GovernanceTestCanister", () => {
         accountIdentifier: newAccountIdentifier,
       };
 
-      expect(() => governance.updateNeuron(newNeuron)).rejects.toThrow(
+      await expect(() => governance.updateNeuron(newNeuron)).rejects.toThrow(
         "Neuron account identifier can't be changed",
       );
 

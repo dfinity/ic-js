@@ -78,7 +78,7 @@ describe("Swap canister", () => {
     expect(res).toEqual(saleTicketMock);
   });
 
-  it("should throw open sale ticket", () => {
+  it("should throw open sale ticket", async () => {
     const mockResponse: GetOpenTicketResponse = {
       result: [
         {
@@ -98,7 +98,7 @@ describe("Swap canister", () => {
     });
     const call = () => canister.getOpenTicket({});
 
-    expect(call).rejects.toThrow(
+    await expect(call).rejects.toThrow(
       new SnsSwapGetOpenTicketError(GetOpenTicketErrorType.TYPE_SALE_CLOSED),
     );
   });
@@ -129,7 +129,7 @@ describe("Swap canister", () => {
     expect(ticket).toEqual(saleTicketMock);
   });
 
-  it("should throw new sale ticket error", () => {
+  it("should throw new sale ticket error", async () => {
     const min_amount_icp_e8s_included = 123n;
     const max_amount_icp_e8s_included = 321n;
 
@@ -163,7 +163,7 @@ describe("Swap canister", () => {
         amount_icp_e8s: 3n,
       });
 
-    expect(call).rejects.toThrow(
+    await expect(call).rejects.toThrow(
       new SnsSwapNewTicketError({
         errorType: NewSaleTicketResponseErrorType.TYPE_TICKET_EXISTS,
         existingTicket: saleTicketMock,
@@ -264,7 +264,7 @@ describe("Swap canister", () => {
       expect(res).toEqual(mockResponse);
     });
 
-    it("throw UnsupportedMethodError if method not supported", () => {
+    it("throw UnsupportedMethodError if method not supported", async () => {
       const errorMessage = `Call failed:
       Canister: s55qq-oqaaa-aaaaa-aaakq-cai
       Method: get_auto_finalization_status (query)
@@ -282,12 +282,12 @@ describe("Swap canister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => canister.getFinalizationStatus({});
-      expect(call).rejects.toThrow(
+      await expect(call).rejects.toThrow(
         new UnsupportedMethodError("getFinalizationStatus"),
       );
     });
 
-    it("throw forward error if not unsupported method error", () => {
+    it("throw forward error if not unsupported method error", async () => {
       const errorMessage = "Another error";
       const err = new Error(errorMessage);
 
@@ -299,7 +299,7 @@ describe("Swap canister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => canister.getFinalizationStatus({});
-      expect(call).rejects.toThrow(err);
+      await expect(call).rejects.toThrow(err);
     });
   });
 

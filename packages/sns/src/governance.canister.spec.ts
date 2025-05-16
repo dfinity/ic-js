@@ -659,7 +659,7 @@ describe("Governance canister", () => {
       expect(service.manage_neuron).toBeCalledWith(request);
     });
 
-    it("should raise an error", () => {
+    it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
@@ -669,7 +669,7 @@ describe("Governance canister", () => {
       });
       const call = () => canister.disburse(params);
 
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
