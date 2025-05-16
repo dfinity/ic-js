@@ -835,9 +835,7 @@ describe("GovernanceCanister", () => {
         oldListNeuronsServiceOverride: service,
       });
 
-      service.list_neurons.mockResolvedValue(
-        Promise.resolve(mockListNeuronsResponse),
-      );
+      service.list_neurons.mockResolvedValue(mockListNeuronsResponse);
 
       const response = await governance.getNeuron({
         certified: true,
@@ -865,9 +863,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const response = await governance.getProposal({
         proposalId: BigInt(1),
       });
@@ -902,9 +898,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const response = await governance.getProposal({
         proposalId: BigInt(1),
       });
@@ -963,9 +957,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const proposalId = 5467n;
       const response = await governance.getProposal({
         proposalId,
@@ -1018,9 +1010,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const proposalId = 5467n;
       const response = await governance.getProposal({
         proposalId,
@@ -1097,9 +1087,7 @@ describe("GovernanceCanister", () => {
         proposer: [],
         latest_tally: [],
       } as unknown as RawProposalInfo;
-      service.get_proposal_info.mockResolvedValue(
-        Promise.resolve([rawProposal]),
-      );
+      service.get_proposal_info.mockResolvedValue([rawProposal]);
       const response = await governance.getProposal({
         proposalId: 1n,
       });
