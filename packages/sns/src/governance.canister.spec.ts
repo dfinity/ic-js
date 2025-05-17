@@ -3,6 +3,7 @@ import { Principal } from "@dfinity/principal";
 import {
   arrayOfNumberToUint8Array,
   InvalidPercentageError,
+  toNullable,
 } from "@dfinity/utils";
 import { mock } from "vitest-mock-extended";
 import type {
@@ -1282,7 +1283,7 @@ describe("Governance canister", () => {
         command: [
           {
             StakeMaturity: {
-              percentage_to_stake: [percentageToStake],
+              percentage_to_stake: toNullable(percentageToStake),
             },
           },
         ],

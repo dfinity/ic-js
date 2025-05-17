@@ -232,7 +232,7 @@ describe("ckBTC minter canister", () => {
       await expect(call).rejects.toThrowError(
         new MinterNoNewUtxosError({
           pending_utxos: [[pendingUtxo]],
-          required_confirmations: 12,
+          required_confirmations: 123,
         }),
       );
     });
@@ -262,7 +262,7 @@ describe("ckBTC minter canister", () => {
       await expect(call).rejects.toThrowError(
         new MinterNoNewUtxosError({
           pending_utxos: [],
-          required_confirmations: 12,
+          required_confirmations: 123,
         }),
       );
     });
