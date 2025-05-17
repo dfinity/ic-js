@@ -826,7 +826,7 @@ describe("ckETH minter canister", () => {
       expect(res).toEqual(result);
     });
 
-    it("should bubble errors", () => {
+    it("should bubble errors", async  () => {
       const service = mock<ActorSubclass<CkETHMinterService>>();
       service.retrieve_eth_status.mockRejectedValue(new Error());
 
@@ -834,7 +834,7 @@ describe("ckETH minter canister", () => {
 
       const call = () => canister.retrieveEthStatus(123n);
 
-      expect(call).rejects.toThrowError();
+      await expect(call).rejects.toThrowError();
     });
   });
 
