@@ -708,7 +708,7 @@ describe("Governance canister", () => {
       expect(service.manage_neuron).toBeCalledWith(request);
     });
 
-    it("should raise an error", () => {
+    it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
@@ -718,7 +718,7 @@ describe("Governance canister", () => {
       });
       const call = () => canister.startDissolving(neuronId);
 
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
@@ -756,7 +756,7 @@ describe("Governance canister", () => {
       expect(service.manage_neuron).toBeCalledWith(request);
     });
 
-    it("should raise an error", () => {
+    it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
@@ -766,7 +766,7 @@ describe("Governance canister", () => {
       });
       const call = () => canister.stopDissolving(neuronId);
 
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
@@ -1108,7 +1108,7 @@ describe("Governance canister", () => {
       expect(service.manage_neuron).toBeCalledWith(request);
     });
 
-    it("should raise an error", () => {
+    it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
@@ -1118,7 +1118,7 @@ describe("Governance canister", () => {
       });
       const call = () => canister.registerVote(params);
 
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
@@ -1165,7 +1165,7 @@ describe("Governance canister", () => {
       expect(res).toBeUndefined();
     });
 
-    it("should raise error on governance error", () => {
+    it("should raise error on governance error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.get_neuron.mockResolvedValue({
         result: [{ Error: { error_message: "error", error_type: 2 } }],
@@ -1180,7 +1180,7 @@ describe("Governance canister", () => {
           neuronId: neuronIdMock,
           certified: true,
         });
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
     });
   });
 
@@ -1200,7 +1200,7 @@ describe("Governance canister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("should raise error", () => {
+    it("should raise error", async () => {
       const neuronId = { id: new Uint8Array() };
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
@@ -1210,7 +1210,7 @@ describe("Governance canister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => canister.refreshNeuron(neuronId);
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
@@ -1236,7 +1236,7 @@ describe("Governance canister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("should raise error", () => {
+    it("should raise error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
@@ -1250,7 +1250,7 @@ describe("Governance canister", () => {
           controller: Principal.fromText("aaaaa-aa"),
           subaccount: new Uint8Array(),
         });
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
@@ -1297,7 +1297,7 @@ describe("Governance canister", () => {
     it("should stake maturity of the neuron with no percentage", async () =>
       await testStakeMaturitySuccess(undefined));
 
-    it("throws error if percentage not valid", () => {
+    it("throws error if percentage not valid", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
 
       const canister = SnsGovernanceCanister.create({
@@ -1311,11 +1311,11 @@ describe("Governance canister", () => {
           percentageToStake: 500,
         });
 
-      expect(call).rejects.toThrow(InvalidPercentageError);
+      await expect(call).rejects.toThrow(InvalidPercentageError);
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("should raise error", () => {
+    it("should raise error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
@@ -1328,7 +1328,7 @@ describe("Governance canister", () => {
           neuronId: neuronIdMock,
           percentageToStake: 75,
         });
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
@@ -1382,7 +1382,7 @@ describe("Governance canister", () => {
       expect(service.manage_neuron).toBeCalledWith(request);
     });
 
-    it("throws error if percentage not valid", () => {
+    it("throws error if percentage not valid", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
 
       const canister = SnsGovernanceCanister.create({
@@ -1396,11 +1396,11 @@ describe("Governance canister", () => {
           percentageToDisburse: 500,
         });
 
-      expect(call).rejects.toThrow(InvalidPercentageError);
+      await expect(call).rejects.toThrow(InvalidPercentageError);
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("should raise an error", () => {
+    it("should raise an error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
@@ -1410,7 +1410,7 @@ describe("Governance canister", () => {
       });
       const call = () => canister.disburseMaturity(params);
 
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
@@ -1458,7 +1458,7 @@ describe("Governance canister", () => {
     it("should turn auto stake maturity of the neuron to false", async () =>
       await testAutoStakeMaturitySuccess(false));
 
-    it("throws error if percentage not valid", () => {
+    it("throws error if percentage not valid", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
 
       const canister = SnsGovernanceCanister.create({
@@ -1472,11 +1472,11 @@ describe("Governance canister", () => {
           percentageToStake: 500,
         });
 
-      expect(call).rejects.toThrow(InvalidPercentageError);
+      await expect(call).rejects.toThrow(InvalidPercentageError);
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("should raise error", () => {
+    it("should raise error", async () => {
       const service = mock<ActorSubclass<SnsGovernanceService>>();
       service.manage_neuron.mockResolvedValue(mockErrorCommand);
 
@@ -1490,7 +1490,7 @@ describe("Governance canister", () => {
           autoStake: true,
         });
 
-      expect(call).rejects.toThrowError(SnsGovernanceError);
+      await expect(call).rejects.toThrowError(SnsGovernanceError);
       expect(service.manage_neuron).toBeCalled();
     });
   });
