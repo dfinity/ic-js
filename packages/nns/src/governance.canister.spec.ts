@@ -1437,7 +1437,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1449,7 +1449,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => governance.joinCommunityFund(neuronId);
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1469,7 +1469,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1481,7 +1481,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => governance.leaveCommunityFund(neuronId);
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1538,7 +1538,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalledWith(command(false));
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1550,7 +1550,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => autoStakeMaturity({ neuronId, autoStake: true });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1571,7 +1571,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1585,7 +1585,7 @@ describe("GovernanceCanister", () => {
       const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
 
       const call = () => governance.addHotkey({ neuronId, principal });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1606,7 +1606,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1620,7 +1620,7 @@ describe("GovernanceCanister", () => {
       const principal = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
 
       const call = () => governance.removeHotkey({ neuronId, principal });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1656,7 +1656,7 @@ describe("GovernanceCanister", () => {
       });
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -1670,7 +1670,7 @@ describe("GovernanceCanister", () => {
 
       const call = () =>
         governance.setVisibility(neuronId, NeuronVisibility.Public);
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1703,7 +1703,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const sourceNeuronId = BigInt(10);
       const targetNeuronId = BigInt(13);
       const serviceResponse: ManageNeuronResponse = {
@@ -1720,7 +1720,7 @@ describe("GovernanceCanister", () => {
           sourceNeuronId,
           targetNeuronId,
         });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1756,7 +1756,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const sourceNeuronId = BigInt(12);
       const targetNeuronId = BigInt(15);
       const serviceResponse: ManageNeuronResponse = {
@@ -1773,7 +1773,7 @@ describe("GovernanceCanister", () => {
           sourceNeuronId,
           targetNeuronId,
         });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1802,7 +1802,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if percentage not valid", () => {
+    it("throws error if percentage not valid", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
 
       const governance = GovernanceCanister.create({
@@ -1813,11 +1813,11 @@ describe("GovernanceCanister", () => {
           neuronId: BigInt(10),
           percentageToMerge: 300,
         });
-      expect(call).rejects.toThrow(InvalidPercentageError);
+      await expect(call).rejects.toThrow(InvalidPercentageError);
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
@@ -1832,7 +1832,7 @@ describe("GovernanceCanister", () => {
           neuronId: BigInt(10),
           percentageToMerge: 50,
         });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1893,7 +1893,7 @@ describe("GovernanceCanister", () => {
       });
     });
 
-    it("throws error if percentage not valid", () => {
+    it("throws error if percentage not valid", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
 
       const { stakeMaturity } = GovernanceCanister.create({
@@ -1906,11 +1906,11 @@ describe("GovernanceCanister", () => {
           percentageToStake: 300,
         });
 
-      expect(call).rejects.toThrow(InvalidPercentageError);
+      await expect(call).rejects.toThrow(InvalidPercentageError);
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
@@ -1928,7 +1928,7 @@ describe("GovernanceCanister", () => {
           percentageToStake: 50,
         });
 
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -1958,7 +1958,7 @@ describe("GovernanceCanister", () => {
       expect(response).toBe(neuronId);
     });
 
-    it("throws error if percentage not valid", () => {
+    it("throws error if percentage not valid", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
 
       const governance = GovernanceCanister.create({
@@ -1969,11 +1969,11 @@ describe("GovernanceCanister", () => {
           neuronId: BigInt(10),
           percentageToSpawn: 300,
         });
-      expect(call).rejects.toThrow(InvalidPercentageError);
+      await expect(call).rejects.toThrow(InvalidPercentageError);
       expect(service.manage_neuron).not.toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
@@ -1988,7 +1988,7 @@ describe("GovernanceCanister", () => {
           neuronId: BigInt(10),
           percentageToSpawn: 50,
         });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -2010,7 +2010,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -2025,10 +2025,10 @@ describe("GovernanceCanister", () => {
         governance.disburse({
           neuronId,
         });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
 
-    it("throws error if invalid account id", () => {
+    it("throws error if invalid account id", async () => {
       const neuronId = BigInt(10);
       const service = mock<ActorSubclass<GovernanceService>>();
       service.manage_neuron.mockImplementation(vi.fn());
@@ -2041,7 +2041,7 @@ describe("GovernanceCanister", () => {
           neuronId,
           toAccountId: "not-valid",
         });
-      expect(call).rejects.toThrow(InvalidAccountIDError);
+      await expect(call).rejects.toThrow(InvalidAccountIDError);
       expect(service.manage_neuron).not.toBeCalled();
     });
   });
@@ -2064,7 +2064,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalledTimes(1);
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -2079,7 +2079,7 @@ describe("GovernanceCanister", () => {
         governance.refreshVotingPower({
           neuronId,
         });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -2103,7 +2103,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const amount = BigInt(600_000_000);
       const serviceResponse: ManageNeuronResponse = {
@@ -2120,7 +2120,7 @@ describe("GovernanceCanister", () => {
           neuronId,
           amount,
         });
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -2140,7 +2140,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -2152,7 +2152,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => governance.startDissolving(neuronId);
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -2172,7 +2172,7 @@ describe("GovernanceCanister", () => {
       expect(service.manage_neuron).toBeCalled();
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const neuronId = BigInt(10);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
@@ -2184,7 +2184,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => governance.stopDissolving(neuronId);
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
@@ -2230,7 +2230,7 @@ describe("GovernanceCanister", () => {
       expect(response).toEqual(undefined);
     });
 
-    it("throws error if response is error", () => {
+    it("throws error if response is error", async () => {
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Error: error }],
       };
@@ -2241,7 +2241,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => governance.makeProposal(makeProposalRequest);
-      expect(call).rejects.toThrow(new GovernanceError(error));
+      await expect(call).rejects.toThrow(new GovernanceError(error));
     });
   });
 
