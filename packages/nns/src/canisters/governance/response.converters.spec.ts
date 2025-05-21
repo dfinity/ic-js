@@ -366,24 +366,6 @@ describe("response.converters", () => {
         maturityDisbursementsInProgress: [
           testMaturityDisbursementWithSubaccount,
           testMaturityDisbursementWithoutSubaccount,
-          //   {
-          //     timestampOfDisbursementSeconds: 10n,
-          //     amountE8s: 11n,
-          //     accountToDisburseTo: {
-          //       owner: testPrincipal,
-          //       subaccount: [1, 2, 3],
-          //     },
-          //     finalizeDisbursementTimestampSeconds: 12n,
-          //   },
-          //   {
-          //     timestampOfDisbursementSeconds: 20n,
-          //     amountE8s: 21n,
-          //     accountToDisburseTo: {
-          //       owner: testPrincipal,
-          //       subaccount: undefined,
-          //     },
-          //     finalizeDisbursementTimestampSeconds: 22n,
-          //   },
         ],
       });
     });
