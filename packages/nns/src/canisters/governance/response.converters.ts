@@ -372,25 +372,22 @@ const toBallot = ({
   };
 };
 
-const toAccount = (account: RawAccount): Account => {
-  const subaccount = fromNullable(account.subaccount);
+const toAccount = ({ subaccount, owner }: RawAccount): Account => {
+  const unwrappedSubaccount = fromNullable(subaccount);
   return {
-    owner: fromNullable(account.owner),
-    subaccount: nonNullish(subaccount)
-      ? uint8ArrayToArrayOfNumber(Uint8Array.from(subaccount))
+    owner: fromNullable(owner),
+    subaccount: nonNullish(unwrappedSubaccount)
+      ? uint8ArrayToArrayOfNumber(Uint8Array.from(unwrappedSubaccount))
       : undefined,
   };
 };
 
-const toRawAccount = (account: Account): RawAccount => {
-  const subaccount = account.subaccount;
-  return {
-    owner: toNullable(account.owner),
-    subaccount: nonNullish(subaccount)
-      ? toNullable(Uint8Array.from(subaccount))
-      : [],
-  };
-};
+const toRawAccount = ({ owner, subaccount }: Account): RawAccount => ({
+  owner: toNullable(owner),
+  subaccount: nonNullish(subaccount)
+    ? toNullable(Uint8Array.from(subaccount))
+    : [],
+});
 
 const toProposal = ({
   title,
