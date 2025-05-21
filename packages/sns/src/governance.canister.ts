@@ -1,16 +1,17 @@
 import type { Principal } from "@dfinity/principal";
-import type { QueryParams } from "@dfinity/utils";
 import {
-  assertPercentageNumber,
   Canister,
+  assertPercentageNumber,
   createServices,
   fromNullable,
   toNullable,
+  type QueryParams,
 } from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
   ListProposalsResponse,
+  ListTopicsResponse,
   ManageNeuron,
   ManageNeuronResponse,
   NervousSystemParameters,
@@ -18,7 +19,6 @@ import type {
   NeuronId,
   ProposalData,
   _SERVICE as SnsGovernanceService,
-  SplitResponse,
 } from "../candid/sns_governance";
 import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
 import { idlFactory } from "../candid/sns_governance.idl";
@@ -35,6 +35,7 @@ import {
   toRegisterVoteRequest,
   toRemovePermissionsRequest,
   toSetDissolveTimestampRequest,
+  toSetFollowingRequest,
   toSplitNeuronRequest,
   toStakeMaturityRequest,
   toStartDissolvingNeuronRequest,
@@ -50,12 +51,14 @@ import type {
   SnsIncreaseDissolveDelayParams,
   SnsListNeuronsParams,
   SnsListProposalsParams,
+  SnsListTopicsParams,
   SnsNeuronAutoStakeMaturityParams,
   SnsNeuronDisburseMaturityParams,
   SnsNeuronPermissionsParams,
   SnsNeuronStakeMaturityParams,
   SnsRegisterVoteParams,
   SnsSetDissolveTimestampParams,
+  SnsSetFollowingParams,
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "./types/governance.params";
@@ -106,6 +109,18 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   };
 
   /**
+   *
+   * List the topics of the Sns
+   */
+  listTopics = async (
+    params: SnsListTopicsParams,
+  ): Promise<ListTopicsResponse> => {
+    const { certified } = params;
+    const response = await this.caller({ certified }).list_topics({});
+    return response;
+  };
+
+  /**
    * Get the proposal of the Sns
    */
   getProposal = async (params: SnsGetProposalParams): Promise<ProposalData> => {
@@ -127,7 +142,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
    * List Nervous System Functions
    * Neurons can follow other neurons in specific Nervous System Functions.
    */
-  listNervousSystemFunctions = async (
+  listNervousSystemFunctions = (
     params: QueryParams,
   ): Promise<ListNervousSystemFunctionsResponse> =>
     this.caller(params).list_nervous_system_functions();
@@ -235,7 +250,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     }
 
     if ("Split" in response) {
-      const split = response.Split as SplitResponse;
+      const split = response.Split;
       const neuronId = fromNullable(split.created_neuron_id) as NeuronId;
 
       if (neuronId !== undefined) {
@@ -344,10 +359,19 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
   };
 
   /**
-   * Sets followees of a neuron for a specific Nervous System Function (topic)
+   * Sets followees of a neuron for a specific Nervous System Function
+   * @deprecated will be replaced by `setFollowing` in the future.
    */
   setTopicFollowees = async (params: SnsSetTopicFollowees): Promise<void> => {
     const request: ManageNeuron = toFollowRequest(params);
+    await this.manageNeuron(request);
+  };
+
+  /**
+   * Sets followees of a neuron for topics
+   */
+  setFollowing = async (params: SnsSetFollowingParams): Promise<void> => {
+    const request: ManageNeuron = toSetFollowingRequest(params);
     await this.manageNeuron(request);
   };
 
@@ -411,7 +435,7 @@ export class SnsGovernanceCanister extends Canister<SnsGovernanceService> {
     command,
   }: ManageNeuronResponse): void => {
     // TODO: use upcoming fromDefinedNullable
-    const firstCommand = command[0];
+    const [firstCommand] = command;
     if (firstCommand !== undefined && "Error" in firstCommand) {
       throw new SnsGovernanceError(firstCommand.Error.error_message);
     }

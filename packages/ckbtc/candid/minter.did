@@ -1,4 +1,4 @@
-// Generated from IC repo commit d9fe207 (2024-12-06 tags: release-2024-12-06_03-16-base) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
+// Generated from IC repo commit f195ba7 (2025-04-30 tags: release-2025-05-01_03-23-base) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
 // Represents an account on the ckBTC ledger.
 type Account = record { owner : principal; subaccount : opt blob };
 
@@ -35,6 +35,7 @@ type DefiniteCanisterSettings = record {
 type LogVisibility = variant {
     controllers;
     public;
+    allowed_viewers : vec principal;
 };
 
 type RetrieveBtcArgs = record {
@@ -208,6 +209,9 @@ type InitArgs = record {
 
     /// The canister id of the KYT canister (deprecated, use btc_checker_principal instead).
     kyt_principal: opt principal;
+
+    /// The expiration duration (in seconds) for cached entries in the get_utxos cache.
+    get_utxos_cache_expiration_seconds: opt nat64;
 };
 
 // The upgrade parameters of the minter canister.
@@ -237,6 +241,9 @@ type UpgradeArgs = record {
 
     /// The canister id of the KYT canister (deprecated, use btc_checker_principal instead).
     kyt_principal: opt principal;
+
+    /// The expiration duration (in seconds) for cached entries in the get_utxos cache.
+    get_utxos_cache_expiration_seconds: opt nat64;
 };
 
 type RetrieveBtcStatus = variant {
@@ -351,7 +358,12 @@ type SuspendedReason = variant {
     Quarantined;
 };
 
-type Event = variant {
+type Event = record {
+    timestamp : opt nat64;
+    payload : EventType;
+};
+
+type EventType = variant {
     init : InitArgs;
     upgrade : UpgradeArgs;
     received_utxos : record { to_account : Account; mint_txid : opt nat64; utxos : vec Utxo };
@@ -395,6 +407,10 @@ type Event = variant {
         utxo : Utxo;
         account : Account;
     };
+    checked_utxo_mint_unknown : record {
+        utxo : Utxo;
+        account : Account;
+    };
     ignored_utxo : record { utxo: Utxo; };
     suspended_utxo : record { utxo: Utxo; account: Account; reason: SuspendedReason };
     retrieve_btc_kyt_failed : record {
@@ -427,6 +443,7 @@ service : (minter_arg : MinterArg) -> {
     // endpoint.
     //
     // If the owner is not set, it defaults to the caller's principal.
+    // The resolved owner must be a non-anonymous principal.
     get_btc_address : (record { owner: opt principal; subaccount : opt blob }) -> (text);
 
     // Returns UTXOs of the given account known by the minter (with no

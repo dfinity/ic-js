@@ -228,7 +228,7 @@ describe("IndexCanister", () => {
         serviceOverride: service,
       });
 
-      expect(() =>
+      await expect(() =>
         index.getTransactions({
           accountIdentifier: mockAccountIdentifier.toHex(),
           certified: false,
@@ -237,7 +237,7 @@ describe("IndexCanister", () => {
       ).rejects.toThrowError();
     });
 
-    it("should bubble errors", () => {
+    it("should bubble errors", async () => {
       const service = mock<ActorSubclass<IndexService>>();
       service.get_account_identifier_transactions.mockImplementation(() => {
         throw new Error();
@@ -247,7 +247,7 @@ describe("IndexCanister", () => {
         serviceOverride: service,
       });
 
-      expect(() =>
+      await expect(() =>
         index.getTransactions({
           accountIdentifier: mockAccountIdentifier.toHex(),
           certified: false,

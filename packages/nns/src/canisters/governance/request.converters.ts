@@ -1,8 +1,8 @@
-import type {
-  AccountIdentifier as AccountIdentifierClass,
-  AccountIdentifierHex,
+import {
+  accountIdentifierToBytes,
+  type AccountIdentifier as AccountIdentifierClass,
+  type AccountIdentifierHex,
 } from "@dfinity/ledger-icp";
-import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import {
   arrayBufferToUint8Array,
@@ -13,6 +13,8 @@ import {
 import type {
   Amount,
   ListProposalInfo,
+  NeuronSubaccount,
+  Account as RawAccount,
   AccountIdentifier as RawAccountIdentifier,
   ProposalActionRequest as RawAction,
   By as RawBy,
@@ -52,6 +54,7 @@ import type { NeuronVisibility, Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { E8s, NeuronId, Option } from "../../types/common";
 import type {
+  Account,
   By,
   CanisterSettings,
   Change,
@@ -444,8 +447,8 @@ const fromInstallCode = (installCode: InstallCodeRequest): RawInstallCode => {
 
 const fromCanisterSettings = (
   canisterSettings: Option<CanisterSettings>,
-): [RawCanisterSettings] | [] => {
-  return canisterSettings === undefined
+): [RawCanisterSettings] | [] =>
+  canisterSettings === undefined
     ? []
     : [
         {
@@ -463,9 +466,11 @@ const fromCanisterSettings = (
           wasm_memory_limit: toNullable(canisterSettings.wasmMemoryLimit),
           compute_allocation: toNullable(canisterSettings.computeAllocation),
           memory_allocation: toNullable(canisterSettings.memoryAllocation),
+          wasm_memory_threshold: toNullable(
+            canisterSettings.wasmMemoryThreshold,
+          ),
         },
       ];
-};
 
 const fromAction = (action: ProposalActionRequest): RawAction => {
   if ("ExecuteNnsFunction" in action) {
@@ -651,6 +656,17 @@ const fromCommand = (command: ManageNeuronCommandRequest): RawCommand => {
       Follow: {
         topic: follow.topic,
         followees: follow.followees.map(fromNeuronId),
+      },
+    };
+  }
+  if ("DisburseMaturity" in command) {
+    const disburseMaturity = command.DisburseMaturity;
+    return {
+      DisburseMaturity: {
+        to_account: disburseMaturity.toAccount
+          ? [fromAccount(disburseMaturity.toAccount)]
+          : [],
+        percentage_to_disburse: disburseMaturity.percentageToDisburse,
       },
     };
   }
@@ -843,6 +859,11 @@ const fromOperation = (operation: Operation): RawOperation => {
   throw new UnsupportedValueError(operation);
 };
 
+const fromAccount = (account: Account): RawAccount => ({
+  owner: toNullable(account.owner),
+  subaccount: account.subaccount ? [account.subaccount] : [],
+});
+
 const fromChange = (change: Change): RawChange => {
   if ("ToRemove" in change) {
     return {
@@ -858,15 +879,13 @@ const fromChange = (change: Change): RawChange => {
   throw new UnsupportedValueError(change);
 };
 
-const fromNodeProvider = (nodeProvider: NodeProvider): RawNodeProvider => {
-  return {
-    id: nodeProvider.id != null ? [Principal.fromText(nodeProvider.id)] : [],
-    reward_account:
-      nodeProvider.rewardAccount != null
-        ? [fromAccountIdentifier(nodeProvider.rewardAccount)]
-        : [],
-  };
-};
+const fromNodeProvider = (nodeProvider: NodeProvider): RawNodeProvider => ({
+  id: nodeProvider.id != null ? [Principal.fromText(nodeProvider.id)] : [],
+  reward_account:
+    nodeProvider.rewardAccount != null
+      ? [fromAccountIdentifier(nodeProvider.rewardAccount)]
+      : [],
+});
 
 const fromAmount = (amount: E8s): Amount => ({
   e8s: amount,
@@ -957,6 +976,9 @@ const fromVotingPowerEconomics = (
       start_reducing_voting_power_after_seconds: toNullable(
         votingPowerEconomics.startReducingVotingPowerAfterSeconds,
       ),
+      neuron_minimum_dissolve_delay_to_vote_seconds: toNullable(
+        votingPowerEconomics.neuronMinimumDissolveDelayToVoteSeconds,
+      ),
       clear_following_after_seconds: toNullable(
         votingPowerEconomics.clearFollowingAfterSeconds,
       ),
@@ -971,7 +993,8 @@ const fromRewardMode = (rewardMode: RewardMode): RawRewardMode => {
         dissolve_delay_seconds: rewardMode.RewardToNeuron.dissolveDelaySeconds,
       },
     };
-  } else if ("RewardToAccount" in rewardMode) {
+  }
+  if ("RewardToAccount" in rewardMode) {
     return {
       RewardToAccount: {
         to_account:
@@ -980,10 +1003,9 @@ const fromRewardMode = (rewardMode: RewardMode): RawRewardMode => {
             : [],
       },
     };
-  } else {
-    // If there's a missing rewardMode above, this line will cause a compiler error.
-    throw new UnsupportedValueError(rewardMode);
   }
+  // If there's a missing rewardMode above, this line will cause a compiler error.
+  throw new UnsupportedValueError(rewardMode);
 };
 
 const fromClaimOrRefreshBy = (by: By): RawBy => {
@@ -991,11 +1013,13 @@ const fromClaimOrRefreshBy = (by: By): RawBy => {
     return {
       NeuronIdOrSubaccount: {},
     };
-  } else if ("Memo" in by) {
+  }
+  if ("Memo" in by) {
     return {
       Memo: by.Memo,
     };
-  } else if ("MemoAndController" in by) {
+  }
+  if ("MemoAndController" in by) {
     return {
       MemoAndController: {
         memo: by.MemoAndController.memo,
@@ -1004,25 +1028,33 @@ const fromClaimOrRefreshBy = (by: By): RawBy => {
           : [],
       },
     };
-  } else {
-    // Ensures all cases are covered at compile-time.
-    throw new UnsupportedValueError(by);
   }
+  // Ensures all cases are covered at compile-time.
+  throw new UnsupportedValueError(by);
 };
 
 export const fromListNeurons = ({
   neuronIds,
   includeEmptyNeurons,
   includePublicNeurons,
+  neuronSubaccounts,
+  pageNumber,
+  pageSize,
 }: {
   neuronIds?: NeuronId[];
   includeEmptyNeurons?: boolean;
   includePublicNeurons?: boolean;
+  neuronSubaccounts?: NeuronSubaccount[];
+  pageNumber?: bigint;
+  pageSize?: bigint;
 }): RawListNeurons => ({
   neuron_ids: BigUint64Array.from(neuronIds ?? []),
   include_neurons_readable_by_caller: neuronIds ? false : true,
   include_empty_neurons_readable_by_caller: toNullable(includeEmptyNeurons),
   include_public_neurons_in_full_neurons: toNullable(includePublicNeurons),
+  neuron_subaccounts: toNullable(neuronSubaccounts),
+  page_number: toNullable(pageNumber),
+  page_size: toNullable(pageSize),
 });
 
 export const fromManageNeuron = ({
@@ -1045,20 +1077,18 @@ export const fromListProposalsRequest = ({
   limit,
   includeAllManageNeuronProposals,
   omitLargeFields,
-}: ListProposalsRequest): ListProposalInfo => {
-  return {
-    include_reward_status: Int32Array.from(includeRewardStatus),
-    before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
-    limit: limit,
-    exclude_topic: Int32Array.from(excludeTopic),
-    include_all_manage_neuron_proposals:
-      includeAllManageNeuronProposals !== undefined
-        ? [includeAllManageNeuronProposals]
-        : [],
-    include_status: Int32Array.from(includeStatus),
-    omit_large_fields: toNullable(omitLargeFields),
-  };
-};
+}: ListProposalsRequest): ListProposalInfo => ({
+  include_reward_status: Int32Array.from(includeRewardStatus),
+  before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
+  limit,
+  exclude_topic: Int32Array.from(excludeTopic),
+  include_all_manage_neuron_proposals:
+    includeAllManageNeuronProposals !== undefined
+      ? [includeAllManageNeuronProposals]
+      : [],
+  include_status: Int32Array.from(includeStatus),
+  omit_large_fields: toNullable(omitLargeFields),
+});
 
 /* Protobuf is not supported yet
 export const fromAddHotKeyRequest = (request: AddHotKeyRequest): PbManageNeuron => {
@@ -1432,6 +1462,23 @@ export const toDisburseNeuronRequest = ({
             ? [toAccountIdentifier.toAccountIdentifierHash()]
             : [],
         amount: amount !== undefined ? [fromAmount(amount)] : [],
+      },
+    },
+  });
+
+export const toDisburseMaturityRequest = ({
+  neuronId,
+  percentageToDisburse,
+}: {
+  neuronId: NeuronId;
+  percentageToDisburse: number;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      DisburseMaturity: {
+        percentage_to_disburse: percentageToDisburse,
+        to_account: [],
       },
     },
   });

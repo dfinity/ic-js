@@ -2,7 +2,9 @@ import { Principal } from "@dfinity/principal";
 import type {
   Action as ActionCandid,
   DefaultFollowees,
+  Topic,
 } from "../../candid/sns_governance";
+import { topicMock } from "../mocks/governance.mock";
 import type { Action } from "../types/actions";
 import { fromCandidAction } from "./governance.converters";
 
@@ -73,6 +75,7 @@ describe("governance converters", () => {
             max_number_of_principals_per_neuron,
           ],
           maturity_modulation_disabled: [false],
+          automatically_advance_target_version: [true],
         },
       };
       const expectedAction: Action = {
@@ -101,6 +104,7 @@ describe("governance converters", () => {
             round_duration_seconds,
           },
           max_number_of_principals_per_neuron,
+          automatically_advance_target_version: true,
         },
       };
       expect(fromCandidAction(action)).toEqual(expectedAction);
@@ -114,6 +118,8 @@ describe("governance converters", () => {
       const target_canister_id = Principal.fromHex("AB");
       const validator_method_name = "validator_method_name";
       const target_method_name = "target_method_name";
+      const topic: Topic = topicMock;
+
       const action: ActionCandid = {
         AddGenericNervousSystemFunction: {
           id,
@@ -126,6 +132,7 @@ describe("governance converters", () => {
                 target_canister_id: [target_canister_id],
                 validator_method_name: [validator_method_name],
                 target_method_name: [target_method_name],
+                topic: [topic],
               },
             },
           ],
@@ -142,11 +149,21 @@ describe("governance converters", () => {
               target_canister_id,
               validator_method_name,
               target_method_name,
+              topic,
             },
           },
         },
       };
       expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
+    it("converts SetTopicsForCustomProposals action", () => {
+      const action: ActionCandid = {
+        SetTopicsForCustomProposals: {
+          custom_function_id_to_topic: [[BigInt(3), topicMock]],
+        },
+      };
+      expect(fromCandidAction(action)).toEqual(action);
     });
 
     it("converts RemoveGenericNervousSystemFunction action", () => {
@@ -201,10 +218,23 @@ describe("governance converters", () => {
     it("converts UpgradeSnsControlledCanister action", () => {
       const new_canister_wasm = new Uint8Array();
       const canister_id = mockPrincipal;
+      const wasm_module_hash = new Uint8Array([1, 2, 3]);
+      const store_canister_id = Principal.fromHex("123f");
+      const chunk_hashes_list = [
+        new Uint8Array([4, 5, 6]),
+        new Uint8Array([7, 8, 9]),
+      ];
       const mode = 1;
       const action: ActionCandid = {
         UpgradeSnsControlledCanister: {
           new_canister_wasm,
+          chunked_canister_wasm: [
+            {
+              wasm_module_hash,
+              store_canister_id: [store_canister_id],
+              chunk_hashes_list,
+            },
+          ],
           canister_id: [canister_id],
           canister_upgrade_arg: [],
           mode: [mode],
@@ -213,6 +243,11 @@ describe("governance converters", () => {
       const expectedAction: Action = {
         UpgradeSnsControlledCanister: {
           new_canister_wasm: new Uint8Array(),
+          chunked_canister_wasm: {
+            wasm_module_hash,
+            store_canister_id,
+            chunk_hashes_list,
+          },
           canister_id,
           canister_upgrade_arg: undefined,
           mode,

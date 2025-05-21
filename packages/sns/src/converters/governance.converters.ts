@@ -3,6 +3,7 @@ import { fromNullable, toNullable } from "@dfinity/utils";
 import type {
   Account,
   Action as ActionCandid,
+  ChunkedCanisterWasm as ChunkedCanisterWasmCandid,
   Command,
   FunctionType as FunctionTypeCandid,
   GenericNervousSystemFunction as GenericNervousSystemFunctionCandid,
@@ -20,6 +21,7 @@ import type {
 import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
 import type {
   Action,
+  ChunkedCanisterWasm,
   FunctionType,
   GenericNervousSystemFunction,
   ManageSnsMetadata,
@@ -40,6 +42,7 @@ import type {
   SnsNeuronStakeMaturityParams,
   SnsRegisterVoteParams,
   SnsSetDissolveTimestampParams,
+  SnsSetFollowingParams,
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
 } from "../types/governance.params";
@@ -251,6 +254,26 @@ export const toFollowRequest = ({
   ],
 });
 
+export const toSetFollowingRequest = ({
+  neuronId,
+  topicFollowing,
+}: SnsSetFollowingParams): ManageNeuron => ({
+  subaccount: neuronId.id,
+  command: [
+    {
+      SetFollowing: {
+        topic_following: topicFollowing.map(({ topic, followees }) => ({
+          topic: [topic],
+          followees: followees.map(({ neuronId, alias }) => ({
+            neuron_id: toNullable(neuronId),
+            alias: toNullable(alias),
+          })),
+        })),
+      },
+    },
+  ],
+});
+
 export const toRegisterVoteRequest = ({
   neuronId,
   proposalId,
@@ -295,12 +318,18 @@ export const toListProposalRequest = ({
   includeRewardStatus,
   includeStatus,
   limit,
+  includeTopics,
 }: SnsListProposalsParams): ListProposals => ({
   exclude_type: BigUint64Array.from(excludeType ?? []),
   before_proposal: toNullable(beforeProposal),
   include_reward_status: Int32Array.from(includeRewardStatus ?? []),
   include_status: Int32Array.from(includeStatus ?? []),
   limit: limit ?? DEFAULT_PROPOSALS_LIMIT,
+  include_topics: toNullable(
+    includeTopics?.map((topic) => ({
+      topic: toNullable(topic),
+    })) ?? [],
+  ),
 });
 
 export const fromCandidAction = (action: ActionCandid): Action => {
@@ -317,6 +346,12 @@ export const fromCandidAction = (action: ActionCandid): Action => {
       AddGenericNervousSystemFunction: convertNervousSystemFunction(
         action.AddGenericNervousSystemFunction,
       ),
+    };
+  }
+
+  if ("SetTopicsForCustomProposals" in action) {
+    return {
+      SetTopicsForCustomProposals: action.SetTopicsForCustomProposals,
     };
   }
 
@@ -376,6 +411,7 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     return { Motion: action.Motion };
   }
 
+  // TODO: Find a better way to log this because JSON.stringify doesn't support BigInt.
   throw new Error(`Unknown action type ${JSON.stringify(action)}`);
 };
 
@@ -388,10 +424,26 @@ const convertManageSnsMetadata = (
   description: fromNullable(params.description),
 });
 
+const convertChunkedCanisterWasm = (
+  params: ChunkedCanisterWasmCandid | undefined,
+): ChunkedCanisterWasm | undefined => {
+  if (params === undefined) {
+    return undefined;
+  }
+  return {
+    wasm_module_hash: params.wasm_module_hash,
+    store_canister_id: fromNullable(params.store_canister_id),
+    chunk_hashes_list: params.chunk_hashes_list,
+  };
+};
+
 const convertUpgradeSnsControlledCanister = (
   params: UpgradeSnsControlledCanisterCandid,
 ): UpgradeSnsControlledCanister => ({
   new_canister_wasm: params.new_canister_wasm,
+  chunked_canister_wasm: convertChunkedCanisterWasm(
+    fromNullable(params.chunked_canister_wasm),
+  ),
   canister_id: fromNullable(params.canister_id),
   canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
   mode: fromNullable(params.mode),
@@ -414,6 +466,7 @@ const convertGenericNervousSystemFunction = (
   target_canister_id: fromNullable(params.target_canister_id),
   validator_method_name: fromNullable(params.validator_method_name),
   target_method_name: fromNullable(params.target_method_name),
+  topic: fromNullable(params.topic),
 });
 
 const convertFunctionType = (
@@ -504,5 +557,8 @@ const convertNervousSystemParams = (
   ),
   max_number_of_principals_per_neuron: fromNullable(
     params.max_number_of_principals_per_neuron,
+  ),
+  automatically_advance_target_version: fromNullable(
+    params.automatically_advance_target_version,
   ),
 });

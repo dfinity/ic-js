@@ -7,7 +7,7 @@ on:
 
 jobs:
   docs:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     # In order to trigger other workflows after committing docs changes, we need
     # to use the PR Automation App. This token is not available for external
@@ -37,16 +37,8 @@ jobs:
         if: steps.check_can_add_commit.outputs.can_add_commit == 'false'
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install latest npm
-        run: npm install -g npm@latest
-
-      - name: Install dependencies
-        run: npm ci
+      - name: Prepare
+        uses: ./.github/actions/prepare
 
       - name: Build
         run: npm run build

@@ -1,5 +1,9 @@
-import type { Agent, Identity } from "@dfinity/agent";
-import { AnonymousIdentity, HttpAgent } from "@dfinity/agent";
+import {
+  AnonymousIdentity,
+  HttpAgent,
+  type Agent,
+  type Identity,
+} from "@dfinity/agent";
 import type { CreateAgentParams } from "../types/agent.utils";
 import { isNullish, nonNullish } from "./nullish.utils";
 
@@ -29,15 +33,14 @@ export const createAgent = async ({
   fetchRootKey = false,
   verifyQuerySignatures = false,
   retryTimes,
-}: CreateAgentParams): Promise<HttpAgent> => {
-  return await HttpAgent.create({
+}: CreateAgentParams): Promise<HttpAgent> =>
+  await HttpAgent.create({
     identity,
     ...(nonNullish(host) && { host }),
     verifyQuerySignatures,
     ...(nonNullish(retryTimes) && { retryTimes }),
     shouldFetchRootKey: fetchRootKey,
   });
-};
 
 export type AgentManagerConfig = Pick<
   CreateAgentParams,
@@ -79,11 +82,11 @@ export class AgentManager {
    * @param {Identity} identity - The identity to be used to create the agent.
    * @returns {Promise<HttpAgent>} The HttpAgent associated with the given identity.
    */
-  public async getAgent({
+  public getAgent = async ({
     identity,
   }: {
     identity: Identity;
-  }): Promise<HttpAgent> {
+  }): Promise<HttpAgent> => {
     const key = identity.getPrincipal().toText();
 
     if (isNullish(this.agents) || isNullish(this.agents[key])) {
@@ -103,7 +106,7 @@ export class AgentManager {
     }
 
     return this.agents[key];
-  }
+  };
 
   /**
    * Clear the cache of HTTP agents.
@@ -111,7 +114,7 @@ export class AgentManager {
    * This method removes all cached agents, forcing new agent creation on the next request for any identity.
    * Useful when identities have changed or if you want to reset all active connections.
    */
-  public clearAgents(): void {
+  public clearAgents = (): void => {
     this.agents = null;
-  }
+  };
 }

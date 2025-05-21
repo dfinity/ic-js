@@ -1,6 +1,14 @@
 import { Principal } from "@dfinity/principal";
 import { mockPrincipal } from "../mocks/ledger.mock";
-import { decodeIcrcAccount, encodeIcrcAccount } from "./ledger.utils";
+import {
+  IcrcMetadataResponseEntries,
+  type IcrcTokenMetadataResponse,
+} from "../types/ledger.responses";
+import {
+  decodeIcrcAccount,
+  encodeIcrcAccount,
+  mapTokenMetadata,
+} from "./ledger.utils";
 
 describe("ledger-utils", () => {
   const ownerText =
@@ -89,7 +97,7 @@ describe("ledger-utils", () => {
       subaccount1[31] = 1;
       const account1 = {
         owner: Principal.fromText("2vxsx-fae"),
-        subaccount: subaccount,
+        subaccount,
       };
       expect(decodeIcrcAccount(encodeIcrcAccount(account1))).toEqual(account1);
 
@@ -112,6 +120,127 @@ describe("ledger-utils", () => {
         subaccount,
       };
       expect(decodeIcrcAccount(encodeIcrcAccount(account4))).toEqual(account4);
+    });
+  });
+
+  describe("mapTokenMetadata", () => {
+    const validResponse: IcrcTokenMetadataResponse = [
+      [IcrcMetadataResponseEntries.SYMBOL, { Text: "TKN" }],
+      [IcrcMetadataResponseEntries.NAME, { Text: "Token" }],
+      [IcrcMetadataResponseEntries.FEE, { Nat: 10_000n }],
+      [IcrcMetadataResponseEntries.DECIMALS, { Nat: 8n }],
+      [IcrcMetadataResponseEntries.LOGO, { Text: "a-logo" }],
+    ];
+
+    it("should map token metadata", () => {
+      const result = mapTokenMetadata(validResponse);
+
+      expect(result).toEqual({
+        name: "Token",
+        symbol: "TKN",
+        fee: 10_000n,
+        decimals: 8,
+        icon: "a-logo",
+      });
+    });
+
+    const missingFieldCases: [string, IcrcTokenMetadataResponse][] = [
+      [
+        "missing field symbol",
+        validResponse.filter(
+          ([key]) => key !== IcrcMetadataResponseEntries.SYMBOL,
+        ),
+      ],
+      [
+        "missing field name",
+        validResponse.filter(
+          ([key]) => key !== IcrcMetadataResponseEntries.NAME,
+        ),
+      ],
+      [
+        "missing field fee",
+        validResponse.filter(
+          ([key]) => key !== IcrcMetadataResponseEntries.FEE,
+        ),
+      ],
+      [
+        "missing field decimals",
+        validResponse.filter(
+          ([key]) => key !== IcrcMetadataResponseEntries.DECIMALS,
+        ),
+      ],
+    ];
+
+    it.each(missingFieldCases)(
+      "should return undefined for %s",
+      // eslint-disable-next-line local-rules/prefer-object-params
+      (_, response) => {
+        const result = mapTokenMetadata(response);
+        expect(result).toBeUndefined();
+      },
+    );
+
+    const invalidFieldCases: [string, IcrcTokenMetadataResponse][] = [
+      [
+        "invalid symbol value",
+        validResponse.map(([key, value]) =>
+          key === IcrcMetadataResponseEntries.SYMBOL
+            ? [key, { Nat: BigInt(1) }]
+            : [key, value],
+        ),
+      ],
+      [
+        "invalid name value",
+        validResponse.map(([key, value]) =>
+          key === IcrcMetadataResponseEntries.NAME
+            ? [key, { Nat: BigInt(1) }]
+            : [key, value],
+        ),
+      ],
+      [
+        "invalid fee value",
+        validResponse.map(([key, value]) =>
+          key === IcrcMetadataResponseEntries.FEE
+            ? [key, { Text: "100" }]
+            : [key, value],
+        ),
+      ],
+      [
+        "invalid decimals value",
+        validResponse.map(([key, value]) =>
+          key === IcrcMetadataResponseEntries.DECIMALS
+            ? [key, { Text: "8" }]
+            : [key, value],
+        ),
+      ],
+    ];
+
+    it.each(invalidFieldCases)(
+      "should return undefined for %s",
+      // eslint-disable-next-line local-rules/prefer-object-params
+      (_, response) => {
+        const result = mapTokenMetadata(response);
+        expect(result).toBeUndefined();
+      },
+    );
+
+    test("should return empty if response metadata is empty", () => {
+      const result = mapTokenMetadata([]);
+      expect(result).toBeUndefined();
+    });
+
+    test("should map a metadata without logo", () => {
+      const responseWithoutLogo = validResponse.filter(
+        ([key]) => key !== IcrcMetadataResponseEntries.LOGO,
+      );
+
+      const result = mapTokenMetadata(responseWithoutLogo);
+      expect(result).toEqual({
+        name: "Token",
+        symbol: "TKN",
+        fee: 10_000n,
+        decimals: 8,
+      });
     });
   });
 });

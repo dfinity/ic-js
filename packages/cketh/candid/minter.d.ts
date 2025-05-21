@@ -237,7 +237,10 @@ export type LedgerError =
         failed_burn_amount: bigint;
       };
     };
-export type LogVisibility = { controllers: null } | { public: null };
+export type LogVisibility =
+  | { controllers: null }
+  | { public: null }
+  | { allowed_viewers: Array<Principal> };
 export type MinterArg = { UpgradeArg: UpgradeArg } | { InitArg: InitArg };
 export interface MinterInfo {
   deposit_with_subaccount_helper_contract_address: [] | [string];

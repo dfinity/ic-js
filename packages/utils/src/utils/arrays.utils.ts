@@ -4,12 +4,11 @@ export const uint8ArrayToBigInt = (array: Uint8Array): bigint => {
   const view = new DataView(array.buffer, array.byteOffset, array.byteLength);
   if (typeof view.getBigUint64 === "function") {
     return view.getBigUint64(0);
-  } else {
-    const high = BigInt(view.getUint32(0));
-    const low = BigInt(view.getUint32(4));
-
-    return (high << BigInt(32)) + low;
   }
+  const high = BigInt(view.getUint32(0));
+  const low = BigInt(view.getUint32(4));
+
+  return (high << BigInt(32)) + low;
 };
 
 export const bigIntToUint8Array = (value: bigint): Uint8Array => {

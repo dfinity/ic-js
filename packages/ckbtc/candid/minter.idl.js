@@ -7,6 +7,7 @@ export const idlFactory = ({ IDL }) => {
     'GeneralAvailability' : IDL.Null,
   });
   const UpgradeArgs = IDL.Record({
+    'get_utxos_cache_expiration_seconds' : IDL.Opt(IDL.Nat64),
     'kyt_principal' : IDL.Opt(IDL.Principal),
     'mode' : IDL.Opt(Mode),
     'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
@@ -22,6 +23,7 @@ export const idlFactory = ({ IDL }) => {
     'Testnet' : IDL.Null,
   });
   const InitArgs = IDL.Record({
+    'get_utxos_cache_expiration_seconds' : IDL.Opt(IDL.Nat64),
     'kyt_principal' : IDL.Opt(IDL.Principal),
     'ecdsa_key_name' : IDL.Text,
     'mode' : Mode,
@@ -46,6 +48,7 @@ export const idlFactory = ({ IDL }) => {
   const LogVisibility = IDL.Variant({
     'controllers' : IDL.Null,
     'public' : IDL.Null,
+    'allowed_viewers' : IDL.Vec(IDL.Principal),
   });
   const DefiniteCanisterSettings = IDL.Record({
     'freezing_threshold' : IDL.Nat,
@@ -99,7 +102,7 @@ export const idlFactory = ({ IDL }) => {
     'p2wpkh_v0' : IDL.Vec(IDL.Nat8),
     'p2pkh' : IDL.Vec(IDL.Nat8),
   });
-  const Event = IDL.Variant({
+  const EventType = IDL.Variant({
     'received_utxos' : IDL.Record({
       'to_account' : Account,
       'mint_txid' : IDL.Opt(IDL.Nat64),
@@ -166,10 +169,18 @@ export const idlFactory = ({ IDL }) => {
     }),
     'checked_utxo_v2' : IDL.Record({ 'utxo' : Utxo, 'account' : Account }),
     'ignored_utxo' : IDL.Record({ 'utxo' : Utxo }),
+    'checked_utxo_mint_unknown' : IDL.Record({
+      'utxo' : Utxo,
+      'account' : Account,
+    }),
     'reimbursed_failed_deposit' : IDL.Record({
       'burn_block_index' : IDL.Nat64,
       'mint_block_index' : IDL.Nat64,
     }),
+  });
+  const Event = IDL.Record({
+    'timestamp' : IDL.Opt(IDL.Nat64),
+    'payload' : EventType,
   });
   const MinterInfo = IDL.Record({
     'retrieve_btc_min_amount' : IDL.Nat64,
@@ -372,6 +383,7 @@ export const init = ({ IDL }) => {
     'GeneralAvailability' : IDL.Null,
   });
   const UpgradeArgs = IDL.Record({
+    'get_utxos_cache_expiration_seconds' : IDL.Opt(IDL.Nat64),
     'kyt_principal' : IDL.Opt(IDL.Principal),
     'mode' : IDL.Opt(Mode),
     'retrieve_btc_min_amount' : IDL.Opt(IDL.Nat64),
@@ -387,6 +399,7 @@ export const init = ({ IDL }) => {
     'Testnet' : IDL.Null,
   });
   const InitArgs = IDL.Record({
+    'get_utxos_cache_expiration_seconds' : IDL.Opt(IDL.Nat64),
     'kyt_principal' : IDL.Opt(IDL.Principal),
     'ecdsa_key_name' : IDL.Text,
     'mode' : Mode,

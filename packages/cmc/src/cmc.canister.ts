@@ -25,14 +25,22 @@ export class CMCCanister extends Canister<CMCCanisterService> {
   }
 
   /**
-   * Returns conversion rate of ICP to Cycles
+   * Returns conversion rate of ICP to Cycles. It can be called as query or update.
+   *
+   * @param {Object} [params] - The parameters for the call.
+   * @param {boolean} [params.certified] - Determines whether the response should be certified (default: non-certified)
    *
    * @returns Promise<BigInt>
    */
-  public getIcpToCyclesConversionRate = async (): Promise<bigint> => {
-    const { data } = await this.service.get_icp_xdr_conversion_rate();
+  public getIcpToCyclesConversionRate = async ({
+    certified,
+  }: QueryParams = {}): Promise<bigint> => {
+    const { data } = await this.caller({
+      certified,
+    }).get_icp_xdr_conversion_rate();
 
-    // TODO: validate the certificate in the response - https://dfinity.atlassian.net/browse/FOLLOW-223
+    // TODO: validate the certificate in the response - https://dfinity.atlassian.net/browse/GIX-150
+    // Example: https://github.com/dfinity/response-verification/tree/main/examples/certification/certified-counter
     return data.xdr_permyriad_per_icp;
   };
 
@@ -99,7 +107,7 @@ export class CMCCanister extends Canister<CMCCanisterService> {
    * @returns {Promise<Principal[]>} - A promise that resolves to an array of `Principal` objects
    * representing the default subnets.
    */
-  public getDefaultSubnets = async ({ certified }: QueryParams = {}): Promise<
+  public getDefaultSubnets = ({ certified }: QueryParams = {}): Promise<
     Principal[]
   > => {
     const { get_default_subnets } = this.caller({ certified });
@@ -118,7 +126,7 @@ export class CMCCanister extends Canister<CMCCanisterService> {
    * @returns {Promise<SubnetTypesToSubnetsResponse>} - A promise that resolves to an object representing
    * the mapping of subnet types to subnets.
    */
-  public getSubnetTypesToSubnets = async ({
+  public getSubnetTypesToSubnets = ({
     certified,
   }: QueryParams = {}): Promise<SubnetTypesToSubnetsResponse> => {
     const { get_subnet_types_to_subnets } = this.caller({ certified });

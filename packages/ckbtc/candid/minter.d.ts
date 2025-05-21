@@ -39,7 +39,11 @@ export interface DefiniteCanisterSettings {
   memory_allocation: bigint;
   compute_allocation: bigint;
 }
-export type Event =
+export interface Event {
+  timestamp: [] | [bigint];
+  payload: EventType;
+}
+export type EventType =
   | {
       received_utxos: {
         to_account: Account;
@@ -122,6 +126,7 @@ export type Event =
     }
   | { checked_utxo_v2: { utxo: Utxo; account: Account } }
   | { ignored_utxo: { utxo: Utxo } }
+  | { checked_utxo_mint_unknown: { utxo: Utxo; account: Account } }
   | {
       reimbursed_failed_deposit: {
         burn_block_index: bigint;
@@ -129,6 +134,7 @@ export type Event =
       };
     };
 export interface InitArgs {
+  get_utxos_cache_expiration_seconds: [] | [bigint];
   kyt_principal: [] | [Principal];
   ecdsa_key_name: string;
   mode: Mode;
@@ -141,7 +147,10 @@ export interface InitArgs {
   min_confirmations: [] | [number];
   kyt_fee: [] | [bigint];
 }
-export type LogVisibility = { controllers: null } | { public: null };
+export type LogVisibility =
+  | { controllers: null }
+  | { public: null }
+  | { allowed_viewers: Array<Principal> };
 export type MinterArg = { Upgrade: [] | [UpgradeArgs] } | { Init: InitArgs };
 export interface MinterInfo {
   retrieve_btc_min_amount: bigint;
@@ -245,6 +254,7 @@ export type UpdateBalanceError =
       };
     };
 export interface UpgradeArgs {
+  get_utxos_cache_expiration_seconds: [] | [bigint];
   kyt_principal: [] | [Principal];
   mode: [] | [Mode];
   retrieve_btc_min_amount: [] | [bigint];

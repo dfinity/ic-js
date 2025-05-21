@@ -177,7 +177,7 @@ export class ICManagementCanister {
    * @param {canisterId} params.canisterId The canister in which the chunks are stored.
    * @returns {Promise<chunk_hash[]>} The list of hash of the stored chunks.
    */
-  storedChunks = async ({
+  storedChunks = ({
     canisterId,
   }: StoredChunksParams): Promise<chunk_hash[]> => {
     const { stored_chunks } = this.service;
@@ -381,7 +381,7 @@ export class ICManagementCanister {
    *
    * @throws {Error} If the operation fails.
    */
-  listCanisterSnapshots = async ({
+  listCanisterSnapshots = ({
     canisterId,
   }: {
     canisterId: Principal;

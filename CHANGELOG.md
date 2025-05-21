@@ -1,4 +1,254 @@
-# YYYY.MM.DD-HHMMZ
+# Next version
+
+## Features
+
+- Expose method `listSubaccounts` in class `IcrcIndexNgCanister`.
+
+# v69
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.12 | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.9  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.5  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.1.1  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v2.6.13 | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.8.1  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.4.1  | Maintained ⚙️ |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v3.6.0  | Enhanced 🔧️  |
+| `@dfinity/utils`         | v2.13.0 | Enhanced 🔧️  |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
+
+## Features
+
+- Updated `@dfinity/sns` to add support for filtering SNS proposals by topics.
+- Removed (unused) `topic_followee_index` in NNS Governance Candid type.
+- Added `hashObject` and `hashText` utilities to generate a SHA-256 hash from the given object.
+
+## Chore
+
+- Upgraded GitHub actions runners to `ubuntu-24.04`.
+
+# v68
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.11 | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.8  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.4  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.1.0  | Enhanced 🔧️  |
+| `@dfinity/ledger-icp`    | v2.6.12 | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.8.0  | Enhanced 🔧️  |
+| `@dfinity/nns`           | v8.4.0  | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v3.5.0  | Enhanced 🔧️  |
+| `@dfinity/utils`         | v2.12.0 | Enhanced 🔧️  |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
+
+## Features
+
+- Add utility `isIcpAccountIdentifier` to check if a string is a valid ICP account identifier.
+- Utility `notEmptyString` to use a type predicate, ensuring that the input is a string type when it returns true.
+- Support `disburseMaturity` in `@dfinity/nns`.
+- Update `@dfinity/ic-management` to support optional new setting `wasm_memory_threshold` and return the new `memory_metrics`.
+- Add `neuronMinimumDissolveDelayToVoteSeconds` to nns `VotingPowerEconomics`.
+- Expose method `status` in class `IcrcIndexNgCanister`.
+- Expose method `icrc3_get_blocks` in class `IcrcLedgerCanister`.
+- Add `setFollowing` to sns governance canister.
+- New service util `queryAndUpdate` that aids in executing a request and handling the results, for both type of calls.
+- Added type predicate to narrow value to `undefined`, `null`, or empty string in type guards in util `isEmptyString`.
+
+# 2025.03.10-1330Z
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.10 | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.7  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.3  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.0.6  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v2.6.11 | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.6  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.3.2  | Maintained ⚙️ |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v3.4.0  | Enhanced 🔧️  |
+| `@dfinity/utils`         | v2.11.0 | Enhanced 🔧️  |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
+
+## Features
+
+- Add utility `toBigIntNanoSeconds` to convert `Date` object to timestamp in nanoseconds `bigint`.
+- Add support to a new type of action `SetTopicsForCustomProposals` in sns.
+- Update Candid files for `@dfinity/sns`.
+
+# 2025.02.21-1530Z
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.8  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.5  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.1  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.0.5  | Unchanged️    |
+| `@dfinity/ledger-icp`    | v2.6.9  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.4  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.3.0  | Maintained ⚙️ |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v3.3.0  | Enhanced 🔧️  |
+| `@dfinity/utils`         | v2.10.1 | Unchanged️    |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
+
+## Features
+
+- Support `topic` and `list_topics` in `@dfinity/sns`.
+
+# 2025.02.19-1030Z
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.8  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.5  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.1  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.0.5  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v2.6.9  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.4  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.3.0  | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v3.2.10 | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.10.1 | Patched ⚙️    |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
+
+## Features
+
+- Make methods of `AgentManager` usable after deconstruction.
+- Implement pagination for the `list_neurons` endpoint.
+- Update all Candid files to their latest versions.
+
+## Build
+
+- Bump `esbuild` to `v0.25.0`.
+
+## Chore
+
+- Add the `zod-schemas` library to the list of `next` versions.
+
+## Docs
+
+- Review JSDoc types for `Icrc2ApproveRequest`.
+
+# 2025.01.30-0730Z
+
+## Overview
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v3.1.7  | Maintained ⚙️       |
+| `@dfinity/cketh`         | v3.4.4  | Maintained ⚙️       |
+| `@dfinity/cmc`           | v5.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ic-management` | v6.0.4  | Maintained ⚙️       |
+| `@dfinity/ledger-icp`    | v2.6.8  | Maintained ⚙️       |
+| `@dfinity/ledger-icrc`   | v2.7.3  | Maintained ⚙️       |
+| `@dfinity/nns`           | v8.2.2  | Maintained ⚙️       |
+| `@dfinity/nns-proto`     | v2.0.2  | Maintained ⚙️       |
+| `@dfinity/sns`           | v3.2.9  | Maintained ⚙️       |
+| `@dfinity/utils`         | v2.10.0 | Enhanced 🔧️        |
+| `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️          |
+
+## Breaking Changes
+
+- Default `getIcpToCyclesConversionRate` to an update call while providing a `certified` parameter for queries.
+
+## Features
+
+- Support `NervousSystemParameters.automatically_advance_target_version` in `@dfinity/sns`.
+- Add converters to encode or decode base64 string into Uint8Array.
+- Support `neuron_subaccounts` in `list_neurons` from `@dfinity/nns`.
+
+# 2025.01.20-1800Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.6  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.3  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v4.1.1  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.0.3  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v2.6.7  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.2  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.2.1  | Maintained ⚙️ |
+| `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
+| `@dfinity/sns`           | v3.2.8  | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.9.0  | Enhanced 🔧️  |
+| `@dfinity/zod-schemas`   | v0.0.2  | Maintained ⚙️ |
+
+# Features
+
+- Support `CanisterSettings.wasm_memory_threshold` in `@dfinity/nns`.
+- Support `UpgradeSnsControlledCanister.chunked_canister_wasm` in `@dfinity/sns`.
+- Add utility `fromNullishNullable` extracts the value from a nullish Candid-style variant representation.
+
+# 2025.01.20-1030Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.5  | Unchanged️    |
+| `@dfinity/cketh`         | v3.4.2  | Unchanged️    |
+| `@dfinity/cmc`           | v4.1.0  | Unchanged️    |
+| `@dfinity/ic-management` | v6.0.2  | Unchanged️    |
+| `@dfinity/ledger-icp`    | v2.6.6  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.1  | Maintained ⚙️ |
+| `@dfinity/nns`           | v8.2.0  | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
+| `@dfinity/sns`           | v3.2.7  | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.8.0  | Unchanged️    |
+| `@dfinity/zod-schemas`   | v0.0.1  | New 🚀        |
+
+## Features
+
+- Expose types `IcrcApproveError` and `IcrcTransferFromError` in `@dfinity/ledger-icrc`.
+- Expose few additional did types in `@dfinity/ledger-icp`.
+- Introduce a new zod-schemas library to provide a collection of reusable Zod schemas and validators for common data patterns in ICP applications.
+- Api get network economics parameters.
+- Update `old_list_neurons_service.certified.idl.js`.
+
+## Fix
+
+- Typo in renamed exposed type `IcrcTransferVariatError`.
+
+# 2024.12.23-1215Z
+
+## Overview
+
+The current status of the libraries at the time of the release is as follows:
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.1.5  | Maintained ⚙️ |
+| `@dfinity/cketh`         | v3.4.2  | Maintained ⚙️ |
+| `@dfinity/cmc`           | v4.1.0  | Enhanced 🔧️  |
+| `@dfinity/ic-management` | v6.0.2  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v2.6.5  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.7.0  | Enhanced 🔧️  |
+| `@dfinity/nns`           | v8.1.0  | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
+| `@dfinity/sns`           | v3.2.6  | Maintained ⚙️ |
+| `@dfinity/utils`         | v2.8.0  | Enhanced 🔧️  |
 
 ## Features
 
@@ -9,6 +259,7 @@
 - Add support for `get_subnet_types_to_subnets` to `@dfinity/cmc`.
 - Support `VotingPowerEconomics`, `potential_voting_power` and `deciding_voting_power` in `@dfinity/nns`.
 - Add utility `isEmptyString` (the opposite of existing `notEmptyString`).
+- Add utility `mapTokenMetadata` in `@dfinity/ledger-icrc` to map the token metadata information from a ledger response into a structured record.
 
 # 2024.11.27-1230Z
 
@@ -22,8 +273,8 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/cketh`         | v3.4.1  | Maintained ⚙️ |
 | `@dfinity/cmc`           | v4.0.2  | Maintained ⚙️ |
 | `@dfinity/ic-management` | v6.0.1  | Patched 🩹    |
-| `@dfinity/ledger-icp`    | v2.6.3  | Maintained ⚙️ |
-| `@dfinity/ledger-icrc`   | v2.6.3  | Unchanged️    |
+| `@dfinity/ledger-icp`    | v2.6.4  | Maintained ⚙️ |
+| `@dfinity/ledger-icrc`   | v2.6.4  | Unchanged️    |
 | `@dfinity/nns`           | v8.0.1  | Maintained ⚙️ |
 | `@dfinity/nns-proto`     | v2.0.1  | Unchanged️    |
 | `@dfinity/sns`           | v3.2.5  | Maintained ⚙️ |

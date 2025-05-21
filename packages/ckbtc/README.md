@@ -78,9 +78,20 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L42)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
+
+##### :gear: create
+
+| Method   | Type                                                               |
+| -------- | ------------------------------------------------------------------ |
+| `create` | `(options: CkBTCCanisterOptions<_SERVICE>) => CkBTCMinterCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L43)
+
+#### Methods
+
 - [getBtcAddress](#gear-getbtcaddress)
 - [updateBalance](#gear-updatebalance)
 - [getWithdrawalAccount](#gear-getwithdrawalaccount)
@@ -91,14 +102,6 @@ Parameters:
 - [estimateWithdrawalFee](#gear-estimatewithdrawalfee)
 - [getMinterInfo](#gear-getminterinfo)
 - [getKnownUtxos](#gear-getknownutxos)
-
-##### :gear: create
-
-| Method   | Type                                                               |
-| -------- | ------------------------------------------------------------------ |
-| `create` | `(options: CkBTCCanisterOptions<_SERVICE>) => CkBTCMinterCanister` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L43)
 
 ##### :gear: getBtcAddress
 
@@ -278,11 +281,9 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L17)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getUtxosQuery](#gear-getutxosquery)
-- [getBalanceQuery](#gear-getbalancequery)
 
 ##### :gear: create
 
@@ -291,6 +292,11 @@ Parameters:
 | `create` | `(options: CkBTCCanisterOptions<_SERVICE>) => BitcoinCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L18)
+
+#### Methods
+
+- [getUtxosQuery](#gear-getutxosquery)
+- [getBalanceQuery](#gear-getbalancequery)
 
 ##### :gear: getUtxosQuery
 

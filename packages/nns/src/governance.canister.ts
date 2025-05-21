@@ -1,7 +1,9 @@
-import type { ActorSubclass, Agent } from "@dfinity/agent";
-import { Actor } from "@dfinity/agent";
-import type { LedgerCanister } from "@dfinity/ledger-icp";
-import { AccountIdentifier, checkAccountId } from "@dfinity/ledger-icp";
+import { Actor, type ActorSubclass, type Agent } from "@dfinity/agent";
+import {
+  AccountIdentifier,
+  checkAccountId,
+  type LedgerCanister,
+} from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
 import {
   assertPercentageNumber,
@@ -17,6 +19,7 @@ import type {
   _SERVICE as GovernanceService,
   ListProposalInfo,
   MergeResponse,
+  NeuronSubaccount,
   Neuron as RawNeuron,
   NeuronInfo as RawNeuronInfo,
   ProposalInfo as RawProposalInfo,
@@ -32,6 +35,7 @@ import {
   toAddHotkeyRequest,
   toAutoStakeMaturityRequest,
   toClaimOrRefreshRequest,
+  toDisburseMaturityRequest,
   toDisburseNeuronRequest,
   toIncreaseDissolveDelayRequest,
   toJoinCommunityFundRequest,
@@ -54,6 +58,7 @@ import {
 import {
   toArrayOfNeuronInfo,
   toListProposalsResponse,
+  toNetworkEconomics,
   toNeuronInfo,
   toProposalInfo,
 } from "./canisters/governance/response.converters";
@@ -80,6 +85,7 @@ import type {
   ListProposalsRequest,
   ListProposalsResponse,
   MakeProposalRequest,
+  NetworkEconomics,
   NeuronInfo,
   ProposalId,
   ProposalInfo,
@@ -139,42 +145,135 @@ export class GovernanceCanister {
    * If `certified` is true, the request is fetched as an update call, otherwise
    * it is fetched using a query call.
    *
-   * The backend treats `includeEmptyNeurons` as true if absent.
+   * The backend treats `includeEmptyNeurons` as false if absent.
+   *
+   * The response from the canister might be paginated. In this case, all pages will be fetched in parallel and
+   * combined into a single return value.
    */
   public listNeurons = async ({
     certified = true,
     neuronIds,
     includeEmptyNeurons,
     includePublicNeurons,
+    neuronSubaccounts,
   }: {
     certified: boolean;
     neuronIds?: NeuronId[];
     includeEmptyNeurons?: boolean;
     includePublicNeurons?: boolean;
+    neuronSubaccounts?: NeuronSubaccount[];
   }): Promise<NeuronInfo[]> => {
-    const rawRequest = fromListNeurons({
-      neuronIds,
-      includeEmptyNeurons,
-      includePublicNeurons,
-    });
-    // The Ledger app version 2.4.9 does not support
-    // include_empty_neurons_readable_by_caller nor include_public_neurons_in_full_neurons,
-    // even when the field is absent,
-    // so we use the old service (which does not have these fields) if possible,
-    // in case the call will be signed by the Ledger device. We only have a
-    // certified version of the old service.
     const useOldMethod =
       isNullish(includeEmptyNeurons) &&
       isNullish(includePublicNeurons) &&
       certified;
-    const service = useOldMethod
-      ? this.oldListNeuronsCertifiedService
-      : this.getGovernanceService(certified);
-    const raw_response = await service.list_neurons(rawRequest);
+
+    if (useOldMethod) {
+      return this.fetchNeuronsWithOldMethodAndNoPagination({
+        neuronIds,
+      });
+    }
+
+    // Fetch the first page to get the total number of pages
+    const firstPageResult = await this.fetchNeuronsPage({
+      certified,
+      neuronIds,
+      includeEmptyNeurons,
+      includePublicNeurons,
+      neuronSubaccounts,
+      pageNumber: 0n,
+    });
+    const { neurons: firstPageNeurons, totalPages } = firstPageResult;
+
+    // https://github.com/dfinity/ic/blob/de17b0d718d6f279e9da8cd0f1b5de17036a6102/rs/nns/governance/api/src/ic_nns_governance.pb.v1.rs#L3543
+    if (totalPages < 2n) {
+      return firstPageNeurons;
+    }
+
+    const pagePromises: Promise<{
+      neurons: NeuronInfo[];
+      totalPages: bigint;
+    }>[] = [];
+    for (let pageNumber = 1n; pageNumber < totalPages; pageNumber++) {
+      pagePromises.push(
+        this.fetchNeuronsPage({
+          certified,
+          neuronIds,
+          includeEmptyNeurons,
+          includePublicNeurons,
+          pageNumber,
+          neuronSubaccounts,
+        }),
+      );
+    }
+
+    const pageResults = [firstPageResult, ...(await Promise.all(pagePromises))];
+    const allNeurons = pageResults.flatMap(({ neurons }) => neurons);
+
+    return allNeurons;
+  };
+
+  // The Ledger app version 2.4.9 does not support
+  // include_empty_neurons_readable_by_caller nor include_public_neurons_in_full_neurons,
+  // even when the field is absent,
+  // so we use the old service (which does not have these fields) if possible,
+  // in case the call will be signed by the Ledger device. We only have a
+  // certified version of the old service.
+  private fetchNeuronsWithOldMethodAndNoPagination = async ({
+    neuronIds,
+  }: {
+    neuronIds?: NeuronId[];
+  }): Promise<NeuronInfo[]> => {
+    const rawRequest = fromListNeurons({
+      neuronIds,
+    });
+
+    const service = this.oldListNeuronsCertifiedService;
+    const rawResponse = await service.list_neurons(rawRequest);
+
     return toArrayOfNeuronInfo({
-      response: raw_response,
+      response: rawResponse,
       canisterId: this.canisterId,
     });
+  };
+
+  private fetchNeuronsPage = async ({
+    certified,
+    neuronIds,
+    includeEmptyNeurons,
+    includePublicNeurons,
+    pageNumber,
+    neuronSubaccounts,
+  }: {
+    certified: boolean;
+    neuronIds?: NeuronId[];
+    includeEmptyNeurons?: boolean;
+    includePublicNeurons?: boolean;
+    pageNumber: bigint;
+    neuronSubaccounts?: NeuronSubaccount[];
+  }): Promise<{ neurons: NeuronInfo[]; totalPages: bigint }> => {
+    // https://github.com/dfinity/ic/blob/59c4b87a337f1bd52a076c0f3e99acf155b79803/rs/nns/governance/src/governance.rs#L223
+    const PAGE_SIZE = 500n;
+
+    const rawRequest = fromListNeurons({
+      neuronIds,
+      includeEmptyNeurons,
+      includePublicNeurons,
+      neuronSubaccounts,
+      pageNumber,
+      pageSize: PAGE_SIZE,
+    });
+
+    const service = this.getGovernanceService(certified);
+    const rawResponse = await service.list_neurons(rawRequest);
+    const neurons = toArrayOfNeuronInfo({
+      response: rawResponse,
+      canisterId: this.canisterId,
+    });
+
+    const totalPages = fromNullable(rawResponse.total_pages_available) ?? 1n;
+
+    return { neurons, totalPages };
   };
 
   /**
@@ -206,11 +305,8 @@ export class GovernanceCanister {
    * it's fetched using a query call.
    *
    */
-  public getLastestRewardEvent = async (
-    certified = true,
-  ): Promise<RewardEvent> => {
-    return this.getGovernanceService(certified).get_latest_reward_event();
-  };
+  public getLastestRewardEvent = (certified = true): Promise<RewardEvent> =>
+    this.getGovernanceService(certified).get_latest_reward_event();
 
   /**
    * Returns the list of proposals made for the community to vote on,
@@ -426,6 +522,7 @@ export class GovernanceCanister {
    *
    * @throws {@link GovernanceError}
    */
+  // eslint-disable-next-line local-rules/prefer-object-params
   public setVisibility = async (
     neuronId: NeuronId,
     visibility: NeuronVisibility,
@@ -910,5 +1007,51 @@ export class GovernanceCanister {
     });
 
     return neuron;
+  };
+
+  /**
+   * Return the [Network Economics](https://github.com/dfinity/ic/blob/d90e934eb440c730d44d9d9b1ece2cc3f9505d05/rs/nns/governance/proto/ic_nns_governance/pb/v1/governance.proto#L1847).
+   */
+  public getNetworkEconomicsParameters = async ({
+    certified = true,
+  }: {
+    certified: boolean;
+  }): Promise<NetworkEconomics> => {
+    const rawResponse =
+      await this.getGovernanceService(
+        certified,
+      ).get_network_economics_parameters();
+    return toNetworkEconomics(rawResponse);
+  };
+
+  /**
+   * Disburses a neuron's maturity (always certified).
+   * Reference: https://github.com/dfinity/ic/blob/ca2be53acf413bb92478ee7694ac0fb92af07030/rs/sns/governance/src/governance.rs#L1614
+   *
+   * @preconditions
+   * - The neuron exists
+   * - The caller is authorized to perform this neuron operation (NeuronPermissionType::DisburseMaturity)
+   * - The given percentage_to_merge is between 1 and 100 (inclusive)
+   * - The neuron's id is not yet in the list of neurons with ongoing operations
+   * - The e8s equivalent of the amount of maturity to disburse is more than the transaction fee.
+   */
+  public disburseMaturity = async ({
+    neuronId,
+    percentageToDisburse,
+  }: {
+    neuronId: NeuronId;
+    percentageToDisburse: number;
+  }): Promise<void> => {
+    // To keep it simple in this initial version, no account is provided,
+    // so the transfer occurs to the caller’s account.
+    const request = toDisburseMaturityRequest({
+      neuronId,
+      percentageToDisburse,
+    });
+
+    await manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
   };
 }

@@ -13,6 +13,7 @@ export type Action =
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { RemoveGenericNervousSystemFunction: bigint }
+  | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { UpgradeSnsToNextVersion: {} }
   | { RegisterDappCanisters: RegisterDappCanisters }
   | { TransferSnsTreasuryFunds: TransferSnsTreasuryFunds }
@@ -62,6 +63,7 @@ export interface CanisterStatusResultV2 {
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
+  query_stats: [] | [QueryStats];
   idle_cycles_burned_per_day: bigint;
   module_hash: [] | [Uint8Array | number[]];
 }
@@ -71,6 +73,11 @@ export type CanisterStatusType =
   | { running: null };
 export interface ChangeAutoStakeMaturity {
   requested_setting_for_auto_stake_maturity: boolean;
+}
+export interface ChunkedCanisterWasm {
+  wasm_module_hash: Uint8Array | number[];
+  chunk_hashes_list: Array<Uint8Array | number[]>;
+  store_canister_id: [] | [Principal];
 }
 export interface ClaimOrRefresh {
   by: [] | [By];
@@ -97,6 +104,7 @@ export type Command =
   | { ClaimOrRefresh: ClaimOrRefresh }
   | { Configure: Configure }
   | { RegisterVote: RegisterVote }
+  | { SetFollowing: SetFollowing }
   | { MakeProposal: Proposal }
   | { StakeMaturity: StakeMaturity }
   | { RemoveNeuronPermissions: RemoveNeuronPermissions }
@@ -111,6 +119,7 @@ export type Command_1 =
   | { ClaimOrRefresh: ClaimOrRefreshResponse }
   | { Configure: {} }
   | { RegisterVote: {} }
+  | { SetFollowing: {} }
   | { MakeProposal: GetProposal }
   | { RemoveNeuronPermission: {} }
   | { StakeMaturity: StakeMaturityResponse }
@@ -123,6 +132,7 @@ export type Command_2 =
   | { DisburseMaturity: DisburseMaturity }
   | { Configure: Configure }
   | { RegisterVote: RegisterVote }
+  | { SetFollowing: SetFollowing }
   | { SyncCommand: {} }
   | { MakeProposal: Proposal }
   | { FinalizeDisburseMaturity: FinalizeDisburseMaturity }
@@ -142,6 +152,7 @@ export interface DefaultFollowees {
 }
 export interface DefiniteCanisterSettingsArgs {
   freezing_threshold: bigint;
+  wasm_memory_threshold: [] | [bigint];
   controllers: Array<Principal>;
   wasm_memory_limit: [] | [bigint];
   memory_allocation: bigint;
@@ -187,13 +198,22 @@ export interface Follow {
   function_id: bigint;
   followees: Array<NeuronId>;
 }
+export interface Followee {
+  alias: [] | [string];
+  neuron_id: [] | [NeuronId];
+}
 export interface Followees {
   followees: Array<NeuronId>;
+}
+export interface FolloweesForTopic {
+  topic: [] | [Topic];
+  followees: Array<Followee>;
 }
 export type FunctionType =
   | { NativeNervousSystemFunction: {} }
   | { GenericNervousSystemFunction: GenericNervousSystemFunction };
 export interface GenericNervousSystemFunction {
+  topic: [] | [Topic];
   validator_canister_id: [] | [Principal];
   target_canister_id: [] | [Principal];
   validator_method_name: [] | [string];
@@ -319,14 +339,22 @@ export interface ListProposals {
   before_proposal: [] | [ProposalId];
   limit: number;
   exclude_type: BigUint64Array | bigint[];
+  include_topics: [] | [Array<TopicSelector>];
   include_status: Int32Array | number[];
 }
 export interface ListProposalsResponse {
   include_ballots_by_caller: [] | [boolean];
   proposals: Array<ProposalData>;
+  include_topic_filtering: [] | [boolean];
+}
+export type ListTopicsRequest = {};
+export interface ListTopicsResponse {
+  uncategorized_functions: [] | [Array<NervousSystemFunction>];
+  topics: [] | [Array<TopicInfo>];
 }
 export interface ManageDappCanisterSettings {
   freezing_threshold: [] | [bigint];
+  wasm_memory_threshold: [] | [bigint];
   canister_ids: Array<Principal>;
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [number];
@@ -391,6 +419,7 @@ export interface NervousSystemParameters {
   max_dissolve_delay_seconds: [] | [bigint];
   max_dissolve_delay_bonus_percentage: [] | [bigint];
   max_followees_per_function: [] | [bigint];
+  automatically_advance_target_version: [] | [boolean];
   neuron_claimer_permissions: [] | [NeuronPermissionList];
   neuron_minimum_stake_e8s: [] | [bigint];
   max_neuron_age_for_age_bonus: [] | [bigint];
@@ -415,6 +444,9 @@ export interface Neuron {
   maturity_e8s_equivalent: bigint;
   cached_neuron_stake_e8s: bigint;
   created_timestamp_seconds: bigint;
+  topic_followees:
+    | []
+    | [{ topic_id_to_followees: Array<[number, FolloweesForTopic]> }];
   source_nns_neuron_id: [] | [bigint];
   auto_stake_maturity: [] | [boolean];
   aging_since_timestamp_seconds: bigint;
@@ -434,15 +466,6 @@ export interface NeuronIds {
 export interface NeuronInFlightCommand {
   command: [] | [Command_2];
   timestamp: bigint;
-}
-export interface NeuronParameters {
-  controller: [] | [Principal];
-  dissolve_delay_seconds: [] | [bigint];
-  source_nns_neuron_id: [] | [bigint];
-  stake_e8s: [] | [bigint];
-  followees: Array<NeuronId>;
-  hotkey: [] | [Principal];
-  neuron_id: [] | [NeuronId];
 }
 export interface NeuronPermission {
   principal: [] | [Principal];
@@ -497,6 +520,7 @@ export interface Proposal {
 export interface ProposalData {
   id: [] | [ProposalId];
   payload_text_rendering: [] | [string];
+  topic: [] | [Topic];
   action: bigint;
   failure_reason: [] | [GovernanceError];
   action_auxiliary: [] | [ActionAuxiliary];
@@ -520,6 +544,12 @@ export interface ProposalData {
 }
 export interface ProposalId {
   id: bigint;
+}
+export interface QueryStats {
+  response_payload_bytes_total: [] | [bigint];
+  num_instructions_total: [] | [bigint];
+  num_calls_total: [] | [bigint];
+  request_payload_bytes_total: [] | [bigint];
 }
 export interface RegisterDappCanisters {
   canister_ids: Array<Principal>;
@@ -546,8 +576,14 @@ export interface RewardEvent {
 export interface SetDissolveTimestamp {
   dissolve_timestamp_seconds: bigint;
 }
+export interface SetFollowing {
+  topic_following: Array<FolloweesForTopic>;
+}
 export interface SetMode {
   mode: number;
+}
+export interface SetTopicsForCustomProposals {
+  custom_function_id_to_topic: Array<[bigint, Topic]>;
 }
 export interface SnsVersion {
   archive_wasm_hash: [] | [Uint8Array | number[]];
@@ -592,6 +628,7 @@ export interface TargetVersionReset {
 export interface TargetVersionSet {
   old_target_version: [] | [Version];
   new_target_version: [] | [Version];
+  is_advanced_automatically: [] | [boolean];
 }
 export interface Timers {
   last_spawned_timestamp_seconds: [] | [bigint];
@@ -600,6 +637,25 @@ export interface Timers {
 }
 export interface Tokens {
   e8s: [] | [bigint];
+}
+export type Topic =
+  | { DappCanisterManagement: null }
+  | { DaoCommunitySettings: null }
+  | { ApplicationBusinessLogic: null }
+  | { CriticalDappOperations: null }
+  | { TreasuryAssetManagement: null }
+  | { Governance: null }
+  | { SnsFrameworkManagement: null };
+export interface TopicInfo {
+  native_functions: [] | [Array<NervousSystemFunction>];
+  topic: [] | [Topic];
+  is_critical: [] | [boolean];
+  name: [] | [string];
+  description: [] | [string];
+  custom_functions: [] | [Array<NervousSystemFunction>];
+}
+export interface TopicSelector {
+  topic: [] | [Topic];
 }
 export interface TransferSnsTreasuryFunds {
   from_treasury: number;
@@ -645,6 +701,7 @@ export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array | number[];
   mode: [] | [number];
   canister_id: [] | [Principal];
+  chunked_canister_wasm: [] | [ChunkedCanisterWasm];
   canister_upgrade_arg: [] | [Uint8Array | number[]];
 }
 export interface UpgradeStarted {
@@ -726,6 +783,7 @@ export interface _SERVICE {
   >;
   list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
   list_proposals: ActorMethod<[ListProposals], ListProposalsResponse>;
+  list_topics: ActorMethod<[ListTopicsRequest], ListTopicsResponse>;
   manage_neuron: ActorMethod<[ManageNeuron], ManageNeuronResponse>;
   reset_timers: ActorMethod<[{}], {}>;
   set_mode: ActorMethod<[SetMode], {}>;

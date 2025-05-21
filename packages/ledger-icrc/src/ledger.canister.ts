@@ -1,8 +1,13 @@
-import type { QueryParams } from "@dfinity/utils";
-import { Canister, createServices, toNullable } from "@dfinity/utils";
+import {
+  Canister,
+  createServices,
+  toNullable,
+  type QueryParams,
+} from "@dfinity/utils";
 import type {
   Allowance,
   BlockIndex,
+  GetBlocksResult,
   _SERVICE as IcrcLedgerService,
   Tokens,
   icrc21_consent_info,
@@ -24,6 +29,7 @@ import type {
   AllowanceParams,
   ApproveParams,
   BalanceParams,
+  GetBlocksParams,
   Icrc21ConsentMessageParams,
   TransferFromParams,
   TransferParams,
@@ -91,9 +97,8 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
   /**
    * Returns the total supply of tokens.
    */
-  totalTokensSupply = (params: QueryParams): Promise<Tokens> => {
-    return this.caller(params).icrc1_total_supply();
-  };
+  totalTokensSupply = (params: QueryParams): Promise<Tokens> =>
+    this.caller(params).icrc1_total_supply();
 
   /**
    * Transfers a token amount from the `from` account to the `to` account using the allowance of the spender's account (`SpenderAccount = { owner = caller; subaccount = spender_subaccount }`). The ledger draws the fees from the `from` account.
@@ -148,7 +153,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    *
    * @returns {Allowance} The token allowance. If there is no active approval, the ledger MUST return `{ allowance = 0; expires_at = null }`.
    */
-  allowance = async (params: AllowanceParams): Promise<Allowance> => {
+  allowance = (params: AllowanceParams): Promise<Allowance> => {
     const { certified, ...rest } = params;
     return this.caller({ certified }).icrc2_allowance({ ...rest });
   };
@@ -183,4 +188,13 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
 
     return response.Ok;
   };
+
+  /**
+   * Fetches the blocks information from the ledger canister,
+   *
+   * @param {GetBlocksParams} params The parameters to get the blocks.
+   * @returns {Promise<GetBlocksResult>} The list of blocks.
+   */
+  getBlocks = (params: GetBlocksParams): Promise<GetBlocksResult> =>
+    this.caller({ certified: params.certified }).icrc3_get_blocks(params.args);
 }

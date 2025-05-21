@@ -11,8 +11,11 @@ import type {
   TransferParams,
 } from "@dfinity/ledger-icrc";
 import type { Principal } from "@dfinity/principal";
-import type { QueryParams } from "@dfinity/utils";
-import { bigIntToUint8Array, toNullable } from "@dfinity/utils";
+import {
+  bigIntToUint8Array,
+  toNullable,
+  type QueryParams,
+} from "@dfinity/utils";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
@@ -54,6 +57,7 @@ import type {
   SnsNeuronStakeMaturityParams,
   SnsRegisterVoteParams,
   SnsSetDissolveTimestampParams,
+  SnsSetFollowingParams,
   SnsSetTopicFollowees,
   SnsSplitNeuronParams,
   SnsStakeNeuronParams,
@@ -98,7 +102,7 @@ export class SnsWrapper {
     governance,
     ledger,
     swap,
-    index: index,
+    index,
     certified,
   }: SnsWrapperOptions) {
     this.root = root;
@@ -320,7 +324,7 @@ export class SnsWrapper {
     return this.governance.refreshNeuron(neuronId);
   };
 
-  getNeuronBalance = async (neuronId: NeuronId): Promise<IcrcTokens> => {
+  getNeuronBalance = (neuronId: NeuronId): Promise<IcrcTokens> => {
     const account = {
       ...this.owner,
       subaccount: Uint8Array.from(neuronId.id),
@@ -376,7 +380,11 @@ export class SnsWrapper {
     this.governance.setTopicFollowees(params);
 
   // Always certified
-  registerVote = async (params: SnsRegisterVoteParams): Promise<void> =>
+  setFollowing = (params: SnsSetFollowingParams): Promise<void> =>
+    this.governance.setFollowing(params);
+
+  // Always certified
+  registerVote = (params: SnsRegisterVoteParams): Promise<void> =>
     this.governance.registerVote(params);
 
   swapState = (

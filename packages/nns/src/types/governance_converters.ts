@@ -107,7 +107,9 @@ export type Command =
   | { StakeMaturity: StakeMaturity }
   | { MakeProposal: Proposal }
   | { Disburse: Disburse }
-  | { RefreshVotingPower: RefreshVotingPower };
+  | { RefreshVotingPower: RefreshVotingPower }
+  | { DisburseMaturity: DisburseMaturity };
+// Command_1
 export type ManageNeuronCommandRequest =
   | { Spawn: Spawn }
   | { Split: Split }
@@ -120,10 +122,12 @@ export type ManageNeuronCommandRequest =
   | { MergeMaturity: MergeMaturity }
   | { StakeMaturity: StakeMaturity }
   | { MakeProposal: MakeProposalRequest }
-  | { Disburse: Disburse };
+  | { Disburse: Disburse }
+  | { DisburseMaturity: DisburseMaturity };
 export interface Configure {
   operation: Option<Operation>;
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface RefreshVotingPower {
   // Intentionally left blank.
 }
@@ -155,6 +159,15 @@ export interface Follow {
 export interface Followees {
   topic: Topic;
   followees: Array<NeuronId>;
+}
+
+export interface Account {
+  owner: Option<Principal>;
+  subaccount: Option<Array<number>>;
+}
+export interface DisburseMaturity {
+  toAccount: Option<Account>;
+  percentageToDisburse: number;
 }
 
 export interface IncreaseDissolveDelay {
@@ -256,6 +269,7 @@ export interface CanisterSettings {
   wasmMemoryLimit: Option<bigint>;
   memoryAllocation: Option<bigint>;
   computeAllocation: Option<bigint>;
+  wasmMemoryThreshold: Option<bigint>;
 }
 export interface UpdateCanisterSettings {
   canisterId: Option<PrincipalString>;
@@ -339,6 +353,7 @@ export interface NetworkEconomics {
 }
 export interface VotingPowerEconomics {
   startReducingVotingPowerAfterSeconds: Option<bigint>;
+  neuronMinimumDissolveDelayToVoteSeconds: Option<bigint>;
   clearFollowingAfterSeconds: Option<bigint>;
 }
 export interface NeuronsFundEconomics {
@@ -393,6 +408,9 @@ export interface NeuronInfo {
   joinedCommunityFundTimestampSeconds: Option<bigint>;
   retrievedAtTimestampSeconds: bigint;
   votingPower: bigint;
+  votingPowerRefreshedTimestampSeconds: Option<bigint>;
+  decidingVotingPower: Option<bigint>;
+  potentialVotingPower: Option<bigint>;
   ageSeconds: bigint;
   fullNeuron: Option<Neuron>;
   visibility: Option<NeuronVisibility>;

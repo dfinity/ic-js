@@ -1,15 +1,21 @@
 import type { ActorSubclass } from "@dfinity/agent";
+import type { Status } from "@dfinity/ledger-icp/candid";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   Account,
   _SERVICE as IcrcIndexNgService,
+  SubAccount,
   Transaction,
 } from "../candid/icrc_index-ng";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexNgCanister } from "./index-ng.canister";
-import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";
+import {
+  indexCanisterIdMock,
+  ledgerCanisterIdMock,
+  mockPrincipal,
+} from "./mocks/ledger.mock";
 import type { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
@@ -51,7 +57,7 @@ describe("Index canister", () => {
       };
       const transactionWithId = {
         id: BigInt(1),
-        transaction: transaction,
+        transaction,
       };
       const service = mock<ActorSubclass<IcrcIndexNgService>>();
       service.get_account_transactions.mockResolvedValue({
@@ -90,7 +96,7 @@ describe("Index canister", () => {
           account: fakeSnsAccount,
           max_results: BigInt(10),
         });
-      expect(call).rejects.toThrowError(IndexError);
+      await expect(call).rejects.toThrowError(IndexError);
     });
   });
 
@@ -101,7 +107,7 @@ describe("Index canister", () => {
       service.icrc1_balance_of.mockResolvedValue(balance);
 
       const canister = IcrcIndexNgCanister.create({
-        canisterId: ledgerCanisterIdMock,
+        canisterId: indexCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
@@ -119,7 +125,7 @@ describe("Index canister", () => {
       service.icrc1_balance_of.mockResolvedValue(balance);
 
       const canister = IcrcIndexNgCanister.create({
-        canisterId: ledgerCanisterIdMock,
+        canisterId: indexCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
@@ -134,17 +140,91 @@ describe("Index canister", () => {
   });
 
   describe("ledger_id", () => {
-    it("should return the balance of subaccount", async () => {
+    it("should return the ledger ID associated with the index canister", async () => {
       const service = mock<ActorSubclass<IcrcIndexNgService>>();
       service.ledger_id.mockResolvedValue(ledgerCanisterIdMock);
 
       const canister = IcrcIndexNgCanister.create({
-        canisterId: ledgerCanisterIdMock,
+        canisterId: indexCanisterIdMock,
         certifiedServiceOverride: service,
       });
 
       const res = await canister.ledgerId({});
       expect(res).toEqual(ledgerCanisterIdMock);
+    });
+  });
+
+  describe("status", () => {
+    it("should return the status of the index canister", async () => {
+      const mockStatus: Status = {
+        num_blocks_synced: 12_345n,
+      };
+
+      const service = mock<ActorSubclass<IcrcIndexNgService>>();
+      service.status.mockResolvedValue(mockStatus);
+
+      const canister = IcrcIndexNgCanister.create({
+        canisterId: indexCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.status({});
+      expect(res).toEqual(mockStatus);
+    });
+  });
+
+  describe("listSubaccounts", () => {
+    const mockSubaccounts: SubAccount[] = [
+      new Uint8Array([1, 2, 3, 4]),
+      new Uint8Array([5, 6, 7, 8]),
+    ];
+
+    it("should return the list of subaccounts for an owner", async () => {
+      const service = mock<ActorSubclass<IcrcIndexNgService>>();
+      service.list_subaccounts.mockResolvedValue(mockSubaccounts);
+
+      const canister = IcrcIndexNgCanister.create({
+        canisterId: indexCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = mockPrincipal;
+      const res = await canister.listSubaccounts({
+        owner,
+      });
+
+      expect(service.list_subaccounts).toHaveBeenCalledTimes(1);
+      expect(service.list_subaccounts).toHaveBeenCalledWith({
+        owner,
+        start: [],
+      });
+      expect(res).toEqual(mockSubaccounts);
+    });
+
+    it("should pass the start parameter when provided", async () => {
+      const service = mock<ActorSubclass<IcrcIndexNgService>>();
+      service.list_subaccounts.mockResolvedValue(mockSubaccounts);
+
+      const canister = IcrcIndexNgCanister.create({
+        canisterId: indexCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = mockPrincipal;
+      const startSubaccount = new Uint8Array([1, 2, 3, 4]);
+
+      const res = await canister.listSubaccounts({
+        owner,
+        start: startSubaccount,
+        certified: true,
+      });
+
+      expect(service.list_subaccounts).toHaveBeenCalledTimes(1);
+      expect(service.list_subaccounts).toHaveBeenCalledWith({
+        owner,
+        start: [startSubaccount],
+      });
+      expect(res).toEqual(mockSubaccounts);
     });
   });
 });

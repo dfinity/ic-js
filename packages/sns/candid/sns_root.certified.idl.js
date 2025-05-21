@@ -24,9 +24,11 @@ export const idlFactory = ({ IDL }) => {
   const LogVisibility = IDL.Variant({
     'controllers' : IDL.Null,
     'public' : IDL.Null,
+    'allowed_viewers' : IDL.Vec(IDL.Principal),
   });
   const DefiniteCanisterSettings = IDL.Record({
     'freezing_threshold' : IDL.Opt(IDL.Nat),
+    'wasm_memory_threshold' : IDL.Opt(IDL.Nat),
     'controllers' : IDL.Vec(IDL.Principal),
     'reserved_cycles_limit' : IDL.Opt(IDL.Nat),
     'log_visibility' : IDL.Opt(LogVisibility),
@@ -34,11 +36,18 @@ export const idlFactory = ({ IDL }) => {
     'memory_allocation' : IDL.Opt(IDL.Nat),
     'compute_allocation' : IDL.Opt(IDL.Nat),
   });
+  const QueryStats = IDL.Record({
+    'response_payload_bytes_total' : IDL.Opt(IDL.Nat),
+    'num_instructions_total' : IDL.Opt(IDL.Nat),
+    'num_calls_total' : IDL.Opt(IDL.Nat),
+    'request_payload_bytes_total' : IDL.Opt(IDL.Nat),
+  });
   const CanisterStatusResult = IDL.Record({
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
     'settings' : DefiniteCanisterSettings,
+    'query_stats' : IDL.Opt(QueryStats),
     'idle_cycles_burned_per_day' : IDL.Opt(IDL.Nat),
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'reserved_cycles' : IDL.Opt(IDL.Nat),
@@ -48,12 +57,18 @@ export const idlFactory = ({ IDL }) => {
     'upgrade' : IDL.Null,
     'install' : IDL.Null,
   });
+  const ChunkedCanisterWasm = IDL.Record({
+    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
+    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+    'store_canister_id' : IDL.Principal,
+  });
   const ChangeCanisterRequest = IDL.Record({
     'arg' : IDL.Vec(IDL.Nat8),
     'wasm_module' : IDL.Vec(IDL.Nat8),
     'stop_before_installing' : IDL.Bool,
     'mode' : CanisterInstallMode,
     'canister_id' : IDL.Principal,
+    'chunked_canister_wasm' : IDL.Opt(ChunkedCanisterWasm),
     'memory_allocation' : IDL.Opt(IDL.Nat),
     'compute_allocation' : IDL.Opt(IDL.Nat),
   });
@@ -62,6 +77,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const DefiniteCanisterSettingsArgs = IDL.Record({
     'freezing_threshold' : IDL.Nat,
+    'wasm_memory_threshold' : IDL.Opt(IDL.Nat),
     'controllers' : IDL.Vec(IDL.Principal),
     'wasm_memory_limit' : IDL.Opt(IDL.Nat),
     'memory_allocation' : IDL.Nat,
@@ -72,6 +88,7 @@ export const idlFactory = ({ IDL }) => {
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
     'settings' : DefiniteCanisterSettingsArgs,
+    'query_stats' : IDL.Opt(QueryStats),
     'idle_cycles_burned_per_day' : IDL.Nat,
     'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
@@ -100,6 +117,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const ManageDappCanisterSettingsRequest = IDL.Record({
     'freezing_threshold' : IDL.Opt(IDL.Nat64),
+    'wasm_memory_threshold' : IDL.Opt(IDL.Nat64),
     'canister_ids' : IDL.Vec(IDL.Principal),
     'reserved_cycles_limit' : IDL.Opt(IDL.Nat64),
     'log_visibility' : IDL.Opt(IDL.Int32),

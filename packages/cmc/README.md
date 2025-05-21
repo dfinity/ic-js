@@ -57,14 +57,9 @@ const rate = await getIcpToCyclesConversionRate();
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L15)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getIcpToCyclesConversionRate](#gear-geticptocyclesconversionrate)
-- [notifyCreateCanister](#gear-notifycreatecanister)
-- [notifyTopUp](#gear-notifytopup)
-- [getDefaultSubnets](#gear-getdefaultsubnets)
-- [getSubnetTypesToSubnets](#gear-getsubnettypestosubnets)
 
 ##### :gear: create
 
@@ -74,15 +69,28 @@ const rate = await getIcpToCyclesConversionRate();
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L16)
 
+#### Methods
+
+- [getIcpToCyclesConversionRate](#gear-geticptocyclesconversionrate)
+- [notifyCreateCanister](#gear-notifycreatecanister)
+- [notifyTopUp](#gear-notifytopup)
+- [getDefaultSubnets](#gear-getdefaultsubnets)
+- [getSubnetTypesToSubnets](#gear-getsubnettypestosubnets)
+
 ##### :gear: getIcpToCyclesConversionRate
 
-Returns conversion rate of ICP to Cycles
+Returns conversion rate of ICP to Cycles. It can be called as query or update.
 
-| Method                         | Type                    |
-| ------------------------------ | ----------------------- |
-| `getIcpToCyclesConversionRate` | `() => Promise<bigint>` |
+| Method                         | Type                                                |
+| ------------------------------ | --------------------------------------------------- |
+| `getIcpToCyclesConversionRate` | `({ certified, }?: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L32)
+Parameters:
+
+- `params`: - The parameters for the call.
+- `params.certified`: - Determines whether the response should be certified (default: non-certified)
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L35)
 
 ##### :gear: notifyCreateCanister
 
@@ -93,7 +101,7 @@ It returns the new canister principal.
 | ---------------------- | ---------------------------------------------------------- |
 | `notifyCreateCanister` | `(request: NotifyCreateCanisterArg) => Promise<Principal>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L49)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L57)
 
 ##### :gear: notifyTopUp
 
@@ -104,7 +112,7 @@ It returns the new Cycles of the canister.
 | ------------- | ---------------------------------------------- |
 | `notifyTopUp` | `(request: NotifyTopUpArg) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L77)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L85)
 
 ##### :gear: getDefaultSubnets
 
@@ -121,7 +129,7 @@ Parameters:
 - `params.certified`: - Determines whether the response should be certified
   (default: non-certified if not specified).
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L102)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L110)
 
 ##### :gear: getSubnetTypesToSubnets
 
@@ -139,6 +147,6 @@ Parameters:
 - `params.certified`: - Specifies whether the response should be certified.
   If not provided, the response defaults to non-certified.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L121)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L129)
 
 <!-- TSDOC_END -->

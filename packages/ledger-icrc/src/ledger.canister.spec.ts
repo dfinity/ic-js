@@ -5,6 +5,7 @@ import { mock } from "jest-mock-extended";
 import type {
   Allowance,
   ApproveArgs,
+  GetBlocksResult,
   _SERVICE as IcrcLedgerService,
   TransferArg,
   TransferFromArgs,
@@ -164,7 +165,7 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.transfer(transferParams);
-      expect(call).rejects.toThrow(IcrcTransferError);
+      await expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
 
@@ -227,7 +228,7 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.transferFrom(transferParams);
-      expect(call).rejects.toThrow(IcrcTransferError);
+      await expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
 
@@ -285,7 +286,7 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.approve(approveParams);
-      expect(call).rejects.toThrow(IcrcTransferError);
+      await expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
 
@@ -638,5 +639,60 @@ describe("Ledger canister", () => {
         new ConsentMessageError(`Unknown error type ${JSON.stringify(Err)}`),
       );
     });
+  });
+
+  describe("getBlocks", () => {
+    it("should return the blocks of the ledger canister", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const blocks: GetBlocksResult = {
+        log_length: 1234n,
+        blocks: [],
+        archived_blocks: [
+          {
+            args: [{ start: 0n, length: 1n }],
+            callback: [ledgerCanisterIdMock, "icrc3_get_blocks"],
+          },
+        ],
+      };
+      service.icrc3_get_blocks.mockResolvedValue(blocks);
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getBlocks({
+        args: [{ start: 0n, length: 1n }],
+      });
+
+      expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
+      expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, [
+        { start: 0n, length: 1n },
+      ]);
+
+      expect(res).toEqual(blocks);
+    });
+  });
+
+  it("should accept empty options", async () => {
+    const service = mock<ActorSubclass<IcrcLedgerService>>();
+    const blocks: GetBlocksResult = {
+      log_length: 1234n,
+      blocks: [],
+      archived_blocks: [],
+    };
+    service.icrc3_get_blocks.mockResolvedValue(blocks);
+
+    const canister = IcrcLedgerCanister.create({
+      canisterId: ledgerCanisterIdMock,
+      certifiedServiceOverride: service,
+    });
+
+    const res = await canister.getBlocks({ args: [] });
+
+    expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
+    expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, []);
+
+    expect(res).toEqual(blocks);
   });
 });

@@ -58,6 +58,7 @@ const data = await metadata({});
 
 - [encodeIcrcAccount](#gear-encodeicrcaccount)
 - [decodeIcrcAccount](#gear-decodeicrcaccount)
+- [mapTokenMetadata](#gear-maptokenmetadata)
 - [decodePayment](#gear-decodepayment)
 
 #### :gear: encodeIcrcAccount
@@ -73,7 +74,7 @@ Parameters:
 
 - `account`: : Principal, subaccount?: Uint8Array }
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L21)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L27)
 
 #### :gear: decodeIcrcAccount
 
@@ -88,7 +89,26 @@ Parameters:
 
 - `accountString`: string
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L61)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L67)
+
+#### :gear: mapTokenMetadata
+
+Maps the token metadata information from a ledger response into a structured record.
+
+This utility processes an array of metadata key-value pairs provided by the ledger
+and extracts specific fields, such as symbol, name, fee, decimals, and logo. It then
+constructs a `IcrcTokenMetadata` record. If any required fields are missing,
+the function returns `undefined`.
+
+| Function           | Type                                                                      |
+| ------------------ | ------------------------------------------------------------------------- |
+| `mapTokenMetadata` | `(response: IcrcTokenMetadataResponse) => IcrcTokenMetadata or undefined` |
+
+Parameters:
+
+- `response`: - An array of key-value pairs representing token metadata.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L111)
 
 #### :gear: decodePayment
 
@@ -145,11 +165,22 @@ Parameters:
 
 ### :factory: IcrcLedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L33)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L39)
+
+#### Static Methods
+
+- [create](#gear-create)
+
+##### :gear: create
+
+| Method   | Type                                                                   |
+| -------- | ---------------------------------------------------------------------- |
+| `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L40)
 
 #### Methods
 
-- [create](#gear-create)
 - [metadata](#gear-metadata)
 - [transactionFee](#gear-transactionfee)
 - [balance](#gear-balance)
@@ -159,14 +190,7 @@ Parameters:
 - [approve](#gear-approve)
 - [allowance](#gear-allowance)
 - [consentMessage](#gear-consentmessage)
-
-##### :gear: create
-
-| Method   | Type                                                                   |
-| -------- | ---------------------------------------------------------------------- |
-| `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
-
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L34)
+- [getBlocks](#gear-getblocks)
 
 ##### :gear: metadata
 
@@ -176,7 +200,7 @@ The token metadata (name, symbol, etc.).
 | ---------- | ------------------------------------------------------------- |
 | `metadata` | `(params: QueryParams) => Promise<IcrcTokenMetadataResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L48)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L54)
 
 ##### :gear: transactionFee
 
@@ -186,7 +210,7 @@ The ledger transaction fees.
 | ---------------- | ------------------------------------------ |
 | `transactionFee` | `(params: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L56)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L62)
 
 ##### :gear: balance
 
@@ -200,7 +224,7 @@ Parameters:
 
 - `params`: The parameters to get the balance of an account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L65)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L71)
 
 ##### :gear: transfer
 
@@ -214,7 +238,7 @@ Parameters:
 
 - `params`: The parameters to transfer tokens.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L78)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L84)
 
 ##### :gear: totalTokensSupply
 
@@ -224,7 +248,7 @@ Returns the total supply of tokens.
 | ------------------- | ------------------------------------------ |
 | `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L94)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L100)
 
 ##### :gear: transferFrom
 
@@ -240,7 +264,7 @@ Parameters:
 
 - `params`: The parameters to transfer tokens from to.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L107)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L112)
 
 ##### :gear: approve
 
@@ -256,7 +280,7 @@ Parameters:
 
 - `params`: The parameters to approve.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L129)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L134)
 
 ##### :gear: allowance
 
@@ -272,7 +296,7 @@ Parameters:
 
 - `params`: The parameters to call the allowance.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L151)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L156)
 
 ##### :gear: consentMessage
 
@@ -286,17 +310,29 @@ Parameters:
 
 - `params`: - The request parameters containing the method name, arguments, and consent preferences (e.g., language).
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L169)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L174)
+
+##### :gear: getBlocks
+
+Fetches the blocks information from the ledger canister,
+
+| Method      | Type                                                    |
+| ----------- | ------------------------------------------------------- |
+| `getBlocks` | `(params: GetBlocksParams) => Promise<GetBlocksResult>` |
+
+Parameters:
+
+- `params`: The parameters to get the blocks.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L198)
 
 ### :factory: IcrcIndexCanister
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L14)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getTransactions](#gear-gettransactions)
-- [ledgerId](#gear-ledgerid)
 
 ##### :gear: create
 
@@ -305,6 +341,11 @@ Parameters:
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexCanister` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index.canister.ts#L15)
+
+#### Methods
+
+- [getTransactions](#gear-gettransactions)
+- [ledgerId](#gear-ledgerid)
 
 ##### :gear: getTransactions
 
@@ -333,13 +374,11 @@ Returns the ledger canister ID related to the index canister.
 
 ### :factory: IcrcIndexNgCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L15)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L23)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getTransactions](#gear-gettransactions)
-- [ledgerId](#gear-ledgerid)
 
 ##### :gear: create
 
@@ -347,7 +386,14 @@ Returns the ledger canister ID related to the index canister.
 | -------- | ----------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcIndexNgCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L16)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L24)
+
+#### Methods
+
+- [getTransactions](#gear-gettransactions)
+- [ledgerId](#gear-ledgerid)
+- [status](#gear-status)
+- [listSubaccounts](#gear-listsubaccounts)
 
 ##### :gear: getTransactions
 
@@ -361,7 +407,7 @@ Parameters:
 
 - `params`: The parameters to get the transactions of an account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L41)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L49)
 
 ##### :gear: ledgerId
 
@@ -371,7 +417,35 @@ Returns the ledger canister ID related to the index canister.
 | ---------- | --------------------------------------------- |
 | `ledgerId` | `(params: QueryParams) => Promise<Principal>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L59)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L67)
+
+##### :gear: status
+
+Returns the status of the index canister.
+
+| Method   | Type                                       |
+| -------- | ------------------------------------------ |
+| `status` | `(params: QueryParams) => Promise<Status>` |
+
+Parameters:
+
+- `params`: The parameters to get the status of the index canister.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L78)
+
+##### :gear: listSubaccounts
+
+Returns the list of subaccounts for a given owner.
+
+| Method            | Type                                                                       |
+| ----------------- | -------------------------------------------------------------------------- |
+| `listSubaccounts` | `({ certified, ...rest }: ListSubaccountsParams) => Promise<SubAccount[]>` |
+
+Parameters:
+
+- `params`: The parameters to get the list of subaccounts.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/index-ng.canister.ts#L87)
 
 <!-- TSDOC_END -->
 

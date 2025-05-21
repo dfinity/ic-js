@@ -98,7 +98,7 @@ describe("Swap canister", () => {
     });
     const call = () => canister.getOpenTicket({});
 
-    expect(call).rejects.toThrow(
+    await expect(call).rejects.toThrow(
       new SnsSwapGetOpenTicketError(GetOpenTicketErrorType.TYPE_SALE_CLOSED),
     );
   });
@@ -163,7 +163,7 @@ describe("Swap canister", () => {
         amount_icp_e8s: 3n,
       });
 
-    expect(call).rejects.toThrow(
+    await expect(call).rejects.toThrow(
       new SnsSwapNewTicketError({
         errorType: NewSaleTicketResponseErrorType.TYPE_TICKET_EXISTS,
         existingTicket: saleTicketMock,
@@ -282,7 +282,7 @@ describe("Swap canister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => canister.getFinalizationStatus({});
-      expect(call).rejects.toThrow(
+      await expect(call).rejects.toThrow(
         new UnsupportedMethodError("getFinalizationStatus"),
       );
     });
@@ -299,7 +299,7 @@ describe("Swap canister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => canister.getFinalizationStatus({});
-      expect(call).rejects.toThrow(err);
+      await expect(call).rejects.toThrow(err);
     });
   });
 

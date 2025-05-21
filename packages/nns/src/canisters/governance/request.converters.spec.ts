@@ -615,6 +615,7 @@ describe("request.converters", () => {
 
     it("UpdateCanisterSettings", () => {
       const summary = "Proposal summary";
+      const wasmMemoryThreshold = 222222n;
 
       const mockRequest = {
         url,
@@ -629,6 +630,7 @@ describe("request.converters", () => {
               memoryAllocation: 234567n,
               computeAllocation: 1n,
               wasmMemoryLimit: 123456n,
+              wasmMemoryThreshold,
               logVisibility: LogVisibility.Controllers,
             },
           },
@@ -659,6 +661,7 @@ describe("request.converters", () => {
                         memory_allocation: [234567n],
                         compute_allocation: [1n],
                         wasm_memory_limit: [123456n],
+                        wasm_memory_threshold: [wasmMemoryThreshold],
                         log_visibility: [1],
                       },
                     ],

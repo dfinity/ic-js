@@ -6,13 +6,13 @@ import {
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
-import {
-  type _SERVICE as CkBTCMinterService,
-  type MinterInfo,
-  type RetrieveBtcOk,
-  type RetrieveBtcStatus,
-  type Utxo,
-  type Account as WithdrawalAccount,
+import type {
+  _SERVICE as CkBTCMinterService,
+  MinterInfo,
+  RetrieveBtcOk,
+  RetrieveBtcStatus,
+  Utxo,
+  Account as WithdrawalAccount,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
@@ -184,7 +184,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    * @param {boolean} certified query or update call
    * @returns {Promise<RetrieveBtcStatus>} The status of the BTC retrieval request.
    */
-  retrieveBtcStatus = async ({
+  retrieveBtcStatus = ({
     transactionId,
     certified,
   }: {
@@ -236,7 +236,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    * @param {boolean} params.certified query or update call
    * @param {bigint | undefined} params.amount The optional amount for which the fee should be estimated.
    */
-  estimateWithdrawalFee = async ({
+  estimateWithdrawalFee = ({
     certified,
     amount,
   }: EstimateWithdrawalFeeParams): Promise<EstimateWithdrawalFee> =>
@@ -250,7 +250,7 @@ export class CkBTCMinterCanister extends Canister<CkBTCMinterService> {
    * @param {QueryParams} params The parameters to get the minter info.
    * @param {boolean} params.certified query or update call
    */
-  getMinterInfo = async ({ certified }: QueryParams): Promise<MinterInfo> =>
+  getMinterInfo = ({ certified }: QueryParams): Promise<MinterInfo> =>
     this.caller({
       certified,
     }).get_minter_info();

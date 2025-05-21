@@ -1,7 +1,6 @@
 import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import type { QueryParams } from "@dfinity/utils";
-import { arrayOfNumberToUint8Array } from "@dfinity/utils";
+import { arrayOfNumberToUint8Array, type QueryParams } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
   _SERVICE as CMCService,
@@ -23,7 +22,7 @@ import { mockPrincipalText } from "./cmc.mock";
 describe("CyclesMintingCanister", () => {
   const mockAgent: HttpAgent = mock<HttpAgent>();
 
-  const createCMC = async (service: CMCService) => {
+  const createCMC = (service: CMCService): CMCCanister => {
     const canisterId = Principal.fromText("aaaaa-aa");
 
     return CMCCanister.create({
@@ -35,7 +34,7 @@ describe("CyclesMintingCanister", () => {
   };
 
   describe("CMCCanister.getIcpToCyclesConversionRate", () => {
-    it("should returns the conversion rate from ICP to cycles", async () => {
+    it("should returns the conversion rate from ICP to cycles for a query", async () => {
       const exchangeRate = BigInt(10_000);
       const response: IcpXdrConversionRateResponse = {
         certificate: arrayOfNumberToUint8Array([]),
@@ -49,10 +48,46 @@ describe("CyclesMintingCanister", () => {
       service.get_icp_xdr_conversion_rate.mockResolvedValue(response);
 
       const cmc = await createCMC(service);
+      const callerSpy = jest.spyOn(
+        cmc as unknown as {
+          caller: (params: QueryParams) => Promise<CMCService>;
+        },
+        "caller",
+      );
 
-      const res = await cmc.getIcpToCyclesConversionRate();
+      const res = await cmc.getIcpToCyclesConversionRate({ certified: false });
 
       expect(res).toEqual(exchangeRate);
+      expect(service.get_icp_xdr_conversion_rate).toHaveBeenCalledTimes(1);
+      expect(callerSpy).toHaveBeenCalledWith({ certified: false });
+    });
+
+    it("should returns the conversion rate from ICP to cycles for an update", async () => {
+      const exchangeRate = BigInt(10_000);
+      const response: IcpXdrConversionRateResponse = {
+        certificate: arrayOfNumberToUint8Array([]),
+        data: {
+          xdr_permyriad_per_icp: exchangeRate,
+          timestamp_seconds: BigInt(10),
+        },
+        hash_tree: arrayOfNumberToUint8Array([]),
+      };
+      const service = mock<CMCService>();
+      service.get_icp_xdr_conversion_rate.mockResolvedValue(response);
+
+      const cmc = await createCMC(service);
+      const callerSpy = jest.spyOn(
+        cmc as unknown as {
+          caller: (params: QueryParams) => Promise<CMCService>;
+        },
+        "caller",
+      );
+
+      const res = await cmc.getIcpToCyclesConversionRate({ certified: true });
+
+      expect(res).toEqual(exchangeRate);
+      expect(service.get_icp_xdr_conversion_rate).toHaveBeenCalledTimes(1);
+      expect(callerSpy).toHaveBeenCalledWith({ certified: true });
     });
   });
 
@@ -98,7 +133,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(RefundedError);
+      await expect(call).rejects.toThrowError(RefundedError);
     });
 
     it("throws InvalidaTransactionError error", async () => {
@@ -119,7 +154,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(InvalidaTransactionError);
+      await expect(call).rejects.toThrowError(InvalidaTransactionError);
     });
 
     it("throws ProcessingError error", async () => {
@@ -140,7 +175,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(ProcessingError);
+      await expect(call).rejects.toThrowError(ProcessingError);
     });
 
     it("throws TransactionTooOldError error", async () => {
@@ -161,7 +196,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(TransactionTooOldError);
+      await expect(call).rejects.toThrowError(TransactionTooOldError);
     });
 
     it("throws CMCError error", async () => {
@@ -182,7 +217,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      expect(call).rejects.toThrowError(CMCError);
+      await expect(call).rejects.toThrowError(CMCError);
     });
   });
 
@@ -219,7 +254,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(RefundedError);
+      await expect(call).rejects.toThrowError(RefundedError);
     });
 
     it("throws InvalidaTransactionError error", async () => {
@@ -237,7 +272,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(InvalidaTransactionError);
+      await expect(call).rejects.toThrowError(InvalidaTransactionError);
     });
 
     it("throws ProcessingError error", async () => {
@@ -255,7 +290,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(ProcessingError);
+      await expect(call).rejects.toThrowError(ProcessingError);
     });
 
     it("throws TransactionTooOldError error", async () => {
@@ -273,7 +308,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(TransactionTooOldError);
+      await expect(call).rejects.toThrowError(TransactionTooOldError);
     });
 
     it("throws CMCError error", async () => {
@@ -291,7 +326,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      expect(call).rejects.toThrowError(CMCError);
+      await expect(call).rejects.toThrowError(CMCError);
     });
   });
 

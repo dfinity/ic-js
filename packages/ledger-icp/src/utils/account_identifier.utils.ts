@@ -18,6 +18,7 @@ export const accountIdentifierFromBytes = (
   accountIdentifier: Uint8Array,
 ): AccountIdentifierHex => Buffer.from(accountIdentifier).toString("hex");
 
+// eslint-disable-next-line local-rules/prefer-object-params
 export const principalToAccountIdentifier = (
   principal: Principal,
   subAccount?: Uint8Array,

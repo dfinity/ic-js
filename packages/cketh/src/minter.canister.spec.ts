@@ -178,7 +178,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawEth(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterAmountTooLowError({ details: error.Err.AmountTooLow }),
+        new MinterAmountTooLowError({
+          details: error.Err.AmountTooLow.min_withdrawal_amount,
+        }),
       );
     });
 
@@ -196,7 +198,7 @@ describe("ckETH minter canister", () => {
 
       await expect(call).rejects.toThrowError(
         new MinterRecipientAddressBlockedError({
-          details: error.Err.RecipientAddressBlocked,
+          details: error.Err.RecipientAddressBlocked.address,
         }),
       );
     });
@@ -213,7 +215,7 @@ describe("ckETH minter canister", () => {
 
       await expect(call).rejects.toThrowError(
         new MinterInsufficientFundsError({
-          details: error.Err.InsufficientFunds,
+          details: error.Err.InsufficientFunds.balance,
         }),
       );
     });
@@ -230,7 +232,7 @@ describe("ckETH minter canister", () => {
 
       await expect(call).rejects.toThrowError(
         new MinterInsufficientAllowanceError({
-          details: error.Err.InsufficientAllowance,
+          details: error.Err.InsufficientAllowance.allowance,
         }),
       );
     });
@@ -456,8 +458,7 @@ describe("ckETH minter canister", () => {
             new LedgerTemporaryUnavailableError({
               msg: error.Err.CkErc20LedgerError.error.TemporarilyUnavailable,
               details: {
-                cketh_block_index:
-                  error.Err.CkErc20LedgerError.cketh_block_index,
+                ckEthBlockIndex: error.Err.CkErc20LedgerError.cketh_block_index,
               },
             }),
           );
@@ -825,7 +826,7 @@ describe("ckETH minter canister", () => {
       expect(res).toEqual(result);
     });
 
-    it("should bubble errors", () => {
+    it("should bubble errors", async () => {
       const service = mock<ActorSubclass<CkETHMinterService>>();
       service.retrieve_eth_status.mockRejectedValue(new Error());
 
@@ -833,7 +834,7 @@ describe("ckETH minter canister", () => {
 
       const call = () => canister.retrieveEthStatus(123n);
 
-      expect(call).rejects.toThrowError();
+      await expect(call).rejects.toThrowError();
     });
   });
 
@@ -894,8 +895,8 @@ describe("ckETH minter canister", () => {
 
       const canister = minter(service);
 
-      expect(() =>
-        canister.getMinterInfo({ certified: true }),
+      expect(
+        async () => await canister.getMinterInfo({ certified: true }),
       ).rejects.toThrowError();
     });
   });

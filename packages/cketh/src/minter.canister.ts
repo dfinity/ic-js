@@ -176,7 +176,7 @@ export class CkETHMinterCanister extends Canister<CkETHMinterService> {
    * @param {QueryParams} params The parameters to get the minter info.
    * @param {boolean} params.certified query or update call
    */
-  getMinterInfo = async ({ certified }: QueryParams): Promise<MinterInfo> => {
+  getMinterInfo = ({ certified }: QueryParams): Promise<MinterInfo> => {
     const { get_minter_info } = this.caller({ certified });
     return get_minter_info();
   };

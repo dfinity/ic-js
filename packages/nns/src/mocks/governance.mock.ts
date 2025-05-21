@@ -54,4 +54,5 @@ export const mockNeuron: Neuron = {
 export const mockListNeuronsResponse: ListNeuronsResponse = {
   neuron_infos: [[mockNeuronId, mockNeuronInfo]],
   full_neurons: [mockNeuron],
+  total_pages_available: [1n],
 };

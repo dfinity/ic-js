@@ -4,6 +4,8 @@ import type {
   Neuron,
   NeuronId,
   ProposalData,
+  Topic,
+  TopicInfo,
 } from "../../candid/sns_governance";
 
 export const neuronIdMock: NeuronId = { id: arrayOfNumberToUint8Array([1]) };
@@ -28,3 +30,18 @@ export const proposalMock = {
 } as ProposalData;
 
 export const proposalsMock: ProposalData[] = [proposalMock];
+
+export const topicMock: Topic = {
+  ApplicationBusinessLogic: null,
+};
+
+export const topicInfoMock: TopicInfo = {
+  custom_functions: [],
+  description: ["Description"],
+  is_critical: [false],
+  name: ["Name"],
+  native_functions: [],
+  topic: [topicMock],
+};
+
+export const topicsMock: TopicInfo[] = [topicInfoMock];

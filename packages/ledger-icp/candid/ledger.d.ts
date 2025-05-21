@@ -112,8 +112,6 @@ export interface InitArgs {
   token_symbol: [] | [string];
   transfer_fee: [] | [Tokens];
   minting_account: TextAccountIdentifier;
-  maximum_number_of_accounts: [] | [bigint];
-  accounts_overflow_trim_quantity: [] | [bigint];
   transaction_window: [] | [Duration];
   max_message_size_bytes: [] | [bigint];
   icrc1_minting_account: [] | [Account];
@@ -340,6 +338,7 @@ export interface _SERVICE {
   icrc2_allowance: ActorMethod<[AllowanceArgs], Allowance>;
   icrc2_approve: ActorMethod<[ApproveArgs], ApproveResult>;
   icrc2_transfer_from: ActorMethod<[TransferFromArgs], TransferFromResult>;
+  is_ledger_ready: ActorMethod<[], boolean>;
   name: ActorMethod<[], { name: string }>;
   query_blocks: ActorMethod<[GetBlocksArgs], QueryBlocksResponse>;
   query_encoded_blocks: ActorMethod<

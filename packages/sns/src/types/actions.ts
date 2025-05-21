@@ -7,6 +7,7 @@ import type {
   NeuronPermissionList,
   RegisterDappCanisters,
   Subaccount,
+  Topic,
 } from "../../candid/sns_governance";
 import type { Option } from "./common";
 
@@ -15,6 +16,7 @@ export type Action =
       ManageNervousSystemParameters: NervousSystemParameters;
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
+  | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { UpgradeSnsToNextVersion: Record<string, never> }
   | { RegisterDappCanisters: RegisterDappCanisters }
@@ -48,6 +50,7 @@ export interface NervousSystemParameters {
   neuron_grantable_permissions: Option<NeuronPermissionList>;
   voting_rewards_parameters: Option<VotingRewardsParameters>;
   max_number_of_principals_per_neuron: Option<bigint>;
+  automatically_advance_target_version: Option<boolean>;
 }
 
 export interface VotingRewardsParameters {
@@ -64,6 +67,10 @@ export interface NervousSystemFunction {
   function_type: Option<FunctionType>;
 }
 
+export interface SetTopicsForCustomProposals {
+  custom_function_id_to_topic: Array<[bigint, Topic]>;
+}
+
 export type FunctionType =
   | { NativeNervousSystemFunction: Record<string, never> }
   | { GenericNervousSystemFunction: GenericNervousSystemFunction };
@@ -73,6 +80,7 @@ export interface GenericNervousSystemFunction {
   target_canister_id: Option<Principal>;
   validator_method_name: Option<string>;
   target_method_name: Option<string>;
+  topic: Option<Topic>;
 }
 
 export interface TransferSnsTreasuryFunds {
@@ -83,8 +91,15 @@ export interface TransferSnsTreasuryFunds {
   amount_e8s: bigint;
 }
 
+export interface ChunkedCanisterWasm {
+  wasm_module_hash: Uint8Array | number[];
+  store_canister_id: Option<Principal>;
+  chunk_hashes_list: Array<Uint8Array | number[]>;
+}
+
 export interface UpgradeSnsControlledCanister {
   new_canister_wasm: Uint8Array | number[];
+  chunked_canister_wasm: Option<ChunkedCanisterWasm>;
   canister_id: Option<Principal>;
   canister_upgrade_arg: Option<Uint8Array | number[]>;
   mode: Option<number>;

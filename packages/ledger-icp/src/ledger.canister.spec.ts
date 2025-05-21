@@ -3,13 +3,11 @@ import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import { mock } from "jest-mock-extended";
 import type {
+  Account,
+  ApproveArgs as Icrc2ApproveRawRequest,
   _SERVICE as LedgerService,
   Value,
   icrc21_consent_message_response,
-} from "../candid/ledger";
-import {
-  type Account,
-  type ApproveArgs as Icrc2ApproveRawRequest,
 } from "../candid/ledger";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
@@ -312,7 +310,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(TxDuplicateError);
+        await expect(call).rejects.toThrowError(TxDuplicateError);
       });
 
       it("handles insufficient balance", async () => {
@@ -337,7 +335,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(InsufficientFundsError);
+        await expect(call).rejects.toThrowError(InsufficientFundsError);
       });
 
       it("handles old tx", async () => {
@@ -360,7 +358,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(TxTooOldError);
+        await expect(call).rejects.toThrowError(TxTooOldError);
       });
 
       it("handles bad fee", async () => {
@@ -385,7 +383,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(BadFeeError);
+        await expect(call).rejects.toThrowError(BadFeeError);
       });
 
       it("handles transaction created in the future", async () => {
@@ -406,7 +404,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(TxCreatedInFutureError);
+        await expect(call).rejects.toThrowError(TxCreatedInFutureError);
       });
     });
   });
@@ -615,7 +613,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(TxDuplicateError);
+        await expect(call).rejects.toThrowError(TxDuplicateError);
       });
 
       it("handles insufficient balance", async () => {
@@ -638,7 +636,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(InsufficientFundsError);
+        await expect(call).rejects.toThrowError(InsufficientFundsError);
       });
 
       it("handles old tx", async () => {
@@ -659,7 +657,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(TxTooOldError);
+        await expect(call).rejects.toThrowError(TxTooOldError);
       });
 
       it("handles bad fee", async () => {
@@ -682,7 +680,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(BadFeeError);
+        await expect(call).rejects.toThrowError(BadFeeError);
       });
 
       it("handles transaction created in the future", async () => {
@@ -703,7 +701,7 @@ describe("LedgerCanister", () => {
             fee: BigInt(10_000),
           });
 
-        expect(call).rejects.toThrowError(TxCreatedInFutureError);
+        await expect(call).rejects.toThrowError(TxCreatedInFutureError);
       });
     });
   });
@@ -913,7 +911,7 @@ describe("LedgerCanister", () => {
 
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
-      expect(call).rejects.toThrowError(GenericError);
+      await expect(call).rejects.toThrowError(GenericError);
     });
 
     it("should raise TemporarilyUnavailableError", async () => {
@@ -931,7 +929,7 @@ describe("LedgerCanister", () => {
 
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
-      expect(call).rejects.toThrowError(TemporarilyUnavailableError);
+      await expect(call).rejects.toThrowError(TemporarilyUnavailableError);
     });
 
     it("should raise DuplicateError", async () => {
@@ -949,7 +947,7 @@ describe("LedgerCanister", () => {
 
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
-      expect(call).rejects.toThrowError(DuplicateError);
+      await expect(call).rejects.toThrowError(DuplicateError);
     });
 
     it("should raise BadFeeError", async () => {
@@ -967,7 +965,7 @@ describe("LedgerCanister", () => {
 
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
-      expect(call).rejects.toThrowError(BadFeeError);
+      await expect(call).rejects.toThrowError(BadFeeError);
     });
 
     it("should raise AllowanceChangedError", async () => {
@@ -985,7 +983,7 @@ describe("LedgerCanister", () => {
 
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
-      expect(call).rejects.toThrowError(AllowanceChangedError);
+      await expect(call).rejects.toThrowError(AllowanceChangedError);
     });
 
     it("should raise CreatedInFutureError", async () => {
@@ -1003,7 +1001,7 @@ describe("LedgerCanister", () => {
 
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
-      expect(call).rejects.toThrowError(CreatedInFutureError);
+      await expect(call).rejects.toThrowError(CreatedInFutureError);
     });
 
     it("should raise TooOldError", async () => {
@@ -1021,7 +1019,7 @@ describe("LedgerCanister", () => {
 
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
-      expect(call).rejects.toThrowError(TooOldError);
+      await expect(call).rejects.toThrowError(TooOldError);
     });
 
     it("should raise ExpiredError", async () => {
@@ -1039,7 +1037,7 @@ describe("LedgerCanister", () => {
 
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
-      expect(call).rejects.toThrowError(ExpiredError);
+      await expect(call).rejects.toThrowError(ExpiredError);
     });
 
     it("should raise InsufficientFundsError", async () => {
@@ -1057,7 +1055,7 @@ describe("LedgerCanister", () => {
 
       const call = async () => await ledger.icrc2Approve(approveRequest);
 
-      expect(call).rejects.toThrowError(InsufficientFundsError);
+      await expect(call).rejects.toThrowError(InsufficientFundsError);
     });
   });
 

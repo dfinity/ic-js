@@ -18,6 +18,7 @@ export interface CanisterStatusResult {
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettings;
+  query_stats: [] | [QueryStats];
   idle_cycles_burned_per_day: [] | [bigint];
   module_hash: [] | [Uint8Array | number[]];
   reserved_cycles: [] | [bigint];
@@ -27,6 +28,7 @@ export interface CanisterStatusResultV2 {
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
+  query_stats: [] | [QueryStats];
   idle_cycles_burned_per_day: bigint;
   module_hash: [] | [Uint8Array | number[]];
 }
@@ -44,11 +46,18 @@ export interface ChangeCanisterRequest {
   stop_before_installing: boolean;
   mode: CanisterInstallMode;
   canister_id: Principal;
+  chunked_canister_wasm: [] | [ChunkedCanisterWasm];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
+export interface ChunkedCanisterWasm {
+  wasm_module_hash: Uint8Array | number[];
+  chunk_hashes_list: Array<Uint8Array | number[]>;
+  store_canister_id: Principal;
+}
 export interface DefiniteCanisterSettings {
   freezing_threshold: [] | [bigint];
+  wasm_memory_threshold: [] | [bigint];
   controllers: Array<Principal>;
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [LogVisibility];
@@ -58,6 +67,7 @@ export interface DefiniteCanisterSettings {
 }
 export interface DefiniteCanisterSettingsArgs {
   freezing_threshold: bigint;
+  wasm_memory_threshold: [] | [bigint];
   controllers: Array<Principal>;
   wasm_memory_limit: [] | [bigint];
   memory_allocation: bigint;
@@ -91,9 +101,13 @@ export interface ListSnsCanistersResponse {
   dapps: Array<Principal>;
   archives: Array<Principal>;
 }
-export type LogVisibility = { controllers: null } | { public: null };
+export type LogVisibility =
+  | { controllers: null }
+  | { public: null }
+  | { allowed_viewers: Array<Principal> };
 export interface ManageDappCanisterSettingsRequest {
   freezing_threshold: [] | [bigint];
+  wasm_memory_threshold: [] | [bigint];
   canister_ids: Array<Principal>;
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [number];
@@ -103,6 +117,12 @@ export interface ManageDappCanisterSettingsRequest {
 }
 export interface ManageDappCanisterSettingsResponse {
   failure_reason: [] | [string];
+}
+export interface QueryStats {
+  response_payload_bytes_total: [] | [bigint];
+  num_instructions_total: [] | [bigint];
+  num_calls_total: [] | [bigint];
+  request_payload_bytes_total: [] | [bigint];
 }
 export interface RegisterDappCanisterRequest {
   canister_id: [] | [Principal];

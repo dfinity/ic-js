@@ -36,6 +36,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [nonNullish](#gear-nonnullish)
 - [notEmptyString](#gear-notemptystring)
 - [isEmptyString](#gear-isemptystring)
+- [queryAndUpdate](#gear-queryandupdate)
 - [defaultAgent](#gear-defaultagent)
 - [createAgent](#gear-createagent)
 - [createServices](#gear-createservices)
@@ -54,15 +55,21 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [candidNumberArrayToBigInt](#gear-candidnumberarraytobigint)
 - [encodeBase32](#gear-encodebase32)
 - [decodeBase32](#gear-decodebase32)
+- [uint8ArrayToBase64](#gear-uint8arraytobase64)
+- [base64ToUint8Array](#gear-base64touint8array)
 - [bigEndianCrc32](#gear-bigendiancrc32)
+- [jsonReplacer](#gear-jsonreplacer)
+- [jsonReviver](#gear-jsonreviver)
+- [hashObject](#gear-hashobject)
+- [hashText](#gear-hashtext)
 - [secondsToDuration](#gear-secondstoduration)
 - [nowInBigIntNanoSeconds](#gear-nowinbigintnanoseconds)
+- [toBigIntNanoSeconds](#gear-tobigintnanoseconds)
 - [debounce](#gear-debounce)
 - [toNullable](#gear-tonullable)
 - [fromNullable](#gear-fromnullable)
 - [fromDefinedNullable](#gear-fromdefinednullable)
-- [jsonReplacer](#gear-jsonreplacer)
-- [jsonReviver](#gear-jsonreviver)
+- [fromNullishNullable](#gear-fromnullishnullable)
 - [principalToSubAccount](#gear-principaltosubaccount)
 - [smallerVersion](#gear-smallerversion)
 
@@ -112,9 +119,9 @@ Parameters:
 
 Checks if a given value is not null, not undefined, and not an empty string.
 
-| Function         | Type                                              |
-| ---------------- | ------------------------------------------------- |
-| `notEmptyString` | `(value: string or null or undefined) => boolean` |
+| Function         | Type                                                      |
+| ---------------- | --------------------------------------------------------- |
+| `notEmptyString` | `(value: string or null or undefined) => value is string` |
 
 Parameters:
 
@@ -126,15 +133,53 @@ Parameters:
 
 Checks if a given value is null, undefined, or an empty string.
 
-| Function        | Type                                              |
-| --------------- | ------------------------------------------------- |
-| `isEmptyString` | `(value: string or null or undefined) => boolean` |
+| Function        | Type                                                                       |
+| --------------- | -------------------------------------------------------------------------- |
+| `isEmptyString` | `(value: string or null or undefined) => value is "" or null or undefined` |
 
 Parameters:
 
 - `value`: - The value to check.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L38)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L39)
+
+#### :gear: queryAndUpdate
+
+This service performs a query (not-certified) call and/or an update (certified) call, and handles the results.
+
+It is useful because it can do both type of calls for security reasons.
+For example, malicious nodes can forge transactions and balance when calling an Index canister, if no update is performed to certify the results.
+
+Furthermore, it can handle the results of the calls in different ways:
+
+- `query` only performs a query call.
+- `update` only performs an update call.
+- `query_and_update` performs both calls.
+
+The resolution can be:
+
+- `all_settled` waits for all calls to settle.
+- `race` waits for the first call to settle (typically, `query` is the fastest one).
+
+Once the call(s) are done, the response is handled by the `onLoad` callback.
+However, if an error occurs, it is handled by the error callbacks, if provided: one for the query call and one for the update call.
+
+| Function         | Type                                                                                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `queryAndUpdate` | `<R, E = unknown>({ request, onLoad, onQueryError, onUpdateError, strategy, identity, resolution, }: QueryAndUpdateParams<R, E>) => Promise<void>` |
+
+Parameters:
+
+- `params`: The parameters to perform the request.
+- `params.request`: The request to perform.
+- `params.onLoad`: The callback to handle the response of the request.
+- `params.onQueryError`: The callback to handle the error of the `query` request.
+- `params.onUpdateError`: The callback to handle the error of the `update` request.
+- `params.strategy`: The strategy to use. Default is `query_and_update`.
+- `params.identity`: The identity to use for the request.
+- `params.resolution`: The resolution to use. Default is `race`.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/query.ts#L36)
 
 #### :gear: defaultAgent
 
@@ -144,7 +189,7 @@ Get a default agent that connects to mainnet with the anonymous identity.
 | -------------- | ------------- |
 | `defaultAgent` | `() => Agent` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L10)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L14)
 
 #### :gear: createAgent
 
@@ -163,7 +208,7 @@ Parameters:
 - `params.verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
 - `params.retryTimes`: Set the number of retries the agent should perform before error.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L26)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L30)
 
 #### :gear: createServices
 
@@ -171,7 +216,7 @@ Parameters:
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, callTransform, queryTransform, }, idlFactory, certifiedIdlFactory, }: { options: Required<Pick<CanisterOptions<T>, "canisterId">> and Omit<CanisterOptions<T>, "canisterId"> and Pick<...>; idlFactory: InterfaceFactory; certifiedId...` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/actor.utils.ts#L13)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/actor.utils.ts#L17)
 
 #### :gear: assertNonNullish
 
@@ -179,7 +224,7 @@ Parameters:
 | ------------------ | --------------------------------------------------------------------------------- |
 | `assertNonNullish` | `<T>(value: T, message?: string or undefined) => asserts value is NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L7)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L4)
 
 #### :gear: asNonNullish
 
@@ -187,7 +232,7 @@ Parameters:
 | -------------- | ---------------------------------------------------------------- |
 | `asNonNullish` | `<T>(value: T, message?: string or undefined) => NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L16)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L18)
 
 #### :gear: assertPercentageNumber
 
@@ -195,7 +240,7 @@ Parameters:
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L21)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L23)
 
 #### :gear: uint8ArrayToBigInt
 
@@ -211,7 +256,7 @@ Parameters:
 | -------------------- | ------------------------------- |
 | `bigIntToUint8Array` | `(value: bigint) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L15)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L14)
 
 #### :gear: numberToUint8Array
 
@@ -219,7 +264,7 @@ Parameters:
 | -------------------- | ------------------------------- |
 | `numberToUint8Array` | `(value: number) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L31)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L30)
 
 #### :gear: arrayBufferToUint8Array
 
@@ -227,7 +272,7 @@ Parameters:
 | ------------------------- | ------------------------------------- |
 | `arrayBufferToUint8Array` | `(buffer: ArrayBuffer) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L40)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L39)
 
 #### :gear: uint8ArrayToArrayOfNumber
 
@@ -235,7 +280,7 @@ Parameters:
 | --------------------------- | --------------------------------- |
 | `uint8ArrayToArrayOfNumber` | `(array: Uint8Array) => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L43)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L42)
 
 #### :gear: arrayOfNumberToUint8Array
 
@@ -243,7 +288,7 @@ Parameters:
 | --------------------------- | ----------------------------------- |
 | `arrayOfNumberToUint8Array` | `(numbers: number[]) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L46)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L45)
 
 #### :gear: asciiStringToByteArray
 
@@ -251,7 +296,7 @@ Parameters:
 | ------------------------ | ---------------------------- |
 | `asciiStringToByteArray` | `(text: string) => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L49)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L48)
 
 #### :gear: hexStringToUint8Array
 
@@ -259,7 +304,7 @@ Parameters:
 | ----------------------- | ----------------------------------- |
 | `hexStringToUint8Array` | `(hexString: string) => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L52)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L51)
 
 #### :gear: uint8ArrayToHexString
 
@@ -267,7 +312,7 @@ Parameters:
 | ----------------------- | ------------------------------------------- |
 | `uint8ArrayToHexString` | `(bytes: Uint8Array or number[]) => string` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L60)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L59)
 
 #### :gear: candidNumberArrayToBigInt
 
@@ -275,7 +320,7 @@ Parameters:
 | --------------------------- | ----------------------------- |
 | `candidNumberArrayToBigInt` | `(array: number[]) => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L69)
 
 #### :gear: encodeBase32
 
@@ -306,6 +351,34 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base32.utils.ts#L67)
 
+#### :gear: uint8ArrayToBase64
+
+Converts a Uint8Array (binary data) to a base64 encoded string.
+
+| Function             | Type                                 |
+| -------------------- | ------------------------------------ |
+| `uint8ArrayToBase64` | `(uint8Array: Uint8Array) => string` |
+
+Parameters:
+
+- `uint8Array`: - The Uint8Array containing binary data to be encoded.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base64.utils.ts#L7)
+
+#### :gear: base64ToUint8Array
+
+Converts a base64 encoded string to a Uint8Array (binary data).
+
+| Function             | Type                                   |
+| -------------------- | -------------------------------------- |
+| `base64ToUint8Array` | `(base64String: string) => Uint8Array` |
+
+Parameters:
+
+- `base64String`: - The base64 encoded string to be decoded.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base64.utils.ts#L16)
+
 #### :gear: bigEndianCrc32
 
 | Function         | Type                                |
@@ -313,6 +386,85 @@ Parameters:
 | `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
+
+#### :gear: jsonReplacer
+
+A custom replacer for `JSON.stringify` that converts specific types not natively supported
+by the API into JSON-compatible formats.
+
+Supported conversions:
+
+- `BigInt` → `{ "__bigint__": string }`
+- `Principal` → `{ "__principal__": string }`
+- `Uint8Array` → `{ "__uint8array__": number[] }`
+
+| Function       | Type                                        |
+| -------------- | ------------------------------------------- |
+| `jsonReplacer` | `(_key: string, value: unknown) => unknown` |
+
+Parameters:
+
+- `_key`: - Ignored. Only provided for API compatibility.
+- `value`: - The value to transform before stringification.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L22)
+
+#### :gear: jsonReviver
+
+A custom reviver for `JSON.parse` that reconstructs specific types from their JSON-encoded representations.
+
+This reverses the transformations applied by `jsonReplacer`, restoring the original types.
+
+Supported conversions:
+
+- `{ "__bigint__": string }` → `BigInt`
+- `{ "__principal__": string }` → `Principal`
+- `{ "__uint8array__": number[] }` → `Uint8Array`
+
+| Function      | Type                                        |
+| ------------- | ------------------------------------------- |
+| `jsonReviver` | `(_key: string, value: unknown) => unknown` |
+
+Parameters:
+
+- `_key`: - Ignored but provided for API compatibility.
+- `value`: - The parsed value to transform.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L53)
+
+#### :gear: hashObject
+
+Generates a SHA-256 hash from the given object.
+
+The object is first stringified using a custom `jsonReplacer`, then
+hashed using the SubtleCrypto API. The resulting hash is returned as a hex string.
+
+| Function     | Type                                               |
+| ------------ | -------------------------------------------------- |
+| `hashObject` | `<T extends object>(params: T) => Promise<string>` |
+
+Parameters:
+
+- `params`: - The object to hash.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L14)
+
+#### :gear: hashText
+
+Generates a SHA-256 hash from a plain text string.
+
+The string is UTF-8 encoded and hashed using the SubtleCrypto API.
+The resulting hash is returned as a hexadecimal string.
+
+| Function   | Type                                |
+| ---------- | ----------------------------------- |
+| `hashText` | `(text: string) => Promise<string>` |
+
+Parameters:
+
+- `text`: - The text to hash.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L31)
 
 #### :gear: secondsToDuration
 
@@ -338,59 +490,97 @@ Returns the current timestamp in nanoseconds as a `bigint`.
 | ------------------------ | -------------- |
 | `nowInBigIntNanoSeconds` | `() => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L115)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L123)
+
+#### :gear: toBigIntNanoSeconds
+
+Converts a given `Date` object to a timestamp in nanoseconds as a `bigint`.
+
+| Function              | Type                     |
+| --------------------- | ------------------------ |
+| `toBigIntNanoSeconds` | `(date: Date) => bigint` |
+
+Parameters:
+
+- `date`: - The `Date` object to convert.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L132)
 
 #### :gear: debounce
+
+Creates a debounced version of the provided function.
+
+The debounced function postpones its execution until after a certain amount of time
+has elapsed since the last time it was invoked. This is useful for limiting the rate
+at which a function is called (e.g. in response to user input or events).
 
 | Function   | Type                                                                              |
 | ---------- | --------------------------------------------------------------------------------- |
 | `debounce` | `(func: Function, timeout?: number or undefined) => (...args: unknown[]) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L2)
+Parameters:
+
+- `func`: - The function to debounce. It will only be called after no new calls happen within the specified timeout.
+- `timeout`: - The debounce delay in milliseconds. Defaults to 300ms if not provided or invalid.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L13)
 
 #### :gear: toNullable
+
+Converts a value into a Candid-style variant representation of an optional value.
 
 | Function     | Type                                               |
 | ------------ | -------------------------------------------------- |
 | `toNullable` | `<T>(value?: T or null or undefined) => [] or [T]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L4)
+Parameters:
+
+- `value`: - The value to convert into a Candid-style variant.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L11)
 
 #### :gear: fromNullable
+
+Extracts the value from a Candid-style variant representation of an optional value.
 
 | Function       | Type                                      |
 | -------------- | ----------------------------------------- |
 | `fromNullable` | `<T>(value: [] or [T]) => T or undefined` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L8)
+Parameters:
+
+- `value`: - A Candid-style variant representing an optional value.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L21)
 
 #### :gear: fromDefinedNullable
+
+Extracts the value from a Candid-style variant representation of an optional value,
+ensuring the value is defined. Throws an error if the array is empty or the value is nullish.
 
 | Function              | Type                         |
 | --------------------- | ---------------------------- |
 | `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L12)
+Parameters:
 
-#### :gear: jsonReplacer
+- `value`: - A Candid-style variant representing an optional value.
 
-A parser that interprets revived BigInt, Principal, and Uint8Array when constructing JavaScript values or objects.
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L32)
 
-| Function       | Type                                        |
-| -------------- | ------------------------------------------- |
-| `jsonReplacer` | `(_key: string, value: unknown) => unknown` |
+#### :gear: fromNullishNullable
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L11)
+Extracts the value from a nullish Candid-style variant representation.
 
-#### :gear: jsonReviver
+| Function              | Type                                                   |
+| --------------------- | ------------------------------------------------------ |
+| `fromNullishNullable` | `<T>(value: [] or [T] or undefined) => T or undefined` |
 
-A function that alters the behavior of the stringification process for BigInt, Principal and Uint8Array.
+Parameters:
 
-| Function      | Type                                        |
-| ------------- | ------------------------------------------- |
-| `jsonReviver` | `(_key: string, value: unknown) => unknown` |
+- `value`: - A Candid-style variant or `undefined`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L30)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L47)
 
 #### :gear: principalToSubAccount
 
@@ -421,7 +611,7 @@ Parameters:
 - `params.minVersion`: Ex: "1.0.0"
 - `params.currentVersion`: Ex: "2.0.0"
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L28)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L34)
 
 ### :wrench: Constants
 
@@ -452,12 +642,11 @@ Represents an amount of tokens.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L130)
 
-#### Methods
+#### Static Methods
 
 - [fromE8s](#gear-frome8s)
 - [fromString](#gear-fromstring)
 - [fromNumber](#gear-fromnumber)
-- [toE8s](#gear-toe8s)
 
 ##### :gear: fromE8s
 
@@ -510,6 +699,10 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L198)
 
+#### Methods
+
+- [toE8s](#gear-toe8s)
+
 ##### :gear: toE8s
 
 | Method  | Type           |
@@ -524,13 +717,11 @@ Represents an amount of tokens.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L236)
 
-#### Methods
+#### Static Methods
 
 - [fromUlps](#gear-fromulps)
 - [fromString](#gear-fromstring)
 - [fromNumber](#gear-fromnumber)
-- [toUlps](#gear-toulps)
-- [toE8s](#gear-toe8s)
 
 ##### :gear: fromUlps
 
@@ -583,6 +774,11 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L294)
 
+#### Methods
+
+- [toUlps](#gear-toulps)
+- [toE8s](#gear-toe8s)
+
 ##### :gear: toUlps
 
 | Method   | Type           |
@@ -610,13 +806,11 @@ AgentManager class manages HttpAgent instances for different identities.
 It caches agents by identity to optimise resource usage and avoid unnecessary agent creation.
 Provides functionality to create new agents, retrieve cached agents, and clear the cache when needed.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L53)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L56)
 
-#### Methods
+#### Static Methods
 
 - [create](#gear-create)
-- [getAgent](#gear-getagent)
-- [clearAgents](#gear-clearagents)
 
 ##### :gear: create
 
@@ -635,7 +829,12 @@ Parameters:
 - `config.fetchRootKey`: - Whether to fetch the root key for certificate validation.
 - `config.host`: - The host to connect to.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L69)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L72)
+
+#### Methods
+
+- [getAgent](#gear-getagent)
+- [clearAgents](#gear-clearagents)
 
 ##### :gear: getAgent
 
@@ -652,7 +851,7 @@ Parameters:
 
 - `identity`: - The identity to be used to create the agent.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L82)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L85)
 
 ##### :gear: clearAgents
 
@@ -665,7 +864,7 @@ Useful when identities have changed or if you want to reset all active connectio
 | ------------- | ------------ |
 | `clearAgents` | `() => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L114)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L117)
 
 ### :factory: InvalidPercentageError
 

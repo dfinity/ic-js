@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
-    "strict": true,
     "declaration": true,
-    "outDir": "./dist",
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "strict": true,
+    "noImplicitAny": false,
     "esModuleInterop": true,
-    "lib": ["dom", "es2017"],
-    "isolatedModules": true
+    "moduleResolution": "node",
+    "module": "esnext",
+    "skipLibCheck": true,
+    "outDir": "./dist"
   },
   "exclude": [
     "**/src/**/*.test.ts",

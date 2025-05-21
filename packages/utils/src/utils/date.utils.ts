@@ -59,12 +59,12 @@ export const secondsToDuration = ({
   days -= daysInYears(years);
 
   const periods = [
-    createLabel("year", years),
-    createLabel("day", days),
-    createLabel("hour", hours),
-    createLabel("minute", minutes),
+    createLabel({ labelKey: "year", amount: years }),
+    createLabel({ labelKey: "day", amount: days }),
+    createLabel({ labelKey: "hour", amount: hours }),
+    createLabel({ labelKey: "minute", amount: minutes }),
     ...(seconds > BigInt(0) && seconds < BigInt(60)
-      ? [createLabel("second", seconds)]
+      ? [createLabel({ labelKey: "second", amount: seconds })]
       : []),
   ];
 
@@ -102,10 +102,18 @@ type LabelInfo = {
   labelKey: LabelKey;
   amount: number;
 };
-const createLabel = (labelKey: LabelKey, amount: bigint): LabelInfo => ({
+const createLabel = ({
+  labelKey,
+  amount,
+}: {
+  labelKey: LabelKey;
+  amount: bigint;
+}): LabelInfo => ({
   labelKey,
   amount: Number(amount),
 });
+
+const NANOSECONDS_PER_MILLISECOND = 1_000_000n;
 
 /**
  * Returns the current timestamp in nanoseconds as a `bigint`.
@@ -113,4 +121,13 @@ const createLabel = (labelKey: LabelKey, amount: bigint): LabelInfo => ({
  * @returns {bigint} The current timestamp in nanoseconds.
  */
 export const nowInBigIntNanoSeconds = (): bigint =>
-  BigInt(Date.now()) * BigInt(1e6);
+  BigInt(Date.now()) * NANOSECONDS_PER_MILLISECOND;
+
+/**
+ * Converts a given `Date` object to a timestamp in nanoseconds as a `bigint`.
+ *
+ * @param {Date} date - The `Date` object to convert.
+ * @returns {bigint} The timestamp in nanoseconds.
+ */
+export const toBigIntNanoSeconds = (date: Date): bigint =>
+  BigInt(date.getTime()) * NANOSECONDS_PER_MILLISECOND;

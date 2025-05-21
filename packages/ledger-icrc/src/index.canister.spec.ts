@@ -50,7 +50,7 @@ describe("Index canister", () => {
       };
       const transactionWithId = {
         id: BigInt(1),
-        transaction: transaction,
+        transaction,
       };
       const service = mock<ActorSubclass<IcrcIndexService>>();
       service.get_account_transactions.mockResolvedValue({
@@ -88,7 +88,7 @@ describe("Index canister", () => {
           account: fakeSnsAccount,
           max_results: BigInt(10),
         });
-      expect(call).rejects.toThrowError(IndexError);
+      await expect(call).rejects.toThrowError(IndexError);
     });
   });
 

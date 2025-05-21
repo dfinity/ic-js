@@ -15,6 +15,7 @@ export interface CanisterStatusResultV2 {
   memory_size: bigint;
   cycles: bigint;
   settings: DefiniteCanisterSettingsArgs;
+  query_stats: [] | [QueryStats];
   idle_cycles_burned_per_day: bigint;
   module_hash: [] | [Uint8Array | number[]];
 }
@@ -44,6 +45,7 @@ export interface Countries {
 }
 export interface DefiniteCanisterSettingsArgs {
   freezing_threshold: bigint;
+  wasm_memory_threshold: [] | [bigint];
   controllers: Array<Principal>;
   wasm_memory_limit: [] | [bigint];
   memory_allocation: bigint;
@@ -286,6 +288,12 @@ export type Possibility_2 = { Ok: Ok_1 } | { Err: Error };
 export type Possibility_3 = { Ok: {} } | { Err: CanisterCallError };
 export interface Principals {
   principals: Array<Principal>;
+}
+export interface QueryStats {
+  response_payload_bytes_total: [] | [bigint];
+  num_instructions_total: [] | [bigint];
+  num_calls_total: [] | [bigint];
+  request_payload_bytes_total: [] | [bigint];
 }
 export interface RefreshBuyerTokensRequest {
   confirmation_text: [] | [string];
