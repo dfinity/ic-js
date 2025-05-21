@@ -36,15 +36,20 @@ export const transform: CallTransform | QueryTransform = (
     ) {
       return { effectiveCanisterId: Principal.from(first.target_canister) };
     }
+
     if (
       methodName === "provisional_create_canister_with_cycles" &&
-      nonNullish(first.specified_id) &&
-      nonNullish(fromNullable(first.specified_id))
+      nonNullish(first.specified_id)
     ) {
-      return {
-        effectiveCanisterId: Principal.from(fromNullable(first.specified_id)),
-      };
+      const specifiedId = fromNullable(first.specified_id);
+
+      if (nonNullish(specifiedId)) {
+        return {
+          effectiveCanisterId: Principal.from(specifiedId),
+        };
+      }
     }
+
     if (nonNullish(first.canister_id)) {
       return { effectiveCanisterId: Principal.from(first.canister_id) };
     }

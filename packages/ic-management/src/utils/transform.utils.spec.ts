@@ -152,9 +152,21 @@ describe("transform", () => {
         expect(() => transform(methodName, args, callConfig)).toThrow();
       });
 
-      it("should not map the effectiveCanisterId when specified_id is empty", () => {
+      it("should not map the effectiveCanisterId when specified_id is none", () => {
         const methodName = "provisional_create_canister_with_cycles";
         const args = [{ specified_id: [] }];
+        const callConfig: CallConfig = {};
+
+        const result = transform(methodName, args, callConfig);
+
+        expect(result).toEqual({
+          effectiveCanisterId: Principal.fromHex(""),
+        });
+      });
+
+      it("should not map the effectiveCanisterId when specified_id is undefined", () => {
+        const methodName = "provisional_create_canister_with_cycles";
+        const args = [{}];
         const callConfig: CallConfig = {};
 
         const result = transform(methodName, args, callConfig);
