@@ -3,7 +3,7 @@
 ## Features
 
 - Expose method `listSubaccounts` in class `IcrcIndexNgCanister`.
-- Extend the `transform` function to support `provisional_create_canister_with_cycles` when used with PocketIC. 
+- Extend the `transform` function to support `provisional_create_canister_with_cycles` when used with PocketIC.
 
 # v69
 
