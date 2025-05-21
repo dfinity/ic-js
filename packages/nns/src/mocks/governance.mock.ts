@@ -40,6 +40,7 @@ export const mockNeuron: Neuron = {
   hot_keys: [],
   account: new Uint8Array([1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 6]),
   joined_community_fund_timestamp_seconds: [],
+  maturity_disbursements_in_progress: [],
   dissolve_state: [],
   followees: [],
   neuron_fees_e8s: one,
