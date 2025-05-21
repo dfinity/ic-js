@@ -533,6 +533,12 @@ export interface NeuronInFlightCommand {
   command: [] | [Command_2];
   timestamp: bigint;
 }
+export interface MaturityDisbursement {
+  timestamp_of_disbursement_seconds: [] | [bigint];
+  amount_e8s: [] | [bigint];
+  account_to_disburse_to: [] | [Account];
+  finalize_disbursement_timestamp_seconds: [] | [bigint];
+}
 export interface NeuronInfo {
   dissolve_delay_seconds: bigint;
   recent_ballots: Array<BallotInfo>;
