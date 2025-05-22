@@ -1,6 +1,6 @@
 import type { ActorConfig, CallConfig } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { nonNullish } from "@dfinity/utils";
+import { fromNullable, nonNullish } from "@dfinity/utils";
 
 type CallTransform = Required<ActorConfig>["callTransform"];
 
@@ -23,6 +23,7 @@ export const transform: CallTransform | QueryTransform = (
   args: (Record<string, unknown> & {
     canister_id?: unknown;
     target_canister?: unknown;
+    specified_id?: [] | [unknown];
   })[],
   _callConfig: CallConfig,
 ): { effectiveCanisterId: Principal } => {
@@ -35,6 +36,20 @@ export const transform: CallTransform | QueryTransform = (
     ) {
       return { effectiveCanisterId: Principal.from(first.target_canister) };
     }
+
+    if (
+      methodName === "provisional_create_canister_with_cycles" &&
+      nonNullish(first.specified_id)
+    ) {
+      const specifiedId = fromNullable(first.specified_id);
+
+      if (nonNullish(specifiedId)) {
+        return {
+          effectiveCanisterId: Principal.from(specifiedId),
+        };
+      }
+    }
+
     if (nonNullish(first.canister_id)) {
       return { effectiveCanisterId: Principal.from(first.canister_id) };
     }
