@@ -197,7 +197,7 @@ export const toNeuron = ({
     ? neuron.joined_community_fund_timestamp_seconds[0]
     : undefined,
   maturityDisbursementsInProgress:
-    neuron.maturity_disbursements_in_progress[0]?.map(
+    neuron.maturity_disbursements_in_progress?.[0]?.map(
       toMaturityDisbursementInProgress,
     ),
   dissolveState: neuron.dissolve_state.length
