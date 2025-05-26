@@ -10,6 +10,12 @@ export interface Allowance {
   allowance: bigint;
   expires_at: [] | [Timestamp];
 }
+export interface Allowance103 {
+  from_account: Account;
+  to_spender: Account;
+  allowance: bigint;
+  expires_at: [] | [bigint];
+}
 export interface AllowanceArgs {
   account: Account;
   spender: Account;
@@ -83,6 +89,16 @@ export type Duration = bigint;
 export interface FeatureFlags {
   icrc2: boolean;
 }
+export interface GetAllowancesArgs {
+  take: [] | [bigint];
+  prev_spender: [] | [Account];
+  from_account: [] | [Account];
+}
+export type GetAllowancesError =
+  | {
+      GenericError: { message: string; error_code: bigint };
+    }
+  | { AccessDenied: { reason: string } };
 export interface GetArchivesArgs {
   from: [] | [Principal];
 }
@@ -280,6 +296,9 @@ export type Value =
   | { Blob: Uint8Array | number[] }
   | { Text: string }
   | { Array: Array<Value> };
+export type icrc103_get_allowances_response =
+  | { Ok: Array<Allowance103> }
+  | { Err: GetAllowancesError };
 export interface icrc21_consent_info {
   metadata: icrc21_consent_message_metadata;
   consent_message: icrc21_consent_message;
@@ -332,6 +351,10 @@ export interface _SERVICE {
   get_transactions: ActorMethod<
     [GetTransactionsRequest],
     GetTransactionsResponse
+  >;
+  icrc103_get_allowances: ActorMethod<
+    [GetAllowancesArgs],
+    icrc103_get_allowances_response
   >;
   icrc10_supported_standards: ActorMethod<
     [],

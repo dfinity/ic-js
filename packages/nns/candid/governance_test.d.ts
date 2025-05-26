@@ -700,6 +700,7 @@ export type ProposalActionRequest =
   | { Motion: Motion };
 export interface ProposalData {
   id: [] | [ProposalId];
+  topic: [] | [number];
   failure_reason: [] | [GovernanceError];
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
