@@ -310,6 +310,20 @@ describe("response.converters", () => {
         toNeuron({
           neuron: {
             ...defaultCandidNeuron,
+            // Test against the outdated nns governance canister.
+            maturity_disbursements_in_progress: undefined as unknown as [],
+          },
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        maturityDisbursementsInProgress: undefined,
+      });
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
             maturity_disbursements_in_progress: [[]],
           },
           canisterId,
