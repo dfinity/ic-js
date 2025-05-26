@@ -1,4 +1,4 @@
-// Generated from IC repo commit 2f52f298de (2025-05-07 tags: release-2025-05-08_03-21-base) 'rs/nns/gtc/canister/gtc.did' by import-candid
+// Generated from IC repo commit db0a9f6 (2025-05-22 tags: rosetta-icrc-release-1.2.2) 'rs/nns/gtc/canister/gtc.did' by import-candid
 type AccountState = record {
   authenticated_principal_id : opt principal;
   successfully_transferred_neurons : vec TransferredNeuron;

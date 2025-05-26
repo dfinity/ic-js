@@ -47,8 +47,6 @@ export interface ChangeCanisterRequest {
   mode: CanisterInstallMode;
   canister_id: Principal;
   chunked_canister_wasm: [] | [ChunkedCanisterWasm];
-  memory_allocation: [] | [bigint];
-  compute_allocation: [] | [bigint];
 }
 export interface ChunkedCanisterWasm {
   wasm_module_hash: Uint8Array | number[];

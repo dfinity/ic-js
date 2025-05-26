@@ -566,6 +566,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(ProposalId),
+    'topic' : IDL.Opt(IDL.Int32),
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,
@@ -1573,6 +1574,7 @@ export const init = ({ IDL }) => {
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(ProposalId),
+    'topic' : IDL.Opt(IDL.Int32),
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,

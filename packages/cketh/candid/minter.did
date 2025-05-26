@@ -1,4 +1,4 @@
-// Generated from IC repo commit 2f52f298de (2025-05-07 tags: release-2025-05-08_03-21-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
+// Generated from IC repo commit db0a9f6 (2025-05-22 tags: rosetta-icrc-release-1.2.2) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
 type EthereumNetwork = variant {
     // The public Ethereum mainnet.
     Mainnet;
@@ -84,6 +84,11 @@ type InitArg = record {
     // Block number to start scrapping from on the Ethereum network.
     // Scrapping the logs will resume at `last_scraped_block_number + 1` (inclusive).
     last_scraped_block_number : nat;
+
+    // The principal of the EVM RPC canister that handles the communication
+    // with the Ethereum blockchain. If not specified, uses the production or
+    // staging EVM RPC canister based on the ethereum_network field.
+    evm_rpc_id : opt principal;
 };
 
 type UpgradeArg = record {
