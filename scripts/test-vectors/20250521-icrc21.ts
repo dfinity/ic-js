@@ -8,8 +8,17 @@ const consentMessageCertificate =
 // The following came from using the hw-cli to send a consent message request in the `transformRequest` method of the identity.
 // Then reading the responses of the agent get the data for this vector.
 
+const convertToArrayBuffer = (bytes: number[]) => {
+  const buffer = new ArrayBuffer(bytes.length);
+  const view = new Uint8Array(buffer);
+  bytes.forEach((byte, index) => {
+    view[index] = byte;
+  });
+  return buffer;
+};
+
 const callRequest = {
-  arg: [
+  arg: convertToArrayBuffer([
     68, 73, 68, 76, 6, 110, 125, 109, 123, 110, 1, 110, 120, 108, 2, 179, 176,
     218, 195, 3, 104, 173, 134, 202, 131, 5, 2, 108, 8, 198, 252, 182, 2, 0,
     186, 137, 229, 194, 4, 2, 162, 222, 148, 235, 6, 2, 130, 243, 243, 145, 12,
@@ -17,7 +26,7 @@ const callRequest = {
     218, 13, 3, 203, 150, 220, 180, 14, 4, 1, 5, 0, 0, 0, 0, 128, 194, 215, 47,
     0, 1, 0, 194, 76, 0, 170, 204, 65, 24, 1, 10, 0, 0, 0, 0, 0, 0, 0, 7, 1, 1,
     0,
-  ],
+  ]),
   canister_id: Principal.fromText("ekfwe-siaaa-aaaaf-qapta-cai"),
   ingress_expiry: BigInt("1747816980000000000"),
   method_name: "icrc2_approve",
@@ -25,13 +34,13 @@ const callRequest = {
   sender: Principal.fromHex(
     "5h2rk-qaffr-pw6jy-pysr2-ravia-5ltfs-5jblk-l2jot-bpjm6-6yl7z-6ae",
   ),
-  nonce: [
+  nonce: convertToArrayBuffer([
     57, 59, 191, 187, 156, 130, 134, 4, 160, 142, 119, 212, 98, 74, 1, 245,
-  ],
+  ]),
 };
 
 const consentMessageRequest = {
-  arg: [
+  arg: convertToArrayBuffer([
     68, 73, 68, 76, 7, 109, 123, 110, 118, 108, 2, 174, 174, 177, 204, 5, 1,
     216, 128, 198, 208, 7, 113, 107, 2, 139, 234, 191, 194, 6, 127, 169, 137,
     139, 143, 10, 127, 110, 3, 108, 2, 239, 206, 231, 128, 4, 2, 196, 251, 242,
@@ -44,13 +53,13 @@ const consentMessageRequest = {
     0, 128, 194, 215, 47, 0, 1, 0, 194, 76, 0, 170, 204, 65, 24, 1, 10, 0, 0, 0,
     0, 0, 0, 0, 7, 1, 1, 0, 13, 105, 99, 114, 99, 50, 95, 97, 112, 112, 114,
     111, 118, 101, 0, 2, 101, 110, 1, 1,
-  ],
+  ]),
   canister_id: Principal.fromText("ekfwe-siaaa-aaaaf-qapta-cai"),
   ingress_expiry: BigInt("1747816980000000000"),
   method_name: "icrc21_canister_call_consent_message",
-  nonce: [
+  nonce: convertToArrayBuffer([
     118, 133, 218, 18, 167, 170, 52, 164, 178, 64, 229, 8, 158, 142, 98, 54,
-  ],
+  ]),
   request_type: "call",
   sender: Principal.fromText("2vxsx-fae"),
 };
