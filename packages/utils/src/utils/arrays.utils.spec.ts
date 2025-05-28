@@ -1,4 +1,3 @@
-import { expect } from "@jest/globals";
 import {
   arrayBufferToUint8Array,
   arrayOfNumberToUint8Array,

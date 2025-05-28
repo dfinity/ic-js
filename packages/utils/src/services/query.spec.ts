@@ -1,3 +1,4 @@
+import type { MockInstance } from "vitest";
 import { mockIdentity } from "../mocks/identity.mock";
 import type {
   QueryAndUpdateParams,
@@ -31,10 +32,10 @@ describe("query", () => {
 
     const createMockParams = (): {
       mockParams: QueryAndUpdateParams<string>;
-      requestMock: jest.Mock;
-      onLoadMock: jest.Mock;
-      onQueryErrorMock: jest.Mock;
-      onUpdateErrorMock: jest.Mock;
+      requestMock: MockInstance;
+      onLoadMock: MockInstance;
+      onQueryErrorMock: MockInstance;
+      onUpdateErrorMock: MockInstance;
     } => {
       const {
         faster,
@@ -45,19 +46,13 @@ describe("query", () => {
         strategy,
       } = params;
 
-      const requestMock: jest.Mock = jest
-        .fn()
-        .mockResolvedValue(requestResponse);
-      const onLoadMock: jest.Mock = jest.fn();
-      const onQueryErrorMock: jest.Mock = jest.fn();
-      const onUpdateErrorMock: jest.Mock = jest.fn();
+      const requestMock = vi.fn().mockResolvedValue(requestResponse);
+      const onLoadMock = vi.fn();
+      const onQueryErrorMock = vi.fn();
+      const onUpdateErrorMock = vi.fn();
 
-      const mockQueryResult: jest.Mock = jest
-        .fn()
-        .mockResolvedValueOnce(queryResponse);
-      const mockUpdateResult: jest.Mock = jest
-        .fn()
-        .mockResolvedValueOnce(updateResponse);
+      const mockQueryResult = vi.fn().mockResolvedValueOnce(queryResponse);
+      const mockUpdateResult = vi.fn().mockResolvedValueOnce(updateResponse);
 
       const mockRequestFasterQuery = ({
         certified,
@@ -114,10 +109,10 @@ describe("query", () => {
     };
 
     beforeEach(() => {
-      jest.resetAllMocks();
+      vi.resetAllMocks();
 
       // We mock console just to avoid unnecessary logs while running the tests
-      jest.spyOn(console, "error").mockImplementation(() => {});
+      vi.spyOn(console, "error").mockImplementation(() => {});
 
       params = {};
     });
