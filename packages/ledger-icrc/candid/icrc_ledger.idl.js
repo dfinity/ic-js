@@ -177,6 +177,28 @@ export const idlFactory = ({ IDL }) => {
       })
     ),
   });
+  const GetAllowancesArgs = IDL.Record({
+    'take' : IDL.Opt(IDL.Nat),
+    'prev_spender' : IDL.Opt(Account),
+    'from_account' : IDL.Opt(Account),
+  });
+  const Allowance103 = IDL.Record({
+    'from_account' : Account,
+    'to_spender' : Account,
+    'allowance' : IDL.Nat,
+    'expires_at' : IDL.Opt(IDL.Nat64),
+  });
+  const GetAllowancesError = IDL.Variant({
+    'GenericError' : IDL.Record({
+      'message' : IDL.Text,
+      'error_code' : IDL.Nat,
+    }),
+    'AccessDenied' : IDL.Record({ 'reason' : IDL.Text }),
+  });
+  const icrc103_get_allowances_response = IDL.Variant({
+    'Ok' : IDL.Vec(Allowance103),
+    'Err' : GetAllowancesError,
+  });
   const Tokens = IDL.Nat;
   const StandardRecord = IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text });
   const TransferArg = IDL.Record({
@@ -357,6 +379,11 @@ export const idlFactory = ({ IDL }) => {
     'get_transactions' : IDL.Func(
         [GetTransactionsRequest],
         [GetTransactionsResponse],
+        ['query'],
+      ),
+    'icrc103_get_allowances' : IDL.Func(
+        [GetAllowancesArgs],
+        [icrc103_get_allowances_response],
         ['query'],
       ),
     'icrc10_supported_standards' : IDL.Func(

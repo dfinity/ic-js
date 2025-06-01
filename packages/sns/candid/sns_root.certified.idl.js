@@ -69,8 +69,6 @@ export const idlFactory = ({ IDL }) => {
     'mode' : CanisterInstallMode,
     'canister_id' : IDL.Principal,
     'chunked_canister_wasm' : IDL.Opt(ChunkedCanisterWasm),
-    'memory_allocation' : IDL.Opt(IDL.Nat),
-    'compute_allocation' : IDL.Opt(IDL.Nat),
   });
   const GetSnsCanistersSummaryRequest = IDL.Record({
     'update_canister_list' : IDL.Opt(IDL.Bool),

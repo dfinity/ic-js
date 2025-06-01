@@ -206,6 +206,7 @@ export interface InitArg {
   last_scraped_block_number: bigint;
   ecdsa_key_name: string;
   next_transaction_nonce: bigint;
+  evm_rpc_id: [] | [Principal];
   ledger_id: Principal;
   ethereum_contract_address: [] | [string];
   minimum_withdrawal_amount: bigint;
