@@ -118,6 +118,80 @@ describe("transform", () => {
     });
   });
 
+  describe("specified_id", () => {
+    describe("with method provisional_create_canister_with_cycles", () => {
+      it("should map the effectiveCanisterId when specified_id is provided as Principal", () => {
+        const methodName = "provisional_create_canister_with_cycles";
+        const args = [{ specified_id: [mockCanisterId] }];
+        const callConfig: CallConfig = {};
+
+        const result = transform(methodName, args, callConfig);
+
+        expect(result).toEqual({
+          effectiveCanisterId: mockCanisterId,
+        });
+      });
+
+      it("should map the effectiveCanisterId when specified_id is provided as text", () => {
+        const methodName = "provisional_create_canister_with_cycles";
+        const args = [{ specified_id: [mockCanisterId.toText()] }];
+        const callConfig: CallConfig = {};
+
+        const result = transform(methodName, args, callConfig);
+
+        expect(result).toEqual({
+          effectiveCanisterId: mockCanisterId,
+        });
+      });
+
+      it("should throw an error when specified_id is invalid", () => {
+        const methodName = "provisional_create_canister_with_cycles";
+        const args = [{ specified_id: [12345] }];
+        const callConfig: CallConfig = {};
+
+        expect(() => transform(methodName, args, callConfig)).toThrow();
+      });
+
+      it("should not map the effectiveCanisterId when specified_id is none", () => {
+        const methodName = "provisional_create_canister_with_cycles";
+        const args = [{ specified_id: [] }];
+        const callConfig: CallConfig = {};
+
+        const result = transform(methodName, args, callConfig);
+
+        expect(result).toEqual({
+          effectiveCanisterId: Principal.fromHex(""),
+        });
+      });
+
+      it("should not map the effectiveCanisterId when specified_id is undefined", () => {
+        const methodName = "provisional_create_canister_with_cycles";
+        const args = [{}];
+        const callConfig: CallConfig = {};
+
+        const result = transform(methodName, args, callConfig);
+
+        expect(result).toEqual({
+          effectiveCanisterId: Principal.fromHex(""),
+        });
+      });
+    });
+
+    describe("without method provisional_create_canister_with_cycles", () => {
+      it("should fallback to empty principal when specified_id is present but method is different", () => {
+        const methodName = "someMethod";
+        const args = [{ specified_id: [mockCanisterId] }];
+        const callConfig: CallConfig = {};
+
+        const result = transform(methodName, args, callConfig);
+
+        expect(result).toEqual({
+          effectiveCanisterId: Principal.fromHex(""),
+        });
+      });
+    });
+  });
+
   describe("no ids", () => {
     it("should return effectiveCanisterId aaaaa-aa when args is empty", () => {
       const methodName = "someMethod";
