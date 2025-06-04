@@ -1,7 +1,7 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   Account,
   _SERVICE as CkBTCMinterService,
@@ -837,7 +837,7 @@ describe("ckBTC minter canister", () => {
       expect(res).toEqual(result);
     });
 
-    it("should bubble errors", () => {
+    it("should bubble errors", async () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
       service.estimate_withdrawal_fee.mockImplementation(() => {
         throw new Error();
@@ -845,7 +845,7 @@ describe("ckBTC minter canister", () => {
 
       const canister = minter(service);
 
-      expect(
+      await expect(
         async () =>
           await canister.estimateWithdrawalFee({
             certified: true,
@@ -876,7 +876,7 @@ describe("ckBTC minter canister", () => {
       expect(res).toEqual(result);
     });
 
-    it("should bubble errors", () => {
+    it("should bubble errors", async () => {
       const service = mock<ActorSubclass<CkBTCMinterService>>();
       service.get_minter_info.mockImplementation(() => {
         throw new Error();
@@ -884,7 +884,7 @@ describe("ckBTC minter canister", () => {
 
       const canister = minter(service);
 
-      expect(
+      await expect(
         async () => await canister.getMinterInfo({ certified: true }),
       ).rejects.toThrowError();
     });
