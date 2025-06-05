@@ -1,4 +1,4 @@
-// Generated from IC repo commit db0a9f6 (2025-05-22 tags: rosetta-icrc-release-1.2.2) 'rs/nns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 2e5a2e15b1 (2025-06-05) 'rs/nns/governance/canister/governance_test.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
@@ -127,6 +127,7 @@ type RefreshVotingPowerResponse = record {
 type DisburseMaturity = record {
   percentage_to_disburse : nat32;
   to_account : opt Account;
+  to_account_identifier: opt AccountIdentifier;
 };
 
 type Account = record {
@@ -1163,6 +1164,7 @@ type MaturityDisbursement = record {
   timestamp_of_disbursement_seconds : opt nat64;
   finalize_disbursement_timestamp_seconds : opt nat64;
   account_to_disburse_to : opt Account;
+  account_identifier_to_disburse_to : opt AccountIdentifier;
 };
 
 service : (Governance) -> {

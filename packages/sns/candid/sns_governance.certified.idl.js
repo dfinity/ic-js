@@ -552,6 +552,20 @@ export const idlFactory = ({ IDL }) => {
     'name' : IDL.Opt(IDL.Text),
     'description' : IDL.Opt(IDL.Text),
   });
+  const GetMetricsRequest = IDL.Record({
+    'time_window_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const Metrics = IDL.Record({
+    'last_ledger_block_timestamp' : IDL.Opt(IDL.Nat64),
+    'num_recently_submitted_proposals' : IDL.Opt(IDL.Nat64),
+  });
+  const GetMetricsResult = IDL.Variant({
+    'Ok' : Metrics,
+    'Err' : GovernanceError,
+  });
+  const GetMetricsResponse = IDL.Record({
+    'get_metrics_result' : IDL.Opt(GetMetricsResult),
+  });
   const GetModeResponse = IDL.Record({ 'mode' : IDL.Opt(IDL.Int32) });
   const GetNeuron = IDL.Record({ 'neuron_id' : IDL.Opt(NeuronId) });
   const Result = IDL.Variant({ 'Error' : GovernanceError, 'Neuron' : Neuron });
@@ -722,22 +736,31 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Record({})],
         [],
       ),
-    'get_build_metadata' : IDL.Func([], [IDL.Text], []),
-    'get_latest_reward_event' : IDL.Func([], [RewardEvent], []),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
+    'get_latest_reward_event' : IDL.Func([], [RewardEvent], ['query']),
     'get_maturity_modulation' : IDL.Func(
         [IDL.Record({})],
         [GetMaturityModulationResponse],
         [],
       ),
-    'get_metadata' : IDL.Func([IDL.Record({})], [GetMetadataResponse], []),
-    'get_mode' : IDL.Func([IDL.Record({})], [GetModeResponse], []),
+    'get_metadata' : IDL.Func(
+        [IDL.Record({})],
+        [GetMetadataResponse],
+        ['query'],
+      ),
+    'get_metrics' : IDL.Func(
+        [GetMetricsRequest],
+        [GetMetricsResponse],
+        ['composite_query'],
+      ),
+    'get_mode' : IDL.Func([IDL.Record({})], [GetModeResponse], ['query']),
     'get_nervous_system_parameters' : IDL.Func(
         [IDL.Null],
         [NervousSystemParameters],
-        [],
+        ['query'],
       ),
-    'get_neuron' : IDL.Func([GetNeuron], [GetNeuronResponse], []),
-    'get_proposal' : IDL.Func([GetProposal], [GetProposalResponse], []),
+    'get_neuron' : IDL.Func([GetNeuron], [GetNeuronResponse], ['query']),
+    'get_proposal' : IDL.Func([GetProposal], [GetProposalResponse], ['query']),
     'get_root_canister_status' : IDL.Func(
         [IDL.Null],
         [CanisterStatusResultV2],
@@ -746,27 +769,35 @@ export const idlFactory = ({ IDL }) => {
     'get_running_sns_version' : IDL.Func(
         [IDL.Record({})],
         [GetRunningSnsVersionResponse],
-        [],
+        ['query'],
       ),
     'get_sns_initialization_parameters' : IDL.Func(
         [IDL.Record({})],
         [GetSnsInitializationParametersResponse],
-        [],
+        ['query'],
       ),
-    'get_timers' : IDL.Func([IDL.Record({})], [GetTimersResponse], []),
+    'get_timers' : IDL.Func([IDL.Record({})], [GetTimersResponse], ['query']),
     'get_upgrade_journal' : IDL.Func(
         [GetUpgradeJournalRequest],
         [GetUpgradeJournalResponse],
-        [],
+        ['query'],
       ),
     'list_nervous_system_functions' : IDL.Func(
         [],
         [ListNervousSystemFunctionsResponse],
-        [],
+        ['query'],
       ),
-    'list_neurons' : IDL.Func([ListNeurons], [ListNeuronsResponse], []),
-    'list_proposals' : IDL.Func([ListProposals], [ListProposalsResponse], []),
-    'list_topics' : IDL.Func([ListTopicsRequest], [ListTopicsResponse], []),
+    'list_neurons' : IDL.Func([ListNeurons], [ListNeuronsResponse], ['query']),
+    'list_proposals' : IDL.Func(
+        [ListProposals],
+        [ListProposalsResponse],
+        ['query'],
+      ),
+    'list_topics' : IDL.Func(
+        [ListTopicsRequest],
+        [ListTopicsResponse],
+        ['query'],
+      ),
     'manage_neuron' : IDL.Func([ManageNeuron], [ManageNeuronResponse], []),
     'reset_timers' : IDL.Func([IDL.Record({})], [IDL.Record({})], []),
     'set_mode' : IDL.Func([SetMode], [IDL.Record({})], []),
