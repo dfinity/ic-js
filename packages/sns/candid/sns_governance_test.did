@@ -1,4 +1,4 @@
-// Generated from IC repo commit db0a9f6 (2025-05-22 tags: rosetta-icrc-release-1.2.2) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 2e5a2e15b1 (2025-06-05) 'rs/sns/governance/canister/governance_test.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;
@@ -256,6 +256,24 @@ type GetMetadataResponse = record {
   logo : opt text;
   name : opt text;
   description : opt text;
+};
+
+type GetMetricsRequest = record {
+  time_window_seconds : opt nat64;
+};
+
+type Metrics = record {
+  num_recently_submitted_proposals : opt nat64;
+  last_ledger_block_timestamp : opt nat64;
+};
+
+type GetMetricsResult = variant {
+  Ok : Metrics;
+  Err : GovernanceError;
+};
+
+type GetMetricsResponse = record {
+  get_metrics_result : opt GetMetricsResult;
 };
 
 type GetModeResponse = record {
@@ -914,6 +932,7 @@ service : (Governance) -> {
   get_latest_reward_event : () -> (RewardEvent) query;
   get_maturity_modulation : (record {}) -> (GetMaturityModulationResponse);
   get_metadata : (record {}) -> (GetMetadataResponse) query;
+  get_metrics : (GetMetricsRequest) -> (GetMetricsResponse) composite_query;
   get_mode : (record {}) -> (GetModeResponse) query;
   get_nervous_system_parameters : (null) -> (NervousSystemParameters) query;
   get_neuron : (GetNeuron) -> (GetNeuronResponse) query;
