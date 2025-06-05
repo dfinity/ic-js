@@ -115,22 +115,22 @@ export const idlFactory = ({ IDL }) => {
         [CreateCanisterResult],
         [],
       ),
-    'get_build_metadata' : IDL.Func([], [IDL.Text], []),
-    'get_default_subnets' : IDL.Func([], [IDL.Vec(IDL.Principal)], []),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
+    'get_default_subnets' : IDL.Func([], [IDL.Vec(IDL.Principal)], ['query']),
     'get_icp_xdr_conversion_rate' : IDL.Func(
         [],
         [IcpXdrConversionRateResponse],
-        [],
+        ['query'],
       ),
     'get_principals_authorized_to_create_canisters_to_subnets' : IDL.Func(
         [],
         [PrincipalsAuthorizedToCreateCanistersToSubnetsResponse],
-        [],
+        ['query'],
       ),
     'get_subnet_types_to_subnets' : IDL.Func(
         [],
         [SubnetTypesToSubnetsResponse],
-        [],
+        ['query'],
       ),
     'notify_create_canister' : IDL.Func(
         [NotifyCreateCanisterArg],

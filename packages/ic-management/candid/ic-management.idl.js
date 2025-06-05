@@ -360,6 +360,24 @@ export const idlFactory = ({ IDL }) => {
     'canister_id' : IDL.Principal,
   });
   const upload_chunk_result = chunk_hash;
+  const vetkd_curve = IDL.Variant({ 'bls12_381_g2' : IDL.Null });
+  const vetkd_derive_key_args = IDL.Record({
+    'context' : IDL.Vec(IDL.Nat8),
+    'key_id' : IDL.Record({ 'name' : IDL.Text, 'curve' : vetkd_curve }),
+    'input' : IDL.Vec(IDL.Nat8),
+    'transport_public_key' : IDL.Vec(IDL.Nat8),
+  });
+  const vetkd_derive_key_result = IDL.Record({
+    'encrypted_key' : IDL.Vec(IDL.Nat8),
+  });
+  const vetkd_public_key_args = IDL.Record({
+    'context' : IDL.Vec(IDL.Nat8),
+    'key_id' : IDL.Record({ 'name' : IDL.Text, 'curve' : vetkd_curve }),
+    'canister_id' : IDL.Opt(canister_id),
+  });
+  const vetkd_public_key_result = IDL.Record({
+    'public_key' : IDL.Vec(IDL.Nat8),
+  });
   return IDL.Service({
     'bitcoin_get_balance' : IDL.Func(
         [bitcoin_get_balance_args],
@@ -475,6 +493,16 @@ export const idlFactory = ({ IDL }) => {
     'uninstall_code' : IDL.Func([uninstall_code_args], [], []),
     'update_settings' : IDL.Func([update_settings_args], [], []),
     'upload_chunk' : IDL.Func([upload_chunk_args], [upload_chunk_result], []),
+    'vetkd_derive_key' : IDL.Func(
+        [vetkd_derive_key_args],
+        [vetkd_derive_key_result],
+        [],
+      ),
+    'vetkd_public_key' : IDL.Func(
+        [vetkd_public_key_args],
+        [vetkd_public_key_result],
+        [],
+      ),
   });
 };
 export const init = ({ IDL }) => { return []; };

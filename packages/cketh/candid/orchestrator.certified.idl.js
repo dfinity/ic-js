@@ -132,10 +132,10 @@ export const idlFactory = ({ IDL }) => {
     'canister_ids' : IDL.Func(
         [Erc20Contract],
         [IDL.Opt(ManagedCanisterIds)],
-        [],
+        ['query'],
       ),
     'get_canister_status' : IDL.Func([], [CanisterStatusResponse], []),
-    'get_orchestrator_info' : IDL.Func([], [OrchestratorInfo], []),
+    'get_orchestrator_info' : IDL.Func([], [OrchestratorInfo], ['query']),
   });
 };
 export const init = ({ IDL }) => {

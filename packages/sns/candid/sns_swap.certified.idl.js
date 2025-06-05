@@ -364,12 +364,12 @@ export const idlFactory = ({ IDL }) => {
     'get_auto_finalization_status' : IDL.Func(
         [IDL.Record({})],
         [GetAutoFinalizationStatusResponse],
-        [],
+        ['query'],
       ),
     'get_buyer_state' : IDL.Func(
         [GetBuyerStateRequest],
         [GetBuyerStateResponse],
-        [],
+        ['query'],
       ),
     'get_buyers_total' : IDL.Func(
         [IDL.Record({})],
@@ -384,32 +384,40 @@ export const idlFactory = ({ IDL }) => {
     'get_derived_state' : IDL.Func(
         [IDL.Record({})],
         [GetDerivedStateResponse],
-        [],
+        ['query'],
       ),
-    'get_init' : IDL.Func([IDL.Record({})], [GetInitResponse], []),
-    'get_lifecycle' : IDL.Func([IDL.Record({})], [GetLifecycleResponse], []),
-    'get_open_ticket' : IDL.Func([IDL.Record({})], [GetOpenTicketResponse], []),
+    'get_init' : IDL.Func([IDL.Record({})], [GetInitResponse], ['query']),
+    'get_lifecycle' : IDL.Func(
+        [IDL.Record({})],
+        [GetLifecycleResponse],
+        ['query'],
+      ),
+    'get_open_ticket' : IDL.Func(
+        [IDL.Record({})],
+        [GetOpenTicketResponse],
+        ['query'],
+      ),
     'get_sale_parameters' : IDL.Func(
         [IDL.Record({})],
         [GetSaleParametersResponse],
-        [],
+        ['query'],
       ),
-    'get_state' : IDL.Func([IDL.Record({})], [GetStateResponse], []),
-    'get_timers' : IDL.Func([IDL.Record({})], [GetTimersResponse], []),
+    'get_state' : IDL.Func([IDL.Record({})], [GetStateResponse], ['query']),
+    'get_timers' : IDL.Func([IDL.Record({})], [GetTimersResponse], ['query']),
     'list_community_fund_participants' : IDL.Func(
         [ListCommunityFundParticipantsRequest],
         [ListCommunityFundParticipantsResponse],
-        [],
+        ['query'],
       ),
     'list_direct_participants' : IDL.Func(
         [ListDirectParticipantsRequest],
         [ListDirectParticipantsResponse],
-        [],
+        ['query'],
       ),
     'list_sns_neuron_recipes' : IDL.Func(
         [ListSnsNeuronRecipesRequest],
         [ListSnsNeuronRecipesResponse],
-        [],
+        ['query'],
       ),
     'new_sale_ticket' : IDL.Func(
         [NewSaleTicketRequest],
