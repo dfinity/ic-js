@@ -751,6 +751,7 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'get_metadata' : IDL.Func([IDL.Record({})], [GetMetadataResponse], []),
+    'get_metrics' : IDL.Func([GetMetricsRequest], [GetMetricsResponse], []),
     'get_mode' : IDL.Func([IDL.Record({})], [GetModeResponse], []),
     'get_nervous_system_parameters' : IDL.Func(
         [IDL.Null],
