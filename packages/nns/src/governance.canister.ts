@@ -1,6 +1,7 @@
 import { Actor, type ActorSubclass, type Agent } from "@dfinity/agent";
 import {
   AccountIdentifier,
+  AccountIdentifierHex,
   checkAccountId,
   type LedgerCanister,
 } from "@dfinity/ledger-icp";
@@ -1034,20 +1035,28 @@ export class GovernanceCanister {
    * - The given percentage_to_merge is between 1 and 100 (inclusive)
    * - The neuron's id is not yet in the list of neurons with ongoing operations
    * - The e8s equivalent of the amount of maturity to disburse is more than the transaction fee.
+   *
+   * @param {Object} params
+   * @param {NeuronId} params.neuronId The id of the neuron for which to disburse maturity
+   * @param {number} params.percentageToDisburse The percentage of the neuron's maturity to disburse, between 1 and 100 (inclusive).
+   * @param {AccountIdentifierHex} [params.accountIdentifier] Optional. The account identifier to which the maturity will be disbursed. If not provided, the maturity will be disbursed to the caller's Main account.
    */
   public disburseMaturity = async ({
     neuronId,
     percentageToDisburse,
+    accountIdentifier,
   }: {
     neuronId: NeuronId;
     percentageToDisburse: number;
+    accountIdentifier?: AccountIdentifierHex;
   }): Promise<void> => {
-    // To keep it simple in this initial version, no account is provided,
-    // so the transfer occurs to the caller’s account.
     const request = toDisburseMaturityRequest({
       neuronId,
       percentageToDisburse,
+      accountIdentifier,
     });
+
+    console.log("🍏 Disbursing maturity with request:", request);
 
     await manageNeuron({
       request,
