@@ -13,6 +13,7 @@ import {
   uint8ArrayToArrayOfNumber,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
+
 import type {
   Params,
   Account as RawAccount,
@@ -121,6 +122,7 @@ import type {
   VotingPowerEconomics,
   VotingRewardParameters,
 } from "../../types/governance_converters";
+import { fromAccountIdentifier } from "./request.converters";
 
 export const toNeuronInfo = ({
   neuronId,
@@ -305,6 +307,12 @@ const toMaturityDisbursementInProgress = (
     accountToDisburseTo: nonNullish(accountToDisburseTo)
       ? toAccount(accountToDisburseTo)
       : undefined,
+    accountIdentifierToDisburseTo: maturityDisbursement
+      .account_identifier_to_disburse_to?.length
+      ? toAccountIdentifier(
+          maturityDisbursement.account_identifier_to_disburse_to[0],
+        )
+      : undefined,
     finalizeDisbursementTimestampSeconds: fromNullable(
       maturityDisbursement.finalize_disbursement_timestamp_seconds,
     ),
@@ -320,6 +328,15 @@ const toRawMaturityDisbursementInProgress = (
   amount_e8s: toNullable(maturityDisbursement.amountE8s),
   account_to_disburse_to: nonNullish(maturityDisbursement.accountToDisburseTo)
     ? toNullable(toRawAccount(maturityDisbursement.accountToDisburseTo))
+    : [],
+  account_identifier_to_disburse_to: nonNullish(
+    maturityDisbursement.accountIdentifierToDisburseTo,
+  )
+    ? [
+        fromAccountIdentifier(
+          maturityDisbursement.accountIdentifierToDisburseTo,
+        ),
+      ]
     : [],
   finalize_disbursement_timestamp_seconds: toNullable(
     maturityDisbursement.finalizeDisbursementTimestampSeconds,
@@ -703,6 +720,9 @@ const toCommand = (command: RawCommand): Command => {
         toAccount: disburseMaturity.to_account.length
           ? toAccount(disburseMaturity.to_account[0])
           : undefined,
+        toAccountIdentifier: disburseMaturity.to_account_identifier.length
+          ? toAccountIdentifier(disburseMaturity.to_account_identifier[0])
+          : undefined,
         percentageToDisburse: disburseMaturity.percentage_to_disburse,
       },
     };
@@ -1054,7 +1074,7 @@ const toNodeProvider = (nodeProvider: RawNodeProvider): NodeProvider => ({
 
 const toAmount = (amount: RawAmount): E8s => amount.e8s;
 
-const toAccountIdentifier = (
+export const toAccountIdentifier = (
   accountIdentifier: RawAccountIdentifier,
 ): AccountIdentifierHex =>
   accountIdentifierFromBytes(new Uint8Array(accountIdentifier.hash));

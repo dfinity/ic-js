@@ -290,7 +290,7 @@ export const idlFactory = ({ IDL }) => {
     'estimate_withdrawal_fee' : IDL.Func(
         [IDL.Record({ 'amount' : IDL.Opt(IDL.Nat64) })],
         [IDL.Record({ 'minter_fee' : IDL.Nat64, 'bitcoin_fee' : IDL.Nat64 })],
-        [],
+        ['query'],
       ),
     'get_btc_address' : IDL.Func(
         [
@@ -303,11 +303,11 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'get_canister_status' : IDL.Func([], [CanisterStatusResponse], []),
-    'get_deposit_fee' : IDL.Func([], [IDL.Nat64], []),
+    'get_deposit_fee' : IDL.Func([], [IDL.Nat64], ['query']),
     'get_events' : IDL.Func(
         [IDL.Record({ 'start' : IDL.Nat64, 'length' : IDL.Nat64 })],
         [IDL.Vec(Event)],
-        [],
+        ['query'],
       ),
     'get_known_utxos' : IDL.Func(
         [
@@ -317,9 +317,9 @@ export const idlFactory = ({ IDL }) => {
           }),
         ],
         [IDL.Vec(Utxo)],
-        [],
+        ['query'],
       ),
-    'get_minter_info' : IDL.Func([], [MinterInfo], []),
+    'get_minter_info' : IDL.Func([], [MinterInfo], ['query']),
     'get_withdrawal_account' : IDL.Func([], [Account], []),
     'retrieve_btc' : IDL.Func(
         [RetrieveBtcArgs],
@@ -329,12 +329,12 @@ export const idlFactory = ({ IDL }) => {
     'retrieve_btc_status' : IDL.Func(
         [IDL.Record({ 'block_index' : IDL.Nat64 })],
         [RetrieveBtcStatus],
-        [],
+        ['query'],
       ),
     'retrieve_btc_status_v2' : IDL.Func(
         [IDL.Record({ 'block_index' : IDL.Nat64 })],
         [RetrieveBtcStatusV2],
-        [],
+        ['query'],
       ),
     'retrieve_btc_status_v2_by_account' : IDL.Func(
         [IDL.Opt(Account)],
@@ -346,7 +346,7 @@ export const idlFactory = ({ IDL }) => {
             })
           ),
         ],
-        [],
+        ['query'],
       ),
     'retrieve_btc_with_approval' : IDL.Func(
         [RetrieveBtcWithApprovalArgs],

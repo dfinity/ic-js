@@ -228,6 +228,13 @@ export interface GetMetadataResponse {
   name: [] | [string];
   description: [] | [string];
 }
+export interface GetMetricsRequest {
+  time_window_seconds: [] | [bigint];
+}
+export interface GetMetricsResponse {
+  get_metrics_result: [] | [GetMetricsResult];
+}
+export type GetMetricsResult = { Ok: Metrics } | { Err: GovernanceError };
 export interface GetModeResponse {
   mode: [] | [number];
 }
@@ -395,6 +402,10 @@ export interface MergeMaturity {
 export interface MergeMaturityResponse {
   merged_maturity_e8s: bigint;
   new_stake_e8s: bigint;
+}
+export interface Metrics {
+  last_ledger_block_timestamp: [] | [bigint];
+  num_recently_submitted_proposals: [] | [bigint];
 }
 export interface MintSnsTokens {
   to_principal: [] | [Principal];
@@ -762,6 +773,7 @@ export interface _SERVICE {
   get_latest_reward_event: ActorMethod<[], RewardEvent>;
   get_maturity_modulation: ActorMethod<[{}], GetMaturityModulationResponse>;
   get_metadata: ActorMethod<[{}], GetMetadataResponse>;
+  get_metrics: ActorMethod<[GetMetricsRequest], GetMetricsResponse>;
   get_mode: ActorMethod<[{}], GetModeResponse>;
   get_nervous_system_parameters: ActorMethod<[null], NervousSystemParameters>;
   get_neuron: ActorMethod<[GetNeuron], GetNeuronResponse>;

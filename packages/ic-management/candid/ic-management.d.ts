@@ -353,6 +353,24 @@ export interface utxo {
   value: satoshi;
   outpoint: outpoint;
 }
+export type vetkd_curve = { bls12_381_g2: null };
+export interface vetkd_derive_key_args {
+  context: Uint8Array | number[];
+  key_id: { name: string; curve: vetkd_curve };
+  input: Uint8Array | number[];
+  transport_public_key: Uint8Array | number[];
+}
+export interface vetkd_derive_key_result {
+  encrypted_key: Uint8Array | number[];
+}
+export interface vetkd_public_key_args {
+  context: Uint8Array | number[];
+  key_id: { name: string; curve: vetkd_curve };
+  canister_id: [] | [canister_id];
+}
+export interface vetkd_public_key_result {
+  public_key: Uint8Array | number[];
+}
 export type wasm_module = Uint8Array | number[];
 export interface _SERVICE {
   bitcoin_get_balance: ActorMethod<
@@ -434,6 +452,14 @@ export interface _SERVICE {
   uninstall_code: ActorMethod<[uninstall_code_args], undefined>;
   update_settings: ActorMethod<[update_settings_args], undefined>;
   upload_chunk: ActorMethod<[upload_chunk_args], upload_chunk_result>;
+  vetkd_derive_key: ActorMethod<
+    [vetkd_derive_key_args],
+    vetkd_derive_key_result
+  >;
+  vetkd_public_key: ActorMethod<
+    [vetkd_public_key_args],
+    vetkd_public_key_result
+  >;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
 export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];
