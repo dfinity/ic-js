@@ -1,4 +1,3 @@
-import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import type {
   MaturityDisbursement as RawMaturityDisbursement,
@@ -12,6 +11,7 @@ import type {
   Neuron,
   NeuronInfo,
 } from "../../types/governance_converters";
+import { fromAccountIdentifier } from "./request.converters";
 import { toNeuron, toNeuronInfo, toRawNeuron } from "./response.converters";
 
 describe("response.converters", () => {
@@ -23,9 +23,16 @@ describe("response.converters", () => {
   const state = NeuronState.Locked;
   const canisterId = MAINNET_GOVERNANCE_CANISTER_ID;
   const accountIdentifier = {
-    hash: Uint8Array.from([1, 2, 3, 4, 5, 6]),
+    hash: Uint8Array.from(Array.from({ length: 32 }, (_, i) => i)),
   };
-  const accountIdentifierHex = "010203040506";
+  const accountIdentifierHex =
+    "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f";
+  // Encoding of the accountIdentifier hash is not symmetrical,
+  // so we need to remove the first 4 bytes which is a checksum
+  // (Identity = [4-byte crc32 checksum + 28-byte blob])
+  const accountIdentifierWithoutChecksum = {
+    hash: accountIdentifier.hash.subarray(4),
+  };
 
   const defaultCandidNeuron: RawNeuron = {
     id: [{ id: neuronId }],
@@ -427,6 +434,14 @@ describe("response.converters", () => {
     });
   });
 
+  describe("fromAccountIdentifier", () => {
+    it("should convert account identifier hex string to bytes", () => {
+      expect(fromAccountIdentifier(accountIdentifierHex)).toEqual(
+        accountIdentifierWithoutChecksum,
+      );
+    });
+  });
+
   describe("toRawNeuron", () => {
     it("should convert a default ic-js Neuron to candid Neuron", () => {
       expect(
@@ -518,12 +533,7 @@ describe("response.converters", () => {
             {
               ...testRawMaturityDisbursementWithAccountIdentifier,
               account_identifier_to_disburse_to: [
-                {
-                  // Encoding of the accountIdentifier is not symmetrical,
-                  // so we need to remove the first 4 bytes which is a checksum
-                  // (Identity = [4-byte crc32 checksum + 28-byte blob])
-                  hash: accountIdentifierToBytes(accountIdentifierHex),
-                },
+                accountIdentifierWithoutChecksum,
               ],
             },
           ],
