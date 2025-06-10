@@ -75,11 +75,11 @@ export const idlFactory = ({ IDL }) => {
         [GetTransactionsResult],
         [],
       ),
-    'ledger_id' : IDL.Func([], [IDL.Principal], []),
+    'ledger_id' : IDL.Func([], [IDL.Principal], ['query']),
     'list_subaccounts' : IDL.Func(
         [ListSubaccountsArgs],
         [IDL.Vec(SubAccount)],
-        [],
+        ['query'],
       ),
   });
 };

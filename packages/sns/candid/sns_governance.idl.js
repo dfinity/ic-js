@@ -552,6 +552,20 @@ export const idlFactory = ({ IDL }) => {
     'name' : IDL.Opt(IDL.Text),
     'description' : IDL.Opt(IDL.Text),
   });
+  const GetMetricsRequest = IDL.Record({
+    'time_window_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const Metrics = IDL.Record({
+    'last_ledger_block_timestamp' : IDL.Opt(IDL.Nat64),
+    'num_recently_submitted_proposals' : IDL.Opt(IDL.Nat64),
+  });
+  const GetMetricsResult = IDL.Variant({
+    'Ok' : Metrics,
+    'Err' : GovernanceError,
+  });
+  const GetMetricsResponse = IDL.Record({
+    'get_metrics_result' : IDL.Opt(GetMetricsResult),
+  });
   const GetModeResponse = IDL.Record({ 'mode' : IDL.Opt(IDL.Int32) });
   const GetNeuron = IDL.Record({ 'neuron_id' : IDL.Opt(NeuronId) });
   const Result = IDL.Variant({ 'Error' : GovernanceError, 'Neuron' : Neuron });
@@ -733,6 +747,11 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Record({})],
         [GetMetadataResponse],
         ['query'],
+      ),
+    'get_metrics' : IDL.Func(
+        [GetMetricsRequest],
+        [GetMetricsResponse],
+        ['composite_query'],
       ),
     'get_mode' : IDL.Func([IDL.Record({})], [GetModeResponse], ['query']),
     'get_nervous_system_parameters' : IDL.Func(

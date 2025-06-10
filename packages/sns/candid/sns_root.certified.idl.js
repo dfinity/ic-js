@@ -154,17 +154,17 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'change_canister' : IDL.Func([ChangeCanisterRequest], [], []),
-    'get_build_metadata' : IDL.Func([], [IDL.Text], []),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
     'get_sns_canisters_summary' : IDL.Func(
         [GetSnsCanistersSummaryRequest],
         [GetSnsCanistersSummaryResponse],
         [],
       ),
-    'get_timers' : IDL.Func([IDL.Record({})], [GetTimersResponse], []),
+    'get_timers' : IDL.Func([IDL.Record({})], [GetTimersResponse], ['query']),
     'list_sns_canisters' : IDL.Func(
         [IDL.Record({})],
         [ListSnsCanistersResponse],
-        [],
+        ['query'],
       ),
     'manage_dapp_canister_settings' : IDL.Func(
         [ManageDappCanisterSettingsRequest],

@@ -111,18 +111,18 @@ export const idlFactory = ({ IDL }) => {
     'get_account_transactions' : IDL.Func(
         [GetAccountTransactionsArgs],
         [GetTransactionsResult],
-        [],
+        ['query'],
       ),
-    'get_blocks' : IDL.Func([GetBlocksRequest], [GetBlocksResponse], []),
-    'get_fee_collectors_ranges' : IDL.Func([], [FeeCollectorRanges], []),
-    'icrc1_balance_of' : IDL.Func([Account], [Tokens], []),
-    'ledger_id' : IDL.Func([], [IDL.Principal], []),
+    'get_blocks' : IDL.Func([GetBlocksRequest], [GetBlocksResponse], ['query']),
+    'get_fee_collectors_ranges' : IDL.Func([], [FeeCollectorRanges], ['query']),
+    'icrc1_balance_of' : IDL.Func([Account], [Tokens], ['query']),
+    'ledger_id' : IDL.Func([], [IDL.Principal], ['query']),
     'list_subaccounts' : IDL.Func(
         [ListSubaccountsArgs],
         [IDL.Vec(SubAccount)],
-        [],
+        ['query'],
       ),
-    'status' : IDL.Func([], [Status], []),
+    'status' : IDL.Func([], [Status], ['query']),
   });
 };
 export const init = ({ IDL }) => {

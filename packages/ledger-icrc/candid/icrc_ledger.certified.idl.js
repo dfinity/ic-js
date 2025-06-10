@@ -36,6 +36,7 @@ export const idlFactory = ({ IDL }) => {
     'metadata' : IDL.Opt(IDL.Vec(IDL.Tuple(IDL.Text, MetadataValue))),
     'change_fee_collector' : IDL.Opt(ChangeFeeCollector),
     'max_memo_length' : IDL.Opt(IDL.Nat16),
+    'index_principal' : IDL.Opt(IDL.Principal),
     'token_name' : IDL.Opt(IDL.Text),
     'feature_flags' : IDL.Opt(FeatureFlags),
   });
@@ -58,6 +59,7 @@ export const idlFactory = ({ IDL }) => {
       'controller_id' : IDL.Principal,
     }),
     'max_memo_length' : IDL.Opt(IDL.Nat16),
+    'index_principal' : IDL.Opt(IDL.Principal),
     'token_name' : IDL.Text,
     'feature_flags' : IDL.Opt(FeatureFlags),
   });
@@ -89,7 +91,11 @@ export const idlFactory = ({ IDL }) => {
   );
   const Block = Value;
   const BlockRange = IDL.Record({ 'blocks' : IDL.Vec(Block) });
-  const QueryBlockArchiveFn = IDL.Func([GetBlocksArgs], [BlockRange], []);
+  const QueryBlockArchiveFn = IDL.Func(
+      [GetBlocksArgs],
+      [BlockRange],
+      ['query'],
+    );
   const GetBlocksResponse = IDL.Record({
     'certificate' : IDL.Opt(IDL.Vec(IDL.Nat8)),
     'first_index' : BlockIndex,
@@ -159,7 +165,7 @@ export const idlFactory = ({ IDL }) => {
   const QueryArchiveFn = IDL.Func(
       [GetTransactionsRequest],
       [TransactionRange],
-      [],
+      ['query'],
     );
   const GetTransactionsResponse = IDL.Record({
     'first_index' : TxIndex,
@@ -194,6 +200,17 @@ export const idlFactory = ({ IDL }) => {
   const icrc103_get_allowances_response = IDL.Variant({
     'Ok' : IDL.Vec(Allowance103),
     'Err' : GetAllowancesError,
+  });
+  const GetIndexPrincipalError = IDL.Variant({
+    'GenericError' : IDL.Record({
+      'description' : IDL.Text,
+      'error_code' : IDL.Nat,
+    }),
+    'IndexPrincipalNotSet' : IDL.Null,
+  });
+  const GetIndexPrincipalResult = IDL.Variant({
+    'Ok' : IDL.Principal,
+    'Err' : GetIndexPrincipalError,
   });
   const Tokens = IDL.Nat;
   const StandardRecord = IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text });
@@ -358,7 +375,7 @@ export const idlFactory = ({ IDL }) => {
           'callback' : IDL.Func(
               [IDL.Vec(GetBlocksArgs)],
               [GetBlocksResult],
-              [],
+              ['query'],
             ),
         })
       ),
@@ -369,67 +386,80 @@ export const idlFactory = ({ IDL }) => {
     'hash_tree' : IDL.Vec(IDL.Nat8),
   });
   return IDL.Service({
-    'archives' : IDL.Func([], [IDL.Vec(ArchiveInfo)], []),
-    'get_blocks' : IDL.Func([GetBlocksArgs], [GetBlocksResponse], []),
-    'get_data_certificate' : IDL.Func([], [DataCertificate], []),
+    'archives' : IDL.Func([], [IDL.Vec(ArchiveInfo)], ['query']),
+    'get_blocks' : IDL.Func([GetBlocksArgs], [GetBlocksResponse], ['query']),
+    'get_data_certificate' : IDL.Func([], [DataCertificate], ['query']),
     'get_transactions' : IDL.Func(
         [GetTransactionsRequest],
         [GetTransactionsResponse],
-        [],
+        ['query'],
       ),
     'icrc103_get_allowances' : IDL.Func(
         [GetAllowancesArgs],
         [icrc103_get_allowances_response],
+        ['query'],
+      ),
+    'icrc106_get_index_principal' : IDL.Func(
         [],
+        [GetIndexPrincipalResult],
+        ['query'],
       ),
     'icrc10_supported_standards' : IDL.Func(
         [],
         [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text }))],
-        [],
+        ['query'],
       ),
-    'icrc1_balance_of' : IDL.Func([Account], [Tokens], []),
-    'icrc1_decimals' : IDL.Func([], [IDL.Nat8], []),
-    'icrc1_fee' : IDL.Func([], [Tokens], []),
+    'icrc1_balance_of' : IDL.Func([Account], [Tokens], ['query']),
+    'icrc1_decimals' : IDL.Func([], [IDL.Nat8], ['query']),
+    'icrc1_fee' : IDL.Func([], [Tokens], ['query']),
     'icrc1_metadata' : IDL.Func(
         [],
         [IDL.Vec(IDL.Tuple(IDL.Text, MetadataValue))],
-        [],
+        ['query'],
       ),
-    'icrc1_minting_account' : IDL.Func([], [IDL.Opt(Account)], []),
-    'icrc1_name' : IDL.Func([], [IDL.Text], []),
-    'icrc1_supported_standards' : IDL.Func([], [IDL.Vec(StandardRecord)], []),
-    'icrc1_symbol' : IDL.Func([], [IDL.Text], []),
-    'icrc1_total_supply' : IDL.Func([], [Tokens], []),
+    'icrc1_minting_account' : IDL.Func([], [IDL.Opt(Account)], ['query']),
+    'icrc1_name' : IDL.Func([], [IDL.Text], ['query']),
+    'icrc1_supported_standards' : IDL.Func(
+        [],
+        [IDL.Vec(StandardRecord)],
+        ['query'],
+      ),
+    'icrc1_symbol' : IDL.Func([], [IDL.Text], ['query']),
+    'icrc1_total_supply' : IDL.Func([], [Tokens], ['query']),
     'icrc1_transfer' : IDL.Func([TransferArg], [TransferResult], []),
     'icrc21_canister_call_consent_message' : IDL.Func(
         [icrc21_consent_message_request],
         [icrc21_consent_message_response],
         [],
       ),
-    'icrc2_allowance' : IDL.Func([AllowanceArgs], [Allowance], []),
+    'icrc2_allowance' : IDL.Func([AllowanceArgs], [Allowance], ['query']),
     'icrc2_approve' : IDL.Func([ApproveArgs], [ApproveResult], []),
     'icrc2_transfer_from' : IDL.Func(
         [TransferFromArgs],
         [TransferFromResult],
         [],
       ),
-    'icrc3_get_archives' : IDL.Func([GetArchivesArgs], [GetArchivesResult], []),
+    'icrc3_get_archives' : IDL.Func(
+        [GetArchivesArgs],
+        [GetArchivesResult],
+        ['query'],
+      ),
     'icrc3_get_blocks' : IDL.Func(
         [IDL.Vec(GetBlocksArgs)],
         [GetBlocksResult],
-        [],
+        ['query'],
       ),
     'icrc3_get_tip_certificate' : IDL.Func(
         [],
         [IDL.Opt(ICRC3DataCertificate)],
-        [],
+        ['query'],
       ),
     'icrc3_supported_block_types' : IDL.Func(
         [],
         [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'block_type' : IDL.Text }))],
-        [],
+        ['query'],
       ),
-    'is_ledger_ready' : IDL.Func([], [IDL.Bool], []),
+    'is_ledger_ready' : IDL.Func([], [IDL.Bool], ['query']),
   });
 };
 export const init = ({ IDL }) => {
@@ -466,6 +496,7 @@ export const init = ({ IDL }) => {
     'metadata' : IDL.Opt(IDL.Vec(IDL.Tuple(IDL.Text, MetadataValue))),
     'change_fee_collector' : IDL.Opt(ChangeFeeCollector),
     'max_memo_length' : IDL.Opt(IDL.Nat16),
+    'index_principal' : IDL.Opt(IDL.Principal),
     'token_name' : IDL.Opt(IDL.Text),
     'feature_flags' : IDL.Opt(FeatureFlags),
   });
@@ -488,6 +519,7 @@ export const init = ({ IDL }) => {
       'controller_id' : IDL.Principal,
     }),
     'max_memo_length' : IDL.Opt(IDL.Nat16),
+    'index_principal' : IDL.Opt(IDL.Principal),
     'token_name' : IDL.Text,
     'feature_flags' : IDL.Opt(FeatureFlags),
   });

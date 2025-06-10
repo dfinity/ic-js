@@ -22,11 +22,13 @@ export const idlFactory = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
+  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Account = IDL.Record({
     'owner' : IDL.Opt(IDL.Principal),
     'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
   const DisburseMaturity = IDL.Record({
+    'to_account_identifier' : IDL.Opt(AccountIdentifier),
     'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
@@ -85,7 +87,6 @@ export const idlFactory = ({ IDL }) => {
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
     'to_account' : IDL.Opt(AccountIdentifier),
@@ -607,6 +608,7 @@ export const idlFactory = ({ IDL }) => {
     'proposal_id' : IDL.Opt(ProposalId),
   });
   const MaturityDisbursement = IDL.Record({
+    'account_identifier_to_disburse_to' : IDL.Opt(AccountIdentifier),
     'timestamp_of_disbursement_seconds' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Opt(IDL.Nat64),
     'account_to_disburse_to' : IDL.Opt(Account),
@@ -939,50 +941,66 @@ export const idlFactory = ({ IDL }) => {
         [ClaimOrRefreshNeuronFromAccountResponse],
         [],
       ),
-    'get_build_metadata' : IDL.Func([], [IDL.Text], []),
-    'get_full_neuron' : IDL.Func([IDL.Nat64], [Result_2], []),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
+    'get_full_neuron' : IDL.Func([IDL.Nat64], [Result_2], ['query']),
     'get_full_neuron_by_id_or_subaccount' : IDL.Func(
         [NeuronIdOrSubaccount],
         [Result_2],
-        [],
+        ['query'],
       ),
-    'get_latest_reward_event' : IDL.Func([], [RewardEvent], []),
-    'get_metrics' : IDL.Func([], [Result_3], []),
+    'get_latest_reward_event' : IDL.Func([], [RewardEvent], ['query']),
+    'get_metrics' : IDL.Func([], [Result_3], ['query']),
     'get_monthly_node_provider_rewards' : IDL.Func([], [Result_4], []),
     'get_most_recent_monthly_node_provider_rewards' : IDL.Func(
         [],
         [IDL.Opt(MonthlyNodeProviderRewards)],
-        [],
+        ['query'],
       ),
-    'get_network_economics_parameters' : IDL.Func([], [NetworkEconomics], []),
-    'get_neuron_ids' : IDL.Func([], [IDL.Vec(IDL.Nat64)], []),
-    'get_neuron_info' : IDL.Func([IDL.Nat64], [Result_5], []),
+    'get_network_economics_parameters' : IDL.Func(
+        [],
+        [NetworkEconomics],
+        ['query'],
+      ),
+    'get_neuron_ids' : IDL.Func([], [IDL.Vec(IDL.Nat64)], ['query']),
+    'get_neuron_info' : IDL.Func([IDL.Nat64], [Result_5], ['query']),
     'get_neuron_info_by_id_or_subaccount' : IDL.Func(
         [NeuronIdOrSubaccount],
         [Result_5],
-        [],
+        ['query'],
       ),
     'get_neurons_fund_audit_info' : IDL.Func(
         [GetNeuronsFundAuditInfoRequest],
         [GetNeuronsFundAuditInfoResponse],
-        [],
+        ['query'],
       ),
-    'get_node_provider_by_caller' : IDL.Func([IDL.Null], [Result_7], []),
-    'get_pending_proposals' : IDL.Func([], [IDL.Vec(ProposalInfo)], []),
-    'get_proposal_info' : IDL.Func([IDL.Nat64], [IDL.Opt(ProposalInfo)], []),
-    'get_restore_aging_summary' : IDL.Func([], [RestoreAgingSummary], []),
-    'list_known_neurons' : IDL.Func([], [ListKnownNeuronsResponse], []),
-    'list_neurons' : IDL.Func([ListNeurons], [ListNeuronsResponse], []),
+    'get_node_provider_by_caller' : IDL.Func([IDL.Null], [Result_7], ['query']),
+    'get_pending_proposals' : IDL.Func([], [IDL.Vec(ProposalInfo)], ['query']),
+    'get_proposal_info' : IDL.Func(
+        [IDL.Nat64],
+        [IDL.Opt(ProposalInfo)],
+        ['query'],
+      ),
+    'get_restore_aging_summary' : IDL.Func(
+        [],
+        [RestoreAgingSummary],
+        ['query'],
+      ),
+    'list_known_neurons' : IDL.Func([], [ListKnownNeuronsResponse], ['query']),
+    'list_neurons' : IDL.Func([ListNeurons], [ListNeuronsResponse], ['query']),
     'list_node_provider_rewards' : IDL.Func(
         [ListNodeProviderRewardsRequest],
         [ListNodeProviderRewardsResponse],
-        [],
+        ['query'],
       ),
-    'list_node_providers' : IDL.Func([], [ListNodeProvidersResponse], []),
+    'list_node_providers' : IDL.Func(
+        [],
+        [ListNodeProvidersResponse],
+        ['query'],
+      ),
     'list_proposals' : IDL.Func(
         [ListProposalInfo],
         [ListProposalInfoResponse],
-        [],
+        ['query'],
       ),
     'manage_neuron' : IDL.Func(
         [ManageNeuronRequest],
@@ -1030,11 +1048,13 @@ export const init = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
+  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Account = IDL.Record({
     'owner' : IDL.Opt(IDL.Principal),
     'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
   const DisburseMaturity = IDL.Record({
+    'to_account_identifier' : IDL.Opt(AccountIdentifier),
     'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
@@ -1093,7 +1113,6 @@ export const init = ({ IDL }) => {
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
     'to_account' : IDL.Opt(AccountIdentifier),
@@ -1615,6 +1634,7 @@ export const init = ({ IDL }) => {
     'proposal_id' : IDL.Opt(ProposalId),
   });
   const MaturityDisbursement = IDL.Record({
+    'account_identifier_to_disburse_to' : IDL.Opt(AccountIdentifier),
     'timestamp_of_disbursement_seconds' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Opt(IDL.Nat64),
     'account_to_disburse_to' : IDL.Opt(Account),
