@@ -1,8 +1,8 @@
 import { Actor, type ActorSubclass, type Agent } from "@dfinity/agent";
 import {
   AccountIdentifier,
-  AccountIdentifierHex,
   checkAccountId,
+  type AccountIdentifierHex,
   type LedgerCanister,
 } from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
