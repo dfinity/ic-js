@@ -2313,6 +2313,7 @@ describe("GovernanceCanister", () => {
             DisburseMaturity: {
               percentage_to_disburse: 25,
               to_account: [],
+              to_account_identifier: [],
             },
           },
         ],

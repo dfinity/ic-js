@@ -11,6 +11,7 @@ import type {
   Neuron,
   NeuronInfo,
 } from "../../types/governance_converters";
+import { fromAccountIdentifier } from "./request.converters";
 import { toNeuron, toNeuronInfo, toRawNeuron } from "./response.converters";
 
 describe("response.converters", () => {
@@ -21,6 +22,17 @@ describe("response.converters", () => {
   const dissolveDelaySeconds = 8_640_000n;
   const state = NeuronState.Locked;
   const canisterId = MAINNET_GOVERNANCE_CANISTER_ID;
+  const accountIdentifier = {
+    hash: Uint8Array.from(Array.from({ length: 32 }, (_, i) => i)),
+  };
+  const accountIdentifierHex =
+    "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f";
+  // Encoding of the accountIdentifier hash is not symmetrical,
+  // so we need to remove the first 4 bytes which is a checksum
+  // (Identity = [4-byte crc32 checksum + 28-byte blob])
+  const accountIdentifierWithoutChecksum = {
+    hash: accountIdentifier.hash.subarray(4),
+  };
 
   const defaultCandidNeuron: RawNeuron = {
     id: [{ id: neuronId }],
@@ -124,6 +136,7 @@ describe("response.converters", () => {
         subaccount: [Uint8Array.from([1, 2, 3])],
       },
     ],
+    account_identifier_to_disburse_to: [],
     finalize_disbursement_timestamp_seconds: [12n],
   };
   const testRawMaturityDisbursementWithoutSubaccount: RawMaturityDisbursement =
@@ -136,6 +149,15 @@ describe("response.converters", () => {
           subaccount: [],
         },
       ],
+      account_identifier_to_disburse_to: [],
+      finalize_disbursement_timestamp_seconds: [22n],
+    };
+  const testRawMaturityDisbursementWithAccountIdentifier: RawMaturityDisbursement =
+    {
+      timestamp_of_disbursement_seconds: [20n],
+      amount_e8s: [21n],
+      account_to_disburse_to: [],
+      account_identifier_to_disburse_to: [accountIdentifier],
       finalize_disbursement_timestamp_seconds: [22n],
     };
   const testMaturityDisbursementWithSubaccount: MaturityDisbursement = {
@@ -145,6 +167,7 @@ describe("response.converters", () => {
       owner: Principal.fromText("aaaaa-aa"),
       subaccount: [1, 2, 3],
     },
+    accountIdentifierToDisburseTo: undefined,
     finalizeDisbursementTimestampSeconds: 12n,
   };
   const testMaturityDisbursementWithoutSubaccount: MaturityDisbursement = {
@@ -154,6 +177,14 @@ describe("response.converters", () => {
       owner: Principal.fromText("aaaaa-aa"),
       subaccount: undefined,
     },
+    accountIdentifierToDisburseTo: undefined,
+    finalizeDisbursementTimestampSeconds: 22n,
+  };
+  const testMaturityDisbursementWithAccountIdentifier: MaturityDisbursement = {
+    timestampOfDisbursementSeconds: 20n,
+    amountE8s: 21n,
+    accountToDisburseTo: undefined,
+    accountIdentifierToDisburseTo: accountIdentifierHex,
     finalizeDisbursementTimestampSeconds: 22n,
   };
 
@@ -343,6 +374,7 @@ describe("response.converters", () => {
                   timestamp_of_disbursement_seconds: [],
                   amount_e8s: [],
                   account_to_disburse_to: [],
+                  account_identifier_to_disburse_to: [],
                   finalize_disbursement_timestamp_seconds: [],
                 },
               ],
@@ -382,6 +414,31 @@ describe("response.converters", () => {
           testMaturityDisbursementWithoutSubaccount,
         ],
       });
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            maturity_disbursements_in_progress: [
+              [testRawMaturityDisbursementWithAccountIdentifier],
+            ],
+          },
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        maturityDisbursementsInProgress: [
+          testMaturityDisbursementWithAccountIdentifier,
+        ],
+      });
+    });
+  });
+
+  describe("fromAccountIdentifier", () => {
+    it("should convert account identifier hex string to bytes", () => {
+      expect(fromAccountIdentifier(accountIdentifierHex)).toEqual(
+        accountIdentifierWithoutChecksum,
+      );
     });
   });
 
@@ -455,6 +512,30 @@ describe("response.converters", () => {
           [
             testRawMaturityDisbursementWithSubaccount,
             testRawMaturityDisbursementWithoutSubaccount,
+          ],
+        ],
+      });
+
+      expect(
+        toRawNeuron({
+          neuron: {
+            ...defaultNeuron,
+            maturityDisbursementsInProgress: [
+              testMaturityDisbursementWithAccountIdentifier,
+            ],
+          },
+          account: new Uint8Array(),
+        }),
+      ).toEqual({
+        ...defaultCandidNeuron,
+        maturity_disbursements_in_progress: [
+          [
+            {
+              ...testRawMaturityDisbursementWithAccountIdentifier,
+              account_identifier_to_disburse_to: [
+                accountIdentifierWithoutChecksum,
+              ],
+            },
           ],
         ],
       });
