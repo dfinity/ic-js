@@ -666,6 +666,9 @@ const fromCommand = (command: ManageNeuronCommandRequest): RawCommand => {
         to_account: disburseMaturity.toAccount
           ? [fromAccount(disburseMaturity.toAccount)]
           : [],
+        to_account_identifier: nonNullish(disburseMaturity.toAccountIdentifier)
+          ? [fromAccountIdentifier(disburseMaturity.toAccountIdentifier)]
+          : [],
         percentage_to_disburse: disburseMaturity.percentageToDisburse,
       },
     };
@@ -891,7 +894,7 @@ const fromAmount = (amount: E8s): Amount => ({
   e8s: amount,
 });
 
-const fromAccountIdentifier = (
+export const fromAccountIdentifier = (
   accountIdentifier: AccountIdentifierHex,
 ): RawAccountIdentifier => ({
   hash: accountIdentifierToBytes(accountIdentifier),
@@ -1469,9 +1472,11 @@ export const toDisburseNeuronRequest = ({
 export const toDisburseMaturityRequest = ({
   neuronId,
   percentageToDisburse,
+  toAccountIdentifier,
 }: {
   neuronId: NeuronId;
   percentageToDisburse: number;
+  toAccountIdentifier?: AccountIdentifierHex;
 }): RawManageNeuron =>
   toCommand({
     neuronId,
@@ -1479,6 +1484,9 @@ export const toDisburseMaturityRequest = ({
       DisburseMaturity: {
         percentage_to_disburse: percentageToDisburse,
         to_account: [],
+        to_account_identifier: nonNullish(toAccountIdentifier)
+          ? [fromAccountIdentifier(toAccountIdentifier)]
+          : [],
       },
     },
   });
