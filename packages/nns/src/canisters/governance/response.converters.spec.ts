@@ -1,3 +1,4 @@
+import { accountIdentifierToBytes } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import type {
   MaturityDisbursement as RawMaturityDisbursement,
@@ -21,6 +22,10 @@ describe("response.converters", () => {
   const dissolveDelaySeconds = 8_640_000n;
   const state = NeuronState.Locked;
   const canisterId = MAINNET_GOVERNANCE_CANISTER_ID;
+  const accountIdentifier = {
+    hash: Uint8Array.from([1, 2, 3, 4, 5, 6]),
+  };
+  const accountIdentifierHex = "010203040506";
 
   const defaultCandidNeuron: RawNeuron = {
     id: [{ id: neuronId }],
@@ -124,6 +129,7 @@ describe("response.converters", () => {
         subaccount: [Uint8Array.from([1, 2, 3])],
       },
     ],
+    account_identifier_to_disburse_to: [],
     finalize_disbursement_timestamp_seconds: [12n],
   };
   const testRawMaturityDisbursementWithoutSubaccount: RawMaturityDisbursement =
@@ -136,6 +142,15 @@ describe("response.converters", () => {
           subaccount: [],
         },
       ],
+      account_identifier_to_disburse_to: [],
+      finalize_disbursement_timestamp_seconds: [22n],
+    };
+  const testRawMaturityDisbursementWithAccountIdentifier: RawMaturityDisbursement =
+    {
+      timestamp_of_disbursement_seconds: [20n],
+      amount_e8s: [21n],
+      account_to_disburse_to: [],
+      account_identifier_to_disburse_to: [accountIdentifier],
       finalize_disbursement_timestamp_seconds: [22n],
     };
   const testMaturityDisbursementWithSubaccount: MaturityDisbursement = {
@@ -145,6 +160,7 @@ describe("response.converters", () => {
       owner: Principal.fromText("aaaaa-aa"),
       subaccount: [1, 2, 3],
     },
+    accountIdentifierToDisburseTo: undefined,
     finalizeDisbursementTimestampSeconds: 12n,
   };
   const testMaturityDisbursementWithoutSubaccount: MaturityDisbursement = {
@@ -154,6 +170,14 @@ describe("response.converters", () => {
       owner: Principal.fromText("aaaaa-aa"),
       subaccount: undefined,
     },
+    accountIdentifierToDisburseTo: undefined,
+    finalizeDisbursementTimestampSeconds: 22n,
+  };
+  const testMaturityDisbursementWithAccountIdentifier: MaturityDisbursement = {
+    timestampOfDisbursementSeconds: 20n,
+    amountE8s: 21n,
+    accountToDisburseTo: undefined,
+    accountIdentifierToDisburseTo: accountIdentifierHex,
     finalizeDisbursementTimestampSeconds: 22n,
   };
 
@@ -343,6 +367,7 @@ describe("response.converters", () => {
                   timestamp_of_disbursement_seconds: [],
                   amount_e8s: [],
                   account_to_disburse_to: [],
+                  account_identifier_to_disburse_to: [],
                   finalize_disbursement_timestamp_seconds: [],
                 },
               ],
@@ -380,6 +405,23 @@ describe("response.converters", () => {
         maturityDisbursementsInProgress: [
           testMaturityDisbursementWithSubaccount,
           testMaturityDisbursementWithoutSubaccount,
+        ],
+      });
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            maturity_disbursements_in_progress: [
+              [testRawMaturityDisbursementWithAccountIdentifier],
+            ],
+          },
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        maturityDisbursementsInProgress: [
+          testMaturityDisbursementWithAccountIdentifier,
         ],
       });
     });
@@ -455,6 +497,35 @@ describe("response.converters", () => {
           [
             testRawMaturityDisbursementWithSubaccount,
             testRawMaturityDisbursementWithoutSubaccount,
+          ],
+        ],
+      });
+
+      expect(
+        toRawNeuron({
+          neuron: {
+            ...defaultNeuron,
+            maturityDisbursementsInProgress: [
+              testMaturityDisbursementWithAccountIdentifier,
+            ],
+          },
+          account: new Uint8Array(),
+        }),
+      ).toEqual({
+        ...defaultCandidNeuron,
+        maturity_disbursements_in_progress: [
+          [
+            {
+              ...testRawMaturityDisbursementWithAccountIdentifier,
+              account_identifier_to_disburse_to: [
+                {
+                  // Encoding of the accountIdentifier is not symmetrical,
+                  // so we need to remove the first 4 bytes which is a checksum
+                  // (Identity = [4-byte crc32 checksum + 28-byte blob])
+                  hash: accountIdentifierToBytes(accountIdentifierHex),
+                },
+              ],
+            },
           ],
         ],
       });
