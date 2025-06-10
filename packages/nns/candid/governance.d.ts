@@ -182,7 +182,6 @@ export interface Disburse {
   amount: [] | [Amount];
 }
 export interface DisburseMaturity {
-  to_account_identifier: [] | [AccountIdentifier];
   to_account: [] | [Account];
   percentage_to_disburse: number;
 }
@@ -436,7 +435,6 @@ export interface ManageNeuronResponse {
   command: [] | [Command_1];
 }
 export interface MaturityDisbursement {
-  account_identifier_to_disburse_to: [] | [AccountIdentifier];
   timestamp_of_disbursement_seconds: [] | [bigint];
   amount_e8s: [] | [bigint];
   account_to_disburse_to: [] | [Account];

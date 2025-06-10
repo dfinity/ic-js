@@ -111,7 +111,7 @@ export const idlFactory = ({ IDL }) => {
     'bitcoin_get_balance_query' : IDL.Func(
         [get_balance_request],
         [satoshi],
-        ['query'],
+        [],
       ),
     'bitcoin_get_block_headers' : IDL.Func(
         [get_block_headers_request],
@@ -131,10 +131,10 @@ export const idlFactory = ({ IDL }) => {
     'bitcoin_get_utxos_query' : IDL.Func(
         [get_utxos_request],
         [get_utxos_response],
-        ['query'],
+        [],
       ),
     'bitcoin_send_transaction' : IDL.Func([send_transaction_request], [], []),
-    'get_config' : IDL.Func([], [config], ['query']),
+    'get_config' : IDL.Func([], [config], []),
     'set_config' : IDL.Func([set_config_request], [], []),
   });
 };

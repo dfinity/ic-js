@@ -254,38 +254,38 @@ export const idlFactory = ({ IDL }) => {
     'get_allowed_principals' : IDL.Func(
         [IDL.Record({})],
         [GetAllowedPrincipalsResponse],
-        ['query'],
+        [],
       ),
     'get_deployed_sns_by_proposal_id' : IDL.Func(
         [GetDeployedSnsByProposalIdRequest],
         [GetDeployedSnsByProposalIdResponse],
-        ['query'],
+        [],
       ),
     'get_latest_sns_version_pretty' : IDL.Func(
         [IDL.Null],
         [IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text))],
-        ['query'],
+        [],
       ),
     'get_next_sns_version' : IDL.Func(
         [GetNextSnsVersionRequest],
         [GetNextSnsVersionResponse],
-        ['query'],
+        [],
       ),
     'get_proposal_id_that_added_wasm' : IDL.Func(
         [GetProposalIdThatAddedWasmRequest],
         [GetProposalIdThatAddedWasmResponse],
-        ['query'],
+        [],
       ),
     'get_sns_subnet_ids' : IDL.Func(
         [IDL.Record({})],
         [GetSnsSubnetIdsResponse],
-        ['query'],
+        [],
       ),
-    'get_wasm' : IDL.Func([GetWasmRequest], [GetWasmResponse], ['query']),
+    'get_wasm' : IDL.Func([GetWasmRequest], [GetWasmResponse], []),
     'get_wasm_metadata' : IDL.Func(
         [GetWasmMetadataRequest],
         [GetWasmMetadataResponse],
-        ['query'],
+        [],
       ),
     'insert_upgrade_path_entries' : IDL.Func(
         [InsertUpgradePathEntriesRequest],
@@ -295,12 +295,12 @@ export const idlFactory = ({ IDL }) => {
     'list_deployed_snses' : IDL.Func(
         [IDL.Record({})],
         [ListDeployedSnsesResponse],
-        ['query'],
+        [],
       ),
     'list_upgrade_steps' : IDL.Func(
         [ListUpgradeStepsRequest],
         [ListUpgradeStepsResponse],
-        ['query'],
+        [],
       ),
     'update_allowed_principals' : IDL.Func(
         [UpdateAllowedPrincipalsRequest],

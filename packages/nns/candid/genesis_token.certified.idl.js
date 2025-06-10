@@ -21,7 +21,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Result_2 = IDL.Variant({ 'Ok' : AccountState, 'Err' : IDL.Text });
   return IDL.Service({
-    'balance' : IDL.Func([IDL.Text], [IDL.Nat32], ['query']),
+    'balance' : IDL.Func([IDL.Text], [IDL.Nat32], []),
     'claim_neurons' : IDL.Func([IDL.Text], [Result], []),
     'donate_account' : IDL.Func([IDL.Text], [Result_1], []),
     'forward_whitelisted_unclaimed_accounts' : IDL.Func(
@@ -29,10 +29,10 @@ export const idlFactory = ({ IDL }) => {
         [Result_1],
         [],
       ),
-    'get_account' : IDL.Func([IDL.Text], [Result_2], ['query']),
-    'get_build_metadata' : IDL.Func([], [IDL.Text], ['query']),
-    'len' : IDL.Func([], [IDL.Nat16], ['query']),
-    'total' : IDL.Func([], [IDL.Nat32], ['query']),
+    'get_account' : IDL.Func([IDL.Text], [Result_2], []),
+    'get_build_metadata' : IDL.Func([], [IDL.Text], []),
+    'len' : IDL.Func([], [IDL.Nat16], []),
+    'total' : IDL.Func([], [IDL.Nat32], []),
   });
 };
 export const init = ({ IDL }) => { return []; };

@@ -22,13 +22,11 @@ export const idlFactory = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Account = IDL.Record({
     'owner' : IDL.Opt(IDL.Principal),
     'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
   const DisburseMaturity = IDL.Record({
-    'to_account_identifier' : IDL.Opt(AccountIdentifier),
     'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
@@ -87,6 +85,7 @@ export const idlFactory = ({ IDL }) => {
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
+  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
     'to_account' : IDL.Opt(AccountIdentifier),
@@ -608,7 +607,6 @@ export const idlFactory = ({ IDL }) => {
     'proposal_id' : IDL.Opt(ProposalId),
   });
   const MaturityDisbursement = IDL.Record({
-    'account_identifier_to_disburse_to' : IDL.Opt(AccountIdentifier),
     'timestamp_of_disbursement_seconds' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Opt(IDL.Nat64),
     'account_to_disburse_to' : IDL.Opt(Account),
@@ -1049,13 +1047,11 @@ export const init = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Account = IDL.Record({
     'owner' : IDL.Opt(IDL.Principal),
     'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
   const DisburseMaturity = IDL.Record({
-    'to_account_identifier' : IDL.Opt(AccountIdentifier),
     'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
@@ -1114,6 +1110,7 @@ export const init = ({ IDL }) => {
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
+  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
     'to_account' : IDL.Opt(AccountIdentifier),
@@ -1635,7 +1632,6 @@ export const init = ({ IDL }) => {
     'proposal_id' : IDL.Opt(ProposalId),
   });
   const MaturityDisbursement = IDL.Record({
-    'account_identifier_to_disburse_to' : IDL.Opt(AccountIdentifier),
     'timestamp_of_disbursement_seconds' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Opt(IDL.Nat64),
     'account_to_disburse_to' : IDL.Opt(Account),

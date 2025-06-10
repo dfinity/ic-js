@@ -84,26 +84,22 @@ export const idlFactory = ({ IDL }) => {
   });
   const Status = IDL.Record({ 'num_blocks_synced' : IDL.Nat64 });
   return IDL.Service({
-    'get_account_identifier_balance' : IDL.Func(
-        [IDL.Text],
-        [IDL.Nat64],
-        ['query'],
-      ),
+    'get_account_identifier_balance' : IDL.Func([IDL.Text], [IDL.Nat64], []),
     'get_account_identifier_transactions' : IDL.Func(
         [GetAccountIdentifierTransactionsArgs],
         [GetAccountIdentifierTransactionsResult],
-        ['query'],
+        [],
       ),
     'get_account_transactions' : IDL.Func(
         [GetAccountTransactionsArgs],
         [GetAccountIdentifierTransactionsResult],
-        ['query'],
+        [],
       ),
-    'get_blocks' : IDL.Func([GetBlocksRequest], [GetBlocksResponse], ['query']),
-    'http_request' : IDL.Func([HttpRequest], [HttpResponse], ['query']),
-    'icrc1_balance_of' : IDL.Func([Account], [IDL.Nat64], ['query']),
-    'ledger_id' : IDL.Func([], [IDL.Principal], ['query']),
-    'status' : IDL.Func([], [Status], ['query']),
+    'get_blocks' : IDL.Func([GetBlocksRequest], [GetBlocksResponse], []),
+    'http_request' : IDL.Func([HttpRequest], [HttpResponse], []),
+    'icrc1_balance_of' : IDL.Func([Account], [IDL.Nat64], []),
+    'ledger_id' : IDL.Func([], [IDL.Principal], []),
+    'status' : IDL.Func([], [Status], []),
   });
 };
 export const init = ({ IDL }) => {

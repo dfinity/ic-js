@@ -246,11 +246,7 @@ export const idlFactory = ({ IDL }) => {
     'Ok' : BlockRange,
     'Err' : QueryArchiveError,
   });
-  const QueryArchiveFn = IDL.Func(
-      [GetBlocksArgs],
-      [QueryArchiveResult],
-      ['query'],
-    );
+  const QueryArchiveFn = IDL.Func([GetBlocksArgs], [QueryArchiveResult], []);
   const ArchivedBlocksRange = IDL.Record({
     'callback' : QueryArchiveFn,
     'start' : BlockIndex,
@@ -272,7 +268,7 @@ export const idlFactory = ({ IDL }) => {
             'Err' : QueryArchiveError,
           }),
         ],
-        ['query'],
+        [],
       ),
     'start' : IDL.Nat64,
     'length' : IDL.Nat64,
@@ -314,70 +310,54 @@ export const idlFactory = ({ IDL }) => {
   const TransferFeeArg = IDL.Record({});
   const TransferFee = IDL.Record({ 'transfer_fee' : Tokens });
   return IDL.Service({
-    'account_balance' : IDL.Func([AccountBalanceArgs], [Tokens], ['query']),
-    'account_balance_dfx' : IDL.Func(
-        [AccountBalanceArgsDfx],
-        [Tokens],
-        ['query'],
-      ),
-    'account_identifier' : IDL.Func([Account], [AccountIdentifier], ['query']),
-    'archives' : IDL.Func([], [Archives], ['query']),
-    'decimals' : IDL.Func(
-        [],
-        [IDL.Record({ 'decimals' : IDL.Nat32 })],
-        ['query'],
-      ),
+    'account_balance' : IDL.Func([AccountBalanceArgs], [Tokens], []),
+    'account_balance_dfx' : IDL.Func([AccountBalanceArgsDfx], [Tokens], []),
+    'account_identifier' : IDL.Func([Account], [AccountIdentifier], []),
+    'archives' : IDL.Func([], [Archives], []),
+    'decimals' : IDL.Func([], [IDL.Record({ 'decimals' : IDL.Nat32 })], []),
     'icrc10_supported_standards' : IDL.Func(
         [],
         [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text }))],
-        ['query'],
-      ),
-    'icrc1_balance_of' : IDL.Func([Account], [Icrc1Tokens], ['query']),
-    'icrc1_decimals' : IDL.Func([], [IDL.Nat8], ['query']),
-    'icrc1_fee' : IDL.Func([], [Icrc1Tokens], ['query']),
-    'icrc1_metadata' : IDL.Func(
         [],
-        [IDL.Vec(IDL.Tuple(IDL.Text, Value))],
-        ['query'],
       ),
-    'icrc1_minting_account' : IDL.Func([], [IDL.Opt(Account)], ['query']),
-    'icrc1_name' : IDL.Func([], [IDL.Text], ['query']),
+    'icrc1_balance_of' : IDL.Func([Account], [Icrc1Tokens], []),
+    'icrc1_decimals' : IDL.Func([], [IDL.Nat8], []),
+    'icrc1_fee' : IDL.Func([], [Icrc1Tokens], []),
+    'icrc1_metadata' : IDL.Func([], [IDL.Vec(IDL.Tuple(IDL.Text, Value))], []),
+    'icrc1_minting_account' : IDL.Func([], [IDL.Opt(Account)], []),
+    'icrc1_name' : IDL.Func([], [IDL.Text], []),
     'icrc1_supported_standards' : IDL.Func(
         [],
         [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text }))],
-        ['query'],
+        [],
       ),
-    'icrc1_symbol' : IDL.Func([], [IDL.Text], ['query']),
-    'icrc1_total_supply' : IDL.Func([], [Icrc1Tokens], ['query']),
+    'icrc1_symbol' : IDL.Func([], [IDL.Text], []),
+    'icrc1_total_supply' : IDL.Func([], [Icrc1Tokens], []),
     'icrc1_transfer' : IDL.Func([TransferArg], [Icrc1TransferResult], []),
     'icrc21_canister_call_consent_message' : IDL.Func(
         [icrc21_consent_message_request],
         [icrc21_consent_message_response],
         [],
       ),
-    'icrc2_allowance' : IDL.Func([AllowanceArgs], [Allowance], ['query']),
+    'icrc2_allowance' : IDL.Func([AllowanceArgs], [Allowance], []),
     'icrc2_approve' : IDL.Func([ApproveArgs], [ApproveResult], []),
     'icrc2_transfer_from' : IDL.Func(
         [TransferFromArgs],
         [TransferFromResult],
         [],
       ),
-    'is_ledger_ready' : IDL.Func([], [IDL.Bool], ['query']),
-    'name' : IDL.Func([], [IDL.Record({ 'name' : IDL.Text })], ['query']),
-    'query_blocks' : IDL.Func(
-        [GetBlocksArgs],
-        [QueryBlocksResponse],
-        ['query'],
-      ),
+    'is_ledger_ready' : IDL.Func([], [IDL.Bool], []),
+    'name' : IDL.Func([], [IDL.Record({ 'name' : IDL.Text })], []),
+    'query_blocks' : IDL.Func([GetBlocksArgs], [QueryBlocksResponse], []),
     'query_encoded_blocks' : IDL.Func(
         [GetBlocksArgs],
         [QueryEncodedBlocksResponse],
-        ['query'],
+        [],
       ),
     'send_dfx' : IDL.Func([SendArgs], [BlockIndex], []),
-    'symbol' : IDL.Func([], [IDL.Record({ 'symbol' : IDL.Text })], ['query']),
+    'symbol' : IDL.Func([], [IDL.Record({ 'symbol' : IDL.Text })], []),
     'transfer' : IDL.Func([TransferArgs], [TransferResult], []),
-    'transfer_fee' : IDL.Func([TransferFeeArg], [TransferFee], ['query']),
+    'transfer_fee' : IDL.Func([TransferFeeArg], [TransferFee], []),
   });
 };
 export const init = ({ IDL }) => {

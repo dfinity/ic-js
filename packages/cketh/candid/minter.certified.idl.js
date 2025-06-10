@@ -377,7 +377,7 @@ export const idlFactory = ({ IDL }) => {
     'eip_1559_transaction_price' : IDL.Func(
         [IDL.Opt(Eip1559TransactionPriceArg)],
         [Eip1559TransactionPrice],
-        ['query'],
+        [],
       ),
     'get_canister_status' : IDL.Func([], [CanisterStatusResponse], []),
     'get_events' : IDL.Func(
@@ -388,13 +388,13 @@ export const idlFactory = ({ IDL }) => {
             'events' : IDL.Vec(Event),
           }),
         ],
-        ['query'],
+        [],
       ),
-    'get_minter_info' : IDL.Func([], [MinterInfo], ['query']),
-    'is_address_blocked' : IDL.Func([IDL.Text], [IDL.Bool], ['query']),
+    'get_minter_info' : IDL.Func([], [MinterInfo], []),
+    'is_address_blocked' : IDL.Func([IDL.Text], [IDL.Bool], []),
     'minter_address' : IDL.Func([], [IDL.Text], []),
     'retrieve_eth_status' : IDL.Func([IDL.Nat64], [RetrieveEthStatus], []),
-    'smart_contract_address' : IDL.Func([], [IDL.Text], ['query']),
+    'smart_contract_address' : IDL.Func([], [IDL.Text], []),
     'withdraw_erc20' : IDL.Func(
         [WithdrawErc20Arg],
         [
@@ -413,7 +413,7 @@ export const idlFactory = ({ IDL }) => {
     'withdrawal_status' : IDL.Func(
         [WithdrawalSearchParameter],
         [IDL.Vec(WithdrawalDetail)],
-        ['query'],
+        [],
       ),
   });
 };

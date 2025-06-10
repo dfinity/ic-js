@@ -36,7 +36,6 @@ export const idlFactory = ({ IDL }) => {
     'metadata' : IDL.Opt(IDL.Vec(IDL.Tuple(IDL.Text, MetadataValue))),
     'change_fee_collector' : IDL.Opt(ChangeFeeCollector),
     'max_memo_length' : IDL.Opt(IDL.Nat16),
-    'index_principal' : IDL.Opt(IDL.Principal),
     'token_name' : IDL.Opt(IDL.Text),
     'feature_flags' : IDL.Opt(FeatureFlags),
   });
@@ -59,7 +58,6 @@ export const idlFactory = ({ IDL }) => {
       'controller_id' : IDL.Principal,
     }),
     'max_memo_length' : IDL.Opt(IDL.Nat16),
-    'index_principal' : IDL.Opt(IDL.Principal),
     'token_name' : IDL.Text,
     'feature_flags' : IDL.Opt(FeatureFlags),
   });
@@ -200,17 +198,6 @@ export const idlFactory = ({ IDL }) => {
   const icrc103_get_allowances_response = IDL.Variant({
     'Ok' : IDL.Vec(Allowance103),
     'Err' : GetAllowancesError,
-  });
-  const GetIndexPrincipalError = IDL.Variant({
-    'GenericError' : IDL.Record({
-      'description' : IDL.Text,
-      'error_code' : IDL.Nat,
-    }),
-    'IndexPrincipalNotSet' : IDL.Null,
-  });
-  const GetIndexPrincipalResult = IDL.Variant({
-    'Ok' : IDL.Principal,
-    'Err' : GetIndexPrincipalError,
   });
   const Tokens = IDL.Nat;
   const StandardRecord = IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text });
@@ -399,11 +386,6 @@ export const idlFactory = ({ IDL }) => {
         [icrc103_get_allowances_response],
         ['query'],
       ),
-    'icrc106_get_index_principal' : IDL.Func(
-        [],
-        [GetIndexPrincipalResult],
-        ['query'],
-      ),
     'icrc10_supported_standards' : IDL.Func(
         [],
         [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text }))],
@@ -496,7 +478,6 @@ export const init = ({ IDL }) => {
     'metadata' : IDL.Opt(IDL.Vec(IDL.Tuple(IDL.Text, MetadataValue))),
     'change_fee_collector' : IDL.Opt(ChangeFeeCollector),
     'max_memo_length' : IDL.Opt(IDL.Nat16),
-    'index_principal' : IDL.Opt(IDL.Principal),
     'token_name' : IDL.Opt(IDL.Text),
     'feature_flags' : IDL.Opt(FeatureFlags),
   });
@@ -519,7 +500,6 @@ export const init = ({ IDL }) => {
       'controller_id' : IDL.Principal,
     }),
     'max_memo_length' : IDL.Opt(IDL.Nat16),
-    'index_principal' : IDL.Opt(IDL.Principal),
     'token_name' : IDL.Text,
     'feature_flags' : IDL.Opt(FeatureFlags),
   });

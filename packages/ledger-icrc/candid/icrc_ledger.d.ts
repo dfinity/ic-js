@@ -130,14 +130,6 @@ export interface GetBlocksResult {
     callback: [Principal, string];
   }>;
 }
-export type GetIndexPrincipalError =
-  | {
-      GenericError: { description: string; error_code: bigint };
-    }
-  | { IndexPrincipalNotSet: null };
-export type GetIndexPrincipalResult =
-  | { Ok: Principal }
-  | { Err: GetIndexPrincipalError };
 export interface GetTransactionsRequest {
   start: TxIndex;
   length: bigint;
@@ -193,7 +185,6 @@ export interface InitArgs {
     controller_id: Principal;
   };
   max_memo_length: [] | [number];
-  index_principal: [] | [Principal];
   token_name: string;
   feature_flags: [] | [FeatureFlags];
 }
@@ -294,7 +285,6 @@ export interface UpgradeArgs {
   metadata: [] | [Array<[string, MetadataValue]>];
   change_fee_collector: [] | [ChangeFeeCollector];
   max_memo_length: [] | [number];
-  index_principal: [] | [Principal];
   token_name: [] | [string];
   feature_flags: [] | [FeatureFlags];
 }
@@ -366,7 +356,6 @@ export interface _SERVICE {
     [GetAllowancesArgs],
     icrc103_get_allowances_response
   >;
-  icrc106_get_index_principal: ActorMethod<[], GetIndexPrincipalResult>;
   icrc10_supported_standards: ActorMethod<
     [],
     Array<{ url: string; name: string }>
