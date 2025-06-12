@@ -93,18 +93,24 @@ describe("AccountIdentifier", () => {
     ).toBe("d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8");
   });
 
-  test("rejects a hex string with an invalid check-sum", () => {
+  it("should reject a hex string with an invalid check-sum", () => {
     expect(() => {
       AccountIdentifier.fromHex(
         "bad13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8",
       );
-    }).toThrow();
+    }).toThrowError("Checksum mismatch. Expected d3e13d47, but got bad13d47.");
   });
 
-  test("rejects an invalid hex string", () => {
+  it("should reject an invalid hex string", () => {
     expect(() => {
       AccountIdentifier.fromHex("foo bar");
-    }).toThrow();
+    }).toThrowError("Checksum mismatch. Expected 00000000, but got .");
+  });
+
+  it("should reject an empty hex string", () => {
+    expect(() => {
+      AccountIdentifier.fromHex("");
+    }).toThrowError("Checksum mismatch. Expected 00000000, but got .");
   });
 
   test("can be initialized from a principal", () => {
