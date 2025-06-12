@@ -2,7 +2,7 @@ import { Principal } from "@dfinity/principal";
 import { AccountIdentifier } from "../account_identifier";
 
 export const mockAccountIdentifier = AccountIdentifier.fromHex(
-  "3e8bbceef8b9338e56a1b561a127326e6614894ab9b0739df4cc3664d40a5958",
+  "d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8",
 );
 
 export const mockPrincipalText =

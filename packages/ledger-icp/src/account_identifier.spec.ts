@@ -93,6 +93,20 @@ describe("AccountIdentifier", () => {
     ).toBe("d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8");
   });
 
+  test("rejects a hex string with an invalid check-sum", () => {
+    expect(() => {
+      AccountIdentifier.fromHex(
+        "bad13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8",
+      );
+    }).toThrow();
+  });
+
+  test("rejects an invalid hex string", () => {
+    expect(() => {
+      AccountIdentifier.fromHex("foo bar");
+    }).toThrow();
+  });
+
   test("can be initialized from a principal", () => {
     expect(
       AccountIdentifier.fromPrincipal({

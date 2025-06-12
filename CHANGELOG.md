@@ -5,6 +5,10 @@
 - Expose method `listSubaccounts` in class `IcrcIndexNgCanister`.
 - Extend the `transform` function to support `provisional_create_canister_with_cycles` when used with PocketIC.
 
+## Fix
+
+- Check the check sum in `AccountIdentifier.fromHex` in ledger-icp.
+
 # v69
 
 ## Overview
