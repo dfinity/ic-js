@@ -1,4 +1,4 @@
-import * as z from "zod";
+import { z } from "zod/v4-mini";
 
 /**
  * A URL protocol as template literal type.
@@ -30,11 +30,9 @@ export const createUrlSchema = ({
 }: {
   additionalProtocols?: UrlProtocol[];
   allowHttpLocally?: boolean;
-}): z.ZodEffects<z.ZodString, string, string> =>
-  z
-    .string()
-    .url()
-    .refine(
+}): z.ZodMiniURL =>
+  z.url().check(
+    z.refine(
       (url: string | URL): boolean => {
         try {
           const protocols = [...new Set(["https:", ...additionalProtocols])];
@@ -57,7 +55,8 @@ export const createUrlSchema = ({
       {
         message: "Invalid URL.",
       },
-    );
+    ),
+  );
 
 /**
  * Default URL schema that enforces HTTPS and allows HTTP locally.

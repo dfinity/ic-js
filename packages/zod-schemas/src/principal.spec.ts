@@ -15,7 +15,7 @@ describe("PrincipalText", () => {
     const result = PrincipalTextSchema.safeParse(invalidPrincipal);
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error.errors[0].message).toBe(
+      expect(result.error[0].message).toBe(
         "Invalid textual representation of a Principal.",
       );
     }
@@ -32,9 +32,7 @@ describe("PrincipalText", () => {
     const result = PrincipalTextSchema.safeParse(invalidPrincipal);
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error.errors[0].message).toBe(
-        "Expected string, received number",
-      );
+      expect(result.error[0].message).toBe("Expected string, received number");
     }
   });
 });
