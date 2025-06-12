@@ -1,5 +1,11 @@
 # Next version
 
+## Breaking Changes
+
+- Modify the ICP `SubAccount.fromBytes` to throw an error instead of returning one when the input length is invalid. (\*\*)
+
+(\*\*) Returning an error was likely a historical artifact. For consistency, we decided to align this behavior with other similar functions.
+
 ## Features
 
 - Expose method `listSubaccounts` in class `IcrcIndexNgCanister`.
