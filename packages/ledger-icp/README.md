@@ -132,9 +132,9 @@ const data = await metadata();
 
 ##### :gear: fromBytes
 
-| Method      | Type                                         |
-| ----------- | -------------------------------------------- |
-| `fromBytes` | `(bytes: Uint8Array) => SubAccount or Error` |
+| Method      | Type                                |
+| ----------- | ----------------------------------- |
+| `fromBytes` | `(bytes: Uint8Array) => SubAccount` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L65)
 
