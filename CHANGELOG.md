@@ -2,7 +2,7 @@
 
 ## Breaking Changes
 
-- Assert checksum when parsing ICP `AccountIdentifier` from hex. (\*)
+- Assert checksum when parsing ICP `AccountIdentifier` from hex. (\*).
 
 ## Features
 
