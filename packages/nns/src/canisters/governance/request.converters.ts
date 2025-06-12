@@ -1473,17 +1473,19 @@ export const toDisburseMaturityRequest = ({
   neuronId,
   percentageToDisburse,
   toAccountIdentifier,
+  toAccount,
 }: {
   neuronId: NeuronId;
   percentageToDisburse: number;
   toAccountIdentifier?: AccountIdentifierHex;
+  toAccount?: Account;
 }): RawManageNeuron =>
   toCommand({
     neuronId,
     command: {
       DisburseMaturity: {
         percentage_to_disburse: percentageToDisburse,
-        to_account: [],
+        to_account: nonNullish(toAccount) ? [fromAccount(toAccount)] : [],
         to_account_identifier: nonNullish(toAccountIdentifier)
           ? [fromAccountIdentifier(toAccountIdentifier)]
           : [],

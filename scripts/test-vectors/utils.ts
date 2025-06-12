@@ -137,12 +137,11 @@ const splitText = (textToSplit: string): string[] => {
         return [curr];
       }
       const lastItem = acc[acc.length - 1];
-      if (lastItem.length > 35) {
+      if (lastItem.length >= 35) {
         return [...acc, curr];
-      } else if (lastItem.length < 35) {
+      } else {
         return [...acc.slice(0, -1), `${lastItem} ${curr}`];
       }
-      return acc;
     }, [] as string[]) ?? []
   );
 };
