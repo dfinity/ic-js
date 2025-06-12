@@ -33,7 +33,6 @@ export class AccountIdentifier {
     return new AccountIdentifier(bytes);
   }
 
-
   public static fromPrincipal({
     principal,
     subAccount = SubAccount.fromID(0),
