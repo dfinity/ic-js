@@ -11,7 +11,20 @@ export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}
 
   public static fromHex(hex: string): AccountIdentifier {
-    return new AccountIdentifier(Uint8Array.from(Buffer.from(hex, "hex")));
+    const bytes = Uint8Array.from(Buffer.from(hex, "hex"));
+
+    const providedChecksum = uint8ArrayToHexString(bytes.slice(0, 4));
+
+    const hash = bytes.slice(4);
+    const expectedChecksum = uint8ArrayToHexString(bigEndianCrc32(hash));
+
+    if (providedChecksum !== expectedChecksum) {
+      throw Error(
+        `Checksum mismatch. Expected ${expectedChecksum}, but got ${providedChecksum}.`,
+      );
+    }
+
+    return new AccountIdentifier(bytes);
   }
 
   public static fromPrincipal({
