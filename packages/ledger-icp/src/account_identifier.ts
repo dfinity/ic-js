@@ -11,7 +11,15 @@ export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}
 
   public static fromHex(hex: string): AccountIdentifier {
-    return new AccountIdentifier(Uint8Array.from(Buffer.from(hex, "hex")));
+    const buffer = Uint8Array.from(Buffer.from(hex, "hex"));
+    const hash = buffer.slice(4);
+    const expectedChecksum = uint8ArrayToHexString(buffer.slice(0, 4));
+    const actualChecksum = uint8ArrayToHexString(bigEndianCrc32(hash));
+
+    if (expectedChecksum != actualChecksum) {
+      throw Error(`invalid account identifier: the check sum does not match`);
+    }
+    return new AccountIdentifier(buffer);
   }
 
   public static fromPrincipal({
