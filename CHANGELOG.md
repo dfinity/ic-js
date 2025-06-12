@@ -3,6 +3,7 @@
 ## Breaking Changes
 
 - Assert checksum when parsing ICP `AccountIdentifier` from hex. (\*).
+- Assert length equals 32 bytes when parsing ICP `AccountIdentifier` from hex. (\*).
 
 ## Features
 
