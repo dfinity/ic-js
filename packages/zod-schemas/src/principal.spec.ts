@@ -15,9 +15,13 @@ describe("PrincipalText", () => {
     const result = PrincipalTextSchema.safeParse(invalidPrincipal);
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error[0].message).toBe(
-        "Invalid textual representation of a Principal.",
-      );
+      expect(result.error.issues).toEqual([
+        {
+          code: "custom",
+          message: "Invalid textual representation of a Principal.",
+          path: [],
+        },
+      ]);
     }
   });
 
@@ -32,7 +36,14 @@ describe("PrincipalText", () => {
     const result = PrincipalTextSchema.safeParse(invalidPrincipal);
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error[0].message).toBe("Expected string, received number");
+      expect(result.error.issues).toEqual([
+        {
+          code: "invalid_type",
+          expected: "string",
+          message: "Invalid input",
+          path: [],
+        },
+      ]);
     }
   });
 });
