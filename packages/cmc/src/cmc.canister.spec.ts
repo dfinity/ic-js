@@ -1,7 +1,7 @@
 import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, type QueryParams } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   _SERVICE as CMCService,
   IcpXdrConversionRateResponse,
@@ -48,7 +48,7 @@ describe("CyclesMintingCanister", () => {
       service.get_icp_xdr_conversion_rate.mockResolvedValue(response);
 
       const cmc = await createCMC(service);
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -76,7 +76,7 @@ describe("CyclesMintingCanister", () => {
       service.get_icp_xdr_conversion_rate.mockResolvedValue(response);
 
       const cmc = await createCMC(service);
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -342,7 +342,7 @@ describe("CyclesMintingCanister", () => {
 
       const cmc = await createCMC(service);
 
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -363,7 +363,7 @@ describe("CyclesMintingCanister", () => {
 
       const cmc = await createCMC(service);
 
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -419,7 +419,7 @@ describe("CyclesMintingCanister", () => {
 
       const cmc = await createCMC(service);
 
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -440,7 +440,7 @@ describe("CyclesMintingCanister", () => {
 
       const cmc = await createCMC(service);
 
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },

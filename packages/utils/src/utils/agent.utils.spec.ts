@@ -1,5 +1,5 @@
 import { HttpAgent } from "@dfinity/agent";
-import { describe, expect } from "@jest/globals";
+import type { MockedFunction } from "vitest";
 import {
   mockAgentManagerConfig,
   mockHttpAgent,
@@ -8,19 +8,21 @@ import {
 import { mockIdentity, mockIdentity2 } from "../mocks/identity.mock";
 import { AgentManager } from "./agent.utils";
 
-jest.mock("@dfinity/agent", () => ({
+vi.mock("@dfinity/agent", () => ({
   HttpAgent: {
-    create: jest.fn(),
+    create: vi.fn(),
   },
 }));
 
 describe("AgentManager", () => {
   let agentManager: AgentManager;
-  const mockHttpAgentCreate = HttpAgent.create as jest.Mock;
+  const mockHttpAgentCreate = HttpAgent.create as MockedFunction<
+    typeof HttpAgent.create
+  >;
 
   beforeEach(() => {
     agentManager = AgentManager.create(mockAgentManagerConfig);
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     mockHttpAgentCreate.mockResolvedValueOnce(mockHttpAgent);
   });

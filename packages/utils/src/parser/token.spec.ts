@@ -1,4 +1,3 @@
-import { describe, expect, it } from "@jest/globals";
 import { FromStringToTokenError } from "../enums/token.enums";
 import { ICPToken, TokenAmount, TokenAmountV2 } from "./token";
 
