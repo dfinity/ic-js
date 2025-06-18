@@ -13,6 +13,12 @@ export class AccountIdentifier {
   public static fromHex(hex: string): AccountIdentifier {
     const bytes = Uint8Array.from(Buffer.from(hex, "hex"));
 
+    if (bytes.length !== 32) {
+      throw new Error(
+        `Invalid AccountIdentifier: expected 32 bytes, got ${bytes.length}.`,
+      );
+    }
+
     const providedChecksum = uint8ArrayToHexString(bytes.slice(0, 4));
 
     const hash = bytes.slice(4);
