@@ -108,7 +108,7 @@ Parameters:
 
 - `response`: - An array of key-value pairs representing token metadata.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L111)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/utils/ledger.utils.ts#L118)
 
 #### :gear: decodePayment
 
