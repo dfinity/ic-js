@@ -89,6 +89,13 @@ describe("ledger-utils", () => {
         decodeIcrcAccount(`${ownerText}-abcdef.${subaccountHex}`);
       expect(call).toThrow();
     });
+
+    it("should raise an error if input contains more than one '.' separator", () => {
+      const call = () => decodeIcrcAccount("aaa.bbb.ccc");
+      expect(call).toThrow(
+        "Invalid account string format. Expected at most one '.' separator.",
+      );
+    });
   });
 
   describe("encode and decode should match", () => {
