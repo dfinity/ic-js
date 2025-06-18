@@ -1,6 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { describe, expect, it } from "@jest/globals";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
+import { mockAccountIdentifier } from "./mocks/ledger.mock";
 
 describe("SubAccount", () => {
   it("only accepts 32-byte blobs", () => {
@@ -86,11 +87,9 @@ describe("SubAccount", () => {
 
 describe("AccountIdentifier", () => {
   test("can be initialized from a hex string", () => {
-    expect(
-      AccountIdentifier.fromHex(
-        "d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8",
-      ).toHex(),
-    ).toBe("d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8");
+    expect(mockAccountIdentifier.toHex()).toBe(
+      "d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8",
+    );
   });
 
   it("should reject a hex string with an invalid check-sum", () => {
