@@ -8,15 +8,15 @@ TAG=
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --tag=*)
-      TAG="${1#*=}"
-      shift
-      ;;
-    *)
-      echo "Unknown argument: $1"
-      echo "Usage: ./scripts/build-next [--tag=TAG_NAME]"
-      exit 1
-      ;;
+  --tag=*)
+    TAG="${1#*=}"
+    shift
+    ;;
+  *)
+    echo "Unknown argument: $1"
+    echo "Usage: ./scripts/build-next [--tag=TAG_NAME]"
+    exit 1
+    ;;
   esac
 done
 
