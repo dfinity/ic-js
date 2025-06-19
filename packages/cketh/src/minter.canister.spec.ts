@@ -1,7 +1,7 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   _SERVICE as CkETHMinterService,
   MinterInfo,

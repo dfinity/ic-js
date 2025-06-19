@@ -1,4 +1,3 @@
-import { describe } from "@jest/globals";
 import {
   nowInBigIntNanoSeconds,
   secondsToDuration,
@@ -234,7 +233,7 @@ describe("date.utils", () => {
   describe("nowInBigIntNanoSeconds", () => {
     it("should return the current timestamp in nanoseconds as a bigint", () => {
       const mockDateNow = 1698416400000;
-      jest.spyOn(Date, "now").mockReturnValue(mockDateNow);
+      vi.spyOn(Date, "now").mockReturnValue(mockDateNow);
 
       const expectedNanoSeconds = BigInt(mockDateNow) * BigInt(1e6);
 
