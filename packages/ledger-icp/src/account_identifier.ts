@@ -13,6 +13,12 @@ export class AccountIdentifier {
   public static fromHex(hex: string): AccountIdentifier {
     const bytes = Uint8Array.from(Buffer.from(hex, "hex"));
 
+    if (bytes.length !== 32) {
+      throw new Error(
+        `Invalid AccountIdentifier: expected 32 bytes, got ${bytes.length}.`,
+      );
+    }
+
     const providedChecksum = uint8ArrayToHexString(bytes.slice(0, 4));
 
     const hash = bytes.slice(4);
@@ -75,9 +81,9 @@ export class AccountIdentifier {
 export class SubAccount {
   private constructor(private readonly bytes: Uint8Array) {}
 
-  public static fromBytes(bytes: Uint8Array): SubAccount | Error {
-    if (bytes.length != 32) {
-      return Error("Subaccount length must be 32-bytes");
+  public static fromBytes(bytes: Uint8Array): SubAccount {
+    if (bytes.length !== 32) {
+      throw new Error("Subaccount length must be 32-bytes");
     }
 
     return new SubAccount(bytes);

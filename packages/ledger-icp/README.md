@@ -79,7 +79,7 @@ const data = await metadata();
 | --------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `fromPrincipal` | `({ principal, subAccount, }: { principal: Principal; subAccount?: SubAccount or undefined; }) => AccountIdentifier` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L30)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L36)
 
 #### Methods
 
@@ -94,7 +94,7 @@ const data = await metadata();
 | ------- | -------------- |
 | `toHex` | `() => string` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L56)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L62)
 
 ##### :gear: toUint8Array
 
@@ -102,7 +102,7 @@ const data = await metadata();
 | -------------- | ------------------ |
 | `toUint8Array` | `() => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L60)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L66)
 
 ##### :gear: toNumbers
 
@@ -110,7 +110,7 @@ const data = await metadata();
 | ----------- | ---------------- |
 | `toNumbers` | `() => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L64)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L70)
 
 ##### :gear: toAccountIdentifierHash
 
@@ -118,11 +118,11 @@ const data = await metadata();
 | ------------------------- | ----------------------------- |
 | `toAccountIdentifierHash` | `() => { hash: Uint8Array; }` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L68)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L74)
 
 ### :factory: SubAccount
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L75)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L81)
 
 #### Static Methods
 
@@ -132,11 +132,11 @@ const data = await metadata();
 
 ##### :gear: fromBytes
 
-| Method      | Type                                         |
-| ----------- | -------------------------------------------- |
-| `fromBytes` | `(bytes: Uint8Array) => SubAccount or Error` |
+| Method      | Type                                |
+| ----------- | ----------------------------------- |
+| `fromBytes` | `(bytes: Uint8Array) => SubAccount` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L78)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L84)
 
 ##### :gear: fromPrincipal
 
@@ -144,7 +144,7 @@ const data = await metadata();
 | --------------- | -------------------------------------- |
 | `fromPrincipal` | `(principal: Principal) => SubAccount` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L86)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L92)
 
 ##### :gear: fromID
 
@@ -152,7 +152,7 @@ const data = await metadata();
 | -------- | ---------------------------- |
 | `fromID` | `(id: number) => SubAccount` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L99)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L105)
 
 #### Methods
 
@@ -164,7 +164,7 @@ const data = await metadata();
 | -------------- | ------------------ |
 | `toUint8Array` | `() => Uint8Array` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L123)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L129)
 
 ### :factory: LedgerCanister
 
