@@ -65,10 +65,17 @@ const encodeCrc = ({ owner, subaccount }: Required<IcrcAccount>): string => {
  * @returns IcrcAccount { owner: Principal, subaccount?: Uint8Array }
  */
 export const decodeIcrcAccount = (accountString: string): IcrcAccount => {
-  const [principalAndMaybeCheckSum, subaccountHex] = accountString.split(".");
+  const [principalAndMaybeCheckSum, subaccountHex, ...unexpected] =
+    accountString.split(".");
 
   if (!notEmptyString(principalAndMaybeCheckSum)) {
     throw new Error("Invalid account. No string provided.");
+  }
+
+  if (unexpected.length > 0) {
+    throw new Error(
+      "Invalid account string format. Expected at most one '.' separator.",
+    );
   }
 
   if (isNullish(subaccountHex)) {

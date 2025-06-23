@@ -2,11 +2,12 @@ import { existsSync, readFileSync, writeFileSync } from "fs";
 import fetch from "node-fetch";
 import { join } from "path";
 
-// The suffix we use to publish to npm wip version of the libs
-const SUFFIX = "next";
+// The project - name of the library in the workspace - and suffix we use to publish to npm as wip version
+const [project, tag] = process.argv.slice(2);
+const suffix = tag !== undefined && tag !== "" ? tag : "next";
 
 const nextVersion = async ({ project, currentVersion }) => {
-  const version = `${currentVersion}-${SUFFIX}-${new Date()
+  const version = `${currentVersion}-${suffix}-${new Date()
     .toISOString()
     .slice(0, 10)}`;
 
@@ -25,12 +26,12 @@ const nextVersion = async ({ project, currentVersion }) => {
 };
 
 const updateVersion = async () => {
-  if (process.argv.length !== 3) {
-    console.log("Invalid arguments: node update-version.mjs nns|sns|etc.");
-    return;
+  if (project === undefined || process.argv.length > 4) {
+    console.log(
+      "Invalid arguments: node update-version.mjs nns|sns|etc. [tag]",
+    );
+    process.exit(1);
   }
-
-  const project = process.argv[2];
 
   const packagePath = join(process.cwd(), "packages", project, "package.json");
 

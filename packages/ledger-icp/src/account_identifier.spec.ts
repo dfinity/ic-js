@@ -1,6 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { describe, expect, it } from "@jest/globals";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
+import { mockAccountIdentifier } from "./mocks/ledger.mock";
 
 describe("SubAccount", () => {
   it("only accepts 32-byte blobs", () => {
@@ -92,11 +93,29 @@ describe("SubAccount", () => {
 
 describe("AccountIdentifier", () => {
   test("can be initialized from a hex string", () => {
-    expect(
+    expect(mockAccountIdentifier.toHex()).toBe(
+      "d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8",
+    );
+  });
+
+  it("should reject a hex string with an invalid check-sum", () => {
+    expect(() => {
       AccountIdentifier.fromHex(
-        "d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8",
-      ).toHex(),
-    ).toBe("d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8");
+        "bad13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8",
+      );
+    }).toThrowError("Checksum mismatch. Expected d3e13d47, but got bad13d47.");
+  });
+
+  it("should reject an invalid hex string", () => {
+    expect(() => {
+      AccountIdentifier.fromHex("foo bar");
+    }).toThrowError("Checksum mismatch. Expected 00000000, but got .");
+  });
+
+  it("should reject an empty hex string", () => {
+    expect(() => {
+      AccountIdentifier.fromHex("");
+    }).toThrowError("Checksum mismatch. Expected 00000000, but got .");
   });
 
   test("can be initialized from a principal", () => {
