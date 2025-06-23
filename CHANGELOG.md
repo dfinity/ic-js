@@ -3,6 +3,7 @@
 ## Breaking Changes
 
 - Assert checksum when parsing ICP `AccountIdentifier` from hex. (\*).
+- Assert length equals 32 bytes when parsing ICP `AccountIdentifier` from hex. (\*)
 - Modify the ICP `SubAccount.fromBytes` to throw an error instead of returning one when the input length is invalid. (\*\*)
 - Migrate `@dfinity/zod-schemas` to `zod/v4`.
 
