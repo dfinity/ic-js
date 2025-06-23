@@ -37,9 +37,9 @@ The library implements following features:
 
 Creates a Zod schema for validating URLs. By default, it validates that the URL protocol is HTTPS and allow usage of HTTP only locally.
 
-| Function          | Type                                                                                                                                                          |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `createUrlSchema` | `({ additionalProtocols, allowHttpLocally, }: { additionalProtocols?: `${string}:`[] or undefined; allowHttpLocally?: boolean or undefined; }) => ZodMiniURL` |
+| Function          | Type                                                                                                                                                      |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createUrlSchema` | `({ additionalProtocols, allowHttpLocally, }: { additionalProtocols?: `${string}:`[] or undefined; allowHttpLocally?: boolean or undefined; }) => ZodURL` |
 
 Parameters:
 
@@ -72,9 +72,9 @@ Zod schema to validate a string as a valid textual representation of a Principal
 This schema checks if the provided string can be converted into a `Principal` instance.
 If the conversion fails, validation will return an error message.
 
-| Constant              | Type                    |
-| --------------------- | ----------------------- |
-| `PrincipalTextSchema` | `ZodMiniString<string>` |
+| Constant              | Type        |
+| --------------------- | ----------- |
+| `PrincipalTextSchema` | `ZodString` |
 
 Examples:
 
@@ -89,15 +89,15 @@ console.log(result.success); // true or false
 
 Default URL schema that enforces HTTPS and allows HTTP locally.
 
-| Constant    | Type         |
-| ----------- | ------------ |
-| `UrlSchema` | `ZodMiniURL` |
+| Constant    | Type     |
+| ----------- | -------- |
+| `UrlSchema` | `ZodURL` |
 
 Examples:
 
 UrlSchema.parse("https://example.com"); // Valid
 UrlSchema.parse("http://127.0.0.1"); // Valid (localhost exception)
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L69)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L64)
 
 <!-- TSDOC_END -->
