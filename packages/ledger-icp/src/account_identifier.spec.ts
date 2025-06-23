@@ -109,13 +109,19 @@ describe("AccountIdentifier", () => {
   it("should reject an invalid hex string", () => {
     expect(() => {
       AccountIdentifier.fromHex("foo bar");
-    }).toThrowError("Checksum mismatch. Expected 00000000, but got .");
+    }).toThrowError("Invalid AccountIdentifier: expected 32 bytes, got 0.");
   });
 
   it("should reject an empty hex string", () => {
     expect(() => {
       AccountIdentifier.fromHex("");
-    }).toThrowError("Checksum mismatch. Expected 00000000, but got .");
+    }).toThrowError("Invalid AccountIdentifier: expected 32 bytes, got 0.");
+  });
+
+  it("should reject an hex string too short", () => {
+    expect(() => {
+      AccountIdentifier.fromHex("deadbeef");
+    }).toThrowError("Invalid AccountIdentifier: expected 32 bytes, got 4.");
   });
 
   test("can be initialized from a principal", () => {
