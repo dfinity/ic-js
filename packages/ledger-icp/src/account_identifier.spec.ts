@@ -5,9 +5,15 @@ import { mockAccountIdentifier } from "./mocks/ledger.mock";
 
 describe("SubAccount", () => {
   it("only accepts 32-byte blobs", () => {
-    expect(SubAccount.fromBytes(new Uint8Array([1, 2]))).toBeInstanceOf(Error);
-    expect(SubAccount.fromBytes(new Uint8Array(31))).toBeInstanceOf(Error);
-    expect(SubAccount.fromBytes(new Uint8Array(33))).toBeInstanceOf(Error);
+    expect(() => SubAccount.fromBytes(new Uint8Array([1, 2]))).toThrowError(
+      "Subaccount length must be 32-bytes",
+    );
+    expect(() => SubAccount.fromBytes(new Uint8Array(31))).toThrowError(
+      "Subaccount length must be 32-bytes",
+    );
+    expect(() => SubAccount.fromBytes(new Uint8Array(33))).toThrowError(
+      "Subaccount length must be 32-bytes",
+    );
     expect(SubAccount.fromBytes(new Uint8Array(32))).toBeInstanceOf(SubAccount);
   });
 
