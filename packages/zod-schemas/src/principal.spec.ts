@@ -40,7 +40,7 @@ describe("PrincipalText", () => {
         {
           code: "invalid_type",
           expected: "string",
-          message: "Invalid input",
+          message: "Invalid input: expected string, received number",
           path: [],
         },
       ]);
