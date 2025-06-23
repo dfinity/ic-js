@@ -3,7 +3,10 @@
 ## Breaking Changes
 
 - Assert checksum when parsing ICP `AccountIdentifier` from hex. (\*).
+- Modify the ICP `SubAccount.fromBytes` to throw an error instead of returning one when the input length is invalid. (\*\*)
 - Migrate `@dfinity/zod-schemas` to `zod/v4`.
+
+(\*\*) Returning an error was likely a historical artifact. For consistency, we decided to align this behavior with other similar functions.
 
 ## Features
 

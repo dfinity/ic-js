@@ -75,9 +75,9 @@ export class AccountIdentifier {
 export class SubAccount {
   private constructor(private readonly bytes: Uint8Array) {}
 
-  public static fromBytes(bytes: Uint8Array): SubAccount | Error {
-    if (bytes.length != 32) {
-      return Error("Subaccount length must be 32-bytes");
+  public static fromBytes(bytes: Uint8Array): SubAccount {
+    if (bytes.length !== 32) {
+      throw new Error("Subaccount length must be 32-bytes");
     }
 
     return new SubAccount(bytes);
