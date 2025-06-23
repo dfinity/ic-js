@@ -23,6 +23,9 @@
 - Modify the ICP `SubAccount.fromBytes` to throw an error instead of returning one when the input length is invalid. (\*\*)
 - Migrate `@dfinity/zod-schemas` to `zod/v4`.
 
+(\*) This fix is not a breaking change per se, but applications that previously accepted invalid account identifiers will now fail.
+Since that behavior was **incorrect**, we decided to proceed with the change anyway. If this impacts you, feel free to reach out!
+
 (\*\*) Returning an error was likely a historical artifact. For consistency, we decided to align this behavior with other similar functions.
 
 ## Features
@@ -30,9 +33,6 @@
 - Expose method `listSubaccounts` in class `IcrcIndexNgCanister`.
 - Extend the `transform` function to support `provisional_create_canister_with_cycles` when used with PocketIC.
 - Add validation to `decodeIcrcAccount` to reject account strings with more than one `.` separator.
-
-(\*) This fix is not a breaking change per se, but applications that previously accepted invalid account identifiers will now fail.
-Since that behavior was **incorrect**, we decided to proceed with the change anyway. If this impacts you, feel free to reach out!
 
 # v69
 
