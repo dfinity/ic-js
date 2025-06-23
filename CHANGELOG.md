@@ -3,7 +3,7 @@
 ## Breaking Changes
 
 - Assert checksum when parsing ICP `AccountIdentifier` from hex. (\*).
-- Migrate `@dfinity/zod-schemas` to `zod/v4-mini`.
+- Migrate `@dfinity/zod-schemas` to `zod/v4`.
 
 ## Features
 
