@@ -14,6 +14,7 @@ export type Action =
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
+  | { RegisterExtension: RegisterExtension }
   | { UpgradeSnsToNextVersion: {} }
   | { RegisterDappCanisters: RegisterDappCanisters }
   | { TransferSnsTreasuryFunds: TransferSnsTreasuryFunds }
@@ -189,6 +190,9 @@ export type DissolveState =
 export interface ExecuteGenericNervousSystemFunction {
   function_id: bigint;
   payload: Uint8Array | number[];
+}
+export interface ExtensionInit {
+  value: [] | [PreciseValue];
 }
 export interface FinalizeDisburseMaturity {
   amount_to_be_disbursed_e8s: bigint;
@@ -519,6 +523,14 @@ export interface PendingVersion {
 export interface Percentage {
   basis_points: [] | [bigint];
 }
+export type PreciseValue =
+  | { Int: bigint }
+  | { Map: Array<[string, PreciseValue]> }
+  | { Nat: bigint }
+  | { Blob: Uint8Array | number[] }
+  | { Bool: boolean }
+  | { Text: string }
+  | { Array: Array<PreciseValue> };
 export interface Principals {
   principals: Array<Principal>;
 }
@@ -564,6 +576,10 @@ export interface QueryStats {
 }
 export interface RegisterDappCanisters {
   canister_ids: Array<Principal>;
+}
+export interface RegisterExtension {
+  chunked_canister_wasm: [] | [ChunkedCanisterWasm];
+  extension_init: [] | [ExtensionInit];
 }
 export interface RegisterVote {
   vote: number;

@@ -1,5 +1,6 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_governance.did */
 export const idlFactory = ({ IDL }) => {
+  const PreciseValue = IDL.Rec();
   const Timers = IDL.Record({
     'last_spawned_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
@@ -247,6 +248,27 @@ export const idlFactory = ({ IDL }) => {
   const SetTopicsForCustomProposals = IDL.Record({
     'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
   });
+  const ChunkedCanisterWasm = IDL.Record({
+    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
+    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+    'store_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  PreciseValue.fill(
+    IDL.Variant({
+      'Int' : IDL.Int64,
+      'Map' : IDL.Vec(IDL.Tuple(IDL.Text, PreciseValue)),
+      'Nat' : IDL.Nat64,
+      'Blob' : IDL.Vec(IDL.Nat8),
+      'Bool' : IDL.Bool,
+      'Text' : IDL.Text,
+      'Array' : IDL.Vec(PreciseValue),
+    })
+  );
+  const ExtensionInit = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
+  const RegisterExtension = IDL.Record({
+    'chunked_canister_wasm' : IDL.Opt(ChunkedCanisterWasm),
+    'extension_init' : IDL.Opt(ExtensionInit),
+  });
   const RegisterDappCanisters = IDL.Record({
     'canister_ids' : IDL.Vec(IDL.Principal),
   });
@@ -256,11 +278,6 @@ export const idlFactory = ({ IDL }) => {
     'to_subaccount' : IDL.Opt(Subaccount),
     'memo' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Nat64,
-  });
-  const ChunkedCanisterWasm = IDL.Record({
-    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
-    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
-    'store_canister_id' : IDL.Opt(IDL.Principal),
   });
   const UpgradeSnsControlledCanister = IDL.Record({
     'new_canister_wasm' : IDL.Vec(IDL.Nat8),
@@ -305,6 +322,7 @@ export const idlFactory = ({ IDL }) => {
     'ManageDappCanisterSettings' : ManageDappCanisterSettings,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'SetTopicsForCustomProposals' : SetTopicsForCustomProposals,
+    'RegisterExtension' : RegisterExtension,
     'UpgradeSnsToNextVersion' : IDL.Record({}),
     'RegisterDappCanisters' : RegisterDappCanisters,
     'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
@@ -804,6 +822,7 @@ export const idlFactory = ({ IDL }) => {
   });
 };
 export const init = ({ IDL }) => {
+  const PreciseValue = IDL.Rec();
   const Timers = IDL.Record({
     'last_spawned_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
@@ -1051,6 +1070,27 @@ export const init = ({ IDL }) => {
   const SetTopicsForCustomProposals = IDL.Record({
     'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
   });
+  const ChunkedCanisterWasm = IDL.Record({
+    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
+    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+    'store_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  PreciseValue.fill(
+    IDL.Variant({
+      'Int' : IDL.Int64,
+      'Map' : IDL.Vec(IDL.Tuple(IDL.Text, PreciseValue)),
+      'Nat' : IDL.Nat64,
+      'Blob' : IDL.Vec(IDL.Nat8),
+      'Bool' : IDL.Bool,
+      'Text' : IDL.Text,
+      'Array' : IDL.Vec(PreciseValue),
+    })
+  );
+  const ExtensionInit = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
+  const RegisterExtension = IDL.Record({
+    'chunked_canister_wasm' : IDL.Opt(ChunkedCanisterWasm),
+    'extension_init' : IDL.Opt(ExtensionInit),
+  });
   const RegisterDappCanisters = IDL.Record({
     'canister_ids' : IDL.Vec(IDL.Principal),
   });
@@ -1060,11 +1100,6 @@ export const init = ({ IDL }) => {
     'to_subaccount' : IDL.Opt(Subaccount),
     'memo' : IDL.Opt(IDL.Nat64),
     'amount_e8s' : IDL.Nat64,
-  });
-  const ChunkedCanisterWasm = IDL.Record({
-    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
-    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
-    'store_canister_id' : IDL.Opt(IDL.Principal),
   });
   const UpgradeSnsControlledCanister = IDL.Record({
     'new_canister_wasm' : IDL.Vec(IDL.Nat8),
@@ -1109,6 +1144,7 @@ export const init = ({ IDL }) => {
     'ManageDappCanisterSettings' : ManageDappCanisterSettings,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'SetTopicsForCustomProposals' : SetTopicsForCustomProposals,
+    'RegisterExtension' : RegisterExtension,
     'UpgradeSnsToNextVersion' : IDL.Record({}),
     'RegisterDappCanisters' : RegisterDappCanisters,
     'TransferSnsTreasuryFunds' : TransferSnsTreasuryFunds,
