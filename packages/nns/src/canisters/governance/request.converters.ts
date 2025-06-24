@@ -9,7 +9,7 @@ import {
   isNullish,
   nonNullish,
   toNullable,
-  type Nullable
+  type Nullable,
 } from "@dfinity/utils";
 import type {
   Amount,

@@ -12,7 +12,7 @@ import {
   toNullable,
   uint8ArrayToArrayOfNumber,
   uint8ArrayToHexString,
-  type Nullable
+  type Nullable,
 } from "@dfinity/utils";
 
 import type {
