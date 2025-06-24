@@ -13,6 +13,7 @@ import {
   isNullish,
   nonNullish,
   uint8ArrayToBigInt,
+  type Nullable
 } from "@dfinity/utils";
 import randomBytes from "randombytes";
 import type {
@@ -673,7 +674,7 @@ export class GovernanceCanister {
     proposalId: bigint;
     certified?: boolean;
   }): Promise<ProposalInfo | undefined> => {
-    const [proposalInfo]: [] | [RawProposalInfo] =
+    const [proposalInfo]:Nullable<RawProposalInfo> =
       await this.getGovernanceService(certified).get_proposal_info(proposalId);
     return proposalInfo ? toProposalInfo(proposalInfo) : undefined;
   };
