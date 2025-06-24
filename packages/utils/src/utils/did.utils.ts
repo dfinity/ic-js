@@ -1,6 +1,6 @@
+import { Nullable, NullishNullable } from "../types/did.utils";
 import { assertNonNullish } from "./asserts.utils";
 import { nonNullish } from "./nullish.utils";
-import { Nullable, NullishNullable } from "../types/did.utils";
 
 /**
  * Converts a value into a Candid-style variant representation of an optional value.
@@ -19,7 +19,8 @@ export const toNullable = <T>(value?: T | null): Nullable<T> =>
  * @param {Nullable<T>} value - A Candid-style variant representing an optional value.
  * @returns {T | undefined} The extracted value, or `undefined` if the array is empty.
  */
-export const fromNullable = <T>(value: Nullable<T>): T | undefined => value?.[0];
+export const fromNullable = <T>(value: Nullable<T>): T | undefined =>
+  value?.[0];
 
 /**
  * Extracts the value from a Candid-style variant representation of an optional value,
