@@ -1,4 +1,4 @@
-import { Nullable, NullishNullable } from "../types/did.utils";
+import type { Nullable, NullishNullable } from "../types/did.utils";
 import { assertNonNullish } from "./asserts.utils";
 import { nonNullish } from "./nullish.utils";
 
