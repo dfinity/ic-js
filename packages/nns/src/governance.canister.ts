@@ -49,6 +49,7 @@ import {
   toRegisterVoteRequest,
   toRemoveHotkeyRequest,
   toSetDissolveDelayRequest,
+  toSetFollowingRequest,
   toSetVisibilityRequest,
   toSpawnNeuronRequest,
   toSplitRawRequest,
@@ -82,6 +83,7 @@ import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
   ClaimOrRefreshNeuronRequest,
   FollowRequest,
+  FolloweesForTopic,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
@@ -1055,6 +1057,28 @@ export class GovernanceCanister {
       percentageToDisburse,
       toAccountIdentifier,
     });
+
+    await manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Set the following topics for a neuron.
+   *
+   * @param {Object} params
+   * @param {NeuronId} params.neuronId The id of the neuron for which to set the following topics
+   * @param {Array<FolloweesForTopic>} params.topicFollowing The topics and the followees for each topic that the neuron should follow.
+   */
+  public setFollowing = async ({
+    neuronId,
+    topicFollowing,
+  }: {
+    neuronId: NeuronId;
+    topicFollowing: Array<FolloweesForTopic>;
+  }): Promise<void> => {
+    const request = toSetFollowingRequest({ neuronId, topicFollowing });
 
     await manageNeuron({
       request,
