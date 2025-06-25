@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/zod-schemas",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "A collection of reusable Zod schemas and validators for common data patterns in ICP applications",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.cjs.js",
@@ -48,6 +48,6 @@
   ],
   "peerDependencies": {
     "@dfinity/principal": "^2.0.0",
-    "zod": "^3"
+    "zod": "^3.25"
   }
 }

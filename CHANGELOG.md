@@ -1,8 +1,38 @@
-# Next version
+# v70
+
+## Overview
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v3.1.13 | Maintained ⚙️       |
+| `@dfinity/cketh`         | v3.4.10 | Maintained ⚙️       |
+| `@dfinity/cmc`           | v5.0.6  | Maintained ⚙️       |
+| `@dfinity/ic-management` | v6.2.0  | Enhanced 🔧️        |
+| `@dfinity/ledger-icp`    | v3.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ledger-icrc`   | v2.9.0  | Enhanced 🔧️        |
+| `@dfinity/nns`           | v8.5.0  | Enhanced 🔧️        |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️          |
+| `@dfinity/sns`           | v3.7.0  | Enhanced 🔧️        |
+| `@dfinity/utils`         | v2.13.1 | Maintained ⚙️       |
+| `@dfinity/zod-schemas`   | v1.0.0  | Breaking Changes ⚠️ |
+
+## Breaking Changes
+
+- Assert checksum when parsing ICP `AccountIdentifier` from hex. (\*).
+- Assert length equals 32 bytes when parsing ICP `AccountIdentifier` from hex. (\*)
+- Modify the ICP `SubAccount.fromBytes` to throw an error instead of returning one when the input length is invalid. (\*\*)
+- Migrate `@dfinity/zod-schemas` to `zod/v4`.
+
+(\*) This fix is not a breaking change per se, but applications that previously accepted invalid account identifiers will now fail.
+Since that behavior was **incorrect**, we decided to proceed with the change anyway. If this impacts you, feel free to reach out!
+
+(\*\*) Returning an error was likely a historical artifact. For consistency, we decided to align this behavior with other similar functions.
 
 ## Features
 
 - Expose method `listSubaccounts` in class `IcrcIndexNgCanister`.
+- Extend the `transform` function to support `provisional_create_canister_with_cycles` when used with PocketIC.
+- Add validation to `decodeIcrcAccount` to reject account strings with more than one `.` separator.
 
 # v69
 

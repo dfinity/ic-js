@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import * as z from "zod";
+import * as z from "zod/v4";
 
 /**
  * Zod schema to validate a string as a valid textual representation of a Principal.
@@ -23,7 +23,7 @@ export const PrincipalTextSchema = z.string().refine(
     }
   },
   {
-    message: "Invalid textual representation of a Principal.",
+    error: "Invalid textual representation of a Principal.",
   },
 );
 

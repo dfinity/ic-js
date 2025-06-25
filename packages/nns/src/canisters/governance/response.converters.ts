@@ -13,6 +13,7 @@ import {
   uint8ArrayToArrayOfNumber,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
+
 import type {
   Params,
   Account as RawAccount,
@@ -40,6 +41,7 @@ import type {
   LedgerParameters as RawLedgerParameters,
   ListNeuronsResponse as RawListNeuronsResponse,
   ListProposalInfoResponse as RawListProposalInfoResponse,
+  MaturityDisbursement as RawMaturityDisbursement,
   NetworkEconomics as RawNetworkEconomics,
   Neuron as RawNeuron,
   NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
@@ -98,6 +100,7 @@ import type {
   KnownNeuron,
   LedgerParameters,
   ListProposalsResponse,
+  MaturityDisbursement,
   NetworkEconomics,
   Neuron,
   NeuronBasketConstructionParameters,
@@ -119,6 +122,7 @@ import type {
   VotingPowerEconomics,
   VotingRewardParameters,
 } from "../../types/governance_converters";
+import { fromAccountIdentifier } from "./request.converters";
 
 export const toNeuronInfo = ({
   neuronId,
@@ -194,6 +198,9 @@ export const toNeuron = ({
     .joined_community_fund_timestamp_seconds.length
     ? neuron.joined_community_fund_timestamp_seconds[0]
     : undefined,
+  maturityDisbursementsInProgress: fromNullable(
+    neuron.maturity_disbursements_in_progress,
+  )?.map(toMaturityDisbursementInProgress),
   dissolveState: neuron.dissolve_state.length
     ? toDissolveState(neuron.dissolve_state[0])
     : undefined,
@@ -243,6 +250,11 @@ export const toRawNeuron = ({
   joined_community_fund_timestamp_seconds: toNullable(
     neuron.joinedCommunityFundTimestampSeconds,
   ),
+  maturity_disbursements_in_progress: toNullable(
+    neuron.maturityDisbursementsInProgress?.map(
+      toRawMaturityDisbursementInProgress,
+    ),
+  ),
   dissolve_state: nonNullish(neuron.dissolveState)
     ? [neuron.dissolveState]
     : [],
@@ -280,6 +292,56 @@ const toDissolveState = (dissolveState: RawDissolveState): DissolveState => {
     WhenDissolvedTimestampSeconds: dissolveState.WhenDissolvedTimestampSeconds,
   };
 };
+
+const toMaturityDisbursementInProgress = (
+  maturityDisbursement: RawMaturityDisbursement,
+): MaturityDisbursement => {
+  const accountToDisburseTo = fromNullable(
+    maturityDisbursement.account_to_disburse_to,
+  );
+  return {
+    timestampOfDisbursementSeconds: fromNullable(
+      maturityDisbursement.timestamp_of_disbursement_seconds,
+    ),
+    amountE8s: fromNullable(maturityDisbursement.amount_e8s),
+    accountToDisburseTo: nonNullish(accountToDisburseTo)
+      ? toAccount(accountToDisburseTo)
+      : undefined,
+    accountIdentifierToDisburseTo: maturityDisbursement
+      .account_identifier_to_disburse_to?.length
+      ? toAccountIdentifier(
+          maturityDisbursement.account_identifier_to_disburse_to[0],
+        )
+      : undefined,
+    finalizeDisbursementTimestampSeconds: fromNullable(
+      maturityDisbursement.finalize_disbursement_timestamp_seconds,
+    ),
+  };
+};
+
+const toRawMaturityDisbursementInProgress = (
+  maturityDisbursement: MaturityDisbursement,
+): RawMaturityDisbursement => ({
+  timestamp_of_disbursement_seconds: toNullable(
+    maturityDisbursement.timestampOfDisbursementSeconds,
+  ),
+  amount_e8s: toNullable(maturityDisbursement.amountE8s),
+  account_to_disburse_to: nonNullish(maturityDisbursement.accountToDisburseTo)
+    ? toNullable(toRawAccount(maturityDisbursement.accountToDisburseTo))
+    : [],
+  account_identifier_to_disburse_to: nonNullish(
+    maturityDisbursement.accountIdentifierToDisburseTo,
+  )
+    ? [
+        fromAccountIdentifier(
+          maturityDisbursement.accountIdentifierToDisburseTo,
+        ),
+      ]
+    : [],
+  finalize_disbursement_timestamp_seconds: toNullable(
+    maturityDisbursement.finalizeDisbursementTimestampSeconds,
+  ),
+});
 
 const toFollowees = ({
   topic,
@@ -326,11 +388,21 @@ const toBallot = ({
   };
 };
 
-const toAccount = (account: RawAccount): Account => ({
-  owner: fromNullable(account.owner),
-  subaccount: uint8ArrayToArrayOfNumber(
-    Uint8Array.from(account.subaccount[0] ?? []),
-  ),
+const toAccount = ({ subaccount, owner }: RawAccount): Account => {
+  const unwrappedSubaccount = fromNullable(subaccount);
+  return {
+    owner: fromNullable(owner),
+    subaccount: nonNullish(unwrappedSubaccount)
+      ? uint8ArrayToArrayOfNumber(Uint8Array.from(unwrappedSubaccount))
+      : undefined,
+  };
+};
+
+const toRawAccount = ({ owner, subaccount }: Account): RawAccount => ({
+  owner: toNullable(owner),
+  subaccount: nonNullish(subaccount)
+    ? toNullable(Uint8Array.from(subaccount))
+    : [],
 });
 
 const toProposal = ({
@@ -647,6 +719,9 @@ const toCommand = (command: RawCommand): Command => {
       DisburseMaturity: {
         toAccount: disburseMaturity.to_account.length
           ? toAccount(disburseMaturity.to_account[0])
+          : undefined,
+        toAccountIdentifier: disburseMaturity.to_account_identifier.length
+          ? toAccountIdentifier(disburseMaturity.to_account_identifier[0])
           : undefined,
         percentageToDisburse: disburseMaturity.percentage_to_disburse,
       },

@@ -167,7 +167,16 @@ export interface Account {
 }
 export interface DisburseMaturity {
   toAccount: Option<Account>;
+  toAccountIdentifier: Option<AccountIdentifierHex>;
   percentageToDisburse: number;
+}
+
+export interface MaturityDisbursement {
+  timestampOfDisbursementSeconds: Option<bigint>;
+  amountE8s: Option<bigint>;
+  accountToDisburseTo: Option<Account>;
+  accountIdentifierToDisburseTo: Option<AccountIdentifierHex>;
+  finalizeDisbursementTimestampSeconds: Option<bigint>;
 }
 
 export interface IncreaseDissolveDelay {
@@ -388,6 +397,7 @@ export interface Neuron {
   hotKeys: Array<PrincipalString>;
   accountIdentifier: AccountIdentifierHex;
   joinedCommunityFundTimestampSeconds: Option<bigint>;
+  maturityDisbursementsInProgress: Option<Array<MaturityDisbursement>>;
   dissolveState: Option<DissolveState>;
   followees: Array<Followees>;
   visibility: Option<NeuronVisibility>;

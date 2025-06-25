@@ -1,4 +1,4 @@
-// Generated from IC repo commit f195ba7 (2025-04-30 tags: release-2025-05-01_03-23-base) 'rs/nns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit b72c6253fa (2025-06-10) 'rs/nns/governance/canister/governance_test.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
@@ -127,6 +127,7 @@ type RefreshVotingPowerResponse = record {
 type DisburseMaturity = record {
   percentage_to_disburse : nat32;
   to_account : opt Account;
+  to_account_identifier: opt AccountIdentifier;
 };
 
 type Account = record {
@@ -642,6 +643,7 @@ type Neuron = record {
   voting_power_refreshed_timestamp_seconds : opt nat64;
   deciding_voting_power : opt nat64;
   potential_voting_power : opt nat64;
+  maturity_disbursements_in_progress : opt vec MaturityDisbursement;
 };
 
 type NeuronBasketConstructionParameters = record {
@@ -883,6 +885,7 @@ type ProposalData = record {
   executed_timestamp_seconds : nat64;
   original_total_community_fund_maturity_e8s_equivalent : opt nat64;
   total_potential_voting_power : opt nat64;
+  topic: opt int32;
 };
 
 type ProposalInfo = record {
@@ -1154,6 +1157,14 @@ type WaitForQuietState = record {
 type XdrConversionRate = record {
   xdr_permyriad_per_icp : opt nat64;
   timestamp_seconds : opt nat64;
+};
+
+type MaturityDisbursement = record {
+  amount_e8s : opt nat64;
+  timestamp_of_disbursement_seconds : opt nat64;
+  finalize_disbursement_timestamp_seconds : opt nat64;
+  account_to_disburse_to : opt Account;
+  account_identifier_to_disburse_to : opt AccountIdentifier;
 };
 
 service : (Governance) -> {

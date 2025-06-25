@@ -1,11 +1,17 @@
 import { Principal } from "@dfinity/principal";
 import type {
+  MaturityDisbursement as RawMaturityDisbursement,
   Neuron as RawNeuron,
   NeuronInfo as RawNeuronInfo,
 } from "../../../candid/governance";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
 import { NeuronState } from "../../enums/governance.enums";
-import type { Neuron, NeuronInfo } from "../../types/governance_converters";
+import type {
+  MaturityDisbursement,
+  Neuron,
+  NeuronInfo,
+} from "../../types/governance_converters";
+import { fromAccountIdentifier } from "./request.converters";
 import { toNeuron, toNeuronInfo, toRawNeuron } from "./response.converters";
 
 describe("response.converters", () => {
@@ -16,6 +22,17 @@ describe("response.converters", () => {
   const dissolveDelaySeconds = 8_640_000n;
   const state = NeuronState.Locked;
   const canisterId = MAINNET_GOVERNANCE_CANISTER_ID;
+  const accountIdentifier = {
+    hash: Uint8Array.from(Array.from({ length: 32 }, (_, i) => i)),
+  };
+  const accountIdentifierHex =
+    "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f";
+  // Encoding of the accountIdentifier hash is not symmetrical,
+  // so we need to remove the first 4 bytes which is a checksum
+  // (Identity = [4-byte crc32 checksum + 28-byte blob])
+  const accountIdentifierWithoutChecksum = {
+    hash: accountIdentifier.hash.subarray(4),
+  };
 
   const defaultCandidNeuron: RawNeuron = {
     id: [{ id: neuronId }],
@@ -34,6 +51,7 @@ describe("response.converters", () => {
     hot_keys: [],
     account: new Uint8Array(),
     joined_community_fund_timestamp_seconds: [],
+    maturity_disbursements_in_progress: [],
     dissolve_state: [{ DissolveDelaySeconds: dissolveDelaySeconds }],
     spawn_at_timestamp_seconds: [],
     followees: [],
@@ -63,6 +81,7 @@ describe("response.converters", () => {
     accountIdentifier:
       "5608e9e28e45cb752c31464abe8edfca5fca00971942a882989613c20848da6f",
     joinedCommunityFundTimestampSeconds: undefined,
+    maturityDisbursementsInProgress: undefined,
     dissolveState: { DissolveDelaySeconds: dissolveDelaySeconds },
     spawnAtTimesSeconds: undefined,
     followees: [],
@@ -106,6 +125,67 @@ describe("response.converters", () => {
     ageSeconds: 0n,
     fullNeuron: undefined,
     visibility: undefined,
+  };
+
+  const testRawMaturityDisbursementWithSubaccount: RawMaturityDisbursement = {
+    timestamp_of_disbursement_seconds: [10n],
+    amount_e8s: [11n],
+    account_to_disburse_to: [
+      {
+        owner: [Principal.fromText("aaaaa-aa")],
+        subaccount: [Uint8Array.from([1, 2, 3])],
+      },
+    ],
+    account_identifier_to_disburse_to: [],
+    finalize_disbursement_timestamp_seconds: [12n],
+  };
+  const testRawMaturityDisbursementWithoutSubaccount: RawMaturityDisbursement =
+    {
+      timestamp_of_disbursement_seconds: [20n],
+      amount_e8s: [21n],
+      account_to_disburse_to: [
+        {
+          owner: [Principal.fromText("aaaaa-aa")],
+          subaccount: [],
+        },
+      ],
+      account_identifier_to_disburse_to: [],
+      finalize_disbursement_timestamp_seconds: [22n],
+    };
+  const testRawMaturityDisbursementWithAccountIdentifier: RawMaturityDisbursement =
+    {
+      timestamp_of_disbursement_seconds: [20n],
+      amount_e8s: [21n],
+      account_to_disburse_to: [],
+      account_identifier_to_disburse_to: [accountIdentifier],
+      finalize_disbursement_timestamp_seconds: [22n],
+    };
+  const testMaturityDisbursementWithSubaccount: MaturityDisbursement = {
+    timestampOfDisbursementSeconds: 10n,
+    amountE8s: 11n,
+    accountToDisburseTo: {
+      owner: Principal.fromText("aaaaa-aa"),
+      subaccount: [1, 2, 3],
+    },
+    accountIdentifierToDisburseTo: undefined,
+    finalizeDisbursementTimestampSeconds: 12n,
+  };
+  const testMaturityDisbursementWithoutSubaccount: MaturityDisbursement = {
+    timestampOfDisbursementSeconds: 20n,
+    amountE8s: 21n,
+    accountToDisburseTo: {
+      owner: Principal.fromText("aaaaa-aa"),
+      subaccount: undefined,
+    },
+    accountIdentifierToDisburseTo: undefined,
+    finalizeDisbursementTimestampSeconds: 22n,
+  };
+  const testMaturityDisbursementWithAccountIdentifier: MaturityDisbursement = {
+    timestampOfDisbursementSeconds: 20n,
+    amountE8s: 21n,
+    accountToDisburseTo: undefined,
+    accountIdentifierToDisburseTo: accountIdentifierHex,
+    finalizeDisbursementTimestampSeconds: 22n,
   };
 
   describe("toNeuronInfo", () => {
@@ -242,6 +322,124 @@ describe("response.converters", () => {
         decidingVotingPower: votingPower,
       });
     });
+
+    it("should convert maturity disbursements in progress", () => {
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            maturity_disbursements_in_progress: [],
+          },
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        maturityDisbursementsInProgress: undefined,
+      });
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            // Test against the outdated nns governance canister.
+            maturity_disbursements_in_progress: undefined as unknown as [],
+          },
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        maturityDisbursementsInProgress: undefined,
+      });
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            maturity_disbursements_in_progress: [[]],
+          },
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        maturityDisbursementsInProgress: [],
+      });
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            maturity_disbursements_in_progress: [
+              [
+                {
+                  timestamp_of_disbursement_seconds: [],
+                  amount_e8s: [],
+                  account_to_disburse_to: [],
+                  account_identifier_to_disburse_to: [],
+                  finalize_disbursement_timestamp_seconds: [],
+                },
+              ],
+            ],
+          },
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        maturityDisbursementsInProgress: [
+          {
+            timestampOfDisbursementSeconds: undefined,
+            amountE8s: undefined,
+            accountToDisburseTo: undefined,
+            finalizeDisbursementTimestampSeconds: undefined,
+          },
+        ],
+      });
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            maturity_disbursements_in_progress: [
+              [
+                testRawMaturityDisbursementWithSubaccount,
+                testRawMaturityDisbursementWithoutSubaccount,
+              ],
+            ],
+          },
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        maturityDisbursementsInProgress: [
+          testMaturityDisbursementWithSubaccount,
+          testMaturityDisbursementWithoutSubaccount,
+        ],
+      });
+
+      expect(
+        toNeuron({
+          neuron: {
+            ...defaultCandidNeuron,
+            maturity_disbursements_in_progress: [
+              [testRawMaturityDisbursementWithAccountIdentifier],
+            ],
+          },
+          canisterId,
+        }),
+      ).toEqual({
+        ...defaultNeuron,
+        maturityDisbursementsInProgress: [
+          testMaturityDisbursementWithAccountIdentifier,
+        ],
+      });
+    });
+  });
+
+  describe("fromAccountIdentifier", () => {
+    it("should convert account identifier hex string to bytes", () => {
+      expect(fromAccountIdentifier(accountIdentifierHex)).toEqual(
+        accountIdentifierWithoutChecksum,
+      );
+    });
   });
 
   describe("toRawNeuron", () => {
@@ -267,6 +465,79 @@ describe("response.converters", () => {
       ).toEqual({
         ...defaultCandidNeuron,
         voting_power_refreshed_timestamp_seconds: [timestamp],
+      });
+    });
+
+    it("should convert maturity disbursements in progress", () => {
+      expect(
+        toRawNeuron({
+          neuron: {
+            ...defaultNeuron,
+            maturityDisbursementsInProgress: undefined,
+          },
+          account: new Uint8Array(),
+        }),
+      ).toEqual({
+        ...defaultCandidNeuron,
+        maturity_disbursements_in_progress: [],
+      });
+
+      expect(
+        toRawNeuron({
+          neuron: {
+            ...defaultNeuron,
+            maturityDisbursementsInProgress: [],
+          },
+          account: new Uint8Array(),
+        }),
+      ).toEqual({
+        ...defaultCandidNeuron,
+        maturity_disbursements_in_progress: [[]],
+      });
+
+      expect(
+        toRawNeuron({
+          neuron: {
+            ...defaultNeuron,
+            maturityDisbursementsInProgress: [
+              testMaturityDisbursementWithSubaccount,
+              testMaturityDisbursementWithoutSubaccount,
+            ],
+          },
+          account: new Uint8Array(),
+        }),
+      ).toEqual({
+        ...defaultCandidNeuron,
+        maturity_disbursements_in_progress: [
+          [
+            testRawMaturityDisbursementWithSubaccount,
+            testRawMaturityDisbursementWithoutSubaccount,
+          ],
+        ],
+      });
+
+      expect(
+        toRawNeuron({
+          neuron: {
+            ...defaultNeuron,
+            maturityDisbursementsInProgress: [
+              testMaturityDisbursementWithAccountIdentifier,
+            ],
+          },
+          account: new Uint8Array(),
+        }),
+      ).toEqual({
+        ...defaultCandidNeuron,
+        maturity_disbursements_in_progress: [
+          [
+            {
+              ...testRawMaturityDisbursementWithAccountIdentifier,
+              account_identifier_to_disburse_to: [
+                accountIdentifierWithoutChecksum,
+              ],
+            },
+          ],
+        ],
       });
     });
   });

@@ -22,11 +22,13 @@ export const idlFactory = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
+  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Account = IDL.Record({
     'owner' : IDL.Opt(IDL.Principal),
     'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
   const DisburseMaturity = IDL.Record({
+    'to_account_identifier' : IDL.Opt(AccountIdentifier),
     'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
@@ -85,7 +87,6 @@ export const idlFactory = ({ IDL }) => {
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
     'to_account' : IDL.Opt(AccountIdentifier),
@@ -566,6 +567,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(ProposalId),
+    'topic' : IDL.Opt(IDL.Int32),
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,
@@ -605,6 +607,13 @@ export const idlFactory = ({ IDL }) => {
     'vote' : IDL.Int32,
     'proposal_id' : IDL.Opt(ProposalId),
   });
+  const MaturityDisbursement = IDL.Record({
+    'account_identifier_to_disburse_to' : IDL.Opt(AccountIdentifier),
+    'timestamp_of_disbursement_seconds' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+    'account_to_disburse_to' : IDL.Opt(Account),
+    'finalize_disbursement_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const DissolveState = IDL.Variant({
     'DissolveDelaySeconds' : IDL.Nat64,
     'WhenDissolvedTimestampSeconds' : IDL.Nat64,
@@ -628,6 +637,9 @@ export const idlFactory = ({ IDL }) => {
     'hot_keys' : IDL.Vec(IDL.Principal),
     'account' : IDL.Vec(IDL.Nat8),
     'joined_community_fund_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'maturity_disbursements_in_progress' : IDL.Opt(
+      IDL.Vec(MaturityDisbursement)
+    ),
     'dissolve_state' : IDL.Opt(DissolveState),
     'followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
     'neuron_fees_e8s' : IDL.Nat64,
@@ -1020,11 +1032,13 @@ export const init = ({ IDL }) => {
     'topic' : IDL.Int32,
     'followees' : IDL.Vec(NeuronId),
   });
+  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Account = IDL.Record({
     'owner' : IDL.Opt(IDL.Principal),
     'subaccount' : IDL.Opt(IDL.Vec(IDL.Nat8)),
   });
   const DisburseMaturity = IDL.Record({
+    'to_account_identifier' : IDL.Opt(AccountIdentifier),
     'to_account' : IDL.Opt(Account),
     'percentage_to_disburse' : IDL.Nat32,
   });
@@ -1083,7 +1097,6 @@ export const init = ({ IDL }) => {
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
   const MergeMaturity = IDL.Record({ 'percentage_to_merge' : IDL.Nat32 });
-  const AccountIdentifier = IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) });
   const Amount = IDL.Record({ 'e8s' : IDL.Nat64 });
   const Disburse = IDL.Record({
     'to_account' : IDL.Opt(AccountIdentifier),
@@ -1564,6 +1577,7 @@ export const init = ({ IDL }) => {
   });
   const ProposalData = IDL.Record({
     'id' : IDL.Opt(ProposalId),
+    'topic' : IDL.Opt(IDL.Int32),
     'failure_reason' : IDL.Opt(GovernanceError),
     'ballots' : IDL.Vec(IDL.Tuple(IDL.Nat64, Ballot)),
     'proposal_timestamp_seconds' : IDL.Nat64,
@@ -1603,6 +1617,13 @@ export const init = ({ IDL }) => {
     'vote' : IDL.Int32,
     'proposal_id' : IDL.Opt(ProposalId),
   });
+  const MaturityDisbursement = IDL.Record({
+    'account_identifier_to_disburse_to' : IDL.Opt(AccountIdentifier),
+    'timestamp_of_disbursement_seconds' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+    'account_to_disburse_to' : IDL.Opt(Account),
+    'finalize_disbursement_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const DissolveState = IDL.Variant({
     'DissolveDelaySeconds' : IDL.Nat64,
     'WhenDissolvedTimestampSeconds' : IDL.Nat64,
@@ -1626,6 +1647,9 @@ export const init = ({ IDL }) => {
     'hot_keys' : IDL.Vec(IDL.Principal),
     'account' : IDL.Vec(IDL.Nat8),
     'joined_community_fund_timestamp_seconds' : IDL.Opt(IDL.Nat64),
+    'maturity_disbursements_in_progress' : IDL.Opt(
+      IDL.Vec(MaturityDisbursement)
+    ),
     'dissolve_state' : IDL.Opt(DissolveState),
     'followees' : IDL.Vec(IDL.Tuple(IDL.Int32, Followees)),
     'neuron_fees_e8s' : IDL.Nat64,

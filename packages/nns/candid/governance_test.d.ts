@@ -182,6 +182,7 @@ export interface Disburse {
   amount: [] | [Amount];
 }
 export interface DisburseMaturity {
+  to_account_identifier: [] | [AccountIdentifier];
   to_account: [] | [Account];
   percentage_to_disburse: number;
 }
@@ -434,6 +435,13 @@ export interface ManageNeuronRequest {
 export interface ManageNeuronResponse {
   command: [] | [Command_1];
 }
+export interface MaturityDisbursement {
+  account_identifier_to_disburse_to: [] | [AccountIdentifier];
+  timestamp_of_disbursement_seconds: [] | [bigint];
+  amount_e8s: [] | [bigint];
+  account_to_disburse_to: [] | [Account];
+  finalize_disbursement_timestamp_seconds: [] | [bigint];
+}
 export interface Merge {
   source_neuron_id: [] | [NeuronId];
 }
@@ -493,6 +501,7 @@ export interface Neuron {
   hot_keys: Array<Principal>;
   account: Uint8Array | number[];
   joined_community_fund_timestamp_seconds: [] | [bigint];
+  maturity_disbursements_in_progress: [] | [Array<MaturityDisbursement>];
   dissolve_state: [] | [DissolveState];
   followees: Array<[number, Followees]>;
   neuron_fees_e8s: bigint;
@@ -693,6 +702,7 @@ export type ProposalActionRequest =
   | { Motion: Motion };
 export interface ProposalData {
   id: [] | [ProposalId];
+  topic: [] | [number];
   failure_reason: [] | [GovernanceError];
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;

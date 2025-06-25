@@ -1,4 +1,4 @@
-import * as z from "zod";
+import * as z from "zod/v4";
 
 /**
  * A URL protocol as template literal type.
@@ -30,34 +30,28 @@ export const createUrlSchema = ({
 }: {
   additionalProtocols?: UrlProtocol[];
   allowHttpLocally?: boolean;
-}): z.ZodEffects<z.ZodString, string, string> =>
-  z
-    .string()
-    .url()
-    .refine(
-      (url: string | URL): boolean => {
-        try {
-          const protocols = [...new Set(["https:", ...additionalProtocols])];
+}): z.ZodURL =>
+  z.url().refine(
+    (url: string | URL): boolean => {
+      try {
+        const protocols = [...new Set(["https:", ...additionalProtocols])];
 
-          const { protocol, hostname } = new URL(url);
+        const { protocol, hostname } = new URL(url);
 
-          // We allow http for development locally
-          if (
-            allowHttpLocally &&
-            ["localhost", "127.0.0.1"].includes(hostname)
-          ) {
-            return ["http:", ...protocols].includes(protocol);
-          }
-
-          return protocols.includes(protocol);
-        } catch (_err: unknown) {
-          return false;
+        // We allow http for development locally
+        if (allowHttpLocally && ["localhost", "127.0.0.1"].includes(hostname)) {
+          return ["http:", ...protocols].includes(protocol);
         }
-      },
-      {
-        message: "Invalid URL.",
-      },
-    );
+
+        return protocols.includes(protocol);
+      } catch (_err: unknown) {
+        return false;
+      }
+    },
+    {
+      error: "Invalid URL.",
+    },
+  );
 
 /**
  * Default URL schema that enforces HTTPS and allows HTTP locally.
