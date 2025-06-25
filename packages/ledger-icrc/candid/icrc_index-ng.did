@@ -1,4 +1,4 @@
-// Generated from IC repo commit b72c6253fa (2025-06-10) 'rs/ledger_suite/icrc1/index-ng/index-ng.did' by import-candid
+// Generated from IC repo commit 9bdaa01adf (2025-06-25) 'rs/ledger_suite/icrc1/index-ng/index-ng.did' by import-candid
 type Tokens = nat;
 
 type InitArg = record {
