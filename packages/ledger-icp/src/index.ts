@@ -25,5 +25,4 @@ export type {
   Icrc2ApproveRequest,
   TransferRequest,
 } from "./types/ledger_converters";
-export * from "./utils/account_identifier.utils";
 export * from "./utils/accounts.utils";

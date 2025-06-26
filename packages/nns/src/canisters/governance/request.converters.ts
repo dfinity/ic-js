@@ -1,7 +1,6 @@
-import {
-  accountIdentifierToBytes,
-  type AccountIdentifier as AccountIdentifierClass,
-  type AccountIdentifierHex,
+import type {
+  AccountIdentifier as AccountIdentifierClass,
+  AccountIdentifierHex,
 } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import {
@@ -94,6 +93,7 @@ import type {
   VotingPowerEconomics,
   VotingRewardParameters,
 } from "../../types/governance_converters";
+import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
