@@ -7,7 +7,7 @@
 
 ## Build
 
-- Add explicit peer dependency requirement on `buffer` to `@dfinity/nns`. 
+- Add explicit peer dependency requirement on `buffer` to `@dfinity/nns`.
 
 # v70
 
