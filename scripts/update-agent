@@ -9,13 +9,13 @@ function rm_agent() {
 function install_agent() {
   local package=$1
 
-  npm i @dfinity/agent@latest @dfinity/candid@latest @dfinity/principal@latest --workspace=packages/"$package" --save-peer
+  npm i @dfinity/agent@beta @dfinity/candid@beta @dfinity/principal@beta --workspace=packages/"$package" --save-peer
 }
 
 function install_principal() {
   local package=$1
 
-  npm i @dfinity/principal@latest --workspace=packages/"$package" --save-peer
+  npm i @dfinity/principal@beta --workspace=packages/"$package" --save-peer
 }
 
 PACKAGES=utils,ckbtc,cketh,cmc,ic-management,ledger-icp,ledger-icrc,nns,sns
