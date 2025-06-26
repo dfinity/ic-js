@@ -1,7 +1,5 @@
-import {
-  accountIdentifierFromBytes,
-  principalToAccountIdentifier,
-  type AccountIdentifierHex,
+import type {
+   AccountIdentifierHex,
 } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import {
@@ -123,6 +121,7 @@ import type {
   VotingRewardParameters,
 } from "../../types/governance_converters";
 import { fromAccountIdentifier } from "./request.converters";
+import { accountIdentifierFromBytes, principalToAccountIdentifier } from "../../utils/account_identifier.utils";
 
 export const toNeuronInfo = ({
   neuronId,

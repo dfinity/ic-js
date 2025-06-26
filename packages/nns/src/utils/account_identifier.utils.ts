@@ -7,7 +7,7 @@ import {
 } from "@dfinity/utils";
 import { sha224 } from "@noble/hashes/sha256";
 import { Buffer } from "buffer";
-import type { AccountIdentifierHex } from "../types/common";
+import type { AccountIdentifierHex } from "@dfinity/ledger-icp/src/types/common";
 
 export const accountIdentifierToBytes = (
   accountIdentifier: AccountIdentifierHex,

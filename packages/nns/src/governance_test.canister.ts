@@ -1,5 +1,5 @@
 import type { ActorSubclass } from "@dfinity/agent";
-import { principalToAccountIdentifier } from "@dfinity/ledger-icp";
+import { principalToAccountIdentifier } from "./utils/account_identifier.utils";
 import type { Principal } from "@dfinity/principal";
 import {
   assertNonNullish,
