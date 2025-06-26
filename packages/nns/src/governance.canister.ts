@@ -14,7 +14,6 @@ import {
   nonNullish,
   uint8ArrayToBigInt,
 } from "@dfinity/utils";
-import randomBytes from "randombytes";
 import type {
   Command_1,
   _SERVICE as GovernanceService,
@@ -361,7 +360,7 @@ export class GovernanceCanister {
       throw new InsufficientAmountError(stake);
     }
 
-    const nonceBytes = new Uint8Array(randomBytes(8));
+    const nonceBytes = crypto.getRandomValues(new Uint8Array(8));
     const nonce = uint8ArrayToBigInt(nonceBytes);
     const accountIdentifier = memoToNeuronAccountIdentifier({
       controller: principal,
