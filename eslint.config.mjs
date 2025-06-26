@@ -22,7 +22,6 @@ export default [
       "*.did.js",
       "*_pb.d.ts",
       "scripts",
-      "test-setup.ts",
       "**/jest.config.js",
       "**/esbuild.mjs",
       "packages/nns-proto/proto",
