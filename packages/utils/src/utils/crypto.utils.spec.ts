@@ -107,7 +107,7 @@ describe("crypto.utils", () => {
           method_name: "test-method",
           arg: new Uint8Array([68, 73, 68, 76]),
           nonce: new Uint8Array([1, 2, 3]).buffer,
-          ingress_expiry: new Expiry(5 * 60 * 1000),
+          ingress_expiry: Expiry.fromDeltaInMilliseconds(5 * 60 * 1000),
           request_type: SubmitRequestType.Call,
         };
 
