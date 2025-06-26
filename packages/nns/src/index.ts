@@ -10,5 +10,5 @@ export * from "./types/common";
 export * from "./types/governance.options";
 export * from "./types/governance_converters";
 export type { SnsWasmCanisterOptions } from "./types/sns_wasm.options";
-export * from "./utils/neurons.utils";
 export * from "./utils/account_identifier.utils";
+export * from "./utils/neurons.utils";
