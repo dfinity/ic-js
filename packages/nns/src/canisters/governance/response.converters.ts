@@ -772,6 +772,21 @@ const toCommand = (command: RawCommand): Command => {
       },
     };
   }
+  if ("SetFollowing" in command) {
+    const setFollowing = command.SetFollowing;
+    return {
+      SetFollowing: {
+        topicFollowing: fromDefinedNullable(setFollowing.topic_following).map(
+          ({ topic, followees }) => ({
+            topic: fromDefinedNullable(topic),
+            followees: fromDefinedNullable(followees).map(
+              (followee) => followee.id,
+            ),
+          }),
+        ),
+      },
+    };
+  }
   if ("MergeMaturity" in command) {
     const mergeMaturity = command.MergeMaturity;
     return {

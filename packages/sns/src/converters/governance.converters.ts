@@ -14,6 +14,7 @@ import type {
   NervousSystemParameters as NervousSystemParametersCandid,
   NeuronId,
   Operation,
+  RegisterExtension as RegisterExtensionCandid,
   TransferSnsTreasuryFunds as TransferSnsTreasuryFundsCandid,
   UpgradeSnsControlledCanister as UpgradeSnsControlledCanisterCandid,
   VotingRewardsParameters as VotingRewardsParametersCandid,
@@ -27,6 +28,7 @@ import type {
   ManageSnsMetadata,
   NervousSystemFunction,
   NervousSystemParameters,
+  RegisterExtension,
   TransferSnsTreasuryFunds,
   UpgradeSnsControlledCanister,
   VotingRewardsParameters,
@@ -355,6 +357,12 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     };
   }
 
+  if ("RegisterExtension" in action) {
+    return {
+      RegisterExtension: convertRegisterExtension(action.RegisterExtension),
+    };
+  }
+
   if ("RemoveGenericNervousSystemFunction" in action) {
     return {
       RemoveGenericNervousSystemFunction:
@@ -561,4 +569,13 @@ const convertNervousSystemParams = (
   automatically_advance_target_version: fromNullable(
     params.automatically_advance_target_version,
   ),
+});
+
+const convertRegisterExtension = (
+  params: RegisterExtensionCandid,
+): RegisterExtension => ({
+  chunked_canister_wasm: convertChunkedCanisterWasm(
+    fromNullable(params.chunked_canister_wasm),
+  ),
+  extension_init: fromNullable(params.extension_init),
 });
