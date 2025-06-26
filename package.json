@@ -107,14 +107,13 @@
     {
       "name": "@dfinity/ledger-icp",
       "path": "./packages/ledger-icp/dist/index.js",
-      "limit": "20 kB",
+      "limit": "10 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
-        "@dfinity/utils",
-        "@dfinity/nns-proto"
+        "@dfinity/utils"
       ]
     },
     {
@@ -127,7 +126,8 @@
         "@dfinity/candid",
         "@dfinity/principal",
         "@dfinity/utils",
-        "@dfinity/nns-proto"
+        "@dfinity/ledger-icp",
+        "buffer"
       ]
     },
     {
