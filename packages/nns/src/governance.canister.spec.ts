@@ -12,6 +12,7 @@ import type {
   GovernanceError as GovernanceErrorDetail,
   _SERVICE as GovernanceService,
   ListKnownNeuronsResponse,
+  ManageNeuronRequest,
   ManageNeuronResponse,
   NeuronsFundEconomics,
   InstallCode as RawInstallCode,
@@ -22,6 +23,7 @@ import type {
   VotingPowerEconomics as RawVotingPowerEconomics,
   Result,
   RewardEvent,
+  SetFollowingResponse,
 } from "../candid/governance";
 import {
   CanisterAction,
@@ -2324,6 +2326,64 @@ describe("GovernanceCanister", () => {
         ],
         neuron_id_or_subaccount: [],
       });
+    });
+  });
+
+  describe("setFollowing", () => {
+    it("sets following topics", async () => {
+      const neuronId = BigInt(10);
+      const followeeId1 = BigInt(1);
+      const followeeId2 = BigInt(2);
+      const topicFollowing = [
+        {
+          topic: Topic.NeuronManagement,
+          followees: [followeeId1, followeeId2],
+        },
+        {
+          topic: Topic.Governance,
+          followees: [followeeId2],
+        },
+      ];
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ SetFollowing: {} as SetFollowingResponse }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      await governance.setFollowing({
+        neuronId,
+        topicFollowing,
+      });
+      expect(service.manage_neuron).toHaveBeenCalledTimes(1);
+      expect(service.manage_neuron).toHaveBeenCalledWith({
+        command: [
+          {
+            SetFollowing: {
+              topic_following: [
+                [
+                  {
+                    topic: [Topic.NeuronManagement],
+                    followees: [[{ id: followeeId1 }, { id: followeeId2 }]],
+                  },
+                  {
+                    topic: [Topic.Governance],
+                    followees: [[{ id: followeeId2 }]],
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+        id: [
+          {
+            id: 10n,
+          },
+        ],
+        neuron_id_or_subaccount: [],
+      } as ManageNeuronRequest);
     });
   });
 });

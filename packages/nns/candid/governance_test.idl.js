@@ -83,6 +83,13 @@ export const idlFactory = ({ IDL }) => {
     'new_controller' : IDL.Opt(IDL.Principal),
     'nonce' : IDL.Nat64,
   });
+  const FolloweesForTopic = IDL.Record({
+    'topic' : IDL.Opt(IDL.Int32),
+    'followees' : IDL.Opt(IDL.Vec(NeuronId)),
+  });
+  const SetFollowing = IDL.Record({
+    'topic_following' : IDL.Opt(IDL.Vec(FolloweesForTopic)),
+  });
   const StakeMaturity = IDL.Record({
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
@@ -103,6 +110,7 @@ export const idlFactory = ({ IDL }) => {
     'RegisterVote' : RegisterVote,
     'Merge' : Merge,
     'DisburseToNeuron' : DisburseToNeuron,
+    'SetFollowing' : SetFollowing,
     'MakeProposal' : Proposal,
     'StakeMaturity' : StakeMaturity,
     'MergeMaturity' : MergeMaturity,
@@ -830,6 +838,7 @@ export const idlFactory = ({ IDL }) => {
     'RegisterVote' : RegisterVote,
     'Merge' : Merge,
     'DisburseToNeuron' : DisburseToNeuron,
+    'SetFollowing' : SetFollowing,
     'MakeProposal' : MakeProposalRequest,
     'StakeMaturity' : StakeMaturity,
     'MergeMaturity' : MergeMaturity,
@@ -856,6 +865,7 @@ export const idlFactory = ({ IDL }) => {
     'target_neuron_info' : IDL.Opt(NeuronInfo),
     'source_neuron_info' : IDL.Opt(NeuronInfo),
   });
+  const SetFollowingResponse = IDL.Record({});
   const MakeProposalResponse = IDL.Record({
     'message' : IDL.Opt(IDL.Text),
     'proposal_id' : IDL.Opt(ProposalId),
@@ -881,6 +891,7 @@ export const idlFactory = ({ IDL }) => {
     'RegisterVote' : IDL.Record({}),
     'Merge' : MergeResponse,
     'DisburseToNeuron' : SpawnResponse,
+    'SetFollowing' : SetFollowingResponse,
     'MakeProposal' : MakeProposalResponse,
     'StakeMaturity' : StakeMaturityResponse,
     'MergeMaturity' : MergeMaturityResponse,
@@ -1110,6 +1121,13 @@ export const init = ({ IDL }) => {
     'new_controller' : IDL.Opt(IDL.Principal),
     'nonce' : IDL.Nat64,
   });
+  const FolloweesForTopic = IDL.Record({
+    'topic' : IDL.Opt(IDL.Int32),
+    'followees' : IDL.Opt(IDL.Vec(NeuronId)),
+  });
+  const SetFollowing = IDL.Record({
+    'topic_following' : IDL.Opt(IDL.Vec(FolloweesForTopic)),
+  });
   const StakeMaturity = IDL.Record({
     'percentage_to_stake' : IDL.Opt(IDL.Nat32),
   });
@@ -1130,6 +1148,7 @@ export const init = ({ IDL }) => {
     'RegisterVote' : RegisterVote,
     'Merge' : Merge,
     'DisburseToNeuron' : DisburseToNeuron,
+    'SetFollowing' : SetFollowing,
     'MakeProposal' : Proposal,
     'StakeMaturity' : StakeMaturity,
     'MergeMaturity' : MergeMaturity,

@@ -2,6 +2,7 @@ import { Principal } from "@dfinity/principal";
 import type {
   Action as ActionCandid,
   DefaultFollowees,
+  ExtensionInit,
   Topic,
 } from "../../candid/sns_governance";
 import { topicMock } from "../mocks/governance.mock";
@@ -164,6 +165,42 @@ describe("governance converters", () => {
         },
       };
       expect(fromCandidAction(action)).toEqual(action);
+    });
+
+    it("converts RegisterExtension action", () => {
+      const wasm_module_hash = new Uint8Array([1, 2, 3]);
+      const store_canister_id = Principal.fromHex("123f");
+      const chunk_hashes_list = [
+        new Uint8Array([4, 5, 6]),
+        new Uint8Array([7, 8, 9]),
+      ];
+      const extension_init: ExtensionInit = {
+        value: [{ Int: BigInt(42) }],
+      };
+
+      const action: ActionCandid = {
+        RegisterExtension: {
+          chunked_canister_wasm: [
+            {
+              wasm_module_hash,
+              store_canister_id: [store_canister_id],
+              chunk_hashes_list,
+            },
+          ],
+          extension_init: [extension_init],
+        },
+      };
+      const expectedAction: Action = {
+        RegisterExtension: {
+          chunked_canister_wasm: {
+            wasm_module_hash,
+            store_canister_id,
+            chunk_hashes_list,
+          },
+          extension_init,
+        },
+      };
+      expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
     it("converts RemoveGenericNervousSystemFunction action", () => {
