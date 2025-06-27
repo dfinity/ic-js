@@ -447,30 +447,30 @@ const fromInstallCode = (installCode: InstallCodeRequest): RawInstallCode => {
 
 const fromCanisterSettings = (
   canisterSettings: Option<CanisterSettings>,
-): [RawCanisterSettings] | [] =>
-  canisterSettings === undefined
-    ? []
-    : [
-        {
-          freezing_threshold: toNullable(canisterSettings.freezingThreshold),
-          controllers: canisterSettings.controllers
-            ? [
-                {
-                  controllers: canisterSettings.controllers.map((controller) =>
-                    Principal.fromText(controller),
-                  ),
-                },
-              ]
-            : [],
-          log_visibility: toNullable(canisterSettings.logVisibility as number),
-          wasm_memory_limit: toNullable(canisterSettings.wasmMemoryLimit),
-          compute_allocation: toNullable(canisterSettings.computeAllocation),
-          memory_allocation: toNullable(canisterSettings.memoryAllocation),
-          wasm_memory_threshold: toNullable(
-            canisterSettings.wasmMemoryThreshold,
-          ),
-        },
-      ];
+): Nullable<RawCanisterSettings> =>
+  toNullable(
+    canisterSettings === undefined
+      ? undefined
+      : {
+        freezing_threshold: toNullable(canisterSettings.freezingThreshold),
+        controllers: canisterSettings.controllers
+          ? [
+            {
+              controllers: canisterSettings.controllers.map((controller) =>
+                Principal.fromText(controller),
+              ),
+            },
+          ]
+          : [],
+        log_visibility: toNullable(canisterSettings.logVisibility as number),
+        wasm_memory_limit: toNullable(canisterSettings.wasmMemoryLimit),
+        compute_allocation: toNullable(canisterSettings.computeAllocation),
+        memory_allocation: toNullable(canisterSettings.memoryAllocation),
+        wasm_memory_threshold: toNullable(
+          canisterSettings.wasmMemoryThreshold,
+        ),
+      },
+  );
 
 const fromAction = (action: ProposalActionRequest): RawAction => {
   if ("ExecuteNnsFunction" in action) {
