@@ -103,6 +103,7 @@ export type Command =
   | { RegisterVote: RegisterVote }
   | { Merge: Merge }
   | { DisburseToNeuron: DisburseToNeuron }
+  | { SetFollowing: SetFollowing }
   | { MergeMaturity: MergeMaturity }
   | { StakeMaturity: StakeMaturity }
   | { MakeProposal: Proposal }
@@ -119,6 +120,7 @@ export type ManageNeuronCommandRequest =
   | { RegisterVote: RegisterVote }
   | { Merge: Merge }
   | { DisburseToNeuron: DisburseToNeuron }
+  | { SetFollowing: SetFollowing }
   | { MergeMaturity: MergeMaturity }
   | { StakeMaturity: StakeMaturity }
   | { MakeProposal: MakeProposalRequest }
@@ -144,6 +146,13 @@ export interface DisburseToNeuron {
   amount: E8s;
   newController: Option<PrincipalString>;
   nonce: bigint;
+}
+export interface FolloweesForTopic {
+  topic: Topic;
+  followees: Array<NeuronId>;
+}
+export interface SetFollowing {
+  topicFollowing: Array<FolloweesForTopic>;
 }
 export type DissolveState =
   | { DissolveDelaySeconds: bigint }

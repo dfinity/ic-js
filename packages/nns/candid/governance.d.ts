@@ -103,6 +103,7 @@ export type Command =
   | { RegisterVote: RegisterVote }
   | { Merge: Merge }
   | { DisburseToNeuron: DisburseToNeuron }
+  | { SetFollowing: SetFollowing }
   | { MakeProposal: Proposal }
   | { StakeMaturity: StakeMaturity }
   | { MergeMaturity: MergeMaturity }
@@ -119,6 +120,7 @@ export type Command_1 =
   | { RegisterVote: {} }
   | { Merge: MergeResponse }
   | { DisburseToNeuron: SpawnResponse }
+  | { SetFollowing: SetFollowingResponse }
   | { MakeProposal: MakeProposalResponse }
   | { StakeMaturity: StakeMaturityResponse }
   | { MergeMaturity: MergeMaturityResponse }
@@ -215,6 +217,10 @@ export interface Follow {
 }
 export interface Followees {
   followees: Array<NeuronId>;
+}
+export interface FolloweesForTopic {
+  topic: [] | [number];
+  followees: [] | [Array<NeuronId>];
 }
 export interface GetNeuronsFundAuditInfoRequest {
   nns_proposal_id: [] | [ProposalId];
@@ -423,6 +429,7 @@ export type ManageNeuronCommandRequest =
   | { RegisterVote: RegisterVote }
   | { Merge: Merge }
   | { DisburseToNeuron: DisburseToNeuron }
+  | { SetFollowing: SetFollowing }
   | { MakeProposal: MakeProposalRequest }
   | { StakeMaturity: StakeMaturity }
   | { MergeMaturity: MergeMaturity }
@@ -811,6 +818,10 @@ export interface SetDefaultFollowees {
 export interface SetDissolveTimestamp {
   dissolve_timestamp_seconds: bigint;
 }
+export interface SetFollowing {
+  topic_following: [] | [Array<FolloweesForTopic>];
+}
+export type SetFollowingResponse = {};
 export interface SetOpenTimeWindowRequest {
   open_time_window: [] | [TimeWindow];
 }

@@ -66,6 +66,7 @@ import type {
   DisburseToNeuronRequest,
   Duration,
   FollowRequest,
+  FolloweesForTopic,
   GlobalTimeOfDay,
   GovernanceParameters,
   Image,
@@ -713,6 +714,21 @@ const fromCommand = (command: ManageNeuronCommandRequest): RawCommand => {
           ? [Principal.fromText(disburseToNeuron.newController)]
           : [],
         nonce: disburseToNeuron.nonce,
+      },
+    };
+  }
+  if ("SetFollowing" in command) {
+    const { topicFollowing } = command.SetFollowing;
+    return {
+      SetFollowing: {
+        topic_following: topicFollowing.length
+          ? toNullable(
+              topicFollowing.map(({ topic, followees }) => ({
+                topic: toNullable(topic),
+                followees: toNullable(followees.map(fromNeuronId)),
+              })),
+            )
+          : [],
       },
     };
   }
@@ -1486,6 +1502,29 @@ export const toDisburseMaturityRequest = ({
         to_account: [],
         to_account_identifier: nonNullish(toAccountIdentifier)
           ? [fromAccountIdentifier(toAccountIdentifier)]
+          : [],
+      },
+    },
+  });
+
+export const toSetFollowingRequest = ({
+  neuronId,
+  topicFollowing,
+}: {
+  neuronId: NeuronId;
+  topicFollowing: Array<FolloweesForTopic>;
+}): RawManageNeuron =>
+  toCommand({
+    neuronId,
+    command: {
+      SetFollowing: {
+        topic_following: topicFollowing.length
+          ? toNullable(
+              topicFollowing.map(({ topic, followees }) => ({
+                topic: toNullable(topic),
+                followees: toNullable(followees.map(fromNeuronId)),
+              })),
+            )
           : [],
       },
     },
