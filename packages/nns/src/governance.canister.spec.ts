@@ -6,7 +6,7 @@ import {
 } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   ClaimOrRefreshNeuronFromAccountResponse,
   GovernanceError as GovernanceErrorDetail,
@@ -56,7 +56,7 @@ import type {
 
 const nextRandomBytes: number[] = [];
 
-jest.mock("randombytes", () => ({
+vi.mock("randombytes", () => ({
   __esModule: true,
   default: (n: number): Uint8Array => {
     const nums: number[] = [];
@@ -190,7 +190,7 @@ describe("GovernanceCanister", () => {
   };
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("GovernanceCanister.listKnownNeurons", () => {
@@ -288,7 +288,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
+        vi.fn().mockResolvedValue(BigInt(1)),
       );
 
       const stake = 100_000_000n;
@@ -352,7 +352,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
+        vi.fn().mockResolvedValue(BigInt(1)),
       );
       const fee = BigInt(10_000);
 
@@ -383,7 +383,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
+        vi.fn().mockResolvedValue(BigInt(1)),
       );
 
       const governance = GovernanceCanister.create({
@@ -415,7 +415,7 @@ describe("GovernanceCanister", () => {
       );
 
       const mockLedger = mock<LedgerCanister>();
-      mockLedger.transfer.mockImplementation(jest.fn());
+      mockLedger.transfer.mockImplementation(vi.fn());
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
@@ -2033,7 +2033,7 @@ describe("GovernanceCanister", () => {
     it("throws error if invalid account id", async () => {
       const neuronId = BigInt(10);
       const service = mock<ActorSubclass<GovernanceService>>();
-      service.manage_neuron.mockImplementation(jest.fn());
+      service.manage_neuron.mockImplementation(vi.fn());
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,

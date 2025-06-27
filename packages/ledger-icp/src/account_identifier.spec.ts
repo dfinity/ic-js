@@ -1,5 +1,4 @@
 import { Principal } from "@dfinity/principal";
-import { describe, expect, it } from "@jest/globals";
 import { AccountIdentifier, SubAccount } from "./account_identifier";
 import { mockAccountIdentifier } from "./mocks/ledger.mock";
 

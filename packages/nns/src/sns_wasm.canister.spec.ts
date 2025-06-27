@@ -1,5 +1,5 @@
 import type { ActorSubclass } from "@dfinity/agent";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type { _SERVICE as SnsWasmService } from "../candid/sns_wasm";
 import { deployedSnsMock } from "./mocks/sns_wasm.mock";
 import { SnsWasmCanister } from "./sns_wasm.canister";
