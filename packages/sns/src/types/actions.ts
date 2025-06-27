@@ -3,6 +3,7 @@ import type {
   DefaultFollowees,
   DeregisterDappCanisters,
   ExecuteGenericNervousSystemFunction,
+  ExtensionInit,
   Motion,
   NeuronPermissionList,
   RegisterDappCanisters,
@@ -20,6 +21,7 @@ export type Action =
   | { RemoveGenericNervousSystemFunction: bigint }
   | { UpgradeSnsToNextVersion: Record<string, never> }
   | { RegisterDappCanisters: RegisterDappCanisters }
+  | { RegisterExtension: RegisterExtension }
   | { TransferSnsTreasuryFunds: TransferSnsTreasuryFunds }
   | { UpgradeSnsControlledCanister: UpgradeSnsControlledCanister }
   | { DeregisterDappCanisters: DeregisterDappCanisters }
@@ -104,10 +106,14 @@ export interface UpgradeSnsControlledCanister {
   canister_upgrade_arg: Option<Uint8Array | number[]>;
   mode: Option<number>;
 }
-
 export interface ManageSnsMetadata {
   url: Option<string>;
   logo: Option<string>;
   name: Option<string>;
   description: Option<string>;
+}
+
+export interface RegisterExtension {
+  chunked_canister_wasm: Option<ChunkedCanisterWasm>;
+  extension_init: Option<ExtensionInit>;
 }

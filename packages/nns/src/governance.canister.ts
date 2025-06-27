@@ -13,6 +13,7 @@ import {
   isNullish,
   nonNullish,
   uint8ArrayToBigInt,
+  type Nullable,
 } from "@dfinity/utils";
 import randomBytes from "randombytes";
 import type {
@@ -49,6 +50,7 @@ import {
   toRegisterVoteRequest,
   toRemoveHotkeyRequest,
   toSetDissolveDelayRequest,
+  toSetFollowingRequest,
   toSetVisibilityRequest,
   toSpawnNeuronRequest,
   toSplitRawRequest,
@@ -82,6 +84,7 @@ import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
   ClaimOrRefreshNeuronRequest,
   FollowRequest,
+  FolloweesForTopic,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
@@ -673,7 +676,7 @@ export class GovernanceCanister {
     proposalId: bigint;
     certified?: boolean;
   }): Promise<ProposalInfo | undefined> => {
-    const [proposalInfo]: [] | [RawProposalInfo] =
+    const [proposalInfo]: Nullable<RawProposalInfo> =
       await this.getGovernanceService(certified).get_proposal_info(proposalId);
     return proposalInfo ? toProposalInfo(proposalInfo) : undefined;
   };
@@ -1055,6 +1058,28 @@ export class GovernanceCanister {
       percentageToDisburse,
       toAccountIdentifier,
     });
+
+    await manageNeuron({
+      request,
+      service: this.certifiedService,
+    });
+  };
+
+  /**
+   * Set the following topics for a neuron.
+   *
+   * @param {Object} params
+   * @param {NeuronId} params.neuronId The id of the neuron for which to set the following topics
+   * @param {Array<FolloweesForTopic>} params.topicFollowing The topics and the followees for each topic that the neuron should follow.
+   */
+  public setFollowing = async ({
+    neuronId,
+    topicFollowing,
+  }: {
+    neuronId: NeuronId;
+    topicFollowing: Array<FolloweesForTopic>;
+  }): Promise<void> => {
+    const request = toSetFollowingRequest({ neuronId, topicFollowing });
 
     await manageNeuron({
       request,

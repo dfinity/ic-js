@@ -12,6 +12,7 @@ import {
   toNullable,
   uint8ArrayToArrayOfNumber,
   uint8ArrayToHexString,
+  type Nullable,
 } from "@dfinity/utils";
 
 import type {
@@ -772,6 +773,21 @@ const toCommand = (command: RawCommand): Command => {
       },
     };
   }
+  if ("SetFollowing" in command) {
+    const setFollowing = command.SetFollowing;
+    return {
+      SetFollowing: {
+        topicFollowing: fromDefinedNullable(setFollowing.topic_following).map(
+          ({ topic, followees }) => ({
+            topic: fromDefinedNullable(topic),
+            followees: fromDefinedNullable(followees).map(
+              (followee) => followee.id,
+            ),
+          }),
+        ),
+      },
+    };
+  }
   if ("MergeMaturity" in command) {
     const mergeMaturity = command.MergeMaturity;
     return {
@@ -929,7 +945,7 @@ const toChange = (change: RawChange): Change => {
 };
 
 const toNeuronsFundEconomics = (
-  neuronsFundEconomics: [] | [RawNeuronsFundEconomics],
+  neuronsFundEconomics: Nullable<RawNeuronsFundEconomics>,
 ): Option<NeuronsFundEconomics> => {
   const rawNeuronsFundEconomics = fromNullable(neuronsFundEconomics);
 
@@ -945,7 +961,7 @@ const toNeuronsFundEconomics = (
   } = rawNeuronsFundEconomics;
 
   const toPercentage = (
-    percentage: [] | [RawPercentage],
+    percentage: Nullable<RawPercentage>,
   ): Option<Percentage> => {
     const rawPercentage = fromNullable(percentage);
 
@@ -962,7 +978,7 @@ const toNeuronsFundEconomics = (
       : undefined;
   };
 
-  const toDecimal = (decimal: [] | [RawDecimal]): Option<Decimal> => {
+  const toDecimal = (decimal: Nullable<RawDecimal>): Option<Decimal> => {
     const rawDecimal = fromNullable(decimal);
 
     if (isNullish(rawDecimal)) {
@@ -1022,7 +1038,7 @@ const toNeuronsFundEconomics = (
 };
 
 const toVotingPowerEconomics = (
-  votingPowerEconomics: [] | [RawVotingPowerEconomics],
+  votingPowerEconomics: Nullable<RawVotingPowerEconomics>,
 ): Option<VotingPowerEconomics> => {
   const rawVotingPowerEconomics = fromNullable(votingPowerEconomics);
 
