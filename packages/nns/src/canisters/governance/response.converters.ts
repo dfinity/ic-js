@@ -8,6 +8,7 @@ import {
   toNullable,
   uint8ArrayToArrayOfNumber,
   uint8ArrayToHexString,
+  type Nullable,
 } from "@dfinity/utils";
 
 import type {
@@ -944,7 +945,7 @@ const toChange = (change: RawChange): Change => {
 };
 
 const toNeuronsFundEconomics = (
-  neuronsFundEconomics: [] | [RawNeuronsFundEconomics],
+  neuronsFundEconomics: Nullable<RawNeuronsFundEconomics>,
 ): Option<NeuronsFundEconomics> => {
   const rawNeuronsFundEconomics = fromNullable(neuronsFundEconomics);
 
@@ -960,7 +961,7 @@ const toNeuronsFundEconomics = (
   } = rawNeuronsFundEconomics;
 
   const toPercentage = (
-    percentage: [] | [RawPercentage],
+    percentage: Nullable<RawPercentage>,
   ): Option<Percentage> => {
     const rawPercentage = fromNullable(percentage);
 
@@ -977,7 +978,7 @@ const toNeuronsFundEconomics = (
       : undefined;
   };
 
-  const toDecimal = (decimal: [] | [RawDecimal]): Option<Decimal> => {
+  const toDecimal = (decimal: Nullable<RawDecimal>): Option<Decimal> => {
     const rawDecimal = fromNullable(decimal);
 
     if (isNullish(rawDecimal)) {
@@ -1037,7 +1038,7 @@ const toNeuronsFundEconomics = (
 };
 
 const toVotingPowerEconomics = (
-  votingPowerEconomics: [] | [RawVotingPowerEconomics],
+  votingPowerEconomics: Nullable<RawVotingPowerEconomics>,
 ): Option<VotingPowerEconomics> => {
   const rawVotingPowerEconomics = fromNullable(votingPowerEconomics);
 

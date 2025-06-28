@@ -116,7 +116,7 @@ export const memoToNeuronSubaccount = ({
     ]),
   );
 
-  return SubAccount.fromBytes(shaObj.digest()) as SubAccount;
+  return SubAccount.fromBytes(shaObj.digest());
 };
 
 export const memoToNeuronAccountIdentifier = ({
