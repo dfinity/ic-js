@@ -5,6 +5,10 @@
 - Updated `@dfinity/nns` to add support to a new type of action `RegisterExtension`.
 - Updated `@dfinity/nns` to add support for setting following for multiple topics (`setFollowing`).
 
+## Build
+
+- Add explicit peer dependency requirement on `buffer` to `@dfinity/nns`.
+
 # v70
 
 ## Overview

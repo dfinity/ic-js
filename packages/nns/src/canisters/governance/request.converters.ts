@@ -8,6 +8,7 @@ import {
   isNullish,
   nonNullish,
   toNullable,
+  type Nullable,
 } from "@dfinity/utils";
 import type {
   Amount,
@@ -918,7 +919,7 @@ export const fromAccountIdentifier = (
 
 const fromNeuronsFundEconomics = (
   neuronsFundEconomics: Option<NeuronsFundEconomics>,
-): [] | [RawNeuronsFundEconomics] => {
+): Nullable<RawNeuronsFundEconomics> => {
   if (isNullish(neuronsFundEconomics)) {
     return [];
   }
@@ -932,7 +933,7 @@ const fromNeuronsFundEconomics = (
 
   const toRawPercentage = (
     percentage: Option<Percentage>,
-  ): [] | [RawPercentage] =>
+  ): Nullable<RawPercentage> =>
     isNullish(percentage)
       ? []
       : [
@@ -941,7 +942,7 @@ const fromNeuronsFundEconomics = (
           },
         ];
 
-  const toRawDecimals = (decimal: Option<Decimal>): [] | [RawDecimal] =>
+  const toRawDecimals = (decimal: Option<Decimal>): Nullable<RawDecimal> =>
     isNullish(decimal)
       ? []
       : [
@@ -952,7 +953,7 @@ const fromNeuronsFundEconomics = (
 
   const toRawNeuronsFundMatchedFundingCurveCoefficients = (
     neuronsFundMatchedFundingCurveCoefficients: Option<NeuronsFundMatchedFundingCurveCoefficients>,
-  ): [] | [RawNeuronsFundMatchedFundingCurveCoefficients] =>
+  ): Nullable<RawNeuronsFundMatchedFundingCurveCoefficients> =>
     isNullish(neuronsFundMatchedFundingCurveCoefficients)
       ? []
       : [
@@ -986,7 +987,7 @@ const fromNeuronsFundEconomics = (
 
 const fromVotingPowerEconomics = (
   votingPowerEconomics: Option<VotingPowerEconomics>,
-): [] | [RawVotingPowerEconomics] => {
+): Nullable<RawVotingPowerEconomics> => {
   if (isNullish(votingPowerEconomics)) {
     return [];
   }
