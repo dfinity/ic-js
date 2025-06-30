@@ -1,5 +1,9 @@
 # Next version
 
+## Breaking Changes
+
+- Move `accountIdentifierToBytes`, `accountIdentifierFromBytes` and `principalToAccountIdentifier` from `@dfinity/ledger-icp` to `@dfinity/nns`.
+
 ## Features
 
 - Updated `@dfinity/nns` to add support to a new type of action `RegisterExtension`.

@@ -1,5 +1,4 @@
 import type { ActorSubclass } from "@dfinity/agent";
-import { principalToAccountIdentifier } from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
 import {
   assertNonNullish,
@@ -13,6 +12,7 @@ import { fromListNeurons } from "./canisters/governance/request.converters";
 import { toRawNeuron } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
 import type { Neuron } from "./types/governance_converters";
+import { principalToAccountIdentifier } from "./utils/account_identifier.utils";
 
 export class GovernanceTestCanister {
   private constructor(
