@@ -4,7 +4,6 @@ export const baseConfig: ViteUserConfig = {
   test: {
     environment: "node",
     globals: true,
-    setupFiles: ["./vitest.setup.ts"],
   },
 };
 

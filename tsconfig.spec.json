@@ -4,10 +4,5 @@
     "types": ["vitest/globals"]
   },
   "exclude": [],
-  "include": [
-    "./packages/**/*.js",
-    "./packages/**/*.ts",
-    "./vitest.config.ts",
-    "./vitest.setup.ts"
-  ]
+  "include": ["./packages/**/*.js", "./packages/**/*.ts", "./vitest.config.ts"]
 }

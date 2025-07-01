@@ -22,7 +22,6 @@ export default [
       "*.did.js",
       "*_pb.d.ts",
       "scripts",
-      "vitest.setup.ts",
       "**/vitest.config.ts",
       "**/esbuild.mjs",
       "packages/nns-proto/proto",

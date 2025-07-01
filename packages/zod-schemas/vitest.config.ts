@@ -5,7 +5,6 @@ export default defineConfig({
   ...baseConfig,
   test: {
     ...baseConfig.test,
-    setupFiles: [`../../vitest.setup.ts`],
     exclude: ["./dist"],
   },
 });
