@@ -13,7 +13,7 @@
 
 - Add explicit peer dependency requirement on `buffer` to `@dfinity/nns`.
 
-## Tests
+## Chore
 
 - Migrate from `Jest` to `Vitest`.
 
