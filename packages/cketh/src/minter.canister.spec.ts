@@ -9,14 +9,18 @@ import type {
   RetrieveEthRequest,
 } from "../candid/minter";
 import {
-  LedgerError,
+  LedgerAmountTooLowError,
+  LedgerInsufficientAllowanceError,
+  LedgerInsufficientFundsError,
   LedgerTemporaryUnavailableError,
+  LedgerWithdrawalError,
   MinterAmountTooLowError,
   MinterError,
   MinterInsufficientAllowanceError,
   MinterInsufficientFundsError,
   MinterRecipientAddressBlockedError,
   MinterTemporaryUnavailableError,
+  MinterTokenNotSupported,
 } from "./errors/minter.errors";
 import { CkETHMinterCanister } from "./minter.canister";
 import {
@@ -429,7 +433,9 @@ describe("ckETH minter canister", () => {
       const call = () => canister.withdrawErc20(params);
 
       await expect(call).rejects.toThrowError(
-        new MinterRecipientAddressBlockedError({ details: error.Err }),
+        new MinterTokenNotSupported({
+          details: error.Err.TokenNotSupported.supported_tokens,
+        }),
       );
     });
 
@@ -489,8 +495,11 @@ describe("ckETH minter canister", () => {
           const call = () => canister.withdrawErc20(params);
 
           await expect(call).rejects.toThrowError(
-            new LedgerTemporaryUnavailableError({
-              details: error.Err.CkErc20LedgerError,
+            new LedgerInsufficientAllowanceError({
+              details: {
+                error: error.Err.CkErc20LedgerError.error.InsufficientAllowance,
+                ckEthBlockIndex: error.Err.CkErc20LedgerError.cketh_block_index,
+              },
             }),
           );
         });
@@ -520,8 +529,11 @@ describe("ckETH minter canister", () => {
           const call = () => canister.withdrawErc20(params);
 
           await expect(call).rejects.toThrowError(
-            new LedgerTemporaryUnavailableError({
-              details: error.Err.CkErc20LedgerError,
+            new LedgerAmountTooLowError({
+              details: {
+                error: error.Err.CkErc20LedgerError.error.AmountTooLow,
+                ckEthBlockIndex: error.Err.CkErc20LedgerError.cketh_block_index,
+              },
             }),
           );
         });
@@ -551,8 +563,11 @@ describe("ckETH minter canister", () => {
           const call = () => canister.withdrawErc20(params);
 
           await expect(call).rejects.toThrowError(
-            new LedgerTemporaryUnavailableError({
-              details: error.Err.CkErc20LedgerError,
+            new LedgerInsufficientFundsError({
+              details: {
+                error: error.Err.CkErc20LedgerError.error.InsufficientFunds,
+                ckEthBlockIndex: error.Err.CkErc20LedgerError.cketh_block_index,
+              },
             }),
           );
         });
@@ -577,9 +592,12 @@ describe("ckETH minter canister", () => {
           const call = () => canister.withdrawErc20(params);
 
           await expect(call).rejects.toThrowError(
-            new LedgerError({
+            new LedgerWithdrawalError({
               msg: "Unsupported response type in ledger for minter.withdrawErc20",
-              details: error.Err,
+              details: {
+                error: error.Err.CkErc20LedgerError.error,
+                ckEthBlockIndex: error.Err.CkErc20LedgerError.cketh_block_index,
+              },
             }),
           );
         });
@@ -635,8 +653,10 @@ describe("ckETH minter canister", () => {
           const call = () => canister.withdrawErc20(params);
 
           await expect(call).rejects.toThrowError(
-            new LedgerTemporaryUnavailableError({
-              details: error.Err.CkEthLedgerError,
+            new LedgerInsufficientAllowanceError({
+              details: {
+                error: error.Err.CkEthLedgerError.error.InsufficientAllowance,
+              },
             }),
           );
         });
@@ -665,8 +685,10 @@ describe("ckETH minter canister", () => {
           const call = () => canister.withdrawErc20(params);
 
           await expect(call).rejects.toThrowError(
-            new LedgerTemporaryUnavailableError({
-              details: error.Err.CkEthLedgerError,
+            new LedgerAmountTooLowError({
+              details: {
+                error: error.Err.CkEthLedgerError.error.AmountTooLow,
+              },
             }),
           );
         });
@@ -695,8 +717,10 @@ describe("ckETH minter canister", () => {
           const call = () => canister.withdrawErc20(params);
 
           await expect(call).rejects.toThrowError(
-            new LedgerTemporaryUnavailableError({
-              details: error.Err.CkEthLedgerError,
+            new LedgerInsufficientFundsError({
+              details: {
+                error: error.Err.CkEthLedgerError.error.InsufficientFunds,
+              },
             }),
           );
         });
@@ -720,9 +744,11 @@ describe("ckETH minter canister", () => {
           const call = () => canister.withdrawErc20(params);
 
           await expect(call).rejects.toThrowError(
-            new LedgerError({
+            new LedgerWithdrawalError({
               msg: "Unsupported response type in ledger for minter.withdrawErc20",
-              details: error.Err,
+              details: {
+                error: error.Err.CkEthLedgerError.error,
+              },
             }),
           );
         });
