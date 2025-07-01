@@ -1,6 +1,6 @@
-import { defineConfig } from "vitest/config";
+import { ViteUserConfig, defineConfig } from "vitest/config";
 
-export const baseConfig = {
+export const baseConfig: ViteUserConfig = {
   test: {
     environment: "node",
     globals: true,
