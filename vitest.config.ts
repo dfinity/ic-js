@@ -1,7 +1,6 @@
-import type { UserConfig } from "vite";
 import { defineConfig } from "vitest/config";
 
-export const baseConfig: UserConfig = {
+export const baseConfig = {
   test: {
     environment: "node",
     globals: true,
@@ -9,8 +8,6 @@ export const baseConfig: UserConfig = {
   },
 };
 
-export default defineConfig(
-  (): UserConfig => ({
-    ...baseConfig,
-  }),
-);
+export default defineConfig({
+  ...baseConfig,
+});
