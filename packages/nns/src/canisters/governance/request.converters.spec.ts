@@ -61,6 +61,7 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
 
@@ -508,6 +509,7 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
 
@@ -562,6 +564,7 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
 
@@ -610,6 +613,7 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
 
@@ -681,6 +685,7 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
   });
