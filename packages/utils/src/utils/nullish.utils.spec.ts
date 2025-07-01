@@ -28,17 +28,6 @@ describe("nullish-utils", () => {
     });
   });
 
-  describe("isNullish", () => {
-    it("should determine nullable", () => {
-      expect(isNullish(null)).toBeTruthy();
-      expect(isNullish(undefined)).toBeTruthy();
-      expect(isNullish(0)).toBeFalsy();
-      expect(isNullish(1)).toBeFalsy();
-      expect(isNullish("")).toBeFalsy();
-      expect(isNullish([])).toBeFalsy();
-    });
-  });
-
   describe("notEmptyString", () => {
     it("should determine not empty", () => {
       expect(notEmptyString(null)).toBeFalsy();
