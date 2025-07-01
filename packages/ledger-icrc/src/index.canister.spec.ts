@@ -1,6 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   Account,
   _SERVICE as IcrcIndexService,
@@ -12,7 +12,7 @@ import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";
 import type { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => vi.clearAllMocks());
 
   const fakeSnsAccount: IcrcAccount = {
     owner: Principal.fromText("aaaaa-aa"),

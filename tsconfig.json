@@ -14,6 +14,8 @@
   "exclude": [
     "**/src/**/*.test.ts",
     "**/src/**/*.spec.ts",
-    "**/src/**/*.mock.ts"
+    "**/src/**/*.mock.ts",
+    "**/vitest.config.ts",
+    "**/vitest.setup.ts"
   ]
 }
