@@ -1,5 +1,4 @@
 import { HttpAgent } from "@dfinity/agent";
-import { describe, expect } from "@jest/globals";
 import {
   mockAgentManagerConfig,
   mockHttpAgent,
