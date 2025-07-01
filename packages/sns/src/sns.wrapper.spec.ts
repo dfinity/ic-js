@@ -236,7 +236,7 @@ describe("SnsWrapper", () => {
     });
   });
 
-  it("should collect metadata with query or update", async () => {
+  it("should collect nervous system parameters with query or update", async () => {
     await snsWrapper.nervousSystemParameters({});
     await certifiedSnsWrapper.nervousSystemParameters({});
 

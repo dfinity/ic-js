@@ -12,7 +12,7 @@ describe("error utils", () => {
       expect(isMethodNotSupportedError(err)).toBeTruthy();
     });
 
-    it("returns true for method is not supported for update", () => {
+    it("returns true for method is not supported for query", () => {
       const errorMessage = `Call failed:
       Canister: s55qq-oqaaa-aaaaa-aaakq-cai
       Method: get_auto_finalization_status (query)
