@@ -5,7 +5,6 @@
   },
   "exclude": [],
   "include": [
-    "./vite.config.ts",
     "./packages/**/*.js",
     "./packages/**/*.ts",
     "./vitest.config.ts",
