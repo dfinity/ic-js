@@ -1,4 +1,3 @@
-import { describe } from "@jest/globals";
 import {
   nowInBigIntNanoSeconds,
   secondsToDuration,
