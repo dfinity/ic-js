@@ -266,6 +266,7 @@ describe("BTC utils", () => {
         },
       );
     });
+
     it("fails on Regtest Bech32 P2WSH", () => {
       const address =
         "bcrt1q5n2k3frgpxces3dsw4qfpqk4kksv0cz96pldxdwxrrw0d5ud5hcqzzx7zt";
@@ -279,6 +280,7 @@ describe("BTC utils", () => {
         },
       );
     });
+
     it("Mainnet Bech32m P2tr", () => {
       const address =
         "bc1pz37fc4cn9ah8anwm4xqqhvxygjf9rjf2resrw8h8w4tmvcs0863sa2e586";

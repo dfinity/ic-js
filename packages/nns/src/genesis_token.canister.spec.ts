@@ -22,6 +22,7 @@ describe("GenesisTokenCanister", () => {
     const res = await gtc.claimNeurons({
       hexPubKey: "",
     });
+
     expect(res).toEqual([BigInt(1), BigInt(2)]);
   });
 
@@ -36,6 +37,7 @@ describe("GenesisTokenCanister", () => {
     const call = async () => {
       await gtc.claimNeurons({ hexPubKey: "" });
     };
+
     await expect(call).rejects.toThrow("An error occurred.");
   });
 });

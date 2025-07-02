@@ -43,6 +43,7 @@ describe("ic-management.utils", () => {
 
     it("should map a string snapshot ID by decoding it", () => {
       const result = mapSnapshotId(snapshotIdHex);
+
       expect(result).toEqual(mockSnapshotId);
     });
   });

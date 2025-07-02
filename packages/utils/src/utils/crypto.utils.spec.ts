@@ -39,6 +39,7 @@ describe("crypto.utils", () => {
 
     it("returns the expected hash for simple value", async () => {
       const hash = await hashObject({ a: 123 });
+
       expect(hash).toEqual(
         "917cbcf20ffdb44b525db310004af7597b512c57cf37ad585d9b37b5e6617cca",
       );
@@ -112,6 +113,7 @@ describe("crypto.utils", () => {
         };
 
         const hash = await hashObject(complexPayload);
+
         expect(hash).toMatch(hexRegex);
       });
     });
@@ -120,6 +122,7 @@ describe("crypto.utils", () => {
   describe("hashText", () => {
     it("returns a valid 64-character hex string for a simple string", async () => {
       const hash = await hashText("hello world");
+
       expect(hash).toHaveLength(64);
       expect(hash).toMatch(hexRegex);
     });
@@ -141,6 +144,7 @@ describe("crypto.utils", () => {
 
     it("returns expected hash for a known string", async () => {
       const hash = await hashText("abc");
+
       expect(hash).toBe(
         "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
       );
@@ -149,6 +153,7 @@ describe("crypto.utils", () => {
     it("handles non-string input (TextEncoder.encode implicitly use toString())", async () => {
       // @ts-expect-error intentionally passing non-string input
       const hash = await hashText({});
+
       expect(typeof hash).toBe("string");
       expect(hash).toMatch(/^[0-9a-f]{64}$/i);
     });

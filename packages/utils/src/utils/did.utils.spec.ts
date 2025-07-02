@@ -30,21 +30,25 @@ describe("did-utils", () => {
 
     it("should convert object to array", () => {
       const test = { test: "1" };
+
       expect(toNullable(test)).toEqual([test]);
     });
 
     it("should convert boolean to array", () => {
       const test = false;
+
       expect(toNullable(test)).toEqual([test]);
     });
 
     it("should convert null to empty array", () => {
       const test = null;
+
       expect(toNullable(test)).toEqual([]);
     });
 
     it("should convert 0 to array", () => {
       const test = 0;
+
       expect(toNullable(test)).toEqual([test]);
     });
   });

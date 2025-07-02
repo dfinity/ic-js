@@ -15,6 +15,7 @@ describe("Sns-wasm", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.listSnses({});
+
     expect(res).toEqual(deployedSnsMock);
   });
 });

@@ -8,8 +8,6 @@ describe("debounce-utils", () => {
     vi.spyOn(console, "error").mockImplementation(() => undefined),
   );
 
-  afterAll(() => vi.resetAllMocks());
-
   beforeEach(() => {
     vi.useFakeTimers();
     vi.spyOn(global, "setTimeout");
@@ -17,6 +15,8 @@ describe("debounce-utils", () => {
   });
 
   afterEach(() => vi.useRealTimers());
+
+  afterAll(() => vi.resetAllMocks());
 
   it("should debounce function with timeout", () => {
     const testDebounce = debounce(callback, 100);
@@ -27,7 +27,7 @@ describe("debounce-utils", () => {
 
     expect(setTimeout).toHaveBeenCalledTimes(3);
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
-    expect(callback).not.toBeCalled();
+    expect(callback).not.toHaveBeenCalled();
 
     vi.runAllTimers();
 
@@ -37,11 +37,11 @@ describe("debounce-utils", () => {
   it("should debounce one function call", () => {
     debounce(callback)();
 
-    expect(callback).not.toBeCalled();
+    expect(callback).not.toHaveBeenCalled();
 
     vi.runAllTimers();
 
-    expect(callback).toBeCalled();
+    expect(callback).toHaveBeenCalled();
     expect(callback).toHaveBeenCalledTimes(1);
   });
 
@@ -49,13 +49,16 @@ describe("debounce-utils", () => {
     const anotherCallback = vi.fn();
 
     const test = debounce(anotherCallback);
+
     test();
+
     test();
+
     test();
 
     vi.runAllTimers();
 
-    expect(anotherCallback).toBeCalled();
+    expect(anotherCallback).toHaveBeenCalled();
     expect(anotherCallback).toHaveBeenCalledTimes(1);
   });
 });

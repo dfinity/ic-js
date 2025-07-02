@@ -8,10 +8,11 @@ describe("error utils", () => {
        Reject code: 3
        Reject text: Canister 75ffu-oaaaa-aaaaa-aabbq-cai has no update method 'get_auto_finalization_status'"`;
       const err = new Error(errorMessage);
-      expect(isMethodNotSupportedError(err)).toBe(true);
+
+      expect(isMethodNotSupportedError(err)).toBeTruthy();
     });
 
-    it("returns true for method is not supported for update", () => {
+    it("returns true for method is not supported for query", () => {
       const errorMessage = `Call failed:
       Canister: s55qq-oqaaa-aaaaa-aaakq-cai
       Method: get_auto_finalization_status (query)
@@ -19,13 +20,14 @@ describe("error utils", () => {
       "Code": "DestinationInvalid"
       "Message": "IC0302: Canister s55qq-oqaaa-aaaaa-aaakq-cai has no query method 'get_auto_finalization_status'"`;
       const err = new Error(errorMessage);
-      expect(isMethodNotSupportedError(err)).toBe(true);
+
+      expect(isMethodNotSupportedError(err)).toBeTruthy();
     });
 
     it("returns false for other errors and non errors", () => {
-      expect(isMethodNotSupportedError(new Error("another error"))).toBe(false);
-      expect(isMethodNotSupportedError(undefined)).toBe(false);
-      expect(isMethodNotSupportedError({})).toBe(false);
+      expect(isMethodNotSupportedError(new Error("another error"))).toBeFalsy();
+      expect(isMethodNotSupportedError(undefined)).toBeFalsy();
+      expect(isMethodNotSupportedError({})).toBeFalsy();
     });
   });
 });

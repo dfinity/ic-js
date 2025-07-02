@@ -115,6 +115,7 @@ describe("ICP with 8 decimals", () => {
 
     const callToNumber = () =>
       TokenAmount.fromNumber({ token: ICPToken, amount: 1e-9 });
+
     expect(callToNumber).toThrow(
       expect.objectContaining({
         message: "Number 1e-9 has more than 8 decimals",
@@ -140,6 +141,7 @@ describe("TokenAmount v1", () => {
     const call = () => {
       TokenAmount.fromE8s({ token, amount: BigInt(1) });
     };
+
     expect(call).toThrow(
       new Error("Use TokenAmountV2 for number of decimals other than 8"),
     );
@@ -485,6 +487,7 @@ describe("TokenAmountV2 with 8 decimals", () => {
     name: "ICP",
     decimals: 8,
   };
+
   it("can be initialized from a number", () => {
     expect(TokenAmountV2.fromNumber({ token, amount: 1 })).toEqual(
       TokenAmountV2.fromUlps({

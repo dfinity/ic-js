@@ -156,7 +156,8 @@ describe("ICManagementCanister", () => {
         canisterId: mockCanisterId,
         settings: partialSettings,
       });
-      expect(service.update_settings).toBeCalledWith({
+
+      expect(service.update_settings).toHaveBeenCalledWith({
         canister_id: mockCanisterId,
         sender_canister_version: [],
         settings: {

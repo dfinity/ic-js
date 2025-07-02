@@ -68,6 +68,7 @@ describe("Index canister", () => {
         account: fakeSnsAccount,
         max_results: BigInt(10),
       });
+
       expect(res.transactions).toEqual([transactionWithId]);
     });
 
@@ -88,7 +89,8 @@ describe("Index canister", () => {
           account: fakeSnsAccount,
           max_results: BigInt(10),
         });
-      await expect(call).rejects.toThrowError(IndexError);
+
+      await expect(call).rejects.toThrow(IndexError);
     });
   });
 
