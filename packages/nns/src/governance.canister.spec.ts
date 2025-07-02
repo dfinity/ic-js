@@ -2250,7 +2250,7 @@ describe("GovernanceCanister", () => {
     });
   });
 
-  describe("getLastestRewardEvent", () => {
+  describe("getLatestRewardEvent", () => {
     const mockRewardEvent: RewardEvent = {
       rounds_since_last_distribution: [BigInt(1_000)],
       day_after_genesis: BigInt(365),
@@ -2269,7 +2269,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
         serviceOverride: service,
       });
-      const rewardEvent = await governance.getLastestRewardEvent(true);
+      const rewardEvent = await governance.getLatestRewardEvent(true);
       expect(service.get_latest_reward_event).toBeCalled();
       expect(rewardEvent).toBe(mockRewardEvent);
     });

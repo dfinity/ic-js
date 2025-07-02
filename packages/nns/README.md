@@ -194,7 +194,7 @@ Parameters:
 
 - [listNeurons](#gear-listneurons)
 - [listKnownNeurons](#gear-listknownneurons)
-- [getLastestRewardEvent](#gear-getlastestrewardevent)
+- [getLatestRewardEvent](#gear-getlatestrewardevent)
 - [listProposals](#gear-listproposals)
 - [stakeNeuron](#gear-stakeneuron)
 - [increaseDissolveDelay](#gear-increasedissolvedelay)
@@ -262,16 +262,16 @@ it is fetched using a query call.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L292)
 
-##### :gear: getLastestRewardEvent
+##### :gear: getLatestRewardEvent
 
 Returns the latest reward event.
 
 If `certified` is true, the request is fetched as an update call, otherwise
 it's fetched using a query call.
 
-| Method                  | Type                                            |
-| ----------------------- | ----------------------------------------------- |
-| `getLastestRewardEvent` | `(certified?: boolean) => Promise<RewardEvent>` |
+| Method                 | Type                                            |
+| ---------------------- | ----------------------------------------------- |
+| `getLatestRewardEvent` | `(certified?: boolean) => Promise<RewardEvent>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L314)
 
