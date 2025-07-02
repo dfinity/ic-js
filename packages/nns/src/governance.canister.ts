@@ -61,6 +61,7 @@ import {
 import {
   toArrayOfNeuronInfo,
   toListProposalsResponse,
+  toMetrics,
   toNetworkEconomics,
   toNeuronInfo,
   toProposalInfo,
@@ -85,6 +86,7 @@ import type {
   ClaimOrRefreshNeuronRequest,
   FollowRequest,
   FolloweesForTopic,
+  GovernanceCachedMetrics,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
@@ -1085,5 +1087,17 @@ export class GovernanceCanister {
       request,
       service: this.certifiedService,
     });
+  };
+
+  public getMetrics = async ({
+    certified = true,
+  }: {
+    certified: boolean;
+  }): Promise<GovernanceCachedMetrics> => {
+    const response = await this.getGovernanceService(certified).get_metrics();
+    if ("Err" in response) {
+      throw new GovernanceError(response.Err);
+    }
+    return toMetrics(response.Ok);
   };
 }
