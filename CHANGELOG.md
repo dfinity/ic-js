@@ -3,6 +3,7 @@
 ## Breaking Changes
 
 - Move `accountIdentifierToBytes`, `accountIdentifierFromBytes` and `principalToAccountIdentifier` from `@dfinity/ledger-icp` to `@dfinity/nns`.
+- Rename `getLastestRewardEvent` to `getLatestRewardEvent` in `@dfinity/nns`.
 
 ## Features
 
