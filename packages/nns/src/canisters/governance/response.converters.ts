@@ -1086,34 +1086,43 @@ export const toNetworkEconomics = (
 });
 
 const toNeuronSubsetMetrics = (
-  neuronSubsetMetrics: Nullable<RawNeuronSubsetMetrics>,
-): Option<NeuronSubsetMetrics> => ({
-  totalMaturityE8sEquivalent: fromNullable(
-    neuronSubsetMetrics.total_maturity_e8s_equivalent,
-  ),
-  maturityE8sEquivalentBuckets:
-    neuronSubsetMetrics.maturity_e8s_equivalent_buckets,
-  votingPowerBuckets: neuronSubsetMetrics.voting_power_buckets,
-  totalStakedE8s: fromNullable(neuronSubsetMetrics.total_staked_e8s),
-  count: fromNullable(neuronSubsetMetrics.count),
-  decidingVotingPowerBuckets: neuronSubsetMetrics.deciding_voting_power_buckets,
-  totalStakedMaturityE8sEquivalent: fromNullable(
-    neuronSubsetMetrics.total_staked_maturity_e8s_equivalent,
-  ),
-  totalPotentialVotingPower: fromNullable(
-    neuronSubsetMetrics.total_potential_voting_power,
-  ),
-  totalDecidingVotingPower: fromNullable(
-    neuronSubsetMetrics.total_deciding_voting_power,
-  ),
-  stakedMaturityE8sEquivalentBuckets:
-    neuronSubsetMetrics.staked_maturity_e8s_equivalent_buckets,
-  stakedE8sBuckets: neuronSubsetMetrics.staked_e8s_buckets,
-  totalVotingPower: fromNullable(neuronSubsetMetrics.total_voting_power),
-  potentialVotingPowerBuckets:
-    neuronSubsetMetrics.potential_voting_power_buckets,
-  countBuckets: neuronSubsetMetrics.count_buckets,
-});
+  rawNeuronSubsetMetrics: Nullable<RawNeuronSubsetMetrics>,
+): Option<NeuronSubsetMetrics> => {
+  const neuronSubsetMetrics = fromNullable(rawNeuronSubsetMetrics);
+
+  if (isNullish(neuronSubsetMetrics)) {
+    return undefined;
+  }
+
+  return {
+    totalMaturityE8sEquivalent: fromNullable(
+      neuronSubsetMetrics.total_maturity_e8s_equivalent,
+    ),
+    maturityE8sEquivalentBuckets:
+      neuronSubsetMetrics.maturity_e8s_equivalent_buckets,
+    votingPowerBuckets: neuronSubsetMetrics.voting_power_buckets,
+    totalStakedE8s: fromNullable(neuronSubsetMetrics.total_staked_e8s),
+    count: fromNullable(neuronSubsetMetrics.count),
+    decidingVotingPowerBuckets:
+      neuronSubsetMetrics.deciding_voting_power_buckets,
+    totalStakedMaturityE8sEquivalent: fromNullable(
+      neuronSubsetMetrics.total_staked_maturity_e8s_equivalent,
+    ),
+    totalPotentialVotingPower: fromNullable(
+      neuronSubsetMetrics.total_potential_voting_power,
+    ),
+    totalDecidingVotingPower: fromNullable(
+      neuronSubsetMetrics.total_deciding_voting_power,
+    ),
+    stakedMaturityE8sEquivalentBuckets:
+      neuronSubsetMetrics.staked_maturity_e8s_equivalent_buckets,
+    stakedE8sBuckets: neuronSubsetMetrics.staked_e8s_buckets,
+    totalVotingPower: fromNullable(neuronSubsetMetrics.total_voting_power),
+    potentialVotingPowerBuckets:
+      neuronSubsetMetrics.potential_voting_power_buckets,
+    countBuckets: neuronSubsetMetrics.count_buckets,
+  };
+};
 
 export const toMetrics = (
   metrics: RawGovernanceCachedMetrics,
