@@ -2576,10 +2576,32 @@ describe("GovernanceCanister", () => {
       expect(response).toEqual(mockMetrics);
     });
 
-    it("should throw an error", async () => {
+    it("handles neuronSubsetMetrics when not present", async () => {
       const service = mock<ActorSubclass<GovernanceService>>();
       service.get_metrics.mockResolvedValue({
-        Err: { error_message: "Oh No", error_type: 2 },
+        Ok: { ...rawMetrics, public_neuron_subset_metrics: [] },
+      });
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const response = await governance.getMetrics({
+        certified: true,
+      });
+
+      expect(service.get_metrics).toHaveBeenCalledTimes(1);
+      expect(response).toEqual({
+        ...mockMetrics,
+        publicNeuronSubsetMetrics: undefined,
+      });
+    });
+
+    it("should throw an error", async () => {
+      const error = { error_message: "Oh No", error_type: 2 };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.get_metrics.mockResolvedValue({
+        Err: error,
       });
 
       const governance = GovernanceCanister.create({
@@ -2590,8 +2612,8 @@ describe("GovernanceCanister", () => {
         certified: true,
       });
 
-      await expect(response).rejects.toThrowError();
       expect(service.get_metrics).toHaveBeenCalledTimes(1);
+      await expect(response).rejects.toThrowError(new GovernanceError(error));
     });
   });
 });
