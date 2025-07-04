@@ -47,6 +47,10 @@ Parameters:
 - `options.additionalProtocols`: - Additional protocols to allow (e.g., "wss:" or "ftp:"). ⚠️ Usage of insecure protocols is discouraged.
 - `options.allowHttpLocally`: - Whether to allow HTTP for localhost and 127.0.0.1. Default: true.
 
+Returns:
+
+- The Zod schema with URL validation.
+
 Examples:
 
 const schema = createUrlSchema({
