@@ -132,6 +132,10 @@ Parameters:
 - `params.canisterId`: The canister in which the chunks will be stored.
 - `params.chunk`: A chunk of Wasm module.
 
+Returns:
+
+The hash of the stored chunk.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L141)
 
 ##### :gear: clearChunkStore
@@ -159,6 +163,10 @@ List the hashes of chunks in the chunk storage of a canister.
 Parameters:
 
 - `params.canisterId`: The canister in which the chunks are stored.
+
+Returns:
+
+The list of hash of the stored chunks.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L180)
 
@@ -268,6 +276,11 @@ Parameters:
   Can be provided as a `string` or a `Uint8Array`.
   If not provided, a new snapshot will be created.
 
+Returns:
+
+A promise that resolves with the snapshot details,
+including the snapshot ID, total size, and timestamp.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L355)
 
 ##### :gear: listCanisterSnapshots
@@ -282,6 +295,10 @@ Parameters:
 
 - `params`: - Parameters for the listing operation.
 - `params.canisterId`: - The ID of the canister for which snapshots will be listed.
+
+Returns:
+
+A promise that resolves with the list of snapshots.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L384)
 
@@ -300,6 +317,10 @@ Parameters:
 - `params.snapshotId`: - The ID of the snapshot to load.
 - `params.senderCanisterVersion`: - The optional sender canister version. If provided, its value must be equal to ic0.canister_version.
 
+Returns:
+
+A promise that resolves when the snapshot is successfully loaded.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L410)
 
 ##### :gear: deleteCanisterSnapshot
@@ -315,6 +336,10 @@ Parameters:
 - `params`: - Parameters for the deletion operation.
 - `params.canisterId`: - The ID of the canister for which the snapshot will be deleted.
 - `params.snapshotId`: - The ID of the snapshot to delete.
+
+Returns:
+
+A promise that resolves when the snapshot is successfully deleted.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L441)
 

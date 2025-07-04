@@ -460,6 +460,10 @@ Parameters:
 
 - `params.certified`: - Query or update calls
 
+Returns:
+
+- A list of canisters ('root' | 'governance' | 'ledger' | 'dapps' | 'swap' | 'archives')
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/root.canister.ts#L32)
 
 ### :factory: SnsSwapCanister
