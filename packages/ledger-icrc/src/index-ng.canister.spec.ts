@@ -2,7 +2,7 @@ import type { ActorSubclass } from "@dfinity/agent";
 import type { Status } from "@dfinity/ledger-icp/candid";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   Account,
   _SERVICE as IcrcIndexNgService,
@@ -19,7 +19,7 @@ import {
 import type { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => vi.clearAllMocks());
 
   const fakeSnsAccount: IcrcAccount = {
     owner: Principal.fromText("aaaaa-aa"),
