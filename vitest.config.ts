@@ -4,6 +4,7 @@ export const baseConfig: ViteUserConfig = {
   test: {
     environment: "node",
     globals: true,
+    watch: false,
   },
 };
 
