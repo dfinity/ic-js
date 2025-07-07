@@ -57,24 +57,6 @@ import type {
   UpdateCanisterSettings,
 } from "./types/governance_converters";
 
-const nextRandomBytes: number[] = [];
-
-vi.mock("randombytes", () => ({
-  __esModule: true,
-  default: (n: number): Uint8Array => {
-    const nums: number[] = [];
-    for (let i = 0; i < n; i++) {
-      const nextByte = nextRandomBytes.shift();
-      if (nextByte !== undefined) {
-        nums.push(nextByte);
-      } else {
-        nums.push(Math.floor(Math.random() * 0x100));
-      }
-    }
-    return new Uint8Array(nums);
-  },
-}));
-
 const unexpectedGovernanceError: GovernanceErrorDetail = {
   error_message: "Error updating neuron",
   error_type: 0,
@@ -192,8 +174,37 @@ describe("GovernanceCanister", () => {
     ManageNetworkEconomics: mockManageNetworkEconomics,
   };
 
+  const nextRandomBytes: number[] = [];
+  let originalCrypto: Crypto;
+
+  beforeEach(() => {
+    originalCrypto = globalThis.crypto;
+
+    Object.defineProperty(globalThis, "crypto", {
+      value: {
+        getRandomValues: (arr: Uint8Array): Uint8Array => {
+          const nums: number[] = [];
+          for (let i = 0; i < arr.length; i++) {
+            const nextByte = nextRandomBytes.shift();
+            if (nextByte !== undefined) {
+              nums.push(nextByte);
+            } else {
+              nums.push(Math.floor(Math.random() * 0x100));
+            }
+          }
+          return new Uint8Array(nums);
+        },
+      },
+      configurable: true,
+    });
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
+
+    Object.defineProperty(globalThis, "crypto", {
+      value: originalCrypto,
+    });
   });
 
   describe("GovernanceCanister.listKnownNeurons", () => {
