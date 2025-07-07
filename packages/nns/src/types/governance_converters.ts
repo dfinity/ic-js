@@ -751,3 +751,66 @@ export interface CreateServiceNervousSystem {
   swapParameters: Option<SwapParameters>;
   initialTokenDistribution: Option<InitialTokenDistribution>;
 }
+
+export interface NeuronSubsetMetrics {
+  totalMaturityE8sEquivalent: Option<bigint>;
+  maturityE8sEquivalentBuckets: Array<[bigint, bigint]>;
+  votingPowerBuckets: Array<[bigint, bigint]>;
+  totalStakedE8s: Option<bigint>;
+  count: Option<bigint>;
+  decidingVotingPowerBuckets: Array<[bigint, bigint]>;
+  totalStakedMaturityE8sEquivalent: Option<bigint>;
+  totalPotentialVotingPower: Option<bigint>;
+  totalDecidingVotingPower: Option<bigint>;
+  stakedMaturityE8sEquivalentBuckets: Array<[bigint, bigint]>;
+  stakedE8sBuckets: Array<[bigint, bigint]>;
+  totalVotingPower: Option<bigint>;
+  potentialVotingPowerBuckets: Array<[bigint, bigint]>;
+  countBuckets: Array<[bigint, bigint]>;
+}
+
+export interface GovernanceCachedMetrics {
+  totalMaturityE8sEquivalent: bigint;
+  notDissolvingNeuronsE8sBuckets: Array<[bigint, number]>;
+  dissolvingNeuronsStakedMaturityE8sEquivalentSum: bigint;
+  garbageCollectableNeuronsCount: bigint;
+  dissolvingNeuronsStakedMaturityE8sEquivalentBuckets: Array<[bigint, number]>;
+  neuronsWithInvalidStakeCount: bigint;
+  notDissolvingNeuronsCountBuckets: Array<[bigint, bigint]>;
+  ectNeuronCount: bigint;
+  totalSupplyIcp: bigint;
+  neuronsWithLessThan6MonthsDissolveDelayCount: bigint;
+  dissolvedNeuronsCount: bigint;
+  communityFundTotalMaturityE8sEquivalent: bigint;
+  totalStakedE8sSeed: bigint;
+  totalStakedMaturityE8sEquivalentEct: bigint;
+  totalStakedE8s: bigint;
+  fullyLostVotingPowerNeuronSubsetMetrics: Option<NeuronSubsetMetrics>;
+  notDissolvingNeuronsCount: bigint;
+  totalLockedE8s: bigint;
+  neuronsFundTotalActiveNeurons: bigint;
+  totalVotingPowerNonSelfAuthenticatingController: Option<bigint>;
+  totalStakedMaturityE8sEquivalent: bigint;
+  notDissolvingNeuronsE8sBucketsEct: Array<[bigint, number]>;
+  decliningVotingPowerNeuronSubsetMetrics: Option<NeuronSubsetMetrics>;
+  totalStakedE8sEct: bigint;
+  notDissolvingNeuronsStakedMaturityE8sEquivalentSum: bigint;
+  dissolvedNeuronsE8s: bigint;
+  totalStakedE8sNonSelfAuthenticatingController: Option<bigint>;
+  dissolvingNeuronsE8sBucketsSeed: Array<[bigint, number]>;
+  neuronsWithLessThan6MonthsDissolveDelayE8s: bigint;
+  notDissolvingNeuronsStakedMaturityE8sEquivalentBuckets: Array<
+    [bigint, number]
+  >;
+  dissolvingNeuronsCountBuckets: Array<[bigint, bigint]>;
+  dissolvingNeuronsE8sBucketsEct: Array<[bigint, number]>;
+  nonSelfAuthenticatingControllerNeuronSubsetMetrics: Option<NeuronSubsetMetrics>;
+  dissolvingNeuronsCount: bigint;
+  dissolvingNeuronsE8sBuckets: Array<[bigint, number]>;
+  totalStakedMaturityE8sEquivalentSeed: bigint;
+  communityFundTotalStakedE8s: bigint;
+  notDissolvingNeuronsE8sBucketsSeed: Array<[bigint, number]>;
+  publicNeuronSubsetMetrics: Option<NeuronSubsetMetrics>;
+  timestampSeconds: bigint;
+  seedNeuronCount: bigint;
+}

@@ -1,5 +1,5 @@
 import type { ActorSubclass } from "@dfinity/agent";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type { _SERVICE as GenesisTokenService } from "../candid/genesis_token";
 import { GenesisTokenCanister } from "./genesis_token.canister";
 

@@ -16,10 +16,11 @@
     "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
     "build": "npm run rmdir && mkdir -p dist && cp -R candid dist && node esbuild.mjs && npm run ts-declaration",
     "prepack": "npm run build",
-    "test": "jest"
+    "test": "vitest"
   },
   "dependencies": {
-    "@noble/hashes": "^1.3.2"
+    "@noble/hashes": "^1.3.2",
+    "buffer": "^6.0.3"
   },
   "repository": {
     "type": "git",

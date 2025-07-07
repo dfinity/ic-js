@@ -1,8 +1,4 @@
-import {
-  accountIdentifierFromBytes,
-  principalToAccountIdentifier,
-  type AccountIdentifierHex,
-} from "@dfinity/ledger-icp";
+import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import {
   fromDefinedNullable,
@@ -12,6 +8,7 @@ import {
   toNullable,
   uint8ArrayToArrayOfNumber,
   uint8ArrayToHexString,
+  type Nullable,
 } from "@dfinity/utils";
 
 import type {
@@ -34,6 +31,7 @@ import type {
   Duration as RawDuration,
   Followees as RawFollowees,
   GlobalTimeOfDay as RawGlobalTimeOfDay,
+  GovernanceCachedMetrics as RawGovernanceCachedMetrics,
   GovernanceParameters as RawGovernanceParameters,
   Image as RawImage,
   InitialTokenDistribution as RawInitialTokenDistribution,
@@ -49,6 +47,7 @@ import type {
   NeuronId as RawNeuronId,
   NeuronIdOrSubaccount as RawNeuronIdOrSubaccount,
   NeuronInfo as RawNeuronInfo,
+  NeuronSubsetMetrics as RawNeuronSubsetMetrics,
   NeuronsFundEconomics as RawNeuronsFundEconomics,
   NeuronsFundMatchedFundingCurveCoefficients as RawNeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider as RawNodeProvider,
@@ -94,6 +93,7 @@ import type {
   Duration,
   Followees,
   GlobalTimeOfDay,
+  GovernanceCachedMetrics,
   GovernanceParameters,
   Image,
   InitialTokenDistribution,
@@ -107,6 +107,7 @@ import type {
   NeuronDistribution,
   NeuronIdOrSubaccount,
   NeuronInfo,
+  NeuronSubsetMetrics,
   NeuronsFundEconomics,
   NeuronsFundMatchedFundingCurveCoefficients,
   NodeProvider,
@@ -122,6 +123,10 @@ import type {
   VotingPowerEconomics,
   VotingRewardParameters,
 } from "../../types/governance_converters";
+import {
+  accountIdentifierFromBytes,
+  principalToAccountIdentifier,
+} from "../../utils/account_identifier.utils";
 import { fromAccountIdentifier } from "./request.converters";
 
 export const toNeuronInfo = ({
@@ -944,7 +949,7 @@ const toChange = (change: RawChange): Change => {
 };
 
 const toNeuronsFundEconomics = (
-  neuronsFundEconomics: [] | [RawNeuronsFundEconomics],
+  neuronsFundEconomics: Nullable<RawNeuronsFundEconomics>,
 ): Option<NeuronsFundEconomics> => {
   const rawNeuronsFundEconomics = fromNullable(neuronsFundEconomics);
 
@@ -960,7 +965,7 @@ const toNeuronsFundEconomics = (
   } = rawNeuronsFundEconomics;
 
   const toPercentage = (
-    percentage: [] | [RawPercentage],
+    percentage: Nullable<RawPercentage>,
   ): Option<Percentage> => {
     const rawPercentage = fromNullable(percentage);
 
@@ -977,7 +982,7 @@ const toNeuronsFundEconomics = (
       : undefined;
   };
 
-  const toDecimal = (decimal: [] | [RawDecimal]): Option<Decimal> => {
+  const toDecimal = (decimal: Nullable<RawDecimal>): Option<Decimal> => {
     const rawDecimal = fromNullable(decimal);
 
     if (isNullish(rawDecimal)) {
@@ -1037,7 +1042,7 @@ const toNeuronsFundEconomics = (
 };
 
 const toVotingPowerEconomics = (
-  votingPowerEconomics: [] | [RawVotingPowerEconomics],
+  votingPowerEconomics: Nullable<RawVotingPowerEconomics>,
 ): Option<VotingPowerEconomics> => {
   const rawVotingPowerEconomics = fromNullable(votingPowerEconomics);
 
@@ -1078,6 +1083,116 @@ export const toNetworkEconomics = (
   votingPowerEconomics: toVotingPowerEconomics(
     networkEconomics.voting_power_economics,
   ),
+});
+
+const toNeuronSubsetMetrics = (
+  rawNeuronSubsetMetrics: Nullable<RawNeuronSubsetMetrics>,
+): Option<NeuronSubsetMetrics> => {
+  const neuronSubsetMetrics = fromNullable(rawNeuronSubsetMetrics);
+
+  if (isNullish(neuronSubsetMetrics)) {
+    return undefined;
+  }
+
+  return {
+    totalMaturityE8sEquivalent: fromNullable(
+      neuronSubsetMetrics.total_maturity_e8s_equivalent,
+    ),
+    maturityE8sEquivalentBuckets:
+      neuronSubsetMetrics.maturity_e8s_equivalent_buckets,
+    votingPowerBuckets: neuronSubsetMetrics.voting_power_buckets,
+    totalStakedE8s: fromNullable(neuronSubsetMetrics.total_staked_e8s),
+    count: fromNullable(neuronSubsetMetrics.count),
+    decidingVotingPowerBuckets:
+      neuronSubsetMetrics.deciding_voting_power_buckets,
+    totalStakedMaturityE8sEquivalent: fromNullable(
+      neuronSubsetMetrics.total_staked_maturity_e8s_equivalent,
+    ),
+    totalPotentialVotingPower: fromNullable(
+      neuronSubsetMetrics.total_potential_voting_power,
+    ),
+    totalDecidingVotingPower: fromNullable(
+      neuronSubsetMetrics.total_deciding_voting_power,
+    ),
+    stakedMaturityE8sEquivalentBuckets:
+      neuronSubsetMetrics.staked_maturity_e8s_equivalent_buckets,
+    stakedE8sBuckets: neuronSubsetMetrics.staked_e8s_buckets,
+    totalVotingPower: fromNullable(neuronSubsetMetrics.total_voting_power),
+    potentialVotingPowerBuckets:
+      neuronSubsetMetrics.potential_voting_power_buckets,
+    countBuckets: neuronSubsetMetrics.count_buckets,
+  };
+};
+
+export const toMetrics = (
+  metrics: RawGovernanceCachedMetrics,
+): GovernanceCachedMetrics => ({
+  totalMaturityE8sEquivalent: metrics.total_maturity_e8s_equivalent,
+  notDissolvingNeuronsE8sBuckets: metrics.not_dissolving_neurons_e8s_buckets,
+  dissolvingNeuronsStakedMaturityE8sEquivalentSum:
+    metrics.dissolving_neurons_staked_maturity_e8s_equivalent_sum,
+  garbageCollectableNeuronsCount: metrics.garbage_collectable_neurons_count,
+  dissolvingNeuronsStakedMaturityE8sEquivalentBuckets:
+    metrics.dissolving_neurons_staked_maturity_e8s_equivalent_buckets,
+  neuronsWithInvalidStakeCount: metrics.neurons_with_invalid_stake_count,
+  notDissolvingNeuronsCountBuckets:
+    metrics.not_dissolving_neurons_count_buckets,
+  ectNeuronCount: metrics.ect_neuron_count,
+  totalSupplyIcp: metrics.total_supply_icp,
+  neuronsWithLessThan6MonthsDissolveDelayCount:
+    metrics.neurons_with_less_than_6_months_dissolve_delay_count,
+  dissolvedNeuronsCount: metrics.dissolved_neurons_count,
+  communityFundTotalMaturityE8sEquivalent:
+    metrics.community_fund_total_maturity_e8s_equivalent,
+  totalStakedE8sSeed: metrics.total_staked_e8s_seed,
+  totalStakedMaturityE8sEquivalentEct:
+    metrics.total_staked_maturity_e8s_equivalent_ect,
+  totalStakedE8s: metrics.total_staked_e8s,
+  fullyLostVotingPowerNeuronSubsetMetrics: toNeuronSubsetMetrics(
+    metrics.fully_lost_voting_power_neuron_subset_metrics,
+  ),
+  notDissolvingNeuronsCount: metrics.not_dissolving_neurons_count,
+  totalLockedE8s: metrics.total_locked_e8s,
+  neuronsFundTotalActiveNeurons: metrics.neurons_fund_total_active_neurons,
+  totalVotingPowerNonSelfAuthenticatingController: fromNullable(
+    metrics.total_voting_power_non_self_authenticating_controller,
+  ),
+  totalStakedMaturityE8sEquivalent:
+    metrics.total_staked_maturity_e8s_equivalent,
+  notDissolvingNeuronsE8sBucketsEct:
+    metrics.not_dissolving_neurons_e8s_buckets_ect,
+  decliningVotingPowerNeuronSubsetMetrics: toNeuronSubsetMetrics(
+    metrics.declining_voting_power_neuron_subset_metrics,
+  ),
+  totalStakedE8sEct: metrics.total_staked_e8s_ect,
+  notDissolvingNeuronsStakedMaturityE8sEquivalentSum:
+    metrics.not_dissolving_neurons_staked_maturity_e8s_equivalent_sum,
+  dissolvedNeuronsE8s: metrics.dissolved_neurons_e8s,
+  totalStakedE8sNonSelfAuthenticatingController: fromNullable(
+    metrics.total_staked_e8s_non_self_authenticating_controller,
+  ),
+  dissolvingNeuronsE8sBucketsSeed: metrics.dissolving_neurons_e8s_buckets_seed,
+  neuronsWithLessThan6MonthsDissolveDelayE8s:
+    metrics.neurons_with_less_than_6_months_dissolve_delay_e8s,
+  notDissolvingNeuronsStakedMaturityE8sEquivalentBuckets:
+    metrics.not_dissolving_neurons_staked_maturity_e8s_equivalent_buckets,
+  dissolvingNeuronsCountBuckets: metrics.dissolving_neurons_count_buckets,
+  dissolvingNeuronsE8sBucketsEct: metrics.dissolving_neurons_e8s_buckets_ect,
+  nonSelfAuthenticatingControllerNeuronSubsetMetrics: toNeuronSubsetMetrics(
+    metrics.non_self_authenticating_controller_neuron_subset_metrics,
+  ),
+  dissolvingNeuronsCount: metrics.dissolving_neurons_count,
+  dissolvingNeuronsE8sBuckets: metrics.dissolving_neurons_e8s_buckets,
+  totalStakedMaturityE8sEquivalentSeed:
+    metrics.total_staked_maturity_e8s_equivalent_seed,
+  communityFundTotalStakedE8s: metrics.community_fund_total_staked_e8s,
+  notDissolvingNeuronsE8sBucketsSeed:
+    metrics.not_dissolving_neurons_e8s_buckets_seed,
+  publicNeuronSubsetMetrics: toNeuronSubsetMetrics(
+    metrics.public_neuron_subset_metrics,
+  ),
+  timestampSeconds: metrics.timestamp_seconds,
+  seedNeuronCount: metrics.seed_neuron_count,
 });
 
 const toNodeProvider = (nodeProvider: RawNodeProvider): NodeProvider => ({

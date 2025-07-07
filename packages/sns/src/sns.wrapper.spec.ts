@@ -5,7 +5,7 @@ import type {
 } from "@dfinity/ledger-icrc";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type { ManageNeuronResponse, NeuronId } from "../candid/sns_governance";
 import { SnsNeuronPermissionType, SnsVote } from "./enums/governance.enums";
 import { SnsGovernanceError } from "./errors/governance.errors";
@@ -77,7 +77,7 @@ describe("SnsWrapper", () => {
     certified: true,
   });
 
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => vi.clearAllMocks());
 
   it("should call list of neurons with query or update", async () => {
     await snsWrapper.listNeurons({});
@@ -678,7 +678,7 @@ describe("SnsWrapper", () => {
 
     const stakeE8s = BigInt(10);
 
-    afterEach(() => jest.clearAllMocks());
+    afterEach(() => vi.clearAllMocks());
 
     describe("stakeNeuron", () => {
       describe("when transfer and claim work", () => {
@@ -687,7 +687,7 @@ describe("SnsWrapper", () => {
         );
         mockCertifiedLedgerCanister.transfer.mockResolvedValue(stakeE8s);
 
-        afterEach(() => jest.clearAllMocks());
+        afterEach(() => vi.clearAllMocks());
 
         it("should check whether neuron exists with that account until one with no neuron is found", async () => {
           mockCertifiedGovernanceCanister.queryNeuron
@@ -842,7 +842,7 @@ describe("SnsWrapper", () => {
         );
         mockCertifiedLedgerCanister.transfer.mockResolvedValue(stakeE8s);
 
-        afterEach(() => jest.clearAllMocks());
+        afterEach(() => vi.clearAllMocks());
 
         it("should make a transfer and refresh the neuron", async () => {
           await certifiedSnsWrapper.increaseStakeNeuron({
