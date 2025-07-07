@@ -6,7 +6,7 @@ import {
 } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   ClaimOrRefreshNeuronFromAccountResponse,
   GovernanceError as GovernanceErrorDetail,
@@ -15,8 +15,10 @@ import type {
   ManageNeuronRequest,
   ManageNeuronResponse,
   NeuronsFundEconomics,
+  GovernanceCachedMetrics as RawGovernanceCachedMetrics,
   InstallCode as RawInstallCode,
   NetworkEconomics as RawNetworkEconomics,
+  NeuronSubsetMetrics as RawNeuronSubsetMetrics,
   ProposalInfo as RawProposalInfo,
   StopOrStartCanister as RawStopOrStartCanister,
   UpdateCanisterSettings as RawUpdateCanisterSettings,
@@ -47,6 +49,7 @@ import {
 } from "./mocks/governance.mock";
 import type {
   Action,
+  GovernanceCachedMetrics,
   InstallCode,
   MakeProposalRequest,
   NetworkEconomics,
@@ -56,7 +59,7 @@ import type {
 
 const nextRandomBytes: number[] = [];
 
-jest.mock("randombytes", () => ({
+vi.mock("randombytes", () => ({
   __esModule: true,
   default: (n: number): Uint8Array => {
     const nums: number[] = [];
@@ -190,7 +193,7 @@ describe("GovernanceCanister", () => {
   };
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("GovernanceCanister.listKnownNeurons", () => {
@@ -288,7 +291,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
+        vi.fn().mockResolvedValue(BigInt(1)),
       );
 
       const stake = 100_000_000n;
@@ -352,7 +355,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
+        vi.fn().mockResolvedValue(BigInt(1)),
       );
       const fee = BigInt(10_000);
 
@@ -383,7 +386,7 @@ describe("GovernanceCanister", () => {
 
       const mockLedger = mock<LedgerCanister>();
       mockLedger.transfer.mockImplementation(
-        jest.fn().mockResolvedValue(BigInt(1)),
+        vi.fn().mockResolvedValue(BigInt(1)),
       );
 
       const governance = GovernanceCanister.create({
@@ -415,7 +418,7 @@ describe("GovernanceCanister", () => {
       );
 
       const mockLedger = mock<LedgerCanister>();
-      mockLedger.transfer.mockImplementation(jest.fn());
+      mockLedger.transfer.mockImplementation(vi.fn());
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
@@ -2033,7 +2036,7 @@ describe("GovernanceCanister", () => {
     it("throws error if invalid account id", async () => {
       const neuronId = BigInt(10);
       const service = mock<ActorSubclass<GovernanceService>>();
-      service.manage_neuron.mockImplementation(jest.fn());
+      service.manage_neuron.mockImplementation(vi.fn());
 
       const governance = GovernanceCanister.create({
         certifiedServiceOverride: service,
@@ -2247,7 +2250,7 @@ describe("GovernanceCanister", () => {
     });
   });
 
-  describe("getLastestRewardEvent", () => {
+  describe("getLatestRewardEvent", () => {
     const mockRewardEvent: RewardEvent = {
       rounds_since_last_distribution: [BigInt(1_000)],
       day_after_genesis: BigInt(365),
@@ -2266,7 +2269,7 @@ describe("GovernanceCanister", () => {
         certifiedServiceOverride: service,
         serviceOverride: service,
       });
-      const rewardEvent = await governance.getLastestRewardEvent(true);
+      const rewardEvent = await governance.getLatestRewardEvent(true);
       expect(service.get_latest_reward_event).toBeCalled();
       expect(rewardEvent).toBe(mockRewardEvent);
     });
@@ -2384,6 +2387,235 @@ describe("GovernanceCanister", () => {
         ],
         neuron_id_or_subaccount: [],
       } as ManageNeuronRequest);
+    });
+  });
+
+  describe("getMetrics", () => {
+    const rawNeuronSubsetMetrics: RawNeuronSubsetMetrics = {
+      total_maturity_e8s_equivalent: [BigInt(100)],
+      maturity_e8s_equivalent_buckets: [[BigInt(1), BigInt(2)]],
+      voting_power_buckets: [[BigInt(1), BigInt(2)]],
+      total_staked_e8s: [BigInt(2)],
+      count: [],
+      deciding_voting_power_buckets: [[BigInt(1), BigInt(2)]],
+      total_staked_maturity_e8s_equivalent: [BigInt(7)],
+      total_potential_voting_power: [BigInt(7)],
+      total_deciding_voting_power: [BigInt(7)],
+      staked_maturity_e8s_equivalent_buckets: [[BigInt(1), BigInt(2)]],
+      staked_e8s_buckets: [[BigInt(1), BigInt(2)]],
+      total_voting_power: [BigInt(7)],
+      potential_voting_power_buckets: [[BigInt(1), BigInt(2)]],
+      count_buckets: [[BigInt(1), BigInt(2)]],
+    };
+    const rawMetrics: RawGovernanceCachedMetrics = {
+      total_maturity_e8s_equivalent: BigInt(100_000_000_000),
+      not_dissolving_neurons_e8s_buckets: [[BigInt(10), 1]],
+      dissolving_neurons_staked_maturity_e8s_equivalent_sum: BigInt(50_000),
+      garbage_collectable_neurons_count: BigInt(5),
+      dissolving_neurons_staked_maturity_e8s_equivalent_buckets: [
+        [BigInt(1), 2],
+      ],
+      neurons_with_invalid_stake_count: BigInt(3),
+      not_dissolving_neurons_count_buckets: [[BigInt(2), BigInt(2)]],
+      ect_neuron_count: BigInt(100),
+      total_supply_icp: BigInt(1_000_000),
+      neurons_with_less_than_6_months_dissolve_delay_count: BigInt(10),
+      dissolved_neurons_count: BigInt(20),
+      community_fund_total_maturity_e8s_equivalent: BigInt(4),
+      total_staked_e8s_seed: BigInt(4),
+      total_staked_maturity_e8s_equivalent_ect: BigInt(4),
+      total_staked_e8s: BigInt(4),
+      fully_lost_voting_power_neuron_subset_metrics: [rawNeuronSubsetMetrics],
+      not_dissolving_neurons_count: BigInt(100),
+      total_locked_e8s: BigInt(3),
+      neurons_fund_total_active_neurons: BigInt(3),
+      total_voting_power_non_self_authenticating_controller: [],
+      total_staked_maturity_e8s_equivalent: BigInt(3),
+      not_dissolving_neurons_e8s_buckets_ect: [],
+      spawning_neurons_count: BigInt(55),
+      declining_voting_power_neuron_subset_metrics: [rawNeuronSubsetMetrics],
+      total_staked_e8s_ect: BigInt(3),
+      not_dissolving_neurons_staked_maturity_e8s_equivalent_sum: BigInt(3),
+      dissolved_neurons_e8s: BigInt(3),
+      total_staked_e8s_non_self_authenticating_controller: [],
+      dissolving_neurons_e8s_buckets_seed: [],
+      neurons_with_less_than_6_months_dissolve_delay_e8s: BigInt(3),
+      not_dissolving_neurons_staked_maturity_e8s_equivalent_buckets: [],
+      dissolving_neurons_count_buckets: [],
+      dissolving_neurons_e8s_buckets_ect: [],
+      non_self_authenticating_controller_neuron_subset_metrics: [
+        rawNeuronSubsetMetrics,
+      ],
+      dissolving_neurons_count: BigInt(8),
+      dissolving_neurons_e8s_buckets: [],
+      total_staked_maturity_e8s_equivalent_seed: BigInt(8),
+      community_fund_total_staked_e8s: BigInt(8),
+      not_dissolving_neurons_e8s_buckets_seed: [],
+      public_neuron_subset_metrics: [rawNeuronSubsetMetrics],
+      timestamp_seconds: BigInt(8),
+      seed_neuron_count: BigInt(8),
+    };
+    const mockMetrics: GovernanceCachedMetrics = {
+      communityFundTotalMaturityE8sEquivalent: 4n,
+      communityFundTotalStakedE8s: 8n,
+      spawningNeuronsCount: 55n,
+      decliningVotingPowerNeuronSubsetMetrics: {
+        count: undefined,
+        countBuckets: [[1n, 2n]],
+        decidingVotingPowerBuckets: [[1n, 2n]],
+        maturityE8sEquivalentBuckets: [[1n, 2n]],
+        potentialVotingPowerBuckets: [[1n, 2n]],
+        stakedE8sBuckets: [[1n, 2n]],
+        stakedMaturityE8sEquivalentBuckets: [[1n, 2n]],
+        totalDecidingVotingPower: 7n,
+        totalMaturityE8sEquivalent: 100n,
+        totalPotentialVotingPower: 7n,
+        totalStakedE8s: 2n,
+        totalStakedMaturityE8sEquivalent: 7n,
+        totalVotingPower: 7n,
+        votingPowerBuckets: [[1n, 2n]],
+      },
+      dissolvedNeuronsCount: 20n,
+      dissolvedNeuronsE8s: 3n,
+      dissolvingNeuronsCount: 8n,
+      dissolvingNeuronsCountBuckets: [],
+      dissolvingNeuronsE8sBuckets: [],
+      dissolvingNeuronsE8sBucketsEct: [],
+      dissolvingNeuronsE8sBucketsSeed: [],
+      dissolvingNeuronsStakedMaturityE8sEquivalentBuckets: [[1n, 2]],
+      dissolvingNeuronsStakedMaturityE8sEquivalentSum: 50000n,
+      ectNeuronCount: 100n,
+      fullyLostVotingPowerNeuronSubsetMetrics: {
+        count: undefined,
+        countBuckets: [[1n, 2n]],
+        decidingVotingPowerBuckets: [[1n, 2n]],
+        maturityE8sEquivalentBuckets: [[1n, 2n]],
+        potentialVotingPowerBuckets: [[1n, 2n]],
+        stakedE8sBuckets: [[1n, 2n]],
+        stakedMaturityE8sEquivalentBuckets: [[1n, 2n]],
+        totalDecidingVotingPower: 7n,
+        totalMaturityE8sEquivalent: 100n,
+        totalPotentialVotingPower: 7n,
+        totalStakedE8s: 2n,
+        totalStakedMaturityE8sEquivalent: 7n,
+        totalVotingPower: 7n,
+        votingPowerBuckets: [[1n, 2n]],
+      },
+      garbageCollectableNeuronsCount: 5n,
+      neuronsFundTotalActiveNeurons: 3n,
+      neuronsWithInvalidStakeCount: 3n,
+      neuronsWithLessThan6MonthsDissolveDelayCount: 10n,
+      neuronsWithLessThan6MonthsDissolveDelayE8s: 3n,
+      nonSelfAuthenticatingControllerNeuronSubsetMetrics: {
+        count: undefined,
+        countBuckets: [[1n, 2n]],
+        decidingVotingPowerBuckets: [[1n, 2n]],
+        maturityE8sEquivalentBuckets: [[1n, 2n]],
+        potentialVotingPowerBuckets: [[1n, 2n]],
+        stakedE8sBuckets: [[1n, 2n]],
+        stakedMaturityE8sEquivalentBuckets: [[1n, 2n]],
+        totalDecidingVotingPower: 7n,
+        totalMaturityE8sEquivalent: 100n,
+        totalPotentialVotingPower: 7n,
+        totalStakedE8s: 2n,
+        totalStakedMaturityE8sEquivalent: 7n,
+        totalVotingPower: 7n,
+        votingPowerBuckets: [[1n, 2n]],
+      },
+      notDissolvingNeuronsCount: 100n,
+      notDissolvingNeuronsCountBuckets: [[2n, 2n]],
+      notDissolvingNeuronsE8sBuckets: [[10n, 1]],
+      notDissolvingNeuronsE8sBucketsEct: [],
+      notDissolvingNeuronsE8sBucketsSeed: [],
+      notDissolvingNeuronsStakedMaturityE8sEquivalentBuckets: [],
+      notDissolvingNeuronsStakedMaturityE8sEquivalentSum: 3n,
+      publicNeuronSubsetMetrics: {
+        count: undefined,
+        countBuckets: [[1n, 2n]],
+        decidingVotingPowerBuckets: [[1n, 2n]],
+        maturityE8sEquivalentBuckets: [[1n, 2n]],
+        potentialVotingPowerBuckets: [[1n, 2n]],
+        stakedE8sBuckets: [[1n, 2n]],
+        stakedMaturityE8sEquivalentBuckets: [[1n, 2n]],
+        totalDecidingVotingPower: 7n,
+        totalMaturityE8sEquivalent: 100n,
+        totalPotentialVotingPower: 7n,
+        totalStakedE8s: 2n,
+        totalStakedMaturityE8sEquivalent: 7n,
+        totalVotingPower: 7n,
+        votingPowerBuckets: [[1n, 2n]],
+      },
+      seedNeuronCount: 8n,
+      timestampSeconds: 8n,
+      totalLockedE8s: 3n,
+      totalMaturityE8sEquivalent: 100000000000n,
+      totalStakedE8s: 4n,
+      totalStakedE8sEct: 3n,
+      totalStakedE8sNonSelfAuthenticatingController: undefined,
+      totalStakedE8sSeed: 4n,
+      totalStakedMaturityE8sEquivalent: 3n,
+      totalStakedMaturityE8sEquivalentEct: 4n,
+      totalStakedMaturityE8sEquivalentSeed: 8n,
+      totalSupplyIcp: 1000000n,
+      totalVotingPowerNonSelfAuthenticatingController: undefined,
+    };
+
+    it("gets ths metrics parameters", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.get_metrics.mockResolvedValue({
+        Ok: rawMetrics,
+      });
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const response = await governance.getMetrics({
+        certified: true,
+      });
+
+      expect(service.get_metrics).toHaveBeenCalledTimes(1);
+      expect(response).toEqual(mockMetrics);
+    });
+
+    it("handles neuronSubsetMetrics when not present", async () => {
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.get_metrics.mockResolvedValue({
+        Ok: { ...rawMetrics, public_neuron_subset_metrics: [] },
+      });
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const response = await governance.getMetrics({
+        certified: true,
+      });
+
+      expect(service.get_metrics).toHaveBeenCalledTimes(1);
+      expect(response).toEqual({
+        ...mockMetrics,
+        publicNeuronSubsetMetrics: undefined,
+      });
+    });
+
+    it("should throw an error", async () => {
+      const error = { error_message: "Oh No", error_type: 2 };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.get_metrics.mockResolvedValue({
+        Err: error,
+      });
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+        serviceOverride: service,
+      });
+      const response = governance.getMetrics({
+        certified: true,
+      });
+
+      expect(service.get_metrics).toHaveBeenCalledTimes(1);
+      await expect(response).rejects.toThrowError(new GovernanceError(error));
     });
   });
 });

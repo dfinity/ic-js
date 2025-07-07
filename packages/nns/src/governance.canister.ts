@@ -13,6 +13,7 @@ import {
   isNullish,
   nonNullish,
   uint8ArrayToBigInt,
+  type Nullable,
 } from "@dfinity/utils";
 import randomBytes from "randombytes";
 import type {
@@ -60,6 +61,7 @@ import {
 import {
   toArrayOfNeuronInfo,
   toListProposalsResponse,
+  toMetrics,
   toNetworkEconomics,
   toNeuronInfo,
   toProposalInfo,
@@ -84,6 +86,7 @@ import type {
   ClaimOrRefreshNeuronRequest,
   FollowRequest,
   FolloweesForTopic,
+  GovernanceCachedMetrics,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
@@ -308,7 +311,7 @@ export class GovernanceCanister {
    * it's fetched using a query call.
    *
    */
-  public getLastestRewardEvent = (certified = true): Promise<RewardEvent> =>
+  public getLatestRewardEvent = (certified = true): Promise<RewardEvent> =>
     this.getGovernanceService(certified).get_latest_reward_event();
 
   /**
@@ -675,7 +678,7 @@ export class GovernanceCanister {
     proposalId: bigint;
     certified?: boolean;
   }): Promise<ProposalInfo | undefined> => {
-    const [proposalInfo]: [] | [RawProposalInfo] =
+    const [proposalInfo]: Nullable<RawProposalInfo> =
       await this.getGovernanceService(certified).get_proposal_info(proposalId);
     return proposalInfo ? toProposalInfo(proposalInfo) : undefined;
   };
@@ -1084,5 +1087,17 @@ export class GovernanceCanister {
       request,
       service: this.certifiedService,
     });
+  };
+
+  public getMetrics = async ({
+    certified = true,
+  }: {
+    certified: boolean;
+  }): Promise<GovernanceCachedMetrics> => {
+    const response = await this.getGovernanceService(certified).get_metrics();
+    if ("Err" in response) {
+      throw new GovernanceError(response.Err);
+    }
+    return toMetrics(response.Ok);
   };
 }

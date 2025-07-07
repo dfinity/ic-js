@@ -85,6 +85,10 @@ Parameters:
 
 - `amount`: - in string format
 
+Returns:
+
+bigint | FromStringToTokenError
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L12)
 
 #### :gear: isNullish
@@ -98,6 +102,10 @@ Checks if a given argument is null or undefined.
 Parameters:
 
 - `argument`: - The argument to check.
+
+Returns:
+
+`true` if the argument is null or undefined; otherwise, `false`.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L8)
 
@@ -113,6 +121,10 @@ Parameters:
 
 - `argument`: - The argument to check.
 
+Returns:
+
+`true` if the argument is not null or undefined; otherwise, `false`.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L19)
 
 #### :gear: notEmptyString
@@ -127,6 +139,10 @@ Parameters:
 
 - `value`: - The value to check.
 
+Returns:
+
+`true` if the value is not null, not undefined, and not an empty string; otherwise, `false`.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L29)
 
 #### :gear: isEmptyString
@@ -140,6 +156,10 @@ Checks if a given value is null, undefined, or an empty string.
 Parameters:
 
 - `value`: - The value to check.
+
+Returns:
+
+Type predicate indicating if the value is null, undefined, or an empty string.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L39)
 
@@ -179,6 +199,10 @@ Parameters:
 - `params.identity`: The identity to use for the request.
 - `params.resolution`: The resolution to use. Default is `race`.
 
+Returns:
+
+A promise that resolves when the request is done.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/query.ts#L36)
 
 #### :gear: defaultAgent
@@ -188,6 +212,10 @@ Get a default agent that connects to mainnet with the anonymous identity.
 | Function       | Type          |
 | -------------- | ------------- |
 | `defaultAgent` | `() => Agent` |
+
+Returns:
+
+The default agent to use
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L14)
 
@@ -334,6 +362,10 @@ Parameters:
 
 - `input`: The input array to encode.
 
+Returns:
+
+A Base32 string encoding the input.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base32.utils.ts#L21)
 
 #### :gear: decodeBase32
@@ -363,6 +395,10 @@ Parameters:
 
 - `uint8Array`: - The Uint8Array containing binary data to be encoded.
 
+Returns:
+
+- The base64 encoded string representation of the binary data.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base64.utils.ts#L7)
 
 #### :gear: base64ToUint8Array
@@ -376,6 +412,10 @@ Converts a base64 encoded string to a Uint8Array (binary data).
 Parameters:
 
 - `base64String`: - The base64 encoded string to be decoded.
+
+Returns:
+
+- The Uint8Array representation of the decoded binary data.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base64.utils.ts#L16)
 
@@ -407,6 +447,10 @@ Parameters:
 - `_key`: - Ignored. Only provided for API compatibility.
 - `value`: - The value to transform before stringification.
 
+Returns:
+
+The transformed value if it matches a known type, otherwise the original value.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L22)
 
 #### :gear: jsonReviver
@@ -430,6 +474,10 @@ Parameters:
 - `_key`: - Ignored but provided for API compatibility.
 - `value`: - The parsed value to transform.
 
+Returns:
+
+The reconstructed value if it matches a known type, otherwise the original value.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L53)
 
 #### :gear: hashObject
@@ -446,6 +494,10 @@ hashed using the SubtleCrypto API. The resulting hash is returned as a hex strin
 Parameters:
 
 - `params`: - The object to hash.
+
+Returns:
+
+A promise that resolves to the hex string of the SHA-256 hash.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L14)
 
@@ -464,6 +516,10 @@ Parameters:
 
 - `text`: - The text to hash.
 
+Returns:
+
+A promise that resolves to the hex string of the SHA-256 hash.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L31)
 
 #### :gear: secondsToDuration
@@ -480,6 +536,10 @@ Parameters:
 - `options.seconds`: - The number of seconds to convert.
 - `options.i18n`: - The i18n object for customizing language and units. Defaults to English.
 
+Returns:
+
+The human-readable duration string.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L43)
 
 #### :gear: nowInBigIntNanoSeconds
@@ -489,6 +549,10 @@ Returns the current timestamp in nanoseconds as a `bigint`.
 | Function                 | Type           |
 | ------------------------ | -------------- |
 | `nowInBigIntNanoSeconds` | `() => bigint` |
+
+Returns:
+
+The current timestamp in nanoseconds.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L123)
 
@@ -503,6 +567,10 @@ Converts a given `Date` object to a timestamp in nanoseconds as a `bigint`.
 Parameters:
 
 - `date`: - The `Date` object to convert.
+
+Returns:
+
+The timestamp in nanoseconds.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L132)
 
@@ -523,64 +591,84 @@ Parameters:
 - `func`: - The function to debounce. It will only be called after no new calls happen within the specified timeout.
 - `timeout`: - The debounce delay in milliseconds. Defaults to 300ms if not provided or invalid.
 
+Returns:
+
+A debounced version of the original function.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L13)
 
 #### :gear: toNullable
 
 Converts a value into a Candid-style variant representation of an optional value.
 
-| Function     | Type                                               |
-| ------------ | -------------------------------------------------- |
-| `toNullable` | `<T>(value?: T or null or undefined) => [] or [T]` |
+| Function     | Type                                                 |
+| ------------ | ---------------------------------------------------- |
+| `toNullable` | `<T>(value?: T or null or undefined) => Nullable<T>` |
 
 Parameters:
 
 - `value`: - The value to convert into a Candid-style variant.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L11)
+Returns:
+
+A Candid-style variant representation: an empty array for `null` and `undefined` or an array with the value.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L12)
 
 #### :gear: fromNullable
 
 Extracts the value from a Candid-style variant representation of an optional value.
 
-| Function       | Type                                      |
-| -------------- | ----------------------------------------- |
-| `fromNullable` | `<T>(value: [] or [T]) => T or undefined` |
+| Function       | Type                                        |
+| -------------- | ------------------------------------------- |
+| `fromNullable` | `<T>(value: Nullable<T>) => T or undefined` |
 
 Parameters:
 
 - `value`: - A Candid-style variant representing an optional value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L21)
+Returns:
+
+The extracted value, or `undefined` if the array is empty.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L22)
 
 #### :gear: fromDefinedNullable
 
 Extracts the value from a Candid-style variant representation of an optional value,
 ensuring the value is defined. Throws an error if the array is empty or the value is nullish.
 
-| Function              | Type                         |
-| --------------------- | ---------------------------- |
-| `fromDefinedNullable` | `<T>(value: [] or [T]) => T` |
+| Function              | Type                           |
+| --------------------- | ------------------------------ |
+| `fromDefinedNullable` | `<T>(value: Nullable<T>) => T` |
 
 Parameters:
 
 - `value`: - A Candid-style variant representing an optional value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L32)
+Returns:
+
+The extracted value.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L34)
 
 #### :gear: fromNullishNullable
 
 Extracts the value from a nullish Candid-style variant representation.
 
-| Function              | Type                                                   |
-| --------------------- | ------------------------------------------------------ |
-| `fromNullishNullable` | `<T>(value: [] or [T] or undefined) => T or undefined` |
+| Function              | Type                                               |
+| --------------------- | -------------------------------------------------- |
+| `fromNullishNullable` | `<T>(value: NullishNullable<T>) => T or undefined` |
 
 Parameters:
 
 - `value`: - A Candid-style variant or `undefined`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L47)
+Returns:
+
+The extracted value, or `undefined` if the input is nullish or the array is empty.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L49)
 
 #### :gear: principalToSubAccount
 
@@ -610,6 +698,10 @@ Parameters:
 
 - `params.minVersion`: Ex: "1.0.0"
 - `params.currentVersion`: Ex: "2.0.0"
+
+Returns:
+
+boolean
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L34)
 
@@ -709,6 +801,10 @@ Parameters:
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
 
+Returns:
+
+The amount of e8s.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L224)
 
 ### :factory: TokenAmountV2
@@ -785,6 +881,10 @@ Parameters:
 | -------- | -------------- |
 | `toUlps` | `() => bigint` |
 
+Returns:
+
+The amount of ulps.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L324)
 
 ##### :gear: toE8s
@@ -792,6 +892,10 @@ Parameters:
 | Method  | Type           |
 | ------- | -------------- |
 | `toE8s` | `() => bigint` |
+
+Returns:
+
+The amount of ulps in e8s precision
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L332)
 
@@ -829,6 +933,10 @@ Parameters:
 - `config.fetchRootKey`: - Whether to fetch the root key for certificate validation.
 - `config.host`: - The host to connect to.
 
+Returns:
+
+A new instance of `AgentManager`.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L72)
 
 #### Methods
@@ -850,6 +958,10 @@ If no agent exists for the identity, a new one is created, cached, and then retu
 Parameters:
 
 - `identity`: - The identity to be used to create the agent.
+
+Returns:
+
+The HttpAgent associated with the given identity.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L85)
 

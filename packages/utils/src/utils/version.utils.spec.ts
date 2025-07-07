@@ -33,6 +33,7 @@ describe("smallerVersion", () => {
       }),
     ).toBe(true);
   });
+
   it("returns false if current version is bigger than min version", () => {
     expect(
       smallerVersion({
@@ -65,6 +66,7 @@ describe("smallerVersion", () => {
       }),
     ).toBe(false);
   });
+
   it("returns false if current version is same as min version", () => {
     expect(
       smallerVersion({
@@ -98,7 +100,7 @@ describe("smallerVersion", () => {
     ).toBe(false);
   });
 
-  it.only("works with tagged versions", () => {
+  it("works with tagged versions", () => {
     expect(
       smallerVersion({
         minVersion: "1.0.0-alpha",

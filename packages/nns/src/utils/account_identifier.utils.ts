@@ -1,3 +1,4 @@
+import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
 import {
   arrayOfNumberToUint8Array,
@@ -7,7 +8,10 @@ import {
 } from "@dfinity/utils";
 import { sha224 } from "@noble/hashes/sha256";
 import { Buffer } from "buffer";
-import type { AccountIdentifierHex } from "../types/common";
+
+// The following functions were originally made available in @dfinity/ledger-icp for domain alignment reasons.
+// However, they rely on Buffer — which requires a polyfill and significantly increases bundle size in web environments.
+// Since they are only used by @dfinity/nns and potentially the NNS dapp, they have been moved to this package instead.
 
 export const accountIdentifierToBytes = (
   accountIdentifier: AccountIdentifierHex,

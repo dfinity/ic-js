@@ -1,7 +1,6 @@
-import {
-  accountIdentifierToBytes,
-  type AccountIdentifier as AccountIdentifierClass,
-  type AccountIdentifierHex,
+import type {
+  AccountIdentifier as AccountIdentifierClass,
+  AccountIdentifierHex,
 } from "@dfinity/ledger-icp";
 import { Principal } from "@dfinity/principal";
 import {
@@ -9,6 +8,7 @@ import {
   isNullish,
   nonNullish,
   toNullable,
+  type Nullable,
 } from "@dfinity/utils";
 import type {
   Amount,
@@ -94,6 +94,7 @@ import type {
   VotingPowerEconomics,
   VotingRewardParameters,
 } from "../../types/governance_converters";
+import { accountIdentifierToBytes } from "../../utils/account_identifier.utils";
 
 const fromProposalId = (proposalId: ProposalId): RawNeuronId => ({
   id: proposalId,
@@ -448,11 +449,11 @@ const fromInstallCode = (installCode: InstallCodeRequest): RawInstallCode => {
 
 const fromCanisterSettings = (
   canisterSettings: Option<CanisterSettings>,
-): [RawCanisterSettings] | [] =>
-  canisterSettings === undefined
-    ? []
-    : [
-        {
+): Nullable<RawCanisterSettings> =>
+  toNullable(
+    canisterSettings === undefined
+      ? undefined
+      : {
           freezing_threshold: toNullable(canisterSettings.freezingThreshold),
           controllers: canisterSettings.controllers
             ? [
@@ -471,7 +472,7 @@ const fromCanisterSettings = (
             canisterSettings.wasmMemoryThreshold,
           ),
         },
-      ];
+  );
 
 const fromAction = (action: ProposalActionRequest): RawAction => {
   if ("ExecuteNnsFunction" in action) {
@@ -918,7 +919,7 @@ export const fromAccountIdentifier = (
 
 const fromNeuronsFundEconomics = (
   neuronsFundEconomics: Option<NeuronsFundEconomics>,
-): [] | [RawNeuronsFundEconomics] => {
+): Nullable<RawNeuronsFundEconomics> => {
   if (isNullish(neuronsFundEconomics)) {
     return [];
   }
@@ -932,7 +933,7 @@ const fromNeuronsFundEconomics = (
 
   const toRawPercentage = (
     percentage: Option<Percentage>,
-  ): [] | [RawPercentage] =>
+  ): Nullable<RawPercentage> =>
     isNullish(percentage)
       ? []
       : [
@@ -941,7 +942,7 @@ const fromNeuronsFundEconomics = (
           },
         ];
 
-  const toRawDecimals = (decimal: Option<Decimal>): [] | [RawDecimal] =>
+  const toRawDecimals = (decimal: Option<Decimal>): Nullable<RawDecimal> =>
     isNullish(decimal)
       ? []
       : [
@@ -952,7 +953,7 @@ const fromNeuronsFundEconomics = (
 
   const toRawNeuronsFundMatchedFundingCurveCoefficients = (
     neuronsFundMatchedFundingCurveCoefficients: Option<NeuronsFundMatchedFundingCurveCoefficients>,
-  ): [] | [RawNeuronsFundMatchedFundingCurveCoefficients] =>
+  ): Nullable<RawNeuronsFundMatchedFundingCurveCoefficients> =>
     isNullish(neuronsFundMatchedFundingCurveCoefficients)
       ? []
       : [
@@ -986,7 +987,7 @@ const fromNeuronsFundEconomics = (
 
 const fromVotingPowerEconomics = (
   votingPowerEconomics: Option<VotingPowerEconomics>,
-): [] | [RawVotingPowerEconomics] => {
+): Nullable<RawVotingPowerEconomics> => {
   if (isNullish(votingPowerEconomics)) {
     return [];
   }
