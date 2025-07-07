@@ -427,6 +427,10 @@ Splits a neuron creating a new one
 | ------------- | ----------------------------------------------------------------------------------- |
 | `splitNeuron` | `({ neuronId, amount, }: { neuronId: bigint; amount: bigint; }) => Promise<bigint>` |
 
+Returns:
+
+newNeuronId
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L633)
 
 ##### :gear: getProposal
@@ -449,6 +453,10 @@ Create new proposal
 | Method         | Type                                                             |
 | -------------- | ---------------------------------------------------------------- |
 | `makeProposal` | `(request: MakeProposalRequest) => Promise<bigint or undefined>` |
+
+Returns:
+
+The newly created proposal ID or undefined if the success response returned by the Governance canister does not provide such information.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L691)
 
