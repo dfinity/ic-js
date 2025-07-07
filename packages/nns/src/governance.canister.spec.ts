@@ -2432,6 +2432,7 @@ describe("GovernanceCanister", () => {
       total_voting_power_non_self_authenticating_controller: [],
       total_staked_maturity_e8s_equivalent: BigInt(3),
       not_dissolving_neurons_e8s_buckets_ect: [],
+      spawning_neurons_count: BigInt(55),
       declining_voting_power_neuron_subset_metrics: [rawNeuronSubsetMetrics],
       total_staked_e8s_ect: BigInt(3),
       not_dissolving_neurons_staked_maturity_e8s_equivalent_sum: BigInt(3),
@@ -2457,6 +2458,7 @@ describe("GovernanceCanister", () => {
     const mockMetrics: GovernanceCachedMetrics = {
       communityFundTotalMaturityE8sEquivalent: 4n,
       communityFundTotalStakedE8s: 8n,
+      spawningNeuronsCount: 55n,
       decliningVotingPowerNeuronSubsetMetrics: {
         count: undefined,
         countBuckets: [[1n, 2n]],
