@@ -432,6 +432,7 @@ export const idlFactory = ({ IDL }) => {
     'not_dissolving_neurons_e8s_buckets_ect' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
+    'spawning_neurons_count' : IDL.Nat64,
     'declining_voting_power_neuron_subset_metrics' : IDL.Opt(
       NeuronSubsetMetrics
     ),
@@ -1453,6 +1454,7 @@ export const init = ({ IDL }) => {
     'not_dissolving_neurons_e8s_buckets_ect' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
+    'spawning_neurons_count' : IDL.Nat64,
     'declining_voting_power_neuron_subset_metrics' : IDL.Opt(
       NeuronSubsetMetrics
     ),
