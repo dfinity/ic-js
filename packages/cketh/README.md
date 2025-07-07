@@ -89,6 +89,10 @@ Parameters:
 - `params`: The parameters to resolve the ckETH smart contract address.
 - `params.certified`: query or update call
 
+Returns:
+
+Address of the helper smart contract.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L48)
 
 ##### :gear: withdrawEth
@@ -110,6 +114,10 @@ Parameters:
 - `params.address`: The destination ETH address.
 - `params.amount`: The ETH amount in wei.
 - `params.fromSubaccount`: The optional subaccount to burn ckETH from.
+
+Returns:
+
+The successful result or the operation.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L69)
 
@@ -134,6 +142,10 @@ Parameters:
 - `params.fromCkEthSubaccount`: The optional subaccount to burn ckETH from to pay for the transaction fee.
 - `params.fromCkEthSubaccount`: The optional subaccount to burn ckERC20 from.
 
+Returns:
+
+The successful result or the operation.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L110)
 
 ##### :gear: eip1559TransactionPrice
@@ -150,6 +162,10 @@ Parameters:
 - `params.ckErc20LedgerId`: - The optional identifier for a particular ckERC20 ledger.
 - `params.certified`: - Indicates whether this is a certified query or an update call.
 
+Returns:
+
+- The estimated gas fee and limit.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L151)
 
 ##### :gear: retrieveEthStatus
@@ -159,6 +175,10 @@ Retrieve the status of a withdrawal request.
 | Method              | Type                                                 |
 | ------------------- | ---------------------------------------------------- |
 | `retrieveEthStatus` | `(blockIndex: bigint) => Promise<RetrieveEthStatus>` |
+
+Returns:
+
+The current status of an Ethereum transaction for a block index resulting from a withdrawal.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L166)
 
@@ -199,6 +219,10 @@ Parameters:
 
 - `options`: - Options for creating the canister.
 
+Returns:
+
+A new instance of CkETHOrchestratorCanister.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L21)
 
 #### Methods
@@ -217,6 +241,10 @@ Parameters:
 
 - `params`: - The query parameters.
 - `params.certified`: - Whether to execute a certified (update) call.
+
+Returns:
+
+A promise that resolves to the orchestrator information.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L40)
 
