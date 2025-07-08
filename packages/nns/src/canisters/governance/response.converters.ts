@@ -1286,6 +1286,9 @@ export const toProposalInfo = (
   topic: proposalInfo.topic,
   status: proposalInfo.status,
   rewardStatus: proposalInfo.reward_status,
+  totalPotentialVotingPower: fromNullable(
+    proposalInfo.total_potential_voting_power,
+  ),
 });
 
 export const toArrayOfNeuronInfo = ({
