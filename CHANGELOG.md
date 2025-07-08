@@ -11,6 +11,7 @@
 - Updated `@dfinity/nns` to add support for setting following for multiple topics (`setFollowing`).
 - Updated `@dfinity/nns` to add support for get network metrics (`getMetrics`).
 - Replace usage of `randombytes` library with the API `crypto.getRandomValues` in `@dfinity/nns`.
+- Updated `@dfinity/nns` to expose `total_potential_voting_power` in `list_proposal`.
 
 ## Build
 
