@@ -586,7 +586,6 @@ export const idlFactory = ({ IDL }) => {
   });
   const Metrics = IDL.Record({
     'last_ledger_block_timestamp' : IDL.Opt(IDL.Nat64),
-    'num_recently_executed_proposals' : IDL.Opt(IDL.Nat64),
     'num_recently_submitted_proposals' : IDL.Opt(IDL.Nat64),
   });
   const GetMetricsResult = IDL.Variant({

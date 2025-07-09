@@ -409,7 +409,6 @@ export interface MergeMaturityResponse {
 }
 export interface Metrics {
   last_ledger_block_timestamp: [] | [bigint];
-  num_recently_executed_proposals: [] | [bigint];
   num_recently_submitted_proposals: [] | [bigint];
 }
 export interface MintSnsTokens {
