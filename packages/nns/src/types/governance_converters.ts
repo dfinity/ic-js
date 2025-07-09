@@ -793,6 +793,7 @@ export interface GovernanceCachedMetrics {
   totalVotingPowerNonSelfAuthenticatingController: Option<bigint>;
   totalStakedMaturityE8sEquivalent: bigint;
   notDissolvingNeuronsE8sBucketsEct: Array<[bigint, number]>;
+  spawningNeuronsCount: bigint;
   decliningVotingPowerNeuronSubsetMetrics: Option<NeuronSubsetMetrics>;
   totalStakedE8sEct: bigint;
   notDissolvingNeuronsStakedMaturityE8sEquivalentSum: bigint;
