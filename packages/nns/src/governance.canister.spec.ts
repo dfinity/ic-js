@@ -2444,6 +2444,7 @@ describe("GovernanceCanister", () => {
       total_staked_maturity_e8s_equivalent: BigInt(3),
       not_dissolving_neurons_e8s_buckets_ect: [],
       declining_voting_power_neuron_subset_metrics: [rawNeuronSubsetMetrics],
+      spawning_neurons_count: BigInt(55),
       total_staked_e8s_ect: BigInt(3),
       not_dissolving_neurons_staked_maturity_e8s_equivalent_sum: BigInt(3),
       dissolved_neurons_e8s: BigInt(3),
@@ -2468,6 +2469,7 @@ describe("GovernanceCanister", () => {
     const mockMetrics: GovernanceCachedMetrics = {
       communityFundTotalMaturityE8sEquivalent: 4n,
       communityFundTotalStakedE8s: 8n,
+      spawningNeuronsCount: 55n,
       decliningVotingPowerNeuronSubsetMetrics: {
         count: undefined,
         countBuckets: [[1n, 2n]],

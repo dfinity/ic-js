@@ -1164,6 +1164,7 @@ export const toMetrics = (
   decliningVotingPowerNeuronSubsetMetrics: toNeuronSubsetMetrics(
     metrics.declining_voting_power_neuron_subset_metrics,
   ),
+  spawningNeuronsCount: metrics.spawning_neurons_count,
   totalStakedE8sEct: metrics.total_staked_e8s_ect,
   notDissolvingNeuronsStakedMaturityE8sEquivalentSum:
     metrics.not_dissolving_neurons_staked_maturity_e8s_equivalent_sum,
