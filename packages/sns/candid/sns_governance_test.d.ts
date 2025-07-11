@@ -321,6 +321,7 @@ export interface Governance {
   genesis_timestamp_seconds: bigint;
 }
 export interface GovernanceCachedMetrics {
+  treasury_metrics: Array<TreasuryMetrics>;
   not_dissolving_neurons_e8s_buckets: Array<[bigint, number]>;
   garbage_collectable_neurons_count: bigint;
   neurons_with_invalid_stake_count: bigint;
@@ -329,6 +330,7 @@ export interface GovernanceCachedMetrics {
   dissolved_neurons_count: bigint;
   total_staked_e8s: bigint;
   total_supply_governance_tokens: bigint;
+  voting_power_metrics: [] | [VotingPowerMetrics];
   not_dissolving_neurons_count: bigint;
   dissolved_neurons_e8s: bigint;
   neurons_with_less_than_6_months_dissolve_delay_e8s: bigint;
@@ -419,9 +421,12 @@ export interface MergeMaturityResponse {
   new_stake_e8s: bigint;
 }
 export interface Metrics {
+  treasury_metrics: [] | [Array<TreasuryMetrics>];
+  voting_power_metrics: [] | [VotingPowerMetrics];
   last_ledger_block_timestamp: [] | [bigint];
   num_recently_executed_proposals: [] | [bigint];
   num_recently_submitted_proposals: [] | [bigint];
+  genesis_timestamp_seconds: [] | [bigint];
 }
 export interface MintSnsTokens {
   to_principal: [] | [Principal];
@@ -707,6 +712,15 @@ export interface TransferSnsTreasuryFunds {
   memo: [] | [bigint];
   amount_e8s: bigint;
 }
+export interface TreasuryMetrics {
+  name: [] | [string];
+  original_amount_e8s: [] | [bigint];
+  amount_e8s: [] | [bigint];
+  account: [] | [Account];
+  ledger_canister_id: [] | [Principal];
+  treasury: number;
+  timestamp_seconds: [] | [bigint];
+}
 export interface UpgradeInProgress {
   mark_failed_at_seconds: bigint;
   checking_upgrade_lock: bigint;
@@ -786,6 +800,10 @@ export interface Version {
 export interface Versions {
   versions: Array<Version>;
 }
+export interface VotingPowerMetrics {
+  governance_total_potential_voting_power: [] | [bigint];
+  timestamp_seconds: [] | [bigint];
+}
 export interface VotingRewardsParameters {
   final_reward_rate_basis_points: [] | [bigint];
   initial_reward_rate_basis_points: [] | [bigint];
@@ -811,6 +829,7 @@ export interface _SERVICE {
   get_maturity_modulation: ActorMethod<[{}], GetMaturityModulationResponse>;
   get_metadata: ActorMethod<[{}], GetMetadataResponse>;
   get_metrics: ActorMethod<[GetMetricsRequest], GetMetricsResponse>;
+  get_metrics_replicated: ActorMethod<[GetMetricsRequest], GetMetricsResponse>;
   get_mode: ActorMethod<[{}], GetModeResponse>;
   get_nervous_system_parameters: ActorMethod<[null], NervousSystemParameters>;
   get_neuron: ActorMethod<[GetNeuron], GetNeuronResponse>;
