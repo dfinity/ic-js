@@ -46,7 +46,26 @@ export const idlFactory = ({ IDL }) => {
     'description' : IDL.Opt(IDL.Text),
     'function_type' : IDL.Opt(FunctionType),
   });
+  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
+  const Account = IDL.Record({
+    'owner' : IDL.Opt(IDL.Principal),
+    'subaccount' : IDL.Opt(Subaccount),
+  });
+  const TreasuryMetrics = IDL.Record({
+    'name' : IDL.Opt(IDL.Text),
+    'original_amount_e8s' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+    'account' : IDL.Opt(Account),
+    'ledger_canister_id' : IDL.Opt(IDL.Principal),
+    'treasury' : IDL.Int32,
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const VotingPowerMetrics = IDL.Record({
+    'governance_total_potential_voting_power' : IDL.Opt(IDL.Nat64),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const GovernanceCachedMetrics = IDL.Record({
+    'treasury_metrics' : IDL.Vec(TreasuryMetrics),
     'not_dissolving_neurons_e8s_buckets' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
@@ -59,6 +78,7 @@ export const idlFactory = ({ IDL }) => {
     'dissolved_neurons_count' : IDL.Nat64,
     'total_staked_e8s' : IDL.Nat64,
     'total_supply_governance_tokens' : IDL.Nat64,
+    'voting_power_metrics' : IDL.Opt(VotingPowerMetrics),
     'not_dissolving_neurons_count' : IDL.Nat64,
     'dissolved_neurons_e8s' : IDL.Nat64,
     'neurons_with_less_than_6_months_dissolve_delay_e8s' : IDL.Nat64,
@@ -185,11 +205,6 @@ export const idlFactory = ({ IDL }) => {
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
-  });
-  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
-  const Account = IDL.Record({
-    'owner' : IDL.Opt(IDL.Principal),
-    'subaccount' : IDL.Opt(Subaccount),
   });
   const Decimal = IDL.Record({ 'human_readable' : IDL.Opt(IDL.Text) });
   const Tokens = IDL.Record({ 'e8s' : IDL.Opt(IDL.Nat64) });
@@ -574,9 +589,12 @@ export const idlFactory = ({ IDL }) => {
     'time_window_seconds' : IDL.Opt(IDL.Nat64),
   });
   const Metrics = IDL.Record({
+    'treasury_metrics' : IDL.Opt(IDL.Vec(TreasuryMetrics)),
+    'voting_power_metrics' : IDL.Opt(VotingPowerMetrics),
     'last_ledger_block_timestamp' : IDL.Opt(IDL.Nat64),
     'num_recently_executed_proposals' : IDL.Opt(IDL.Nat64),
     'num_recently_submitted_proposals' : IDL.Opt(IDL.Nat64),
+    'genesis_timestamp_seconds' : IDL.Opt(IDL.Nat64),
   });
   const GetMetricsResult = IDL.Variant({
     'Ok' : Metrics,
@@ -772,6 +790,11 @@ export const idlFactory = ({ IDL }) => {
         [GetMetricsResponse],
         ['composite_query'],
       ),
+    'get_metrics_replicated' : IDL.Func(
+        [GetMetricsRequest],
+        [GetMetricsResponse],
+        [],
+      ),
     'get_mode' : IDL.Func([IDL.Record({})], [GetModeResponse], ['query']),
     'get_nervous_system_parameters' : IDL.Func(
         [IDL.Null],
@@ -869,7 +892,26 @@ export const init = ({ IDL }) => {
     'description' : IDL.Opt(IDL.Text),
     'function_type' : IDL.Opt(FunctionType),
   });
+  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
+  const Account = IDL.Record({
+    'owner' : IDL.Opt(IDL.Principal),
+    'subaccount' : IDL.Opt(Subaccount),
+  });
+  const TreasuryMetrics = IDL.Record({
+    'name' : IDL.Opt(IDL.Text),
+    'original_amount_e8s' : IDL.Opt(IDL.Nat64),
+    'amount_e8s' : IDL.Opt(IDL.Nat64),
+    'account' : IDL.Opt(Account),
+    'ledger_canister_id' : IDL.Opt(IDL.Principal),
+    'treasury' : IDL.Int32,
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
+  const VotingPowerMetrics = IDL.Record({
+    'governance_total_potential_voting_power' : IDL.Opt(IDL.Nat64),
+    'timestamp_seconds' : IDL.Opt(IDL.Nat64),
+  });
   const GovernanceCachedMetrics = IDL.Record({
+    'treasury_metrics' : IDL.Vec(TreasuryMetrics),
     'not_dissolving_neurons_e8s_buckets' : IDL.Vec(
       IDL.Tuple(IDL.Nat64, IDL.Float64)
     ),
@@ -882,6 +924,7 @@ export const init = ({ IDL }) => {
     'dissolved_neurons_count' : IDL.Nat64,
     'total_staked_e8s' : IDL.Nat64,
     'total_supply_governance_tokens' : IDL.Nat64,
+    'voting_power_metrics' : IDL.Opt(VotingPowerMetrics),
     'not_dissolving_neurons_count' : IDL.Nat64,
     'dissolved_neurons_e8s' : IDL.Nat64,
     'neurons_with_less_than_6_months_dissolve_delay_e8s' : IDL.Nat64,
@@ -1008,11 +1051,6 @@ export const init = ({ IDL }) => {
   const GovernanceError = IDL.Record({
     'error_message' : IDL.Text,
     'error_type' : IDL.Int32,
-  });
-  const Subaccount = IDL.Record({ 'subaccount' : IDL.Vec(IDL.Nat8) });
-  const Account = IDL.Record({
-    'owner' : IDL.Opt(IDL.Principal),
-    'subaccount' : IDL.Opt(Subaccount),
   });
   const Decimal = IDL.Record({ 'human_readable' : IDL.Opt(IDL.Text) });
   const Tokens = IDL.Record({ 'e8s' : IDL.Opt(IDL.Nat64) });
