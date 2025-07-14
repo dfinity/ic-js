@@ -21,6 +21,12 @@ export interface AllowanceArgs {
   account: Account;
   spender: Account;
 }
+export type Allowances = Array<{
+  from_account_id: TextAccountIdentifier;
+  to_spender_id: TextAccountIdentifier;
+  allowance: Tokens;
+  expires_at: [] | [bigint];
+}>;
 export interface ApproveArgs {
   fee: [] | [Icrc1Tokens];
   memo: [] | [Uint8Array | number[]];
@@ -85,6 +91,11 @@ export interface Duration {
 }
 export interface FeatureFlags {
   icrc2: boolean;
+}
+export interface GetAllowancesArgs {
+  prev_spender_id: [] | [TextAccountIdentifier];
+  from_account_id: TextAccountIdentifier;
+  take: [] | [bigint];
 }
 export interface GetBlocksArgs {
   start: BlockIndex;
@@ -191,6 +202,10 @@ export type SubAccount = Uint8Array | number[];
 export type TextAccountIdentifier = string;
 export interface TimeStamp {
   timestamp_nanos: bigint;
+}
+export interface TipOfChainRes {
+  certification: [] | [Uint8Array | number[]];
+  tip_index: BlockIndex;
 }
 export interface Tokens {
   e8s: bigint;
@@ -314,6 +329,7 @@ export interface _SERVICE {
   account_identifier: ActorMethod<[Account], AccountIdentifier>;
   archives: ActorMethod<[], Archives>;
   decimals: ActorMethod<[], { decimals: number }>;
+  get_allowances: ActorMethod<[GetAllowancesArgs], Allowances>;
   icrc10_supported_standards: ActorMethod<
     [],
     Array<{ url: string; name: string }>
@@ -347,6 +363,7 @@ export interface _SERVICE {
   >;
   send_dfx: ActorMethod<[SendArgs], BlockIndex>;
   symbol: ActorMethod<[], { symbol: string }>;
+  tip_of_chain: ActorMethod<[], TipOfChainRes>;
   transfer: ActorMethod<[TransferArgs], TransferResult>;
   transfer_fee: ActorMethod<[TransferFeeArg], TransferFee>;
 }
