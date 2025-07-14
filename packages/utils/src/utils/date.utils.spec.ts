@@ -37,7 +37,7 @@ describe("date.utils", () => {
   };
 
   // eslint-disable-next-line local-rules/prefer-object-params
-  const test = (
+  const testSecondsToDuration = (
     i18nResult: I18nSecondsToDuration,
     i18n?: I18nSecondsToDuration,
   ) => {
@@ -227,11 +227,11 @@ describe("date.utils", () => {
 
   describe("secondsToDuration", () => {
     // eslint-disable-next-line vitest/expect-expect -- This test uses test-functions
-    it("secondsToDuration default lang", () => test(EN_TIME, undefined));
+    it("secondsToDuration default lang", () => testSecondsToDuration(EN_TIME, undefined));
 
     // eslint-disable-next-line vitest/expect-expect -- This test uses test-functions
     it.each([EN_TIME, FR_TIME])("secondsToDuration %p", (time) =>
-      test(time, time),
+      testSecondsToDuration(time, time),
     );
   });
 
