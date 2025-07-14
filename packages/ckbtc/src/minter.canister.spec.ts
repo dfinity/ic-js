@@ -56,7 +56,8 @@ describe("ckBTC minter canister", () => {
       const res = await canister.getBtcAddress({
         owner,
       });
-      expect(service.get_btc_address).toBeCalled();
+
+      expect(service.get_btc_address).toHaveBeenCalled();
       expect(res).toEqual(bitcoinAddressMock);
     });
 
@@ -73,6 +74,7 @@ describe("ckBTC minter canister", () => {
         owner,
         subaccount,
       });
+
       expect(res).toEqual(address);
     });
 
@@ -85,11 +87,12 @@ describe("ckBTC minter canister", () => {
       const canister = minter(service);
 
       const owner = Principal.fromText("aaaaa-aa");
+
       expect(() =>
         canister.getBtcAddress({
           owner,
         }),
-      ).toThrowError();
+      ).toThrow();
     });
   });
 
@@ -115,7 +118,8 @@ describe("ckBTC minter canister", () => {
       const res = await canister.updateBalance({
         owner,
       });
-      expect(service.update_balance).toBeCalled();
+
+      expect(service.update_balance).toHaveBeenCalled();
       expect(res).toEqual(success);
     });
 
@@ -131,6 +135,7 @@ describe("ckBTC minter canister", () => {
         owner,
         subaccount,
       });
+
       expect(res).toEqual(success);
     });
 
@@ -151,7 +156,7 @@ describe("ckBTC minter canister", () => {
           owner,
         });
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterGenericError(
           `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`,
         ),
@@ -173,7 +178,7 @@ describe("ckBTC minter canister", () => {
           owner,
         });
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
       );
     });
@@ -193,9 +198,7 @@ describe("ckBTC minter canister", () => {
           owner,
         });
 
-      await expect(call).rejects.toThrowError(
-        new MinterAlreadyProcessingError(),
-      );
+      await expect(call).rejects.toThrow(new MinterAlreadyProcessingError());
     });
 
     it("should throw MinterNoNewUtxosError", async () => {
@@ -229,7 +232,7 @@ describe("ckBTC minter canister", () => {
           owner,
         });
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterNoNewUtxosError({
           pending_utxos: [[pendingUtxo]],
           required_confirmations: 123,
@@ -259,7 +262,7 @@ describe("ckBTC minter canister", () => {
           owner,
         });
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterNoNewUtxosError({
           pending_utxos: [],
           required_confirmations: 123,
@@ -282,7 +285,7 @@ describe("ckBTC minter canister", () => {
           owner,
         });
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterUpdateBalanceError(
           `Unsupported response type in minter.updateBalance ${JSON.stringify(
             error.Err,
@@ -309,7 +312,8 @@ describe("ckBTC minter canister", () => {
       const canister = minter(service);
 
       const res = await canister.getWithdrawalAccount();
-      expect(service.get_withdrawal_account).toBeCalled();
+
+      expect(service.get_withdrawal_account).toHaveBeenCalled();
       expect(res).toEqual(account);
     });
 
@@ -321,7 +325,7 @@ describe("ckBTC minter canister", () => {
 
       const canister = minter(service);
 
-      expect(() => canister.getWithdrawalAccount()).toThrowError();
+      expect(() => canister.getWithdrawalAccount()).toThrow();
     });
   });
 
@@ -344,7 +348,7 @@ describe("ckBTC minter canister", () => {
 
       const res = await canister.retrieveBtc(params);
 
-      expect(service.retrieve_btc).toBeCalled();
+      expect(service.retrieve_btc).toHaveBeenCalled();
       expect(res).toEqual(success);
     });
 
@@ -360,7 +364,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtc(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterGenericError(
           `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`,
         ),
@@ -377,7 +381,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtc(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
       );
     });
@@ -392,9 +396,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtc(params);
 
-      await expect(call).rejects.toThrowError(
-        new MinterAlreadyProcessingError(),
-      );
+      await expect(call).rejects.toThrow(new MinterAlreadyProcessingError());
     });
 
     it("should throw MinterMalformedAddress", async () => {
@@ -407,7 +409,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtc(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterMalformedAddressError(error.Err.MalformedAddress),
       );
     });
@@ -422,7 +424,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtc(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterAmountTooLowError(`${error.Err.AmountTooLow}`),
       );
     });
@@ -437,7 +439,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtc(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterInsufficientFundsError(
           `${error.Err.InsufficientFunds.balance}`,
         ),
@@ -454,7 +456,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtc(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterRetrieveBtcError(
           `Unsupported response type in minter.retrieveBtc ${JSON.stringify(
             error.Err,
@@ -483,8 +485,8 @@ describe("ckBTC minter canister", () => {
 
       const res = await canister.retrieveBtcWithApproval(params);
 
-      expect(service.retrieve_btc_with_approval).toBeCalledTimes(1);
-      expect(service.retrieve_btc_with_approval).toBeCalledWith({
+      expect(service.retrieve_btc_with_approval).toHaveBeenCalledTimes(1);
+      expect(service.retrieve_btc_with_approval).toHaveBeenCalledWith({
         ...params,
         from_subaccount: [],
       });
@@ -503,8 +505,8 @@ describe("ckBTC minter canister", () => {
         fromSubaccount,
       });
 
-      expect(service.retrieve_btc_with_approval).toBeCalledTimes(1);
-      expect(service.retrieve_btc_with_approval).toBeCalledWith({
+      expect(service.retrieve_btc_with_approval).toHaveBeenCalledTimes(1);
+      expect(service.retrieve_btc_with_approval).toHaveBeenCalledWith({
         ...params,
         from_subaccount: [fromSubaccount],
       });
@@ -523,7 +525,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtcWithApproval(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterGenericError(
           `${error.Err.GenericError.error_message} (${error.Err.GenericError.error_code})`,
         ),
@@ -540,7 +542,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtcWithApproval(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterTemporaryUnavailableError(error.Err.TemporarilyUnavailable),
       );
     });
@@ -555,9 +557,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtcWithApproval(params);
 
-      await expect(call).rejects.toThrowError(
-        new MinterAlreadyProcessingError(),
-      );
+      await expect(call).rejects.toThrow(new MinterAlreadyProcessingError());
     });
 
     it("should throw MinterMalformedAddress", async () => {
@@ -570,7 +570,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtcWithApproval(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterMalformedAddressError(error.Err.MalformedAddress),
       );
     });
@@ -585,7 +585,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtcWithApproval(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterAmountTooLowError(`${error.Err.AmountTooLow}`),
       );
     });
@@ -600,7 +600,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtcWithApproval(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterInsufficientFundsError(
           `${error.Err.InsufficientFunds.balance}`,
         ),
@@ -617,7 +617,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtcWithApproval(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterInsufficientAllowanceError(
           `${error.Err.InsufficientAllowance.allowance}`,
         ),
@@ -634,7 +634,7 @@ describe("ckBTC minter canister", () => {
 
       const call = () => canister.retrieveBtcWithApproval(params);
 
-      await expect(call).rejects.toThrowError(
+      await expect(call).rejects.toThrow(
         new MinterRetrieveBtcError(
           `Unsupported response type in minter.retrieveBtc ${JSON.stringify(
             error.Err,
@@ -661,8 +661,8 @@ describe("ckBTC minter canister", () => {
         certified: true,
       });
 
-      expect(service.retrieve_btc_status).toBeCalledTimes(1);
-      expect(service.retrieve_btc_status).toBeCalledWith({
+      expect(service.retrieve_btc_status).toHaveBeenCalledTimes(1);
+      expect(service.retrieve_btc_status).toHaveBeenCalledWith({
         block_index: transactionId,
       });
       expect(res).toEqual(submittedStatus);
@@ -684,8 +684,8 @@ describe("ckBTC minter canister", () => {
         certified: false,
       });
 
-      expect(service.retrieve_btc_status).toBeCalledTimes(1);
-      expect(service.retrieve_btc_status).toBeCalledWith({
+      expect(service.retrieve_btc_status).toHaveBeenCalledTimes(1);
+      expect(service.retrieve_btc_status).toHaveBeenCalledWith({
         block_index: transactionId,
       });
       expect(res).toEqual(submittedStatus);
@@ -742,8 +742,12 @@ describe("ckBTC minter canister", () => {
         certified: true,
       });
 
-      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
-      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([]);
+      expect(service.retrieve_btc_status_v2_by_account).toHaveBeenCalledTimes(
+        1,
+      );
+      expect(service.retrieve_btc_status_v2_by_account).toHaveBeenCalledWith(
+        [],
+      );
       expect(res).toEqual(expectedResponse);
     });
 
@@ -764,8 +768,10 @@ describe("ckBTC minter canister", () => {
         account,
       });
 
-      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
-      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([
+      expect(service.retrieve_btc_status_v2_by_account).toHaveBeenCalledTimes(
+        1,
+      );
+      expect(service.retrieve_btc_status_v2_by_account).toHaveBeenCalledWith([
         {
           owner,
           subaccount: [],
@@ -793,8 +799,10 @@ describe("ckBTC minter canister", () => {
         account,
       });
 
-      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
-      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([
+      expect(service.retrieve_btc_status_v2_by_account).toHaveBeenCalledTimes(
+        1,
+      );
+      expect(service.retrieve_btc_status_v2_by_account).toHaveBeenCalledWith([
         {
           owner,
           subaccount: [subaccount],
@@ -813,8 +821,12 @@ describe("ckBTC minter canister", () => {
         certified: false,
       });
 
-      expect(service.retrieve_btc_status_v2_by_account).toBeCalledTimes(1);
-      expect(service.retrieve_btc_status_v2_by_account).toBeCalledWith([]);
+      expect(service.retrieve_btc_status_v2_by_account).toHaveBeenCalledTimes(
+        1,
+      );
+      expect(service.retrieve_btc_status_v2_by_account).toHaveBeenCalledWith(
+        [],
+      );
       expect(res).toEqual(expectedResponse);
     });
   });
@@ -833,7 +845,7 @@ describe("ckBTC minter canister", () => {
         amount: undefined,
       });
 
-      expect(service.estimate_withdrawal_fee).toBeCalled();
+      expect(service.estimate_withdrawal_fee).toHaveBeenCalled();
       expect(res).toEqual(result);
     });
 
@@ -851,7 +863,7 @@ describe("ckBTC minter canister", () => {
             certified: true,
             amount: undefined,
           }),
-      ).rejects.toThrowError();
+      ).rejects.toThrow();
     });
   });
 
@@ -872,7 +884,7 @@ describe("ckBTC minter canister", () => {
         certified: true,
       });
 
-      expect(service.get_minter_info).toBeCalled();
+      expect(service.get_minter_info).toHaveBeenCalled();
       expect(res).toEqual(result);
     });
 
@@ -886,7 +898,7 @@ describe("ckBTC minter canister", () => {
 
       await expect(
         async () => await canister.getMinterInfo({ certified: true }),
-      ).rejects.toThrowError();
+      ).rejects.toThrow();
     });
   });
 
@@ -914,7 +926,8 @@ describe("ckBTC minter canister", () => {
       const res = await canister.getKnownUtxos({
         owner,
       });
-      expect(service.get_known_utxos).toBeCalledWith({
+
+      expect(service.get_known_utxos).toHaveBeenCalledWith({
         owner: toNullable(owner),
         subaccount: [],
       });
@@ -933,7 +946,8 @@ describe("ckBTC minter canister", () => {
         owner,
         subaccount,
       });
-      expect(service.get_known_utxos).toBeCalledWith({
+
+      expect(service.get_known_utxos).toHaveBeenCalledWith({
         owner: toNullable(owner),
         subaccount: [subaccount],
       });
@@ -949,11 +963,12 @@ describe("ckBTC minter canister", () => {
       const canister = minter(service);
 
       const owner = Principal.fromText("aaaaa-aa");
+
       expect(() =>
         canister.getKnownUtxos({
           owner,
         }),
-      ).toThrowError();
+      ).toThrow();
     });
   });
 });
