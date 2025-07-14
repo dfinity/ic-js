@@ -13,6 +13,7 @@
 - Updated `@dfinity/nns` to add support for get network metrics (`getMetrics`).
 - Replace usage of `randombytes` library with the API `crypto.getRandomValues` in `@dfinity/nns`.
 - Updated `@dfinity/nns` to expose `total_potential_voting_power` in `list_proposal`.
+- Expose method `icrc106_get_index_principal` in class `IcrcLedgerCanister`.
 
 ## Build
 
