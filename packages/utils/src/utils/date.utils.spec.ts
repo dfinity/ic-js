@@ -225,11 +225,15 @@ describe("date.utils", () => {
     });
   };
 
-  describe("secondsToDuration default lang", () => test(EN_TIME, undefined));
+  describe("secondsToDuration", () => {
+    // eslint-disable-next-line vitest/expect-expect -- This test uses test-functions
+    it("secondsToDuration default lang", () => test(EN_TIME, undefined));
 
-  describe.each([EN_TIME, FR_TIME])("secondsToDuration %p", (time) =>
-    test(time, time),
-  );
+    // eslint-disable-next-line vitest/expect-expect -- This test uses test-functions
+    it.each([EN_TIME, FR_TIME])("secondsToDuration %p", (time) =>
+      test(time, time),
+    );
+  });
 
   describe("nowInBigIntNanoSeconds", () => {
     it("should return the current timestamp in nanoseconds as a bigint", () => {

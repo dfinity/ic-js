@@ -2339,7 +2339,8 @@ describe("GovernanceCanister", () => {
         serviceOverride: service,
       });
       const rewardEvent = await governance.getLatestRewardEvent(true);
-      expect(service.get_latest_reward_event).toBeCalled();
+
+      expect(service.get_latest_reward_event).toHaveBeenCalled();
       expect(rewardEvent).toBe(mockRewardEvent);
     });
   });
@@ -2687,7 +2688,7 @@ describe("GovernanceCanister", () => {
       });
 
       expect(service.get_metrics).toHaveBeenCalledTimes(1);
-      await expect(response).rejects.toThrowError(new GovernanceError(error));
+      await expect(response).rejects.toThrow(new GovernanceError(error));
     });
   });
 });
