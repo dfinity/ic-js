@@ -34,48 +34,54 @@ import type {
 } from "./types/ledger.params";
 
 describe("Ledger canister", () => {
-  it("should return the token metadata", async () => {
-    const service = mock<ActorSubclass<IcrcLedgerService>>();
-    service.icrc1_metadata.mockResolvedValue(tokenMetadataResponseMock);
+  describe("metadata", () => {
+    it("should return the token metadata", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc1_metadata.mockResolvedValue(tokenMetadataResponseMock);
 
-    const canister = IcrcLedgerCanister.create({
-      canisterId: ledgerCanisterIdMock,
-      certifiedServiceOverride: service,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.metadata({});
+
+      expect(res).toEqual(tokenMetadataResponseMock);
     });
-
-    const res = await canister.metadata({});
-
-    expect(res).toEqual(tokenMetadataResponseMock);
   });
 
-  it("should return the transaction fee", async () => {
-    const service = mock<ActorSubclass<IcrcLedgerService>>();
-    const fee = BigInt(10_000);
-    service.icrc1_fee.mockResolvedValue(fee);
+  describe("transactionFee", () => {
+    it("should return the transaction fee", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const fee = BigInt(10_000);
+      service.icrc1_fee.mockResolvedValue(fee);
 
-    const canister = IcrcLedgerCanister.create({
-      canisterId: ledgerCanisterIdMock,
-      certifiedServiceOverride: service,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.transactionFee({});
+
+      expect(res).toEqual(fee);
     });
-
-    const res = await canister.transactionFee({});
-
-    expect(res).toEqual(fee);
   });
 
-  it("should return the total tokens supply", async () => {
-    const service = mock<ActorSubclass<IcrcLedgerService>>();
-    const totalTokens = BigInt(1000_000_000_000);
-    service.icrc1_total_supply.mockResolvedValue(totalTokens);
+  describe("totalTokensSupply", () => {
+    it("should return the total tokens supply", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const totalTokens = BigInt(1000_000_000_000);
+      service.icrc1_total_supply.mockResolvedValue(totalTokens);
 
-    const canister = IcrcLedgerCanister.create({
-      canisterId: ledgerCanisterIdMock,
-      certifiedServiceOverride: service,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.totalTokensSupply({});
+
+      expect(res).toEqual(totalTokens);
     });
-
-    const res = await canister.totalTokensSupply({});
-
-    expect(res).toEqual(totalTokens);
   });
 
   describe("balance", () => {
@@ -693,27 +699,27 @@ describe("Ledger canister", () => {
 
       expect(res).toEqual(blocks);
     });
-  });
 
-  it("should accept empty options", async () => {
-    const service = mock<ActorSubclass<IcrcLedgerService>>();
-    const blocks: GetBlocksResult = {
-      log_length: 1234n,
-      blocks: [],
-      archived_blocks: [],
-    };
-    service.icrc3_get_blocks.mockResolvedValue(blocks);
+    it("should accept empty options", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const blocks: GetBlocksResult = {
+        log_length: 1234n,
+        blocks: [],
+        archived_blocks: [],
+      };
+      service.icrc3_get_blocks.mockResolvedValue(blocks);
 
-    const canister = IcrcLedgerCanister.create({
-      canisterId: ledgerCanisterIdMock,
-      certifiedServiceOverride: service,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getBlocks({ args: [] });
+
+      expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
+      expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, []);
+
+      expect(res).toEqual(blocks);
     });
-
-    const res = await canister.getBlocks({ args: [] });
-
-    expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
-    expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, []);
-
-    expect(res).toEqual(blocks);
   });
 });
