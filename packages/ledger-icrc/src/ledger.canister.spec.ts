@@ -6,6 +6,7 @@ import type {
   Allowance,
   ApproveArgs,
   GetBlocksResult,
+  GetIndexPrincipalResult,
   _SERVICE as IcrcLedgerService,
   TransferArg,
   TransferFromArgs,
@@ -16,6 +17,7 @@ import {
   ConsentMessageUnavailableError,
   GenericError,
   IcrcTransferError,
+  IndexPrincipalNotSetError,
   InsufficientPaymentError,
   UnsupportedCanisterCallError,
 } from "./errors/ledger.errors";
@@ -693,27 +695,110 @@ describe("Ledger canister", () => {
 
       expect(res).toEqual(blocks);
     });
+
+    it("should accept empty options", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const blocks: GetBlocksResult = {
+        log_length: 1234n,
+        blocks: [],
+        archived_blocks: [],
+      };
+      service.icrc3_get_blocks.mockResolvedValue(blocks);
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getBlocks({ args: [] });
+
+      expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
+      expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, []);
+
+      expect(res).toEqual(blocks);
+    });
   });
 
-  it("should accept empty options", async () => {
-    const service = mock<ActorSubclass<IcrcLedgerService>>();
-    const blocks: GetBlocksResult = {
-      log_length: 1234n,
-      blocks: [],
-      archived_blocks: [],
-    };
-    service.icrc3_get_blocks.mockResolvedValue(blocks);
+  describe("getIndexPrincipal", () => {
+    const indexPrincipalRequest = {};
 
-    const canister = IcrcLedgerCanister.create({
-      canisterId: ledgerCanisterIdMock,
-      certifiedServiceOverride: service,
+    const mockIndexPrincipal = Principal.fromText(
+      "pd4vj-oqaaa-aaaar-qahwq-cai",
+    );
+
+    const indexPrincipalResponse: GetIndexPrincipalResult = {
+      Ok: mockIndexPrincipal,
+    };
+
+    it("should return the index canister principal successfully", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc106_get_index_principal.mockResolvedValue(
+        indexPrincipalResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const response = await ledger.getIndexPrincipal(indexPrincipalRequest);
+
+      expect(response).toEqual(indexPrincipalResponse.Ok);
+      expect(
+        service.icrc106_get_index_principal,
+      ).toHaveBeenCalledExactlyOnceWith();
     });
 
-    const res = await canister.getBlocks({ args: [] });
+    it("should throw GenericError when the canister returns a GenericError", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
 
-    expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
-    expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, []);
+      const errorDescription = "An error occurred";
+      const errorResponse: GetIndexPrincipalResult = {
+        Err: {
+          GenericError: {
+            description: errorDescription,
+            error_code: BigInt(500),
+          },
+        },
+      };
 
-    expect(res).toEqual(blocks);
+      service.icrc106_get_index_principal.mockResolvedValue(errorResponse);
+
+      const ledger = IcrcLedgerCanister.create({
+        certifiedServiceOverride: service,
+        canisterId: ledgerCanisterIdMock,
+      });
+
+      await expect(
+        ledger.getIndexPrincipal(indexPrincipalRequest),
+      ).rejects.toThrow(new GenericError(errorDescription, BigInt(500)));
+    });
+
+    it("should throw IndexPrincipalNotSetError when the canister returns an IndexPrincipalNotSet error", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+
+      const indexPrincipalNotSetErrorResponse: GetIndexPrincipalResult = {
+        Err: {
+          IndexPrincipalNotSet: null,
+        },
+      };
+
+      service.icrc106_get_index_principal.mockResolvedValue(
+        indexPrincipalNotSetErrorResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await expect(
+        ledger.getIndexPrincipal(indexPrincipalRequest),
+      ).rejects.toThrow(
+        new IndexPrincipalNotSetError(
+          "Index principal is not set for this ledger canister.",
+        ),
+      );
+    });
   });
 });

@@ -1,3 +1,4 @@
+import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   createServices,
@@ -22,6 +23,7 @@ import {
 } from "./converters/ledger.converters";
 import {
   IcrcTransferError,
+  mapIcrc106GetIndexPrincipalError,
   mapIcrc21ConsentMessageError,
 } from "./errors/ledger.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
@@ -197,4 +199,26 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    */
   getBlocks = (params: GetBlocksParams): Promise<GetBlocksResult> =>
     this.caller({ certified: params.certified }).icrc3_get_blocks(params.args);
+
+  /**
+   * Returns the principal of the index canister for the ledger, if one was defined as such.
+   *
+   * @link: https://github.com/dfinity/ICRC/blob/main/ICRCs/ICRC-106/ICRC-106.md
+   *
+   * @returns {Promise<Principal>} The principal of the index canister.
+   *
+   * @throws {GenericError} - For any errors that occur while fetching the index principal.
+   * @throws {IndexPrincipalNotSetError} - If the index principal was not set for the ledger canister.
+   */
+  getIndexPrincipal = async (params: QueryParams): Promise<Principal> => {
+    const { icrc106_get_index_principal } = this.caller(params);
+
+    const response = await icrc106_get_index_principal();
+
+    if ("Err" in response) {
+      throw mapIcrc106GetIndexPrincipalError(response.Err);
+    }
+
+    return response.Ok;
+  };
 }
