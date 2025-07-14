@@ -227,7 +227,8 @@ describe("date.utils", () => {
 
   describe("secondsToDuration", () => {
     // eslint-disable-next-line vitest/expect-expect -- This test uses test-functions
-    it("secondsToDuration default lang", () => testSecondsToDuration(EN_TIME, undefined));
+    it("secondsToDuration default lang", () =>
+      testSecondsToDuration(EN_TIME, undefined));
 
     // eslint-disable-next-line vitest/expect-expect -- This test uses test-functions
     it.each([EN_TIME, FR_TIME])("secondsToDuration %p", (time) =>
