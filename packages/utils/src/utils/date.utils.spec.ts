@@ -37,7 +37,7 @@ describe("date.utils", () => {
   };
 
   // eslint-disable-next-line local-rules/prefer-object-params
-  const testSecondsToDuration = (
+  const test = (
     i18nResult: I18nSecondsToDuration,
     i18n?: I18nSecondsToDuration,
   ) => {
@@ -225,16 +225,13 @@ describe("date.utils", () => {
     });
   };
 
-  describe("secondsToDuration", () => {
-    // eslint-disable-next-line vitest/expect-expect -- This test uses test-functions
-    it("secondsToDuration default lang", () =>
-      testSecondsToDuration(EN_TIME, undefined));
+  // eslint-disable-next-line vitest/valid-describe-callback
+  describe("secondsToDuration default lang", () => test(EN_TIME, undefined));
 
-    // eslint-disable-next-line vitest/expect-expect -- This test uses test-functions
-    it.each([EN_TIME, FR_TIME])("secondsToDuration %p", (time) =>
-      testSecondsToDuration(time, time),
-    );
-  });
+  // eslint-disable-next-line vitest/valid-describe-callback
+  describe.each([EN_TIME, FR_TIME])("secondsToDuration %p", (time) =>
+    test(time, time),
+  );
 
   describe("nowInBigIntNanoSeconds", () => {
     it("should return the current timestamp in nanoseconds as a bigint", () => {
