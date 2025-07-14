@@ -474,6 +474,7 @@ export interface ProposalInfo {
   topic: Topic;
   status: ProposalStatus;
   rewardStatus: ProposalRewardStatus;
+  totalPotentialVotingPower: Option<bigint>;
 }
 
 export interface RegisterVote {
