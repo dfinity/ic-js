@@ -15,7 +15,6 @@ import {
   uint8ArrayToBigInt,
   type Nullable,
 } from "@dfinity/utils";
-import randomBytes from "randombytes";
 import type {
   Command_1,
   _SERVICE as GovernanceService,
@@ -61,6 +60,7 @@ import {
 import {
   toArrayOfNeuronInfo,
   toListProposalsResponse,
+  toMetrics,
   toNetworkEconomics,
   toNeuronInfo,
   toProposalInfo,
@@ -85,6 +85,7 @@ import type {
   ClaimOrRefreshNeuronRequest,
   FollowRequest,
   FolloweesForTopic,
+  GovernanceCachedMetrics,
   KnownNeuron,
   ListProposalsRequest,
   ListProposalsResponse,
@@ -309,7 +310,7 @@ export class GovernanceCanister {
    * it's fetched using a query call.
    *
    */
-  public getLastestRewardEvent = (certified = true): Promise<RewardEvent> =>
+  public getLatestRewardEvent = (certified = true): Promise<RewardEvent> =>
     this.getGovernanceService(certified).get_latest_reward_event();
 
   /**
@@ -362,7 +363,7 @@ export class GovernanceCanister {
       throw new InsufficientAmountError(stake);
     }
 
-    const nonceBytes = new Uint8Array(randomBytes(8));
+    const nonceBytes = crypto.getRandomValues(new Uint8Array(8));
     const nonce = uint8ArrayToBigInt(nonceBytes);
     const accountIdentifier = memoToNeuronAccountIdentifier({
       controller: principal,
@@ -1085,5 +1086,17 @@ export class GovernanceCanister {
       request,
       service: this.certifiedService,
     });
+  };
+
+  public getMetrics = async ({
+    certified = true,
+  }: {
+    certified: boolean;
+  }): Promise<GovernanceCachedMetrics> => {
+    const response = await this.getGovernanceService(certified).get_metrics();
+    if ("Err" in response) {
+      throw new GovernanceError(response.Err);
+    }
+    return toMetrics(response.Ok);
   };
 }

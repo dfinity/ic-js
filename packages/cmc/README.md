@@ -90,6 +90,10 @@ Parameters:
 - `params`: - The parameters for the call.
 - `params.certified`: - Determines whether the response should be certified (default: non-certified)
 
+Returns:
+
+Promise<BigInt>
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L35)
 
 ##### :gear: notifyCreateCanister
@@ -101,6 +105,10 @@ It returns the new canister principal.
 | ---------------------- | ---------------------------------------------------------- |
 | `notifyCreateCanister` | `(request: NotifyCreateCanisterArg) => Promise<Principal>` |
 
+Returns:
+
+Promise<Principal>
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L57)
 
 ##### :gear: notifyTopUp
@@ -111,6 +119,10 @@ It returns the new Cycles of the canister.
 | Method        | Type                                           |
 | ------------- | ---------------------------------------------- |
 | `notifyTopUp` | `(request: NotifyTopUpArg) => Promise<bigint>` |
+
+Returns:
+
+Promise<Cycles>
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L85)
 
@@ -129,6 +141,11 @@ Parameters:
 - `params.certified`: - Determines whether the response should be certified
   (default: non-certified if not specified).
 
+Returns:
+
+- A promise that resolves to an array of `Principal` objects
+  representing the default subnets.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L110)
 
 ##### :gear: getSubnetTypesToSubnets
@@ -146,6 +163,11 @@ Parameters:
 - `params`: - The optional query parameters for the call.
 - `params.certified`: - Specifies whether the response should be certified.
   If not provided, the response defaults to non-certified.
+
+Returns:
+
+- A promise that resolves to an object representing
+  the mapping of subnet types to subnets.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L129)
 

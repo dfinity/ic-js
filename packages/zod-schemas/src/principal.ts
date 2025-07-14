@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import * as z from "zod/v4";
+import * as z from "zod";
 
 /**
  * Zod schema to validate a string as a valid textual representation of a Principal.

@@ -3,15 +3,20 @@
 ## Breaking Changes
 
 - Move `accountIdentifierToBytes`, `accountIdentifierFromBytes` and `principalToAccountIdentifier` from `@dfinity/ledger-icp` to `@dfinity/nns`.
+- Rename `getLastestRewardEvent` to `getLatestRewardEvent` in `@dfinity/nns`.
+- Migrate `@dfinity/zod-schemas` to Zod library v4.
 
 ## Features
 
 - Updated `@dfinity/nns` to add support to a new type of action `RegisterExtension`.
 - Updated `@dfinity/nns` to add support for setting following for multiple topics (`setFollowing`).
+- Updated `@dfinity/nns` to add support for get network metrics (`getMetrics`).
+- Replace usage of `randombytes` library with the API `crypto.getRandomValues` in `@dfinity/nns`.
+- Updated `@dfinity/nns` to expose `total_potential_voting_power` in `list_proposal`.
 
 ## Build
 
-- Add explicit peer dependency requirement on `buffer` to `@dfinity/nns`.
+- Add explicit dependency requirement on `buffer` to `@dfinity/nns`.
 
 ## Chore
 
