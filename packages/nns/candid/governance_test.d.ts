@@ -11,6 +11,7 @@ export interface AccountIdentifier {
 }
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
+  | { FulfillSubnetRentalRequest: FulfillSubnetRentalRequest }
   | { ManageNeuron: ManageNeuron }
   | { UpdateCanisterSettings: UpdateCanisterSettings }
   | { InstallCode: InstallCode }
@@ -221,6 +222,11 @@ export interface Followees {
 export interface FolloweesForTopic {
   topic: [] | [number];
   followees: [] | [Array<NeuronId>];
+}
+export interface FulfillSubnetRentalRequest {
+  user: [] | [Principal];
+  replica_version_id: [] | [string];
+  node_ids: [] | [Array<Principal>];
 }
 export interface GetNeuronsFundAuditInfoRequest {
   nns_proposal_id: [] | [ProposalId];
@@ -696,6 +702,7 @@ export interface Proposal {
 }
 export type ProposalActionRequest =
   | { RegisterKnownNeuron: KnownNeuron }
+  | { FulfillSubnetRentalRequest: FulfillSubnetRentalRequest }
   | { ManageNeuron: ManageNeuronRequest }
   | { UpdateCanisterSettings: UpdateCanisterSettings }
   | { InstallCode: InstallCodeRequest }

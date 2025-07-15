@@ -12,6 +12,11 @@ export const idlFactory = ({ IDL }) => {
     'id' : IDL.Opt(NeuronId),
     'known_neuron_data' : IDL.Opt(KnownNeuronData),
   });
+  const FulfillSubnetRentalRequest = IDL.Record({
+    'user' : IDL.Opt(IDL.Principal),
+    'replica_version_id' : IDL.Opt(IDL.Text),
+    'node_ids' : IDL.Opt(IDL.Vec(IDL.Principal)),
+  });
   const Spawn = IDL.Record({
     'percentage_to_spawn' : IDL.Opt(IDL.Nat32),
     'new_controller' : IDL.Opt(IDL.Principal),
@@ -335,6 +340,7 @@ export const idlFactory = ({ IDL }) => {
   const Motion = IDL.Record({ 'motion_text' : IDL.Text });
   const Action = IDL.Variant({
     'RegisterKnownNeuron' : KnownNeuron,
+    'FulfillSubnetRentalRequest' : FulfillSubnetRentalRequest,
     'ManageNeuron' : ManageNeuron,
     'UpdateCanisterSettings' : UpdateCanisterSettings,
     'InstallCode' : InstallCode,
@@ -809,6 +815,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const ProposalActionRequest = IDL.Variant({
     'RegisterKnownNeuron' : KnownNeuron,
+    'FulfillSubnetRentalRequest' : FulfillSubnetRentalRequest,
     'ManageNeuron' : ManageNeuronRequest,
     'UpdateCanisterSettings' : UpdateCanisterSettings,
     'InstallCode' : InstallCodeRequest,
@@ -1033,6 +1040,11 @@ export const init = ({ IDL }) => {
   const KnownNeuron = IDL.Record({
     'id' : IDL.Opt(NeuronId),
     'known_neuron_data' : IDL.Opt(KnownNeuronData),
+  });
+  const FulfillSubnetRentalRequest = IDL.Record({
+    'user' : IDL.Opt(IDL.Principal),
+    'replica_version_id' : IDL.Opt(IDL.Text),
+    'node_ids' : IDL.Opt(IDL.Vec(IDL.Principal)),
   });
   const Spawn = IDL.Record({
     'percentage_to_spawn' : IDL.Opt(IDL.Nat32),
@@ -1357,6 +1369,7 @@ export const init = ({ IDL }) => {
   const Motion = IDL.Record({ 'motion_text' : IDL.Text });
   const Action = IDL.Variant({
     'RegisterKnownNeuron' : KnownNeuron,
+    'FulfillSubnetRentalRequest' : FulfillSubnetRentalRequest,
     'ManageNeuron' : ManageNeuron,
     'UpdateCanisterSettings' : UpdateCanisterSettings,
     'InstallCode' : InstallCode,

@@ -677,6 +677,18 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
+  if ("FulfillSubnetRentalRequest" in action) {
+    return {
+      FulfillSubnetRentalRequest: {
+        user: fromNullable(action.FulfillSubnetRentalRequest.user),
+        replicaVersionId: fromNullable(
+          action.FulfillSubnetRentalRequest.replica_version_id,
+        ),
+        nodeIds: fromNullable(action.FulfillSubnetRentalRequest.node_ids),
+      },
+    };
+  }
+
   throw new UnsupportedValueError(action);
 };
 
