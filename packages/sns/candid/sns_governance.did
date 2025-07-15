@@ -1,4 +1,4 @@
-// Generated from IC repo commit 5f36668c9b (2025-07-11) 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 5128134 (2025-07-10 tags: release-2025-07-11_03-31-base) 'rs/sns/governance/canister/governance.did' by import-candid
 type Account = record {
   owner : opt principal;
   subaccount : opt Subaccount;

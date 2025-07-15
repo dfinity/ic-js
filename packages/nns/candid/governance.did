@@ -1,4 +1,4 @@
-// Generated from IC repo commit e915efe (2025-07-02 tags: release-2025-07-03_03-27-base) 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 5128134 (2025-07-10 tags: release-2025-07-11_03-31-base) 'rs/nns/governance/canister/governance.did' by import-candid
 type AccountIdentifier = record {
   hash : blob;
 };
@@ -20,6 +20,7 @@ type Action = variant {
   ApproveGenesisKyc : Principals;
   AddOrRemoveNodeProvider : AddOrRemoveNodeProvider;
   Motion : Motion;
+  FulfillSubnetRentalRequest : FulfillSubnetRentalRequest;
 };
 
 type AddHotKey = record {
@@ -996,6 +997,28 @@ type ProposalActionRequest = variant {
   ApproveGenesisKyc : Principals;
   AddOrRemoveNodeProvider : AddOrRemoveNodeProvider;
   Motion : Motion;
+  FulfillSubnetRentalRequest : FulfillSubnetRentalRequest;
+};
+
+// Creates a rented subnet from a rental request (in the Subnet Rental
+// canister).
+type FulfillSubnetRentalRequest = record {
+  // Identifies which rental request to fulfill.
+  //
+  // (Identifying the rental request by user works, because a user can have at
+  // most one rental request in the Subnet Rental canister).
+  user : opt principal;
+
+  // Which nodes will be members of the subnet.
+  node_ids : opt vec principal;
+
+  // What software the nodes will run.
+  //
+  // This must be approved by a prior proposal to bless an IC OS version.
+  //
+  // This is a full git commit ID in the ic repo. (Therefore, it must be a 40
+  // character hexidecimal string.)
+  replica_version_id : opt text;
 };
 
 type ProposalData = record {
