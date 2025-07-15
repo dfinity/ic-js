@@ -14,6 +14,7 @@ describe("governance utils", () => {
         167, 139, 60, 94, 58, 107, 169, 215, 12, 177, 219, 237, 24, 75, 149,
         241, 128,
       ]);
+
       expect(subaccount).toEqual(expected);
     });
   });
