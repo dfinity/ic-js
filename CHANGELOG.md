@@ -1,3 +1,9 @@
+# Next
+
+## Build
+
+- Bump `@noble/hashes` to v1.8.0 in ckBTC, NNS, and SNS JS libraries.
+
 # v71
 
 ## Overview
