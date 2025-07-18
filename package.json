@@ -41,7 +41,7 @@
     "@size-limit/preset-small-lib": "^11.2.0",
     "esbuild": "^0.25.0",
     "node-fetch": "^3.3.2",
-    "prettier": "^3.3.3",
+    "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.1.0",
     "semver": "^7.6.3",
     "size-limit": "^11.2.0",
