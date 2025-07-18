@@ -17,7 +17,7 @@ npm init -w ./packages/a
 
 2. Setup the new package
 
-Copy `package.json`, `license.md`, `esbuild.mjs`, `jest.config.js` and `tsconfig.json` files as in other libs.
+Copy `package.json`, `license.md`, `esbuild.mjs`, `vitest.config.ts` and `tsconfig.json` files as in other libs.
 
 For example, copy the ones from [cmc](https://github.com/dfinity/ic-js/tree/main/packages/cmc) library.
 

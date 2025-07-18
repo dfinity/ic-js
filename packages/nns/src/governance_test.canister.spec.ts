@@ -1,5 +1,5 @@
 import type { ActorSubclass } from "@dfinity/agent";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type { _SERVICE as GovernanceService } from "../candid/governance_test";
 import { toNeuron } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";
@@ -34,8 +34,8 @@ describe("GovernanceTestCanister", () => {
         maturity_e8s_equivalent: newMaturity,
       };
 
-      expect(service.update_neuron).toBeCalledWith(expectedNewRawNeuron);
-      expect(service.update_neuron).toBeCalledTimes(1);
+      expect(service.update_neuron).toHaveBeenCalledWith(expectedNewRawNeuron);
+      expect(service.update_neuron).toHaveBeenCalledTimes(1);
     });
 
     it("should not update accountIdentifier", async () => {
@@ -60,7 +60,7 @@ describe("GovernanceTestCanister", () => {
         "Neuron account identifier can't be changed",
       );
 
-      expect(service.update_neuron).not.toBeCalled();
+      expect(service.update_neuron).not.toHaveBeenCalled();
     });
   });
 });

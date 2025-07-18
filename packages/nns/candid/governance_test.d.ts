@@ -278,6 +278,7 @@ export interface GovernanceCachedMetrics {
   total_voting_power_non_self_authenticating_controller: [] | [bigint];
   total_staked_maturity_e8s_equivalent: bigint;
   not_dissolving_neurons_e8s_buckets_ect: Array<[bigint, number]>;
+  spawning_neurons_count: bigint;
   declining_voting_power_neuron_subset_metrics: [] | [NeuronSubsetMetrics];
   total_staked_e8s_ect: bigint;
   not_dissolving_neurons_staked_maturity_e8s_equivalent_sum: bigint;

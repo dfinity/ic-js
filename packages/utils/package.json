@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/utils",
-  "version": "2.13.1",
+  "version": "2.13.2",
   "description": "A collection of utilities and constants for NNS/SNS projects.",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.cjs.js",
@@ -16,7 +16,7 @@
     "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
     "build": "npm run rmdir && mkdir -p dist && node esbuild.mjs && npm run ts-declaration",
     "prepack": "npm run build",
-    "test": "jest"
+    "test": "vitest"
   },
   "repository": {
     "type": "git",

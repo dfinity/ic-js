@@ -1,6 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   _SERVICE as CkETHOrchestratorService,
   ManagedCanisters,
@@ -85,6 +85,7 @@ describe("ckETH orchestrator canister", () => {
       const canister = orchestrator(service);
 
       const res = await canister.getOrchestratorInfo();
+
       expect(service.get_orchestrator_info).toHaveBeenCalled();
       expect(res).toEqual(orchestratorInfoMock);
     });

@@ -1,6 +1,6 @@
 # Hacking
 
-This document list a couple of useful information to develop locally libraries of this repo.
+This document lists a couple of useful information to develop libraries of this repo locally.
 
 ## Prerequisite
 
@@ -23,7 +23,7 @@ npm run build/test --workspace=packages/sns
 ```
 
 Because of dependencies between the packages you need to make sure to build
-`packages/utils` and `packages/ledger` before you can build/test any of the
+`packages/utils` and `packages/ledger-icrc` before you can build/test any of the
 other packages.
 
 ## nns-js: How-to test local changes with nns-dapp
@@ -65,13 +65,13 @@ The `did` files, related `.js` and `.d.ts` are generated automatically.
 The files of the [candid](./candid) folders are shared across packages. Their architecture is the following:
 
 - `something.did`: the candid definition
-- `something.d.ts`: the typescript definition for the types and service of the did files (1)
+- `something.d.ts`: the TypeScript definition for the types and service of the `did` files (1)
 - `something.idl.js`: the factory js file (1)
-- `something.idl.d.ts`: the typescript definition of the above factory file
+- `something.idl.d.ts`: the TypeScript definition of the above factory file
 - `something.certified.idl.js`: the factory js file for the certified calls (1)
-- `something.certified.idl.d.ts`: the typescript definition of the above factory file
+- `something.certified.idl.d.ts`: the TypeScript definition of the above factory file
 
-(1) auto-generated with [didc](https://github.com/dfinity/candid)
+(1) auto-generated with [`didc`](https://github.com/dfinity/candid)
 
 # Update peer dependencies
 

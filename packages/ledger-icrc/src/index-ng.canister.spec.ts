@@ -2,7 +2,7 @@ import type { ActorSubclass } from "@dfinity/agent";
 import type { Status } from "@dfinity/ledger-icp/candid";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   Account,
   _SERVICE as IcrcIndexNgService,
@@ -19,7 +19,7 @@ import {
 import type { IcrcAccount } from "./types/ledger.responses";
 
 describe("Index canister", () => {
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => vi.clearAllMocks());
 
   const fakeSnsAccount: IcrcAccount = {
     owner: Principal.fromText("aaaaa-aa"),
@@ -76,6 +76,7 @@ describe("Index canister", () => {
         account: fakeSnsAccount,
         max_results: BigInt(10),
       });
+
       expect(res.transactions).toEqual([transactionWithId]);
     });
 
@@ -96,7 +97,8 @@ describe("Index canister", () => {
           account: fakeSnsAccount,
           max_results: BigInt(10),
         });
-      await expect(call).rejects.toThrowError(IndexError);
+
+      await expect(call).rejects.toThrow(IndexError);
     });
   });
 
@@ -115,7 +117,8 @@ describe("Index canister", () => {
       const res = await canister.balance({
         owner,
       });
-      expect(service.icrc1_balance_of).toBeCalled();
+
+      expect(service.icrc1_balance_of).toHaveBeenCalled();
       expect(res).toEqual(balance);
     });
 
@@ -135,6 +138,7 @@ describe("Index canister", () => {
         owner,
         subaccount,
       });
+
       expect(res).toEqual(balance);
     });
   });
@@ -150,6 +154,7 @@ describe("Index canister", () => {
       });
 
       const res = await canister.ledgerId({});
+
       expect(res).toEqual(ledgerCanisterIdMock);
     });
   });
@@ -169,6 +174,7 @@ describe("Index canister", () => {
       });
 
       const res = await canister.status({});
+
       expect(res).toEqual(mockStatus);
     });
   });

@@ -1,5 +1,5 @@
 import type { ActorSubclass } from "@dfinity/agent";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type { _SERVICE as GenesisTokenService } from "../candid/genesis_token";
 import { GenesisTokenCanister } from "./genesis_token.canister";
 
@@ -22,6 +22,7 @@ describe("GenesisTokenCanister", () => {
     const res = await gtc.claimNeurons({
       hexPubKey: "",
     });
+
     expect(res).toEqual([BigInt(1), BigInt(2)]);
   });
 
@@ -36,6 +37,7 @@ describe("GenesisTokenCanister", () => {
     const call = async () => {
       await gtc.claimNeurons({ hexPubKey: "" });
     };
+
     await expect(call).rejects.toThrow("An error occurred.");
   });
 });

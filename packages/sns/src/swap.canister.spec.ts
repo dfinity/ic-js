@@ -1,6 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   BuyerState,
   GetAutoFinalizationStatusResponse,
@@ -27,7 +27,7 @@ import { saleTicketMock, swapCanisterIdMock } from "./mocks/sns.mock";
 import { SnsSwapCanister } from "./swap.canister";
 
 describe("Swap canister", () => {
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => vi.clearAllMocks());
 
   it("should return the state of the swap canister", async () => {
     const mockSwap: Swap = {
@@ -53,6 +53,7 @@ describe("Swap canister", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.state({});
+
     expect(res).toEqual(mockResponse);
   });
 
@@ -75,6 +76,7 @@ describe("Swap canister", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.getOpenTicket({});
+
     expect(res).toEqual(saleTicketMock);
   });
 
@@ -194,6 +196,7 @@ describe("Swap canister", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.getDerivedState({});
+
     expect(res).toEqual(testResponse);
   });
 
@@ -224,6 +227,7 @@ describe("Swap canister", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.getSaleParameters({});
+
     expect(res).toEqual(testResponse);
   });
 
@@ -242,6 +246,7 @@ describe("Swap canister", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.getLifecycle({});
+
     expect(res).toEqual(mockResponse);
   });
 
@@ -261,6 +266,7 @@ describe("Swap canister", () => {
         certifiedServiceOverride: service,
       });
       const res = await canister.getFinalizationStatus({});
+
       expect(res).toEqual(mockResponse);
     });
 
@@ -282,6 +288,7 @@ describe("Swap canister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => canister.getFinalizationStatus({});
+
       await expect(call).rejects.toThrow(
         new UnsupportedMethodError("getFinalizationStatus"),
       );
@@ -299,6 +306,7 @@ describe("Swap canister", () => {
         certifiedServiceOverride: service,
       });
       const call = () => canister.getFinalizationStatus({});
+
       await expect(call).rejects.toThrow(err);
     });
   });
@@ -345,7 +353,8 @@ describe("Swap canister", () => {
     const response = await canister.getUserCommitment({
       principal_id: [Principal.fromText("aaaaa-aa")],
     });
-    expect(service.get_buyer_state).toBeCalled();
+
+    expect(service.get_buyer_state).toHaveBeenCalled();
     expect(response).toEqual(buyerState);
   });
 });

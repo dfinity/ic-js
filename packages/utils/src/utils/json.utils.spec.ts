@@ -87,6 +87,7 @@ describe("json-utils", () => {
         '{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}',
         jsonReviver,
       );
+
       expect(obj instanceof Principal).toBeTruthy();
       expect((obj as Principal).toText()).toEqual(
         "tmxop-wyaaa-aaaaa-aaapa-cai",

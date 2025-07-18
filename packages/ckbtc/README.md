@@ -119,6 +119,10 @@ Parameters:
 - `params.owner`: The owner for which the BTC address should be generated. If not provided, the `caller` will be use instead.
 - `params.subaccount`: An optional subaccount to compute the address.
 
+Returns:
+
+The BTC address of the given account.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L64)
 
 ##### :gear: updateBalance
@@ -137,6 +141,10 @@ Parameters:
 - `params.owner`: The owner of the address. If not provided, the `caller` will be use instead.
 - `params.subaccount`: An optional subaccount of the address.
 
+Returns:
+
+The result of the balance update.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L83)
 
 ##### :gear: getWithdrawalAccount
@@ -146,6 +154,10 @@ Returns the account to which the caller should deposit ckBTC before withdrawing 
 | Method                 | Type                     |
 | ---------------------- | ------------------------ |
 | `getWithdrawalAccount` | `() => Promise<Account>` |
+
+Returns:
+
+The account to which ckBTC needs to be transferred. Provide corresponding information to map an Icrc1 account.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L106)
 
@@ -170,6 +182,10 @@ Parameters:
 - `params`: The parameters are the bitcoin address and amount to convert.
 - `params.address`: The bitcoin address.
 - `params.amount`: The ckBTC amount.
+
+Returns:
+
+The result or the operation.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L125)
 
@@ -197,6 +213,10 @@ Parameters:
 - `params.fromSubaccount`: An optional subaccount from which
   the ckBTC should be transferred.
 
+Returns:
+
+The result or the operation.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L155)
 
 ##### :gear: retrieveBtcStatus
@@ -213,6 +233,10 @@ Parameters:
 - `transactionId`: The ID of the corresponding burn transaction.
 - `certified`: query or update call
 
+Returns:
+
+The status of the BTC retrieval request.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L187)
 
 ##### :gear: retrieveBtcStatusV2ByAccount
@@ -227,6 +251,10 @@ Parameters:
 
 - `certified`: query or update call
 - `account`: an optional account to retrieve the statuses. If not provided, statuses for the caller are retrieved.
+
+Returns:
+
+The statuses of the BTC retrieval requests.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L205)
 
@@ -275,6 +303,10 @@ Parameters:
 - `params.owner`: The owner of the account. Note that if not provided, the `caller` would be used by the minter instead.
 - `params.subaccount`: An optional subaccount.
 
+Returns:
+
+The known utxos (with no guarantee in the ordering).
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L266)
 
 ### :factory: BitcoinCanister
@@ -314,6 +346,10 @@ Parameters:
 - `params.filter`: The optional filter parameter can be used to restrict the set of returned UTXOs, either providing a minimum number of confirmations or a page reference when pagination is used for addresses with many UTXOs.
 - `params.address`: A Bitcoin address.
 
+Returns:
+
+The UTXOs are returned sorted by block height in descending order.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L42)
 
 ##### :gear: getBalanceQuery
@@ -331,6 +367,10 @@ Parameters:
 - `params.network`: Tesnet or mainnet.
 - `params.min_confirmations`: The optional filter parameter can be used to limit the set of considered UTXOs for the calculation of the balance to those with at least the provided number of confirmations in the same manner as for the `bitcoin_get_utxos` call.
 - `params.address`: A Bitcoin address.
+
+Returns:
+
+The balance is returned in `Satoshi` (10^8 Satoshi = 1 Bitcoin).
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L64)
 

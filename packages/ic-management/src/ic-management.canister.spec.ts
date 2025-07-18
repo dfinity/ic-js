@@ -1,6 +1,6 @@
 import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { toNullable, type ServiceResponse } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   _SERVICE as IcManagementService,
   canister_install_mode,
@@ -156,7 +156,8 @@ describe("ICManagementCanister", () => {
         canisterId: mockCanisterId,
         settings: partialSettings,
       });
-      expect(service.update_settings).toBeCalledWith({
+
+      expect(service.update_settings).toHaveBeenCalledWith({
         canister_id: mockCanisterId,
         sender_canister_version: [],
         settings: {

@@ -7,133 +7,135 @@ describe("smallerVersion", () => {
         minVersion: "1.0",
         currentVersion: "0.0.9",
       }),
-    ).toBe(true);
+    ).toBeTruthy();
     expect(
       smallerVersion({
         minVersion: "2.0.0",
         currentVersion: "1.9.9",
       }),
-    ).toBe(true);
+    ).toBeTruthy();
     expect(
       smallerVersion({
         minVersion: "2.1.5",
         currentVersion: "2.1.4",
       }),
-    ).toBe(true);
+    ).toBeTruthy();
     expect(
       smallerVersion({
         minVersion: "2.1.5",
         currentVersion: "1.8.9",
       }),
-    ).toBe(true);
+    ).toBeTruthy();
     expect(
       smallerVersion({
         minVersion: "2",
         currentVersion: "1",
       }),
-    ).toBe(true);
+    ).toBeTruthy();
   });
+
   it("returns false if current version is bigger than min version", () => {
     expect(
       smallerVersion({
         minVersion: "0.0.9",
         currentVersion: "1.0",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "1.9.9",
         currentVersion: "2.0.0",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "2.1.4",
         currentVersion: "2.1.5",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "1.8.9",
         currentVersion: "2.1.5",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "1",
         currentVersion: "2",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
   });
+
   it("returns false if current version is same as min version", () => {
     expect(
       smallerVersion({
         minVersion: "1",
         currentVersion: "1.0",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "2",
         currentVersion: "2.0.0",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "2.1.4",
         currentVersion: "2.1.4",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "1.0.0",
         currentVersion: "1",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "13.4.5",
         currentVersion: "13.4.5",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
   });
 
-  it.only("works with tagged versions", () => {
+  it("works with tagged versions", () => {
     expect(
       smallerVersion({
         minVersion: "1.0.0-alpha",
         currentVersion: "1.0.0",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "1.0.0",
         currentVersion: "1.0.0-alpha",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "1.0.0",
         currentVersion: "1.0.1-alpha",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "1.0.1",
         currentVersion: "1.0.1-beta.1",
       }),
-    ).toBe(false);
+    ).toBeFalsy();
     expect(
       smallerVersion({
         minVersion: "1.1.1-alpha.1",
         currentVersion: "1.0.1-beta.1",
       }),
-    ).toBe(true);
+    ).toBeTruthy();
     expect(
       smallerVersion({
         minVersion: "1.1.0",
         currentVersion: "1.0.1-beta.1",
       }),
-    ).toBe(true);
+    ).toBeTruthy();
   });
 });

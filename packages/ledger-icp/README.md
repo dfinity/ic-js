@@ -209,6 +209,10 @@ Parameters:
 - `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
 - `params.certified`: query or update call.
 
+Returns:
+
+The balance of the given account.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L64)
 
 ##### :gear: metadata
@@ -223,6 +227,10 @@ Parameters:
 
 - `params`: - The parameters used to fetch the metadata, notably query or certified call.
 
+Returns:
+
+The metadata of the ICP ledger. A promise that resolves to an array of metadata entries, where each entry is a tuple consisting of a string and a value.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L83)
 
 ##### :gear: transactionFee
@@ -236,6 +244,10 @@ Returns the transaction fee of the ICP ledger canister.
 Parameters:
 
 - `params`: - Optional query parameters for the request, defaulting to `{ certified: false }` for backwards compatibility reason.
+
+Returns:
+
+A promise that resolves to the transaction fee as a bigint.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L94)
 
@@ -275,6 +287,10 @@ Parameters:
 
 - `params`: - The parameters to approve.
 
+Returns:
+
+The block index of the approved transaction.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L152)
 
 ##### :gear: icrc21ConsentMessage
@@ -288,6 +304,10 @@ Fetches the consent message for a specified canister call, intended to provide a
 Parameters:
 
 - `params`: - The request parameters containing the method name, arguments, and consent preferences (e.g., language).
+
+Returns:
+
+- A promise that resolves to the consent message response, which includes the consent message in the specified language and other related information.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L179)
 
@@ -326,6 +346,10 @@ Parameters:
 - `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
 - `params.certified`: query or update call.
 
+Returns:
+
+The balance of the given account.
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L45)
 
 ##### :gear: getTransactions
@@ -343,6 +367,10 @@ Parameters:
 - `params.accountIdentifier`: The account identifier provided either as hex string or as an AccountIdentifier.
 - `params.start`: If set then the results will start from the next most recent transaction id after start (start won't be included). If not provided, then the results will start from the most recent transaction id.
 - `params.maxResults`: Maximum number of transactions to fetch.
+
+Returns:
+
+The transactions, balance and the transaction id of the oldest transaction the account has.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L64)
 

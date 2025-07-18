@@ -449,11 +449,11 @@ const fromInstallCode = (installCode: InstallCodeRequest): RawInstallCode => {
 
 const fromCanisterSettings = (
   canisterSettings: Option<CanisterSettings>,
-): [RawCanisterSettings] | [] =>
-  canisterSettings === undefined
-    ? []
-    : [
-        {
+): Nullable<RawCanisterSettings> =>
+  toNullable(
+    canisterSettings === undefined
+      ? undefined
+      : {
           freezing_threshold: toNullable(canisterSettings.freezingThreshold),
           controllers: canisterSettings.controllers
             ? [
@@ -472,7 +472,7 @@ const fromCanisterSettings = (
             canisterSettings.wasmMemoryThreshold,
           ),
         },
-      ];
+  );
 
 const fromAction = (action: ProposalActionRequest): RawAction => {
   if ("ExecuteNnsFunction" in action) {

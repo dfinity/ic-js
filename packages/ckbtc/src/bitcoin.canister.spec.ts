@@ -1,6 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import type { CanisterOptions } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   _SERVICE as BitcoinService,
   get_utxos_response,
@@ -131,7 +131,7 @@ describe("BitcoinCanister", () => {
           ...params,
         });
 
-      await expect(call).rejects.toThrowError(Error);
+      await expect(call).rejects.toThrow(Error);
     });
 
     it("should not call certified end point", async () => {
@@ -193,7 +193,7 @@ describe("BitcoinCanister", () => {
           ...params,
         });
 
-      await expect(call).rejects.toThrowError(Error);
+      await expect(call).rejects.toThrow(Error);
     });
 
     it("should not call certified end point", async () => {

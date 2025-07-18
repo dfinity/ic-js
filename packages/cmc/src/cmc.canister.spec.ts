@@ -1,7 +1,7 @@
 import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, type QueryParams } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   _SERVICE as CMCService,
   IcpXdrConversionRateResponse,
@@ -48,7 +48,7 @@ describe("CyclesMintingCanister", () => {
       service.get_icp_xdr_conversion_rate.mockResolvedValue(response);
 
       const cmc = await createCMC(service);
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -76,7 +76,7 @@ describe("CyclesMintingCanister", () => {
       service.get_icp_xdr_conversion_rate.mockResolvedValue(response);
 
       const cmc = await createCMC(service);
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -133,7 +133,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      await expect(call).rejects.toThrowError(RefundedError);
+      await expect(call).rejects.toThrow(RefundedError);
     });
 
     it("throws InvalidaTransactionError error", async () => {
@@ -154,7 +154,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      await expect(call).rejects.toThrowError(InvalidaTransactionError);
+      await expect(call).rejects.toThrow(InvalidaTransactionError);
     });
 
     it("throws ProcessingError error", async () => {
@@ -175,7 +175,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      await expect(call).rejects.toThrowError(ProcessingError);
+      await expect(call).rejects.toThrow(ProcessingError);
     });
 
     it("throws TransactionTooOldError error", async () => {
@@ -196,7 +196,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      await expect(call).rejects.toThrowError(TransactionTooOldError);
+      await expect(call).rejects.toThrow(TransactionTooOldError);
     });
 
     it("throws CMCError error", async () => {
@@ -217,7 +217,7 @@ describe("CyclesMintingCanister", () => {
           settings: [],
         });
 
-      await expect(call).rejects.toThrowError(CMCError);
+      await expect(call).rejects.toThrow(CMCError);
     });
   });
 
@@ -236,7 +236,7 @@ describe("CyclesMintingCanister", () => {
         block_index: BigInt(10),
       });
 
-      expect(service.notify_top_up).toBeCalled();
+      expect(service.notify_top_up).toHaveBeenCalled();
     });
 
     it("throws Refunded error", async () => {
@@ -254,7 +254,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      await expect(call).rejects.toThrowError(RefundedError);
+      await expect(call).rejects.toThrow(RefundedError);
     });
 
     it("throws InvalidaTransactionError error", async () => {
@@ -272,7 +272,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      await expect(call).rejects.toThrowError(InvalidaTransactionError);
+      await expect(call).rejects.toThrow(InvalidaTransactionError);
     });
 
     it("throws ProcessingError error", async () => {
@@ -290,7 +290,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      await expect(call).rejects.toThrowError(ProcessingError);
+      await expect(call).rejects.toThrow(ProcessingError);
     });
 
     it("throws TransactionTooOldError error", async () => {
@@ -308,7 +308,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      await expect(call).rejects.toThrowError(TransactionTooOldError);
+      await expect(call).rejects.toThrow(TransactionTooOldError);
     });
 
     it("throws CMCError error", async () => {
@@ -326,7 +326,7 @@ describe("CyclesMintingCanister", () => {
           block_index: BigInt(10),
         });
 
-      await expect(call).rejects.toThrowError(CMCError);
+      await expect(call).rejects.toThrow(CMCError);
     });
   });
 
@@ -342,7 +342,7 @@ describe("CyclesMintingCanister", () => {
 
       const cmc = await createCMC(service);
 
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -363,7 +363,7 @@ describe("CyclesMintingCanister", () => {
 
       const cmc = await createCMC(service);
 
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -419,7 +419,7 @@ describe("CyclesMintingCanister", () => {
 
       const cmc = await createCMC(service);
 
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },
@@ -440,7 +440,7 @@ describe("CyclesMintingCanister", () => {
 
       const cmc = await createCMC(service);
 
-      const callerSpy = jest.spyOn(
+      const callerSpy = vi.spyOn(
         cmc as unknown as {
           caller: (params: QueryParams) => Promise<CMCService>;
         },

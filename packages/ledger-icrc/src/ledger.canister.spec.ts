@@ -1,11 +1,12 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
-import { mock } from "jest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import type {
   Allowance,
   ApproveArgs,
   GetBlocksResult,
+  GetIndexPrincipalResult,
   _SERVICE as IcrcLedgerService,
   TransferArg,
   TransferFromArgs,
@@ -16,6 +17,7 @@ import {
   ConsentMessageUnavailableError,
   GenericError,
   IcrcTransferError,
+  IndexPrincipalNotSetError,
   InsufficientPaymentError,
   UnsupportedCanisterCallError,
 } from "./errors/ledger.errors";
@@ -34,45 +36,54 @@ import type {
 } from "./types/ledger.params";
 
 describe("Ledger canister", () => {
-  it("should return the token metadata", async () => {
-    const service = mock<ActorSubclass<IcrcLedgerService>>();
-    service.icrc1_metadata.mockResolvedValue(tokenMetadataResponseMock);
+  describe("metadata", () => {
+    it("should return the token metadata", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc1_metadata.mockResolvedValue(tokenMetadataResponseMock);
 
-    const canister = IcrcLedgerCanister.create({
-      canisterId: ledgerCanisterIdMock,
-      certifiedServiceOverride: service,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.metadata({});
+
+      expect(res).toEqual(tokenMetadataResponseMock);
     });
-
-    const res = await canister.metadata({});
-    expect(res).toEqual(tokenMetadataResponseMock);
   });
 
-  it("should return the transaction fee", async () => {
-    const service = mock<ActorSubclass<IcrcLedgerService>>();
-    const fee = BigInt(10_000);
-    service.icrc1_fee.mockResolvedValue(fee);
+  describe("transactionFee", () => {
+    it("should return the transaction fee", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const fee = BigInt(10_000);
+      service.icrc1_fee.mockResolvedValue(fee);
 
-    const canister = IcrcLedgerCanister.create({
-      canisterId: ledgerCanisterIdMock,
-      certifiedServiceOverride: service,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.transactionFee({});
+
+      expect(res).toEqual(fee);
     });
-
-    const res = await canister.transactionFee({});
-    expect(res).toEqual(fee);
   });
 
-  it("should return the total tokens supply", async () => {
-    const service = mock<ActorSubclass<IcrcLedgerService>>();
-    const totalTokens = BigInt(1000_000_000_000);
-    service.icrc1_total_supply.mockResolvedValue(totalTokens);
+  describe("totalTokensSupply", () => {
+    it("should return the total tokens supply", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const totalTokens = BigInt(1000_000_000_000);
+      service.icrc1_total_supply.mockResolvedValue(totalTokens);
 
-    const canister = IcrcLedgerCanister.create({
-      canisterId: ledgerCanisterIdMock,
-      certifiedServiceOverride: service,
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.totalTokensSupply({});
+
+      expect(res).toEqual(totalTokens);
     });
-
-    const res = await canister.totalTokensSupply({});
-    expect(res).toEqual(totalTokens);
   });
 
   describe("balance", () => {
@@ -90,7 +101,8 @@ describe("Ledger canister", () => {
       const res = await canister.balance({
         owner,
       });
-      expect(service.icrc1_balance_of).toBeCalled();
+
+      expect(service.icrc1_balance_of).toHaveBeenCalled();
       expect(res).toEqual(balance);
     });
 
@@ -110,6 +122,7 @@ describe("Ledger canister", () => {
         owner,
         subaccount,
       });
+
       expect(res).toEqual(balance);
     });
   });
@@ -133,6 +146,7 @@ describe("Ledger canister", () => {
       created_at_time: [],
       amount: BigInt(100_000_000),
     };
+
     it("should return the block height successfully", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const blockHeight = BigInt(100);
@@ -144,8 +158,9 @@ describe("Ledger canister", () => {
       });
 
       const res = await canister.transfer(transferParams);
+
       expect(res).toEqual(blockHeight);
-      expect(service.icrc1_transfer).toBeCalledWith(transferArg);
+      expect(service.icrc1_transfer).toHaveBeenCalledWith(transferArg);
     });
 
     it("should raise IcrcTransferError error", async () => {
@@ -165,6 +180,7 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.transfer(transferParams);
+
       await expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
@@ -196,6 +212,7 @@ describe("Ledger canister", () => {
       created_at_time: [],
       amount: BigInt(100_000_000),
     };
+
     it("should return the block height successfully", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const blockHeight = BigInt(100);
@@ -207,8 +224,9 @@ describe("Ledger canister", () => {
       });
 
       const res = await canister.transferFrom(transferParams);
+
       expect(res).toEqual(blockHeight);
-      expect(service.icrc2_transfer_from).toBeCalledWith(transferArg);
+      expect(service.icrc2_transfer_from).toHaveBeenCalledWith(transferArg);
     });
 
     it("should raise IcrcTransferError error", async () => {
@@ -228,6 +246,7 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.transferFrom(transferParams);
+
       await expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
@@ -254,6 +273,7 @@ describe("Ledger canister", () => {
       created_at_time: [],
       amount: BigInt(100_000_000),
     };
+
     it("should return the block height successfully", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const blockHeight = BigInt(100);
@@ -265,8 +285,9 @@ describe("Ledger canister", () => {
       });
 
       const res = await canister.approve(approveParams);
+
       expect(res).toEqual(blockHeight);
-      expect(service.icrc2_approve).toBeCalledWith(approveArg);
+      expect(service.icrc2_approve).toHaveBeenCalledWith(approveArg);
     });
 
     it("should raise IcrcTransferError error", async () => {
@@ -286,6 +307,7 @@ describe("Ledger canister", () => {
       });
 
       const call = () => canister.approve(approveParams);
+
       await expect(call).rejects.toThrow(IcrcTransferError);
     });
   });
@@ -320,7 +342,8 @@ describe("Ledger canister", () => {
         ...allowanceParams,
         certified: true,
       });
-      expect(service.icrc2_allowance).toBeCalledWith(allowanceParams);
+
+      expect(service.icrc2_allowance).toHaveBeenCalledWith(allowanceParams);
       expect(res).toEqual(allowance);
     });
   });
@@ -382,21 +405,23 @@ describe("Ledger canister", () => {
       const response = await ledger.consentMessage(consentMessageRequest);
 
       expect(response).toEqual(consentMessageResponse.Ok);
-      expect(service.icrc21_canister_call_consent_message).toBeCalledWith({
-        method: consentMessageRequest.method,
-        arg: consentMessageRequest.arg,
-        user_preferences: {
-          metadata: {
-            language: "en-US",
-            utc_offset_minutes: [],
-          },
-          device_spec: [
-            {
-              GenericDisplay: null,
+      expect(service.icrc21_canister_call_consent_message).toHaveBeenCalledWith(
+        {
+          method: consentMessageRequest.method,
+          arg: consentMessageRequest.arg,
+          user_preferences: {
+            metadata: {
+              language: "en-US",
+              utc_offset_minutes: [],
             },
-          ],
+            device_spec: [
+              {
+                GenericDisplay: null,
+              },
+            ],
+          },
         },
-      });
+      );
     });
 
     it("should fetch consent message successfully with LineDisplayMessage", async () => {
@@ -428,24 +453,26 @@ describe("Ledger canister", () => {
       const response = await ledger.consentMessage(requestWithLineDisplay);
 
       expect(response).toEqual(consentMessageLineDisplayResponse.Ok);
-      expect(service.icrc21_canister_call_consent_message).toBeCalledWith({
-        method: requestWithLineDisplay.method,
-        arg: requestWithLineDisplay.arg,
-        user_preferences: {
-          metadata: {
-            language: "en-US",
-            utc_offset_minutes: [],
-          },
-          device_spec: [
-            {
-              LineDisplay: {
-                characters_per_line: 20,
-                lines_per_page: 4,
-              },
+      expect(service.icrc21_canister_call_consent_message).toHaveBeenCalledWith(
+        {
+          method: requestWithLineDisplay.method,
+          arg: requestWithLineDisplay.arg,
+          user_preferences: {
+            metadata: {
+              language: "en-US",
+              utc_offset_minutes: [],
             },
-          ],
+            device_spec: [
+              {
+                LineDisplay: {
+                  characters_per_line: 20,
+                  lines_per_page: 4,
+                },
+              },
+            ],
+          },
         },
-      });
+      );
     });
 
     it("should handle UTC offset in the request", async () => {
@@ -475,21 +502,23 @@ describe("Ledger canister", () => {
       const response = await ledger.consentMessage(requestWithUtcOffset);
 
       expect(response).toEqual(consentMessageResponse.Ok);
-      expect(service.icrc21_canister_call_consent_message).toBeCalledWith({
-        method: requestWithUtcOffset.method,
-        arg: requestWithUtcOffset.arg,
-        user_preferences: {
-          metadata: {
-            language: "en-US",
-            utc_offset_minutes: [120],
-          },
-          device_spec: [
-            {
-              GenericDisplay: null,
+      expect(service.icrc21_canister_call_consent_message).toHaveBeenCalledWith(
+        {
+          method: requestWithUtcOffset.method,
+          arg: requestWithUtcOffset.arg,
+          user_preferences: {
+            metadata: {
+              language: "en-US",
+              utc_offset_minutes: [120],
             },
-          ],
+            device_spec: [
+              {
+                GenericDisplay: null,
+              },
+            ],
+          },
         },
-      });
+      );
     });
 
     it("should throw GenericError when the canister returns a GenericError", async () => {
@@ -516,7 +545,7 @@ describe("Ledger canister", () => {
 
       await expect(
         ledger.consentMessage(consentMessageRequest),
-      ).rejects.toThrowError(new GenericError(errorDescription, BigInt(500)));
+      ).rejects.toThrow(new GenericError(errorDescription, BigInt(500)));
     });
 
     it("should throw InsufficientPaymentError when the canister returns an InsufficientPayment error", async () => {
@@ -543,7 +572,7 @@ describe("Ledger canister", () => {
 
       await expect(
         ledger.consentMessage(consentMessageRequest),
-      ).rejects.toThrowError(
+      ).rejects.toThrow(
         new InsufficientPaymentError(insufficientPaymentDescription),
       );
     });
@@ -573,7 +602,7 @@ describe("Ledger canister", () => {
 
       await expect(
         ledger.consentMessage(consentMessageRequest),
-      ).rejects.toThrowError(
+      ).rejects.toThrow(
         new UnsupportedCanisterCallError(unsupportedCanisterCallDescription),
       );
     });
@@ -603,7 +632,7 @@ describe("Ledger canister", () => {
 
       await expect(
         ledger.consentMessage(consentMessageRequest),
-      ).rejects.toThrowError(
+      ).rejects.toThrow(
         new ConsentMessageUnavailableError(
           consentMessageUnavailableDescription,
         ),
@@ -635,7 +664,7 @@ describe("Ledger canister", () => {
 
       await expect(
         ledger.consentMessage(consentMessageRequest),
-      ).rejects.toThrowError(
+      ).rejects.toThrow(
         new ConsentMessageError(`Unknown error type ${JSON.stringify(Err)}`),
       );
     });
@@ -672,27 +701,110 @@ describe("Ledger canister", () => {
 
       expect(res).toEqual(blocks);
     });
+
+    it("should accept empty options", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const blocks: GetBlocksResult = {
+        log_length: 1234n,
+        blocks: [],
+        archived_blocks: [],
+      };
+      service.icrc3_get_blocks.mockResolvedValue(blocks);
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getBlocks({ args: [] });
+
+      expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
+      expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, []);
+
+      expect(res).toEqual(blocks);
+    });
   });
 
-  it("should accept empty options", async () => {
-    const service = mock<ActorSubclass<IcrcLedgerService>>();
-    const blocks: GetBlocksResult = {
-      log_length: 1234n,
-      blocks: [],
-      archived_blocks: [],
-    };
-    service.icrc3_get_blocks.mockResolvedValue(blocks);
+  describe("getIndexPrincipal", () => {
+    const indexPrincipalRequest = {};
 
-    const canister = IcrcLedgerCanister.create({
-      canisterId: ledgerCanisterIdMock,
-      certifiedServiceOverride: service,
+    const mockIndexPrincipal = Principal.fromText(
+      "pd4vj-oqaaa-aaaar-qahwq-cai",
+    );
+
+    const indexPrincipalResponse: GetIndexPrincipalResult = {
+      Ok: mockIndexPrincipal,
+    };
+
+    it("should return the index canister principal successfully", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc106_get_index_principal.mockResolvedValue(
+        indexPrincipalResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const response = await ledger.getIndexPrincipal(indexPrincipalRequest);
+
+      expect(response).toEqual(indexPrincipalResponse.Ok);
+      expect(
+        service.icrc106_get_index_principal,
+      ).toHaveBeenCalledExactlyOnceWith();
     });
 
-    const res = await canister.getBlocks({ args: [] });
+    it("should throw GenericError when the canister returns a GenericError", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
 
-    expect(service.icrc3_get_blocks).toHaveBeenCalledTimes(1);
-    expect(service.icrc3_get_blocks).toHaveBeenNthCalledWith(1, []);
+      const errorDescription = "An error occurred";
+      const errorResponse: GetIndexPrincipalResult = {
+        Err: {
+          GenericError: {
+            description: errorDescription,
+            error_code: BigInt(500),
+          },
+        },
+      };
 
-    expect(res).toEqual(blocks);
+      service.icrc106_get_index_principal.mockResolvedValue(errorResponse);
+
+      const ledger = IcrcLedgerCanister.create({
+        certifiedServiceOverride: service,
+        canisterId: ledgerCanisterIdMock,
+      });
+
+      await expect(
+        ledger.getIndexPrincipal(indexPrincipalRequest),
+      ).rejects.toThrow(new GenericError(errorDescription, BigInt(500)));
+    });
+
+    it("should throw IndexPrincipalNotSetError when the canister returns an IndexPrincipalNotSet error", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+
+      const indexPrincipalNotSetErrorResponse: GetIndexPrincipalResult = {
+        Err: {
+          IndexPrincipalNotSet: null,
+        },
+      };
+
+      service.icrc106_get_index_principal.mockResolvedValue(
+        indexPrincipalNotSetErrorResponse,
+      );
+
+      const ledger = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await expect(
+        ledger.getIndexPrincipal(indexPrincipalRequest),
+      ).rejects.toThrow(
+        new IndexPrincipalNotSetError(
+          "Index principal is not set for this ledger canister.",
+        ),
+      );
+    });
   });
 });
