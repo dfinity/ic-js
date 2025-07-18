@@ -1,3 +1,9 @@
+# Next
+
+## Features
+
+- New utility `uint8ArraysEqual` to compare two Uint8Arrays for byte-level equality.
+
 # v71
 
 ## Overview
