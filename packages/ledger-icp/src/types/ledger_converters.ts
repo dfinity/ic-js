@@ -8,7 +8,7 @@ import type {
 import type { AccountIdentifier } from "../account_identifier";
 import type { E8s } from "./common";
 
-export type TransferRequest = {
+export interface TransferRequest {
   to: AccountIdentifier;
   amount: bigint;
   memo?: bigint;
@@ -19,14 +19,14 @@ export type TransferRequest = {
   // See the link for more details on deduplication
   // https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#transaction_deduplication
   createdAt?: bigint;
-};
+}
 
 // WARNING: When using the ICRC-1 interface of the ICP ledger, there is no
 // relationship between the memo and the icrc1Memo of a transaction. The ICRC-1
 // interface simply cannot set the memo field and the non-ICRC-1 interface
 // cannot set the icrc1Memo field, even though the icrc1Memo field is called
 // just "memo" in canister method params.
-export type Icrc1TransferRequest = {
+export interface Icrc1TransferRequest {
   to: Account;
   amount: Icrc1Tokens;
   icrc1Memo?: Uint8Array;
@@ -36,7 +36,7 @@ export type Icrc1TransferRequest = {
   // See the link for more details on deduplication
   // https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#transaction_deduplication
   createdAt?: Icrc1Timestamp;
-};
+}
 
 /**
  * Params for an icrc2_approve.
@@ -60,10 +60,10 @@ export type Icrc2ApproveRequest = Omit<Icrc1TransferRequest, "to"> & {
  * @param {number} [utcOffsetMinutes] - The user's local timezone offset in minutes from UTC. If absent, the default is UTC.
  * @param {string} language - BCP-47 language tag. See https://www.rfc-editor.org/rfc/bcp/bcp47.txt
  */
-export type Icrc21ConsentMessageMetadata = {
+export interface Icrc21ConsentMessageMetadata {
   utcOffsetMinutes?: number;
   language: string;
-};
+}
 
 /**
  * Device specification for displaying the consent message.
@@ -88,10 +88,10 @@ export type Icrc21ConsentMessageDeviceSpec =
  * @param {Icrc21ConsentMessageMetadata} metadata - Metadata of the consent message.
  * @param {Icrc21ConsentMessageDeviceSpec} [deviceSpec] - Information about the device responsible for presenting the consent message to the user.
  */
-export type Icrc21ConsentMessageSpec = {
+export interface Icrc21ConsentMessageSpec {
   metadata: Icrc21ConsentMessageMetadata;
   deriveSpec?: Icrc21ConsentMessageDeviceSpec;
-};
+}
 
 /**
  * Parameters for the consent message request.

@@ -21,9 +21,12 @@ export type RetrieveBtcWithApprovalResponse =
   | { Ok: RetrieveBtcOk }
   | { Err: RetrieveBtcWithApprovalError };
 
-export type EstimateWithdrawalFee = { minter_fee: bigint; bitcoin_fee: bigint };
+export interface EstimateWithdrawalFee {
+  minter_fee: bigint;
+  bitcoin_fee: bigint;
+}
 
-export type RetrieveBtcStatusV2WithId = {
+export interface RetrieveBtcStatusV2WithId {
   id: bigint;
   status: RetrieveBtcStatusV2 | undefined;
-};
+}
