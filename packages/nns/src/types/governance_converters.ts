@@ -85,7 +85,9 @@ export interface CanisterAuthzInfo {
   methodsAuthz: Array<MethodAuthzInfo>;
 }
 export type Change = { ToRemove: NodeProvider } | { ToAdd: NodeProvider };
-export interface ClaimOrRefresh { by: Option<By> }
+export interface ClaimOrRefresh {
+  by: Option<By>;
+}
 export interface ClaimOrRefreshNeuronFromAccount {
   controller: Option<Principal>;
   memo: bigint;
