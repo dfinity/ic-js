@@ -1,3 +1,9 @@
+# Next
+
+## Build
+
+- Bump `base58-js` to v3.0.3 in ckBTC JS library.
+
 # v71
 
 ## Overview
