@@ -56,6 +56,9 @@ export const hexStringToUint8Array = (hexString: string): Uint8Array => {
   return Uint8Array.from(matches.map((byte) => parseInt(byte, 16)));
 };
 
+export const uint8ArraysEqual = ({ a, b }: { a: Uint8Array; b: Uint8Array }) =>
+  a.length === b.length && a.every((byte, i) => byte === b[i]);
+
 export const uint8ArrayToHexString = (bytes: Uint8Array | number[]) => {
   if (!(bytes instanceof Uint8Array)) {
     bytes = Uint8Array.from(bytes);
