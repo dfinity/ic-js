@@ -1,5 +1,9 @@
 # Next
 
+## Features
+
+- New utility `uint8ArraysEqual` to compare two Uint8Arrays for byte-level equality.
+
 ## Build
 
 - Bump `@noble/hashes` to v1.8.0 in ckBTC, NNS, and SNS JS libraries.
