@@ -31,6 +31,7 @@ export type Action =
   | { InstallCode: InstallCode }
   | { StopOrStartCanister: StopOrStartCanister }
   | { UpdateCanisterSettings: UpdateCanisterSettings }
+  | { FulfillSubnetRentalRequest: FulfillSubnetRentalRequest }
   | { ApproveGenesisKyc: ApproveGenesisKyc }
   | { ManageNetworkEconomics: NetworkEconomics }
   | { RewardNodeProvider: RewardNodeProvider }
@@ -294,6 +295,11 @@ export interface CanisterSettings {
 export interface UpdateCanisterSettings {
   canisterId: Option<PrincipalString>;
   settings: Option<CanisterSettings>;
+}
+export interface FulfillSubnetRentalRequest {
+  user: Option<Principal>;
+  replicaVersionId: Option<string>;
+  nodeIds: Array<Principal> | undefined;
 }
 export interface Merge {
   sourceNeuronId: Option<NeuronId>;
