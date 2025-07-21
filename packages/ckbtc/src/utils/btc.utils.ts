@@ -1,5 +1,5 @@
 import { isNullish } from "@dfinity/utils";
-import { sha256 } from "@noble/hashes/sha256";
+import { sha256 } from "@noble/hashes/sha2";
 import { base58_to_binary } from "base58-js";
 import { bech32, bech32m, type Decoded } from "bech32";
 import { BtcAddressType, BtcNetwork } from "../enums/btc.enums";
