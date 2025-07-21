@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@noble/hashes": "^1.8.0",
-    "base58-js": "^1.0.5",
+    "base58-js": "^3.0.3",
     "bech32": "^2.0.0"
   }
 }
