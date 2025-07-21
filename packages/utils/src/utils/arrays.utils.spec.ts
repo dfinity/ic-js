@@ -115,6 +115,11 @@ describe("arrays-utils", () => {
       const b = new Uint8Array([1, 2, 3, 4]);
 
       expect(uint8ArraysEqual({ a, b })).toBeFalsy();
+
+      const c = new Uint8Array([1, 2, 3, 4]);
+      const d = new Uint8Array([1, 2, 3]);
+
+      expect(uint8ArraysEqual({ a: c, b: d })).toBeFalsy();
     });
 
     it("should return false for arrays with same length but different content", () => {
@@ -122,6 +127,11 @@ describe("arrays-utils", () => {
       const b = new Uint8Array([1, 2, 4]);
 
       expect(uint8ArraysEqual({ a, b })).toBeFalsy();
+
+      const c = new Uint8Array([1, 2, 4]);
+      const d = new Uint8Array([1, 2, 3]);
+
+      expect(uint8ArraysEqual({ a: c, b: d })).toBeFalsy();
     });
 
     it("should return true for two empty arrays", () => {
