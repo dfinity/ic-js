@@ -51,6 +51,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [arrayOfNumberToUint8Array](#gear-arrayofnumbertouint8array)
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
 - [hexStringToUint8Array](#gear-hexstringtouint8array)
+- [uint8ArraysEqual](#gear-uint8arraysequal)
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
 - [candidNumberArrayToBigInt](#gear-candidnumberarraytobigint)
 - [encodeBase32](#gear-encodebase32)
@@ -334,13 +335,32 @@ Parameters:
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L51)
 
+#### :gear: uint8ArraysEqual
+
+Compare two Uint8Arrays for byte-level equality.
+
+| Function           | Type                                                       |
+| ------------------ | ---------------------------------------------------------- |
+| `uint8ArraysEqual` | `({ a, b }: { a: Uint8Array; b: Uint8Array; }) => boolean` |
+
+Parameters:
+
+- `params.a`: - First Uint8Array to compare.
+- `params.b`: - Second Uint8Array to compare.
+
+Returns:
+
+True if both arrays have the same length and identical contents.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L67)
+
 #### :gear: uint8ArrayToHexString
 
 | Function                | Type                                        |
 | ----------------------- | ------------------------------------------- |
 | `uint8ArrayToHexString` | `(bytes: Uint8Array or number[]) => string` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L59)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
 
 #### :gear: candidNumberArrayToBigInt
 
@@ -348,7 +368,7 @@ Parameters:
 | --------------------------- | ----------------------------- |
 | `candidNumberArrayToBigInt` | `(array: number[]) => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L69)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L80)
 
 #### :gear: encodeBase32
 
