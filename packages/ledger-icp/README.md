@@ -98,9 +98,9 @@ const data = await metadata();
 
 ##### :gear: toUint8Array
 
-| Method         | Type               |
-| -------------- | ------------------ |
-| `toUint8Array` | `() => Uint8Array` |
+| Method         | Type                                |
+| -------------- | ----------------------------------- |
+| `toUint8Array` | `() => Uint8Array<ArrayBufferLike>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L66)
 
@@ -114,9 +114,9 @@ const data = await metadata();
 
 ##### :gear: toAccountIdentifierHash
 
-| Method                    | Type                          |
-| ------------------------- | ----------------------------- |
-| `toAccountIdentifierHash` | `() => { hash: Uint8Array; }` |
+| Method                    | Type                                           |
+| ------------------------- | ---------------------------------------------- |
+| `toAccountIdentifierHash` | `() => { hash: Uint8Array<ArrayBufferLike>; }` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L74)
 
@@ -132,9 +132,9 @@ const data = await metadata();
 
 ##### :gear: fromBytes
 
-| Method      | Type                                |
-| ----------- | ----------------------------------- |
-| `fromBytes` | `(bytes: Uint8Array) => SubAccount` |
+| Method      | Type                                                 |
+| ----------- | ---------------------------------------------------- |
+| `fromBytes` | `(bytes: Uint8Array<ArrayBufferLike>) => SubAccount` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L84)
 
@@ -160,9 +160,9 @@ const data = await metadata();
 
 ##### :gear: toUint8Array
 
-| Method         | Type               |
-| -------------- | ------------------ |
-| `toUint8Array` | `() => Uint8Array` |
+| Method         | Type                                |
+| -------------- | ----------------------------------- |
+| `toUint8Array` | `() => Uint8Array<ArrayBufferLike>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L129)
 
