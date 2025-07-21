@@ -3,8 +3,8 @@ import {
   hexStringToUint8Array,
   isNullish,
   uint8ArrayToHexString,
+  uint8ArraysEqual,
 } from "@dfinity/utils";
-import { uint8ArraysEqual } from "@dfinity/utils/src";
 import { InvalidAccountIDError } from "../errors/ledger.errors";
 
 /**

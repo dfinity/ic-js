@@ -3,11 +3,12 @@
 ## Features
 
 - New utility `uint8ArraysEqual` to compare two Uint8Arrays for byte-level equality.
+- Replace usage of `Buffer` with `Uint8Array` in `checkAccountId` of `@dfinity/ledger-icp`.
 
 ## Build
 
-- Bump `@noble/hashes` to v1.8.0 in ckBTC, NNS, and SNS JS libraries.
-- Bump `base58-js` to v3.0.3 in ckBTC JS library.
+- Bump `@noble/hashes` to v1.8.0 in ckBTC, NNS, and SNS JS libraries and update sha256 import for `@noble/hashes/sha2`.
+- Bump `base58-js` to v3.0.3 in ckBTC JS library and remove custom type declarations.
 
 # v71
 

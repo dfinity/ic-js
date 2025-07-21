@@ -3,18 +3,30 @@ import { checkAccountId, isIcpAccountIdentifier } from "./accounts.utils";
 
 describe("accounts-utils", () => {
   describe("checkAccountId", () => {
+    const validAccountId =
+      "cd70bfa0f092c38a0ff8643d4617219761eb61d199b15418c0b1114d59e30f8e";
+
     it("should not throw if valid account id", () => {
-      expect(() =>
-        checkAccountId(
-          "cd70bfa0f092c38a0ff8643d4617219761eb61d199b15418c0b1114d59e30f8e",
-        ),
-      ).not.toThrow();
+      expect(() => checkAccountId(validAccountId)).not.toThrow();
+    });
+
+    it("should throw if invalid checksum", () => {
+      const incorrectChecksum = `a${validAccountId.slice(1)}`;
+      const usage = () => checkAccountId(incorrectChecksum);
+
+      expect(usage).toThrow(InvalidAccountIDError);
+      expect(usage).toThrow(
+        `Account identifier ${incorrectChecksum} has an invalid checksum. Are you sure the account identifier is correct?`,
+      );
     });
 
     it("should throw if not valid account id", () => {
-      const call1 = () => checkAccountId("not-valid");
+      const usage = () => checkAccountId("not-valid");
 
-      expect(call1).toThrow(InvalidAccountIDError);
+      expect(usage).toThrow(InvalidAccountIDError);
+      expect(usage).toThrow(
+        "Invalid account identifier not-valid. The account identifier must be 64 chars in length.",
+      );
     });
   });
 
