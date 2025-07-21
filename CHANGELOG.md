@@ -2,7 +2,7 @@
 
 ## Build
 
-- Bump `@noble/hashes` to v1.8.0 in ckBTC, NNS, and SNS JS libraries.
+- Bump `@noble/hashes` to v1.8.0 in ckBTC, NNS, and SNS JS libraries and update sha256 import for `@noble/hashes/sha2`.
 
 # v71
 

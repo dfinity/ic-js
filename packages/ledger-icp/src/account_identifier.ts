@@ -5,7 +5,7 @@ import {
   bigEndianCrc32,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
-import { sha224 } from "@noble/hashes/sha256";
+import { sha224 } from "@noble/hashes/sha2";
 
 export class AccountIdentifier {
   private constructor(private readonly bytes: Uint8Array) {}
