@@ -43,6 +43,6 @@
     "@dfinity/utils": "^2.13.0"
   },
   "dependencies": {
-    "@noble/hashes": "^1.3.2"
+    "@noble/hashes": "^1.8.0"
   }
 }

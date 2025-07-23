@@ -85,10 +85,10 @@ export type AllowanceParams = AllowanceArgs & QueryParams;
  * @param {number} [utcOffsetMinutes] - The user's local timezone offset in minutes from UTC. If absent, the default is UTC.
  * @param {string} language - BCP-47 language tag. See https://www.rfc-editor.org/rfc/bcp/bcp47.txt
  */
-export type Icrc21ConsentMessageMetadata = {
+export interface Icrc21ConsentMessageMetadata {
   utcOffsetMinutes?: number;
   language: string;
-};
+}
 
 /**
  * Device specification for displaying the consent message.
@@ -113,10 +113,10 @@ export type Icrc21ConsentMessageDeviceSpec =
  * @param {Icrc21ConsentMessageMetadata} metadata - Metadata of the consent message.
  * @param {Icrc21ConsentMessageDeviceSpec} [deviceSpec] - Information about the device responsible for presenting the consent message to the user.
  */
-export type Icrc21ConsentMessageSpec = {
+export interface Icrc21ConsentMessageSpec {
   metadata: Icrc21ConsentMessageMetadata;
   deriveSpec?: Icrc21ConsentMessageDeviceSpec;
-};
+}
 
 /**
  * Parameters for the consent message request.

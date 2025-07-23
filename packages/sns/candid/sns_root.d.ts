@@ -71,6 +71,9 @@ export interface DefiniteCanisterSettingsArgs {
   memory_allocation: bigint;
   compute_allocation: bigint;
 }
+export interface Extensions {
+  extension_canister_ids: Array<Principal>;
+}
 export interface FailedUpdate {
   err: [] | [CanisterCallError];
   dapp_canister_id: [] | [Principal];
@@ -93,6 +96,7 @@ export interface GetTimersResponse {
 export interface ListSnsCanistersResponse {
   root: [] | [Principal];
   swap: [] | [Principal];
+  extensions: [] | [Extensions];
   ledger: [] | [Principal];
   index: [] | [Principal];
   governance: [] | [Principal];
@@ -128,6 +132,13 @@ export interface RegisterDappCanisterRequest {
 export interface RegisterDappCanistersRequest {
   canister_ids: Array<Principal>;
 }
+export interface RegisterExtensionRequest {
+  canister_id: [] | [Principal];
+}
+export interface RegisterExtensionResponse {
+  result: [] | [RegisterExtensionResult];
+}
+export type RegisterExtensionResult = { Ok: {} } | { Err: CanisterCallError };
 export interface SetDappControllersRequest {
   canister_ids: [] | [RegisterDappCanistersRequest];
   controller_principal_ids: Array<Principal>;
@@ -139,6 +150,7 @@ export interface SnsRootCanister {
   dapp_canister_ids: Array<Principal>;
   timers: [] | [Timers];
   testflight: boolean;
+  extensions: [] | [Extensions];
   archive_canister_ids: Array<Principal>;
   governance_canister_id: [] | [Principal];
   index_canister_id: [] | [Principal];
@@ -166,6 +178,10 @@ export interface _SERVICE {
   >;
   register_dapp_canister: ActorMethod<[RegisterDappCanisterRequest], {}>;
   register_dapp_canisters: ActorMethod<[RegisterDappCanistersRequest], {}>;
+  register_extension: ActorMethod<
+    [RegisterExtensionRequest],
+    RegisterExtensionResponse
+  >;
   reset_timers: ActorMethod<[{}], {}>;
   set_dapp_controllers: ActorMethod<
     [SetDappControllersRequest],
