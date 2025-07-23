@@ -5,10 +5,14 @@ export const idlFactory = ({ IDL }) => {
     'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'requires_periodic_tasks' : IDL.Opt(IDL.Bool),
   });
+  const Extensions = IDL.Record({
+    'extension_canister_ids' : IDL.Vec(IDL.Principal),
+  });
   const SnsRootCanister = IDL.Record({
     'dapp_canister_ids' : IDL.Vec(IDL.Principal),
     'timers' : IDL.Opt(Timers),
     'testflight' : IDL.Bool,
+    'extensions' : IDL.Opt(Extensions),
     'archive_canister_ids' : IDL.Vec(IDL.Principal),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
     'index_canister_id' : IDL.Opt(IDL.Principal),
@@ -107,6 +111,7 @@ export const idlFactory = ({ IDL }) => {
   const ListSnsCanistersResponse = IDL.Record({
     'root' : IDL.Opt(IDL.Principal),
     'swap' : IDL.Opt(IDL.Principal),
+    'extensions' : IDL.Opt(Extensions),
     'ledger' : IDL.Opt(IDL.Principal),
     'index' : IDL.Opt(IDL.Principal),
     'governance' : IDL.Opt(IDL.Principal),
@@ -132,13 +137,23 @@ export const idlFactory = ({ IDL }) => {
   const RegisterDappCanistersRequest = IDL.Record({
     'canister_ids' : IDL.Vec(IDL.Principal),
   });
-  const SetDappControllersRequest = IDL.Record({
-    'canister_ids' : IDL.Opt(RegisterDappCanistersRequest),
-    'controller_principal_ids' : IDL.Vec(IDL.Principal),
+  const RegisterExtensionRequest = IDL.Record({
+    'canister_id' : IDL.Opt(IDL.Principal),
   });
   const CanisterCallError = IDL.Record({
     'code' : IDL.Opt(IDL.Int32),
     'description' : IDL.Text,
+  });
+  const RegisterExtensionResult = IDL.Variant({
+    'Ok' : IDL.Record({}),
+    'Err' : CanisterCallError,
+  });
+  const RegisterExtensionResponse = IDL.Record({
+    'result' : IDL.Opt(RegisterExtensionResult),
+  });
+  const SetDappControllersRequest = IDL.Record({
+    'canister_ids' : IDL.Opt(RegisterDappCanistersRequest),
+    'controller_principal_ids' : IDL.Vec(IDL.Principal),
   });
   const FailedUpdate = IDL.Record({
     'err' : IDL.Opt(CanisterCallError),
@@ -181,6 +196,11 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Record({})],
         [],
       ),
+    'register_extension' : IDL.Func(
+        [RegisterExtensionRequest],
+        [RegisterExtensionResponse],
+        [],
+      ),
     'reset_timers' : IDL.Func([IDL.Record({})], [IDL.Record({})], []),
     'set_dapp_controllers' : IDL.Func(
         [SetDappControllersRequest],
@@ -195,10 +215,14 @@ export const init = ({ IDL }) => {
     'last_reset_timestamp_seconds' : IDL.Opt(IDL.Nat64),
     'requires_periodic_tasks' : IDL.Opt(IDL.Bool),
   });
+  const Extensions = IDL.Record({
+    'extension_canister_ids' : IDL.Vec(IDL.Principal),
+  });
   const SnsRootCanister = IDL.Record({
     'dapp_canister_ids' : IDL.Vec(IDL.Principal),
     'timers' : IDL.Opt(Timers),
     'testflight' : IDL.Bool,
+    'extensions' : IDL.Opt(Extensions),
     'archive_canister_ids' : IDL.Vec(IDL.Principal),
     'governance_canister_id' : IDL.Opt(IDL.Principal),
     'index_canister_id' : IDL.Opt(IDL.Principal),

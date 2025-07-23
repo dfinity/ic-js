@@ -51,6 +51,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [arrayOfNumberToUint8Array](#gear-arrayofnumbertouint8array)
 - [asciiStringToByteArray](#gear-asciistringtobytearray)
 - [hexStringToUint8Array](#gear-hexstringtouint8array)
+- [uint8ArraysEqual](#gear-uint8arraysequal)
 - [uint8ArrayToHexString](#gear-uint8arraytohexstring)
 - [candidNumberArrayToBigInt](#gear-candidnumberarraytobigint)
 - [encodeBase32](#gear-encodebase32)
@@ -272,49 +273,49 @@ Parameters:
 
 #### :gear: uint8ArrayToBigInt
 
-| Function             | Type                            |
-| -------------------- | ------------------------------- |
-| `uint8ArrayToBigInt` | `(array: Uint8Array) => bigint` |
+| Function             | Type                                             |
+| -------------------- | ------------------------------------------------ |
+| `uint8ArrayToBigInt` | `(array: Uint8Array<ArrayBufferLike>) => bigint` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L3)
 
 #### :gear: bigIntToUint8Array
 
-| Function             | Type                            |
-| -------------------- | ------------------------------- |
-| `bigIntToUint8Array` | `(value: bigint) => Uint8Array` |
+| Function             | Type                                             |
+| -------------------- | ------------------------------------------------ |
+| `bigIntToUint8Array` | `(value: bigint) => Uint8Array<ArrayBufferLike>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L14)
 
 #### :gear: numberToUint8Array
 
-| Function             | Type                            |
-| -------------------- | ------------------------------- |
-| `numberToUint8Array` | `(value: number) => Uint8Array` |
+| Function             | Type                                             |
+| -------------------- | ------------------------------------------------ |
+| `numberToUint8Array` | `(value: number) => Uint8Array<ArrayBufferLike>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L30)
 
 #### :gear: arrayBufferToUint8Array
 
-| Function                  | Type                                  |
-| ------------------------- | ------------------------------------- |
-| `arrayBufferToUint8Array` | `(buffer: ArrayBuffer) => Uint8Array` |
+| Function                  | Type                                                   |
+| ------------------------- | ------------------------------------------------------ |
+| `arrayBufferToUint8Array` | `(buffer: ArrayBuffer) => Uint8Array<ArrayBufferLike>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L39)
 
 #### :gear: uint8ArrayToArrayOfNumber
 
-| Function                    | Type                              |
-| --------------------------- | --------------------------------- |
-| `uint8ArrayToArrayOfNumber` | `(array: Uint8Array) => number[]` |
+| Function                    | Type                                               |
+| --------------------------- | -------------------------------------------------- |
+| `uint8ArrayToArrayOfNumber` | `(array: Uint8Array<ArrayBufferLike>) => number[]` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L42)
 
 #### :gear: arrayOfNumberToUint8Array
 
-| Function                    | Type                                |
-| --------------------------- | ----------------------------------- |
-| `arrayOfNumberToUint8Array` | `(numbers: number[]) => Uint8Array` |
+| Function                    | Type                                                 |
+| --------------------------- | ---------------------------------------------------- |
+| `arrayOfNumberToUint8Array` | `(numbers: number[]) => Uint8Array<ArrayBufferLike>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L45)
 
@@ -328,19 +329,38 @@ Parameters:
 
 #### :gear: hexStringToUint8Array
 
-| Function                | Type                                |
-| ----------------------- | ----------------------------------- |
-| `hexStringToUint8Array` | `(hexString: string) => Uint8Array` |
+| Function                | Type                                                 |
+| ----------------------- | ---------------------------------------------------- |
+| `hexStringToUint8Array` | `(hexString: string) => Uint8Array<ArrayBufferLike>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L51)
 
+#### :gear: uint8ArraysEqual
+
+Compare two Uint8Arrays for byte-level equality.
+
+| Function           | Type                                                                                         |
+| ------------------ | -------------------------------------------------------------------------------------------- |
+| `uint8ArraysEqual` | `({ a, b }: { a: Uint8Array<ArrayBufferLike>; b: Uint8Array<ArrayBufferLike>; }) => boolean` |
+
+Parameters:
+
+- `params.a`: - First Uint8Array to compare.
+- `params.b`: - Second Uint8Array to compare.
+
+Returns:
+
+True if both arrays have the same length and identical contents.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L67)
+
 #### :gear: uint8ArrayToHexString
 
-| Function                | Type                                        |
-| ----------------------- | ------------------------------------------- |
-| `uint8ArrayToHexString` | `(bytes: Uint8Array or number[]) => string` |
+| Function                | Type                                                         |
+| ----------------------- | ------------------------------------------------------------ |
+| `uint8ArrayToHexString` | `(bytes: Uint8Array<ArrayBufferLike> or number[]) => string` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L59)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
 
 #### :gear: candidNumberArrayToBigInt
 
@@ -348,15 +368,15 @@ Parameters:
 | --------------------------- | ----------------------------- |
 | `candidNumberArrayToBigInt` | `(array: number[]) => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L69)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L80)
 
 #### :gear: encodeBase32
 
 Encode an Uint8Array to a base32 string.
 
-| Function       | Type                            |
-| -------------- | ------------------------------- |
-| `encodeBase32` | `(input: Uint8Array) => string` |
+| Function       | Type                                             |
+| -------------- | ------------------------------------------------ |
+| `encodeBase32` | `(input: Uint8Array<ArrayBufferLike>) => string` |
 
 Parameters:
 
@@ -372,9 +392,9 @@ A Base32 string encoding the input.
 
 Decode a base32 string to Uint8Array.
 
-| Function       | Type                            |
-| -------------- | ------------------------------- |
-| `decodeBase32` | `(input: string) => Uint8Array` |
+| Function       | Type                                             |
+| -------------- | ------------------------------------------------ |
+| `decodeBase32` | `(input: string) => Uint8Array<ArrayBufferLike>` |
 
 Parameters:
 
@@ -387,9 +407,9 @@ Parameters:
 
 Converts a Uint8Array (binary data) to a base64 encoded string.
 
-| Function             | Type                                 |
-| -------------------- | ------------------------------------ |
-| `uint8ArrayToBase64` | `(uint8Array: Uint8Array) => string` |
+| Function             | Type                                                  |
+| -------------------- | ----------------------------------------------------- |
+| `uint8ArrayToBase64` | `(uint8Array: Uint8Array<ArrayBufferLike>) => string` |
 
 Parameters:
 
@@ -405,9 +425,9 @@ Returns:
 
 Converts a base64 encoded string to a Uint8Array (binary data).
 
-| Function             | Type                                   |
-| -------------------- | -------------------------------------- |
-| `base64ToUint8Array` | `(base64String: string) => Uint8Array` |
+| Function             | Type                                                    |
+| -------------------- | ------------------------------------------------------- |
+| `base64ToUint8Array` | `(base64String: string) => Uint8Array<ArrayBufferLike>` |
 
 Parameters:
 
@@ -421,9 +441,9 @@ Returns:
 
 #### :gear: bigEndianCrc32
 
-| Function         | Type                                |
-| ---------------- | ----------------------------------- |
-| `bigEndianCrc32` | `(bytes: Uint8Array) => Uint8Array` |
+| Function         | Type                                                                  |
+| ---------------- | --------------------------------------------------------------------- |
+| `bigEndianCrc32` | `(bytes: Uint8Array<ArrayBufferLike>) => Uint8Array<ArrayBufferLike>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
 
@@ -675,9 +695,9 @@ The extracted value, or `undefined` if the input is nullish or the array is empt
 Convert a principal to a Uint8Array 32 length.
 e.g. Useful to convert a canister ID when topping up cycles with the Cmc canister
 
-| Function                | Type                                   |
-| ----------------------- | -------------------------------------- |
-| `principalToSubAccount` | `(principal: Principal) => Uint8Array` |
+| Function                | Type                                                    |
+| ----------------------- | ------------------------------------------------------- |
+| `principalToSubAccount` | `(principal: Principal) => Uint8Array<ArrayBufferLike>` |
 
 Parameters:
 

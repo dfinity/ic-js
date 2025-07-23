@@ -6,7 +6,7 @@ import {
   bigEndianCrc32,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
-import { sha224 } from "@noble/hashes/sha256";
+import { sha224 } from "@noble/hashes/sha2";
 import { Buffer } from "buffer";
 
 // The following functions were originally made available in @dfinity/ledger-icp for domain alignment reasons.
