@@ -61,7 +61,7 @@ const updateVersion = async () => {
         "@dfinity/principal",
       ].includes(key)
         ? value
-        : "*",
+        : `${value}-${suffix}`,
     }),
     {},
   );
