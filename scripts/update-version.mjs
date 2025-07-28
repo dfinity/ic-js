@@ -1,27 +1,19 @@
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import fetch from "node-fetch";
 import { join } from "path";
-import { compare } from "semver";
 
 // The project - name of the library in the workspace - and suffix we use to publish to npm as wip version
 const [project, tag] = process.argv.slice(2);
 const suffix = tag !== undefined && tag !== "" ? tag : "next";
 
-const removeVersions = async ({ project }) => {
+const nextVersion = async ({ project, currentVersion }) => {
+  const version = `${currentVersion}-${suffix}-${new Date()
+    .toISOString()
+    .slice(0, 10)}`;
+
   const { versions } = await (
     await fetch(`https://registry.npmjs.org/@dfinity/${project}`)
   ).json();
-
-  return versions;
-};
-
-const suffixVersion = () =>
-  `${suffix}-${new Date().toISOString().slice(0, 10)}`;
-
-const nextVersion = async ({ project, currentVersion }) => {
-  const version = `${currentVersion}-${suffixVersion()}`;
-
-  const versions = await removeVersions({ project });
 
   // The wip version has never been published
   if (versions[version] === undefined) {
@@ -31,49 +23,6 @@ const nextVersion = async ({ project, currentVersion }) => {
   // There was some wip versions already published so, we increment the version number
   const count = Object.keys(versions).filter((v) => v.includes(version)).length;
   return `${version}.${count}`;
-};
-
-const latestVersion = async ({ project, currentVersion }) => {
-  const version = suffixVersion();
-
-  const versions = await removeVersions({ project });
-
-  const [latestVersion] = Object.keys(versions)
-    .filter((v) => v.includes(version))
-    .sort((a, b) => compare(b, a));
-
-  return latestVersion ?? currentVersion;
-};
-
-const updatePeerDependencies = async (peerDependencies = {}) => {
-  const mapPeerDependency = async ({ key, value }) => {
-    if (
-      ![
-        "@dfinity/utils",
-        "@dfinity/ledger-icrc",
-        "@dfinity/ledger-icp",
-      ].includes(key)
-    ) {
-      return [key, value];
-    }
-
-    const version = await latestVersion({
-      project: key.replace("@dfinity/", ""),
-      currentVersion: value.replace("^", ""),
-    });
-    return [key, version];
-  };
-
-  const updatedPeerDependencies = [];
-
-  for (const [key, value] of Object.entries(peerDependencies)) {
-    updatedPeerDependencies.push(await mapPeerDependency({ key, value }));
-  }
-
-  return updatedPeerDependencies.reduce(
-    (acc, [key, value]) => ({ ...acc, [key]: value }),
-    {},
-  );
 };
 
 const updateVersion = async () => {
@@ -99,8 +48,21 @@ const updateVersion = async () => {
     currentVersion: packageJson.version,
   });
 
-  const peerDependencies = await updatePeerDependencies(
-    packageJson.peerDependencies,
+  // Peer dependencies need to point to wip references - e.g. @dfinity/utils@0.0.1-next
+  const peerDependencies = Object.entries(
+    packageJson.peerDependencies ?? {},
+  ).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      [key]: [
+        "@dfinity/utils",
+        "@dfinity/ledger-icrc",
+        "@dfinity/ledger-icp",
+      ].includes(key)
+        ? "*"
+        : value,
+    }),
+    {},
   );
 
   writeFileSync(
