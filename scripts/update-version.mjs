@@ -52,8 +52,8 @@ const updateVersion = async () => {
   const peerDependencies = Object.entries(
     packageJson.peerDependencies ?? {},
   ).reduce((acc, [key, _value]) => {
-            acc[key] = `*`;
-            return acc;
+    acc[key] = `*`;
+    return acc;
   }, {});
 
   writeFileSync(
