@@ -228,7 +228,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    *
    * @link: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#icrc1_supported_standards
    *
-   * @returns {Promise<StandardRecord>} The list of standards.
+   * @returns {Promise<StandardRecord[]>} The list of standards.
    */
   getSupportedStandards = (params: QueryParams): Promise<StandardRecord[]> =>
     this.caller(params).icrc1_supported_standards();
