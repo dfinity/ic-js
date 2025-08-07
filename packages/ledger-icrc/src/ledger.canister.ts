@@ -28,7 +28,7 @@ import {
   mapIcrc21ConsentMessageError,
 } from "./errors/ledger.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
-import {
+import type {
   AllowanceParams,
   ApproveParams,
   BalanceParams,
