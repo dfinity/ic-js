@@ -58,7 +58,20 @@ const data = await metadata();
 
 ### :factory: AccountIdentifier
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L10)
+A 32-byte account identifier used to send and receive ICP tokens.
+
+The ICP Ledger uses the concept of an `AccountIdentifier` to represent accounts.
+It’s a unique value derived from a principal (the identity controlling the account)
+and a subaccount. This design allows a single principal to control multiple accounts
+by using different subaccounts.
+
+References:
+
+- [https://internetcomputer.org/docs/references/ledger#\_accounts](https://internetcomputer.org/docs/references/ledger#_accounts)
+- [https://internetcomputer.org/docs/defi/token-ledgers/setup/icp_ledger_setup](https://internetcomputer.org/docs/defi/token-ledgers/setup/icp_ledger_setup)
+- [https://internetcomputer.org/docs/references/ledger#\_operations_transactions_blocks_transaction_ledger](https://internetcomputer.org/docs/references/ledger#_operations_transactions_blocks_transaction_ledger)
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L22)
 
 #### Static Methods
 
@@ -67,19 +80,45 @@ const data = await metadata();
 
 ##### :gear: fromHex
 
+Creates an `AccountIdentifier` object from a hexadecimal string (e.g. d3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8).
+Validates the checksum in the process.
+
 | Method    | Type                                 |
 | --------- | ------------------------------------ |
 | `fromHex` | `(hex: string) => AccountIdentifier` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L13)
+Parameters:
+
+- `hex`: - The 64-character hexadecimal representation of the account identifier.
+
+Returns:
+
+An instance of `AccountIdentifier`.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L33)
 
 ##### :gear: fromPrincipal
+
+Creates an `AccountIdentifier` object from a principal and optional subaccount.
+
+When no subaccount is provided, a 32-byte array of zeros is used by default.
+You can use any arbitrary 32 bytes as a subaccount identifier to derive a distinct account identifier
+for the same principal.
 
 | Method          | Type                                                                                                                 |
 | --------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `fromPrincipal` | `({ principal, subAccount, }: { principal: Principal; subAccount?: SubAccount or undefined; }) => AccountIdentifier` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L36)
+Parameters:
+
+- `options.principal`: - The principal to derive the account from.
+- `options.subAccount`: - The optional subaccount (defaults to 0).
+
+Returns:
+
+An instance of `AccountIdentifier`.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L67)
 
 #### Methods
 
@@ -90,39 +129,71 @@ const data = await metadata();
 
 ##### :gear: toHex
 
+Returns the ICP Ledger Account Identifier as a 64-character hexadecimal string.
+This is the format typically used to display the account identifier in a human-readable way.
+
 | Method  | Type           |
 | ------- | -------------- |
 | `toHex` | `() => string` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L62)
+Returns:
+
+Hex representation (64-character string).
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L99)
 
 ##### :gear: toUint8Array
+
+Returns the raw 32-byte `Uint8Array` of the account identifier.
 
 | Method         | Type                                |
 | -------------- | ----------------------------------- |
 | `toUint8Array` | `() => Uint8Array<ArrayBufferLike>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L66)
+Returns:
+
+The raw bytes of the account identifier.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L108)
 
 ##### :gear: toNumbers
+
+Returns the account identifier as an array of numbers.
 
 | Method      | Type             |
 | ----------- | ---------------- |
 | `toNumbers` | `() => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L70)
+Returns:
+
+An array of byte values.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L117)
 
 ##### :gear: toAccountIdentifierHash
+
+Returns the raw bytes wrapped in an object under the `hash` key.
 
 | Method                    | Type                                           |
 | ------------------------- | ---------------------------------------------- |
 | `toAccountIdentifierHash` | `() => { hash: Uint8Array<ArrayBufferLike>; }` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L74)
+Returns:
+
+`{ hash: Uint8Array }` where `hash` is the raw 32-byte `Uint8Array`.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L126)
 
 ### :factory: SubAccount
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L81)
+A subaccount in the ICP ledger is a 32-byte identifier that allows a principal (user or canister)
+to control multiple independent accounts under the same principal.
+
+References:
+
+- [https://internetcomputer.org/docs/references/ledger#\_accounts](https://internetcomputer.org/docs/references/ledger#_accounts)
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L139)
 
 #### Static Methods
 
@@ -132,27 +203,62 @@ const data = await metadata();
 
 ##### :gear: fromBytes
 
+Creates a `SubAccount` from a 32‑byte array.
+
 | Method      | Type                                                 |
 | ----------- | ---------------------------------------------------- |
 | `fromBytes` | `(bytes: Uint8Array<ArrayBufferLike>) => SubAccount` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L84)
+Parameters:
+
+- `bytes`: - A `Uint8Array` of exactly 32 bytes.
+
+Returns:
+
+A `SubAccount` instance.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L149)
 
 ##### :gear: fromPrincipal
+
+Generates a `SubAccount` from a principal.
+
+The principal is embedded into the beginning of a 32‑byte array.
 
 | Method          | Type                                   |
 | --------------- | -------------------------------------- |
 | `fromPrincipal` | `(principal: Principal) => SubAccount` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L92)
+Parameters:
+
+- `principal`: - A principal to encode into the subaccount.
+
+Returns:
+
+A `SubAccount` instance.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L165)
 
 ##### :gear: fromID
+
+Generates a `SubAccount` from a non‑negative number.
+
+The number is encoded into the last 8 bytes of the 32‑byte array.
+This is a common pattern when using numbered subaccounts like 0, 1, 2...
 
 | Method   | Type                         |
 | -------- | ---------------------------- |
 | `fromID` | `(id: number) => SubAccount` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L105)
+Parameters:
+
+- `id`: - A non-negative integer.
+
+Returns:
+
+A `SubAccount` instance.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L188)
 
 #### Methods
 
@@ -160,11 +266,17 @@ const data = await metadata();
 
 ##### :gear: toUint8Array
 
+Returns the raw 32-byte `Uint8Array` representing this subaccount.
+
 | Method         | Type                                |
 | -------------- | ----------------------------------- |
 | `toUint8Array` | `() => Uint8Array<ArrayBufferLike>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L129)
+Returns:
+
+A 32-byte array.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L217)
 
 ### :factory: LedgerCanister
 
