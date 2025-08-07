@@ -1018,4 +1018,6 @@ Useful when identities have changed or if you want to reset all active connectio
 | `InvalidFormat`               | ``   |             |
 | `FractionalTooManyDecimals`   | ``   |             |
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/enums/token.enums.ts#L1)
+
 <!-- TSDOC_END -->
