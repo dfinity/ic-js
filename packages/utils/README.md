@@ -1012,6 +1012,8 @@ Useful when identities have changed or if you want to reset all active connectio
 
 #### :gear: FromStringToTokenError
 
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/enums/token.enums.ts#L1)
+
 | Property                      | Type | Description |
 | ----------------------------- | ---- | ----------- |
 | `FractionalMoreThan8Decimals` | ``   |             |
