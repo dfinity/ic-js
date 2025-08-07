@@ -65,6 +65,12 @@ It’s a unique value derived from a principal (the identity controlling the acc
 and a subaccount. This design allows a single principal to control multiple accounts
 by using different subaccounts.
 
+References:
+
+- [https://internetcomputer.org/docs/references/ledger#\_accounts](https://internetcomputer.org/docs/references/ledger#_accounts)
+- [https://internetcomputer.org/docs/defi/token-ledgers/setup/icp_ledger_setup](https://internetcomputer.org/docs/defi/token-ledgers/setup/icp_ledger_setup)
+- [https://internetcomputer.org/docs/references/ledger#\_operations_transactions_blocks_transaction_ledger](https://internetcomputer.org/docs/references/ledger#_operations_transactions_blocks_transaction_ledger)
+
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L22)
 
 #### Static Methods
@@ -182,6 +188,10 @@ Returns:
 
 A subaccount in the ICP ledger is a 32-byte identifier that allows a principal (user or canister)
 to control multiple independent accounts under the same principal.
+
+References:
+
+- [https://internetcomputer.org/docs/references/ledger#\_accounts](https://internetcomputer.org/docs/references/ledger#_accounts)
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L139)
 
