@@ -392,7 +392,7 @@ Returns the list of standards this ledger supports.
 
 Returns:
 
-The list of all supported standards.
+The list of standards.
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L233)
 
