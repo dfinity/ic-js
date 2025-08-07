@@ -28,11 +28,12 @@ import {
   mapIcrc21ConsentMessageError,
 } from "./errors/ledger.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
-import type {
+import {
   AllowanceParams,
   ApproveParams,
   BalanceParams,
   GetBlocksParams,
+  GetSupportedStandardsParams,
   Icrc21ConsentMessageParams,
   TransferFromParams,
   TransferParams,
@@ -225,11 +226,27 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
 
   /**
    * Returns the list of standards this ledger supports.
+   * Depending on the provided type, either icrc1_supported_standards or icrc10_supported_standards will be used.
+   * If no type provided, icrc1_supported_standards will be used by default.
    *
    * @link: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#icrc1_supported_standards
+   * @link: https://github.com/dfinity/ICRC/blob/main/ICRCs/ICRC-10/ICRC-10.md#icrc10_supported_standards
    *
+   * @param {GetSupportedStandardsParams} params The parameters to get the standards.
+   * @param {GetSupportedStandardsParams} params.type An optional param to decide which ledger method to use.
    * @returns {Promise<StandardRecord[]>} The list of standards.
    */
-  getSupportedStandards = (params: QueryParams): Promise<StandardRecord[]> =>
-    this.caller(params).icrc1_supported_standards();
+  getSupportedStandards = ({
+    type = "icrc1",
+    ...queryParams
+  }: GetSupportedStandardsParams): Promise<StandardRecord[]> => {
+    switch (type) {
+      case "icrc10":
+        return this.caller(queryParams).icrc10_supported_standards();
+
+      case "icrc1":
+      default:
+        return this.caller(queryParams).icrc1_supported_standards();
+    }
+  };
 }

@@ -809,11 +809,16 @@ describe("Ledger canister", () => {
   });
 
   describe("getSupportedStandards", () => {
-    it("should return the list of standards", async () => {
-      const service = mock<ActorSubclass<IcrcLedgerService>>();
-      const standards = [
-        { name: "ICRC-1", url: "https://github.com/dfinity/ICRC-1" },
-      ];
+    const service = mock<ActorSubclass<IcrcLedgerService>>();
+    const standards = [
+      { name: "ICRC-1", url: "https://github.com/dfinity/ICRC-1" },
+    ];
+
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
+    it("should use icrc1_supported_standards to return the list of standards by default", async () => {
       service.icrc1_supported_standards.mockResolvedValue(standards);
 
       const canister = IcrcLedgerCanister.create({
@@ -823,6 +828,35 @@ describe("Ledger canister", () => {
 
       const res = await canister.getSupportedStandards({});
 
+      expect(service.icrc1_supported_standards).toHaveBeenCalledOnce();
+      expect(res).toEqual(standards);
+    });
+
+    it("should use icrc1_supported_standards to return the list of standards", async () => {
+      service.icrc1_supported_standards.mockResolvedValue(standards);
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getSupportedStandards({ type: "icrc1" });
+
+      expect(service.icrc1_supported_standards).toHaveBeenCalledOnce();
+      expect(res).toEqual(standards);
+    });
+
+    it("should use icrc10_supported_standards to return the list of standards", async () => {
+      service.icrc10_supported_standards.mockResolvedValue(standards);
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getSupportedStandards({ type: "icrc10" });
+
+      expect(service.icrc10_supported_standards).toHaveBeenCalledOnce();
       expect(res).toEqual(standards);
     });
   });

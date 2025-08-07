@@ -4,7 +4,7 @@
 
 - New utility `uint8ArraysEqual` to compare two Uint8Arrays for byte-level equality.
 - Replace usage of `Buffer` with `Uint8Array` in `checkAccountId` of `@dfinity/ledger-icp`.
-- Expose method `icrc1_supported_standards` in class `IcrcLedgerCanister`.
+- Expose method `icrc1_supported_standards` and `icrc10_supported_standards` in class `IcrcLedgerCanister`.
 
 ## Build
 

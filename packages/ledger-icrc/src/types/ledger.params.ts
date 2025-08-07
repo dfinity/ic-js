@@ -138,3 +138,10 @@ export type Icrc21ConsentMessageParams = Omit<
 export type GetBlocksParams = QueryParams & {
   args: GetBlocksArgs[];
 };
+
+/**
+ * Parameters to get supported by ledger standards.
+ */
+export type GetSupportedStandardsParams = QueryParams & {
+  type?: "icrc1" | "icrc10";
+};
