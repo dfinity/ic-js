@@ -807,4 +807,23 @@ describe("Ledger canister", () => {
       );
     });
   });
+
+  describe("getSupportedStandards", () => {
+    it("should return the list of standards", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const standards = [
+        { name: "ICRC-1", url: "https://github.com/dfinity/ICRC-1" },
+      ];
+      service.icrc1_supported_standards.mockResolvedValue(standards);
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getSupportedStandards({});
+
+      expect(res).toEqual(standards);
+    });
+  });
 });

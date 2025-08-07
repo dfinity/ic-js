@@ -185,7 +185,7 @@ The balance of the given account.
 
 ### :factory: IcrcLedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L41)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L42)
 
 #### Static Methods
 
@@ -197,7 +197,7 @@ The balance of the given account.
 | -------- | ---------------------------------------------------------------------- |
 | `create` | `(options: IcrcLedgerCanisterOptions<_SERVICE>) => IcrcLedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L42)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L43)
 
 #### Methods
 
@@ -212,6 +212,7 @@ The balance of the given account.
 - [consentMessage](#gear-consentmessage)
 - [getBlocks](#gear-getblocks)
 - [getIndexPrincipal](#gear-getindexprincipal)
+- [getSupportedStandards](#gear-getsupportedstandards)
 
 ##### :gear: metadata
 
@@ -221,7 +222,7 @@ The token metadata (name, symbol, etc.).
 | ---------- | ------------------------------------------------------------- |
 | `metadata` | `(params: QueryParams) => Promise<IcrcTokenMetadataResponse>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L56)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L57)
 
 ##### :gear: transactionFee
 
@@ -235,7 +236,7 @@ Returns:
 
 The ledger transaction fees in Tokens
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L64)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L65)
 
 ##### :gear: balance
 
@@ -253,7 +254,7 @@ Returns:
 
 The balance of the given account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L73)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L74)
 
 ##### :gear: transfer
 
@@ -267,7 +268,7 @@ Parameters:
 
 - `params`: The parameters to transfer tokens.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L86)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L87)
 
 ##### :gear: totalTokensSupply
 
@@ -277,7 +278,7 @@ Returns the total supply of tokens.
 | ------------------- | ------------------------------------------ |
 | `totalTokensSupply` | `(params: QueryParams) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L102)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L103)
 
 ##### :gear: transferFrom
 
@@ -293,7 +294,7 @@ Parameters:
 
 - `params`: The parameters to transfer tokens from to.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L114)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L115)
 
 ##### :gear: approve
 
@@ -309,7 +310,7 @@ Parameters:
 
 - `params`: The parameters to approve.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L136)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L137)
 
 ##### :gear: allowance
 
@@ -329,7 +330,7 @@ Returns:
 
 The token allowance. If there is no active approval, the ledger MUST return `{ allowance = 0; expires_at = null }`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L158)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L159)
 
 ##### :gear: consentMessage
 
@@ -347,7 +348,7 @@ Returns:
 
 - A promise that resolves to the consent message response, which includes the consent message in the specified language and other related information.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L176)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L177)
 
 ##### :gear: getBlocks
 
@@ -365,7 +366,7 @@ Returns:
 
 The list of blocks.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L200)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L201)
 
 ##### :gear: getIndexPrincipal
 
@@ -379,7 +380,21 @@ Returns:
 
 The principal of the index canister.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L213)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L214)
+
+##### :gear: getSupportedStandards
+
+Returns the list of standards this ledger supports.
+
+| Method              | Type                                                 |
+| ------------------- |------------------------------------------------------|
+| `getSupportedStandards` | `(params: QueryParams) => Promise<StandardRecord[]>` |
+
+Returns:
+
+The list of all supported standards.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc/src/ledger.canister.ts#L233)
 
 ### :factory: IcrcIndexCanister
 
