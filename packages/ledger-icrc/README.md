@@ -386,8 +386,8 @@ The principal of the index canister.
 
 Returns the list of standards this ledger supports.
 
-| Method              | Type                                                 |
-| ------------------- |------------------------------------------------------|
+| Method                  | Type                                                 |
+| ----------------------- | ---------------------------------------------------- |
 | `getSupportedStandards` | `(params: QueryParams) => Promise<StandardRecord[]>` |
 
 Returns:
