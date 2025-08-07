@@ -384,11 +384,18 @@ The principal of the index canister.
 
 ##### :gear: getSupportedStandards
 
-Returns the list of standards this ledger supports. Depending on the provided type, either icrc1_supported_standards (default option) or icrc10_supported_standards will be used. 
+Returns the list of standards this ledger supports.
+Depending on the provided type, either icrc1_supported_standards or icrc10_supported_standards will be used.
+If no type provided, icrc1_supported_standards will be used by default.
 
-| Method                  | Type                                                 |
-| ----------------------- | ---------------------------------------------------- |
-| `getSupportedStandards` | `(params: GetSupportedStandardsParams) => Promise<StandardRecord[]>` |
+| Method                  | Type                                                                                   |
+| ----------------------- | -------------------------------------------------------------------------------------- |
+| `getSupportedStandards` | `({ type, ...queryParams }: GetSupportedStandardsParams) => Promise<StandardRecord[]>` |
+
+Parameters:
+
+- `params`: The parameters to get the standards.
+- `params.type`: An optional param to decide which ledger method to use.
 
 Returns:
 
