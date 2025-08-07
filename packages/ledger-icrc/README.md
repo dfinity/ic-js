@@ -212,8 +212,8 @@ The balance of the given account.
 - [consentMessage](#gear-consentmessage)
 - [getBlocks](#gear-getblocks)
 - [getIndexPrincipal](#gear-getindexprincipal)
-- [icrc1SupportedStandards](#gear-icrc1SupportedStandards)
-- [icrc10SupportedStandards](#gear-icrc10SupportedStandards)
+- [icrc1SupportedStandards](#gear-icrc1supportedstandards)
+- [icrc10SupportedStandards](#gear-icrc10supportedstandards)
 
 ##### :gear: metadata
 
@@ -387,13 +387,9 @@ The principal of the index canister.
 
 Returns the list of standards this ledger supports by using icrc1_supported_standards.
 
-| Method                  | Type                                                 |
-| ----------------------- |------------------------------------------------------|
+| Method                    | Type                                                 |
+| ------------------------- | ---------------------------------------------------- |
 | `icrc1SupportedStandards` | `(params: QueryParams) => Promise<StandardRecord[]>` |
-
-Parameters:
-
-- `params`: The parameters to get the standards.
 
 Returns:
 
@@ -405,13 +401,9 @@ The list of standards.
 
 Returns the list of standards this ledger supports by using icrc10_supported_standards.
 
-| Method                     | Type                                                 |
-|----------------------------|------------------------------------------------------|
-| `icrc10SupportedStandards` | `(params: QueryParams) => Promise<{ url: string; name: string }[]>` |
-
-Parameters:
-
-- `params`: The parameters to get the standards.
+| Method                     | Type                                                                 |
+| -------------------------- | -------------------------------------------------------------------- |
+| `icrc10SupportedStandards` | `(params: QueryParams) => Promise<{ url: string; name: string; }[]>` |
 
 Returns:
 
