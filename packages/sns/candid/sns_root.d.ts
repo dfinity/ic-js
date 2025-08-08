@@ -14,6 +14,7 @@ export type CanisterInstallMode =
   | { upgrade: null }
   | { install: null };
 export interface CanisterStatusResult {
+  memory_metrics: [] | [MemoryMetrics];
   status: CanisterStatusType;
   memory_size: bigint;
   cycles: bigint;
@@ -24,6 +25,7 @@ export interface CanisterStatusResult {
   reserved_cycles: [] | [bigint];
 }
 export interface CanisterStatusResultV2 {
+  memory_metrics: [] | [MemoryMetrics];
   status: CanisterStatusType;
   memory_size: bigint;
   cycles: bigint;
@@ -119,6 +121,16 @@ export interface ManageDappCanisterSettingsRequest {
 }
 export interface ManageDappCanisterSettingsResponse {
   failure_reason: [] | [string];
+}
+export interface MemoryMetrics {
+  wasm_binary_size: [] | [bigint];
+  wasm_chunk_store_size: [] | [bigint];
+  canister_history_size: [] | [bigint];
+  stable_memory_size: [] | [bigint];
+  snapshots_size: [] | [bigint];
+  wasm_memory_size: [] | [bigint];
+  global_memory_size: [] | [bigint];
+  custom_sections_size: [] | [bigint];
 }
 export interface QueryStats {
   response_payload_bytes_total: [] | [bigint];

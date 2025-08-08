@@ -260,14 +260,6 @@ export const idlFactory = ({ IDL }) => {
     'memory_allocation' : IDL.Opt(IDL.Nat64),
     'compute_allocation' : IDL.Opt(IDL.Nat64),
   });
-  const SetTopicsForCustomProposals = IDL.Record({
-    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
-  });
-  const ChunkedCanisterWasm = IDL.Record({
-    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
-    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
-    'store_canister_id' : IDL.Opt(IDL.Principal),
-  });
   PreciseValue.fill(
     IDL.Variant({
       'Int' : IDL.Int64,
@@ -279,6 +271,20 @@ export const idlFactory = ({ IDL }) => {
       'Array' : IDL.Vec(PreciseValue),
     })
   );
+  const ExtensionOperationArg = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
+  const ExecuteExtensionOperation = IDL.Record({
+    'extension_canister_id' : IDL.Opt(IDL.Principal),
+    'operation_name' : IDL.Opt(IDL.Text),
+    'operation_arg' : IDL.Opt(ExtensionOperationArg),
+  });
+  const SetTopicsForCustomProposals = IDL.Record({
+    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
+  });
+  const ChunkedCanisterWasm = IDL.Record({
+    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
+    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+    'store_canister_id' : IDL.Opt(IDL.Principal),
+  });
   const ExtensionInit = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
   const RegisterExtension = IDL.Record({
     'chunked_canister_wasm' : IDL.Opt(ChunkedCanisterWasm),
@@ -335,6 +341,7 @@ export const idlFactory = ({ IDL }) => {
     'ManageNervousSystemParameters' : NervousSystemParameters,
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
     'ManageDappCanisterSettings' : ManageDappCanisterSettings,
+    'ExecuteExtensionOperation' : ExecuteExtensionOperation,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'SetTopicsForCustomProposals' : SetTopicsForCustomProposals,
     'RegisterExtension' : RegisterExtension,
@@ -613,6 +620,16 @@ export const idlFactory = ({ IDL }) => {
     'Proposal' : ProposalData,
   });
   const GetProposalResponse = IDL.Record({ 'result' : IDL.Opt(Result_1) });
+  const MemoryMetrics = IDL.Record({
+    'wasm_binary_size' : IDL.Opt(IDL.Nat),
+    'wasm_chunk_store_size' : IDL.Opt(IDL.Nat),
+    'canister_history_size' : IDL.Opt(IDL.Nat),
+    'stable_memory_size' : IDL.Opt(IDL.Nat),
+    'snapshots_size' : IDL.Opt(IDL.Nat),
+    'wasm_memory_size' : IDL.Opt(IDL.Nat),
+    'global_memory_size' : IDL.Opt(IDL.Nat),
+    'custom_sections_size' : IDL.Opt(IDL.Nat),
+  });
   const CanisterStatusType = IDL.Variant({
     'stopped' : IDL.Null,
     'stopping' : IDL.Null,
@@ -633,6 +650,7 @@ export const idlFactory = ({ IDL }) => {
     'request_payload_bytes_total' : IDL.Opt(IDL.Nat),
   });
   const CanisterStatusResultV2 = IDL.Record({
+    'memory_metrics' : IDL.Opt(MemoryMetrics),
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
@@ -1090,14 +1108,6 @@ export const init = ({ IDL }) => {
     'memory_allocation' : IDL.Opt(IDL.Nat64),
     'compute_allocation' : IDL.Opt(IDL.Nat64),
   });
-  const SetTopicsForCustomProposals = IDL.Record({
-    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
-  });
-  const ChunkedCanisterWasm = IDL.Record({
-    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
-    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
-    'store_canister_id' : IDL.Opt(IDL.Principal),
-  });
   PreciseValue.fill(
     IDL.Variant({
       'Int' : IDL.Int64,
@@ -1109,6 +1119,20 @@ export const init = ({ IDL }) => {
       'Array' : IDL.Vec(PreciseValue),
     })
   );
+  const ExtensionOperationArg = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
+  const ExecuteExtensionOperation = IDL.Record({
+    'extension_canister_id' : IDL.Opt(IDL.Principal),
+    'operation_name' : IDL.Opt(IDL.Text),
+    'operation_arg' : IDL.Opt(ExtensionOperationArg),
+  });
+  const SetTopicsForCustomProposals = IDL.Record({
+    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
+  });
+  const ChunkedCanisterWasm = IDL.Record({
+    'wasm_module_hash' : IDL.Vec(IDL.Nat8),
+    'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
+    'store_canister_id' : IDL.Opt(IDL.Principal),
+  });
   const ExtensionInit = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
   const RegisterExtension = IDL.Record({
     'chunked_canister_wasm' : IDL.Opt(ChunkedCanisterWasm),
@@ -1165,6 +1189,7 @@ export const init = ({ IDL }) => {
     'ManageNervousSystemParameters' : NervousSystemParameters,
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
     'ManageDappCanisterSettings' : ManageDappCanisterSettings,
+    'ExecuteExtensionOperation' : ExecuteExtensionOperation,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'SetTopicsForCustomProposals' : SetTopicsForCustomProposals,
     'RegisterExtension' : RegisterExtension,

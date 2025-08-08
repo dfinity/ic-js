@@ -157,6 +157,16 @@ export const idlFactory = ({ IDL }) => {
     'buyer_state' : IDL.Opt(BuyerState),
   });
   const GetBuyersTotalResponse = IDL.Record({ 'buyers_total' : IDL.Nat64 });
+  const MemoryMetrics = IDL.Record({
+    'wasm_binary_size' : IDL.Opt(IDL.Nat),
+    'wasm_chunk_store_size' : IDL.Opt(IDL.Nat),
+    'canister_history_size' : IDL.Opt(IDL.Nat),
+    'stable_memory_size' : IDL.Opt(IDL.Nat),
+    'snapshots_size' : IDL.Opt(IDL.Nat),
+    'wasm_memory_size' : IDL.Opt(IDL.Nat),
+    'global_memory_size' : IDL.Opt(IDL.Nat),
+    'custom_sections_size' : IDL.Opt(IDL.Nat),
+  });
   const CanisterStatusType = IDL.Variant({
     'stopped' : IDL.Null,
     'stopping' : IDL.Null,
@@ -177,6 +187,7 @@ export const idlFactory = ({ IDL }) => {
     'request_payload_bytes_total' : IDL.Opt(IDL.Nat),
   });
   const CanisterStatusResultV2 = IDL.Record({
+    'memory_metrics' : IDL.Opt(MemoryMetrics),
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,

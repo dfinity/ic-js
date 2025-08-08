@@ -12,6 +12,7 @@ export type Action =
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
+  | { ExecuteExtensionOperation: ExecuteExtensionOperation }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RegisterExtension: RegisterExtension }
@@ -60,6 +61,7 @@ export interface CachedUpgradeSteps {
   requested_timestamp_seconds: [] | [bigint];
 }
 export interface CanisterStatusResultV2 {
+  memory_metrics: [] | [MemoryMetrics];
   status: CanisterStatusType;
   memory_size: bigint;
   cycles: bigint;
@@ -187,11 +189,19 @@ export interface DisburseResponse {
 export type DissolveState =
   | { DissolveDelaySeconds: bigint }
   | { WhenDissolvedTimestampSeconds: bigint };
+export interface ExecuteExtensionOperation {
+  extension_canister_id: [] | [Principal];
+  operation_name: [] | [string];
+  operation_arg: [] | [ExtensionOperationArg];
+}
 export interface ExecuteGenericNervousSystemFunction {
   function_id: bigint;
   payload: Uint8Array | number[];
 }
 export interface ExtensionInit {
+  value: [] | [PreciseValue];
+}
+export interface ExtensionOperationArg {
   value: [] | [PreciseValue];
 }
 export interface FinalizeDisburseMaturity {
@@ -401,6 +411,16 @@ export interface MaturityModulation {
 export interface MemoAndController {
   controller: [] | [Principal];
   memo: bigint;
+}
+export interface MemoryMetrics {
+  wasm_binary_size: [] | [bigint];
+  wasm_chunk_store_size: [] | [bigint];
+  canister_history_size: [] | [bigint];
+  stable_memory_size: [] | [bigint];
+  snapshots_size: [] | [bigint];
+  wasm_memory_size: [] | [bigint];
+  global_memory_size: [] | [bigint];
+  custom_sections_size: [] | [bigint];
 }
 export interface MergeMaturity {
   percentage_to_merge: number;
