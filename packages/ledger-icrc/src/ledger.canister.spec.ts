@@ -831,7 +831,10 @@ describe("Ledger canister", () => {
     it("should return the list of standards", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const standards = [
-        { name: "ICRC-10", url: "https://github.com/dfinity/ICRC-10" },
+        {
+          name: "ICRC-10",
+          url: "https://github.com/dfinity/ICRC/blob/main/ICRCs/ICRC-10",
+        },
       ];
       service.icrc10_supported_standards.mockResolvedValue(standards);
 
