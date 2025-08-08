@@ -9,9 +9,10 @@ import type {
   Allowance,
   BlockIndex,
   GetBlocksResult,
-  _SERVICE as IcrcLedgerService,
-  Tokens,
   icrc21_consent_info,
+  _SERVICE as IcrcLedgerService,
+  StandardRecord,
+  Tokens,
 } from "../candid/icrc_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc_ledger.idl";
@@ -221,4 +222,26 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
 
     return response.Ok;
   };
+
+  /**
+   * Returns the list of standards this ledger supports by using icrc1_supported_standards.
+   *
+   * @link: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#icrc1_supported_standards
+   *
+   * @returns {Promise<StandardRecord[]>} The list of standards.
+   */
+  icrc1SupportedStandards = (params: QueryParams): Promise<StandardRecord[]> =>
+    this.caller(params).icrc1_supported_standards();
+
+  /**
+   * Returns the list of standards this ledger supports by using icrc10_supported_standards.
+   *
+   * @link: https://github.com/dfinity/ICRC/blob/main/ICRCs/ICRC-10/ICRC-10.md#icrc10_supported_standards
+   *
+   * @returns {Promise<{ url: string; name: string }[]>} The list of standards.
+   */
+  icrc10SupportedStandards = (
+    params: QueryParams,
+  ): Promise<{ url: string; name: string }[]> =>
+    this.caller(params).icrc10_supported_standards();
 }
