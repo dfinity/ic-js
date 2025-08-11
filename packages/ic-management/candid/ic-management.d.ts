@@ -328,6 +328,7 @@ export interface subnet_info_args {
 }
 export interface subnet_info_result {
   replica_version: string;
+  registry_version: bigint;
 }
 export interface take_canister_snapshot_args {
   replace_snapshot: [] | [snapshot_id];
