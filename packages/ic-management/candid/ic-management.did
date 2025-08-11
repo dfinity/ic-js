@@ -1,4 +1,4 @@
-// Generated from dfinity/portal commit b785a2217f0675bd6d6ee20a393e4aeaf64fa76b for file 'docs/references/_attachments/ic.did'
+// Generated from dfinity/portal commit 581a5f8128161c84054f79cfc64b13518d749b3b for file 'docs/references/_attachments/ic.did'
 type canister_id = principal;
 type wasm_module = blob;
 type snapshot_id = blob;
@@ -394,6 +394,7 @@ type subnet_info_args = record {
 
 type subnet_info_result = record {
     replica_version : text;
+    registry_version : nat64;
 };
 
 type provisional_create_canister_with_cycles_args = record {
