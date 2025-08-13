@@ -18,7 +18,7 @@ function publish_npm() {
 }
 
 # Tips: libs use by other libs first
-LIBS=utils,zod-schemas,ledger-icrc,ledger-icp,nns-proto,nns,sns,cmc,ckbtc,cketh,ic-management
+LIBS=zod-schemas
 
 for lib in $(echo $LIBS | sed "s/,/ /g"); do
   publish_npm "$lib"
