@@ -48,6 +48,6 @@
   ],
   "peerDependencies": {
     "@dfinity/principal": "*",
-    "zod": "^4"
+    "zod": "3.25"
   }
 }
