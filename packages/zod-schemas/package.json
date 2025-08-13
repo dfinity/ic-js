@@ -47,7 +47,7 @@
     "service-nervous-system"
   ],
   "peerDependencies": {
-    "@dfinity/principal": "^3.2.0",
+    "@dfinity/principal": "*",
     "zod": "^4"
   }
 }
