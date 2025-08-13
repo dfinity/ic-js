@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/nns",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "description": "A library for interfacing with the Internet Computer's Network Nervous System.",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.cjs.js",
@@ -52,6 +52,6 @@
     "@dfinity/candid": "^2.0.0",
     "@dfinity/ledger-icp": "^4",
     "@dfinity/principal": "^2.0.0",
-    "@dfinity/utils": "^2.13.0"
+    "@dfinity/utils": "^2.14.0"
   }
 }
