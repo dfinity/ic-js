@@ -51,19 +51,10 @@ const updateVersion = async () => {
   // Peer dependencies need to point to wip references - e.g. @dfinity/utils@0.0.1-next
   const peerDependencies = Object.entries(
     packageJson.peerDependencies ?? {},
-  ).reduce(
-    (acc, [key, value]) => ({
-      ...acc,
-      [key]: [
-        "@dfinity/utils",
-        "@dfinity/ledger-icrc",
-        "@dfinity/ledger-icp",
-      ].includes(key)
-        ? "*"
-        : value,
-    }),
-    {},
-  );
+  ).reduce((acc, [key, _value]) => {
+    acc[key] = `*`;
+    return acc;
+  }, {});
 
   writeFileSync(
     packagePath,

@@ -1,6 +1,7 @@
 export type {
   ApproveError as IcrcApproveError,
   BlockIndex as IcrcBlockIndex,
+  StandardRecord as IcrcStandardRecord,
   Subaccount as IcrcSubaccount,
   Tokens as IcrcTokens,
   TransferArg as IcrcTransferArg,
