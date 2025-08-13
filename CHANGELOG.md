@@ -1,4 +1,20 @@
-# Next
+# v72
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v3.2.0  | Enhanced 🔧️  |
+| `@dfinity/cketh`         | v3.4.12 | Maintained ⚙️ |
+| `@dfinity/cmc`           | v5.0.8  | Maintained ⚙️ |
+| `@dfinity/ic-management` | v6.2.2  | Maintained ⚙️ |
+| `@dfinity/ledger-icp`    | v4.1.0  | Enhanced 🔧️  |
+| `@dfinity/ledger-icrc`   | v2.10.0 | Enhanced 🔧️  |
+| `@dfinity/nns`           | v9.1.0  | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v3.8.0  | Enhanced 🔧️  |
+| `@dfinity/utils`         | v2.14.0 | Enhanced 🔧️  |
+| `@dfinity/zod-schemas`   | v2.0.0  | Unchanged️    |
 
 ## Features
 
