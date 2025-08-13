@@ -20,6 +20,16 @@ export const idlFactory = ({ IDL }) => {
     'ledger_canister_id' : IDL.Opt(IDL.Principal),
   });
   const CanisterIdRecord = IDL.Record({ 'canister_id' : IDL.Principal });
+  const MemoryMetrics = IDL.Record({
+    'wasm_binary_size' : IDL.Opt(IDL.Nat),
+    'wasm_chunk_store_size' : IDL.Opt(IDL.Nat),
+    'canister_history_size' : IDL.Opt(IDL.Nat),
+    'stable_memory_size' : IDL.Opt(IDL.Nat),
+    'snapshots_size' : IDL.Opt(IDL.Nat),
+    'wasm_memory_size' : IDL.Opt(IDL.Nat),
+    'global_memory_size' : IDL.Opt(IDL.Nat),
+    'custom_sections_size' : IDL.Opt(IDL.Nat),
+  });
   const CanisterStatusType = IDL.Variant({
     'stopped' : IDL.Null,
     'stopping' : IDL.Null,
@@ -47,6 +57,7 @@ export const idlFactory = ({ IDL }) => {
     'request_payload_bytes_total' : IDL.Opt(IDL.Nat),
   });
   const CanisterStatusResult = IDL.Record({
+    'memory_metrics' : IDL.Opt(MemoryMetrics),
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
@@ -86,6 +97,7 @@ export const idlFactory = ({ IDL }) => {
     'compute_allocation' : IDL.Nat,
   });
   const CanisterStatusResultV2 = IDL.Record({
+    'memory_metrics' : IDL.Opt(MemoryMetrics),
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
