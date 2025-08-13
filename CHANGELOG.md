@@ -3,18 +3,18 @@
 ## Overview
 
 | Library                  | Version | Status        |
-| ------------------------ |---------| ------------- |
+| ------------------------ | ------- | ------------- |
 | `@dfinity/ckbtc`         | v4.0.0  | Enhanced 🔧️  |
-| `@dfinity/cketh`         | v4.0.0  | Enhanced 🔧️ |
-| `@dfinity/cmc`           | v6.0.0  | Enhanced 🔧️ |
-| `@dfinity/ic-management` | v7.0.0  | Enhanced 🔧️ |
+| `@dfinity/cketh`         | v4.0.0  | Enhanced 🔧️  |
+| `@dfinity/cmc`           | v6.0.0  | Enhanced 🔧️  |
+| `@dfinity/ic-management` | v7.0.0  | Enhanced 🔧️  |
 | `@dfinity/ledger-icp`    | v5.0.0  | Enhanced 🔧️  |
 | `@dfinity/ledger-icrc`   | v3.0.0  | Enhanced 🔧️  |
 | `@dfinity/nns`           | v10.0.0 | Enhanced 🔧️  |
 | `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
 | `@dfinity/sns`           | v4.0.0  | Enhanced 🔧️  |
 | `@dfinity/utils`         | v3.0.0  | Enhanced 🔧️  |
-| `@dfinity/zod-schemas`   | v2.1.0  | Enhanced 🔧️️    |
+| `@dfinity/zod-schemas`   | v2.1.0  | Enhanced 🔧️️ |
 
 ## Build
 
