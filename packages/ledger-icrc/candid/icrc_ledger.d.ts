@@ -89,6 +89,10 @@ export type Duration = bigint;
 export interface FeatureFlags {
   icrc2: boolean;
 }
+export interface FieldsDisplay {
+  fields: Array<[string, Icrc21Value]>;
+  intent: string;
+}
 export interface GetAllowancesArgs {
   take: [] | [bigint];
   prev_spender: [] | [Account];
@@ -174,6 +178,17 @@ export type ICRC3Value =
   | { Blob: Uint8Array | number[] }
   | { Text: string }
   | { Array: Array<ICRC3Value> };
+export type Icrc21Value =
+  | { Text: { content: string } }
+  | {
+      TokenAmount: {
+        decimals: number;
+        amount: bigint;
+        symbol: string;
+      };
+    }
+  | { TimestampSeconds: { amount: bigint } }
+  | { DurationSeconds: { amount: bigint } };
 export interface InitArgs {
   decimals: [] | [number];
   token_symbol: string;
@@ -315,7 +330,7 @@ export interface icrc21_consent_info {
 }
 export type icrc21_consent_message =
   | {
-      LineDisplayMessage: { pages: Array<{ lines: Array<string> }> };
+      FieldsDisplayMessage: FieldsDisplay;
     }
   | { GenericDisplayMessage: string };
 export interface icrc21_consent_message_metadata {
@@ -332,17 +347,7 @@ export type icrc21_consent_message_response =
   | { Err: icrc21_error };
 export interface icrc21_consent_message_spec {
   metadata: icrc21_consent_message_metadata;
-  device_spec:
-    | []
-    | [
-        | { GenericDisplay: null }
-        | {
-            LineDisplay: {
-              characters_per_line: number;
-              lines_per_page: number;
-            };
-          },
-      ];
+  device_spec: [] | [{ GenericDisplay: null } | { FieldsDisplay: null }];
 }
 export type icrc21_error =
   | {
