@@ -102,6 +102,8 @@ export interface canister_status_result {
   };
   status: { stopped: null } | { stopping: null } | { running: null };
   memory_size: bigint;
+  ready_for_migration: boolean;
+  version: bigint;
   cycles: bigint;
   settings: definite_canister_settings;
   query_stats: {

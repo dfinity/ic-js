@@ -138,6 +138,8 @@ export const idlFactory = ({ IDL }) => {
       'running' : IDL.Null,
     }),
     'memory_size' : IDL.Nat,
+    'ready_for_migration' : IDL.Bool,
+    'version' : IDL.Nat64,
     'cycles' : IDL.Nat,
     'settings' : definite_canister_settings,
     'query_stats' : IDL.Record({

@@ -64,6 +64,7 @@ export type EventType =
         fee: [] | [bigint];
         change_output: [] | [{ value: bigint; vout: number }];
         txid: Uint8Array | number[];
+        withdrawal_fee: [] | [WithdrawalFee];
         utxos: Array<Utxo>;
         requests: BigUint64Array | bigint[];
         submitted_at: bigint;
@@ -113,15 +114,27 @@ export type EventType =
         kyt_provider: [] | [Principal];
       };
     }
+  | {
+      schedule_withdrawal_reimbursement: {
+        burn_block_index: bigint;
+        account: Account;
+        amount: bigint;
+        reason: WithdrawalReimbursementReason;
+      };
+    }
+  | { quarantined_withdrawal_reimbursement: { burn_block_index: bigint } }
   | { removed_retrieve_btc_request: { block_index: bigint } }
   | { confirmed_transaction: { txid: Uint8Array | number[] } }
   | {
       replaced_transaction: {
         fee: bigint;
         change_output: { value: bigint; vout: number };
+        new_utxos: [] | [Array<Utxo>];
         old_txid: Uint8Array | number[];
+        withdrawal_fee: [] | [WithdrawalFee];
         new_txid: Uint8Array | number[];
         submitted_at: bigint;
+        reason: [] | [ReplacedReason];
       };
     }
   | { checked_utxo_v2: { utxo: Utxo; account: Account } }
@@ -129,6 +142,12 @@ export type EventType =
   | { checked_utxo_mint_unknown: { utxo: Utxo; account: Account } }
   | {
       reimbursed_failed_deposit: {
+        burn_block_index: bigint;
+        mint_block_index: bigint;
+      };
+    }
+  | {
+      reimbursed_withdrawal: {
         burn_block_index: bigint;
         mint_block_index: bigint;
       };
@@ -147,6 +166,9 @@ export interface InitArgs {
   min_confirmations: [] | [number];
   kyt_fee: [] | [bigint];
 }
+export type InvalidTransactionError = {
+  too_many_inputs: { max_num_inputs: bigint; num_inputs: bigint };
+};
 export type LogVisibility =
   | { controllers: null }
   | { public: null }
@@ -187,6 +209,11 @@ export interface ReimbursementRequest {
   amount: bigint;
   reason: ReimbursementReason;
 }
+export type ReplacedReason =
+  | {
+      to_cancel: { reason: WithdrawalReimbursementReason };
+    }
+  | { to_retry: null };
 export interface RetrieveBtcArgs {
   address: string;
   amount: bigint;
@@ -280,6 +307,13 @@ export type UtxoStatus =
       };
     }
   | { Checked: Utxo };
+export interface WithdrawalFee {
+  minter_fee: bigint;
+  bitcoin_fee: bigint;
+}
+export type WithdrawalReimbursementReason = {
+  invalid_transaction: InvalidTransactionError;
+};
 export interface _SERVICE {
   estimate_withdrawal_fee: ActorMethod<
     [{ amount: [] | [bigint] }],

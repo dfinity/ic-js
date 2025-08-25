@@ -97,7 +97,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'get_blocks' : IDL.Func([GetBlocksRequest], [GetBlocksResponse], []),
     'http_request' : IDL.Func([HttpRequest], [HttpResponse], []),
-    'icrc1_balance_of' : IDL.Func([Account], [IDL.Nat64], []),
+    'icrc1_balance_of' : IDL.Func([Account], [IDL.Nat64], ['query']),
     'ledger_id' : IDL.Func([], [IDL.Principal], []),
     'status' : IDL.Func([], [Status], []),
   });
