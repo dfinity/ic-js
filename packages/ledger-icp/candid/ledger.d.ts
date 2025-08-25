@@ -92,6 +92,10 @@ export interface Duration {
 export interface FeatureFlags {
   icrc2: boolean;
 }
+export interface FieldsDisplay {
+  fields: Array<[string, Icrc21Value]>;
+  intent: string;
+}
 export interface GetAllowancesArgs {
   prev_spender_id: [] | [TextAccountIdentifier];
   from_account_id: TextAccountIdentifier;
@@ -118,6 +122,17 @@ export type Icrc1TransferError =
 export type Icrc1TransferResult =
   | { Ok: Icrc1BlockIndex }
   | { Err: Icrc1TransferError };
+export type Icrc21Value =
+  | { Text: { content: string } }
+  | {
+      TokenAmount: {
+        decimals: number;
+        amount: bigint;
+        symbol: string;
+      };
+    }
+  | { TimestampSeconds: { amount: bigint } }
+  | { DurationSeconds: { amount: bigint } };
 export interface InitArgs {
   send_whitelist: Array<Principal>;
   token_symbol: [] | [string];
@@ -189,6 +204,11 @@ export interface QueryEncodedBlocksResponse {
   chain_length: bigint;
   first_block_index: bigint;
   archived_blocks: Array<ArchivedEncodedBlocksRange>;
+}
+export interface RemoveApprovalArgs {
+  fee: [] | [Icrc1Tokens];
+  from_subaccount: [] | [SubAccount];
+  spender: AccountIdentifier;
 }
 export interface SendArgs {
   to: TextAccountIdentifier;
@@ -284,7 +304,7 @@ export interface icrc21_consent_info {
 }
 export type icrc21_consent_message =
   | {
-      LineDisplayMessage: { pages: Array<{ lines: Array<string> }> };
+      FieldsDisplayMessage: FieldsDisplay;
     }
   | { GenericDisplayMessage: string };
 export interface icrc21_consent_message_metadata {
@@ -301,17 +321,7 @@ export type icrc21_consent_message_response =
   | { Err: icrc21_error };
 export interface icrc21_consent_message_spec {
   metadata: icrc21_consent_message_metadata;
-  device_spec:
-    | []
-    | [
-        | { GenericDisplay: null }
-        | {
-            LineDisplay: {
-              characters_per_line: number;
-              lines_per_page: number;
-            };
-          },
-      ];
+  device_spec: [] | [{ GenericDisplay: null } | { FieldsDisplay: null }];
 }
 export type icrc21_error =
   | {
@@ -361,6 +371,7 @@ export interface _SERVICE {
     [GetBlocksArgs],
     QueryEncodedBlocksResponse
   >;
+  remove_approval: ActorMethod<[RemoveApprovalArgs], ApproveResult>;
   send_dfx: ActorMethod<[SendArgs], BlockIndex>;
   symbol: ActorMethod<[], { symbol: string }>;
   tip_of_chain: ActorMethod<[], TipOfChainRes>;

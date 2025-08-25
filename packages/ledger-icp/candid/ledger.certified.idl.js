@@ -101,13 +101,7 @@ export const idlFactory = ({ IDL }) => {
   const icrc21_consent_message_spec = IDL.Record({
     'metadata' : icrc21_consent_message_metadata,
     'device_spec' : IDL.Opt(
-      IDL.Variant({
-        'GenericDisplay' : IDL.Null,
-        'LineDisplay' : IDL.Record({
-          'characters_per_line' : IDL.Nat16,
-          'lines_per_page' : IDL.Nat16,
-        }),
-      })
+      IDL.Variant({ 'GenericDisplay' : IDL.Null, 'FieldsDisplay' : IDL.Null })
     ),
   });
   const icrc21_consent_message_request = IDL.Record({
@@ -115,10 +109,22 @@ export const idlFactory = ({ IDL }) => {
     'method' : IDL.Text,
     'user_preferences' : icrc21_consent_message_spec,
   });
-  const icrc21_consent_message = IDL.Variant({
-    'LineDisplayMessage' : IDL.Record({
-      'pages' : IDL.Vec(IDL.Record({ 'lines' : IDL.Vec(IDL.Text) })),
+  const Icrc21Value = IDL.Variant({
+    'Text' : IDL.Record({ 'content' : IDL.Text }),
+    'TokenAmount' : IDL.Record({
+      'decimals' : IDL.Nat8,
+      'amount' : IDL.Nat64,
+      'symbol' : IDL.Text,
     }),
+    'TimestampSeconds' : IDL.Record({ 'amount' : IDL.Nat64 }),
+    'DurationSeconds' : IDL.Record({ 'amount' : IDL.Nat64 }),
+  });
+  const FieldsDisplay = IDL.Record({
+    'fields' : IDL.Vec(IDL.Tuple(IDL.Text, Icrc21Value)),
+    'intent' : IDL.Text,
+  });
+  const icrc21_consent_message = IDL.Variant({
+    'FieldsDisplayMessage' : FieldsDisplay,
     'GenericDisplayMessage' : IDL.Text,
   });
   const icrc21_consent_info = IDL.Record({
@@ -293,6 +299,11 @@ export const idlFactory = ({ IDL }) => {
     'first_block_index' : IDL.Nat64,
     'archived_blocks' : IDL.Vec(ArchivedEncodedBlocksRange),
   });
+  const RemoveApprovalArgs = IDL.Record({
+    'fee' : IDL.Opt(Icrc1Tokens),
+    'from_subaccount' : IDL.Opt(SubAccount),
+    'spender' : AccountIdentifier,
+  });
   const SendArgs = IDL.Record({
     'to' : TextAccountIdentifier,
     'fee' : Tokens,
@@ -364,7 +375,7 @@ export const idlFactory = ({ IDL }) => {
         [TransferFromResult],
         [],
       ),
-    'is_ledger_ready' : IDL.Func([], [IDL.Bool], []),
+    'is_ledger_ready' : IDL.Func([], [IDL.Bool], ['query']),
     'name' : IDL.Func([], [IDL.Record({ 'name' : IDL.Text })], []),
     'query_blocks' : IDL.Func([GetBlocksArgs], [QueryBlocksResponse], []),
     'query_encoded_blocks' : IDL.Func(
@@ -372,6 +383,7 @@ export const idlFactory = ({ IDL }) => {
         [QueryEncodedBlocksResponse],
         [],
       ),
+    'remove_approval' : IDL.Func([RemoveApprovalArgs], [ApproveResult], []),
     'send_dfx' : IDL.Func([SendArgs], [BlockIndex], []),
     'symbol' : IDL.Func([], [IDL.Record({ 'symbol' : IDL.Text })], []),
     'tip_of_chain' : IDL.Func([], [TipOfChainRes], []),
