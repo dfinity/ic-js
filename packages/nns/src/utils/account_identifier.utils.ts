@@ -4,19 +4,17 @@ import {
   arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   bigEndianCrc32,
+  hexStringToUint8Array,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
 import { sha224 } from "@noble/hashes/sha2";
-import { Buffer } from "buffer";
 
 // The following functions were originally made available in @dfinity/ledger-icp for domain alignment reasons.
-// However, they rely on Buffer — which requires a polyfill and significantly increases bundle size in web environments.
 // Since they are only used by @dfinity/nns and potentially the NNS dapp, they have been moved to this package instead.
 
 export const accountIdentifierToBytes = (
   accountIdentifier: AccountIdentifierHex,
-): Uint8Array =>
-  Uint8Array.from(Buffer.from(accountIdentifier, "hex")).subarray(4);
+): Uint8Array => hexStringToUint8Array(accountIdentifier).subarray(4);
 
 export const accountIdentifierFromBytes = (
   accountIdentifier: Uint8Array,
