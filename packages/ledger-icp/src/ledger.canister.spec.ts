@@ -1086,7 +1086,7 @@ describe("LedgerCanister", () => {
       },
     };
 
-    const consentMessageLineDisplayResponse: icrc21_consent_message_response = {
+    const consentMessageFieldsDisplayResponse: icrc21_consent_message_response = {
       Ok: {
         consent_message: {
           FieldsDisplayMessage: {
@@ -1142,17 +1142,17 @@ describe("LedgerCanister", () => {
       );
     });
 
-    it("should fetch consent message successfully with LineDisplayMessage", async () => {
+    it("should fetch consent message successfully with FieldsDisplayMessage", async () => {
       const service = mock<ActorSubclass<LedgerService>>();
       service.icrc21_canister_call_consent_message.mockResolvedValue(
-        consentMessageLineDisplayResponse,
+        consentMessageFieldsDisplayResponse,
       );
 
       const ledger = LedgerCanister.create({
         certifiedServiceOverride: service,
       });
 
-      const requestWithLineDisplay: Icrc21ConsentMessageRequest = {
+      const requestWithFieldsDisplay: Icrc21ConsentMessageRequest = {
         ...mockConsentMessageRequest,
         userPreferences: {
           metadata: {
@@ -1165,14 +1165,14 @@ describe("LedgerCanister", () => {
       };
 
       const response = await ledger.icrc21ConsentMessage(
-        requestWithLineDisplay,
+        requestWithFieldsDisplay,
       );
 
-      expect(response).toEqual(consentMessageLineDisplayResponse.Ok);
+      expect(response).toEqual(consentMessageFieldsDisplayResponse.Ok);
       expect(service.icrc21_canister_call_consent_message).toHaveBeenCalledWith(
         {
-          method: requestWithLineDisplay.method,
-          arg: requestWithLineDisplay.arg,
+          method: requestWithFieldsDisplay.method,
+          arg: requestWithFieldsDisplay.arg,
           user_preferences: {
             metadata: {
               language: "en-US",
