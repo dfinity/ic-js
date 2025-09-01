@@ -1086,27 +1086,32 @@ describe("LedgerCanister", () => {
       },
     };
 
-    const consentMessageFieldsDisplayResponse: icrc21_consent_message_response = {
-      Ok: {
-        consent_message: {
-          FieldsDisplayMessage: {
-            intent: "Send ICP",
-            fields: [
-              [
-                "Fees",
-                {
-                  TokenAmount: { decimals: 10, amount: 10_000n, symbol: "ICP" },
-                },
+    const consentMessageFieldsDisplayResponse: icrc21_consent_message_response =
+      {
+        Ok: {
+          consent_message: {
+            FieldsDisplayMessage: {
+              intent: "Send ICP",
+              fields: [
+                [
+                  "Fees",
+                  {
+                    TokenAmount: {
+                      decimals: 10,
+                      amount: 10_000n,
+                      symbol: "ICP",
+                    },
+                  },
+                ],
               ],
-            ],
+            },
+          },
+          metadata: {
+            language: "en-US",
+            utc_offset_minutes: [],
           },
         },
-        metadata: {
-          language: "en-US",
-          utc_offset_minutes: [],
-        },
-      },
-    };
+      };
 
     it("should fetch consent message successfully with GenericDisplayMessage", async () => {
       const service = mock<ActorSubclass<LedgerService>>();
