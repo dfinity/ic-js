@@ -1089,10 +1089,15 @@ describe("LedgerCanister", () => {
     const consentMessageLineDisplayResponse: icrc21_consent_message_response = {
       Ok: {
         consent_message: {
-          LineDisplayMessage: {
-            pages: [
-              { lines: ["Transfer 1 ICP", "to account abcd"] },
-              { lines: ["Fee: 0.0001 ICP"] },
+          FieldsDisplayMessage: {
+            intent: "Send ICP",
+            fields: [
+              [
+                "Fees",
+                {
+                  TokenAmount: { decimals: 10, amount: 10_000n, symbol: "ICP" },
+                },
+              ],
             ],
           },
         },
@@ -1154,10 +1159,7 @@ describe("LedgerCanister", () => {
             language: "en-US",
           },
           deriveSpec: {
-            LineDisplay: {
-              charactersPerLine: 20,
-              linesPerPage: 4,
-            },
+            FieldsDisplay: null,
           },
         },
       };
@@ -1178,10 +1180,7 @@ describe("LedgerCanister", () => {
             },
             device_spec: [
               {
-                LineDisplay: {
-                  characters_per_line: 20,
-                  lines_per_page: 4,
-                },
+                FieldsDisplay: null,
               },
             ],
           },
