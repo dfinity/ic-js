@@ -85,6 +85,10 @@ export const idlFactory = ({ IDL }) => {
     }),
     'load_snapshot' : IDL.Record({
       'canister_version' : IDL.Nat64,
+      'source' : IDL.Variant({
+        'metadata_upload' : IDL.Reserved,
+        'taken_from_canister' : IDL.Reserved,
+      }),
       'taken_at_timestamp' : IDL.Nat64,
       'snapshot_id' : snapshot_id,
     }),
@@ -138,6 +142,8 @@ export const idlFactory = ({ IDL }) => {
       'running' : IDL.Null,
     }),
     'memory_size' : IDL.Nat,
+    'ready_for_migration' : IDL.Bool,
+    'version' : IDL.Nat64,
     'cycles' : IDL.Nat,
     'settings' : definite_canister_settings,
     'query_stats' : IDL.Record({
