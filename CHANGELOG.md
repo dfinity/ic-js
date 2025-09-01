@@ -1,3 +1,29 @@
+# 74
+
+## Overview
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@dfinity/ckbtc`         | v4.0.0  | Enhanced 🔧️        |
+| `@dfinity/cketh`         | v4.0.0  | Enhanced 🔧️        |
+| `@dfinity/cmc`           | v6.0.0  | Enhanced 🔧️        |
+| `@dfinity/ic-management` | v7.0.0  | Enhanced 🔧️        |
+| `@dfinity/ledger-icp`    | v6.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ledger-icrc`   | v4.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns`           | v10.1.0 | Maintained ⚙️       |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️          |
+| `@dfinity/sns`           | v4.0.0  | Maintained ⚙️       |
+| `@dfinity/utils`         | v3.0.0  | Enhanced 🔧️        |
+| `@dfinity/zod-schemas`   | v2.1.0  | Enhanced 🔧️️       |
+
+## Breaking Changes
+
+- ICRC-21 `LineDisplay` was deprecated and replaced by `FieldsDisplay` (see related [changes](https://github.com/dfinity/wg-identity-authentication/pull/229)). As a result, the interfaces of `@dfinity/ledger-icp` and `@ledger-icrc` inherited these changes and were modified in a non–backwards-compatible way.
+ 
+## Features
+
+- Remove usage of `Buffer` in `@dfinity/nns`.
+
 # v73
 
 ## Overview
