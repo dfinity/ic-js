@@ -19,7 +19,7 @@
 ## Breaking Changes
 
 - ICRC-21 `LineDisplay` was deprecated and replaced by `FieldsDisplay` (see related [changes](https://github.com/dfinity/wg-identity-authentication/pull/229)). As a result, the interfaces of `@dfinity/ledger-icp` and `@ledger-icrc` inherited these changes and were modified in a non–backwards-compatible way.
- 
+
 ## Features
 
 - Remove usage of `Buffer` in `@dfinity/nns`.
