@@ -82,10 +82,7 @@ export const toIcrc21ConsentMessageArgs = ({
           "GenericDisplay" in deriveSpec
             ? { GenericDisplay: null }
             : {
-                LineDisplay: {
-                  characters_per_line: deriveSpec.LineDisplay.charactersPerLine,
-                  lines_per_page: deriveSpec.LineDisplay.linesPerPage,
-                },
+                FieldsDisplay: null,
               },
         ),
   },

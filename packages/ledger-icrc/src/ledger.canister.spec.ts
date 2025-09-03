@@ -374,22 +374,32 @@ describe("Ledger canister", () => {
       },
     };
 
-    const consentMessageLineDisplayResponse: icrc21_consent_message_response = {
-      Ok: {
-        consent_message: {
-          LineDisplayMessage: {
-            pages: [
-              { lines: ["Transfer 1 ICP", "to account abcd"] },
-              { lines: ["Fee: 0.0001 ICP"] },
-            ],
+    const consentMessageFieldsDisplayResponse: icrc21_consent_message_response =
+      {
+        Ok: {
+          consent_message: {
+            FieldsDisplayMessage: {
+              intent: "Send ICP",
+              fields: [
+                [
+                  "Fees",
+                  {
+                    TokenAmount: {
+                      decimals: 10,
+                      amount: 10_000n,
+                      symbol: "ICP",
+                    },
+                  },
+                ],
+              ],
+            },
+          },
+          metadata: {
+            language: "en-US",
+            utc_offset_minutes: [],
           },
         },
-        metadata: {
-          language: "en-US",
-          utc_offset_minutes: [],
-        },
-      },
-    };
+      };
 
     it("should fetch consent message successfully with GenericDisplayMessage", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
@@ -424,10 +434,10 @@ describe("Ledger canister", () => {
       );
     });
 
-    it("should fetch consent message successfully with LineDisplayMessage", async () => {
+    it("should fetch consent message successfully with FieldsDisplayMessage", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       service.icrc21_canister_call_consent_message.mockResolvedValue(
-        consentMessageLineDisplayResponse,
+        consentMessageFieldsDisplayResponse,
       );
 
       const ledger = IcrcLedgerCanister.create({
@@ -435,28 +445,25 @@ describe("Ledger canister", () => {
         canisterId: ledgerCanisterIdMock,
       });
 
-      const requestWithLineDisplay: Icrc21ConsentMessageParams = {
+      const requestWithFieldsDisplay: Icrc21ConsentMessageParams = {
         ...consentMessageRequest,
         userPreferences: {
           metadata: {
             language: "en-US",
           },
           deriveSpec: {
-            LineDisplay: {
-              charactersPerLine: 20,
-              linesPerPage: 4,
-            },
+            FieldsDisplay: null,
           },
         },
       };
 
-      const response = await ledger.consentMessage(requestWithLineDisplay);
+      const response = await ledger.consentMessage(requestWithFieldsDisplay);
 
-      expect(response).toEqual(consentMessageLineDisplayResponse.Ok);
+      expect(response).toEqual(consentMessageFieldsDisplayResponse.Ok);
       expect(service.icrc21_canister_call_consent_message).toHaveBeenCalledWith(
         {
-          method: requestWithLineDisplay.method,
-          arg: requestWithLineDisplay.arg,
+          method: requestWithFieldsDisplay.method,
+          arg: requestWithFieldsDisplay.arg,
           user_preferences: {
             metadata: {
               language: "en-US",
@@ -464,10 +471,7 @@ describe("Ledger canister", () => {
             },
             device_spec: [
               {
-                LineDisplay: {
-                  characters_per_line: 20,
-                  lines_per_page: 4,
-                },
+                FieldsDisplay: null,
               },
             ],
           },
