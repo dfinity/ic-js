@@ -3,26 +3,31 @@
 ## Overview
 
 | Library                  | Version | Status              |
-| ------------------------ | ------- | ------------------- |
-| `@dfinity/ckbtc`         | v4.0.0  | Enhanced 🔧️        |
-| `@dfinity/cketh`         | v4.0.0  | Enhanced 🔧️        |
-| `@dfinity/cmc`           | v6.0.0  | Enhanced 🔧️        |
-| `@dfinity/ic-management` | v7.0.0  | Enhanced 🔧️        |
+| ------------------------ |---------| ------------------- |
+| `@dfinity/ckbtc`         | v4.0.1  | Maintained ⚙       |
+| `@dfinity/cketh`         | v4.0.1  | Maintained ⚙      |
+| `@dfinity/cmc`           | v6.0.1  | Maintained ⚙       |
+| `@dfinity/ic-management` | v7.0.1  | Maintained ⚙       |
 | `@dfinity/ledger-icp`    | v6.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/ledger-icrc`   | v4.0.0  | Breaking Changes ⚠️ |
-| `@dfinity/nns`           | v10.1.0 | Maintained ⚙️       |
+| `@dfinity/nns`           | v10.1.1 | Maintained ⚙       |
 | `@dfinity/nns-proto`     | v2.0.2  | Unchanged️          |
-| `@dfinity/sns`           | v4.0.0  | Maintained ⚙️       |
-| `@dfinity/utils`         | v3.0.0  | Enhanced 🔧️        |
-| `@dfinity/zod-schemas`   | v2.1.0  | Enhanced 🔧️️       |
+| `@dfinity/sns`           | v4.0.1  | Maintained ⚙      |
+| `@dfinity/utils`         | v3.0.1  | Maintained ⚙       |
+| `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️      |
 
 ## Breaking Changes
 
-- ICRC-21 `LineDisplay` was deprecated and replaced by `FieldsDisplay` (see related [changes](https://github.com/dfinity/wg-identity-authentication/pull/229)). As a result, the interfaces of `@dfinity/ledger-icp` and `@ledger-icrc` inherited these changes and were modified in a non–backwards-compatible way.
+- ICRC-21 `LineDisplay` has been deprecated and replaced with `FieldsDisplay` (see [related changes](https://github.com/dfinity/wg-identity-authentication/pull/229)). Consequently, the interfaces of `@dfinity/ledger-icp` and `@ledger-icrc` have been updated in a non–backwards-compatible way.
 
 ## Features
 
-- Remove usage of `Buffer` in `@dfinity/nns`.
+- Removed usage of `Buffer` in `@dfinity/nns`.
+- Updated Candid file definitions to the latest version (except in `@dfinity/ic-management`).
+
+## Build
+
+- Updated AgentJS libraries to `v3.2.4` for development.
 
 # v73
 
