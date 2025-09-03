@@ -69,17 +69,12 @@ export interface Icrc21ConsentMessageMetadata {
  * Device specification for displaying the consent message.
  *
  * @param {null} [GenericDisplay] -  A generic display able to handle large documents and do line wrapping and pagination / scrolling.  Text must be Markdown formatted, no external resources (e.g. images) are allowed.
- * @param {Object} [LineDisplay] - Simple display able to handle lines of text with a maximum number of characters per line.
- * @param {number} LineDisplay.charactersPerLine - Maximum number of characters that can be displayed per line.
- * @param {number} LineDisplay.linesPerPage - Maximum number of lines that can be displayed at once on a single page.
+ * @param {Object} [FieldsDisplay] - A simple display able to handle multiple fields with a title and content.
  */
 export type Icrc21ConsentMessageDeviceSpec =
   | { GenericDisplay: null }
   | {
-      LineDisplay: {
-        charactersPerLine: number;
-        linesPerPage: number;
-      };
+      FieldsDisplay: null;
     };
 
 /**
