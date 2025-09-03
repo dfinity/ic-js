@@ -1,3 +1,30 @@
+# v73
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v4.0.0  | Enhanced 🔧️  |
+| `@dfinity/cketh`         | v4.0.0  | Enhanced 🔧️  |
+| `@dfinity/cmc`           | v6.0.0  | Enhanced 🔧️  |
+| `@dfinity/ic-management` | v7.0.0  | Enhanced 🔧️  |
+| `@dfinity/ledger-icp`    | v5.0.0  | Enhanced 🔧️  |
+| `@dfinity/ledger-icrc`   | v3.0.0  | Enhanced 🔧️  |
+| `@dfinity/nns`           | v10.0.0 | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v4.0.0  | Enhanced 🔧️  |
+| `@dfinity/utils`         | v3.0.0  | Enhanced 🔧️  |
+| `@dfinity/zod-schemas`   | v2.1.0  | Enhanced 🔧️️ |
+
+## Build
+
+- Migrate to AgentJS v3. For upgrade guidelines, check out its [release notes](https://js.icp.build/core/release-notes/v300/).
+- Accept any version of `@dfinity/principal` for `zod-schemas`.
+
+> [!NOTE]  
+> The libraries are published using major versioning to highlight the update to this important peer dependency.  
+> However, there are no other changes in this release, so no functional changes should be expected.
+
 # v72
 
 ## Overview
