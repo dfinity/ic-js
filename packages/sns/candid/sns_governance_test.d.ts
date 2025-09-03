@@ -13,6 +13,7 @@ export type Action =
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { ExecuteExtensionOperation: ExecuteExtensionOperation }
+  | { UpgradeExtension: UpgradeExtension }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RegisterExtension: RegisterExtension }
@@ -213,6 +214,19 @@ export interface ExtensionInit {
   value: [] | [PreciseValue];
 }
 export interface ExtensionOperationArg {
+  value: [] | [PreciseValue];
+}
+export interface ExtensionOperationSpec {
+  topic: [] | [Topic];
+  operation_type: [] | [ExtensionOperationType];
+  description: [] | [string];
+  extension_type: [] | [ExtensionType];
+}
+export type ExtensionOperationType =
+  | { TreasuryManagerWithdraw: null }
+  | { TreasuryManagerDeposit: null };
+export type ExtensionType = { TreasuryManager: null };
+export interface ExtensionUpgradeArg {
   value: [] | [PreciseValue];
 }
 export interface FinalizeDisburseMaturity {
@@ -626,6 +640,10 @@ export interface RegisterVote {
   vote: number;
   proposal: [] | [ProposalId];
 }
+export interface RegisteredExtensionOperationSpec {
+  spec: [] | [ExtensionOperationSpec];
+  canister_id: [] | [Principal];
+}
 export interface RemoveNeuronPermissions {
   permissions_to_remove: [] | [NeuronPermissionList];
   principal_id: [] | [Principal];
@@ -715,6 +733,7 @@ export type Topic =
   | { Governance: null }
   | { SnsFrameworkManagement: null };
 export interface TopicInfo {
+  extension_operations: [] | [Array<RegisteredExtensionOperationSpec>];
   native_functions: [] | [Array<NervousSystemFunction>];
   topic: [] | [Topic];
   is_critical: [] | [boolean];
@@ -740,6 +759,11 @@ export interface TreasuryMetrics {
   ledger_canister_id: [] | [Principal];
   treasury: number;
   timestamp_seconds: [] | [bigint];
+}
+export interface UpgradeExtension {
+  extension_canister_id: [] | [Principal];
+  wasm: [] | [Wasm];
+  canister_upgrade_arg: [] | [ExtensionUpgradeArg];
 }
 export interface UpgradeInProgress {
   mark_failed_at_seconds: bigint;
@@ -833,6 +857,9 @@ export interface VotingRewardsParameters {
 export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
 }
+export type Wasm =
+  | { Chunked: ChunkedCanisterWasm }
+  | { Bytes: Uint8Array | number[] };
 export interface _SERVICE {
   add_maturity: ActorMethod<[AddMaturityRequest], AddMaturityResponse>;
   advance_target_version: ActorMethod<
