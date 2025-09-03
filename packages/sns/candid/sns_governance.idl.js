@@ -277,13 +277,23 @@ export const idlFactory = ({ IDL }) => {
     'operation_name' : IDL.Opt(IDL.Text),
     'operation_arg' : IDL.Opt(ExtensionOperationArg),
   });
-  const SetTopicsForCustomProposals = IDL.Record({
-    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
-  });
   const ChunkedCanisterWasm = IDL.Record({
     'wasm_module_hash' : IDL.Vec(IDL.Nat8),
     'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
     'store_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const Wasm = IDL.Variant({
+    'Chunked' : ChunkedCanisterWasm,
+    'Bytes' : IDL.Vec(IDL.Nat8),
+  });
+  const ExtensionUpgradeArg = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
+  const UpgradeExtension = IDL.Record({
+    'extension_canister_id' : IDL.Opt(IDL.Principal),
+    'wasm' : IDL.Opt(Wasm),
+    'canister_upgrade_arg' : IDL.Opt(ExtensionUpgradeArg),
+  });
+  const SetTopicsForCustomProposals = IDL.Record({
+    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
   });
   const ExtensionInit = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
   const RegisterExtension = IDL.Record({
@@ -342,6 +352,7 @@ export const idlFactory = ({ IDL }) => {
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
     'ManageDappCanisterSettings' : ManageDappCanisterSettings,
     'ExecuteExtensionOperation' : ExecuteExtensionOperation,
+    'UpgradeExtension' : UpgradeExtension,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'SetTopicsForCustomProposals' : SetTopicsForCustomProposals,
     'RegisterExtension' : RegisterExtension,
@@ -711,7 +722,23 @@ export const idlFactory = ({ IDL }) => {
     'include_topic_filtering' : IDL.Opt(IDL.Bool),
   });
   const ListTopicsRequest = IDL.Record({});
+  const ExtensionOperationType = IDL.Variant({
+    'TreasuryManagerWithdraw' : IDL.Null,
+    'TreasuryManagerDeposit' : IDL.Null,
+  });
+  const ExtensionType = IDL.Variant({ 'TreasuryManager' : IDL.Null });
+  const ExtensionOperationSpec = IDL.Record({
+    'topic' : IDL.Opt(Topic),
+    'operation_type' : IDL.Opt(ExtensionOperationType),
+    'description' : IDL.Opt(IDL.Text),
+    'extension_type' : IDL.Opt(ExtensionType),
+  });
+  const RegisteredExtensionOperationSpec = IDL.Record({
+    'spec' : IDL.Opt(ExtensionOperationSpec),
+    'canister_id' : IDL.Opt(IDL.Principal),
+  });
   const TopicInfo = IDL.Record({
+    'extension_operations' : IDL.Opt(IDL.Vec(RegisteredExtensionOperationSpec)),
     'native_functions' : IDL.Opt(IDL.Vec(NervousSystemFunction)),
     'topic' : IDL.Opt(Topic),
     'is_critical' : IDL.Opt(IDL.Bool),
@@ -1141,13 +1168,23 @@ export const init = ({ IDL }) => {
     'operation_name' : IDL.Opt(IDL.Text),
     'operation_arg' : IDL.Opt(ExtensionOperationArg),
   });
-  const SetTopicsForCustomProposals = IDL.Record({
-    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
-  });
   const ChunkedCanisterWasm = IDL.Record({
     'wasm_module_hash' : IDL.Vec(IDL.Nat8),
     'chunk_hashes_list' : IDL.Vec(IDL.Vec(IDL.Nat8)),
     'store_canister_id' : IDL.Opt(IDL.Principal),
+  });
+  const Wasm = IDL.Variant({
+    'Chunked' : ChunkedCanisterWasm,
+    'Bytes' : IDL.Vec(IDL.Nat8),
+  });
+  const ExtensionUpgradeArg = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
+  const UpgradeExtension = IDL.Record({
+    'extension_canister_id' : IDL.Opt(IDL.Principal),
+    'wasm' : IDL.Opt(Wasm),
+    'canister_upgrade_arg' : IDL.Opt(ExtensionUpgradeArg),
+  });
+  const SetTopicsForCustomProposals = IDL.Record({
+    'custom_function_id_to_topic' : IDL.Vec(IDL.Tuple(IDL.Nat64, Topic)),
   });
   const ExtensionInit = IDL.Record({ 'value' : IDL.Opt(PreciseValue) });
   const RegisterExtension = IDL.Record({
@@ -1206,6 +1243,7 @@ export const init = ({ IDL }) => {
     'AddGenericNervousSystemFunction' : NervousSystemFunction,
     'ManageDappCanisterSettings' : ManageDappCanisterSettings,
     'ExecuteExtensionOperation' : ExecuteExtensionOperation,
+    'UpgradeExtension' : UpgradeExtension,
     'RemoveGenericNervousSystemFunction' : IDL.Nat64,
     'SetTopicsForCustomProposals' : SetTopicsForCustomProposals,
     'RegisterExtension' : RegisterExtension,
