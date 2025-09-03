@@ -3,18 +3,18 @@
 ## Overview
 
 | Library                  | Version | Status              |
-| ------------------------ |---------| ------------------- |
+| ------------------------ | ------- | ------------------- |
 | `@dfinity/ckbtc`         | v4.0.1  | Maintained ⚙       |
-| `@dfinity/cketh`         | v4.0.1  | Maintained ⚙      |
+| `@dfinity/cketh`         | v4.0.1  | Maintained ⚙       |
 | `@dfinity/cmc`           | v6.0.1  | Maintained ⚙       |
 | `@dfinity/ic-management` | v7.0.1  | Maintained ⚙       |
 | `@dfinity/ledger-icp`    | v6.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/ledger-icrc`   | v4.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/nns`           | v10.1.1 | Maintained ⚙       |
 | `@dfinity/nns-proto`     | v2.0.2  | Unchanged️          |
-| `@dfinity/sns`           | v4.0.1  | Maintained ⚙      |
+| `@dfinity/sns`           | v4.0.1  | Maintained ⚙       |
 | `@dfinity/utils`         | v3.0.1  | Maintained ⚙       |
-| `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️      |
+| `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️          |
 
 ## Breaking Changes
 
