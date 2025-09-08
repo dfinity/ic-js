@@ -1,3 +1,9 @@
+# Next
+
+## Features
+
+- Expose Ledger canister response types: `Status` as `IcrcNgStatus`.
+
 # 74
 
 ## Overview
