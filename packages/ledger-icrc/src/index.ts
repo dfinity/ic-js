@@ -1,6 +1,8 @@
 export type {
+  Allowance as IcrcAllowance,
   ApproveError as IcrcApproveError,
   BlockIndex as IcrcBlockIndex,
+  GetBlocksResult as IcrcGetBlocksResult,
   StandardRecord as IcrcStandardRecord,
   Subaccount as IcrcSubaccount,
   Tokens as IcrcTokens,
