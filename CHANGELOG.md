@@ -2,7 +2,8 @@
 
 ## Features
 
-- Expose Ledger canister response types: `Allowance` as `IcrcAllowance`, `GetBlocksResult` as `IcrcGetBlocksResult`
+- Expose Ledger canister response types: `Status` as `IcrcNgStatus`.
+- Expose Ledger canister response types: `Allowance` as `IcrcAllowance`, `GetBlocksResult` as `IcrcGetBlocksResult`.
 
 # 74
 
