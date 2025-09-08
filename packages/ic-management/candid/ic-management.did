@@ -1,4 +1,4 @@
-// Generated from dfinity/portal commit 581a5f8128161c84054f79cfc64b13518d749b3b for file 'docs/references/_attachments/ic.did'
+// Generated from dfinity/portal commit ba3fe5ad1d77ff575b0e8712025c19bc8d4eb24c for file 'docs/references/_attachments/ic.did'
 type canister_id = principal;
 type wasm_module = blob;
 type snapshot_id = blob;
@@ -54,6 +54,10 @@ type change_details = variant {
         canister_version : nat64;
         snapshot_id : snapshot_id;
         taken_at_timestamp : nat64;
+        source : variant {
+          taken_from_canister : reserved;
+          metadata_upload : reserved;
+        };
     };
     controllers_change : record {
         controllers : vec principal;
@@ -251,7 +255,13 @@ type canister_status_args = record {
 };
 
 type canister_status_result = record {
-    status : variant { running; stopping; stopped };
+    status : variant {
+        running;
+        stopping;
+        stopped;
+    };
+    ready_for_migration : bool;
+    version : nat64;
     settings : definite_canister_settings;
     module_hash : opt blob;
     memory_size : nat;
