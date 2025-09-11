@@ -405,6 +405,8 @@ describe("ICManagementCanister", () => {
         idle_cycles_burned_per_day: BigInt(0),
         module_hash: [],
         reserved_cycles: BigInt(11),
+        version: BigInt(1234),
+        ready_for_migration: false,
         query_stats: {
           num_calls_total: 100n,
           num_instructions_total: 100_000n,
