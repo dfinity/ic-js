@@ -36,6 +36,22 @@ describe("json-utils", () => {
       );
     });
 
+    it("should stringify object representation of a Principal with a custom representation", () => {
+      const rootCanisterId = Principal.fromText("tmxop-wyaaa-aaaaa-aaapa-cai");
+
+      const obj = {
+        _arr: rootCanisterId.toUint8Array(),
+        _isPrincipal: true,
+      };
+
+      expect(JSON.stringify(obj, jsonReplacer)).toEqual(
+        '{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}',
+      );
+      expect(JSON.stringify({ principal: obj }, jsonReplacer)).toEqual(
+        '{"principal":{"__principal__":"tmxop-wyaaa-aaaaa-aaapa-cai"}}',
+      );
+    });
+
     it("should stringify Uint8Array with a custom representation", () => {
       const arr = arrayOfNumberToUint8Array([1, 2, 3]);
 
