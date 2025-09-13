@@ -24,8 +24,8 @@ export const jsonReplacer = (_key: string, value: unknown): unknown => {
     return { [JSON_KEY_BIGINT]: `${value}` };
   }
 
-  if (nonNullish(value) && value instanceof Principal) {
-    return { [JSON_KEY_PRINCIPAL]: value.toText() };
+  if (nonNullish(value) && Principal.isPrincipal(value)) {
+    return { [JSON_KEY_PRINCIPAL]: Principal.from(value).toText() };
   }
 
   if (nonNullish(value) && value instanceof Uint8Array) {
