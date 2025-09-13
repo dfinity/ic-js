@@ -25,6 +25,8 @@ export const jsonReplacer = (_key: string, value: unknown): unknown => {
   }
 
   if (nonNullish(value) && Principal.isPrincipal(value)) {
+    // isPrincipal asserts if a value is a Principal, but does not assert if the object
+    // contains functions such as toText(). That's why we construct a new object.
     return { [JSON_KEY_PRINCIPAL]: Principal.from(value).toText() };
   }
 
