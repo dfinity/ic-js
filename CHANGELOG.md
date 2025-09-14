@@ -1,13 +1,10 @@
 # Next
 
-## Breaking Changes
-
-- Improve `Principal` detection in `jsonReplacer`.
-
 ## Features
 
 - Expose Ledger canister response types: `Status` as `IcrcNgStatus`.
 - Expose Ledger canister response types: `ICRC3Value` as `Icrc3Value`, `Allowance` as `IcrcAllowance`, `GetBlocksArgs` as `IcrcGetBlocksArgs`, `GetBlocksResult` as `IcrcGetBlocksResult`, `Timestamp` as `IcrcTimestamp`.
+- Improve `Principal` detection in `jsonReplacer`.
 
 # 74
 
