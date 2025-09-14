@@ -498,7 +498,7 @@ Returns:
 
 The reconstructed value if it matches a known type, otherwise the original value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L53)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L55)
 
 #### :gear: hashObject
 
