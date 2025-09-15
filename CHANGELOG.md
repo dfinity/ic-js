@@ -1,4 +1,4 @@
-# 75
+# v75
 
 ## Overview
 
@@ -22,7 +22,7 @@
 - Expose Ledger canister response types: `ICRC3Value` as `Icrc3Value`, `Allowance` as `IcrcAllowance`, `GetBlocksArgs` as `IcrcGetBlocksArgs`, `GetBlocksResult` as `IcrcGetBlocksResult`, `Timestamp` as `IcrcTimestamp`.
 - Improve `Principal` detection in `jsonReplacer`.
 
-# 74
+# v74
 
 ## Overview
 
