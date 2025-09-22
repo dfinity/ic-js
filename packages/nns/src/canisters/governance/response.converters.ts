@@ -727,6 +727,7 @@ const toCommand = (command: RawCommand): Command => {
     return {
       Split: {
         amount: split.amount_e8s,
+        memo: split.memo.length ? split.memo[0] : undefined,
       },
     };
   }
