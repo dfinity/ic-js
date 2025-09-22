@@ -529,6 +529,15 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
+  if ("DeregisterKnownNeuron" in action) {
+    const { DeregisterKnownNeuron } = action;
+    return {
+      DeregisterKnownNeuron: {
+        id: DeregisterKnownNeuron.id[0]?.id ?? BigInt(0),
+      },
+    };
+  }
+
   if ("SetSnsTokenSwapOpenTimeWindow" in action) {
     const { SetSnsTokenSwapOpenTimeWindow } = action;
     const request = SetSnsTokenSwapOpenTimeWindow.request?.length

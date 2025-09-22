@@ -593,6 +593,7 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
               knownNeuron.description !== undefined
                 ? [knownNeuron.description]
                 : [],
+            links: [],
           },
         ],
       },
@@ -649,6 +650,7 @@ const fromCommand = (command: ManageNeuronCommandRequest): RawCommand => {
     return {
       Split: {
         amount_e8s: split.amount,
+        memo: [],
       },
     };
   }
@@ -1325,13 +1327,16 @@ export const fromSpawnRequest = (request: SpawnRequest): PbManageNeuron => {
 export const toSplitRawRequest = ({
   neuronId,
   amount,
+  memo,
 }: {
   neuronId: NeuronId;
   amount: E8s;
+  memo?: bigint;
 }): RawManageNeuron => {
   const rawCommand: RawCommand = {
     Split: {
       amount_e8s: amount,
+      memo: toNullable(memo),
     },
   };
 

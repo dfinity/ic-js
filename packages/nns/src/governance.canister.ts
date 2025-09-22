@@ -79,7 +79,7 @@ import {
   InsufficientAmountError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
-import type { E8s, NeuronId } from "./types/common";
+import type { E8s, NeuronId, Option } from "./types/common";
 import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
   ClaimOrRefreshNeuronRequest,
@@ -633,13 +633,16 @@ export class GovernanceCanister {
   public splitNeuron = async ({
     neuronId,
     amount,
+    memo,
   }: {
     neuronId: NeuronId;
     amount: bigint;
+    memo: Option<bigint>;
   }): Promise<NeuronId> => {
     const request = toSplitRawRequest({
       neuronId,
       amount,
+      memo,
     });
 
     const response = await this.certifiedService.manage_neuron(request);

@@ -23,6 +23,7 @@ import type {
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
+  | { DeregisterKnownNeuron: DeregisterKnownNeuron }
   | {
       ExecuteNnsFunction: ExecuteNnsFunction;
     }
@@ -198,6 +199,9 @@ export interface KnownNeuron {
   id: NeuronId;
   name: string;
   description: Option<string>;
+}
+export interface DeregisterKnownNeuron {
+  id: Option<NeuronId>;
 }
 export interface SetDissolveTimestamp {
   dissolveTimestampSeconds: bigint;
@@ -527,6 +531,7 @@ export interface Spawn {
 
 export interface Split {
   amount: E8s;
+  memo: Option<bigint>;
 }
 export interface Tally {
   no: bigint;
