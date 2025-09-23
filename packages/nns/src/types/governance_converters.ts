@@ -199,6 +199,7 @@ export interface KnownNeuron {
   id: NeuronId;
   name: string;
   description: Option<string>;
+  links: Option<Array<string>>;
 }
 export interface DeregisterKnownNeuron {
   id: Option<NeuronId>;

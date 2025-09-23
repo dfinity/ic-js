@@ -593,7 +593,7 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
               knownNeuron.description !== undefined
                 ? [knownNeuron.description]
                 : [],
-            links: [],
+            links: toNullable(knownNeuron.links),
           },
         ],
       },
@@ -650,7 +650,7 @@ const fromCommand = (command: ManageNeuronCommandRequest): RawCommand => {
     return {
       Split: {
         amount_e8s: split.amount,
-        memo: [],
+        memo: toNullable(split.memo),
       },
     };
   }
