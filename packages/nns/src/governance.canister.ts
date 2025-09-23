@@ -79,7 +79,7 @@ import {
   InsufficientAmountError,
   UnrecognizedTypeError,
 } from "./errors/governance.errors";
-import type { E8s, NeuronId, Option } from "./types/common";
+import type { E8s, NeuronId } from "./types/common";
 import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
   ClaimOrRefreshNeuronRequest,
@@ -300,6 +300,7 @@ export class GovernanceCanister {
       description: fromNullable(
         fromNullable(n.known_neuron_data)?.description ?? [],
       ),
+      links: fromNullable(n.known_neuron_data)?.links ?? [],
     }));
   };
 
@@ -637,7 +638,7 @@ export class GovernanceCanister {
   }: {
     neuronId: NeuronId;
     amount: bigint;
-    memo: Option<bigint>;
+    memo?: bigint;
   }): Promise<NeuronId> => {
     const request = toSplitRawRequest({
       neuronId,
