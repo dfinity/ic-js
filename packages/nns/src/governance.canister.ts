@@ -300,7 +300,7 @@ export class GovernanceCanister {
       description: fromNullable(
         fromNullable(n.known_neuron_data)?.description ?? [],
       ),
-      links: fromNullable(n.known_neuron_data)?.links ?? [],
+      links: fromNullable(fromNullable(n.known_neuron_data)?.links ?? []),
     }));
   };
 

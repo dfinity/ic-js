@@ -214,7 +214,7 @@ describe("GovernanceCanister", () => {
           {
             id: [{ id: BigInt(100) }],
             known_neuron_data: [
-              { name: "aaa", description: ["xyz"], links: ["test.com"] },
+              { name: "aaa", description: ["xyz"], links: [["test.com"]] },
             ],
           },
         ],
@@ -256,7 +256,7 @@ describe("GovernanceCanister", () => {
         id: BigInt(100),
         name: "aaa",
         description: undefined,
-        links: [],
+        links: undefined,
       });
     });
 
