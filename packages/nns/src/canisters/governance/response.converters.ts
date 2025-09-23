@@ -727,7 +727,7 @@ const toCommand = (command: RawCommand): Command => {
     return {
       Split: {
         amount: split.amount_e8s,
-        memo: split.memo.length ? split.memo[0] : undefined,
+        memo: split.memo?.[0],
       },
     };
   }
@@ -1344,6 +1344,7 @@ export const toKnownNeuron = ({
   id: id[0]?.id ?? BigInt(0),
   name: known_neuron_data[0]?.name ?? "",
   description: known_neuron_data[0]?.description[0] ?? "",
+  links: known_neuron_data[0]?.links?.[0] ?? [],
 });
 
 const toPercentage = (
