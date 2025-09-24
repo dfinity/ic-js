@@ -1,3 +1,11 @@
+# Unreleased Changes
+
+## Features
+
+- Updated `@dfinity/nns` to support a new action type, `DeregisterKnownNeuron`.
+- Updated `@dfinity/nns` to include a new `links` field in the `RegisterKnownNeuron` action.
+- Updated `@dfinity/nns` to add support for the `memo` field in the `Split` command.
+
 # v75
 
 ## Overview
@@ -76,8 +84,8 @@
 - Migrate to AgentJS v3. For upgrade guidelines, check out its [release notes](https://js.icp.build/core/release-notes/v300/).
 - Accept any version of `@dfinity/principal` for `zod-schemas`.
 
-> [!NOTE]  
-> The libraries are published using major versioning to highlight the update to this important peer dependency.  
+> [!NOTE]
+> The libraries are published using major versioning to highlight the update to this important peer dependency.
 > However, there are no other changes in this release, so no functional changes should be expected.
 
 # v72
