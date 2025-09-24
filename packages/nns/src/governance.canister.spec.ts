@@ -235,7 +235,7 @@ describe("GovernanceCanister", () => {
       });
     });
 
-    it.only("handles description and links being undefined", async () => {
+    it("handles description and links being undefined", async () => {
       const response: ListKnownNeuronsResponse = {
         known_neurons: [
           {
