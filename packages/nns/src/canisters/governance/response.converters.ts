@@ -533,7 +533,7 @@ const toAction = (action: RawAction): Action => {
     const { DeregisterKnownNeuron } = action;
     return {
       DeregisterKnownNeuron: {
-        id: DeregisterKnownNeuron.id[0]?.id ?? BigInt(0),
+        id: DeregisterKnownNeuron.id[0]?.id,
       },
     };
   }

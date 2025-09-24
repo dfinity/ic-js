@@ -265,19 +265,19 @@ describe("GovernanceCanister", () => {
         known_neurons: [
           {
             id: [{ id: BigInt(100) }],
-            known_neuron_data: [{ name: "aaa", description: [] }],
+            known_neuron_data: [{ name: "aaa", description: [], links: [] }],
           },
           {
             id: [{ id: BigInt(200) }],
-            known_neuron_data: [{ name: "bbb", description: [] }],
+            known_neuron_data: [{ name: "bbb", description: [], links: [] }],
           },
           {
             id: [{ id: BigInt(300) }],
-            known_neuron_data: [{ name: "ccc", description: [] }],
+            known_neuron_data: [{ name: "ccc", description: [], links: [] }],
           },
           {
             id: [{ id: BigInt(400) }],
-            known_neuron_data: [{ name: "ddd", description: [] }],
+            known_neuron_data: [{ name: "ddd", description: [], links: [] }],
           },
         ],
       };
