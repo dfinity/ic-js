@@ -604,7 +604,7 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
     const knownNeuron = action.DeregisterKnownNeuron;
     return {
       DeregisterKnownNeuron: {
-        id: knownNeuron.id ? [{ id: knownNeuron.id }] : [],
+        id: knownNeuron.id === undefined ? [] : [{ id: knownNeuron.id }],
       },
     };
   }
