@@ -44,6 +44,7 @@ export type Action =
   | { OpenSnsTokenSwap: OpenSnsTokenSwap };
 export type ProposalActionRequest =
   | { RegisterKnownNeuron: KnownNeuron }
+  | { DeregisterKnownNeuron: DeregisterKnownNeuron }
   | {
       ExecuteNnsFunction: ExecuteNnsFunction;
     }

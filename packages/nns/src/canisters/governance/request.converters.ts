@@ -600,6 +600,15 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
     };
   }
 
+  if ("DeregisterKnownNeuron" in action) {
+    const knownNeuron = action.DeregisterKnownNeuron;
+    return {
+      DeregisterKnownNeuron: {
+        id: knownNeuron.id ? [{ id: knownNeuron.id }] : [],
+      },
+    };
+  }
+
   if ("CreateServiceNervousSystem" in action) {
     return {
       CreateServiceNervousSystem: fromCreateServiceNervousSystem(
