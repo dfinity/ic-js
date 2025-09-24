@@ -294,14 +294,17 @@ export class GovernanceCanister {
     const response =
       await this.getGovernanceService(certified).list_known_neurons();
 
-    return response.known_neurons.map((n) => ({
-      id: fromNullable(n.id)?.id ?? BigInt(0),
-      name: fromNullable(n.known_neuron_data)?.name ?? "",
-      description: fromNullable(
-        fromNullable(n.known_neuron_data)?.description ?? [],
-      ),
-      links: fromNullable(fromNullable(n.known_neuron_data)?.links ?? []),
-    }));
+    return response.known_neurons.map((n) => {
+      const knownNeuronData = fromNullable(n.known_neuron_data);
+
+      // Note: We are defaulting id and name to not the same values as the API.
+      return {
+        id: fromNullable(n.id)?.id ?? BigInt(0),
+        name: knownNeuronData?.name ?? "",
+        description: fromNullable(knownNeuronData?.description ?? []),
+        links: fromNullable(knownNeuronData?.links ?? []),
+      };
+    });
   };
 
   /**
