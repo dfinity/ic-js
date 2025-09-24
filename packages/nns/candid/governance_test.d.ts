@@ -15,6 +15,7 @@ export type Action =
   | { ManageNeuron: ManageNeuron }
   | { UpdateCanisterSettings: UpdateCanisterSettings }
   | { InstallCode: InstallCode }
+  | { DeregisterKnownNeuron: DeregisterKnownNeuron }
   | { StopOrStartCanister: StopOrStartCanister }
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
@@ -174,6 +175,9 @@ export interface DateRangeFilter {
 export interface Decimal {
   human_readable: [] | [string];
 }
+export interface DeregisterKnownNeuron {
+  id: [] | [NeuronId];
+}
 export interface DerivedProposalInformation {
   swap_background_information: [] | [SwapBackgroundInformation];
 }
@@ -239,7 +243,6 @@ export interface GlobalTimeOfDay {
 }
 export interface Governance {
   default_followees: Array<[number, Followees]>;
-  making_sns_proposal: [] | [MakingSnsProposal];
   most_recent_monthly_node_provider_rewards: [] | [MonthlyNodeProviderRewards];
   maturity_modulation_last_updated_at_timestamp_seconds: [] | [bigint];
   wait_for_quiet_threshold_seconds: bigint;
@@ -360,6 +363,7 @@ export interface KnownNeuron {
 export interface KnownNeuronData {
   name: string;
   description: [] | [string];
+  links: [] | [Array<string>];
 }
 export interface LedgerParameters {
   transaction_fee: [] | [Tokens];
@@ -414,11 +418,6 @@ export interface MakeProposalRequest {
 export interface MakeProposalResponse {
   message: [] | [string];
   proposal_id: [] | [ProposalId];
-}
-export interface MakingSnsProposal {
-  proposal: [] | [Proposal];
-  caller: [] | [Principal];
-  proposer_id: [] | [NeuronId];
 }
 export interface ManageNeuron {
   id: [] | [NeuronId];
@@ -706,6 +705,7 @@ export type ProposalActionRequest =
   | { ManageNeuron: ManageNeuronRequest }
   | { UpdateCanisterSettings: UpdateCanisterSettings }
   | { InstallCode: InstallCodeRequest }
+  | { DeregisterKnownNeuron: DeregisterKnownNeuron }
   | { StopOrStartCanister: StopOrStartCanister }
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
@@ -860,6 +860,7 @@ export interface SpawnResponse {
   created_neuron_id: [] | [NeuronId];
 }
 export interface Split {
+  memo: [] | [bigint];
   amount_e8s: bigint;
 }
 export interface StakeMaturity {

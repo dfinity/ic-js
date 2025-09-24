@@ -213,7 +213,9 @@ describe("GovernanceCanister", () => {
         known_neurons: [
           {
             id: [{ id: BigInt(100) }],
-            known_neuron_data: [{ name: "aaa", description: ["xyz"] }],
+            known_neuron_data: [
+              { name: "aaa", description: ["xyz"], links: [["test.com"]] },
+            ],
           },
         ],
       };
@@ -229,15 +231,16 @@ describe("GovernanceCanister", () => {
         id: BigInt(100),
         name: "aaa",
         description: "xyz",
+        links: ["test.com"],
       });
     });
 
-    it("handles description being undefined", async () => {
+    it("handles description and links being undefined", async () => {
       const response: ListKnownNeuronsResponse = {
         known_neurons: [
           {
             id: [{ id: BigInt(100) }],
-            known_neuron_data: [{ name: "aaa", description: [] }],
+            known_neuron_data: [{ name: "aaa", description: [], links: [] }],
           },
         ],
       };
@@ -253,6 +256,7 @@ describe("GovernanceCanister", () => {
         id: BigInt(100),
         name: "aaa",
         description: undefined,
+        links: undefined,
       });
     });
 
@@ -261,19 +265,19 @@ describe("GovernanceCanister", () => {
         known_neurons: [
           {
             id: [{ id: BigInt(100) }],
-            known_neuron_data: [{ name: "aaa", description: [] }],
+            known_neuron_data: [{ name: "aaa", description: [], links: [] }],
           },
           {
             id: [{ id: BigInt(200) }],
-            known_neuron_data: [{ name: "bbb", description: [] }],
+            known_neuron_data: [{ name: "bbb", description: [], links: [] }],
           },
           {
             id: [{ id: BigInt(300) }],
-            known_neuron_data: [{ name: "ccc", description: [] }],
+            known_neuron_data: [{ name: "ccc", description: [], links: [] }],
           },
           {
             id: [{ id: BigInt(400) }],
-            known_neuron_data: [{ name: "ddd", description: [] }],
+            known_neuron_data: [{ name: "ddd", description: [], links: [] }],
           },
         ],
       };
@@ -2151,6 +2155,7 @@ describe("GovernanceCanister", () => {
     it("successfully splits neuron", async () => {
       const neuronId = BigInt(10);
       const amount = BigInt(600_000_000);
+      const memo = BigInt(12345);
       const serviceResponse: ManageNeuronResponse = {
         command: [{ Split: { created_neuron_id: [{ id: BigInt(11) }] } }],
       };
@@ -2163,9 +2168,27 @@ describe("GovernanceCanister", () => {
       await governance.splitNeuron({
         neuronId,
         amount,
+        memo,
       });
 
-      expect(service.manage_neuron).toHaveBeenCalled();
+      expect(service.manage_neuron).toHaveBeenCalledWith({
+        command: [
+          {
+            Split: {
+              amount_e8s: 600000000n,
+              memo: [12345n],
+            },
+          },
+        ],
+        id: [],
+        neuron_id_or_subaccount: [
+          {
+            NeuronId: {
+              id: 10n,
+            },
+          },
+        ],
+      });
     });
 
     it("throws error if response is error", async () => {
