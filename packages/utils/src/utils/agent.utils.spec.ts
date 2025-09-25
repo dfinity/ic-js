@@ -1,4 +1,5 @@
 import { HttpAgent } from "@icp-sdk/core/agent";
+import type { MockedFunction } from "vitest";
 import {
   mockAgentManagerConfig,
   mockHttpAgent,
@@ -15,7 +16,9 @@ vi.mock("@icp-sdk/core/agent", () => ({
 
 describe("AgentManager", () => {
   let agentManager: AgentManager;
-  const mockHttpAgentCreate = HttpAgent.create;
+  const mockHttpAgentCreate = HttpAgent.create as unknown as MockedFunction<
+    typeof HttpAgent.create
+  >;
 
   beforeEach(() => {
     agentManager = AgentManager.create(mockAgentManagerConfig);
