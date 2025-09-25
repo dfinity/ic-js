@@ -24,7 +24,7 @@ npm i @dfinity/ledger-icp
 The bundle needs peer dependencies, be sure that following resources are available in your project as well.
 
 ```bash
-npm i @icp-sdk/core/agent @icp-sdk/core/candid @icp-sdk/core/principal @dfinity/utils
+npm i @icp-sdk/core @dfinity/utils
 ```
 
 ## Usage
