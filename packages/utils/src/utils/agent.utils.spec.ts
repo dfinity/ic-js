@@ -1,5 +1,4 @@
 import { HttpAgent } from "@icp-sdk/core/agent";
-import type { MockedFunction } from "vitest";
 import {
   mockAgentManagerConfig,
   mockHttpAgent,
