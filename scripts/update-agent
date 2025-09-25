@@ -3,7 +3,7 @@
 function rm_agent() {
   local package=$1
 
-  npm rm @dfinity/agent @dfinity/candid @dfinity/principal --workspace=packages/"$package"
+  npm rm @icp-sdk/core --workspace=packages/"$package"
 }
 
 function install_agent() {
