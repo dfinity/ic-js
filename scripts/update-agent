@@ -9,13 +9,13 @@ function rm_agent() {
 function install_agent() {
   local package=$1
 
-  npm i @dfinity/agent@latest @dfinity/candid@latest @dfinity/principal@latest --workspace=packages/"$package" --save-peer
+  npm i @icp-sdk/core@latest @icp-sdk/auth@latest --workspace=packages/"$package" --save-peer
 }
 
-function install_principal() {
+function install_core() {
   local package=$1
 
-  npm i @dfinity/principal@latest --workspace=packages/"$package" --save-peer
+  npm i @icp-sdk/core@latest --workspace=packages/"$package" --save-peer
 }
 
 PACKAGES=utils,ckbtc,cketh,cmc,ic-management,ledger-icp,ledger-icrc,nns,sns
@@ -36,5 +36,5 @@ for package in $(echo $PACKAGES | sed "s/,/ /g"); do
 done
 
 for package in $(echo $PACKAGES_PRINCIPAL_ONLY | sed "s/,/ /g"); do
-  install_principal "$package"
+  install_core "$package"
 done
