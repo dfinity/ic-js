@@ -1,11 +1,11 @@
 import type { Subaccount } from "@dfinity/ledger-icrc/candid/icrc_ledger";
-import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   createServices,
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   _SERVICE as CkETHMinterService,
   Eip1559TransactionPrice,

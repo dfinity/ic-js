@@ -1,10 +1,10 @@
-import { Principal } from "@dfinity/principal";
 import {
   createServices,
   hexStringToUint8Array,
   nonNullish,
   toNullable,
 } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 import type {
   _SERVICE as IcManagementService,
   chunk_hash,

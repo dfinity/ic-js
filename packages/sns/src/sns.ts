@@ -1,11 +1,11 @@
-import type { Agent } from "@dfinity/agent";
 import { IcrcIndexCanister, IcrcLedgerCanister } from "@dfinity/ledger-icrc";
-import type { Principal } from "@dfinity/principal";
 import {
   assertNonNullish,
   fromNullable,
   type QueryParams,
 } from "@dfinity/utils";
+import type { Agent } from "@icp-sdk/core/agent";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   ListSnsCanistersResponse,
   _SERVICE as SnsRootService,

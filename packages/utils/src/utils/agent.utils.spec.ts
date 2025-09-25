@@ -1,4 +1,4 @@
-import { HttpAgent } from "@dfinity/agent";
+import { HttpAgent } from "@icp-sdk/core/agent";
 import type { MockedFunction } from "vitest";
 import {
   mockAgentManagerConfig,
@@ -8,7 +8,7 @@ import {
 import { mockIdentity, mockIdentity2 } from "../mocks/identity.mock";
 import { AgentManager } from "./agent.utils";
 
-vi.mock("@dfinity/agent", () => ({
+vi.mock("@icp-sdk/core/agent", () => ({
   HttpAgent: {
     create: vi.fn(),
   },
@@ -16,9 +16,7 @@ vi.mock("@dfinity/agent", () => ({
 
 describe("AgentManager", () => {
   let agentManager: AgentManager;
-  const mockHttpAgentCreate = HttpAgent.create as MockedFunction<
-    typeof HttpAgent.create
-  >;
+  const mockHttpAgentCreate = HttpAgent.create;
 
   beforeEach(() => {
     agentManager = AgentManager.create(mockAgentManagerConfig);

@@ -1,4 +1,4 @@
-import type { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type { _SERVICE as SnsWasmService } from "../candid/sns_wasm";
 import { deployedSnsMock } from "./mocks/sns_wasm.mock";
