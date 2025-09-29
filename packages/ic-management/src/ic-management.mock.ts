@@ -28,3 +28,13 @@ export const mappedMockCanisterSettings =
 
 export const bitcoinAddressMock =
   "bcrt1qu2aqme90t6hpac50x0xw8ljwqs250vn6tzlmsv";
+
+const mockLocalSubnetId = [0, 0, 0, 0, 0, 0, 0, 1];
+
+export const mockSnapshotId = Uint8Array.from([
+  ...mockCanisterId.toUint8Array(),
+  ...mockLocalSubnetId,
+]);
+
+export const mockSnapshotIdHex = "000000000000000201010000000000000001";
+
