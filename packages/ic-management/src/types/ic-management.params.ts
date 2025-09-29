@@ -1,6 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { fromNullable, isNullish, toNullable } from "@dfinity/utils";
-import {
+import type {
   canister_install_mode,
   canister_settings,
   chunk_hash,
