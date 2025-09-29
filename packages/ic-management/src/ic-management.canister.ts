@@ -10,7 +10,6 @@ import type {
   chunk_hash,
   list_canister_snapshots_result,
   read_canister_snapshot_data_response,
-  read_canister_snapshot_metadata_response,
   snapshot_id,
   take_canister_snapshot_result,
 } from "../candid/ic-management";
@@ -18,19 +17,21 @@ import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certi
 import { idlFactory } from "../candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
-  type ReadCanisterSnapshotMetadataParams,
-  toCanisterSettings,
-  toCanisterSnapshotMetadataKind,
+  type CanisterSnapshotMetadata,
   type ClearChunkStoreParams,
   type CreateCanisterParams,
   type InstallChunkedCodeParams,
   type InstallCodeParams,
   type ProvisionalCreateCanisterWithCyclesParams,
+  type ReadCanisterSnapshotMetadataParams,
   type SnapshotIdText,
   type StoredChunksParams,
   type UninstallCodeParams,
   type UpdateSettingsParams,
   type UploadChunkParams,
+  toCanisterSettings,
+  toCanisterSnapshotMetadata,
+  toCanisterSnapshotMetadataKind,
 } from "./types/ic-management.params";
 import type {
   CanisterStatusResponse,
@@ -470,19 +471,21 @@ export class ICManagementCanister {
    *
    * @throws {Error} If the metadata read operation fails.
    */
-  readCanisterSnapshotMetadata = ({
+  readCanisterSnapshotMetadata = async ({
     canisterId,
     snapshotId,
   }: {
     canisterId: Principal;
     snapshotId: SnapshotIdText | snapshot_id;
-  }): Promise<read_canister_snapshot_metadata_response> => {
+  }): Promise<CanisterSnapshotMetadata> => {
     const { read_canister_snapshot_metadata } = this.service;
 
-    return read_canister_snapshot_metadata({
+    const metadata = await read_canister_snapshot_metadata({
       canister_id: canisterId,
       snapshot_id: mapSnapshotId(snapshotId),
     });
+
+    return toCanisterSnapshotMetadata(metadata);
   };
 
   /**
@@ -512,4 +515,5 @@ export class ICManagementCanister {
       kind: toCanisterSnapshotMetadataKind(kind),
     });
   };
+
 }

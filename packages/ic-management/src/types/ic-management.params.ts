@@ -1,11 +1,12 @@
 import { Principal } from "@dfinity/principal";
-import { isNullish, toNullable } from "@dfinity/utils";
-import type {
+import { fromNullable, isNullish, toNullable } from "@dfinity/utils";
+import {
   canister_install_mode,
   canister_settings,
   chunk_hash,
   log_visibility,
   read_canister_snapshot_data_args,
+  read_canister_snapshot_metadata_response,
   snapshot_id,
   upload_chunk_args,
 } from "../../candid/ic-management";
@@ -132,6 +133,94 @@ export type CanisterSnapshotMetadataKind =
 export interface ReadCanisterSnapshotMetadataParams extends SnapshotParams {
   kind: CanisterSnapshotMetadataKind;
 }
+
+export interface CanisterSnapshotMetadata {
+  globals: (
+    | { f32: number }
+    | { f64: number }
+    | { i32: number }
+    | { i64: bigint }
+    | { v128: bigint }
+  )[];
+  canisterVersion: bigint;
+  source: { metadataUpload: unknown } | { takenFromCanister: unknown };
+  certifiedData: Uint8Array | number[];
+  globalTimer?: { active: bigint } | { inactive: null };
+  onLowWasmMemoryHookStatus?:
+    | { conditionNotSatisfied: null }
+    | { executed: null }
+    | { ready: null };
+  wasmModuleSize: bigint;
+  stableMemorySize: bigint;
+  wasmChunkStore: Array<{ hash: Uint8Array | number[] }>;
+  takenAtTimestamp: bigint;
+  wasmMemorySize: bigint;
+}
+
+export const toCanisterSnapshotMetadata = ({
+  globals,
+  canister_version: canisterVersion,
+  source,
+  certified_data: certifiedData,
+  global_timer,
+  on_low_wasm_memory_hook_status,
+  wasm_module_size: wasmModuleSize,
+  stable_memory_size: stableMemorySize,
+  wasm_chunk_store: wasmChunkStore,
+  taken_at_timestamp: takenAtTimestamp,
+  wasm_memory_size: wasmMemorySize,
+}: read_canister_snapshot_metadata_response): CanisterSnapshotMetadata => {
+  const mapSource = (): CanisterSnapshotMetadata["source"] => {
+    if ("metadata_upload" in source) {
+      return { metadataUpload: source.metadata_upload };
+    }
+
+    if ("taken_from_canister" in source) {
+      return { takenFromCanister: source.taken_from_canister };
+    }
+
+    throw new Error("Unsupported snapshot metadata source");
+  };
+
+  const mapOnLowWasmMemoryHookStatus =
+    (): CanisterSnapshotMetadata["onLowWasmMemoryHookStatus"] => {
+      const value = fromNullable(on_low_wasm_memory_hook_status);
+
+      if (isNullish(value)) {
+        return undefined;
+      }
+
+      if ("condition_not_satisfied" in value) {
+        return { conditionNotSatisfied: value.condition_not_satisfied };
+      }
+
+      if ("executed" in value) {
+        return { executed: value.executed };
+      }
+
+      if ("ready" in value) {
+        return { ready: value.ready };
+      }
+
+      throw new Error(
+        "Unsupported snapshot metadata on_low_wasm_memory_hook_status",
+      );
+    };
+
+  return {
+    globals,
+    canisterVersion,
+    source: mapSource(),
+    certifiedData,
+    globalTimer: fromNullable(global_timer),
+    onLowWasmMemoryHookStatus: mapOnLowWasmMemoryHookStatus(),
+    wasmModuleSize,
+    stableMemorySize,
+    wasmChunkStore,
+    takenAtTimestamp,
+    wasmMemorySize,
+  };
+};
 
 export const toCanisterSnapshotMetadataKind = (
   kind: CanisterSnapshotMetadataKind,
