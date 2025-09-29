@@ -5,6 +5,7 @@ import type {
   canister_settings,
   chunk_hash,
   log_visibility,
+  snapshot_id,
   upload_chunk_args,
 } from "../../candid/ic-management";
 
@@ -115,3 +116,8 @@ export interface ProvisionalTopUpCanisterParams {
 }
 
 export type SnapshotIdText = string;
+
+export interface SnapshotParams {
+  canisterId: Principal;
+  snapshotId: SnapshotIdText | snapshot_id;
+}

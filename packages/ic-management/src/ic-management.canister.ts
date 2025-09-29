@@ -9,7 +9,6 @@ import type {
   _SERVICE as IcManagementService,
   chunk_hash,
   list_canister_snapshots_result,
-  snapshot_id,
   take_canister_snapshot_result,
 } from "../candid/ic-management";
 import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certified.idl";
@@ -22,7 +21,7 @@ import {
   type InstallChunkedCodeParams,
   type InstallCodeParams,
   type ProvisionalCreateCanisterWithCyclesParams,
-  type SnapshotIdText,
+  type SnapshotParams,
   type StoredChunksParams,
   type UninstallCodeParams,
   type UpdateSettingsParams,
@@ -355,10 +354,7 @@ export class ICManagementCanister {
   takeCanisterSnapshot = ({
     canisterId,
     snapshotId,
-  }: {
-    canisterId: Principal;
-    snapshotId?: SnapshotIdText | snapshot_id;
-  }): Promise<take_canister_snapshot_result> => {
+  }: SnapshotParams): Promise<take_canister_snapshot_result> => {
     const { take_canister_snapshot } = this.service;
 
     return take_canister_snapshot({
@@ -411,9 +407,7 @@ export class ICManagementCanister {
     canisterId,
     snapshotId,
     senderCanisterVersion,
-  }: {
-    canisterId: Principal;
-    snapshotId: SnapshotIdText | snapshot_id;
+  }: SnapshotParams & {
     senderCanisterVersion?: bigint;
   }): Promise<void> => {
     const { load_canister_snapshot } = this.service;
@@ -441,10 +435,7 @@ export class ICManagementCanister {
   deleteCanisterSnapshot = async ({
     canisterId,
     snapshotId,
-  }: {
-    canisterId: Principal;
-    snapshotId: SnapshotIdText | snapshot_id;
-  }): Promise<void> => {
+  }: SnapshotParams): Promise<void> => {
     const { delete_canister_snapshot } = this.service;
 
     await delete_canister_snapshot({
