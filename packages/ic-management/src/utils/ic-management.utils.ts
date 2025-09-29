@@ -1,6 +1,6 @@
 import { hexStringToUint8Array, uint8ArrayToHexString } from "@dfinity/utils";
 import type { snapshot_id } from "../../candid/ic-management";
-import type { SnapshotIdText } from "../types/ic-management.params";
+import type { SnapshotIdText } from "../types/snapshot.params";
 
 /**
  * Encodes a snapshot ID into a hex string representation.
