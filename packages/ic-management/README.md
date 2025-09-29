@@ -264,9 +264,9 @@ Given a canister ID as input, this method returns a vector of logs of that canis
 
 This method takes a snapshot of the specified canister. A snapshot consists of the wasm memory, stable memory, certified variables, wasm chunk store and wasm binary.
 
-| Method                 | Type                                                                 |
-| ---------------------- | -------------------------------------------------------------------- |
-| `takeCanisterSnapshot` | `({ canisterId, snapshotId, }: SnapshotParams) => Promise<snapshot>` |
+| Method                 | Type                                                                                                                                     |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `takeCanisterSnapshot` | `({ canisterId, snapshotId, }: Pick<SnapshotParams, "canisterId"> and Partial<Pick<SnapshotParams, "snapshotId">>) => Promise<snapshot>` |
 
 Parameters:
 
@@ -300,7 +300,7 @@ Returns:
 
 A promise that resolves with the list of snapshots.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L380)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L383)
 
 ##### :gear: loadCanisterSnapshot
 
@@ -321,7 +321,7 @@ Returns:
 
 A promise that resolves when the snapshot is successfully loaded.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L406)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L409)
 
 ##### :gear: deleteCanisterSnapshot
 
@@ -341,7 +341,7 @@ Returns:
 
 A promise that resolves when the snapshot is successfully deleted.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L435)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L438)
 
 <!-- TSDOC_END -->
 
