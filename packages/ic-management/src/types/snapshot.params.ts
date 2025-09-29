@@ -1,8 +1,7 @@
 import type { Principal } from "@dfinity/principal";
 import { isNullish, nonNullish, toNullable } from "@dfinity/utils";
 import type {
-  delete_canister_snapshot_args,
-  load_canister_snapshot_args,
+  canister_id,
   read_canister_snapshot_data_args,
   snapshot_id,
   take_canister_snapshot_args,
@@ -24,9 +23,7 @@ export type SnapshotParams = Required<OptionSnapshotParams>;
 export const toSnapshotArgs = ({
   canisterId: canister_id,
   snapshotId,
-}: SnapshotParams):
-  | Pick<load_canister_snapshot_args, "canister_id" | "snapshot_id">
-  | delete_canister_snapshot_args => ({
+}: SnapshotParams): { canister_id: canister_id; snapshot_id: snapshot_id } => ({
   canister_id,
   snapshot_id: mapSnapshotId(snapshotId),
 });
