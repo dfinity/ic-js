@@ -354,7 +354,10 @@ export class ICManagementCanister {
   takeCanisterSnapshot = ({
     canisterId,
     snapshotId,
-  }: SnapshotParams): Promise<take_canister_snapshot_result> => {
+  }: Pick<SnapshotParams, "canisterId"> &
+    Partial<
+      Pick<SnapshotParams, "snapshotId">
+    >): Promise<take_canister_snapshot_result> => {
     const { take_canister_snapshot } = this.service;
 
     return take_canister_snapshot({
