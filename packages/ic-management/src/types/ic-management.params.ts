@@ -7,9 +7,10 @@ import type {
   log_visibility,
   read_canister_snapshot_data_args,
   read_canister_snapshot_metadata_response,
-  snapshot_id, upload_canister_snapshot_data_args,
+  snapshot_id,
+  upload_canister_snapshot_data_args,
   upload_canister_snapshot_metadata_args,
-  upload_chunk_args
+  upload_chunk_args,
 } from "../../candid/ic-management";
 
 export enum LogVisibility {
