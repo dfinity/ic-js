@@ -109,9 +109,4 @@ export interface ProvisionalCreateCanisterWithCyclesParams {
   canisterId?: Principal;
 }
 
-export interface ProvisionalTopUpCanisterParams {
-  canisterId: Principal;
-  amount: bigint;
-}
-
 export type SnapshotIdText = string;
