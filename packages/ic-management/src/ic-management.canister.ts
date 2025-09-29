@@ -5,8 +5,8 @@ import {
   toNullable,
 } from "@dfinity/utils";
 import type {
-  _SERVICE as IcManagementService,
   chunk_hash,
+  _SERVICE as IcManagementService,
   list_canister_snapshots_result,
   read_canister_snapshot_data_response,
   take_canister_snapshot_result,
@@ -32,19 +32,21 @@ import type {
   FetchCanisterLogsResponse,
 } from "./types/ic-management.responses";
 import {
-  fromReadCanisterSnapshotMetadata,
   toCanisterSnapshotMetadataKind,
   toReplaceSnapshotArgs,
   toSnapshotArgs,
   toUploadCanisterSnapshotDataKind,
   toUploadCanisterSnapshotMetadata,
-  type CanisterSnapshotMetadata,
   type OptionSnapshotParams,
   type ReadCanisterSnapshotMetadataParams,
   type SnapshotParams,
   type UploadCanisterSnapshotDataParams,
   type UploadCanisterSnapshotMetadataParams,
 } from "./types/snapshot.params";
+import {
+  fromReadCanisterSnapshotMetadataResponse,
+  type ReadCanisterSnapshotMetadataResponse,
+} from "./types/snapshot.responses";
 import { transform } from "./utils/transform.utils";
 
 export class ICManagementCanister {
@@ -458,14 +460,14 @@ export class ICManagementCanister {
    */
   readCanisterSnapshotMetadata = async (
     params: SnapshotParams,
-  ): Promise<CanisterSnapshotMetadata> => {
+  ): Promise<ReadCanisterSnapshotMetadataResponse> => {
     const { read_canister_snapshot_metadata } = this.service;
 
     const metadata = await read_canister_snapshot_metadata(
       toSnapshotArgs(params),
     );
 
-    return fromReadCanisterSnapshotMetadata(metadata);
+    return fromReadCanisterSnapshotMetadataResponse(metadata);
   };
 
   /**
