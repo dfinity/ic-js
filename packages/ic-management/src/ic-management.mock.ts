@@ -37,4 +37,3 @@ export const mockSnapshotId = Uint8Array.from([
 ]);
 
 export const mockSnapshotIdHex = "000000000000000201010000000000000001";
-
