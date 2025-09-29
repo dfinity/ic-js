@@ -9,6 +9,8 @@ import type {
   _SERVICE as IcManagementService,
   chunk_hash,
   list_canister_snapshots_result,
+  read_canister_snapshot_data_response,
+  read_canister_snapshot_metadata_response,
   snapshot_id,
   take_canister_snapshot_result,
 } from "../candid/ic-management";
@@ -16,7 +18,9 @@ import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certi
 import { idlFactory } from "../candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
+  type ReadCanisterSnapshotMetadataParams,
   toCanisterSettings,
+  toCanisterSnapshotMetadataKind,
   type ClearChunkStoreParams,
   type CreateCanisterParams,
   type InstallChunkedCodeParams,
@@ -450,6 +454,62 @@ export class ICManagementCanister {
     await delete_canister_snapshot({
       canister_id: canisterId,
       snapshot_id: mapSnapshotId(snapshotId),
+    });
+  };
+
+  /**
+   * Reads metadata for a specific canister snapshot.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-read_canister_snapshot_metadata
+   *
+   * @param {Object} params - Parameters for the metadata read operation.
+   * @param {Principal} params.canisterId - The ID of the canister whose snapshot metadata will be read.
+   * @param {SnapshotIdText | snapshot_id} params.snapshotId - The ID of the snapshot to read metadata from.
+   *
+   * @returns {Promise<read_canister_snapshot_metadata_response>} A promise that resolves with the snapshot metadata.
+   *
+   * @throws {Error} If the metadata read operation fails.
+   */
+  readCanisterSnapshotMetadata = ({
+    canisterId,
+    snapshotId,
+  }: {
+    canisterId: Principal;
+    snapshotId: SnapshotIdText | snapshot_id;
+  }): Promise<read_canister_snapshot_metadata_response> => {
+    const { read_canister_snapshot_metadata } = this.service;
+
+    return read_canister_snapshot_metadata({
+      canister_id: canisterId,
+      snapshot_id: mapSnapshotId(snapshotId),
+    });
+  };
+
+  /**
+   * Reads snapshot data for a specific canister snapshot and kind.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-read_canister_snapshot_data
+   *
+   * @param {Object} params - Parameters for the data read operation.
+   * @param {Principal} params.canisterId - The ID of the canister whose snapshot data will be read.
+   * @param {SnapshotIdText | snapshot_id} params.snapshotId - The ID of the snapshot to read data from.
+   * @param {CanisterSnapshotMetadataKind} params.kind - The kind of data to read.
+   *
+   * @returns {Promise<read_canister_snapshot_data_response>} A promise that resolves with the snapshot data payload.
+   *
+   * @throws {Error} If the data read operation fails.
+   */
+  readCanisterSnapshotData = ({
+    canisterId,
+    snapshotId,
+    kind,
+  }: ReadCanisterSnapshotMetadataParams): Promise<read_canister_snapshot_data_response> => {
+    const { read_canister_snapshot_data } = this.service;
+
+    return read_canister_snapshot_data({
+      canister_id: canisterId,
+      snapshot_id: mapSnapshotId(snapshotId),
+      kind: toCanisterSnapshotMetadataKind(kind),
     });
   };
 }

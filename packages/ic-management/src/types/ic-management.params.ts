@@ -5,6 +5,8 @@ import type {
   canister_settings,
   chunk_hash,
   log_visibility,
+  read_canister_snapshot_data_args,
+  snapshot_id,
   upload_chunk_args,
 } from "../../candid/ic-management";
 
@@ -115,3 +117,40 @@ export interface ProvisionalTopUpCanisterParams {
 }
 
 export type SnapshotIdText = string;
+
+export interface SnapshotParams {
+  canisterId: Principal;
+  snapshotId: SnapshotIdText | snapshot_id;
+}
+
+export type CanisterSnapshotMetadataKind =
+  | { wasmModule: { size: bigint; offset: bigint } }
+  | { wasmMemory: { size: bigint; offset: bigint } }
+  | { stableMemory: { size: bigint; offset: bigint } }
+  | { wasmChunk: { hash: Uint8Array | number[] } };
+
+export interface ReadCanisterSnapshotMetadataParams extends SnapshotParams {
+  kind: CanisterSnapshotMetadataKind;
+}
+
+export const toCanisterSnapshotMetadataKind = (
+  kind: CanisterSnapshotMetadataKind,
+): read_canister_snapshot_data_args["kind"] => {
+  if ("wasmModule" in kind) {
+    return { wasm_module: kind.wasmModule };
+  }
+
+  if ("wasmMemory" in kind) {
+    return { wasm_memory: kind.wasmMemory };
+  }
+
+  if ("stableMemory" in kind) {
+    return { stable_memory: kind.stableMemory };
+  }
+
+  if ("wasmChunk" in kind) {
+    return { wasm_chunk: kind.wasmChunk };
+  }
+
+  throw new Error("Unsupported snapshot metadata kind");
+};
