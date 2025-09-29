@@ -6,6 +6,7 @@ import {
   canister_install_mode,
   chunk_hash,
   list_canister_snapshots_result,
+  read_canister_snapshot_data_response,
   read_canister_snapshot_metadata_response,
   take_canister_snapshot_result,
 } from "../candid/ic-management";
@@ -1139,6 +1140,96 @@ describe("ICManagementCanister", () => {
         });
 
       await expect(call).rejects.toThrow(error);
+    });
+  });
+
+  describe("readCanisterSnapshotData", () => {
+    const mockResponse: read_canister_snapshot_data_response = {
+      chunk: [4, 5, 6, 7, 7],
+    };
+
+    describe.each([
+      {
+        jsKind: { wasmModule: { size: 123n, offset: 344n } },
+        didKind: { wasm_module: { size: 123n, offset: 344n } },
+      },
+      {
+        jsKind: { wasmMemory: { size: 123n, offset: 344n } },
+        didKind: { wasm_memory: { size: 123n, offset: 344n } },
+      },
+      {
+        jsKind: { stableMemory: { size: 123n, offset: 344n } },
+        didKind: { stable_memory: { size: 123n, offset: 344n } },
+      },
+      {
+        jsKind: { wasmChunk: { hash: Uint8Array.from([1, 1, 1]) } },
+        didKind: { wasm_chunk: { hash: Uint8Array.from([1, 1, 1]) } },
+      },
+    ])("with kind %s", ({ jsKind, didKind }) => {
+      it("should call read_canister_snapshot_data with Uint8Array snapshotId", async () => {
+        const service = mock<IcManagementService>();
+        service.read_canister_snapshot_data.mockResolvedValue(mockResponse);
+
+        const icManagement = await createICManagement(service);
+
+        const params = {
+          canisterId: mockCanisterId,
+          snapshotId: Uint8Array.from([1, 2, 3, 4]),
+          kind: jsKind,
+        };
+
+        const res = await icManagement.readCanisterSnapshotData(params);
+
+        expect(res).toEqual(mockResponse);
+
+        expect(service.read_canister_snapshot_data).toHaveBeenCalledTimes(1);
+        expect(service.read_canister_snapshot_data).toHaveBeenCalledWith({
+          canister_id: params.canisterId,
+          snapshot_id: params.snapshotId,
+          kind: didKind,
+        });
+      });
+
+      it("calls take_canister_snapshot with string snapshotId", async () => {
+        const service = mock<IcManagementService>();
+        service.read_canister_snapshot_data.mockResolvedValue(mockResponse);
+
+        const icManagement = await createICManagement(service);
+
+        const params = {
+          canisterId: mockCanisterId,
+          snapshotId: "000000000000000201010000000000000001",
+          kind: jsKind,
+        };
+
+        const res = await icManagement.readCanisterSnapshotData(params);
+
+        expect(res).toEqual(mockResponse);
+
+        expect(service.read_canister_snapshot_data).toHaveBeenCalledTimes(1);
+        expect(service.read_canister_snapshot_data).toHaveBeenCalledWith({
+          canister_id: params.canisterId,
+          snapshot_id: decodeSnapshotId(params.snapshotId),
+          kind: didKind,
+        });
+      });
+
+      it("should throws Error", async () => {
+        const error = new Error("Test");
+        const service = mock<IcManagementService>();
+        service.read_canister_snapshot_data.mockRejectedValue(error);
+
+        const icManagement = await createICManagement(service);
+
+        const call = () =>
+          icManagement.readCanisterSnapshotData({
+            canisterId: mockCanisterId,
+            snapshotId: Uint8Array.from([1, 2, 3, 4]),
+            kind: jsKind,
+          });
+
+        await expect(call).rejects.toThrow(error);
+      });
     });
   });
 });
