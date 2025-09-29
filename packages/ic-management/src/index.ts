@@ -7,9 +7,12 @@ export type {
   fetch_canister_logs_result,
   list_canister_snapshots_result,
   log_visibility,
+  read_canister_snapshot_metadata_response,
   snapshot,
   snapshot_id,
   take_canister_snapshot_result,
+  read_canister_snapshot_data_response,
+  upload_canister_snapshot_metadata_response
 } from "../candid/ic-management";
 export { ICManagementCanister } from "./ic-management.canister";
 export * from "./types/canister.options";

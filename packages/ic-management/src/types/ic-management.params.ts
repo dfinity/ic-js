@@ -7,8 +7,9 @@ import type {
   log_visibility,
   read_canister_snapshot_data_args,
   read_canister_snapshot_metadata_response,
-  snapshot_id,
-  upload_chunk_args,
+  snapshot_id, upload_canister_snapshot_data_args,
+  upload_canister_snapshot_metadata_args,
+  upload_chunk_args
 } from "../../candid/ic-management";
 
 export enum LogVisibility {
@@ -157,7 +158,7 @@ export interface CanisterSnapshotMetadata {
   wasmMemorySize: bigint;
 }
 
-export const toCanisterSnapshotMetadata = ({
+export const fromReadCanisterSnapshotMetadata = ({
   globals,
   canister_version: canisterVersion,
   source,
@@ -242,4 +243,97 @@ export const toCanisterSnapshotMetadataKind = (
   }
 
   throw new Error("Unsupported snapshot metadata kind");
+};
+
+export type UploadCanisterSnapshotMetadataParam = Pick<
+  CanisterSnapshotMetadata,
+  | "globals"
+  | "certifiedData"
+  | "globalTimer"
+  | "onLowWasmMemoryHookStatus"
+  | "wasmModuleSize"
+  | "stableMemorySize"
+  | "wasmMemorySize"
+>;
+
+export interface UploadCanisterSnapshotMetadataParams
+  extends Pick<SnapshotParams, "canisterId"> {
+  metadata: UploadCanisterSnapshotMetadataParam;
+  replaceSnapshotId?: SnapshotIdText | snapshot_id;
+}
+
+export const toUploadCanisterSnapshotMetadata = ({
+  globals,
+  certifiedData: certified_data,
+  globalTimer,
+  onLowWasmMemoryHookStatus,
+  wasmModuleSize: wasm_module_size,
+  stableMemorySize: stable_memory_size,
+  wasmMemorySize: wasm_memory_size,
+}: UploadCanisterSnapshotMetadataParam): Omit<
+  upload_canister_snapshot_metadata_args,
+  "canister_id" | "replace_snapshot"
+> => {
+  const mapOnLowWasmMemoryHookStatus =
+    (): upload_canister_snapshot_metadata_args["on_low_wasm_memory_hook_status"] => {
+      if (isNullish(onLowWasmMemoryHookStatus)) {
+        return toNullable();
+      }
+
+      if ("conditionNotSatisfied" in onLowWasmMemoryHookStatus) {
+        return toNullable({
+          condition_not_satisfied:
+            onLowWasmMemoryHookStatus.conditionNotSatisfied,
+        });
+      }
+
+      return toNullable(onLowWasmMemoryHookStatus);
+    };
+
+  return {
+    globals,
+    certified_data,
+    global_timer: toNullable(globalTimer),
+    on_low_wasm_memory_hook_status: mapOnLowWasmMemoryHookStatus(),
+    wasm_module_size,
+    stable_memory_size,
+    wasm_memory_size,
+  };
+};
+
+export type UploadCanisterSnapshotDataKind =
+  | { wasmModule: { offset: bigint } }
+  | { wasmMemory: { offset: bigint } }
+  | { stableMemory: { offset: bigint } }
+  | { wasmChunk: null };
+
+export interface ReadCanisterSnapshotMetadataParams extends SnapshotParams {
+  kind: CanisterSnapshotMetadataKind;
+}
+
+export interface UploadCanisterSnapshotDataParams extends SnapshotParams {
+  chunk: Uint8Array | number[];
+  kind: UploadCanisterSnapshotDataKind;
+}
+
+export const toUploadCanisterSnapshotDataKind = (
+  kind: UploadCanisterSnapshotDataKind,
+): upload_canister_snapshot_data_args["kind"] => {
+  if ("wasmModule" in kind) {
+    return { wasm_module: kind.wasmModule };
+  }
+
+  if ("wasmMemory" in kind) {
+    return { wasm_memory: kind.wasmMemory };
+  }
+
+  if ("stableMemory" in kind) {
+    return { stable_memory: kind.stableMemory };
+  }
+
+  if ("wasmChunk" in kind) {
+    return { wasm_chunk: null };
+  }
+
+  throw new Error("Unsupported snapshot data kind");
 };
