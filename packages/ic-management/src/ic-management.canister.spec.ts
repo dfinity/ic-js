@@ -1,7 +1,7 @@
 import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { toNullable, type ServiceResponse } from "@dfinity/utils";
 import { mock } from "vitest-mock-extended";
-import {
+import type {
   canister_install_mode,
   chunk_hash,
   _SERVICE as IcManagementService,
@@ -35,7 +35,7 @@ import type {
 } from "./types/ic-management.responses";
 import {
   toUploadCanisterSnapshotMetadata,
-  UploadCanisterSnapshotMetadataParam,
+  type UploadCanisterSnapshotMetadataParam,
 } from "./types/snapshot.params";
 import { fromReadCanisterSnapshotMetadataResponse } from "./types/snapshot.responses";
 import { decodeSnapshotId } from "./utils/ic-management.utils";
@@ -1316,6 +1316,82 @@ describe("ICManagementCanister", () => {
         icManagement.uploadCanisterSnapshotMetadata({
           canisterId: mockCanisterId,
           metadata: mockMetadata,
+        });
+
+      await expect(call).rejects.toThrow(error);
+    });
+  });
+
+  describe("uploadCanisterSnapshotData", () => {
+    const mockKind = { wasmModule: { offset: 778899n } };
+    const expectedKind = { wasm_module: { offset: 778899n } };
+    const mockChunk = Uint8Array.from([1, 2, 3, 4]);
+
+    it("should call upload_canister_snapshot_data with Uint8Array snapshotId", async () => {
+      const service = mock<IcManagementService>();
+      service.upload_canister_snapshot_data.mockResolvedValue(undefined);
+
+      const icManagement = await createICManagement(service);
+
+      const params = {
+        canisterId: mockCanisterId,
+        snapshotId: Uint8Array.from([1, 2, 3, 4]),
+        kind: mockKind,
+        chunk: mockChunk,
+      };
+
+      const res = await icManagement.uploadCanisterSnapshotData(params);
+
+      expect(res).toEqual(undefined);
+
+      expect(service.upload_canister_snapshot_data).toHaveBeenCalledTimes(1);
+      expect(service.upload_canister_snapshot_data).toHaveBeenCalledWith({
+        canister_id: params.canisterId,
+        snapshot_id: params.snapshotId,
+        kind: expectedKind,
+        chunk: mockChunk,
+      });
+    });
+
+    it("calls take_canister_snapshot with string snapshotId", async () => {
+      const service = mock<IcManagementService>();
+      service.upload_canister_snapshot_data.mockResolvedValue(undefined);
+
+      const icManagement = await createICManagement(service);
+
+      const params = {
+        canisterId: mockCanisterId,
+        snapshotId: "000000000000000201010000000000000001",
+        kind: mockKind,
+        chunk: mockChunk,
+      };
+
+      const res = await icManagement.uploadCanisterSnapshotData(params);
+
+      expect(res).toEqual(undefined);
+
+      expect(service.upload_canister_snapshot_data).toHaveBeenCalledTimes(1);
+      expect(service.upload_canister_snapshot_data).toHaveBeenCalledWith({
+        canister_id: params.canisterId,
+        snapshot_id: decodeSnapshotId(params.snapshotId),
+        kind: expectedKind,
+        chunk: mockChunk,
+      });
+    });
+
+    it("should throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.upload_canister_snapshot_data.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () =>
+        icManagement.uploadCanisterSnapshotData({
+          canisterId: mockCanisterId,
+          snapshotId: Uint8Array.from([1, 2, 3, 4]),
+          kind: mockKind,
+          chunk: mockChunk,
         });
 
       await expect(call).rejects.toThrow(error);
