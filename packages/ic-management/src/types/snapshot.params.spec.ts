@@ -96,7 +96,7 @@ describe("snapshot.params", () => {
   });
 
   describe("toUploadCanisterSnapshotMetadata", () => {
-    const base: UploadCanisterSnapshotMetadataParam = {
+    const mockParam: UploadCanisterSnapshotMetadataParam = {
       globals: [{ i32: 5 }, { i64: 10n }],
       certifiedData: new Uint8Array([7, 8, 9]),
       globalTimer: undefined,
@@ -107,22 +107,22 @@ describe("snapshot.params", () => {
     };
 
     it("should map all fields and nullable", () => {
-      const mapped = toUploadCanisterSnapshotMetadata(base);
+      const mapped = toUploadCanisterSnapshotMetadata(mockParam);
 
       expect(mapped).toStrictEqual({
-        globals: base.globals,
-        certified_data: base.certifiedData,
+        globals: mockParam.globals,
+        certified_data: mockParam.certifiedData,
         global_timer: toNullable(undefined),
         on_low_wasm_memory_hook_status: toNullable(),
-        wasm_module_size: base.wasmModuleSize,
-        stable_memory_size: base.stableMemorySize,
-        wasm_memory_size: base.wasmMemorySize,
+        wasm_module_size: mockParam.wasmModuleSize,
+        stable_memory_size: mockParam.stableMemorySize,
+        wasm_memory_size: mockParam.wasmMemorySize,
       });
     });
 
     it("should map globalTimer when provided", () => {
       const mapped = toUploadCanisterSnapshotMetadata({
-        ...base,
+        ...mockParam,
         globalTimer: { active: 123n },
       });
 
@@ -131,7 +131,7 @@ describe("snapshot.params", () => {
 
     it("should map onLowWasmMemoryHookStatus with conditionNotSatisfied", () => {
       const mapped = toUploadCanisterSnapshotMetadata({
-        ...base,
+        ...mockParam,
         onLowWasmMemoryHookStatus: { conditionNotSatisfied: null },
       });
 
@@ -142,7 +142,7 @@ describe("snapshot.params", () => {
 
     it("should map onLowWasmMemoryHookStatus with executed", () => {
       const mapped = toUploadCanisterSnapshotMetadata({
-        ...base,
+        ...mockParam,
         onLowWasmMemoryHookStatus: { executed: null },
       });
 
@@ -153,7 +153,7 @@ describe("snapshot.params", () => {
 
     it("should map onLowWasmMemoryHookStatus with ready", () => {
       const mapped = toUploadCanisterSnapshotMetadata({
-        ...base,
+        ...mockParam,
         onLowWasmMemoryHookStatus: { ready: null },
       });
 

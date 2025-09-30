@@ -5,7 +5,7 @@ import {
 } from "./snapshot.responses";
 
 describe("snapshot.responses", () => {
-  const response: read_canister_snapshot_metadata_response = {
+  const mockResponse: read_canister_snapshot_metadata_response = {
     globals: [
       { i32: 1 },
       { i64: 2n },
@@ -26,20 +26,20 @@ describe("snapshot.responses", () => {
   };
 
   it("should map fields", () => {
-    const mapped = fromReadCanisterSnapshotMetadataResponse(response);
+    const mapped = fromReadCanisterSnapshotMetadataResponse(mockResponse);
 
     const expected: ReadCanisterSnapshotMetadataResponse = {
-      globals: response.globals,
-      canisterVersion: response.canister_version,
+      globals: mockResponse.globals,
+      canisterVersion: mockResponse.canister_version,
       source: { metadataUpload: { hello: "world test" } },
-      certifiedData: response.certified_data,
+      certifiedData: mockResponse.certified_data,
       globalTimer: undefined,
       onLowWasmMemoryHookStatus: undefined,
-      wasmModuleSize: response.wasm_module_size,
-      stableMemorySize: response.stable_memory_size,
-      wasmChunkStore: response.wasm_chunk_store,
-      takenAtTimestamp: response.taken_at_timestamp,
-      wasmMemorySize: response.wasm_memory_size,
+      wasmModuleSize: mockResponse.wasm_module_size,
+      stableMemorySize: mockResponse.stable_memory_size,
+      wasmChunkStore: mockResponse.wasm_chunk_store,
+      takenAtTimestamp: mockResponse.taken_at_timestamp,
+      wasmMemorySize: mockResponse.wasm_memory_size,
     };
 
     expect(mapped).toStrictEqual(expected);
@@ -47,7 +47,7 @@ describe("snapshot.responses", () => {
 
   it("should map source with taken_from_canister", () => {
     const candid: read_canister_snapshot_metadata_response = {
-      ...response,
+      ...mockResponse,
       source: { taken_from_canister: { hello: "world" } },
     };
 
@@ -61,7 +61,7 @@ describe("snapshot.responses", () => {
   describe("global_timer", () => {
     it("should map active global_timer", () => {
       const candid: read_canister_snapshot_metadata_response = {
-        ...response,
+        ...mockResponse,
         global_timer: [{ active: 787n }],
       };
 
@@ -72,7 +72,7 @@ describe("snapshot.responses", () => {
 
     it("should map inactive global_timer", () => {
       const candid: read_canister_snapshot_metadata_response = {
-        ...response,
+        ...mockResponse,
         global_timer: [{ inactive: null }],
       };
 
@@ -85,7 +85,7 @@ describe("snapshot.responses", () => {
   describe("onLowWasmMemoryHookStatus", () => {
     it("should map condition_not_satisfied", () => {
       const candid: read_canister_snapshot_metadata_response = {
-        ...response,
+        ...mockResponse,
         on_low_wasm_memory_hook_status: [{ condition_not_satisfied: null }],
       };
 
@@ -98,7 +98,7 @@ describe("snapshot.responses", () => {
 
     it("should map executed", () => {
       const candid: read_canister_snapshot_metadata_response = {
-        ...response,
+        ...mockResponse,
         on_low_wasm_memory_hook_status: [{ executed: null }],
       };
 
@@ -111,7 +111,7 @@ describe("snapshot.responses", () => {
 
     it("should map ready", () => {
       const candid: read_canister_snapshot_metadata_response = {
-        ...response,
+        ...mockResponse,
         on_low_wasm_memory_hook_status: [{ ready: null }],
       };
 
@@ -122,7 +122,7 @@ describe("snapshot.responses", () => {
 
     it("should stays undefined when empty", () => {
       const candid: read_canister_snapshot_metadata_response = {
-        ...response,
+        ...mockResponse,
         on_low_wasm_memory_hook_status: [],
       };
 
@@ -134,7 +134,7 @@ describe("snapshot.responses", () => {
 
   it("should throw on unsupported source variant", () => {
     const candid = {
-      ...response,
+      ...mockResponse,
       source: { something_else: 1 },
     } as unknown as read_canister_snapshot_metadata_response;
 
@@ -145,7 +145,7 @@ describe("snapshot.responses", () => {
 
   it("should throw on unsupported on_low_wasm_memory_hook_status variant", () => {
     const candid = {
-      ...response,
+      ...mockResponse,
       on_low_wasm_memory_hook_status: [{ unknown: null }],
     } as unknown as read_canister_snapshot_metadata_response;
 

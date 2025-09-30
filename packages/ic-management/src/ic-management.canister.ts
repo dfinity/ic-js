@@ -504,7 +504,7 @@ export class ICManagementCanister {
    * @param {Object} params - Parameters for the metadata upload operation.
    * @param {Principal} params.canisterId - The ID of the canister the snapshot metadata belongs to.
    * @param {UploadCanisterSnapshotMetadataParam} params.metadata - The metadata payload to upload.
-   * @param {SnapshotIdText | snapshot_id} [params.replaceSnapshotId] - If provided, replace the metadata for this snapshot instead of creating a new one.
+   * @param {SnapshotIdText | snapshot_id} [params.snapshotId] - If provided, replace a snapshot instead of creating a new one.
    *
    * @returns {Promise<upload_canister_snapshot_metadata_response>} A promise that resolves with the upload response.
    *

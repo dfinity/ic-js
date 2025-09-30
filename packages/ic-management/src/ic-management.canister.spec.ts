@@ -8,7 +8,7 @@ import {
   list_canister_snapshots_result,
   read_canister_snapshot_data_response,
   read_canister_snapshot_metadata_response,
-  take_canister_snapshot_result,
+  take_canister_snapshot_result, upload_canister_snapshot_metadata_response
 } from "../candid/ic-management";
 import { ICManagementCanister } from "./ic-management.canister";
 import {
@@ -34,6 +34,7 @@ import type {
 } from "./types/ic-management.responses";
 import { fromReadCanisterSnapshotMetadataResponse } from "./types/snapshot.responses";
 import { decodeSnapshotId } from "./utils/ic-management.utils";
+import { toUploadCanisterSnapshotMetadata, UploadCanisterSnapshotMetadataParam } from "./types/snapshot.params";
 
 describe("ICManagementCanister", () => {
   const mockAgent: HttpAgent = mock<HttpAgent>();
@@ -1230,6 +1231,106 @@ describe("ICManagementCanister", () => {
 
         await expect(call).rejects.toThrow(error);
       });
+    });
+  });
+
+  describe("uploadCanisterSnapshotMetadata", () => {
+    const mockResponse: upload_canister_snapshot_metadata_response = {
+      snapshot_id: Uint8Array.from([1, 2, 4, 3, 4]),
+    };
+
+    const mockMetadata: UploadCanisterSnapshotMetadataParam = {
+      globals: [{ i32: 5 }, { i64: 10n }],
+      certifiedData: new Uint8Array([7, 8, 9]),
+      globalTimer: undefined,
+      onLowWasmMemoryHookStatus: undefined,
+      wasmModuleSize: 10000n,
+      stableMemorySize: 20000n,
+      wasmMemorySize: 30000n,
+    };
+
+    it("should call upload_canister_snapshot_metadata without snapshotId to replace", async () => {
+      const service = mock<IcManagementService>();
+      service.upload_canister_snapshot_metadata.mockResolvedValue(mockResponse);
+
+      const icManagement = await createICManagement(service);
+
+      const params = {
+        canisterId: mockCanisterId,
+        metadata: mockMetadata
+      };
+
+      const res = await icManagement.uploadCanisterSnapshotMetadata(params);
+
+      expect(res).toEqual(mockResponse);
+
+      expect(service.upload_canister_snapshot_metadata).toHaveBeenCalledWith({
+        ...toUploadCanisterSnapshotMetadata(mockMetadata),
+        canister_id: params.canisterId,
+        replace_snapshot: [],
+      });
+    });
+
+    it("should call upload_canister_snapshot_metadata with Uint8Array snapshotId", async () => {
+      const service = mock<IcManagementService>();
+      service.upload_canister_snapshot_metadata.mockResolvedValue(mockResponse);
+
+      const icManagement = await createICManagement(service);
+
+      const params = {
+        canisterId: mockCanisterId,
+        snapshotId: Uint8Array.from([1, 2, 3, 4]),
+        metadata: mockMetadata
+      };
+
+      const res = await icManagement.uploadCanisterSnapshotMetadata(params);
+
+      expect(res).toEqual(mockResponse);
+
+      expect(service.upload_canister_snapshot_metadata).toHaveBeenCalledWith({
+        ...toUploadCanisterSnapshotMetadata(mockMetadata),
+        canister_id: params.canisterId,
+        replace_snapshot: [params.snapshotId],
+      });
+    });
+
+    it("calls upload_canister_snapshot_metadata with string snapshotId", async () => {
+      const service = mock<IcManagementService>();
+      service.upload_canister_snapshot_metadata.mockResolvedValue(mockResponse);
+
+      const icManagement = await createICManagement(service);
+
+      const params = {
+        canisterId: mockCanisterId,
+        snapshotId: "000000000000000201010000000000000001",
+        metadata: mockMetadata
+      };
+
+      const res = await icManagement.uploadCanisterSnapshotMetadata(params);
+
+      expect(res).toEqual(mockResponse);
+
+      expect(service.upload_canister_snapshot_metadata).toHaveBeenCalledWith({
+        ...toUploadCanisterSnapshotMetadata(mockMetadata),
+        canister_id: params.canisterId,
+        replace_snapshot: [decodeSnapshotId(params.snapshotId)],
+      });
+    });
+
+    it("should throws Error", async () => {
+      const error = new Error("Test");
+      const service = mock<IcManagementService>();
+      service.upload_canister_snapshot_metadata.mockRejectedValue(error);
+
+      const icManagement = await createICManagement(service);
+
+      const call = () =>
+        icManagement.uploadCanisterSnapshotMetadata({
+          canisterId: mockCanisterId,
+          metadata: mockMetadata
+        });
+
+      await expect(call).rejects.toThrow(error);
     });
   });
 });
