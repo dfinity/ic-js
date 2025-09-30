@@ -4,15 +4,6 @@
 
 set -euo pipefail
 
-if [ "$(didc --version)" != "didc 0.3.7" ]; then
-  {
-    echo "didc version 0.3.7 is required. To install it on Mac:"
-    echo "curl -Lf https://github.com/dfinity/candid/releases/download/2024-02-27/didc-macos -o install_didc"
-    echo "install -m 755 install_didc /$HOME/.local/bin/didc"
-  } >&2
-  exit 1
-fi
-
 did_files_to_compile_for_pkg() {
   local pkg="$1"
   local path=packages/${pkg}/candid
@@ -39,14 +30,17 @@ compile_did() {
   local tsFactoryFile="$(echo "$didfile" | sed 's/did$/idl.d.ts/g')"
   local tsfile="$(echo "$didfile" | sed 's/did$/d.ts/g')"
 
+  # TODO
+  # npx icp-bindgen --did-file "${didfile}" --out-dir
+
   {
     echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
-    didc bind -t js "${didfile}"
+    npx icp-bindgen --did-file "${didfile}"
   } | sed -E "s/^export default/export const idlFactory =/g" >"${jsFactoryFile}"
 
   generate_did_factory_ts
 
-  didc bind -t ts "${didfile}" >"${tsfile}"
+  didc bind --did-file "${didfile}" --interface-declaration
 }
 
 # The certified API makes use of the fact that update calls are always signed, so it calls query calls as updates.
