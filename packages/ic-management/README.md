@@ -401,7 +401,7 @@ Parameters:
 - `params`: - Parameters for the metadata upload operation.
 - `params.canisterId`: - The ID of the canister the snapshot metadata belongs to.
 - `params.metadata`: - The metadata payload to upload.
-- `params.replaceSnapshotId`: - If provided, replace the metadata for this snapshot instead of creating a new one.
+- `params.snapshotId`: - If provided, replace a snapshot instead of creating a new one.
 
 Returns:
 
