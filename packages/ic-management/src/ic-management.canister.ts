@@ -1,7 +1,6 @@
 import {
   createServices,
   hexStringToUint8Array,
-  nonNullish,
   toNullable,
 } from "@dfinity/utils";
 import { Principal } from "@icp-sdk/core/principal";
@@ -9,7 +8,6 @@ import type {
   _SERVICE as IcManagementService,
   chunk_hash,
   list_canister_snapshots_result,
-  snapshot_id,
   take_canister_snapshot_result,
 } from "../candid/ic-management";
 import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certified.idl";
@@ -22,7 +20,6 @@ import {
   type InstallChunkedCodeParams,
   type InstallCodeParams,
   type ProvisionalCreateCanisterWithCyclesParams,
-  type SnapshotIdText,
   type StoredChunksParams,
   type UninstallCodeParams,
   type UpdateSettingsParams,
@@ -32,7 +29,12 @@ import type {
   CanisterStatusResponse,
   FetchCanisterLogsResponse,
 } from "./types/ic-management.responses";
-import { mapSnapshotId } from "./utils/ic-management.utils";
+import {
+  toReplaceSnapshotArgs,
+  toSnapshotArgs,
+  type OptionSnapshotParams,
+  type SnapshotParams,
+} from "./types/snapshot.params";
 import { transform } from "./utils/transform.utils";
 
 export class ICManagementCanister {
@@ -352,21 +354,12 @@ export class ICManagementCanister {
    *
    * @throws {Error} If the snapshot operation fails.
    */
-  takeCanisterSnapshot = ({
-    canisterId,
-    snapshotId,
-  }: {
-    canisterId: Principal;
-    snapshotId?: SnapshotIdText | snapshot_id;
-  }): Promise<take_canister_snapshot_result> => {
+  takeCanisterSnapshot = (
+    params: OptionSnapshotParams,
+  ): Promise<take_canister_snapshot_result> => {
     const { take_canister_snapshot } = this.service;
 
-    return take_canister_snapshot({
-      canister_id: canisterId,
-      replace_snapshot: toNullable(
-        nonNullish(snapshotId) ? mapSnapshotId(snapshotId) : undefined,
-      ),
-    });
+    return take_canister_snapshot(toReplaceSnapshotArgs(params));
   };
 
   /**
@@ -408,19 +401,15 @@ export class ICManagementCanister {
    * @throws {Error} If the snapshot loading operation fails.
    */
   loadCanisterSnapshot = async ({
-    canisterId,
-    snapshotId,
     senderCanisterVersion,
-  }: {
-    canisterId: Principal;
-    snapshotId: SnapshotIdText | snapshot_id;
+    ...rest
+  }: SnapshotParams & {
     senderCanisterVersion?: bigint;
   }): Promise<void> => {
     const { load_canister_snapshot } = this.service;
 
     await load_canister_snapshot({
-      canister_id: canisterId,
-      snapshot_id: mapSnapshotId(snapshotId),
+      ...toSnapshotArgs(rest),
       sender_canister_version: toNullable(senderCanisterVersion),
     });
   };
@@ -438,18 +427,9 @@ export class ICManagementCanister {
    *
    * @throws {Error} If the deletion operation fails.
    */
-  deleteCanisterSnapshot = async ({
-    canisterId,
-    snapshotId,
-  }: {
-    canisterId: Principal;
-    snapshotId: SnapshotIdText | snapshot_id;
-  }): Promise<void> => {
+  deleteCanisterSnapshot = async (params: SnapshotParams): Promise<void> => {
     const { delete_canister_snapshot } = this.service;
 
-    await delete_canister_snapshot({
-      canister_id: canisterId,
-      snapshot_id: mapSnapshotId(snapshotId),
-    });
+    await delete_canister_snapshot(toSnapshotArgs(params));
   };
 }
