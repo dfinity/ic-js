@@ -38,7 +38,7 @@ import {
   toUploadCanisterSnapshotDataKind,
   toUploadCanisterSnapshotMetadata,
   type OptionSnapshotParams,
-  type ReadCanisterSnapshotMetadataParams,
+  type ReadCanisterSnapshotDataParams,
   type SnapshotParams,
   type UploadCanisterSnapshotDataParams,
   type UploadCanisterSnapshotMetadataParams,
@@ -487,7 +487,7 @@ export class ICManagementCanister {
   readCanisterSnapshotData = ({
     kind,
     ...params
-  }: ReadCanisterSnapshotMetadataParams): Promise<read_canister_snapshot_data_response> => {
+  }: ReadCanisterSnapshotDataParams): Promise<read_canister_snapshot_data_response> => {
     const { read_canister_snapshot_data } = this.service;
 
     return read_canister_snapshot_data({

@@ -44,7 +44,7 @@ export type CanisterSnapshotMetadataKind =
   | { stableMemory: { size: bigint; offset: bigint } }
   | { wasmChunk: { hash: Uint8Array | number[] } };
 
-export interface ReadCanisterSnapshotMetadataParams extends SnapshotParams {
+export interface ReadCanisterSnapshotDataParams extends SnapshotParams {
   kind: CanisterSnapshotMetadataKind;
 }
 

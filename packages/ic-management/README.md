@@ -371,9 +371,9 @@ A promise that resolves with the snapshot metadata.
 
 Reads snapshot data for a specific canister snapshot and kind.
 
-| Method                     | Type                                                                                                         |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `readCanisterSnapshotData` | `({ kind, ...params }: ReadCanisterSnapshotMetadataParams) => Promise<read_canister_snapshot_data_response>` |
+| Method                     | Type                                                                                                     |
+| -------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `readCanisterSnapshotData` | `({ kind, ...params }: ReadCanisterSnapshotDataParams) => Promise<read_canister_snapshot_data_response>` |
 
 Parameters:
 
