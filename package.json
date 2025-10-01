@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@dfinity/eslint-config-oisy-wallet": "^0.2.0",
-    "@icp-sdk/bindgen": "^0.0.1-alpha.3",
+    "@icp-sdk/bindgen": "^0.1.0-beta.1",
     "@size-limit/esbuild": "^11.2.0",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@types/node": "^24.0.14",
