@@ -13,14 +13,14 @@ did_files_to_compile_for_pkg() {
 }
 
 did_files_to_compile() {
-  did_files_to_compile_for_pkg "nns"
-  did_files_to_compile_for_pkg "sns"
-  did_files_to_compile_for_pkg "cmc"
-  did_files_to_compile_for_pkg "ledger-icrc"
-  did_files_to_compile_for_pkg "ledger-icp"
+  # did_files_to_compile_for_pkg "nns"
+  # did_files_to_compile_for_pkg "sns"
+  # did_files_to_compile_for_pkg "cmc"
+  # did_files_to_compile_for_pkg "ledger-icrc"
+  # did_files_to_compile_for_pkg "ledger-icp"
   did_files_to_compile_for_pkg "ckbtc"
-  did_files_to_compile_for_pkg "cketh"
-  did_files_to_compile_for_pkg "ic-management"
+  # did_files_to_compile_for_pkg "cketh"
+  # did_files_to_compile_for_pkg "ic-management"
 }
 
 # Normal API access.
@@ -30,17 +30,26 @@ compile_did() {
   local tsFactoryFile="$(echo "$didfile" | sed 's/did$/idl.d.ts/g')"
   local tsfile="$(echo "$didfile" | sed 's/did$/d.ts/g')"
 
-  # TODO
-  # npx icp-bindgen --did-file "${didfile}" --out-dir
+  # icp-bindgen generates the files in a declarations subfolder
+  # using suffix different than those we are historically using
+  # in ic-js. That is why we post-process the results.
+  local didfolder="$(dirname "$didfile")"
+  local declarationsfolder="${didfolder}/declarations"
+  local filename="$(basename "$didfile" .did)"
 
-  {
-    echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
-    npx icp-bindgen --did-file "${didfile}"
-  } | sed -E "s/^export default/export const idlFactory =/g" >"${jsFactoryFile}"
+  local generatedTsfile="${declarationsfolder}/${filename}.did.d.ts"
+  local generatedJsfile="${declarationsfolder}/${filename}.did.js"
+
+  echo "${generatedTsfile}" "${tsfile}"
+
+  npx icp-bindgen --did-file "${didfile}" --out-dir "${didfolder}" --actor-disabled
+
+  mv "${generatedTsfile}" "${tsfile}"
+  mv "${generatedJsfile}" "${jsFactoryFile}"
+
+  rm -r "${declarationsfolder}"
 
   generate_did_factory_ts
-
-  didc bind --did-file "${didfile}" --interface-declaration
 }
 
 # The certified API makes use of the fact that update calls are always signed, so it calls query calls as updates.
