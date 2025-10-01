@@ -42,7 +42,7 @@ compile_did() {
 
   echo "${generatedTsfile}" "${tsfile}"
 
-  npx icp-bindgen --did-file "${didfile}" --out-dir "${didfolder}" --actor-disabled
+  npx icp-bindgen --did-file "${didfile}" --out-dir "${didfolder}" --actor-disabled --no-clean
 
   mv "${generatedTsfile}" "${tsfile}"
   mv "${generatedJsfile}" "${jsFactoryFile}"
