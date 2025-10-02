@@ -26,27 +26,27 @@ did_files_to_compile() {
 # Normal API access.
 compile_did() {
   local didfile="$1"
+  local didfolder="$(dirname "$didfile")"
   local jsFactoryFile="$(echo "$didfile" | sed 's/did$/idl.js/g')"
   local tsFactoryFile="$(echo "$didfile" | sed 's/did$/idl.d.ts/g')"
   local tsfile="$(echo "$didfile" | sed 's/did$/d.ts/g')"
 
-  # icp-bindgen generates the files in a declarations subfolder
-  # using suffix different than those we are historically using
-  # in ic-js. That is why we post-process the results.
-  local didfolder="$(dirname "$didfile")"
+  # icp-bindgen non-optional output folder and filenames
   local declarationsfolder="${didfolder}/declarations"
   local filename="$(basename "$didfile" .did)"
-
   local generatedTsfile="${declarationsfolder}/${filename}.did.d.ts"
   local generatedJsfile="${declarationsfolder}/${filename}.did.js"
 
-  echo "${generatedTsfile}" "${tsfile}"
+  # --actor-disabled: skip generating actor files, since we handle those ourselves
+  # --force: overwrite files. Required; otherwise, icp-bindgen would delete files at preprocess,
+  # which causes issues when multiple .did files are located in the same folder.
+  npx icp-bindgen --did-file "${didfile}" --out-dir "${didfolder}" --actor-disabled --force
 
-  npx icp-bindgen --did-file "${didfile}" --out-dir "${didfolder}" --actor-disabled --no-clean
-
+  # icp-bindgen generates the files in a `declarations` subfolder
+  # using suffixes different from those historically used in ic-js.
+  # That's why we have to post-process the results.
   mv "${generatedTsfile}" "${tsfile}"
   mv "${generatedJsfile}" "${jsFactoryFile}"
-
   rm -r "${declarationsfolder}"
 
   generate_did_factory_ts
