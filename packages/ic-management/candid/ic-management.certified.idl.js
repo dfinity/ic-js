@@ -74,7 +74,10 @@ export const idlFactory = ({ IDL }) => {
   });
   const snapshot_id = IDL.Vec(IDL.Nat8);
   const change_details = IDL.Variant({
-    'creation' : IDL.Record({ 'controllers' : IDL.Vec(IDL.Principal) }),
+    'creation' : IDL.Record({
+      'controllers' : IDL.Vec(IDL.Principal),
+      'environment_variables_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    }),
     'code_deployment' : IDL.Record({
       'mode' : IDL.Variant({
         'reinstall' : IDL.Null,
@@ -110,6 +113,10 @@ export const idlFactory = ({ IDL }) => {
     'total_num_changes' : IDL.Nat64,
   });
   const canister_status_args = IDL.Record({ 'canister_id' : canister_id });
+  const environment_variable = IDL.Record({
+    'value' : IDL.Text,
+    'name' : IDL.Text,
+  });
   const log_visibility = IDL.Variant({
     'controllers' : IDL.Null,
     'public' : IDL.Null,
@@ -118,6 +125,7 @@ export const idlFactory = ({ IDL }) => {
   const definite_canister_settings = IDL.Record({
     'freezing_threshold' : IDL.Nat,
     'wasm_memory_threshold' : IDL.Nat,
+    'environment_variables' : IDL.Vec(environment_variable),
     'controllers' : IDL.Vec(IDL.Principal),
     'reserved_cycles_limit' : IDL.Nat,
     'log_visibility' : log_visibility,
@@ -160,6 +168,7 @@ export const idlFactory = ({ IDL }) => {
   const canister_settings = IDL.Record({
     'freezing_threshold' : IDL.Opt(IDL.Nat),
     'wasm_memory_threshold' : IDL.Opt(IDL.Nat),
+    'environment_variables' : IDL.Opt(IDL.Vec(environment_variable)),
     'controllers' : IDL.Opt(IDL.Vec(IDL.Principal)),
     'reserved_cycles_limit' : IDL.Opt(IDL.Nat),
     'log_visibility' : IDL.Opt(log_visibility),
