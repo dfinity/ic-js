@@ -169,7 +169,7 @@ describe("ICManagementCanister", () => {
           log_visibility: [],
           wasm_memory_limit: [],
           wasm_memory_threshold: [],
-          environment_variables: []
+          environment_variables: [],
         },
       });
     });
