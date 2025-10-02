@@ -76,7 +76,18 @@ export interface init_config {
   disable_api_if_not_fully_synced: [] | [flag];
 }
 export type millisatoshi_per_byte = bigint;
-export type network = { mainnet: null } | { regtest: null } | { testnet: null };
+/**
+ * Generated from dfinity/bitcoin-canister commit 47c5d1f14eff39282245ea6aec6e9f821571b024 for file 'canister/candid.did'
+ */
+export type network =
+  | { mainnet: null }
+  | {
+      /**
+       * Bitcoin testnet4.
+       */
+      regtest: null;
+    }
+  | { testnet: null };
 export interface outpoint {
   txid: Uint8Array | number[];
   vout: number;
