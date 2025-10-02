@@ -10,6 +10,7 @@ export type {
   snapshot,
   snapshot_id,
   take_canister_snapshot_result,
+  environment_variable,
 } from "../candid/ic-management";
 export { ICManagementCanister } from "./ic-management.canister";
 export * from "./types/canister.options";
