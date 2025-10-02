@@ -2,6 +2,9 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
+/**
+ * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/ledger_suite/icp/index/index.did' by import-candid
+ */
 export interface Account {
   owner: Principal;
   subaccount: [] | [Uint8Array | number[]];
@@ -25,7 +28,16 @@ export type GetAccountIdentifierTransactionsResult =
     }
   | { Err: GetAccountIdentifierTransactionsError };
 export interface GetAccountTransactionsArgs {
+  /**
+   * Maximum number of transactions to fetch.
+   */
   max_results: bigint;
+  /**
+   * The txid of the last transaction seen by the client.
+   * If None then the results will start from the most recent
+   * txid. If set then the results will start from the next
+   * most recent txid after start (start won't be included).
+   */
   start: [] | [bigint];
   account: Account;
 }

@@ -6,12 +6,19 @@ export interface Account {
   owner: Principal;
   subaccount: [] | [SubAccount];
 }
+/**
+ * Arguments for the `account_balance` call.
+ */
 export interface AccountBalanceArgs {
   account: AccountIdentifier;
 }
 export interface AccountBalanceArgsDfx {
   account: TextAccountIdentifier;
 }
+/**
+ * AccountIdentifier is a 32-byte array.
+ * The first 4 bytes is big-endian encoding of a CRC32 checksum of the last 28 bytes.
+ */
 export type AccountIdentifier = Uint8Array | number[];
 export interface Allowance {
   allowance: Icrc1Tokens;
@@ -21,6 +28,9 @@ export interface AllowanceArgs {
   account: Account;
   spender: Account;
 }
+/**
+ * The allowances returned by the `get_allowances` endpoint.
+ */
 export type Allowances = Array<{
   from_account_id: TextAccountIdentifier;
   to_spender_id: TextAccountIdentifier;
@@ -64,8 +74,19 @@ export interface ArchiveOptions {
   controller_id: Principal;
 }
 export interface ArchivedBlocksRange {
-  callback: QueryArchiveFn;
+  /**
+   * The function that should be called to fetch the archived blocks.
+   * The range of the blocks accessible using this function is given by [from]
+   * and [len] fields above.
+   */
+  callback: [Principal, string];
+  /**
+   * The index of the first archived block that can be fetched using the callback.
+   */
   start: BlockIndex;
+  /**
+   * The number of blocks that can be fetch using the callback.
+   */
   length: bigint;
 }
 export interface ArchivedEncodedBlocksRange {
@@ -81,8 +102,29 @@ export interface Block {
   timestamp: TimeStamp;
   parent_hash: [] | [Uint8Array | number[]];
 }
+/**
+ * Sequence number of a block produced by the ledger.
+ */
 export type BlockIndex = bigint;
+/**
+ * A prefix of the block range specified in the [GetBlocksArgs] request.
+ */
 export interface BlockRange {
+  /**
+   * A prefix of the requested block range.
+   * The index of the first block is equal to [GetBlocksArgs.from].
+   *
+   * Note that the number of blocks might be less than the requested
+   * [GetBlocksArgs.len] for various reasons, for example:
+   *
+   * 1. The query might have hit the replica with an outdated state
+   * that doesn't have the full block range yet.
+   * 2. The requested range is too large to fit into a single reply.
+   *
+   * NOTE: the list of blocks can be empty if:
+   * 1. [GetBlocksArgs.len] was zero.
+   * 2. [GetBlocksArgs.from] was larger than the last block known to the canister.
+   */
   blocks: Array<Block>;
 }
 export interface Duration {
@@ -96,16 +138,31 @@ export interface FieldsDisplay {
   fields: Array<[string, Icrc21Value]>;
   intent: string;
 }
+/**
+ * The arguments for the `get_allowances` endpoint.
+ * The `prev_spender_id` argument can be used for pagination. If specified
+ * the endpoint returns allowances that are lexicographically greater than
+ * (`from_account_id`, `prev_spender_id`) - start with spender after `prev_spender_id`.
+ */
 export interface GetAllowancesArgs {
   prev_spender_id: [] | [TextAccountIdentifier];
   from_account_id: TextAccountIdentifier;
   take: [] | [bigint];
 }
 export interface GetBlocksArgs {
+  /**
+   * The index of the first block to fetch.
+   */
   start: BlockIndex;
+  /**
+   * Max number of blocks to fetch.
+   */
   length: bigint;
 }
 export type Icrc1BlockIndex = bigint;
+/**
+ * Number of nanoseconds since the UNIX epoch in UTC timezone.
+ */
 export type Icrc1Timestamp = bigint;
 export type Icrc1Tokens = bigint;
 export type Icrc1TransferError =
@@ -149,12 +206,19 @@ export interface InitArgs {
 export type LedgerCanisterPayload =
   | { Upgrade: [] | [UpgradeArgs] }
   | { Init: InitArgs };
+/**
+ * An arbitrary number associated with a transaction.
+ * The caller can set it in a `transfer` call as a correlation identifier.
+ */
 export type Memo = bigint;
 export type Operation =
   | {
       Approve: {
         fee: Tokens;
         from: AccountIdentifier;
+        /**
+         * This field is deprecated and should not be used.
+         */
         allowance_e8s: bigint;
         allowance: Tokens;
         expected_allowance: [] | [Tokens];
@@ -179,23 +243,86 @@ export type Operation =
         spender: [] | [Uint8Array | number[]];
       };
     };
+/**
+ * An error indicating that the arguments passed to [QueryArchiveFn] were invalid.
+ */
 export type QueryArchiveError =
   | {
+      /**
+       * [GetBlocksArgs.from] argument was smaller than the first block
+       * served by the canister that received the request.
+       */
       BadFirstBlockIndex: {
         requested_index: BlockIndex;
         first_valid_index: BlockIndex;
       };
     }
-  | { Other: { error_message: string; error_code: bigint } };
+  | {
+      /**
+       * Reserved for future use.
+       */
+      Other: { error_message: string; error_code: bigint };
+    };
+/**
+ * A function that is used for fetching archived ledger blocks.
+ */
 export type QueryArchiveFn = ActorMethod<[GetBlocksArgs], QueryArchiveResult>;
 export type QueryArchiveResult =
-  | { Ok: BlockRange }
-  | { Err: QueryArchiveError };
+  | {
+      /**
+       * Successfully fetched zero or more blocks.
+       */
+      Ok: BlockRange;
+    }
+  | {
+      /**
+       * The [GetBlocksArgs] request was invalid.
+       */
+      Err: QueryArchiveError;
+    };
+/**
+ * The result of a "query_blocks" call.
+ *
+ * The structure of the result is somewhat complicated because the main ledger canister might
+ * not have all the blocks that the caller requested: One or more "archive" canisters might
+ * store some of the requested blocks.
+ *
+ * Note: as of Q4 2021 when this interface is authored, the IC doesn't support making nested
+ * query calls within a query call.
+ */
 export interface QueryBlocksResponse {
+  /**
+   * System certificate for the hash of the latest block in the chain.
+   * Only present if `query_blocks` is called in a non-replicated query context.
+   */
   certificate: [] | [Uint8Array | number[]];
+  /**
+   * List of blocks that were available in the ledger when it processed the call.
+   *
+   * The blocks form a contiguous range, with the first block having index
+   * [first_block_index] (see below), and the last block having index
+   * [first_block_index] + len(blocks) - 1.
+   *
+   * The block range can be an arbitrary sub-range of the originally requested range.
+   */
   blocks: Array<Block>;
+  /**
+   * The total number of blocks in the chain.
+   * If the chain length is positive, the index of the last block is `chain_len - 1`.
+   */
   chain_length: bigint;
+  /**
+   * The index of the first block in "blocks".
+   * If the blocks vector is empty, the exact value of this field is not specified.
+   */
   first_block_index: BlockIndex;
+  /**
+   * Encoding of instructions for fetching archived blocks whose indices fall into the
+   * requested range.
+   *
+   * For each entry `e` in [archived_blocks], `[e.from, e.from + len)` is a sub-range
+   * of the originally requested block range.
+   */
   archived_blocks: Array<ArchivedBlocksRange>;
 }
 export interface QueryEncodedBlocksResponse {
@@ -210,6 +337,9 @@ export interface RemoveApprovalArgs {
   from_subaccount: [] | [SubAccount];
   spender: AccountIdentifier;
 }
+/**
+ * Arguments for the `send_dfx` call.
+ */
 export interface SendArgs {
   to: TextAccountIdentifier;
   fee: Tokens;
@@ -218,8 +348,19 @@ export interface SendArgs {
   created_at_time: [] | [TimeStamp];
   amount: Tokens;
 }
+/**
+ * Subaccount is an arbitrary 32-byte byte array.
+ * Ledger uses subaccounts to compute the source address, which enables one
+ * principal to control multiple ledger accounts.
+ */
 export type SubAccount = Uint8Array | number[];
+/**
+ * Account identifier encoded as a 64-byte ASCII hex string.
+ */
 export type TextAccountIdentifier = string;
+/**
+ * Number of nanoseconds from the UNIX epoch in UTC timezone.
+ */
 export interface TimeStamp {
   timestamp_nanos: bigint;
 }
@@ -227,6 +368,11 @@ export interface TipOfChainRes {
   certification: [] | [Uint8Array | number[]];
   tip_index: BlockIndex;
 }
+/**
+ * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/ledger_suite/icp/ledger.did' by import-candid
+ * This is the official Ledger interface that is guaranteed to be backward compatible.
+ * Amount of tokens, measured in 10^-8 of a token.
+ */
 export interface Tokens {
   e8s: bigint;
 }
@@ -244,23 +390,81 @@ export interface TransferArg {
   created_at_time: [] | [Icrc1Timestamp];
   amount: Icrc1Tokens;
 }
+/**
+ * Arguments for the `transfer` call.
+ */
 export interface TransferArgs {
+  /**
+   * The destination account.
+   * If the transfer is successful, the balance of this address increases by `amount`.
+   */
   to: AccountIdentifier;
+  /**
+   * The amount that the caller pays for the transaction.
+   * Must be 10000 e8s.
+   */
   fee: Tokens;
+  /**
+   * Transaction memo.
+   * See comments for the `Memo` type.
+   */
   memo: Memo;
+  /**
+   * The subaccount from which the caller wants to transfer funds.
+   * If null, the ledger uses the default (all zeros) subaccount to compute the source address.
+   * See comments for the `SubAccount` type.
+   */
   from_subaccount: [] | [SubAccount];
+  /**
+   * The point in time when the caller created this request.
+   * If null, the ledger uses current IC time as the timestamp.
+   */
   created_at_time: [] | [TimeStamp];
+  /**
+   * The amount that the caller wants to transfer to the destination address.
+   */
   amount: Tokens;
 }
 export type TransferError =
   | {
+      /**
+       * The request is too old.
+       * The ledger only accepts requests created within 24 hours window.
+       * This is a non-recoverable error.
+       */
       TxTooOld: { allowed_window_nanos: bigint };
     }
-  | { BadFee: { expected_fee: Tokens } }
-  | { TxDuplicate: { duplicate_of: BlockIndex } }
-  | { TxCreatedInFuture: null }
-  | { InsufficientFunds: { balance: Tokens } };
+  | {
+      /**
+       * The fee that the caller specified in the transfer request was not the one that ledger expects.
+       * The caller can change the transfer fee to the `expected_fee` and retry the request.
+       */
+      BadFee: { expected_fee: Tokens };
+    }
+  | {
+      /**
+       * The ledger has already executed the request.
+       * `duplicate_of` field is equal to the index of the block containing the original transaction.
+       */
+      TxDuplicate: { duplicate_of: BlockIndex };
+    }
+  | {
+      /**
+       * The caller specified `created_at_time` that is too far in future.
+       * The caller can retry the request later.
+       */
+      TxCreatedInFuture: null;
+    }
+  | {
+      /**
+       * The account specified by the caller doesn't have enough funds.
+       */
+      InsufficientFunds: { balance: Tokens };
+    };
 export interface TransferFee {
+  /**
+   * The fee to pay to perform a transfer
+   */
   transfer_fee: Tokens;
 }
 export type TransferFeeArg = {};
@@ -293,6 +497,9 @@ export interface UpgradeArgs {
   icrc1_minting_account: [] | [Account];
   feature_flags: [] | [FeatureFlags];
 }
+/**
+ * The value returned from the [icrc1_metadata] endpoint.
+ */
 export type Value =
   | { Int: bigint }
   | { Nat: bigint }
@@ -325,6 +532,9 @@ export interface icrc21_consent_message_spec {
 }
 export type icrc21_error =
   | {
+      /**
+       * Any error not covered by the above variants.
+       */
       GenericError: { description: string; error_code: bigint };
     }
   | { InsufficientPayment: icrc21_error_info }
@@ -334,10 +544,22 @@ export interface icrc21_error_info {
   description: string;
 }
 export interface _SERVICE {
+  /**
+   * Returns the amount of Tokens on the specified account.
+   */
   account_balance: ActorMethod<[AccountBalanceArgs], Tokens>;
   account_balance_dfx: ActorMethod<[AccountBalanceArgsDfx], Tokens>;
+  /**
+   * Returns the account identifier for the given Principal and subaccount.
+   */
   account_identifier: ActorMethod<[Account], AccountIdentifier>;
+  /**
+   * Returns the existing archive canisters information.
+   */
   archives: ActorMethod<[], Archives>;
+  /**
+   * Returns token decimals.
+   */
   decimals: ActorMethod<[], { decimals: number }>;
   get_allowances: ActorMethod<[GetAllowancesArgs], Allowances>;
   icrc10_supported_standards: ActorMethod<
@@ -349,6 +571,10 @@ export interface _SERVICE {
   icrc1_fee: ActorMethod<[], Icrc1Tokens>;
   icrc1_metadata: ActorMethod<[], Array<[string, Value]>>;
   icrc1_minting_account: ActorMethod<[], [] | [Account]>;
+  /**
+   * The following methods implement the ICRC-1 Token Standard.
+   * https://github.com/dfinity/ICRC-1/tree/main/standards/ICRC-1
+   */
   icrc1_name: ActorMethod<[], string>;
   icrc1_supported_standards: ActorMethod<
     [],
@@ -365,17 +591,37 @@ export interface _SERVICE {
   icrc2_approve: ActorMethod<[ApproveArgs], ApproveResult>;
   icrc2_transfer_from: ActorMethod<[TransferFromArgs], TransferFromResult>;
   is_ledger_ready: ActorMethod<[], boolean>;
+  /**
+   * Returns token name.
+   */
   name: ActorMethod<[], { name: string }>;
+  /**
+   * Queries blocks in the specified range.
+   */
   query_blocks: ActorMethod<[GetBlocksArgs], QueryBlocksResponse>;
+  /**
+   * Queries encoded blocks in the specified range
+   */
   query_encoded_blocks: ActorMethod<
     [GetBlocksArgs],
     QueryEncodedBlocksResponse
   >;
   remove_approval: ActorMethod<[RemoveApprovalArgs], ApproveResult>;
   send_dfx: ActorMethod<[SendArgs], BlockIndex>;
+  /**
+   * Returns token symbol.
+   */
   symbol: ActorMethod<[], { symbol: string }>;
   tip_of_chain: ActorMethod<[], TipOfChainRes>;
+  /**
+   * Transfers tokens from a subaccount of the caller to the destination address.
+   * The source address is computed from the principal of the caller and the specified subaccount.
+   * When successful, returns the index of the block containing the transaction.
+   */
   transfer: ActorMethod<[TransferArgs], TransferResult>;
+  /**
+   * Returns the current transfer_fee.
+   */
   transfer_fee: ActorMethod<[TransferFeeArg], TransferFee>;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
