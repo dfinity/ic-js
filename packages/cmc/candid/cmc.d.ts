@@ -14,17 +14,53 @@ export interface CanisterSettings {
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
+/**
+ * The argument of the [create_canister] method.
+ */
 export interface CreateCanisterArg {
+  /**
+   * Optional instructions to select on which subnet the new canister will be created on.
+   */
   subnet_selection: [] | [SubnetSelection];
+  /**
+   * Optional canister settings that, if set, are applied to the newly created canister.
+   * If not specified, the caller is the controller of the canister and the other settings are set to default values.
+   */
   settings: [] | [CanisterSettings];
+  /**
+   * An optional subnet type that, if set, determines what type of subnet
+   * the new canister will be created on.
+   * Deprecated. Use subnet_selection instead.
+   */
   subnet_type: [] | [string];
 }
+/**
+ * Canister creation failed and the cycles attached to the call were returned to the calling canister.
+ * A small fee may be charged.
+ */
 export type CreateCanisterError = {
-  Refunded: { create_error: string; refund_amount: bigint };
+  Refunded: {
+    /**
+     * The reason why creating a canister failed.
+     */
+    create_error: string;
+    /**
+     * The amount of cycles returned to the calling canister
+     */
+    refund_amount: bigint;
+  };
 };
 export type CreateCanisterResult =
-  | { Ok: Principal }
+  | {
+      /**
+       * The principal of the newly created canister.
+       */
+      Ok: Principal;
+    }
   | { Err: CreateCanisterError };
+/**
+ * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/nns/cmc/cmc.did' by import-candid
+ */
 export type Cycles = bigint;
 export interface CyclesCanisterInitPayload {
   exchange_rate_canister: [] | [ExchangeRateCanister];
@@ -34,35 +70,139 @@ export interface CyclesCanisterInitPayload {
   minting_account_id: [] | [AccountIdentifier];
   ledger_canister_id: [] | [Principal];
 }
-export type ExchangeRateCanister = { Set: Principal } | { Unset: null };
+export type ExchangeRateCanister =
+  | {
+      /**
+       * / Enables the exchange rate canister with the given canister ID.
+       */
+      Set: Principal;
+    }
+  | {
+      /**
+       * / Disable the exchange rate canister.
+       */
+      Unset: null;
+    };
 export interface IcpXdrConversionRate {
+  /**
+   * The number of 10,000ths of IMF SDR (currency code XDR) that corresponds
+   * to 1 ICP. This value reflects the current market price of one ICP token.
+   */
   xdr_permyriad_per_icp: bigint;
+  /**
+   * The time for which the market data was queried, expressed in UNIX epoch
+   * time in seconds.
+   */
   timestamp_seconds: bigint;
 }
 export interface IcpXdrConversionRateResponse {
+  /**
+   * System certificate as specified in
+   * https://internetcomputer.org/docs/interface-spec/index.html#certification-encoding
+   */
   certificate: Uint8Array | number[];
+  /**
+   * The latest ICP/XDR conversion rate.
+   */
   data: IcpXdrConversionRate;
+  /**
+   * CBOR-serialized hash tree as specified in
+   * https://internetcomputer.org/docs/interface-spec/index.html#certification-encoding
+   * The hash tree is used for certification and hash the following structure:
+   * ```
+   * *
+   * |
+   * +-- ICP_XDR_CONVERSION_RATE -- [ Candid encoded IcpXdrConversionRate ]
+   * |
+   * `-- AVERAGE_ICP_XDR_CONVERSION_RATE -- [ Candid encoded IcpXdrConversionRate ]
+   * ```
+   */
   hash_tree: Uint8Array | number[];
 }
 export type Memo = [] | [Uint8Array | number[]];
+/**
+ * The argument of the [notify_create_canister] method.
+ */
 export interface NotifyCreateCanisterArg {
+  /**
+   * The controller of canister to create.
+   */
   controller: Principal;
+  /**
+   * Index of the block on the ICP ledger that contains the payment.
+   */
   block_index: BlockIndex;
+  /**
+   * Optional instructions to select on which subnet the new canister will be created on.
+   * vec may contain no more than one element.
+   */
   subnet_selection: [] | [SubnetSelection];
+  /**
+   * Optional canister settings that, if set, are applied to the newly created canister.
+   * If not specified, the caller is the controller of the canister and the other settings are set to default values.
+   */
   settings: [] | [CanisterSettings];
+  /**
+   * An optional subnet type that, if set, determines what type of subnet
+   * the new canister will be created on.
+   * Deprecated. Use subnet_selection instead.
+   */
   subnet_type: [] | [string];
 }
 export type NotifyCreateCanisterResult =
-  | { Ok: Principal }
+  | {
+      /**
+       * The principal of the newly created canister.
+       */
+      Ok: Principal;
+    }
   | { Err: NotifyError };
 export type NotifyError =
   | {
-      Refunded: { block_index: [] | [BlockIndex]; reason: string };
+      /**
+       * The payment processing failed and the payment was returned the caller.
+       * This is a non-retriable error.
+       */
+      Refunded: {
+        /**
+         * The index of the block containing the refund.
+         */
+        block_index: [] | [BlockIndex];
+        /**
+         * The reason for the refund.
+         */
+        reason: string;
+      };
     }
-  | { InvalidTransaction: string }
-  | { Other: { error_message: string; error_code: bigint } }
-  | { Processing: null }
-  | { TransactionTooOld: BlockIndex };
+  | {
+      /**
+       * The transaction does not satisfy the cycle minting canister payment protocol.
+       * The text contains the description of the problem.
+       * This is a non-retriable error.
+       */
+      InvalidTransaction: string;
+    }
+  | {
+      /**
+       * Other error.
+       */
+      Other: { error_message: string; error_code: bigint };
+    }
+  | {
+      /**
+       * The same payment is already being processed by a concurrent request.
+       * This is a retriable error.
+       */
+      Processing: null;
+    }
+  | {
+      /**
+       * The payment was too old to be processed.
+       * The value of the variant is the oldest block index that can still be processed.
+       * This a non-retriable error.
+       */
+      TransactionTooOld: BlockIndex;
+    };
 export interface NotifyMintCyclesArg {
   block_index: BlockIndex;
   deposit_memo: Memo;
@@ -72,15 +212,40 @@ export type NotifyMintCyclesResult =
   | { Ok: NotifyMintCyclesSuccess }
   | { Err: NotifyError };
 export interface NotifyMintCyclesSuccess {
+  /**
+   * New balance of the cycles ledger account
+   */
   balance: bigint;
+  /**
+   * Cycles ledger block index of deposit
+   */
   block_index: bigint;
+  /**
+   * Amount of cycles that were minted and deposited to the cycles ledger
+   */
   minted: bigint;
 }
+/**
+ * The argument of the [notify_top_up] method.
+ */
 export interface NotifyTopUpArg {
+  /**
+   * Index of the block on the ICP ledger that contains the payment.
+   */
   block_index: BlockIndex;
+  /**
+   * The canister to top up.
+   */
   canister_id: Principal;
 }
-export type NotifyTopUpResult = { Ok: Cycles } | { Err: NotifyError };
+export type NotifyTopUpResult =
+  | {
+      /**
+       * The amount of cycles sent to the specified canister.
+       */
+      Ok: Cycles;
+    }
+  | { Err: NotifyError };
 export interface PrincipalsAuthorizedToCreateCanistersToSubnetsResponse {
   data: Array<[Principal, Array<Principal>]>;
 }
@@ -89,30 +254,63 @@ export interface SubnetFilter {
   subnet_type: [] | [string];
 }
 export type SubnetSelection =
-  | { Filter: SubnetFilter }
-  | { Subnet: { subnet: Principal } };
+  | {
+      /**
+       * / Choose a random subnet that fulfills the specified properties
+       */
+      Filter: SubnetFilter;
+    }
+  | {
+      /**
+       * / Choose a specific subnet
+       */
+      Subnet: { subnet: Principal };
+    };
 export interface SubnetTypesToSubnetsResponse {
   data: Array<[string, Array<Principal>]>;
 }
 export type log_visibility = { controllers: null } | { public: null };
 export interface _SERVICE {
+  /**
+   * Creates a canister using the cycles attached to the function call.
+   */
   create_canister: ActorMethod<[CreateCanisterArg], CreateCanisterResult>;
   get_build_metadata: ActorMethod<[], string>;
   get_default_subnets: ActorMethod<[], Array<Principal>>;
+  /**
+   * Returns the ICP/XDR conversion rate.
+   */
   get_icp_xdr_conversion_rate: ActorMethod<[], IcpXdrConversionRateResponse>;
+  /**
+   * Returns the mapping from principals to subnets in which they are authorized
+   * to create canisters.
+   */
   get_principals_authorized_to_create_canisters_to_subnets: ActorMethod<
     [],
     PrincipalsAuthorizedToCreateCanistersToSubnetsResponse
   >;
+  /**
+   * Returns the current mapping of subnet types to subnets.
+   */
   get_subnet_types_to_subnets: ActorMethod<[], SubnetTypesToSubnetsResponse>;
+  /**
+   * Prompts the cycles minting canister to process a payment for canister creation.
+   */
   notify_create_canister: ActorMethod<
     [NotifyCreateCanisterArg],
     NotifyCreateCanisterResult
   >;
+  /**
+   * Mints cycles and deposits them to the cycles ledger
+   */
   notify_mint_cycles: ActorMethod<
     [NotifyMintCyclesArg],
     NotifyMintCyclesResult
   >;
+  /**
+   * Prompts the cycles minting canister to process a payment by converting ICP
+   * into cycles and sending the cycles the specified canister.
+   */
   notify_top_up: ActorMethod<[NotifyTopUpArg], NotifyTopUpResult>;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
