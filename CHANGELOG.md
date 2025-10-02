@@ -1,10 +1,36 @@
-# Unreleased Changes
+# Next
+
+## Chore
+
+- Upgrade `didc` to `0.5.1` that converts candid files into JS and TS.
+
+# v76
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v4.0.2  | Maintained ⚙ |
+| `@dfinity/cketh`         | v4.0.2  | Maintained ⚙ |
+| `@dfinity/cmc`           | v6.0.2  | Maintained ⚙ |
+| `@dfinity/ic-management` | v7.0.3  | Maintained ⚙ |
+| `@dfinity/ledger-icp`    | v6.0.1  | Maintained ⚙ |
+| `@dfinity/ledger-icrc`   | v4.0.2  | Maintained ⚙ |
+| `@dfinity/nns`           | v10.1.0 | Enhanced 🔧️  |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v4.0.3  | Maintained ⚙ |
+| `@dfinity/utils`         | v3.1.0  | Unchanged️    |
+| `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️    |
 
 ## Features
 
 - Updated `@dfinity/nns` to support a new action type, `DeregisterKnownNeuron`.
 - Updated `@dfinity/nns` to include a new `links` field in the `RegisterKnownNeuron` action.
 - Updated `@dfinity/nns` to add support for the `memo` field in the `Split` command.
+
+## Refactoring
+
+- Remove unused mocks and extract snapshot interfaces in `@dfinity/ic-management`.
 
 # v75
 

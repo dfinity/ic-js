@@ -177,6 +177,7 @@ describe("ICManagementCanister", () => {
           log_visibility: [],
           wasm_memory_limit: [],
           wasm_memory_threshold: [],
+          environment_variables: [],
         },
       });
     });
@@ -404,6 +405,7 @@ describe("ICManagementCanister", () => {
         log_visibility: { controllers: null },
         wasm_memory_limit: BigInt(500_00),
         wasm_memory_threshold: BigInt(100),
+        environment_variables: [],
       };
       const response: CanisterStatusResponse = {
         status: { running: null },
