@@ -19,6 +19,7 @@ import_did() {
   echo "Copying ${in_fullpath} -> REPO_ROOT/${out_path}"
   {
     echo "// Generated from IC repo commit ${IC_COMMIT} (${IC_DATE}${IC_TAGS:+ tags: ${IC_TAGS% }}) '${in_path}' by $(basename "${0}")"
+    echo ""
     cat "$in_fullpath"
   } >"${out_path}"
 }
