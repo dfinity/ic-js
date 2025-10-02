@@ -79,6 +79,7 @@ export interface canister_log_record {
 export interface canister_settings {
   freezing_threshold: [] | [bigint];
   wasm_memory_threshold: [] | [bigint];
+  environment_variables: [] | [Array<environment_variable>];
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [log_visibility];
@@ -124,7 +125,10 @@ export interface change {
 }
 export type change_details =
   | {
-      creation: { controllers: Array<Principal> };
+      creation: {
+        controllers: Array<Principal>;
+        environment_variables_hash: [] | [Uint8Array | number[]];
+      };
     }
   | {
       code_deployment: {
@@ -166,6 +170,7 @@ export interface create_canister_result {
 export interface definite_canister_settings {
   freezing_threshold: bigint;
   wasm_memory_threshold: bigint;
+  environment_variables: Array<environment_variable>;
   controllers: Array<Principal>;
   reserved_cycles_limit: bigint;
   log_visibility: log_visibility;
@@ -192,6 +197,10 @@ export interface ecdsa_public_key_args {
 export interface ecdsa_public_key_result {
   public_key: Uint8Array | number[];
   chain_code: Uint8Array | number[];
+}
+export interface environment_variable {
+  value: string;
+  name: string;
 }
 export interface fetch_canister_logs_args {
   canister_id: canister_id;

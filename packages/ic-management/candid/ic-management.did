@@ -1,4 +1,4 @@
-// Generated from dfinity/portal commit db443d1b9c357e50d3dfe2c7a87a9d95d4325641 for file 'docs/references/_attachments/ic.did'
+// Generated from dfinity/portal commit b562ec5d68bce1fef2859a9a592d9487d3b64919 for file 'docs/references/_attachments/ic.did'
 
 type canister_id = principal;
 type wasm_module = blob;
@@ -10,6 +10,11 @@ type log_visibility = variant {
     allowed_viewers : vec principal;
 };
 
+type environment_variable = record { 
+    name: text; 
+    value: text;
+};
+
 type canister_settings = record {
     controllers : opt vec principal;
     compute_allocation : opt nat;
@@ -19,6 +24,7 @@ type canister_settings = record {
     log_visibility : opt log_visibility;
     wasm_memory_limit : opt nat;
     wasm_memory_threshold : opt nat;
+    environment_variables : opt vec environment_variable;
 };
 
 type definite_canister_settings = record {
@@ -30,6 +36,7 @@ type definite_canister_settings = record {
     log_visibility : log_visibility;
     wasm_memory_limit : nat;
     wasm_memory_threshold : nat;
+    environment_variables : vec environment_variable;
 };
 
 type change_origin = variant {
@@ -45,6 +52,7 @@ type change_origin = variant {
 type change_details = variant {
     creation : record {
         controllers : vec principal;
+        environment_variables_hash : opt blob; 
     };
     code_uninstall;
     code_deployment : record {

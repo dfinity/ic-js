@@ -4,6 +4,7 @@ export type {
   canister_status_result,
   chunk_hash,
   definite_canister_settings,
+  environment_variable,
   fetch_canister_logs_result,
   list_canister_snapshots_result,
   log_visibility,
