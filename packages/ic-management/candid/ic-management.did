@@ -1,4 +1,5 @@
 // Generated from dfinity/portal commit db443d1b9c357e50d3dfe2c7a87a9d95d4325641 for file 'docs/references/_attachments/ic.did'
+
 type canister_id = principal;
 type wasm_module = blob;
 type snapshot_id = blob;
