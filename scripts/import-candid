@@ -48,6 +48,7 @@ download_did() {
   echo "Downloading ${raw_url} -> REPO_ROOT/${out_path}"
   {
     echo "// Generated from ${repo} commit ${commit_hash} for file '${file_path}'"
+    echo ""
     curl -s "$raw_url"
   } >"${out_path}"
 }
