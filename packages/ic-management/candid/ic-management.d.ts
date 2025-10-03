@@ -45,6 +45,9 @@ export interface bitcoin_send_transaction_args {
   transaction: Uint8Array | number[];
   network: bitcoin_network;
 }
+/**
+ * Generated from dfinity/portal commit b562ec5d68bce1fef2859a9a592d9487d3b64919 for file 'docs/references/_attachments/ic.did'
+ */
 export type canister_id = Principal;
 export interface canister_info_args {
   canister_id: canister_id;
@@ -79,6 +82,7 @@ export interface canister_log_record {
 export interface canister_settings {
   freezing_threshold: [] | [bigint];
   wasm_memory_threshold: [] | [bigint];
+  environment_variables: [] | [Array<environment_variable>];
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [log_visibility];
@@ -124,7 +128,10 @@ export interface change {
 }
 export type change_details =
   | {
-      creation: { controllers: Array<Principal> };
+      creation: {
+        controllers: Array<Principal>;
+        environment_variables_hash: [] | [Uint8Array | number[]];
+      };
     }
   | {
       code_deployment: {
@@ -166,6 +173,7 @@ export interface create_canister_result {
 export interface definite_canister_settings {
   freezing_threshold: bigint;
   wasm_memory_threshold: bigint;
+  environment_variables: Array<environment_variable>;
   controllers: Array<Principal>;
   reserved_cycles_limit: bigint;
   log_visibility: log_visibility;
@@ -192,6 +200,10 @@ export interface ecdsa_public_key_args {
 export interface ecdsa_public_key_result {
   public_key: Uint8Array | number[];
   chain_code: Uint8Array | number[];
+}
+export interface environment_variable {
+  value: string;
+  name: string;
 }
 export interface fetch_canister_logs_args {
   canister_id: canister_id;
@@ -454,6 +466,9 @@ export interface vetkd_public_key_result {
 }
 export type wasm_module = Uint8Array | number[];
 export interface _SERVICE {
+  /**
+   * bitcoin interface
+   */
   bitcoin_get_balance: ActorMethod<
     [bitcoin_get_balance_args],
     bitcoin_get_balance_result
@@ -484,10 +499,16 @@ export interface _SERVICE {
     undefined
   >;
   deposit_cycles: ActorMethod<[deposit_cycles_args], undefined>;
+  /**
+   * Threshold ECDSA signature
+   */
   ecdsa_public_key: ActorMethod<
     [ecdsa_public_key_args],
     ecdsa_public_key_result
   >;
+  /**
+   * canister logging
+   */
   fetch_canister_logs: ActorMethod<
     [fetch_canister_logs_args],
     fetch_canister_logs_result
@@ -500,10 +521,16 @@ export interface _SERVICE {
     list_canister_snapshots_result
   >;
   load_canister_snapshot: ActorMethod<[load_canister_snapshot_args], undefined>;
+  /**
+   * metrics interface
+   */
   node_metrics_history: ActorMethod<
     [node_metrics_history_args],
     node_metrics_history_result
   >;
+  /**
+   * provisional interfaces for the pre-ledger world
+   */
   provisional_create_canister_with_cycles: ActorMethod<
     [provisional_create_canister_with_cycles_args],
     provisional_create_canister_with_cycles_result
@@ -521,6 +548,9 @@ export interface _SERVICE {
     [read_canister_snapshot_metadata_args],
     read_canister_snapshot_metadata_response
   >;
+  /**
+   * Threshold Schnorr signature
+   */
   schnorr_public_key: ActorMethod<
     [schnorr_public_key_args],
     schnorr_public_key_result
@@ -533,7 +563,13 @@ export interface _SERVICE {
   start_canister: ActorMethod<[start_canister_args], undefined>;
   stop_canister: ActorMethod<[stop_canister_args], undefined>;
   stored_chunks: ActorMethod<[stored_chunks_args], stored_chunks_result>;
+  /**
+   * subnet info
+   */
   subnet_info: ActorMethod<[subnet_info_args], subnet_info_result>;
+  /**
+   * Canister snapshots
+   */
   take_canister_snapshot: ActorMethod<
     [take_canister_snapshot_args],
     take_canister_snapshot_result
@@ -553,6 +589,9 @@ export interface _SERVICE {
     [vetkd_derive_key_args],
     vetkd_derive_key_result
   >;
+  /**
+   * Threshold key derivation
+   */
   vetkd_public_key: ActorMethod<
     [vetkd_public_key_args],
     vetkd_public_key_result
