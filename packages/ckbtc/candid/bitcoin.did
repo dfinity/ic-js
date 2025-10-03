@@ -1,4 +1,5 @@
 // Generated from dfinity/bitcoin-canister commit 47c5d1f14eff39282245ea6aec6e9f821571b024 for file 'canister/candid.did'
+
 type network = variant {
   mainnet;
   testnet;  // Bitcoin testnet4.

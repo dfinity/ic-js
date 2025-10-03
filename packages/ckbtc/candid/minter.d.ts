@@ -2,6 +2,9 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
+/**
+ * Represents an account on the ckBTC ledger.
+ */
 export interface Account {
   owner: Principal;
   subaccount: [] | [Uint8Array | number[]];
@@ -13,9 +16,24 @@ export type BitcoinAddress =
   | { p2wpkh_v0: Uint8Array | number[] }
   | { p2pkh: Uint8Array | number[] };
 export type BtcNetwork =
-  | { Mainnet: null }
-  | { Regtest: null }
-  | { Testnet: null };
+  | {
+      /**
+       * The public Bitcoin mainnet.
+       */
+      Mainnet: null;
+    }
+  | {
+      /**
+       * A local Bitcoin regtest installation.
+       */
+      Regtest: null;
+    }
+  | {
+      /**
+       * The public Bitcoin testnet.
+       */
+      Testnet: null;
+    };
 export interface CanisterStatusResponse {
   memory_metrics: MemoryMetrics;
   status: CanisterStatusType;
@@ -154,18 +172,62 @@ export type EventType =
         mint_block_index: bigint;
       };
     };
+/**
+ * The initialization parameters of the minter canister.
+ */
 export interface InitArgs {
+  /**
+   * / The expiration duration (in seconds) for cached entries in the get_utxos cache.
+   */
   get_utxos_cache_expiration_seconds: [] | [bigint];
+  /**
+   * / The canister id of the KYT canister (deprecated, use btc_checker_principal instead).
+   */
   kyt_principal: [] | [Principal];
+  /**
+   * The name of the ECDSA key to use.
+   * E.g., "dfx_test_key" on the local replica.
+   */
   ecdsa_key_name: string;
+  /**
+   * / The minter's operation mode.
+   */
   mode: Mode;
+  /**
+   * The minimal amount of ckBTC that can be converted to BTC.
+   */
   retrieve_btc_min_amount: bigint;
+  /**
+   * The principal of the ledger that handles ckBTC transfers.
+   * The default account of the ckBTC minter must be configured as
+   * the minting account of the ledger.
+   */
   ledger_id: Principal;
+  /**
+   * / Maximum time in nanoseconds that a transaction should spend in the queue
+   * / before being sent.
+   */
   max_time_in_queue_nanos: bigint;
+  /**
+   * The minter will interact with this Bitcoin network.
+   */
   btc_network: BtcNetwork;
+  /**
+   * / The fee paid per Bitcoin check.
+   */
   check_fee: [] | [bigint];
+  /**
+   * / The canister id of the Bitcoin checker canister.
+   */
   btc_checker_principal: [] | [Principal];
+  /**
+   * / The minimum number of confirmations required for the minter to
+   * / accept a Bitcoin transaction.
+   */
   min_confirmations: [] | [number];
+  /**
+   * / The fee paid per check by the KYT canister (deprecated, use check_fee instead).
+   */
   kyt_fee: [] | [bigint];
 }
 export type InvalidTransactionError = {
@@ -187,15 +249,45 @@ export interface MemoryMetrics {
 }
 export type MinterArg = { Upgrade: [] | [UpgradeArgs] } | { Init: InitArgs };
 export interface MinterInfo {
+  /**
+   * This amount is based on the `retrieve_btc_min_amount` setting during canister
+   * initialization or upgrades, but may vary according to current network fees.
+   */
   retrieve_btc_min_amount: bigint;
   min_confirmations: number;
+  /**
+   * The same as `check_fee`, but the old name is kept here to be backward compatible.
+   */
   kyt_fee: bigint;
 }
 export type Mode =
-  | { RestrictedTo: Array<Principal> }
-  | { DepositsRestrictedTo: Array<Principal> }
-  | { ReadOnly: null }
-  | { GeneralAvailability: null };
+  | {
+      /**
+       * Only specified principals can modify minter's state.
+       */
+      RestrictedTo: Array<Principal>;
+    }
+  | {
+      /**
+       * Only specified principals can convert BTC to ckBTC.
+       */
+      DepositsRestrictedTo: Array<Principal>;
+    }
+  | {
+      /**
+       * The minter does not allow any state modifications.
+       */
+      ReadOnly: null;
+    }
+  | {
+      /**
+       * Anyone can interact with the minter.
+       */
+      GeneralAvailability: null;
+    };
+/**
+ * Utxos that don't have enough confirmations to be processed.
+ */
 export interface PendingUtxo {
   confirmations: number;
   value: bigint;
@@ -227,64 +319,283 @@ export type ReplacedReason =
     }
   | { to_retry: null };
 export interface RetrieveBtcArgs {
+  /**
+   * The address to which the ckBTC minter should deposit BTC.
+   */
   address: string;
+  /**
+   * The amount of ckBTC in Satoshis that the client wants to withdraw.
+   */
   amount: bigint;
 }
 export type RetrieveBtcError =
-  | { MalformedAddress: string }
-  | { GenericError: { error_message: string; error_code: bigint } }
-  | { TemporarilyUnavailable: string }
-  | { AlreadyProcessing: null }
-  | { AmountTooLow: bigint }
-  | { InsufficientFunds: { balance: bigint } };
+  | {
+      /**
+       * The minter failed to parse the destination address.
+       */
+      MalformedAddress: string;
+    }
+  | {
+      /**
+       * A generic error reserved for future extensions.
+       */
+      GenericError: { error_message: string; error_code: bigint };
+    }
+  | {
+      /**
+       * The minter is overloaded, retry the request.
+       * The payload contains a human-readable message explaining what caused the unavailability.
+       */
+      TemporarilyUnavailable: string;
+    }
+  | {
+      /**
+       * The minter is already processing another retrieval request for the same
+       * principal.
+       */
+      AlreadyProcessing: null;
+    }
+  | {
+      /**
+       * The withdrawal amount is too low.
+       * The payload contains the minimal withdrawal amount.
+       */
+      AmountTooLow: bigint;
+    }
+  | {
+      /**
+       * The ckBTC balance of the withdrawal account is too low.
+       */
+      InsufficientFunds: { balance: bigint };
+    };
 export interface RetrieveBtcOk {
+  /**
+   * Returns the burn transaction index corresponding to the withdrawal.
+   * You can use this index to query the withdrawal status.
+   */
   block_index: bigint;
 }
 export type RetrieveBtcStatus =
-  | { Signing: null }
-  | { Confirmed: { txid: Uint8Array | number[] } }
-  | { Sending: { txid: Uint8Array | number[] } }
-  | { AmountTooLow: null }
-  | { Unknown: null }
-  | { Submitted: { txid: Uint8Array | number[] } }
-  | { Pending: null };
+  | {
+      /**
+       * The minter is obtaining all required ECDSA signatures on the
+       * Bitcoin transaction for this request.
+       */
+      Signing: null;
+    }
+  | {
+      /**
+       * The minter received enough confirmations for the Bitcoin
+       * transaction for this request.  The payload contains the
+       * identifier of the transaction on the Bitcoin network.
+       */
+      Confirmed: { txid: Uint8Array | number[] };
+    }
+  | {
+      /**
+       * The minter signed the transaction and is waiting for a reply
+       * from the Bitcoin canister.
+       */
+      Sending: { txid: Uint8Array | number[] };
+    }
+  | {
+      /**
+       * The amount was too low to cover the transaction fees.
+       */
+      AmountTooLow: null;
+    }
+  | {
+      /**
+       * The minter does not have any information on the specified
+       * retrieval request.  It can be that nobody submitted the
+       * request or the minter pruned the relevant information from the
+       * history to save space.
+       */
+      Unknown: null;
+    }
+  | {
+      /**
+       * The minter sent a transaction for the retrieve request.
+       * The payload contains the identifier of the transaction on the Bitcoin network.
+       */
+      Submitted: { txid: Uint8Array | number[] };
+    }
+  | {
+      /**
+       * The minter did not send a Bitcoin transaction for this request yet.
+       */
+      Pending: null;
+    };
 export type RetrieveBtcStatusV2 =
-  | { Signing: null }
-  | { Confirmed: { txid: Uint8Array | number[] } }
-  | { Sending: { txid: Uint8Array | number[] } }
-  | { AmountTooLow: null }
-  | { WillReimburse: ReimbursementRequest }
-  | { Unknown: null }
-  | { Submitted: { txid: Uint8Array | number[] } }
-  | { Reimbursed: ReimbursedDeposit }
-  | { Pending: null };
+  | {
+      /**
+       * The minter is obtaining all required ECDSA signatures on the
+       * Bitcoin transaction for this request.
+       */
+      Signing: null;
+    }
+  | {
+      /**
+       * The minter received enough confirmations for the Bitcoin
+       * transaction for this request.  The payload contains the
+       * identifier of the transaction on the Bitcoin network.
+       */
+      Confirmed: { txid: Uint8Array | number[] };
+    }
+  | {
+      /**
+       * The minter signed the transaction and is waiting for a reply
+       * from the Bitcoin canister.
+       */
+      Sending: { txid: Uint8Array | number[] };
+    }
+  | {
+      /**
+       * The amount was too low to cover the transaction fees.
+       */
+      AmountTooLow: null;
+    }
+  | {
+      /**
+       * / The minter will try to reimburse this transaction.
+       */
+      WillReimburse: ReimbursementRequest;
+    }
+  | {
+      /**
+       * The minter does not have any information on the specified
+       * retrieval request.  It can be that nobody submitted the
+       * request or the minter pruned the relevant information from the
+       * history to save space.
+       */
+      Unknown: null;
+    }
+  | {
+      /**
+       * The minter sent a transaction for the retrieve request.
+       * The payload contains the identifier of the transaction on the Bitcoin network.
+       */
+      Submitted: { txid: Uint8Array | number[] };
+    }
+  | {
+      /**
+       * / The retrieve Bitcoin request has been reimbursed.
+       */
+      Reimbursed: ReimbursedDeposit;
+    }
+  | {
+      /**
+       * The minter did not send a Bitcoin transaction for this request yet.
+       */
+      Pending: null;
+    };
 export interface RetrieveBtcWithApprovalArgs {
+  /**
+   * The subaccount to burn ckBTC from.
+   */
   from_subaccount: [] | [Uint8Array | number[]];
+  /**
+   * The address to which the ckBTC minter should deposit BTC.
+   */
   address: string;
+  /**
+   * The amount of ckBTC in Satoshis that the client wants to withdraw.
+   */
   amount: bigint;
 }
 export type RetrieveBtcWithApprovalError =
-  | { MalformedAddress: string }
-  | { GenericError: { error_message: string; error_code: bigint } }
-  | { TemporarilyUnavailable: string }
-  | { InsufficientAllowance: { allowance: bigint } }
-  | { AlreadyProcessing: null }
-  | { AmountTooLow: bigint }
-  | { InsufficientFunds: { balance: bigint } };
-export type SuspendedReason = { ValueTooSmall: null } | { Quarantined: null };
+  | {
+      /**
+       * The minter failed to parse the destination address.
+       */
+      MalformedAddress: string;
+    }
+  | {
+      /**
+       * A generic error reserved for future extensions.
+       */
+      GenericError: { error_message: string; error_code: bigint };
+    }
+  | {
+      /**
+       * The minter is overloaded, retry the request.
+       * The payload contains a human-readable message explaining what caused the unavailability.
+       */
+      TemporarilyUnavailable: string;
+    }
+  | {
+      /**
+       * The allowance given to the minter is too low.
+       */
+      InsufficientAllowance: { allowance: bigint };
+    }
+  | {
+      /**
+       * The minter is already processing another retrieval request for the same
+       * principal.
+       */
+      AlreadyProcessing: null;
+    }
+  | {
+      /**
+       * The withdrawal amount is too low.
+       * The payload contains the minimal withdrawal amount.
+       */
+      AmountTooLow: bigint;
+    }
+  | {
+      /**
+       * The ckBTC balance of the withdrawal account is too low.
+       */
+      InsufficientFunds: { balance: bigint };
+    };
+export type SuspendedReason =
+  | {
+      /**
+       * The minter ignored this UTXO because UTXO's value is too small to pay
+       * the check fees.
+       */
+      ValueTooSmall: null;
+    }
+  | {
+      /**
+       * The Bitcoin checker considered this UTXO to be tainted.
+       */
+      Quarantined: null;
+    };
 export interface SuspendedUtxo {
   utxo: Utxo;
   earliest_retry: Timestamp;
   reason: SuspendedReason;
 }
+/**
+ * Number of nanoseconds since the Unix Epoch
+ */
 export type Timestamp = bigint;
 export type UpdateBalanceError =
   | {
+      /**
+       * A generic error reserved for future extensions.
+       */
       GenericError: { error_message: string; error_code: bigint };
     }
-  | { TemporarilyUnavailable: string }
-  | { AlreadyProcessing: null }
   | {
+      /**
+       * The minter is overloaded, retry the request.
+       * The payload contains a human-readable message explaining what caused the unavailability.
+       */
+      TemporarilyUnavailable: string;
+    }
+  | {
+      /**
+       * The minter is already processing another update balance request for the caller.
+       */
+      AlreadyProcessing: null;
+    }
+  | {
+      /**
+       * There are no new UTXOs to process.
+       */
       NoNewUtxos: {
         suspended_utxos: [] | [Array<SuspendedUtxo>];
         required_confirmations: number;
@@ -292,15 +603,47 @@ export type UpdateBalanceError =
         current_confirmations: [] | [number];
       };
     };
+/**
+ * The upgrade parameters of the minter canister.
+ */
 export interface UpgradeArgs {
+  /**
+   * / The expiration duration (in seconds) for cached entries in the get_utxos cache.
+   */
   get_utxos_cache_expiration_seconds: [] | [bigint];
+  /**
+   * / The canister id of the KYT canister (deprecated, use btc_checker_principal instead).
+   */
   kyt_principal: [] | [Principal];
+  /**
+   * / If set, overrides the current minter's operation mode.
+   */
   mode: [] | [Mode];
+  /**
+   * The minimal amount of ckBTC that the minter converts to BTC.
+   */
   retrieve_btc_min_amount: [] | [bigint];
+  /**
+   * / Maximum time in nanoseconds that a transaction should spend in the queue
+   * / before being sent.
+   */
   max_time_in_queue_nanos: [] | [bigint];
+  /**
+   * / The fee per Bitcoin check.
+   */
   check_fee: [] | [bigint];
+  /**
+   * / The principal of the Bitcoin checker canister.
+   */
   btc_checker_principal: [] | [Principal];
+  /**
+   * / The minimum number of confirmations required for the minter to
+   * / accept a Bitcoin transaction.
+   */
   min_confirmations: [] | [number];
+  /**
+   * / The fee paid per check by the KYT canister (deprecated, use check_fee instead).
+   */
   kyt_fee: [] | [bigint];
 }
 export interface Utxo {
@@ -308,17 +651,41 @@ export interface Utxo {
   value: bigint;
   outpoint: { txid: Uint8Array | number[]; vout: number };
 }
+/**
+ * The result of an [update_balance] call.
+ */
 export type UtxoStatus =
-  | { ValueTooSmall: Utxo }
-  | { Tainted: Utxo }
   | {
+      /**
+       * The minter ignored this UTXO because UTXO's value is too small to pay
+       * the check fees.
+       */
+      ValueTooSmall: Utxo;
+    }
+  | {
+      /**
+       * The Bitcoin checker considered this UTXO to be tainted.
+       */
+      Tainted: Utxo;
+    }
+  | {
+      /**
+       * The UTXO passed the Bitcoin check, and ckBTC has been minted.
+       */
       Minted: {
         minted_amount: bigint;
         block_index: bigint;
         utxo: Utxo;
       };
     }
-  | { Checked: Utxo };
+  | {
+      /**
+       * The UTXO passed the Bitcoin check, but the minter failed to mint ckBTC
+       * because the Ledger was unavailable. Retrying the [update_balance] call
+       * should eventually advance the UTXO to the [Minted] state.
+       */
+      Checked: Utxo;
+    };
 export interface WithdrawalFee {
   minter_fee: bigint;
   bitcoin_fee: bigint;
@@ -327,10 +694,22 @@ export type WithdrawalReimbursementReason = {
   invalid_transaction: InvalidTransactionError;
 };
 export interface _SERVICE {
+  /**
+   * / Returns an estimate of the user's fee (in Satoshi) for a
+   * / retrieve_btc request based on the current status of the Bitcoin network.
+   */
   estimate_withdrawal_fee: ActorMethod<
     [{ amount: [] | [bigint] }],
     { minter_fee: bigint; bitcoin_fee: bigint }
   >;
+  /**
+   * Returns the Bitcoin address to which the owner should send BTC
+   * before converting the amount to ckBTC using the [update_balance]
+   * endpoint.
+   *
+   * If the owner is not set, it defaults to the caller's principal.
+   * The resolved owner must be a non-anonymous principal.
+   */
   get_btc_address: ActorMethod<
     [
       {
@@ -341,8 +720,28 @@ export interface _SERVICE {
     string
   >;
   get_canister_status: ActorMethod<[], CanisterStatusResponse>;
+  /**
+   * / Returns the fee that the minter will charge for a bitcoin deposit.
+   */
   get_deposit_fee: ActorMethod<[], bigint>;
+  /**
+   * The minter keeps track of all state modifications in an internal event log.
+   *
+   * This method returns a list of events in the specified range.
+   * The minter can return fewer events than requested. The result is
+   * an empty vector if the start position is greater than the total
+   * number of events.
+   *
+   * NOTE: this method exists for debugging purposes.
+   * The ckBTC minter authors do not guarantee backward compatibility for this method.
+   */
   get_events: ActorMethod<[{ start: bigint; length: bigint }], Array<Event>>;
+  /**
+   * Returns UTXOs of the given account known by the minter (with no
+   * guarantee in the ordering of the returned values).
+   *
+   * If the owner is not set, it defaults to the caller's principal.
+   */
   get_known_utxos: ActorMethod<
     [
       {
@@ -352,28 +751,91 @@ export interface _SERVICE {
     ],
     Array<Utxo>
   >;
+  /**
+   * Section "Minter Information" {{{
+   * Returns internal minter parameters.
+   */
   get_minter_info: ActorMethod<[], MinterInfo>;
+  /**
+   * Returns the account to which the caller should deposit ckBTC
+   * before withdrawing BTC using the [retrieve_btc] endpoint.
+   */
   get_withdrawal_account: ActorMethod<[], Account>;
+  /**
+   * Submits a request to convert ckBTC to BTC.
+   *
+   * # Note
+   *
+   * The BTC retrieval process is slow.  Instead of
+   * synchronously waiting for a BTC transaction to settle, this
+   * method returns a request ([block_index]) that the caller can use
+   * to query the request status.
+   *
+   * # Preconditions
+   *
+   * * The caller deposited the requested amount in ckBTC to the account
+   * that the [get_withdrawal_account] endpoint returns.
+   */
   retrieve_btc: ActorMethod<
     [RetrieveBtcArgs],
     { Ok: RetrieveBtcOk } | { Err: RetrieveBtcError }
   >;
+  /**
+   * / [deprecated] Returns the status of a withdrawal request.
+   * / You should use retrieve_btc_status_v2 to retrieve the status of your withdrawal request.
+   */
   retrieve_btc_status: ActorMethod<
     [{ block_index: bigint }],
     RetrieveBtcStatus
   >;
+  /**
+   * / Returns the status of a withdrawal request request using the RetrieveBtcStatusV2 type.
+   */
   retrieve_btc_status_v2: ActorMethod<
     [{ block_index: bigint }],
     RetrieveBtcStatusV2
   >;
+  /**
+   * Returns the withdrawal statues by account.
+   *
+   * # Note
+   * The _v2_ part indicates that you get a response in line with the retrieve_btc_status_v2 endpoint,
+   * i.e., you get a vector of RetrieveBtcStatusV2 and not RetrieveBtcStatus.
+   *
+   */
   retrieve_btc_status_v2_by_account: ActorMethod<
     [[] | [Account]],
     Array<{ block_index: bigint; status_v2: [] | [RetrieveBtcStatusV2] }>
   >;
+  /**
+   * Submits a request to convert ckBTC to BTC.
+   *
+   * # Note
+   *
+   * The BTC retrieval process is slow.  Instead of
+   * synchronously waiting for a BTC transaction to settle, this
+   * method returns a request ([block_index]) that the caller can use
+   * to query the request status.
+   *
+   * # Preconditions
+   *
+   * * The caller allowed the minter's principal to spend its funds
+   * using [icrc2_approve] on the ckBTC ledger.
+   */
   retrieve_btc_with_approval: ActorMethod<
     [RetrieveBtcWithApprovalArgs],
     { Ok: RetrieveBtcOk } | { Err: RetrieveBtcWithApprovalError }
   >;
+  /**
+   * Mints ckBTC for newly deposited UTXOs.
+   *
+   * If the owner is not set, it defaults to the caller's principal.
+   *
+   * # Preconditions
+   *
+   * * The owner deposited some BTC to the address that the
+   * [get_btc_address] endpoint returns.
+   */
   update_balance: ActorMethod<
     [
       {

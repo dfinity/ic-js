@@ -1,5 +1,6 @@
 import {
   asNonNullish,
+  assertNever,
   assertNonNullish,
   assertPercentageNumber,
   InvalidPercentageError,
@@ -95,6 +96,24 @@ describe("asserts-utils", () => {
       const call1 = () => assertPercentageNumber(300);
 
       expect(call1).toThrow(InvalidPercentageError);
+    });
+  });
+
+  describe("assertNever", () => {
+    it("throws an Error with the provided message", () => {
+      const msg = "Unsupported source";
+
+      expect(() => assertNever(undefined as never, msg)).toThrow(msg);
+    });
+
+    it("throws an Error when message is omitted", () => {
+      expect(() => assertNever(undefined as never)).toThrow(Error);
+    });
+
+    it("has a `never` parameter type", () => {
+      expectTypeOf<Parameters<typeof assertNever>[0]>().toBeNever();
+
+      expect(true).toBeTruthy();
     });
   });
 });

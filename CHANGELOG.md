@@ -1,3 +1,9 @@
+# Next
+
+## Chore
+
+- Upgrade `didc` to `0.5.2` that converts candid files into JS and TS.
+
 # v76
 
 ## Overview
