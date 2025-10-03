@@ -43,6 +43,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal
 - [assertNonNullish](#gear-assertnonnullish)
 - [asNonNullish](#gear-asnonnullish)
 - [assertPercentageNumber](#gear-assertpercentagenumber)
+- [assertNever](#gear-assertnever)
 - [uint8ArrayToBigInt](#gear-uint8arraytobigint)
 - [bigIntToUint8Array](#gear-biginttouint8array)
 - [numberToUint8Array](#gear-numbertouint8array)
@@ -270,6 +271,28 @@ Parameters:
 | `assertPercentageNumber` | `(percentage: number) => void` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L23)
+
+#### :gear: assertNever
+
+Utility to enforce exhaustiveness checks in TypeScript.
+
+This function should only be called in branches of a `switch` or conditional
+that should be unreachable if the union type has been fully handled.
+
+By typing the parameter as `never`, the compiler will emit an error if
+a new variant is added to the union but not covered in the logic.
+
+| Function      | Type                                                 |
+| ------------- | ---------------------------------------------------- |
+| `assertNever` | `(_: never, message?: string or undefined) => never` |
+
+Parameters:
+
+- `_`: - A value that should be of type `never`. If this is not the case,
+  the TypeScript compiler will flag a type error.
+- `message`: - Optional custom error message to include in the thrown error.
+
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L47)
 
 #### :gear: uint8ArrayToBigInt
 
