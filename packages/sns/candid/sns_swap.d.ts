@@ -2,9 +2,6 @@ import type { ActorMethod } from "@dfinity/agent";
 import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
-/**
- * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/sns/swap/canister/swap.did' by import-candid
- */
 export interface BuyerState {
   icp: [] | [TransferableAmount];
   has_created_neuron_recipes: [] | [boolean];

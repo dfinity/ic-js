@@ -119,9 +119,6 @@ export interface Eip1559TransactionPriceArg {
 export interface EthTransaction {
   transaction_hash: string;
 }
-/**
- * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/ethereum/cketh/minter/cketh_minter.did' by import-candid
- */
 export type EthereumNetwork =
   | {
       /**
