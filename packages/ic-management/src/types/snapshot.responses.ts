@@ -1,4 +1,4 @@
-import { fromNullable, isNullish } from "@dfinity/utils";
+import { assertNever, fromNullable, isNullish } from "@dfinity/utils";
 import type { read_canister_snapshot_metadata_response } from "../../candid/ic-management";
 
 export interface ReadCanisterSnapshotMetadataResponse {
@@ -46,7 +46,7 @@ export const fromReadCanisterSnapshotMetadataResponse = ({
       return { takenFromCanister: source.taken_from_canister };
     }
 
-    throw new Error("Unsupported snapshot metadata source");
+    assertNever(source, "Unsupported snapshot metadata source");
   };
 
   const mapOnLowWasmMemoryHookStatus =
@@ -69,7 +69,8 @@ export const fromReadCanisterSnapshotMetadataResponse = ({
         return { ready: value.ready };
       }
 
-      throw new Error(
+      assertNever(
+        value,
         "Unsupported snapshot metadata on_low_wasm_memory_hook_status",
       );
     };
