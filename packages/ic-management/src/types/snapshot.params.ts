@@ -1,5 +1,5 @@
 import type { Principal } from "@dfinity/principal";
-import { isNullish, nonNullish, toNullable } from "@dfinity/utils";
+import { assertNever, isNullish, nonNullish, toNullable } from "@dfinity/utils";
 import type {
   canister_id,
   read_canister_snapshot_data_args,
@@ -67,7 +67,7 @@ export const toCanisterSnapshotMetadataKind = (
     return { wasm_chunk: kind.wasmChunk };
   }
 
-  throw new Error("Unsupported snapshot metadata kind");
+  assertNever(kind, "Unsupported snapshot metadata kind");
 };
 
 export type UploadCanisterSnapshotMetadataParam = Pick<
@@ -159,5 +159,5 @@ export const toUploadCanisterSnapshotDataKind = (
     return { wasm_chunk: null };
   }
 
-  throw new Error("Unsupported snapshot data kind");
+  assertNever(kind, "Unsupported snapshot data kind");
 };
