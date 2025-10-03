@@ -89,9 +89,6 @@ export interface Status {
   num_blocks_synced: BlockIndex;
 }
 export type SubAccount = Uint8Array | number[];
-/**
- * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/ledger_suite/icrc1/index-ng/index-ng.did' by import-candid
- */
 export type Tokens = bigint;
 export interface Transaction {
   burn: [] | [Burn];

@@ -3,7 +3,6 @@ import type { IDL } from "@dfinity/candid";
 import type { Principal } from "@dfinity/principal";
 
 /**
- * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/bitcoin/ckbtc/minter/ckbtc_minter.did' by import-candid
  * Represents an account on the ckBTC ledger.
  */
 export interface Account {
@@ -696,8 +695,6 @@ export type WithdrawalReimbursementReason = {
 };
 export interface _SERVICE {
   /**
-   * }}} Section "Convert BTC to ckBTC"
-   * Section "Convert ckBTC to BTC" {{{
    * / Returns an estimate of the user's fee (in Satoshi) for a
    * / retrieve_btc request based on the current status of the Bitcoin network.
    */
@@ -706,7 +703,6 @@ export interface _SERVICE {
     { minter_fee: bigint; bitcoin_fee: bigint }
   >;
   /**
-   * Section "Convert BTC to ckBTC" {{{
    * Returns the Bitcoin address to which the owner should send BTC
    * before converting the amount to ckBTC using the [update_balance]
    * endpoint.
@@ -729,8 +725,6 @@ export interface _SERVICE {
    */
   get_deposit_fee: ActorMethod<[], bigint>;
   /**
-   * }}}
-   * Section "Event log" {{{
    * The minter keeps track of all state modifications in an internal event log.
    *
    * This method returns a list of events in the specified range.
@@ -758,7 +752,6 @@ export interface _SERVICE {
     Array<Utxo>
   >;
   /**
-   * }}} Section "Convert ckBTC to BTC"
    * Section "Minter Information" {{{
    * Returns internal minter parameters.
    */

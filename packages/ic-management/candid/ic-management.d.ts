@@ -45,9 +45,6 @@ export interface bitcoin_send_transaction_args {
   transaction: Uint8Array | number[];
   network: bitcoin_network;
 }
-/**
- * Generated from dfinity/portal commit b562ec5d68bce1fef2859a9a592d9487d3b64919 for file 'docs/references/_attachments/ic.did'
- */
 export type canister_id = Principal;
 export interface canister_info_args {
   canister_id: canister_id;
