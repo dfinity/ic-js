@@ -58,9 +58,6 @@ export type CreateCanisterResult =
       Ok: Principal;
     }
   | { Err: CreateCanisterError };
-/**
- * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/nns/cmc/cmc.did' by import-candid
- */
 export type Cycles = bigint;
 export interface CyclesCanisterInitPayload {
   exchange_rate_canister: [] | [ExchangeRateCanister];

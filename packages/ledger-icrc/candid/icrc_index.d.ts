@@ -87,9 +87,6 @@ export interface Transfer {
   amount: bigint;
   spender: [] | [Account];
 }
-/**
- * Generated from IC repo commit d9fe207 (2024-12-06 tags: release-2024-12-06_03-16-base) 'rs/ledger_suite/icrc1/index/index.did' by import-candid
- */
 export type TxId = bigint;
 export interface _SERVICE {
   get_account_transactions: ActorMethod<

@@ -369,8 +369,6 @@ export interface TipOfChainRes {
   tip_index: BlockIndex;
 }
 /**
- * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/ledger_suite/icp/ledger.did' by import-candid
- * This is the official Ledger interface that is guaranteed to be backward compatible.
  * Amount of tokens, measured in 10^-8 of a token.
  */
 export interface Tokens {
