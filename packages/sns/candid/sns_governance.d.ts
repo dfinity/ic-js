@@ -444,6 +444,9 @@ export interface MergeMaturityResponse {
   new_stake_e8s: bigint;
 }
 export interface Metrics {
+  /**
+   * The metrics below are cached (albeit this is an implementation detail).
+   */
   treasury_metrics: [] | [Array<TreasuryMetrics>];
   voting_power_metrics: [] | [VotingPowerMetrics];
   last_ledger_block_timestamp: [] | [bigint];
@@ -563,6 +566,22 @@ export interface PendingVersion {
 export interface Percentage {
   basis_points: [] | [bigint];
 }
+/**
+ * This type is equivalant to `ICRC3Value`, but we give it another name since it is used here not
+ * in the context of the ICRC-3 ledger standard. The justification is the same: The candid format
+ * supports sharing information even when the client and the server involved do not have the same
+ * schema (see the Upgrading and subtyping section of the candid spec). While this mechanism allows
+ * to evolve services and clients independently without breaking them, it also means that a client
+ * may not receive all the information that the server is sending, e.g. in case the client schema
+ * lacks some fields that the server schema has.
+ *
+ * This loss of information is not an option for SNS voters deciding if an extension with particular
+ * init args should be installed or if an extension function with particular arguments should be
+ * called. The client must receive the same exact data the server sent in order to verify it.
+ *
+ * Verification of a priorly installed extension is done by hashing the extension's init arg data
+ * and checking that the result is consistent with what has been certified by the SNS.
+ */
 export type PreciseValue =
   | { Int: bigint }
   | { Map: Array<[string, PreciseValue]> }
@@ -737,12 +756,30 @@ export interface TransferSnsTreasuryFunds {
   amount_e8s: bigint;
 }
 export interface TreasuryMetrics {
+  /**
+   * A human-readable identified for this treasury, e.g., "ICP".
+   */
   name: [] | [string];
+  /**
+   * The amount of tokens in this treasury at the end of swap finalization.
+   */
   original_amount_e8s: [] | [bigint];
+  /**
+   * The regularly updated amount of tokens in this treasury.
+   */
   amount_e8s: [] | [bigint];
   account: [] | [Account];
+  /**
+   * The source of truth for the treasury balance is this ledger canister / account.
+   */
   ledger_canister_id: [] | [Principal];
+  /**
+   * Same as, e.g., `TransferSnsTreasuryFunds.from_treasury`.
+   */
   treasury: number;
+  /**
+   * When the metrics were last updated.
+   */
   timestamp_seconds: [] | [bigint];
 }
 export interface UpgradeExtension {
@@ -831,6 +868,9 @@ export interface Versions {
 }
 export interface VotingPowerMetrics {
   governance_total_potential_voting_power: [] | [bigint];
+  /**
+   * When the metrics were last updated.
+   */
   timestamp_seconds: [] | [bigint];
 }
 export interface VotingRewardsParameters {

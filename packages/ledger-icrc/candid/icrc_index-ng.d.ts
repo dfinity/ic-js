@@ -29,7 +29,16 @@ export interface FeeCollectorRanges {
   ranges: Array<[Account, Array<[BlockIndex, BlockIndex]>]>;
 }
 export interface GetAccountTransactionsArgs {
+  /**
+   * Maximum number of transactions to fetch.
+   */
   max_results: bigint;
+  /**
+   * The txid of the last transaction seen by the client.
+   * If None then the results will start from the most recent
+   * txid. If set then the results will start from the next
+   * most recent txid after start (start won't be included).
+   */
   start: [] | [BlockIndex];
   account: Account;
 }
@@ -44,6 +53,9 @@ export interface GetBlocksResponse {
 export interface GetTransactions {
   balance: Tokens;
   transactions: Array<TransactionWithId>;
+  /**
+   * The txid of the oldest transaction the account has
+   */
   oldest_tx_id: [] | [BlockIndex];
 }
 export interface GetTransactionsErr {
@@ -55,6 +67,11 @@ export type GetTransactionsResult =
 export type IndexArg = { Upgrade: UpgradeArg } | { Init: InitArg };
 export interface InitArg {
   ledger_id: Principal;
+  /**
+   * The interval in seconds in which to retrieve blocks from the ledger. A lower value makes the index more
+   * responsive in showing new blocks, but increases the consumption of cycles of both the index and ledger canisters.
+   * A higher values means that it takes longer for new blocks to show up in the index.
+   */
   retrieve_blocks_from_ledger_interval_seconds: [] | [bigint];
 }
 export interface ListSubaccountsArgs {
@@ -96,6 +113,11 @@ export interface Transfer {
 }
 export interface UpgradeArg {
   ledger_id: [] | [Principal];
+  /**
+   * The interval in seconds in which to retrieve blocks from the ledger. A lower value makes the index more
+   * responsive in showing new blocks, but increases the consumption of cycles of both the index and ledger canisters.
+   * A higher values means that it takes longer for new blocks to show up in the index.
+   */
   retrieve_blocks_from_ledger_interval_seconds: [] | [bigint];
 }
 export type Value =

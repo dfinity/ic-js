@@ -1,3 +1,4 @@
+import { assertNever, jsonReplacer } from "@dfinity/utils";
 import type { NotifyError } from "../candid/cmc";
 
 export class RefundedError extends Error {}
@@ -29,6 +30,9 @@ export const throwNotifyError = ({
       `Error in CMC with code ${error.Other.error_code}: ${error.Other.error_message}`,
     );
   }
-  // Edge case
-  throw new Error(`Unsupported error type ${JSON.stringify(error)}`);
+
+  assertNever(
+    error,
+    `Unsupported error type ${JSON.stringify(error, jsonReplacer)}`,
+  );
 };
