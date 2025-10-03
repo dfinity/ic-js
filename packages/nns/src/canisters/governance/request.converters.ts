@@ -1363,7 +1363,7 @@ export const fromDisburseRequest = (request: DisburseRequest): PbManageNeuron =>
   if (request.toAccountId) {
     const toAccountIdentifier = new PbAccountIdentifier();
     toAccountIdentifier.setHash(
-      Uint8Array.from(Buffer.from(request.toAccountId, "hex"))
+      uint8ArrayToHexString(request.toAccountId)
     );
     disburse.setToAccount(toAccountIdentifier);
   }
