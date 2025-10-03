@@ -46,4 +46,4 @@ export const assertPercentageNumber = (percentage: number) => {
 // eslint-disable-next-line local-rules/prefer-object-params
 export const assertNever = (_: never, message?: string): never => {
   throw new Error(message);
-}
+};
