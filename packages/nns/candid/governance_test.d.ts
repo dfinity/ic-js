@@ -6,9 +6,6 @@ export interface Account {
   owner: [] | [Principal];
   subaccount: [] | [Uint8Array | number[]];
 }
-/**
- * Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/nns/governance/canister/governance_test.did' by import-candid
- */
 export interface AccountIdentifier {
   hash: Uint8Array | number[];
 }
