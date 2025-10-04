@@ -1,4 +1,4 @@
-import type { Principal } from "@dfinity/principal";
+import type { Principal } from "@icp-sdk/core/principal";
 import type { Subaccount, Value } from "../../candid/icrc_ledger";
 
 // Source: https://github.com/dfinity/icrc-1#standard-metadata-entries

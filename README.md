@@ -40,7 +40,7 @@ That is s why, to help tree-shaking and avoid duplication of code, the libraries
 Therefore, be sure that the needed `agent-js` and [utils](/packages/utils) dependencies are available in your project or install these as following:
 
 ```bash
-npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
+npm i @icp-sdk/core @dfinity/utils
 ```
 
 ## Links

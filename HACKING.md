@@ -78,6 +78,6 @@ The files of the [candid](./candid) folders are shared across packages. Their ar
 Saving peer dependencies in `package-lock.json` needs npm >= v7.
 
 ```bash
-npm rm @dfinity/agent @dfinity/candid @dfinity/principal --workspaces
-npm i @dfinity/agent @dfinity/candid @dfinity/principal --save-peer --workspaces
+npm rm @icp-sdk/core --workspaces
+npm i @icp-sdk/core --save-peer --workspaces
 ```

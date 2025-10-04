@@ -3,8 +3,8 @@ import type {
   IcrcLedgerCanister,
   TransferParams,
 } from "@dfinity/ledger-icrc";
-import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
 import type { ManageNeuronResponse, NeuronId } from "../candid/sns_governance";
 import { SnsNeuronPermissionType, SnsVote } from "./enums/governance.enums";

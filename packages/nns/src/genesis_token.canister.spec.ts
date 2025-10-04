@@ -1,4 +1,4 @@
-import type { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type { _SERVICE as GenesisTokenService } from "../candid/genesis_token";
 import { GenesisTokenCanister } from "./genesis_token.canister";

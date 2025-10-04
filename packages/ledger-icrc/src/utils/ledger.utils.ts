@@ -1,4 +1,3 @@
-import { Principal } from "@dfinity/principal";
 import {
   bigEndianCrc32,
   encodeBase32,
@@ -8,6 +7,7 @@ import {
   notEmptyString,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 import {
   IcrcMetadataResponseEntries,
   type IcrcAccount,

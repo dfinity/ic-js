@@ -1,5 +1,5 @@
-import type { Principal } from "@dfinity/principal";
 import { decodeBase32 } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 
 /**
  * Encode a principal to a byte array as Ethereum data hex (staring with 0x).

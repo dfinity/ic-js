@@ -1,5 +1,5 @@
-import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { toNullable, type ServiceResponse } from "@dfinity/utils";
+import type { ActorSubclass, HttpAgent } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type {
   canister_install_mode,

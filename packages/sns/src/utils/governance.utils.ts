@@ -1,10 +1,10 @@
 import type { IcrcSubaccount } from "@dfinity/ledger-icrc";
-import type { Principal } from "@dfinity/principal";
 import {
   arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   numberToUint8Array,
 } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import { sha256 } from "@noble/hashes/sha2";
 
 /**

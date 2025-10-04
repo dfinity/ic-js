@@ -1,4 +1,4 @@
-import type { HttpAgent } from "@dfinity/agent";
+import type { HttpAgent } from "@icp-sdk/core/agent";
 import type { AgentManagerConfig } from "../utils/agent.utils";
 
 export const mockHttpAgent = {
