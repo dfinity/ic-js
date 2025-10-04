@@ -3,6 +3,7 @@ import {
   arrayOfNumberToUint8Array,
   asciiStringToByteArray,
   bigEndianCrc32,
+  hexStringToUint8Array,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
 import { sha224 } from "@noble/hashes/sha2";
@@ -31,7 +32,7 @@ export class AccountIdentifier {
    * @returns An instance of `AccountIdentifier`.
    */
   public static fromHex(hex: string): AccountIdentifier {
-    const bytes = Uint8Array.from(Buffer.from(hex, "hex"));
+    const bytes = hexStringToUint8Array(hex);
 
     if (bytes.length !== 32) {
       throw new Error(
