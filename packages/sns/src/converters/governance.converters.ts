@@ -8,6 +8,7 @@ import type {
   FunctionType as FunctionTypeCandid,
   GenericNervousSystemFunction as GenericNervousSystemFunctionCandid,
   ListProposals,
+  ManageDappCanisterSettings as ManageDappCanisterSettingsCandid,
   ManageNeuron,
   ManageSnsMetadata as ManageSnsMetadataCandid,
   NervousSystemFunction as NervousSystemFunctionCandid,
@@ -25,6 +26,7 @@ import type {
   ChunkedCanisterWasm,
   FunctionType,
   GenericNervousSystemFunction,
+  ManageDappCanisterSettings,
   ManageSnsMetadata,
   NervousSystemFunction,
   NervousSystemParameters,
@@ -351,6 +353,14 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     };
   }
 
+  if ("ManageDappCanisterSettings" in action) {
+    return {
+      ManageDappCanisterSettings: convertManageDappCanisterSettings(
+        action.ManageDappCanisterSettings,
+      ),
+    };
+  }
+
   if ("SetTopicsForCustomProposals" in action) {
     return {
       SetTopicsForCustomProposals: action.SetTopicsForCustomProposals,
@@ -430,6 +440,19 @@ const convertManageSnsMetadata = (
   logo: fromNullable(params.logo),
   name: fromNullable(params.name),
   description: fromNullable(params.description),
+});
+
+const convertManageDappCanisterSettings = (
+  params: ManageDappCanisterSettingsCandid,
+): ManageDappCanisterSettings => ({
+  freezing_threshold: fromNullable(params.freezing_threshold),
+  wasm_memory_threshold: fromNullable(params.wasm_memory_threshold),
+  canister_ids: params.canister_ids,
+  reserved_cycles_limit: fromNullable(params.reserved_cycles_limit),
+  log_visibility: fromNullable(params.log_visibility),
+  wasm_memory_limit: fromNullable(params.wasm_memory_limit),
+  memory_allocation: fromNullable(params.memory_allocation),
+  compute_allocation: fromNullable(params.compute_allocation),
 });
 
 const convertChunkedCanisterWasm = (

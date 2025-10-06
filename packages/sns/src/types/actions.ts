@@ -17,6 +17,7 @@ export type Action =
       ManageNervousSystemParameters: NervousSystemParameters;
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
+  | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { UpgradeSnsToNextVersion: Record<string, never> }
@@ -83,6 +84,17 @@ export interface GenericNervousSystemFunction {
   validator_method_name: Option<string>;
   target_method_name: Option<string>;
   topic: Option<Topic>;
+}
+
+export interface ManageDappCanisterSettings {
+  freezing_threshold: Option<bigint>;
+  wasm_memory_threshold: Option<bigint>;
+  canister_ids: Principal[];
+  reserved_cycles_limit: Option<bigint>;
+  log_visibility: Option<number>;
+  wasm_memory_limit: Option<bigint>;
+  memory_allocation: Option<bigint>;
+  compute_allocation: Option<bigint>;
 }
 
 export interface TransferSnsTreasuryFunds {

@@ -158,6 +158,43 @@ describe("governance converters", () => {
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
+    it("converts ManageDappCanisterSettings action", () => {
+      const canister_ids = [mockPrincipal, Principal.fromHex("123f")];
+      const freezing_threshold = BigInt(1);
+      const wasm_memory_threshold = BigInt(2);
+      const reserved_cycles_limit = BigInt(3);
+      const log_visibility = 4;
+      const wasm_memory_limit = BigInt(5);
+      const memory_allocation = BigInt(6);
+      const compute_allocation = BigInt(7);
+      const action: ActionCandid = {
+        ManageDappCanisterSettings: {
+          freezing_threshold: [freezing_threshold],
+          wasm_memory_threshold: [wasm_memory_threshold],
+          canister_ids,
+          reserved_cycles_limit: [reserved_cycles_limit],
+          log_visibility: [log_visibility],
+          wasm_memory_limit: [wasm_memory_limit],
+          memory_allocation: [memory_allocation],
+          compute_allocation: [compute_allocation],
+        },
+      };
+      const expectedAction: Action = {
+        ManageDappCanisterSettings: {
+          freezing_threshold,
+          wasm_memory_threshold,
+          canister_ids,
+          reserved_cycles_limit,
+          log_visibility,
+          wasm_memory_limit,
+          memory_allocation,
+          compute_allocation,
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
     it("converts SetTopicsForCustomProposals action", () => {
       const action: ActionCandid = {
         SetTopicsForCustomProposals: {
