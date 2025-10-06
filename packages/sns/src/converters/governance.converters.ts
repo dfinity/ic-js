@@ -503,7 +503,10 @@ const convertFunctionType = (
     };
   }
 
-  assertNever(params, `Unknown FunctionType ${JSON.stringify(params)}`);
+  assertNever(
+    params,
+    `Unknown FunctionType ${JSON.stringify(params, jsonReplacer)}`,
+  );
 };
 
 const convertNervousSystemFunction = (
