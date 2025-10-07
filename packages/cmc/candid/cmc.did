@@ -1,4 +1,5 @@
-// Generated from IC repo commit e915efe (2025-07-02 tags: release-2025-07-03_03-27-base) 'rs/nns/cmc/cmc.did' by import-candid
+// Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/nns/cmc/cmc.did' by import-candid
+
 type Cycles = nat;
 type BlockIndex = nat64;
 type log_visibility = variant {

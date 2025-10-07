@@ -106,10 +106,7 @@ describe("ledger.converters", () => {
             utcOffsetMinutes: 120,
           },
           deriveSpec: {
-            LineDisplay: {
-              charactersPerLine: 40,
-              linesPerPage: 10,
-            },
+            FieldsDisplay: null,
           },
         },
       };
@@ -127,10 +124,7 @@ describe("ledger.converters", () => {
             ),
           },
           device_spec: toNullable({
-            LineDisplay: {
-              characters_per_line: 40,
-              lines_per_page: 10,
-            },
+            FieldsDisplay: null,
           }),
         },
       });

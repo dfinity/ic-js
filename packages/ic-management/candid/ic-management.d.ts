@@ -79,6 +79,7 @@ export interface canister_log_record {
 export interface canister_settings {
   freezing_threshold: [] | [bigint];
   wasm_memory_threshold: [] | [bigint];
+  environment_variables: [] | [Array<environment_variable>];
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [log_visibility];
@@ -102,6 +103,8 @@ export interface canister_status_result {
   };
   status: { stopped: null } | { stopping: null } | { running: null };
   memory_size: bigint;
+  ready_for_migration: boolean;
+  version: bigint;
   cycles: bigint;
   settings: definite_canister_settings;
   query_stats: {
@@ -122,7 +125,10 @@ export interface change {
 }
 export type change_details =
   | {
-      creation: { controllers: Array<Principal> };
+      creation: {
+        controllers: Array<Principal>;
+        environment_variables_hash: [] | [Uint8Array | number[]];
+      };
     }
   | {
       code_deployment: {
@@ -133,6 +139,7 @@ export type change_details =
   | {
       load_snapshot: {
         canister_version: bigint;
+        source: { metadata_upload: any } | { taken_from_canister: any };
         taken_at_timestamp: bigint;
         snapshot_id: snapshot_id;
       };
@@ -163,6 +170,7 @@ export interface create_canister_result {
 export interface definite_canister_settings {
   freezing_threshold: bigint;
   wasm_memory_threshold: bigint;
+  environment_variables: Array<environment_variable>;
   controllers: Array<Principal>;
   reserved_cycles_limit: bigint;
   log_visibility: log_visibility;
@@ -189,6 +197,10 @@ export interface ecdsa_public_key_args {
 export interface ecdsa_public_key_result {
   public_key: Uint8Array | number[];
   chain_code: Uint8Array | number[];
+}
+export interface environment_variable {
+  value: string;
+  name: string;
 }
 export interface fetch_canister_logs_args {
   canister_id: canister_id;
@@ -276,6 +288,47 @@ export interface provisional_top_up_canister_args {
   amount: bigint;
 }
 export type raw_rand_result = Uint8Array | number[];
+export interface read_canister_snapshot_data_args {
+  kind:
+    | { wasm_module: { size: bigint; offset: bigint } }
+    | { wasm_memory: { size: bigint; offset: bigint } }
+    | { stable_memory: { size: bigint; offset: bigint } }
+    | { wasm_chunk: { hash: Uint8Array | number[] } };
+  canister_id: canister_id;
+  snapshot_id: snapshot_id;
+}
+export interface read_canister_snapshot_data_response {
+  chunk: Uint8Array | number[];
+}
+export interface read_canister_snapshot_metadata_args {
+  canister_id: canister_id;
+  snapshot_id: snapshot_id;
+}
+export interface read_canister_snapshot_metadata_response {
+  globals: Array<
+    | { f32: number }
+    | { f64: number }
+    | { i32: number }
+    | { i64: bigint }
+    | { v128: bigint }
+  >;
+  canister_version: bigint;
+  source: { metadata_upload: any } | { taken_from_canister: any };
+  certified_data: Uint8Array | number[];
+  global_timer: [] | [{ active: bigint } | { inactive: null }];
+  on_low_wasm_memory_hook_status:
+    | []
+    | [
+        | { condition_not_satisfied: null }
+        | { executed: null }
+        | { ready: null },
+      ];
+  wasm_module_size: bigint;
+  stable_memory_size: bigint;
+  wasm_chunk_store: Array<{ hash: Uint8Array | number[] }>;
+  taken_at_timestamp: bigint;
+  wasm_memory_size: bigint;
+}
 export type satoshi = bigint;
 export type schnorr_algorithm = { ed25519: null } | { bip340secp256k1: null };
 export type schnorr_aux = {
@@ -328,6 +381,7 @@ export interface subnet_info_args {
 }
 export interface subnet_info_result {
   replica_version: string;
+  registry_version: bigint;
 }
 export interface take_canister_snapshot_args {
   replace_snapshot: [] | [snapshot_id];
@@ -342,6 +396,42 @@ export interface update_settings_args {
   canister_id: Principal;
   settings: canister_settings;
   sender_canister_version: [] | [bigint];
+}
+export interface upload_canister_snapshot_data_args {
+  chunk: Uint8Array | number[];
+  kind:
+    | { wasm_module: { offset: bigint } }
+    | { wasm_memory: { offset: bigint } }
+    | { stable_memory: { offset: bigint } }
+    | { wasm_chunk: null };
+  canister_id: canister_id;
+  snapshot_id: snapshot_id;
+}
+export interface upload_canister_snapshot_metadata_args {
+  globals: Array<
+    | { f32: number }
+    | { f64: number }
+    | { i32: number }
+    | { i64: bigint }
+    | { v128: bigint }
+  >;
+  replace_snapshot: [] | [snapshot_id];
+  certified_data: Uint8Array | number[];
+  global_timer: [] | [{ active: bigint } | { inactive: null }];
+  on_low_wasm_memory_hook_status:
+    | []
+    | [
+        | { condition_not_satisfied: null }
+        | { executed: null }
+        | { ready: null },
+      ];
+  wasm_module_size: bigint;
+  canister_id: canister_id;
+  stable_memory_size: bigint;
+  wasm_memory_size: bigint;
+}
+export interface upload_canister_snapshot_metadata_response {
+  snapshot_id: snapshot_id;
 }
 export interface upload_chunk_args {
   chunk: Uint8Array | number[];
@@ -373,6 +463,9 @@ export interface vetkd_public_key_result {
 }
 export type wasm_module = Uint8Array | number[];
 export interface _SERVICE {
+  /**
+   * bitcoin interface
+   */
   bitcoin_get_balance: ActorMethod<
     [bitcoin_get_balance_args],
     bitcoin_get_balance_result
@@ -403,10 +496,16 @@ export interface _SERVICE {
     undefined
   >;
   deposit_cycles: ActorMethod<[deposit_cycles_args], undefined>;
+  /**
+   * Threshold ECDSA signature
+   */
   ecdsa_public_key: ActorMethod<
     [ecdsa_public_key_args],
     ecdsa_public_key_result
   >;
+  /**
+   * canister logging
+   */
   fetch_canister_logs: ActorMethod<
     [fetch_canister_logs_args],
     fetch_canister_logs_result
@@ -419,10 +518,16 @@ export interface _SERVICE {
     list_canister_snapshots_result
   >;
   load_canister_snapshot: ActorMethod<[load_canister_snapshot_args], undefined>;
+  /**
+   * metrics interface
+   */
   node_metrics_history: ActorMethod<
     [node_metrics_history_args],
     node_metrics_history_result
   >;
+  /**
+   * provisional interfaces for the pre-ledger world
+   */
   provisional_create_canister_with_cycles: ActorMethod<
     [provisional_create_canister_with_cycles_args],
     provisional_create_canister_with_cycles_result
@@ -432,6 +537,17 @@ export interface _SERVICE {
     undefined
   >;
   raw_rand: ActorMethod<[], raw_rand_result>;
+  read_canister_snapshot_data: ActorMethod<
+    [read_canister_snapshot_data_args],
+    read_canister_snapshot_data_response
+  >;
+  read_canister_snapshot_metadata: ActorMethod<
+    [read_canister_snapshot_metadata_args],
+    read_canister_snapshot_metadata_response
+  >;
+  /**
+   * Threshold Schnorr signature
+   */
   schnorr_public_key: ActorMethod<
     [schnorr_public_key_args],
     schnorr_public_key_result
@@ -444,18 +560,35 @@ export interface _SERVICE {
   start_canister: ActorMethod<[start_canister_args], undefined>;
   stop_canister: ActorMethod<[stop_canister_args], undefined>;
   stored_chunks: ActorMethod<[stored_chunks_args], stored_chunks_result>;
+  /**
+   * subnet info
+   */
   subnet_info: ActorMethod<[subnet_info_args], subnet_info_result>;
+  /**
+   * Canister snapshots
+   */
   take_canister_snapshot: ActorMethod<
     [take_canister_snapshot_args],
     take_canister_snapshot_result
   >;
   uninstall_code: ActorMethod<[uninstall_code_args], undefined>;
   update_settings: ActorMethod<[update_settings_args], undefined>;
+  upload_canister_snapshot_data: ActorMethod<
+    [upload_canister_snapshot_data_args],
+    undefined
+  >;
+  upload_canister_snapshot_metadata: ActorMethod<
+    [upload_canister_snapshot_metadata_args],
+    upload_canister_snapshot_metadata_response
+  >;
   upload_chunk: ActorMethod<[upload_chunk_args], upload_chunk_result>;
   vetkd_derive_key: ActorMethod<
     [vetkd_derive_key_args],
     vetkd_derive_key_result
   >;
+  /**
+   * Threshold key derivation
+   */
   vetkd_public_key: ActorMethod<
     [vetkd_public_key_args],
     vetkd_public_key_result

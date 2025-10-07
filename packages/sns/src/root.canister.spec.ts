@@ -14,6 +14,7 @@ describe("Root canister", () => {
       certifiedServiceOverride: service,
     });
     const res = await canister.listSnsCanisters({});
+
     expect(res).toEqual(snsMock);
   });
 });

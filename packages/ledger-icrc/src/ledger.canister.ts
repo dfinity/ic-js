@@ -1,3 +1,4 @@
+import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   createServices,
@@ -8,9 +9,10 @@ import type {
   Allowance,
   BlockIndex,
   GetBlocksResult,
-  _SERVICE as IcrcLedgerService,
-  Tokens,
   icrc21_consent_info,
+  _SERVICE as IcrcLedgerService,
+  StandardRecord,
+  Tokens,
 } from "../candid/icrc_ledger";
 import { idlFactory as certifiedIdlFactory } from "../candid/icrc_ledger.certified.idl";
 import { idlFactory } from "../candid/icrc_ledger.idl";
@@ -22,6 +24,7 @@ import {
 } from "./converters/ledger.converters";
 import {
   IcrcTransferError,
+  mapIcrc106GetIndexPrincipalError,
   mapIcrc21ConsentMessageError,
 } from "./errors/ledger.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
@@ -197,4 +200,48 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    */
   getBlocks = (params: GetBlocksParams): Promise<GetBlocksResult> =>
     this.caller({ certified: params.certified }).icrc3_get_blocks(params.args);
+
+  /**
+   * Returns the principal of the index canister for the ledger, if one was defined as such.
+   *
+   * @link: https://github.com/dfinity/ICRC/blob/main/ICRCs/ICRC-106/ICRC-106.md
+   *
+   * @returns {Promise<Principal>} The principal of the index canister.
+   *
+   * @throws {GenericError} - For any errors that occur while fetching the index principal.
+   * @throws {IndexPrincipalNotSetError} - If the index principal was not set for the ledger canister.
+   */
+  getIndexPrincipal = async (params: QueryParams): Promise<Principal> => {
+    const { icrc106_get_index_principal } = this.caller(params);
+
+    const response = await icrc106_get_index_principal();
+
+    if ("Err" in response) {
+      throw mapIcrc106GetIndexPrincipalError(response.Err);
+    }
+
+    return response.Ok;
+  };
+
+  /**
+   * Returns the list of standards this ledger supports by using icrc1_supported_standards.
+   *
+   * @link: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#icrc1_supported_standards
+   *
+   * @returns {Promise<StandardRecord[]>} The list of standards.
+   */
+  icrc1SupportedStandards = (params: QueryParams): Promise<StandardRecord[]> =>
+    this.caller(params).icrc1_supported_standards();
+
+  /**
+   * Returns the list of standards this ledger supports by using icrc10_supported_standards.
+   *
+   * @link: https://github.com/dfinity/ICRC/blob/main/ICRCs/ICRC-10/ICRC-10.md#icrc10_supported_standards
+   *
+   * @returns {Promise<{ url: string; name: string }[]>} The list of standards.
+   */
+  icrc10SupportedStandards = (
+    params: QueryParams,
+  ): Promise<{ url: string; name: string }[]> =>
+    this.caller(params).icrc10_supported_standards();
 }

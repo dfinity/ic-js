@@ -74,7 +74,10 @@ export const idlFactory = ({ IDL }) => {
   });
   const snapshot_id = IDL.Vec(IDL.Nat8);
   const change_details = IDL.Variant({
-    'creation' : IDL.Record({ 'controllers' : IDL.Vec(IDL.Principal) }),
+    'creation' : IDL.Record({
+      'controllers' : IDL.Vec(IDL.Principal),
+      'environment_variables_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+    }),
     'code_deployment' : IDL.Record({
       'mode' : IDL.Variant({
         'reinstall' : IDL.Null,
@@ -85,6 +88,10 @@ export const idlFactory = ({ IDL }) => {
     }),
     'load_snapshot' : IDL.Record({
       'canister_version' : IDL.Nat64,
+      'source' : IDL.Variant({
+        'metadata_upload' : IDL.Reserved,
+        'taken_from_canister' : IDL.Reserved,
+      }),
       'taken_at_timestamp' : IDL.Nat64,
       'snapshot_id' : snapshot_id,
     }),
@@ -106,6 +113,10 @@ export const idlFactory = ({ IDL }) => {
     'total_num_changes' : IDL.Nat64,
   });
   const canister_status_args = IDL.Record({ 'canister_id' : canister_id });
+  const environment_variable = IDL.Record({
+    'value' : IDL.Text,
+    'name' : IDL.Text,
+  });
   const log_visibility = IDL.Variant({
     'controllers' : IDL.Null,
     'public' : IDL.Null,
@@ -114,6 +125,7 @@ export const idlFactory = ({ IDL }) => {
   const definite_canister_settings = IDL.Record({
     'freezing_threshold' : IDL.Nat,
     'wasm_memory_threshold' : IDL.Nat,
+    'environment_variables' : IDL.Vec(environment_variable),
     'controllers' : IDL.Vec(IDL.Principal),
     'reserved_cycles_limit' : IDL.Nat,
     'log_visibility' : log_visibility,
@@ -138,6 +150,8 @@ export const idlFactory = ({ IDL }) => {
       'running' : IDL.Null,
     }),
     'memory_size' : IDL.Nat,
+    'ready_for_migration' : IDL.Bool,
+    'version' : IDL.Nat64,
     'cycles' : IDL.Nat,
     'settings' : definite_canister_settings,
     'query_stats' : IDL.Record({
@@ -154,6 +168,7 @@ export const idlFactory = ({ IDL }) => {
   const canister_settings = IDL.Record({
     'freezing_threshold' : IDL.Opt(IDL.Nat),
     'wasm_memory_threshold' : IDL.Opt(IDL.Nat),
+    'environment_variables' : IDL.Opt(IDL.Vec(environment_variable)),
     'controllers' : IDL.Opt(IDL.Vec(IDL.Principal)),
     'reserved_cycles_limit' : IDL.Opt(IDL.Nat),
     'log_visibility' : IDL.Opt(log_visibility),
@@ -296,6 +311,58 @@ export const idlFactory = ({ IDL }) => {
     'amount' : IDL.Nat,
   });
   const raw_rand_result = IDL.Vec(IDL.Nat8);
+  const read_canister_snapshot_data_args = IDL.Record({
+    'kind' : IDL.Variant({
+      'wasm_module' : IDL.Record({ 'size' : IDL.Nat64, 'offset' : IDL.Nat64 }),
+      'wasm_memory' : IDL.Record({ 'size' : IDL.Nat64, 'offset' : IDL.Nat64 }),
+      'stable_memory' : IDL.Record({
+        'size' : IDL.Nat64,
+        'offset' : IDL.Nat64,
+      }),
+      'wasm_chunk' : IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) }),
+    }),
+    'canister_id' : canister_id,
+    'snapshot_id' : snapshot_id,
+  });
+  const read_canister_snapshot_data_response = IDL.Record({
+    'chunk' : IDL.Vec(IDL.Nat8),
+  });
+  const read_canister_snapshot_metadata_args = IDL.Record({
+    'canister_id' : canister_id,
+    'snapshot_id' : snapshot_id,
+  });
+  const read_canister_snapshot_metadata_response = IDL.Record({
+    'globals' : IDL.Vec(
+      IDL.Variant({
+        'f32' : IDL.Float32,
+        'f64' : IDL.Float64,
+        'i32' : IDL.Int32,
+        'i64' : IDL.Int64,
+        'v128' : IDL.Nat,
+      })
+    ),
+    'canister_version' : IDL.Nat64,
+    'source' : IDL.Variant({
+      'metadata_upload' : IDL.Reserved,
+      'taken_from_canister' : IDL.Reserved,
+    }),
+    'certified_data' : IDL.Vec(IDL.Nat8),
+    'global_timer' : IDL.Opt(
+      IDL.Variant({ 'active' : IDL.Nat64, 'inactive' : IDL.Null })
+    ),
+    'on_low_wasm_memory_hook_status' : IDL.Opt(
+      IDL.Variant({
+        'condition_not_satisfied' : IDL.Null,
+        'executed' : IDL.Null,
+        'ready' : IDL.Null,
+      })
+    ),
+    'wasm_module_size' : IDL.Nat64,
+    'stable_memory_size' : IDL.Nat64,
+    'wasm_chunk_store' : IDL.Vec(IDL.Record({ 'hash' : IDL.Vec(IDL.Nat8) })),
+    'taken_at_timestamp' : IDL.Nat64,
+    'wasm_memory_size' : IDL.Nat64,
+  });
   const schnorr_algorithm = IDL.Variant({
     'ed25519' : IDL.Null,
     'bip340secp256k1' : IDL.Null,
@@ -340,7 +407,10 @@ export const idlFactory = ({ IDL }) => {
   const stored_chunks_args = IDL.Record({ 'canister_id' : canister_id });
   const stored_chunks_result = IDL.Vec(chunk_hash);
   const subnet_info_args = IDL.Record({ 'subnet_id' : IDL.Principal });
-  const subnet_info_result = IDL.Record({ 'replica_version' : IDL.Text });
+  const subnet_info_result = IDL.Record({
+    'replica_version' : IDL.Text,
+    'registry_version' : IDL.Nat64,
+  });
   const take_canister_snapshot_args = IDL.Record({
     'replace_snapshot' : IDL.Opt(snapshot_id),
     'canister_id' : canister_id,
@@ -354,6 +424,47 @@ export const idlFactory = ({ IDL }) => {
     'canister_id' : IDL.Principal,
     'settings' : canister_settings,
     'sender_canister_version' : IDL.Opt(IDL.Nat64),
+  });
+  const upload_canister_snapshot_data_args = IDL.Record({
+    'chunk' : IDL.Vec(IDL.Nat8),
+    'kind' : IDL.Variant({
+      'wasm_module' : IDL.Record({ 'offset' : IDL.Nat64 }),
+      'wasm_memory' : IDL.Record({ 'offset' : IDL.Nat64 }),
+      'stable_memory' : IDL.Record({ 'offset' : IDL.Nat64 }),
+      'wasm_chunk' : IDL.Null,
+    }),
+    'canister_id' : canister_id,
+    'snapshot_id' : snapshot_id,
+  });
+  const upload_canister_snapshot_metadata_args = IDL.Record({
+    'globals' : IDL.Vec(
+      IDL.Variant({
+        'f32' : IDL.Float32,
+        'f64' : IDL.Float64,
+        'i32' : IDL.Int32,
+        'i64' : IDL.Int64,
+        'v128' : IDL.Nat,
+      })
+    ),
+    'replace_snapshot' : IDL.Opt(snapshot_id),
+    'certified_data' : IDL.Vec(IDL.Nat8),
+    'global_timer' : IDL.Opt(
+      IDL.Variant({ 'active' : IDL.Nat64, 'inactive' : IDL.Null })
+    ),
+    'on_low_wasm_memory_hook_status' : IDL.Opt(
+      IDL.Variant({
+        'condition_not_satisfied' : IDL.Null,
+        'executed' : IDL.Null,
+        'ready' : IDL.Null,
+      })
+    ),
+    'wasm_module_size' : IDL.Nat64,
+    'canister_id' : canister_id,
+    'stable_memory_size' : IDL.Nat64,
+    'wasm_memory_size' : IDL.Nat64,
+  });
+  const upload_canister_snapshot_metadata_response = IDL.Record({
+    'snapshot_id' : snapshot_id,
   });
   const upload_chunk_args = IDL.Record({
     'chunk' : IDL.Vec(IDL.Nat8),
@@ -462,6 +573,16 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'raw_rand' : IDL.Func([], [raw_rand_result], []),
+    'read_canister_snapshot_data' : IDL.Func(
+        [read_canister_snapshot_data_args],
+        [read_canister_snapshot_data_response],
+        [],
+      ),
+    'read_canister_snapshot_metadata' : IDL.Func(
+        [read_canister_snapshot_metadata_args],
+        [read_canister_snapshot_metadata_response],
+        [],
+      ),
     'schnorr_public_key' : IDL.Func(
         [schnorr_public_key_args],
         [schnorr_public_key_result],
@@ -492,6 +613,16 @@ export const idlFactory = ({ IDL }) => {
       ),
     'uninstall_code' : IDL.Func([uninstall_code_args], [], []),
     'update_settings' : IDL.Func([update_settings_args], [], []),
+    'upload_canister_snapshot_data' : IDL.Func(
+        [upload_canister_snapshot_data_args],
+        [],
+        [],
+      ),
+    'upload_canister_snapshot_metadata' : IDL.Func(
+        [upload_canister_snapshot_metadata_args],
+        [upload_canister_snapshot_metadata_response],
+        [],
+      ),
     'upload_chunk' : IDL.Func([upload_chunk_args], [upload_chunk_result], []),
     'vetkd_derive_key' : IDL.Func(
         [vetkd_derive_key_args],
