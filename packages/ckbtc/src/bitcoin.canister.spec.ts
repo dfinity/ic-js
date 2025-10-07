@@ -131,7 +131,7 @@ describe("BitcoinCanister", () => {
           ...params,
         });
 
-      await expect(call).rejects.toThrowError(Error);
+      await expect(call).rejects.toThrow(Error);
     });
 
     it("should not call certified end point", async () => {
@@ -193,7 +193,7 @@ describe("BitcoinCanister", () => {
           ...params,
         });
 
-      await expect(call).rejects.toThrowError(Error);
+      await expect(call).rejects.toThrow(Error);
     });
 
     it("should not call certified end point", async () => {

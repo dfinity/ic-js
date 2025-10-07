@@ -109,6 +109,7 @@ describe("governance converters", () => {
           automatically_advance_target_version: true,
         },
       };
+
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -156,6 +157,7 @@ describe("governance converters", () => {
           },
         },
       };
+
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -226,6 +228,7 @@ describe("governance converters", () => {
           custom_function_id_to_topic: [[BigInt(3), topicMock]],
         },
       };
+
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -262,6 +265,7 @@ describe("governance converters", () => {
           extension_init,
         },
       };
+
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -269,6 +273,7 @@ describe("governance converters", () => {
       const action: ActionCandid = {
         RemoveGenericNervousSystemFunction: BigInt(3),
       };
+
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -276,6 +281,7 @@ describe("governance converters", () => {
       const action: ActionCandid = {
         UpgradeSnsToNextVersion: {},
       };
+
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -285,6 +291,7 @@ describe("governance converters", () => {
           canister_ids: [mockPrincipal],
         },
       };
+
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -311,6 +318,7 @@ describe("governance converters", () => {
           amount_e8s,
         },
       };
+
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -352,6 +360,7 @@ describe("governance converters", () => {
           mode,
         },
       };
+
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -362,6 +371,7 @@ describe("governance converters", () => {
           new_controllers: [Principal.fromHex("AB")],
         },
       };
+
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -369,6 +379,7 @@ describe("governance converters", () => {
       const action: ActionCandid = {
         Unspecified: {},
       };
+
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -391,6 +402,7 @@ describe("governance converters", () => {
           description: undefined,
         },
       };
+
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -401,6 +413,7 @@ describe("governance converters", () => {
           payload: new Uint8Array(),
         },
       };
+
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -408,6 +421,7 @@ describe("governance converters", () => {
       const action: ActionCandid = {
         Motion: { motion_text: "test motion" },
       };
+
       expect(fromCandidAction(action)).toEqual(action);
     });
   });

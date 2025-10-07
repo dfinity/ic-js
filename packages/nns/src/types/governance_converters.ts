@@ -23,6 +23,7 @@ import type {
 
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
+  | { DeregisterKnownNeuron: DeregisterKnownNeuron }
   | {
       ExecuteNnsFunction: ExecuteNnsFunction;
     }
@@ -31,6 +32,7 @@ export type Action =
   | { InstallCode: InstallCode }
   | { StopOrStartCanister: StopOrStartCanister }
   | { UpdateCanisterSettings: UpdateCanisterSettings }
+  | { FulfillSubnetRentalRequest: FulfillSubnetRentalRequest }
   | { ApproveGenesisKyc: ApproveGenesisKyc }
   | { ManageNetworkEconomics: NetworkEconomics }
   | { RewardNodeProvider: RewardNodeProvider }
@@ -42,6 +44,7 @@ export type Action =
   | { OpenSnsTokenSwap: OpenSnsTokenSwap };
 export type ProposalActionRequest =
   | { RegisterKnownNeuron: KnownNeuron }
+  | { DeregisterKnownNeuron: DeregisterKnownNeuron }
   | {
       ExecuteNnsFunction: ExecuteNnsFunction;
     }
@@ -85,15 +88,17 @@ export interface CanisterAuthzInfo {
   methodsAuthz: Array<MethodAuthzInfo>;
 }
 export type Change = { ToRemove: NodeProvider } | { ToAdd: NodeProvider };
-export type ClaimOrRefresh = { by: Option<By> };
+export interface ClaimOrRefresh {
+  by: Option<By>;
+}
 export interface ClaimOrRefreshNeuronFromAccount {
   controller: Option<Principal>;
   memo: bigint;
 }
-export type ClaimOrRefreshNeuronRequest = {
+export interface ClaimOrRefreshNeuronRequest {
   neuronId: NeuronId;
   by: Option<By>;
-};
+}
 export type Command =
   | { Spawn: Spawn }
   | { Split: Split }
@@ -195,6 +200,10 @@ export interface KnownNeuron {
   id: NeuronId;
   name: string;
   description: Option<string>;
+  links: Option<Array<string>>;
+}
+export interface DeregisterKnownNeuron {
+  id: Option<NeuronId>;
 }
 export interface SetDissolveTimestamp {
   dissolveTimestampSeconds: bigint;
@@ -292,6 +301,11 @@ export interface CanisterSettings {
 export interface UpdateCanisterSettings {
   canisterId: Option<PrincipalString>;
   settings: Option<CanisterSettings>;
+}
+export interface FulfillSubnetRentalRequest {
+  user: Option<Principal>;
+  replicaVersionId: Option<string>;
+  nodeIds: Array<Principal> | undefined;
 }
 export interface Merge {
   sourceNeuronId: Option<NeuronId>;
@@ -487,10 +501,10 @@ export interface RemoveHotKey {
 export type RewardMode =
   | { RewardToNeuron: RewardToNeuron }
   | { RewardToAccount: RewardToAccount };
-export type RewardNodeProviders = {
+export interface RewardNodeProviders {
   useRegistryDerivedRewards: boolean | undefined;
   rewards: Array<RewardNodeProvider>;
-};
+}
 export interface RewardToAccount {
   toAccount: Option<AccountIdentifierHex>;
 }
@@ -498,11 +512,11 @@ export interface RewardToNeuron {
   dissolveDelaySeconds: bigint;
 }
 
-export type ClaimNeuronRequest = {
+export interface ClaimNeuronRequest {
   publicKey: DerEncodedPublicKey;
   nonce: bigint;
   dissolveDelayInSecs: bigint;
-};
+}
 
 export interface RewardNodeProvider {
   nodeProvider: Option<NodeProvider>;
@@ -519,6 +533,7 @@ export interface Spawn {
 
 export interface Split {
   amount: E8s;
+  memo: Option<bigint>;
 }
 export interface Tally {
   no: bigint;

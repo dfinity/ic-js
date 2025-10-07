@@ -6,7 +6,10 @@ import {
   CanisterInstallMode,
   LogVisibility,
 } from "../../enums/governance.enums";
-import type { GovernanceParameters } from "../../types/governance_converters";
+import type {
+  GovernanceParameters,
+  MakeProposalRequest,
+} from "../../types/governance_converters";
 import { toMakeProposalRawRequest } from "./request.converters";
 
 describe("request.converters", () => {
@@ -61,6 +64,7 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
 
@@ -508,20 +512,21 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
 
     it("InstallCode", () => {
       const summary = "Proposal summary";
 
-      const mockRequest = {
+      const mockRequest: MakeProposalRequest = {
         url,
         title,
         summary,
         action: {
           InstallCode: {
-            arg: Uint8Array.from([1, 2, 3]),
-            wasmModule: Uint8Array.from([4, 5, 6]),
+            arg: Uint8Array.from([1, 2, 3]).buffer,
+            wasmModule: Uint8Array.from([4, 5, 6]).buffer,
             skipStoppingBeforeInstalling: true,
             canisterId: "miw6j-knlcl-xq",
             installMode: CanisterInstallMode.Reinstall,
@@ -562,6 +567,7 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
 
@@ -610,6 +616,7 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
 
@@ -681,6 +688,7 @@ describe("request.converters", () => {
       };
 
       const result = toMakeProposalRawRequest(mockRequest);
+
       expect(result).toEqual(expectedOutput);
     });
   });

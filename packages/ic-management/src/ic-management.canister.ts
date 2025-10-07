@@ -2,15 +2,15 @@ import { Principal } from "@dfinity/principal";
 import {
   createServices,
   hexStringToUint8Array,
-  nonNullish,
   toNullable,
 } from "@dfinity/utils";
 import type {
-  _SERVICE as IcManagementService,
   chunk_hash,
+  _SERVICE as IcManagementService,
   list_canister_snapshots_result,
-  snapshot_id,
+  read_canister_snapshot_data_response,
   take_canister_snapshot_result,
+  upload_canister_snapshot_metadata_response,
 } from "../candid/ic-management";
 import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certified.idl";
 import { idlFactory } from "../candid/ic-management.idl";
@@ -22,7 +22,6 @@ import {
   type InstallChunkedCodeParams,
   type InstallCodeParams,
   type ProvisionalCreateCanisterWithCyclesParams,
-  type SnapshotIdText,
   type StoredChunksParams,
   type UninstallCodeParams,
   type UpdateSettingsParams,
@@ -32,7 +31,22 @@ import type {
   CanisterStatusResponse,
   FetchCanisterLogsResponse,
 } from "./types/ic-management.responses";
-import { mapSnapshotId } from "./utils/ic-management.utils";
+import {
+  toCanisterSnapshotMetadataKind,
+  toReplaceSnapshotArgs,
+  toSnapshotArgs,
+  toUploadCanisterSnapshotDataKind,
+  toUploadCanisterSnapshotMetadata,
+  type OptionSnapshotParams,
+  type ReadCanisterSnapshotDataParams,
+  type SnapshotParams,
+  type UploadCanisterSnapshotDataParams,
+  type UploadCanisterSnapshotMetadataParams,
+} from "./types/snapshot.params";
+import {
+  fromReadCanisterSnapshotMetadataResponse,
+  type ReadCanisterSnapshotMetadataResponse,
+} from "./types/snapshot.responses";
 import { transform } from "./utils/transform.utils";
 
 export class ICManagementCanister {
@@ -352,21 +366,12 @@ export class ICManagementCanister {
    *
    * @throws {Error} If the snapshot operation fails.
    */
-  takeCanisterSnapshot = ({
-    canisterId,
-    snapshotId,
-  }: {
-    canisterId: Principal;
-    snapshotId?: SnapshotIdText | snapshot_id;
-  }): Promise<take_canister_snapshot_result> => {
+  takeCanisterSnapshot = (
+    params: OptionSnapshotParams,
+  ): Promise<take_canister_snapshot_result> => {
     const { take_canister_snapshot } = this.service;
 
-    return take_canister_snapshot({
-      canister_id: canisterId,
-      replace_snapshot: toNullable(
-        nonNullish(snapshotId) ? mapSnapshotId(snapshotId) : undefined,
-      ),
-    });
+    return take_canister_snapshot(toReplaceSnapshotArgs(params));
   };
 
   /**
@@ -408,19 +413,15 @@ export class ICManagementCanister {
    * @throws {Error} If the snapshot loading operation fails.
    */
   loadCanisterSnapshot = async ({
-    canisterId,
-    snapshotId,
     senderCanisterVersion,
-  }: {
-    canisterId: Principal;
-    snapshotId: SnapshotIdText | snapshot_id;
+    ...rest
+  }: SnapshotParams & {
     senderCanisterVersion?: bigint;
   }): Promise<void> => {
     const { load_canister_snapshot } = this.service;
 
     await load_canister_snapshot({
-      canister_id: canisterId,
-      snapshot_id: mapSnapshotId(snapshotId),
+      ...toSnapshotArgs(rest),
       sender_canister_version: toNullable(senderCanisterVersion),
     });
   };
@@ -438,18 +439,115 @@ export class ICManagementCanister {
    *
    * @throws {Error} If the deletion operation fails.
    */
-  deleteCanisterSnapshot = async ({
-    canisterId,
-    snapshotId,
-  }: {
-    canisterId: Principal;
-    snapshotId: SnapshotIdText | snapshot_id;
-  }): Promise<void> => {
+  deleteCanisterSnapshot = async (params: SnapshotParams): Promise<void> => {
     const { delete_canister_snapshot } = this.service;
 
-    await delete_canister_snapshot({
-      canister_id: canisterId,
-      snapshot_id: mapSnapshotId(snapshotId),
+    await delete_canister_snapshot(toSnapshotArgs(params));
+  };
+
+  /**
+   * Reads metadata for a specific canister snapshot.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-read_canister_snapshot_metadata
+   *
+   * @param {Object} params - Parameters for the metadata read operation.
+   * @param {Principal} params.canisterId - The ID of the canister whose snapshot metadata will be read.
+   * @param {SnapshotIdText | snapshot_id} params.snapshotId - The ID of the snapshot to read metadata from.
+   *
+   * @returns {Promise<read_canister_snapshot_metadata_response>} A promise that resolves with the snapshot metadata.
+   *
+   * @throws {Error} If the metadata read operation fails.
+   */
+  readCanisterSnapshotMetadata = async (
+    params: SnapshotParams,
+  ): Promise<ReadCanisterSnapshotMetadataResponse> => {
+    const { read_canister_snapshot_metadata } = this.service;
+
+    const metadata = await read_canister_snapshot_metadata(
+      toSnapshotArgs(params),
+    );
+
+    return fromReadCanisterSnapshotMetadataResponse(metadata);
+  };
+
+  /**
+   * Reads snapshot data for a specific canister snapshot and kind.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-read_canister_snapshot_data
+   *
+   * @param {Object} params - Parameters for the data read operation.
+   * @param {Principal} params.canisterId - The ID of the canister whose snapshot data will be read.
+   * @param {SnapshotIdText | snapshot_id} params.snapshotId - The ID of the snapshot to read data from.
+   * @param {CanisterSnapshotMetadataKind} params.kind - The kind of data to read.
+   *
+   * @returns {Promise<read_canister_snapshot_data_response>} A promise that resolves with the snapshot data payload.
+   *
+   * @throws {Error} If the data read operation fails.
+   */
+  readCanisterSnapshotData = ({
+    kind,
+    ...params
+  }: ReadCanisterSnapshotDataParams): Promise<read_canister_snapshot_data_response> => {
+    const { read_canister_snapshot_data } = this.service;
+
+    return read_canister_snapshot_data({
+      ...toSnapshotArgs(params),
+      kind: toCanisterSnapshotMetadataKind(kind),
+    });
+  };
+
+  /**
+   * Uploads snapshot metadata for a canister.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-upload_canister_snapshot_metadata
+   *
+   * @param {Object} params - Parameters for the metadata upload operation.
+   * @param {Principal} params.canisterId - The ID of the canister the snapshot metadata belongs to.
+   * @param {UploadCanisterSnapshotMetadataParam} params.metadata - The metadata payload to upload.
+   * @param {SnapshotIdText | snapshot_id} [params.snapshotId] - If provided, replace a snapshot instead of creating a new one.
+   *
+   * @returns {Promise<upload_canister_snapshot_metadata_response>} A promise that resolves with the upload response.
+   *
+   * @throws {Error} If the metadata upload operation fails.
+   */
+  uploadCanisterSnapshotMetadata = ({
+    metadata,
+    ...params
+  }: UploadCanisterSnapshotMetadataParams): Promise<upload_canister_snapshot_metadata_response> => {
+    const { upload_canister_snapshot_metadata } = this.service;
+
+    return upload_canister_snapshot_metadata({
+      ...toUploadCanisterSnapshotMetadata(metadata),
+      ...toReplaceSnapshotArgs(params),
+    });
+  };
+
+  /**
+   * Uploads a chunk of snapshot data for a canister snapshot.
+   *
+   * @link https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-upload_canister_snapshot_data
+   *
+   * @param {Object} params - Parameters for the data upload operation.
+   * @param {Principal} params.canisterId - The ID of the canister the snapshot belongs to.
+   * @param {SnapshotIdText | snapshot_id} params.snapshotId - The ID of the snapshot to which data is uploaded.
+   * @param {UploadCanisterSnapshotDataKind} params.kind - The target to upload to.
+   * @param {Uint8Array | number[]} params.chunk - The raw bytes to upload.
+   *
+   * @returns {Promise<void>} A promise that resolves when the data is successfully uploaded.
+   *
+   * @throws {Error} If the data upload operation fails.
+   */
+  uploadCanisterSnapshotData = async ({
+    kind,
+    chunk,
+    ...params
+  }: UploadCanisterSnapshotDataParams): Promise<void> => {
+    const { upload_canister_snapshot_data } = this.service;
+
+    await upload_canister_snapshot_data({
+      ...toSnapshotArgs(params),
+      chunk,
+      kind: toUploadCanisterSnapshotDataKind(kind),
     });
   };
 }

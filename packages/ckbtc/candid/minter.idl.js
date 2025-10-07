@@ -40,6 +40,16 @@ export const idlFactory = ({ IDL }) => {
     'Upgrade' : IDL.Opt(UpgradeArgs),
     'Init' : InitArgs,
   });
+  const MemoryMetrics = IDL.Record({
+    'wasm_binary_size' : IDL.Nat,
+    'wasm_chunk_store_size' : IDL.Nat,
+    'canister_history_size' : IDL.Nat,
+    'stable_memory_size' : IDL.Nat,
+    'snapshots_size' : IDL.Nat,
+    'wasm_memory_size' : IDL.Nat,
+    'global_memory_size' : IDL.Nat,
+    'custom_sections_size' : IDL.Nat,
+  });
   const CanisterStatusType = IDL.Variant({
     'stopped' : IDL.Null,
     'stopping' : IDL.Null,
@@ -52,6 +62,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const DefiniteCanisterSettings = IDL.Record({
     'freezing_threshold' : IDL.Nat,
+    'wasm_memory_threshold' : IDL.Nat,
     'controllers' : IDL.Vec(IDL.Principal),
     'reserved_cycles_limit' : IDL.Nat,
     'log_visibility' : LogVisibility,
@@ -66,6 +77,7 @@ export const idlFactory = ({ IDL }) => {
     'request_payload_bytes_total' : IDL.Nat,
   });
   const CanisterStatusResponse = IDL.Record({
+    'memory_metrics' : MemoryMetrics,
     'status' : CanisterStatusType,
     'memory_size' : IDL.Nat,
     'cycles' : IDL.Nat,
@@ -91,6 +103,10 @@ export const idlFactory = ({ IDL }) => {
       'kyt_provider' : IDL.Principal,
     }),
   });
+  const WithdrawalFee = IDL.Record({
+    'minter_fee' : IDL.Nat64,
+    'bitcoin_fee' : IDL.Nat64,
+  });
   const SuspendedReason = IDL.Variant({
     'ValueTooSmall' : IDL.Null,
     'Quarantined' : IDL.Null,
@@ -101,6 +117,19 @@ export const idlFactory = ({ IDL }) => {
     'p2sh' : IDL.Vec(IDL.Nat8),
     'p2wpkh_v0' : IDL.Vec(IDL.Nat8),
     'p2pkh' : IDL.Vec(IDL.Nat8),
+  });
+  const InvalidTransactionError = IDL.Variant({
+    'too_many_inputs' : IDL.Record({
+      'max_num_inputs' : IDL.Nat64,
+      'num_inputs' : IDL.Nat64,
+    }),
+  });
+  const WithdrawalReimbursementReason = IDL.Variant({
+    'invalid_transaction' : InvalidTransactionError,
+  });
+  const ReplacedReason = IDL.Variant({
+    'to_cancel' : IDL.Record({ 'reason' : WithdrawalReimbursementReason }),
+    'to_retry' : IDL.Null,
   });
   const EventType = IDL.Variant({
     'received_utxos' : IDL.Record({
@@ -120,6 +149,7 @@ export const idlFactory = ({ IDL }) => {
         IDL.Record({ 'value' : IDL.Nat64, 'vout' : IDL.Nat32 })
       ),
       'txid' : IDL.Vec(IDL.Nat8),
+      'withdrawal_fee' : IDL.Opt(WithdrawalFee),
       'utxos' : IDL.Vec(Utxo),
       'requests' : IDL.Vec(IDL.Nat64),
       'submitted_at' : IDL.Nat64,
@@ -158,14 +188,26 @@ export const idlFactory = ({ IDL }) => {
       'uuid' : IDL.Text,
       'kyt_provider' : IDL.Opt(IDL.Principal),
     }),
+    'schedule_withdrawal_reimbursement' : IDL.Record({
+      'burn_block_index' : IDL.Nat64,
+      'account' : Account,
+      'amount' : IDL.Nat64,
+      'reason' : WithdrawalReimbursementReason,
+    }),
+    'quarantined_withdrawal_reimbursement' : IDL.Record({
+      'burn_block_index' : IDL.Nat64,
+    }),
     'removed_retrieve_btc_request' : IDL.Record({ 'block_index' : IDL.Nat64 }),
     'confirmed_transaction' : IDL.Record({ 'txid' : IDL.Vec(IDL.Nat8) }),
     'replaced_transaction' : IDL.Record({
       'fee' : IDL.Nat64,
       'change_output' : IDL.Record({ 'value' : IDL.Nat64, 'vout' : IDL.Nat32 }),
+      'new_utxos' : IDL.Opt(IDL.Vec(Utxo)),
       'old_txid' : IDL.Vec(IDL.Nat8),
+      'withdrawal_fee' : IDL.Opt(WithdrawalFee),
       'new_txid' : IDL.Vec(IDL.Nat8),
       'submitted_at' : IDL.Nat64,
+      'reason' : IDL.Opt(ReplacedReason),
     }),
     'checked_utxo_v2' : IDL.Record({ 'utxo' : Utxo, 'account' : Account }),
     'ignored_utxo' : IDL.Record({ 'utxo' : Utxo }),
@@ -174,6 +216,10 @@ export const idlFactory = ({ IDL }) => {
       'account' : Account,
     }),
     'reimbursed_failed_deposit' : IDL.Record({
+      'burn_block_index' : IDL.Nat64,
+      'mint_block_index' : IDL.Nat64,
+    }),
+    'reimbursed_withdrawal' : IDL.Record({
       'burn_block_index' : IDL.Nat64,
       'mint_block_index' : IDL.Nat64,
     }),

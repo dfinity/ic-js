@@ -6,6 +6,7 @@ import {
   candidNumberArrayToBigInt,
   hexStringToUint8Array,
   numberToUint8Array,
+  uint8ArraysEqual,
   uint8ArrayToArrayOfNumber,
   uint8ArrayToBigInt,
   uint8ArrayToHexString,
@@ -99,5 +100,37 @@ describe("arrays-utils", () => {
         55083,
       ]),
     ).toBe(345763845793847239482739482739482739482739482374928374234928374n);
+  });
+
+  describe("uint8ArraysEqual", () => {
+    it("should return true for identical arrays", () => {
+      const a = new Uint8Array([1, 2, 3]);
+      const b = new Uint8Array([1, 2, 3]);
+
+      expect(uint8ArraysEqual({ a, b })).toBeTruthy();
+    });
+
+    it("should return false for arrays with different lengths", () => {
+      const a = new Uint8Array([1, 2, 3]);
+      const b = new Uint8Array([1, 2, 3, 4]);
+
+      expect(uint8ArraysEqual({ a, b })).toBeFalsy();
+      expect(uint8ArraysEqual({ a: b, b: a })).toBeFalsy();
+    });
+
+    it("should return false for arrays with same length but different content", () => {
+      const a = new Uint8Array([1, 2, 3]);
+      const b = new Uint8Array([1, 2, 4]);
+
+      expect(uint8ArraysEqual({ a, b })).toBeFalsy();
+      expect(uint8ArraysEqual({ a: b, b: a })).toBeFalsy();
+    });
+
+    it("should return true for two empty arrays", () => {
+      const a = new Uint8Array([]);
+      const b = new Uint8Array([]);
+
+      expect(uint8ArraysEqual({ a, b })).toBeTruthy();
+    });
   });
 });

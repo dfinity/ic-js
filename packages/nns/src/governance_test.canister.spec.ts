@@ -34,8 +34,8 @@ describe("GovernanceTestCanister", () => {
         maturity_e8s_equivalent: newMaturity,
       };
 
-      expect(service.update_neuron).toBeCalledWith(expectedNewRawNeuron);
-      expect(service.update_neuron).toBeCalledTimes(1);
+      expect(service.update_neuron).toHaveBeenCalledWith(expectedNewRawNeuron);
+      expect(service.update_neuron).toHaveBeenCalledTimes(1);
     });
 
     it("should not update accountIdentifier", async () => {
@@ -60,7 +60,7 @@ describe("GovernanceTestCanister", () => {
         "Neuron account identifier can't be changed",
       );
 
-      expect(service.update_neuron).not.toBeCalled();
+      expect(service.update_neuron).not.toHaveBeenCalled();
     });
   });
 });

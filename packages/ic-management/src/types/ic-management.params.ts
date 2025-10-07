@@ -4,6 +4,7 @@ import type {
   canister_install_mode,
   canister_settings,
   chunk_hash,
+  environment_variable,
   log_visibility,
   upload_chunk_args,
 } from "../../candid/ic-management";
@@ -22,6 +23,7 @@ export interface CanisterSettings {
   logVisibility?: LogVisibility;
   wasmMemoryLimit?: bigint;
   wasmMemoryThreshold?: bigint;
+  environmentVariables?: environment_variable[];
 }
 
 export class UnsupportedLogVisibility extends Error {}
@@ -35,6 +37,7 @@ export const toCanisterSettings = ({
   logVisibility,
   wasmMemoryLimit,
   wasmMemoryThreshold,
+  environmentVariables,
 }: CanisterSettings = {}): canister_settings => {
   const toLogVisibility = (): log_visibility => {
     switch (logVisibility) {
@@ -56,6 +59,7 @@ export const toCanisterSettings = ({
     log_visibility: isNullish(logVisibility) ? [] : [toLogVisibility()],
     wasm_memory_limit: toNullable(wasmMemoryLimit),
     wasm_memory_threshold: toNullable(wasmMemoryThreshold),
+    environment_variables: toNullable(environmentVariables),
   };
 };
 
@@ -108,10 +112,3 @@ export interface ProvisionalCreateCanisterWithCyclesParams {
   settings?: CanisterSettings;
   canisterId?: Principal;
 }
-
-export interface ProvisionalTopUpCanisterParams {
-  canisterId: Principal;
-  amount: bigint;
-}
-
-export type SnapshotIdText = string;

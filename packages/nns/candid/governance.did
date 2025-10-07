@@ -1,10 +1,12 @@
-// Generated from IC repo commit e915efe (2025-07-02 tags: release-2025-07-03_03-27-base) 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 4565785 (2025-10-01 tags: release-2025-10-02_03-13-base) 'rs/nns/governance/canister/governance.did' by import-candid
+
 type AccountIdentifier = record {
   hash : blob;
 };
 
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
+  DeregisterKnownNeuron : DeregisterKnownNeuron;
   ManageNeuron : ManageNeuron;
   UpdateCanisterSettings : UpdateCanisterSettings;
   InstallCode : InstallCode;
@@ -20,6 +22,7 @@ type Action = variant {
   ApproveGenesisKyc : Principals;
   AddOrRemoveNodeProvider : AddOrRemoveNodeProvider;
   Motion : Motion;
+  FulfillSubnetRentalRequest : FulfillSubnetRentalRequest;
 };
 
 type AddHotKey = record {
@@ -311,7 +314,6 @@ type GlobalTimeOfDay = record {
 
 type Governance = record {
   default_followees : vec record { int32; Followees };
-  making_sns_proposal : opt MakingSnsProposal;
   most_recent_monthly_node_provider_rewards : opt MonthlyNodeProviderRewards;
   maturity_modulation_last_updated_at_timestamp_seconds : opt nat64;
   wait_for_quiet_threshold_seconds : nat64;
@@ -441,9 +443,14 @@ type KnownNeuron = record {
   known_neuron_data : opt KnownNeuronData;
 };
 
+type DeregisterKnownNeuron = record {
+  id : opt NeuronId;
+};
+
 type KnownNeuronData = record {
   name : text;
   description : opt text;
+  links : opt vec text;
 };
 
 type LedgerParameters = record {
@@ -532,12 +539,6 @@ type MakeProposalRequest = record {
 type MakeProposalResponse = record {
   message : opt text;
   proposal_id : opt ProposalId;
-};
-
-type MakingSnsProposal = record {
-  proposal : opt Proposal;
-  caller : opt principal;
-  proposer_id : opt NeuronId;
 };
 
 // Not to be confused with ManageNeuronRequest. (Yes, this is very structurally
@@ -984,6 +985,7 @@ type Proposal = record {
 
 type ProposalActionRequest = variant {
   RegisterKnownNeuron : KnownNeuron;
+  DeregisterKnownNeuron : DeregisterKnownNeuron;
   ManageNeuron : ManageNeuronRequest;
   UpdateCanisterSettings : UpdateCanisterSettings;
   InstallCode : InstallCodeRequest;
@@ -996,6 +998,39 @@ type ProposalActionRequest = variant {
   ApproveGenesisKyc : Principals;
   AddOrRemoveNodeProvider : AddOrRemoveNodeProvider;
   Motion : Motion;
+  FulfillSubnetRentalRequest : FulfillSubnetRentalRequest;
+};
+
+// Creates a rented subnet from a rental request (in the Subnet Rental
+// canister).
+type FulfillSubnetRentalRequest = record {
+  // Identifies which rental request to fulfill.
+  //
+  // (Identifying the rental request by user works, because a user can have at
+  // most one rental request in the Subnet Rental canister).
+  user : opt principal;
+
+  // Which nodes will be members of the subnet.
+  node_ids : opt vec principal;
+
+  // What software the nodes will run.
+  //
+  // This must be approved by a prior proposal to bless an IC OS version.
+  //
+  // This is a FULL git commit ID in the ic repo. (Therefore, it must be a 40
+  // character hexidecimal string, not an abbreviated git commit ID.)
+  //
+  // One way to find a suitable value is with the following command:
+  //
+  //     ic-admin \
+  //         get-subnet 0 \
+  //         --nns-urls https://nns.ic0.app \
+  //     | grep replica_version_id
+  //
+  // Where to obtain a recent version of ic-admin:
+  //
+  //     https://github.com/dfinity/ic/releases/latest
+  replica_version_id : opt text;
 };
 
 type ProposalData = record {
@@ -1196,6 +1231,7 @@ type SpawnResponse = record {
 
 type Split = record {
   amount_e8s : nat64;
+  memo : opt nat64;
 };
 
 type StakeMaturity = record {

@@ -29,6 +29,7 @@ describe("ledger-utils", () => {
         owner,
         subaccount: new Uint8Array(32).fill(0),
       };
+
       expect(encodeIcrcAccount(account)).toEqual(ownerText);
     });
 
@@ -43,6 +44,7 @@ describe("ledger-utils", () => {
       );
     });
   });
+
   describe("decodeIcrcAccount", () => {
     it("should return the owner only for main accounts", () => {
       expect(decodeIcrcAccount(ownerText)).toEqual({ owner });
@@ -53,6 +55,7 @@ describe("ledger-utils", () => {
         owner,
         subaccount,
       };
+
       expect(decodeIcrcAccount(encodeIcrcAccount(account1))).toEqual(account1);
     });
 
@@ -67,31 +70,36 @@ describe("ledger-utils", () => {
 
     it("should raise an error if invalid input", () => {
       const call1 = () => decodeIcrcAccount("");
-      expect(call1).toThrowError(
-        new Error("Invalid account. No string provided."),
-      );
+
+      expect(call1).toThrow(new Error("Invalid account. No string provided."));
 
       const call2 = () => decodeIcrcAccount("aaa");
+
       expect(call2).toThrow();
 
       const call3 = () => decodeIcrcAccount("aaa.");
+
       expect(call3).toThrow();
 
       const call4 = () => decodeIcrcAccount("aaa.bbb");
+
       expect(call4).toThrow();
 
       const call5 = () => decodeIcrcAccount(".bbb");
+
       expect(call5).toThrow();
     });
 
     it("should raise an error if input is provided with an invalid checksum", () => {
       const call = () =>
         decodeIcrcAccount(`${ownerText}-abcdef.${subaccountHex}`);
+
       expect(call).toThrow();
     });
 
     it("should raise an error if input contains more than one '.' separator", () => {
       const call = () => decodeIcrcAccount("aaa.bbb.ccc");
+
       expect(call).toThrow(
         "Invalid account string format. Expected at most one '.' separator.",
       );
@@ -106,6 +114,7 @@ describe("ledger-utils", () => {
         owner: Principal.fromText("2vxsx-fae"),
         subaccount,
       };
+
       expect(decodeIcrcAccount(encodeIcrcAccount(account1))).toEqual(account1);
 
       const subaccount2 = new Uint8Array(32).fill(0);
@@ -115,17 +124,20 @@ describe("ledger-utils", () => {
         owner: mockPrincipal,
         subaccount: subaccount2,
       };
+
       expect(decodeIcrcAccount(encodeIcrcAccount(account2))).toEqual(account2);
 
       const account3 = {
         owner: mockPrincipal,
       };
+
       expect(decodeIcrcAccount(encodeIcrcAccount(account3))).toEqual(account3);
 
       const account4 = {
         owner,
         subaccount,
       };
+
       expect(decodeIcrcAccount(encodeIcrcAccount(account4))).toEqual(account4);
     });
   });
@@ -183,6 +195,7 @@ describe("ledger-utils", () => {
       // eslint-disable-next-line local-rules/prefer-object-params
       (_, response) => {
         const result = mapTokenMetadata(response);
+
         expect(result).toBeUndefined();
       },
     );
@@ -227,12 +240,14 @@ describe("ledger-utils", () => {
       // eslint-disable-next-line local-rules/prefer-object-params
       (_, response) => {
         const result = mapTokenMetadata(response);
+
         expect(result).toBeUndefined();
       },
     );
 
     test("should return empty if response metadata is empty", () => {
       const result = mapTokenMetadata([]);
+
       expect(result).toBeUndefined();
     });
 
@@ -242,6 +257,7 @@ describe("ledger-utils", () => {
       );
 
       const result = mapTokenMetadata(responseWithoutLogo);
+
       expect(result).toEqual({
         name: "Token",
         symbol: "TKN",

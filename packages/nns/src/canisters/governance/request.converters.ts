@@ -593,8 +593,18 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
               knownNeuron.description !== undefined
                 ? [knownNeuron.description]
                 : [],
+            links: toNullable(knownNeuron.links),
           },
         ],
+      },
+    };
+  }
+
+  if ("DeregisterKnownNeuron" in action) {
+    const knownNeuron = action.DeregisterKnownNeuron;
+    return {
+      DeregisterKnownNeuron: {
+        id: knownNeuron.id === undefined ? [] : [{ id: knownNeuron.id }],
       },
     };
   }
@@ -649,6 +659,7 @@ const fromCommand = (command: ManageNeuronCommandRequest): RawCommand => {
     return {
       Split: {
         amount_e8s: split.amount,
+        memo: toNullable(split.memo),
       },
     };
   }
@@ -1325,13 +1336,16 @@ export const fromSpawnRequest = (request: SpawnRequest): PbManageNeuron => {
 export const toSplitRawRequest = ({
   neuronId,
   amount,
+  memo,
 }: {
   neuronId: NeuronId;
   amount: E8s;
+  memo?: bigint;
 }): RawManageNeuron => {
   const rawCommand: RawCommand = {
     Split: {
       amount_e8s: amount,
+      memo: toNullable(memo),
     },
   };
 
@@ -1349,7 +1363,7 @@ export const fromDisburseRequest = (request: DisburseRequest): PbManageNeuron =>
   if (request.toAccountId) {
     const toAccountIdentifier = new PbAccountIdentifier();
     toAccountIdentifier.setHash(
-      Uint8Array.from(Buffer.from(request.toAccountId, "hex"))
+      uint8ArrayToHexString(request.toAccountId)
     );
     disburse.setToAccount(toAccountIdentifier);
   }

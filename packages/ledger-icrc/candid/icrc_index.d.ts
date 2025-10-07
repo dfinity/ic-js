@@ -24,12 +24,23 @@ export interface Burn {
   spender: [] | [Account];
 }
 export interface GetAccountTransactionsArgs {
+  /**
+   * Maximum number of transactions to fetch.
+   */
   max_results: bigint;
+  /**
+   * The txid of the last transaction seen by the client.
+   * If None then the results will start from the most recent
+   * txid.
+   */
   start: [] | [TxId];
   account: Account;
 }
 export interface GetTransactions {
   transactions: Array<TransactionWithId>;
+  /**
+   * The txid of the oldest transaction the account has
+   */
   oldest_tx_id: [] | [TxId];
 }
 export interface GetTransactionsErr {
@@ -38,6 +49,9 @@ export interface GetTransactionsErr {
 export type GetTransactionsResult =
   | { Ok: GetTransactions }
   | { Err: GetTransactionsErr };
+/**
+ * The initialization parameters of the Index canister.
+ */
 export interface InitArgs {
   ledger_id: Principal;
 }
