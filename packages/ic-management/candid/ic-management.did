@@ -1,4 +1,4 @@
-// Generated from dfinity/portal commit b562ec5d68bce1fef2859a9a592d9487d3b64919 for file 'docs/references/_attachments/ic.did'
+// Generated from dfinity/portal commit 01a96af0ffb274b996c73d2c7704db61cae6949b for file 'docs/references/_attachments/ic.did'
 
 type canister_id = principal;
 type wasm_module = blob;
@@ -325,6 +325,7 @@ type http_request_args = record {
         function : func(record { response : http_request_result; context : blob }) -> (http_request_result) query;
         context : blob;
     };
+    is_replicated : opt bool;
 };
 
 type ecdsa_public_key_args = record {
