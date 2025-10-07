@@ -3,6 +3,7 @@ import type {
   Action as ActionCandid,
   DefaultFollowees,
   ExtensionInit,
+  ExtensionOperationArg,
   Topic,
 } from "../../candid/sns_governance";
 import { topicMock } from "../mocks/governance.mock";
@@ -228,6 +229,30 @@ describe("governance converters", () => {
           wasm_memory_limit,
           memory_allocation,
           compute_allocation,
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
+    it("converts ExecuteExtensionOperation action", () => {
+      const extension_canister_id = mockPrincipal;
+      const operation_name = "do_something";
+      const operation_arg: ExtensionOperationArg = {
+        value: [{ Text: "payload" }],
+      };
+      const action: ActionCandid = {
+        ExecuteExtensionOperation: {
+          extension_canister_id: [extension_canister_id],
+          operation_name: [operation_name],
+          operation_arg: [operation_arg],
+        },
+      };
+      const expectedAction: Action = {
+        ExecuteExtensionOperation: {
+          extension_canister_id,
+          operation_name,
+          operation_arg,
         },
       };
 

@@ -4,6 +4,7 @@ import type {
   DeregisterDappCanisters,
   ExecuteGenericNervousSystemFunction,
   ExtensionInit,
+  ExtensionOperationArg,
   Motion,
   NeuronPermissionList,
   RegisterDappCanisters,
@@ -17,6 +18,7 @@ export type Action =
       ManageNervousSystemParameters: NervousSystemParameters;
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
+  | { ExecuteExtensionOperation: ExecuteExtensionOperation }
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RemoveGenericNervousSystemFunction: bigint }
@@ -84,6 +86,12 @@ export interface GenericNervousSystemFunction {
   validator_method_name: Option<string>;
   target_method_name: Option<string>;
   topic: Option<Topic>;
+}
+
+export interface ExecuteExtensionOperation {
+  extension_canister_id: Option<Principal>;
+  operation_name: Option<string>;
+  operation_arg: Option<ExtensionOperationArg>;
 }
 
 export interface ManageDappCanisterSettings {

@@ -10,6 +10,7 @@ import type {
   Action as ActionCandid,
   ChunkedCanisterWasm as ChunkedCanisterWasmCandid,
   Command,
+  ExecuteExtensionOperation as ExecuteExtensionOperationCandid,
   FunctionType as FunctionTypeCandid,
   GenericNervousSystemFunction as GenericNervousSystemFunctionCandid,
   ListProposals,
@@ -29,6 +30,7 @@ import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
 import type {
   Action,
   ChunkedCanisterWasm,
+  ExecuteExtensionOperation,
   FunctionType,
   GenericNervousSystemFunction,
   ManageDappCanisterSettings,
@@ -366,6 +368,14 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     };
   }
 
+  if ("ExecuteExtensionOperation" in action) {
+    return {
+      ExecuteExtensionOperation: convertExecuteExtensionOperation(
+        action.ExecuteExtensionOperation,
+      ),
+    };
+  }
+
   if ("SetTopicsForCustomProposals" in action) {
     return {
       SetTopicsForCustomProposals: action.SetTopicsForCustomProposals,
@@ -460,6 +470,14 @@ const convertManageDappCanisterSettings = (
   wasm_memory_limit: fromNullable(params.wasm_memory_limit),
   memory_allocation: fromNullable(params.memory_allocation),
   compute_allocation: fromNullable(params.compute_allocation),
+});
+
+const convertExecuteExtensionOperation = (
+  params: ExecuteExtensionOperationCandid,
+): ExecuteExtensionOperation => ({
+  extension_canister_id: fromNullable(params.extension_canister_id),
+  operation_name: fromNullable(params.operation_name),
+  operation_arg: fromNullable(params.operation_arg),
 });
 
 const convertChunkedCanisterWasm = (
