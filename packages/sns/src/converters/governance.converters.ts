@@ -1,5 +1,10 @@
 import type { IcrcAccount } from "@dfinity/ledger-icrc";
-import { fromNullable, jsonReplacer, toNullable } from "@dfinity/utils";
+import {
+  assertNever,
+  fromNullable,
+  jsonReplacer,
+  toNullable,
+} from "@dfinity/utils";
 import type {
   Account,
   Action as ActionCandid,
@@ -485,8 +490,7 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     return { Motion: action.Motion };
   }
 
-  // TODO: Find a better way to log this because JSON.stringify doesn't support BigInt.
-  throw new Error(`Unknown action type ${JSON.stringify(action)}`);
+  assertNever(action, `Unknown action type ${JSON.stringify(action)}`);
 };
 
 const convertManageSnsMetadata = (
@@ -618,8 +622,8 @@ const convertPreciseValue = (value: PreciseValueCandid): PreciseValue => {
     };
   }
 
-  // TODO: replace with assertNever
-  throw new Error(
+  assertNever(
+    value,
     `Unknown PreciseValue ${JSON.stringify(value, jsonReplacer)}`,
   );
 };
@@ -639,8 +643,10 @@ const convertWasm = (params: WasmCandid | undefined): Wasm | undefined => {
     return { Bytes: params.Bytes };
   }
 
-  // TODO: replace with assertNever
-  throw new Error(`Unknown Wasm type ${JSON.stringify(params, jsonReplacer)}`);
+  assertNever(
+    params,
+    `Unknown Wasm type ${JSON.stringify(params, jsonReplacer)}`,
+  );
 };
 
 const convertUpgradeSnsControlledCanister = (
@@ -719,7 +725,7 @@ const convertFunctionType = (
     };
   }
 
-  throw new Error(`Unknown FunctionType ${JSON.stringify(params)}`);
+  assertNever(params, `Unknown FunctionType ${JSON.stringify(params)}`);
 };
 
 const convertNervousSystemFunction = (
