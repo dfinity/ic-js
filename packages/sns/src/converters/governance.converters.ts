@@ -639,7 +639,9 @@ const convertWasm = (params: WasmCandid | undefined): Wasm | undefined => {
 
   if ("Chunked" in params) {
     return {
-      Chunked: convertChunkedCanisterWasm(params.Chunked)!,
+      Chunked: convertChunkedCanisterWasm(
+        params.Chunked,
+      ) as ChunkedCanisterWasm,
     };
   }
 
