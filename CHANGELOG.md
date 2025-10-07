@@ -10,7 +10,7 @@
 | `@dfinity/ic-management` | v7.1.1  | Maintained ⚙ |
 | `@dfinity/ledger-icp`    | v6.1.0  | Enhanced 🔧️  |
 | `@dfinity/ledger-icrc`   | v4.0.4  | Maintained ⚙ |
-| `@dfinity/nns`           | v10.1.2 | Maintained ⚙ |
+| `@dfinity/nns`           | v10.2.0 | Enhanced 🔧️  |
 | `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
 | `@dfinity/sns`           | v4.1.0  | Enhanced 🔧️  |
 | `@dfinity/utils`         | v3.2.0  | Enhanced 🔧️  |
@@ -19,6 +19,7 @@
 ## Features
 
 - Replace remaining usage of `Buffer` in `@dfinity/ledger-icp` in the `AccountIdentifier.fromHex` conversion.
+- Replace remaining usage of `Buffer` in `@dfinity/nns` in `accountIdentifierFromBytes`.
 - Add support for several SNS action types.
 - Use new utility `assertNever` in `@dfinity/sns`.
 - Update latest Candid files.
