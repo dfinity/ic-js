@@ -19,6 +19,7 @@ export type Action =
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { ExecuteExtensionOperation: ExecuteExtensionOperation }
   | { UpgradeExtension: UpgradeExtension }
+  | { MintSnsTokens: MintSnsTokens }
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RemoveGenericNervousSystemFunction: bigint }
@@ -92,6 +93,13 @@ export interface ExecuteExtensionOperation {
   extension_canister_id: Option<Principal>;
   operation_name: Option<string>;
   operation_arg: Option<ExtensionOperationArg>;
+}
+
+export interface MintSnsTokens {
+  to_principal: Option<Principal>;
+  to_subaccount: Option<Subaccount>;
+  memo: Option<bigint>;
+  amount_e8s: Option<bigint>;
 }
 
 export type PreciseValue =

@@ -422,6 +422,33 @@ describe("governance converters", () => {
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
+    it("converts MintSnsTokens action", () => {
+      const to_principal = mockPrincipal;
+      const to_subaccount = {
+        subaccount: new Uint8Array([1, 2, 3]),
+      };
+      const memo = BigInt(7);
+      const amount_e8s = BigInt(500);
+      const action: ActionCandid = {
+        MintSnsTokens: {
+          to_principal: [to_principal],
+          to_subaccount: [to_subaccount],
+          memo: [memo],
+          amount_e8s: [amount_e8s],
+        },
+      };
+      const expectedAction: Action = {
+        MintSnsTokens: {
+          to_principal,
+          to_subaccount,
+          memo,
+          amount_e8s,
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
     it("converts UpgradeSnsControlledCanister action", () => {
       const new_canister_wasm = new Uint8Array();
       const canister_id = mockPrincipal;

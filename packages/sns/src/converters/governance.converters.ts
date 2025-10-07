@@ -19,6 +19,7 @@ import type {
   ManageDappCanisterSettings as ManageDappCanisterSettingsCandid,
   ManageNeuron,
   ManageSnsMetadata as ManageSnsMetadataCandid,
+  MintSnsTokens as MintSnsTokensCandid,
   NervousSystemFunction as NervousSystemFunctionCandid,
   NervousSystemParameters as NervousSystemParametersCandid,
   NeuronId,
@@ -42,6 +43,7 @@ import type {
   GenericNervousSystemFunction,
   ManageDappCanisterSettings,
   ManageSnsMetadata,
+  MintSnsTokens,
   NervousSystemFunction,
   NervousSystemParameters,
   PreciseValue,
@@ -439,6 +441,12 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     return { DeregisterDappCanisters: action.DeregisterDappCanisters };
   }
 
+  if ("MintSnsTokens" in action) {
+    return {
+      MintSnsTokens: convertMintSnsTokens(action.MintSnsTokens),
+    };
+  }
+
   if ("Unspecified" in action) {
     return { Unspecified: action.Unspecified };
   }
@@ -635,6 +643,13 @@ const convertTransferSnsTreasuryFunds = (
   to_subaccount: fromNullable(params.to_subaccount),
   memo: fromNullable(params.memo),
   amount_e8s: params.amount_e8s,
+});
+
+const convertMintSnsTokens = (params: MintSnsTokensCandid): MintSnsTokens => ({
+  to_principal: fromNullable(params.to_principal),
+  to_subaccount: fromNullable(params.to_subaccount),
+  memo: fromNullable(params.memo),
+  amount_e8s: fromNullable(params.amount_e8s),
 });
 
 const convertGenericNervousSystemFunction = (
