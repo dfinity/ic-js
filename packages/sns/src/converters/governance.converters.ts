@@ -11,6 +11,8 @@ import type {
   ChunkedCanisterWasm as ChunkedCanisterWasmCandid,
   Command,
   ExecuteExtensionOperation as ExecuteExtensionOperationCandid,
+  ExtensionOperationArg as ExtensionOperationArgCandid,
+  ExtensionUpgradeArg as ExtensionUpgradeArgCandid,
   FunctionType as FunctionTypeCandid,
   GenericNervousSystemFunction as GenericNervousSystemFunctionCandid,
   ListProposals,
@@ -21,6 +23,7 @@ import type {
   NervousSystemParameters as NervousSystemParametersCandid,
   NeuronId,
   Operation,
+  PreciseValue as PreciseValueCandid,
   RegisterExtension as RegisterExtensionCandid,
   TransferSnsTreasuryFunds as TransferSnsTreasuryFundsCandid,
   UpgradeExtension as UpgradeExtensionCandid,
@@ -33,12 +36,15 @@ import type {
   Action,
   ChunkedCanisterWasm,
   ExecuteExtensionOperation,
+  ExtensionOperationArg,
+  ExtensionUpgradeArg,
   FunctionType,
   GenericNervousSystemFunction,
   ManageDappCanisterSettings,
   ManageSnsMetadata,
   NervousSystemFunction,
   NervousSystemParameters,
+  PreciseValue,
   RegisterExtension,
   TransferSnsTreasuryFunds,
   UpgradeExtension,
@@ -487,7 +493,9 @@ const convertExecuteExtensionOperation = (
 ): ExecuteExtensionOperation => ({
   extension_canister_id: fromNullable(params.extension_canister_id),
   operation_name: fromNullable(params.operation_name),
-  operation_arg: fromNullable(params.operation_arg),
+  operation_arg: convertExtensionOperationArg(
+    fromNullable(params.operation_arg),
+  ),
 });
 
 const convertUpgradeExtension = (
@@ -495,7 +503,9 @@ const convertUpgradeExtension = (
 ): UpgradeExtension => ({
   extension_canister_id: fromNullable(params.extension_canister_id),
   wasm: convertWasm(fromNullable(params.wasm)),
-  canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
+  canister_upgrade_arg: convertExtensionUpgradeArg(
+    fromNullable(params.canister_upgrade_arg),
+  ),
 });
 
 const convertChunkedCanisterWasm = (
@@ -509,6 +519,79 @@ const convertChunkedCanisterWasm = (
     store_canister_id: fromNullable(params.store_canister_id),
     chunk_hashes_list: params.chunk_hashes_list,
   };
+};
+
+const convertExtensionOperationArg = (
+  params: ExtensionOperationArgCandid | undefined,
+): ExtensionOperationArg | undefined =>
+  convertExtensionArg(params) as ExtensionOperationArg | undefined;
+
+const convertExtensionUpgradeArg = (
+  params: ExtensionUpgradeArgCandid | undefined,
+): ExtensionUpgradeArg | undefined =>
+  convertExtensionArg(params) as ExtensionUpgradeArg | undefined;
+
+const convertExtensionArg = (
+  params: ExtensionOperationArgCandid | ExtensionUpgradeArgCandid | undefined,
+):
+  | {
+      value: PreciseValue | undefined;
+    }
+  | undefined => {
+  if (params === undefined) {
+    return undefined;
+  }
+
+  const preciseValue = fromNullable(params.value);
+
+  return {
+    value:
+      preciseValue === undefined
+        ? undefined
+        : convertPreciseValue(preciseValue),
+  };
+};
+
+const convertPreciseValue = (value: PreciseValueCandid): PreciseValue => {
+  if ("Int" in value) {
+    return { Int: value.Int };
+  }
+
+  if ("Nat" in value) {
+    return { Nat: value.Nat };
+  }
+
+  if ("Blob" in value) {
+    return { Blob: value.Blob };
+  }
+
+  if ("Bool" in value) {
+    return { Bool: value.Bool };
+  }
+
+  if ("Text" in value) {
+    return { Text: value.Text };
+  }
+
+  if ("Array" in value) {
+    return {
+      Array: value.Array.map(convertPreciseValue),
+    };
+  }
+
+  if ("Map" in value) {
+    return {
+      Map: value.Map.map(
+        ([key, val]) =>
+          [key, convertPreciseValue(val)] as [string, PreciseValue],
+      ),
+    };
+  }
+
+  assertNever(
+    value,
+    `Unknown PreciseValue ${JSON.stringify(value, jsonReplacer)}`,
+  );
 };
 
 const convertWasm = (params: WasmCandid | undefined): Wasm | undefined => {

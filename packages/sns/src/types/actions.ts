@@ -4,8 +4,6 @@ import type {
   DeregisterDappCanisters,
   ExecuteGenericNervousSystemFunction,
   ExtensionInit,
-  ExtensionOperationArg,
-  ExtensionUpgradeArg,
   Motion,
   NeuronPermissionList,
   RegisterDappCanisters,
@@ -96,6 +94,19 @@ export interface ExecuteExtensionOperation {
   operation_arg: Option<ExtensionOperationArg>;
 }
 
+export type PreciseValue =
+  | { Int: bigint }
+  | { Map: Array<[string, PreciseValue]> }
+  | { Nat: bigint }
+  | { Blob: Uint8Array | number[] }
+  | { Bool: boolean }
+  | { Text: string }
+  | { Array: PreciseValue[] };
+
+export interface ExtensionOperationArg {
+  value: Option<PreciseValue>;
+}
+
 export type Wasm =
   | { Chunked: ChunkedCanisterWasm }
   | { Bytes: Uint8Array | number[] };
@@ -104,6 +115,10 @@ export interface UpgradeExtension {
   extension_canister_id: Option<Principal>;
   wasm: Option<Wasm>;
   canister_upgrade_arg: Option<ExtensionUpgradeArg>;
+}
+
+export interface ExtensionUpgradeArg {
+  value: Option<PreciseValue>;
 }
 
 export interface ManageDappCanisterSettings {

@@ -3,8 +3,8 @@ import type {
   Action as ActionCandid,
   DefaultFollowees,
   ExtensionInit,
-  ExtensionOperationArg,
-  ExtensionUpgradeArg,
+  ExtensionOperationArg as ExtensionOperationArgCandid,
+  ExtensionUpgradeArg as ExtensionUpgradeArgCandid,
   Topic,
 } from "../../candid/sns_governance";
 import { topicMock } from "../mocks/governance.mock";
@@ -202,8 +202,19 @@ describe("governance converters", () => {
     it("converts ExecuteExtensionOperation action", () => {
       const extension_canister_id = mockPrincipal;
       const operation_name = "do_something";
-      const operation_arg: ExtensionOperationArg = {
-        value: [{ Text: "payload" }],
+      const operation_arg: ExtensionOperationArgCandid = {
+        value: [
+          {
+            Map: [
+              [
+                "nested",
+                {
+                  Array: [{ Bool: true }, { Text: "payload" }],
+                },
+              ],
+            ],
+          },
+        ],
       };
       const action: ActionCandid = {
         ExecuteExtensionOperation: {
@@ -216,7 +227,18 @@ describe("governance converters", () => {
         ExecuteExtensionOperation: {
           extension_canister_id,
           operation_name,
-          operation_arg,
+          operation_arg: {
+            value: {
+              Map: [
+                [
+                  "nested",
+                  {
+                    Array: [{ Bool: true }, { Text: "payload" }],
+                  },
+                ],
+              ],
+            },
+          },
         },
       };
 
@@ -278,12 +300,31 @@ describe("governance converters", () => {
       const wasm = {
         Chunked: {
           wasm_module_hash,
-          store_canister_id: [store_canister_id],
+          store_canister_id: [store_canister_id] as [Principal],
           chunk_hashes_list,
         },
       };
-      const canister_upgrade_arg: ExtensionUpgradeArg = {
-        value: [{ Text: "upgrade" }],
+      const canister_upgrade_arg: ExtensionUpgradeArgCandid = {
+        value: [
+          {
+            Map: [
+              [
+                "config",
+                {
+                  Map: [
+                    ["threshold", { Nat: BigInt(1) }],
+                    [
+                      "flags",
+                      {
+                        Array: [{ Bool: true }, { Bool: false }],
+                      },
+                    ],
+                  ],
+                },
+              ],
+            ],
+          },
+        ],
       };
       const action: ActionCandid = {
         UpgradeExtension: {
@@ -302,7 +343,26 @@ describe("governance converters", () => {
               chunk_hashes_list,
             },
           },
-          canister_upgrade_arg,
+          canister_upgrade_arg: {
+            value: {
+              Map: [
+                [
+                  "config",
+                  {
+                    Map: [
+                      ["threshold", { Nat: BigInt(1) }],
+                      [
+                        "flags",
+                        {
+                          Array: [{ Bool: true }, { Bool: false }],
+                        },
+                      ],
+                    ],
+                  },
+                ],
+              ],
+            },
+          },
         },
       };
 
