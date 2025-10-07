@@ -9,7 +9,6 @@ import type {
   RegisterDappCanisters,
   Subaccount,
   Topic,
-  ManageLedgerParameters as ManageLedgerParametersCandid,
 } from "../../candid/sns_governance";
 import type { Option } from "./common";
 
