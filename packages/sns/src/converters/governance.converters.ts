@@ -647,9 +647,10 @@ const convertUpgradeSnsControlledCanister = (
   params: UpgradeSnsControlledCanisterCandid,
 ): UpgradeSnsControlledCanister => ({
   new_canister_wasm: params.new_canister_wasm,
-  chunked_canister_wasm: fromNullable(params.chunked_canister_wasm)
-    ? convertChunkedCanisterWasm(fromNullable(params.chunked_canister_wasm))
-    : undefined,
+  chunked_canister_wasm:
+    params.chunked_canister_wasm?.[0] !== undefined
+      ? convertChunkedCanisterWasm(params.chunked_canister_wasm[0])
+      : undefined,
   canister_id: fromNullable(params.canister_id),
   canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
   mode: fromNullable(params.mode),
