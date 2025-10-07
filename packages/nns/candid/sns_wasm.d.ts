@@ -5,6 +5,7 @@ import type { Principal } from "@dfinity/principal";
 export interface AddWasmRequest {
   hash: Uint8Array | number[];
   wasm: [] | [SnsWasm];
+  skip_update_latest_version: [] | [boolean];
 }
 export interface AddWasmResponse {
   result: [] | [Result];
