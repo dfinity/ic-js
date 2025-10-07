@@ -8,6 +8,7 @@ import {
 import type {
   Account,
   Action as ActionCandid,
+  AdvanceSnsTargetVersion as AdvanceSnsTargetVersionCandid,
   ChunkedCanisterWasm as ChunkedCanisterWasmCandid,
   Command,
   ExecuteExtensionOperation as ExecuteExtensionOperationCandid,
@@ -26,6 +27,7 @@ import type {
   Operation,
   PreciseValue as PreciseValueCandid,
   RegisterExtension as RegisterExtensionCandid,
+  SnsVersion as SnsVersionCandid,
   TransferSnsTreasuryFunds as TransferSnsTreasuryFundsCandid,
   UpgradeExtension as UpgradeExtensionCandid,
   UpgradeSnsControlledCanister as UpgradeSnsControlledCanisterCandid,
@@ -35,6 +37,7 @@ import type {
 import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
 import type {
   Action,
+  AdvanceSnsTargetVersion,
   ChunkedCanisterWasm,
   ExecuteExtensionOperation,
   ExtensionOperationArg,
@@ -48,6 +51,7 @@ import type {
   NervousSystemParameters,
   PreciseValue,
   RegisterExtension,
+  SnsVersion,
   TransferSnsTreasuryFunds,
   UpgradeExtension,
   UpgradeSnsControlledCanister,
@@ -364,6 +368,14 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     };
   }
 
+  if ("AdvanceSnsTargetVersion" in action) {
+    return {
+      AdvanceSnsTargetVersion: convertAdvanceSnsTargetVersion(
+        action.AdvanceSnsTargetVersion,
+      ),
+    };
+  }
+
   if ("AddGenericNervousSystemFunction" in action) {
     return {
       AddGenericNervousSystemFunction: convertNervousSystemFunction(
@@ -481,6 +493,12 @@ const convertManageSnsMetadata = (
   logo: fromNullable(params.logo),
   name: fromNullable(params.name),
   description: fromNullable(params.description),
+});
+
+const convertAdvanceSnsTargetVersion = (
+  params: AdvanceSnsTargetVersionCandid,
+): AdvanceSnsTargetVersion => ({
+  new_target: convertSnsVersion(fromNullable(params.new_target)),
 });
 
 const convertManageDappCanisterSettings = (
@@ -651,6 +669,23 @@ const convertMintSnsTokens = (params: MintSnsTokensCandid): MintSnsTokens => ({
   memo: fromNullable(params.memo),
   amount_e8s: fromNullable(params.amount_e8s),
 });
+
+const convertSnsVersion = (
+  params: SnsVersionCandid | undefined,
+): SnsVersion | undefined => {
+  if (params === undefined) {
+    return undefined;
+  }
+
+  return {
+    archive_wasm_hash: fromNullable(params.archive_wasm_hash),
+    root_wasm_hash: fromNullable(params.root_wasm_hash),
+    swap_wasm_hash: fromNullable(params.swap_wasm_hash),
+    ledger_wasm_hash: fromNullable(params.ledger_wasm_hash),
+    governance_wasm_hash: fromNullable(params.governance_wasm_hash),
+    index_wasm_hash: fromNullable(params.index_wasm_hash),
+  };
+};
 
 const convertGenericNervousSystemFunction = (
   params: GenericNervousSystemFunctionCandid,

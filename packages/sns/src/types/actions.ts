@@ -17,6 +17,7 @@ export type Action =
       ManageNervousSystemParameters: NervousSystemParameters;
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
+  | { AdvanceSnsTargetVersion: AdvanceSnsTargetVersion }
   | { ExecuteExtensionOperation: ExecuteExtensionOperation }
   | { UpgradeExtension: UpgradeExtension }
   | { MintSnsTokens: MintSnsTokens }
@@ -93,6 +94,19 @@ export interface ExecuteExtensionOperation {
   extension_canister_id: Option<Principal>;
   operation_name: Option<string>;
   operation_arg: Option<ExtensionOperationArg>;
+}
+
+export interface AdvanceSnsTargetVersion {
+  new_target: Option<SnsVersion>;
+}
+
+export interface SnsVersion {
+  archive_wasm_hash: Option<Uint8Array | number[]>;
+  root_wasm_hash: Option<Uint8Array | number[]>;
+  swap_wasm_hash: Option<Uint8Array | number[]>;
+  ledger_wasm_hash: Option<Uint8Array | number[]>;
+  governance_wasm_hash: Option<Uint8Array | number[]>;
+  index_wasm_hash: Option<Uint8Array | number[]>;
 }
 
 export interface MintSnsTokens {

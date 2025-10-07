@@ -114,6 +114,39 @@ describe("governance converters", () => {
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
+    it("converts AdvanceSnsTargetVersion action", () => {
+      const archive_wasm_hash = new Uint8Array([1, 2, 3]);
+      const root_wasm_hash = new Uint8Array([4, 5, 6]);
+      const action: ActionCandid = {
+        AdvanceSnsTargetVersion: {
+          new_target: [
+            {
+              archive_wasm_hash: [archive_wasm_hash],
+              root_wasm_hash: [root_wasm_hash],
+              swap_wasm_hash: [],
+              ledger_wasm_hash: [],
+              governance_wasm_hash: [],
+              index_wasm_hash: [],
+            },
+          ],
+        },
+      };
+      const expectedAction: Action = {
+        AdvanceSnsTargetVersion: {
+          new_target: {
+            archive_wasm_hash,
+            root_wasm_hash,
+            swap_wasm_hash: undefined,
+            ledger_wasm_hash: undefined,
+            governance_wasm_hash: undefined,
+            index_wasm_hash: undefined,
+          },
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
     it("converts AddGenericNervousSystemFunction action", () => {
       const id = BigInt(3);
       const name = "test function";
