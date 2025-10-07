@@ -1,5 +1,5 @@
 import type { IcrcAccount } from "@dfinity/ledger-icrc";
-import { fromNullable, toNullable } from "@dfinity/utils";
+import { fromNullable, jsonReplacer, toNullable } from "@dfinity/utils";
 import type {
   Account,
   Action as ActionCandid,
@@ -13,10 +13,10 @@ import type {
   GenericNervousSystemFunction as GenericNervousSystemFunctionCandid,
   ListProposals,
   ManageDappCanisterSettings as ManageDappCanisterSettingsCandid,
+  ManageLedgerParameters as ManageLedgerParametersCandid,
   ManageNeuron,
   ManageSnsMetadata as ManageSnsMetadataCandid,
   MintSnsTokens as MintSnsTokensCandid,
-  ManageLedgerParameters as ManageLedgerParametersCandid,
   NervousSystemFunction as NervousSystemFunctionCandid,
   NervousSystemParameters as NervousSystemParametersCandid,
   NeuronId,
@@ -41,8 +41,8 @@ import type {
   FunctionType,
   GenericNervousSystemFunction,
   ManageDappCanisterSettings,
-  ManageSnsMetadata,
   ManageLedgerParameters,
+  ManageSnsMetadata,
   MintSnsTokens,
   NervousSystemFunction,
   NervousSystemParameters,
@@ -626,8 +626,8 @@ const convertPreciseValue = (value: PreciseValueCandid): PreciseValue => {
     };
   }
 
-  assertNever(
-    value,
+  // TODO: replace with assertNever
+  throw new Error(
     `Unknown PreciseValue ${JSON.stringify(value, jsonReplacer)}`,
   );
 };
@@ -647,10 +647,8 @@ const convertWasm = (params: WasmCandid | undefined): Wasm | undefined => {
     return { Bytes: params.Bytes };
   }
 
-  assertNever(
-    params,
-    `Unknown Wasm type ${JSON.stringify(params, jsonReplacer)}`,
-  );
+  // TODO: replace with assertNever
+  throw new Error(`Unknown Wasm type ${JSON.stringify(params, jsonReplacer)}`);
 };
 
 const convertUpgradeSnsControlledCanister = (
