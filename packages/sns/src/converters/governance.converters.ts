@@ -1,10 +1,5 @@
 import type { IcrcAccount } from "@dfinity/ledger-icrc";
-import {
-  assertNever,
-  fromNullable,
-  jsonReplacer,
-  toNullable,
-} from "@dfinity/utils";
+import { fromNullable, toNullable } from "@dfinity/utils";
 import type {
   Account,
   Action as ActionCandid,
@@ -490,10 +485,8 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     return { Motion: action.Motion };
   }
 
-  assertNever(
-    action,
-    `Unknown action type ${JSON.stringify(action, jsonReplacer)}`,
-  );
+  // TODO: Find a better way to log this because JSON.stringify doesn't support BigInt.
+  throw new Error(`Unknown action type ${JSON.stringify(action)}`);
 };
 
 const convertManageSnsMetadata = (
@@ -735,10 +728,7 @@ const convertFunctionType = (
     };
   }
 
-  assertNever(
-    params,
-    `Unknown FunctionType ${JSON.stringify(params, jsonReplacer)}`,
-  );
+  throw new Error(`Unknown FunctionType ${JSON.stringify(params)}`);
 };
 
 const convertNervousSystemFunction = (
