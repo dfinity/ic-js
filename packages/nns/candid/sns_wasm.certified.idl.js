@@ -13,6 +13,7 @@ export const idlFactory = ({ IDL }) => {
   const AddWasmRequest = IDL.Record({
     'hash' : IDL.Vec(IDL.Nat8),
     'wasm' : IDL.Opt(SnsWasm),
+    'skip_update_latest_version' : IDL.Opt(IDL.Bool),
   });
   const SnsWasmError = IDL.Record({ 'message' : IDL.Text });
   const Result = IDL.Variant({
