@@ -21,6 +21,7 @@ import type {
   ManageNeuron,
   ManageSnsMetadata as ManageSnsMetadataCandid,
   MintSnsTokens as MintSnsTokensCandid,
+  ManageLedgerParameters as ManageLedgerParametersCandid,
   NervousSystemFunction as NervousSystemFunctionCandid,
   NervousSystemParameters as NervousSystemParametersCandid,
   NeuronId,
@@ -46,6 +47,7 @@ import type {
   GenericNervousSystemFunction,
   ManageDappCanisterSettings,
   ManageSnsMetadata,
+  ManageLedgerParameters,
   MintSnsTokens,
   NervousSystemFunction,
   NervousSystemParameters,
@@ -392,6 +394,14 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     };
   }
 
+  if ("ManageLedgerParameters" in action) {
+    return {
+      ManageLedgerParameters: convertManageLedgerParameters(
+        action.ManageLedgerParameters,
+      ),
+    };
+  }
+
   if ("ExecuteExtensionOperation" in action) {
     return {
       ExecuteExtensionOperation: convertExecuteExtensionOperation(
@@ -493,6 +503,15 @@ const convertManageSnsMetadata = (
   logo: fromNullable(params.logo),
   name: fromNullable(params.name),
   description: fromNullable(params.description),
+});
+
+const convertManageLedgerParameters = (
+  params: ManageLedgerParametersCandid,
+): ManageLedgerParameters => ({
+  token_symbol: fromNullable(params.token_symbol),
+  transfer_fee: fromNullable(params.transfer_fee),
+  token_logo: fromNullable(params.token_logo),
+  token_name: fromNullable(params.token_name),
 });
 
 const convertAdvanceSnsTargetVersion = (

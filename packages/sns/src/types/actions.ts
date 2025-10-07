@@ -9,6 +9,7 @@ import type {
   RegisterDappCanisters,
   Subaccount,
   Topic,
+  ManageLedgerParameters as ManageLedgerParametersCandid,
 } from "../../candid/sns_governance";
 import type { Option } from "./common";
 
@@ -21,6 +22,7 @@ export type Action =
   | { ExecuteExtensionOperation: ExecuteExtensionOperation }
   | { UpgradeExtension: UpgradeExtension }
   | { MintSnsTokens: MintSnsTokens }
+  | { ManageLedgerParameters: ManageLedgerParameters }
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RemoveGenericNervousSystemFunction: bigint }
@@ -152,6 +154,13 @@ export interface ManageDappCanisterSettings {
   wasm_memory_limit: Option<bigint>;
   memory_allocation: Option<bigint>;
   compute_allocation: Option<bigint>;
+}
+
+export interface ManageLedgerParameters {
+  token_symbol: Option<string>;
+  transfer_fee: Option<bigint>;
+  token_logo: Option<string>;
+  token_name: Option<string>;
 }
 
 export interface TransferSnsTreasuryFunds {

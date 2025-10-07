@@ -566,6 +566,31 @@ describe("governance converters", () => {
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
+    it("converts ManageLedgerParameters action", () => {
+      const token_symbol = "SNS";
+      const transfer_fee = BigInt(10);
+      const token_logo = "https://logo";
+      const token_name = "Service Token";
+      const action: ActionCandid = {
+        ManageLedgerParameters: {
+          token_symbol: [token_symbol],
+          transfer_fee: [transfer_fee],
+          token_logo: [token_logo],
+          token_name: [token_name],
+        },
+      };
+      const expectedAction: Action = {
+        ManageLedgerParameters: {
+          token_symbol,
+          transfer_fee,
+          token_logo,
+          token_name,
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
     it("converts ExecuteGenericNervousSystemFunction action", () => {
       const action: ActionCandid = {
         ExecuteGenericNervousSystemFunction: {
