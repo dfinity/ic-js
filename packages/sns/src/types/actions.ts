@@ -17,6 +17,12 @@ export type Action =
       ManageNervousSystemParameters: NervousSystemParameters;
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
+  | { AdvanceSnsTargetVersion: AdvanceSnsTargetVersion }
+  | { ExecuteExtensionOperation: ExecuteExtensionOperation }
+  | { UpgradeExtension: UpgradeExtension }
+  | { MintSnsTokens: MintSnsTokens }
+  | { ManageLedgerParameters: ManageLedgerParameters }
+  | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { UpgradeSnsToNextVersion: Record<string, never> }
@@ -83,6 +89,77 @@ export interface GenericNervousSystemFunction {
   validator_method_name: Option<string>;
   target_method_name: Option<string>;
   topic: Option<Topic>;
+}
+
+export interface ExecuteExtensionOperation {
+  extension_canister_id: Option<Principal>;
+  operation_name: Option<string>;
+  operation_arg: Option<ExtensionOperationArg>;
+}
+
+export interface AdvanceSnsTargetVersion {
+  new_target: Option<SnsVersion>;
+}
+
+export interface SnsVersion {
+  archive_wasm_hash: Option<Uint8Array | number[]>;
+  root_wasm_hash: Option<Uint8Array | number[]>;
+  swap_wasm_hash: Option<Uint8Array | number[]>;
+  ledger_wasm_hash: Option<Uint8Array | number[]>;
+  governance_wasm_hash: Option<Uint8Array | number[]>;
+  index_wasm_hash: Option<Uint8Array | number[]>;
+}
+
+export interface MintSnsTokens {
+  to_principal: Option<Principal>;
+  to_subaccount: Option<Subaccount>;
+  memo: Option<bigint>;
+  amount_e8s: Option<bigint>;
+}
+
+export type PreciseValue =
+  | { Int: bigint }
+  | { Map: Array<[string, PreciseValue]> }
+  | { Nat: bigint }
+  | { Blob: Uint8Array | number[] }
+  | { Bool: boolean }
+  | { Text: string }
+  | { Array: PreciseValue[] };
+
+export interface ExtensionOperationArg {
+  value: Option<PreciseValue>;
+}
+
+export type Wasm =
+  | { Chunked: ChunkedCanisterWasm }
+  | { Bytes: Uint8Array | number[] };
+
+export interface UpgradeExtension {
+  extension_canister_id: Option<Principal>;
+  wasm: Option<Wasm>;
+  canister_upgrade_arg: Option<ExtensionUpgradeArg>;
+}
+
+export interface ExtensionUpgradeArg {
+  value: Option<PreciseValue>;
+}
+
+export interface ManageDappCanisterSettings {
+  freezing_threshold: Option<bigint>;
+  wasm_memory_threshold: Option<bigint>;
+  canister_ids: Principal[];
+  reserved_cycles_limit: Option<bigint>;
+  log_visibility: Option<number>;
+  wasm_memory_limit: Option<bigint>;
+  memory_allocation: Option<bigint>;
+  compute_allocation: Option<bigint>;
+}
+
+export interface ManageLedgerParameters {
+  token_symbol: Option<string>;
+  transfer_fee: Option<bigint>;
+  token_logo: Option<string>;
+  token_name: Option<string>;
 }
 
 export interface TransferSnsTreasuryFunds {

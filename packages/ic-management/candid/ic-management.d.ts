@@ -221,6 +221,7 @@ export interface http_request_args {
     | []
     | [{ function: [Principal, string]; context: Uint8Array | number[] }];
   headers: Array<http_header>;
+  is_replicated: [] | [boolean];
 }
 export interface http_request_result {
   status: bigint;

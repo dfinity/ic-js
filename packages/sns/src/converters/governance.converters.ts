@@ -1,42 +1,59 @@
 import type { IcrcAccount } from "@dfinity/ledger-icrc";
-import {
-  assertNever,
-  fromNullable,
-  jsonReplacer,
-  toNullable,
-} from "@dfinity/utils";
+import { fromNullable, jsonReplacer, toNullable } from "@dfinity/utils";
 import type {
   Account,
   Action as ActionCandid,
+  AdvanceSnsTargetVersion as AdvanceSnsTargetVersionCandid,
   ChunkedCanisterWasm as ChunkedCanisterWasmCandid,
   Command,
+  ExecuteExtensionOperation as ExecuteExtensionOperationCandid,
+  ExtensionOperationArg as ExtensionOperationArgCandid,
+  ExtensionUpgradeArg as ExtensionUpgradeArgCandid,
   FunctionType as FunctionTypeCandid,
   GenericNervousSystemFunction as GenericNervousSystemFunctionCandid,
   ListProposals,
+  ManageDappCanisterSettings as ManageDappCanisterSettingsCandid,
+  ManageLedgerParameters as ManageLedgerParametersCandid,
   ManageNeuron,
   ManageSnsMetadata as ManageSnsMetadataCandid,
+  MintSnsTokens as MintSnsTokensCandid,
   NervousSystemFunction as NervousSystemFunctionCandid,
   NervousSystemParameters as NervousSystemParametersCandid,
   NeuronId,
   Operation,
+  PreciseValue as PreciseValueCandid,
   RegisterExtension as RegisterExtensionCandid,
+  SnsVersion as SnsVersionCandid,
   TransferSnsTreasuryFunds as TransferSnsTreasuryFundsCandid,
+  UpgradeExtension as UpgradeExtensionCandid,
   UpgradeSnsControlledCanister as UpgradeSnsControlledCanisterCandid,
   VotingRewardsParameters as VotingRewardsParametersCandid,
+  Wasm as WasmCandid,
 } from "../../candid/sns_governance";
 import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
 import type {
   Action,
+  AdvanceSnsTargetVersion,
   ChunkedCanisterWasm,
+  ExecuteExtensionOperation,
+  ExtensionOperationArg,
+  ExtensionUpgradeArg,
   FunctionType,
   GenericNervousSystemFunction,
+  ManageDappCanisterSettings,
+  ManageLedgerParameters,
   ManageSnsMetadata,
+  MintSnsTokens,
   NervousSystemFunction,
   NervousSystemParameters,
+  PreciseValue,
   RegisterExtension,
+  SnsVersion,
   TransferSnsTreasuryFunds,
+  UpgradeExtension,
   UpgradeSnsControlledCanister,
   VotingRewardsParameters,
+  Wasm,
 } from "../types/actions";
 import type {
   SnsClaimOrRefreshArgs,
@@ -348,11 +365,49 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     };
   }
 
+  if ("AdvanceSnsTargetVersion" in action) {
+    return {
+      AdvanceSnsTargetVersion: convertAdvanceSnsTargetVersion(
+        action.AdvanceSnsTargetVersion,
+      ),
+    };
+  }
+
   if ("AddGenericNervousSystemFunction" in action) {
     return {
       AddGenericNervousSystemFunction: convertNervousSystemFunction(
         action.AddGenericNervousSystemFunction,
       ),
+    };
+  }
+
+  if ("ManageDappCanisterSettings" in action) {
+    return {
+      ManageDappCanisterSettings: convertManageDappCanisterSettings(
+        action.ManageDappCanisterSettings,
+      ),
+    };
+  }
+
+  if ("ManageLedgerParameters" in action) {
+    return {
+      ManageLedgerParameters: convertManageLedgerParameters(
+        action.ManageLedgerParameters,
+      ),
+    };
+  }
+
+  if ("ExecuteExtensionOperation" in action) {
+    return {
+      ExecuteExtensionOperation: convertExecuteExtensionOperation(
+        action.ExecuteExtensionOperation,
+      ),
+    };
+  }
+
+  if ("UpgradeExtension" in action) {
+    return {
+      UpgradeExtension: convertUpgradeExtension(action.UpgradeExtension),
     };
   }
 
@@ -403,6 +458,12 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     return { DeregisterDappCanisters: action.DeregisterDappCanisters };
   }
 
+  if ("MintSnsTokens" in action) {
+    return {
+      MintSnsTokens: convertMintSnsTokens(action.MintSnsTokens),
+    };
+  }
+
   if ("Unspecified" in action) {
     return { Unspecified: action.Unspecified };
   }
@@ -424,10 +485,8 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     return { Motion: action.Motion };
   }
 
-  assertNever(
-    action,
-    `Unknown action type ${JSON.stringify(action, jsonReplacer)}`,
-  );
+  // TODO: Find a better way to log this because JSON.stringify doesn't support BigInt.
+  throw new Error(`Unknown action type ${JSON.stringify(action)}`);
 };
 
 const convertManageSnsMetadata = (
@@ -439,26 +498,159 @@ const convertManageSnsMetadata = (
   description: fromNullable(params.description),
 });
 
+const convertManageLedgerParameters = (
+  params: ManageLedgerParametersCandid,
+): ManageLedgerParameters => ({
+  token_symbol: fromNullable(params.token_symbol),
+  transfer_fee: fromNullable(params.transfer_fee),
+  token_logo: fromNullable(params.token_logo),
+  token_name: fromNullable(params.token_name),
+});
+
+const convertAdvanceSnsTargetVersion = (
+  params: AdvanceSnsTargetVersionCandid,
+): AdvanceSnsTargetVersion => ({
+  new_target: convertSnsVersion(fromNullable(params.new_target)),
+});
+
+const convertManageDappCanisterSettings = (
+  params: ManageDappCanisterSettingsCandid,
+): ManageDappCanisterSettings => ({
+  freezing_threshold: fromNullable(params.freezing_threshold),
+  wasm_memory_threshold: fromNullable(params.wasm_memory_threshold),
+  canister_ids: params.canister_ids,
+  reserved_cycles_limit: fromNullable(params.reserved_cycles_limit),
+  log_visibility: fromNullable(params.log_visibility),
+  wasm_memory_limit: fromNullable(params.wasm_memory_limit),
+  memory_allocation: fromNullable(params.memory_allocation),
+  compute_allocation: fromNullable(params.compute_allocation),
+});
+
+const convertExecuteExtensionOperation = (
+  params: ExecuteExtensionOperationCandid,
+): ExecuteExtensionOperation => ({
+  extension_canister_id: fromNullable(params.extension_canister_id),
+  operation_name: fromNullable(params.operation_name),
+  operation_arg: convertExtensionOperationArg(
+    fromNullable(params.operation_arg),
+  ),
+});
+
+const convertUpgradeExtension = (
+  params: UpgradeExtensionCandid,
+): UpgradeExtension => ({
+  extension_canister_id: fromNullable(params.extension_canister_id),
+  wasm: convertWasm(fromNullable(params.wasm)),
+  canister_upgrade_arg: convertExtensionUpgradeArg(
+    fromNullable(params.canister_upgrade_arg),
+  ),
+});
+
 const convertChunkedCanisterWasm = (
-  params: ChunkedCanisterWasmCandid | undefined,
-): ChunkedCanisterWasm | undefined => {
+  params: ChunkedCanisterWasmCandid,
+): ChunkedCanisterWasm => ({
+  wasm_module_hash: params.wasm_module_hash,
+  store_canister_id: fromNullable(params.store_canister_id),
+  chunk_hashes_list: params.chunk_hashes_list,
+});
+
+const convertExtensionOperationArg = (
+  params: ExtensionOperationArgCandid | undefined,
+): ExtensionOperationArg | undefined =>
+  convertExtensionArg(params) as ExtensionOperationArg | undefined;
+
+const convertExtensionUpgradeArg = (
+  params: ExtensionUpgradeArgCandid | undefined,
+): ExtensionUpgradeArg | undefined =>
+  convertExtensionArg(params) as ExtensionUpgradeArg | undefined;
+
+const convertExtensionArg = (
+  params: ExtensionOperationArgCandid | ExtensionUpgradeArgCandid | undefined,
+):
+  | {
+      value: PreciseValue | undefined;
+    }
+  | undefined => {
   if (params === undefined) {
     return undefined;
   }
+
+  const preciseValue = fromNullable(params.value);
+
   return {
-    wasm_module_hash: params.wasm_module_hash,
-    store_canister_id: fromNullable(params.store_canister_id),
-    chunk_hashes_list: params.chunk_hashes_list,
+    value:
+      preciseValue === undefined
+        ? undefined
+        : convertPreciseValue(preciseValue),
   };
+};
+
+const convertPreciseValue = (value: PreciseValueCandid): PreciseValue => {
+  if ("Int" in value) {
+    return { Int: value.Int };
+  }
+
+  if ("Nat" in value) {
+    return { Nat: value.Nat };
+  }
+
+  if ("Blob" in value) {
+    return { Blob: value.Blob };
+  }
+
+  if ("Bool" in value) {
+    return { Bool: value.Bool };
+  }
+
+  if ("Text" in value) {
+    return { Text: value.Text };
+  }
+
+  if ("Array" in value) {
+    return {
+      Array: value.Array.map(convertPreciseValue),
+    };
+  }
+
+  if ("Map" in value) {
+    return {
+      Map: value.Map.map(([key, val]) => [key, convertPreciseValue(val)]),
+    };
+  }
+
+  // TODO: replace with assertNever
+  throw new Error(
+    `Unknown PreciseValue ${JSON.stringify(value, jsonReplacer)}`,
+  );
+};
+
+const convertWasm = (params: WasmCandid | undefined): Wasm | undefined => {
+  if (params === undefined) {
+    return undefined;
+  }
+
+  if ("Chunked" in params) {
+    return {
+      Chunked: convertChunkedCanisterWasm(params.Chunked),
+    };
+  }
+
+  if ("Bytes" in params) {
+    return { Bytes: params.Bytes };
+  }
+
+  // TODO: replace with assertNever
+  throw new Error(`Unknown Wasm type ${JSON.stringify(params, jsonReplacer)}`);
 };
 
 const convertUpgradeSnsControlledCanister = (
   params: UpgradeSnsControlledCanisterCandid,
 ): UpgradeSnsControlledCanister => ({
   new_canister_wasm: params.new_canister_wasm,
-  chunked_canister_wasm: convertChunkedCanisterWasm(
-    fromNullable(params.chunked_canister_wasm),
-  ),
+  chunked_canister_wasm:
+    params.chunked_canister_wasm?.[0] !== undefined
+      ? convertChunkedCanisterWasm(params.chunked_canister_wasm[0])
+      : undefined,
   canister_id: fromNullable(params.canister_id),
   canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
   mode: fromNullable(params.mode),
@@ -473,6 +665,30 @@ const convertTransferSnsTreasuryFunds = (
   memo: fromNullable(params.memo),
   amount_e8s: params.amount_e8s,
 });
+
+const convertMintSnsTokens = (params: MintSnsTokensCandid): MintSnsTokens => ({
+  to_principal: fromNullable(params.to_principal),
+  to_subaccount: fromNullable(params.to_subaccount),
+  memo: fromNullable(params.memo),
+  amount_e8s: fromNullable(params.amount_e8s),
+});
+
+const convertSnsVersion = (
+  params: SnsVersionCandid | undefined,
+): SnsVersion | undefined => {
+  if (params === undefined) {
+    return undefined;
+  }
+
+  return {
+    archive_wasm_hash: fromNullable(params.archive_wasm_hash),
+    root_wasm_hash: fromNullable(params.root_wasm_hash),
+    swap_wasm_hash: fromNullable(params.swap_wasm_hash),
+    ledger_wasm_hash: fromNullable(params.ledger_wasm_hash),
+    governance_wasm_hash: fromNullable(params.governance_wasm_hash),
+    index_wasm_hash: fromNullable(params.index_wasm_hash),
+  };
+};
 
 const convertGenericNervousSystemFunction = (
   params: GenericNervousSystemFunctionCandid,
@@ -503,10 +719,7 @@ const convertFunctionType = (
     };
   }
 
-  assertNever(
-    params,
-    `Unknown FunctionType ${JSON.stringify(params, jsonReplacer)}`,
-  );
+  throw new Error(`Unknown FunctionType ${JSON.stringify(params)}`);
 };
 
 const convertNervousSystemFunction = (
@@ -584,8 +797,9 @@ const convertNervousSystemParams = (
 const convertRegisterExtension = (
   params: RegisterExtensionCandid,
 ): RegisterExtension => ({
-  chunked_canister_wasm: convertChunkedCanisterWasm(
-    fromNullable(params.chunked_canister_wasm),
-  ),
+  chunked_canister_wasm:
+    params.chunked_canister_wasm?.[0] !== undefined
+      ? convertChunkedCanisterWasm(params.chunked_canister_wasm[0])
+      : undefined,
   extension_init: fromNullable(params.extension_init),
 });

@@ -237,6 +237,7 @@ export const idlFactory = ({ IDL }) => {
       })
     ),
     'headers' : IDL.Vec(http_header),
+    'is_replicated' : IDL.Opt(IDL.Bool),
   });
   const canister_install_mode = IDL.Variant({
     'reinstall' : IDL.Null,
