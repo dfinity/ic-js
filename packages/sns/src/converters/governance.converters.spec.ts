@@ -4,6 +4,7 @@ import type {
   DefaultFollowees,
   ExtensionInit,
   ExtensionOperationArg,
+  ExtensionUpgradeArg,
   Topic,
 } from "../../candid/sns_governance";
 import { topicMock } from "../mocks/governance.mock";
@@ -263,6 +264,45 @@ describe("governance converters", () => {
             chunk_hashes_list,
           },
           extension_init,
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
+    it("converts UpgradeExtension action", () => {
+      const extension_canister_id = mockPrincipal;
+      const wasm_module_hash = new Uint8Array([9, 8, 7]);
+      const store_canister_id = Principal.fromHex("321f");
+      const chunk_hashes_list = [new Uint8Array([6, 5, 4])];
+      const wasm = {
+        Chunked: {
+          wasm_module_hash,
+          store_canister_id: [store_canister_id],
+          chunk_hashes_list,
+        },
+      };
+      const canister_upgrade_arg: ExtensionUpgradeArg = {
+        value: [{ Text: "upgrade" }],
+      };
+      const action: ActionCandid = {
+        UpgradeExtension: {
+          extension_canister_id: [extension_canister_id],
+          wasm: [wasm],
+          canister_upgrade_arg: [canister_upgrade_arg],
+        },
+      };
+      const expectedAction: Action = {
+        UpgradeExtension: {
+          extension_canister_id,
+          wasm: {
+            Chunked: {
+              wasm_module_hash,
+              store_canister_id,
+              chunk_hashes_list,
+            },
+          },
+          canister_upgrade_arg,
         },
       };
 

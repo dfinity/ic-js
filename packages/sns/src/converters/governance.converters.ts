@@ -23,8 +23,10 @@ import type {
   Operation,
   RegisterExtension as RegisterExtensionCandid,
   TransferSnsTreasuryFunds as TransferSnsTreasuryFundsCandid,
+  UpgradeExtension as UpgradeExtensionCandid,
   UpgradeSnsControlledCanister as UpgradeSnsControlledCanisterCandid,
   VotingRewardsParameters as VotingRewardsParametersCandid,
+  Wasm as WasmCandid,
 } from "../../candid/sns_governance";
 import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
 import type {
@@ -39,8 +41,10 @@ import type {
   NervousSystemParameters,
   RegisterExtension,
   TransferSnsTreasuryFunds,
+  UpgradeExtension,
   UpgradeSnsControlledCanister,
   VotingRewardsParameters,
+  Wasm,
 } from "../types/actions";
 import type {
   SnsClaimOrRefreshArgs,
@@ -376,6 +380,12 @@ export const fromCandidAction = (action: ActionCandid): Action => {
     };
   }
 
+  if ("UpgradeExtension" in action) {
+    return {
+      UpgradeExtension: convertUpgradeExtension(action.UpgradeExtension),
+    };
+  }
+
   if ("SetTopicsForCustomProposals" in action) {
     return {
       SetTopicsForCustomProposals: action.SetTopicsForCustomProposals,
@@ -480,6 +490,14 @@ const convertExecuteExtensionOperation = (
   operation_arg: fromNullable(params.operation_arg),
 });
 
+const convertUpgradeExtension = (
+  params: UpgradeExtensionCandid,
+): UpgradeExtension => ({
+  extension_canister_id: fromNullable(params.extension_canister_id),
+  wasm: convertWasm(fromNullable(params.wasm)),
+  canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
+});
+
 const convertChunkedCanisterWasm = (
   params: ChunkedCanisterWasmCandid | undefined,
 ): ChunkedCanisterWasm | undefined => {
@@ -491,6 +509,27 @@ const convertChunkedCanisterWasm = (
     store_canister_id: fromNullable(params.store_canister_id),
     chunk_hashes_list: params.chunk_hashes_list,
   };
+};
+
+const convertWasm = (params: WasmCandid | undefined): Wasm | undefined => {
+  if (params === undefined) {
+    return undefined;
+  }
+
+  if ("Chunked" in params) {
+    return {
+      Chunked: convertChunkedCanisterWasm(params.Chunked)!,
+    };
+  }
+
+  if ("Bytes" in params) {
+    return { Bytes: params.Bytes };
+  }
+
+  assertNever(
+    params,
+    `Unknown Wasm type ${JSON.stringify(params, jsonReplacer)}`,
+  );
 };
 
 const convertUpgradeSnsControlledCanister = (

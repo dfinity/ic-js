@@ -5,6 +5,7 @@ import type {
   ExecuteGenericNervousSystemFunction,
   ExtensionInit,
   ExtensionOperationArg,
+  ExtensionUpgradeArg,
   Motion,
   NeuronPermissionList,
   RegisterDappCanisters,
@@ -19,6 +20,7 @@ export type Action =
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { ExecuteExtensionOperation: ExecuteExtensionOperation }
+  | { UpgradeExtension: UpgradeExtension }
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RemoveGenericNervousSystemFunction: bigint }
@@ -92,6 +94,16 @@ export interface ExecuteExtensionOperation {
   extension_canister_id: Option<Principal>;
   operation_name: Option<string>;
   operation_arg: Option<ExtensionOperationArg>;
+}
+
+export type Wasm =
+  | { Chunked: ChunkedCanisterWasm }
+  | { Bytes: Uint8Array | number[] };
+
+export interface UpgradeExtension {
+  extension_canister_id: Option<Principal>;
+  wasm: Option<Wasm>;
+  canister_upgrade_arg: Option<ExtensionUpgradeArg>;
 }
 
 export interface ManageDappCanisterSettings {
