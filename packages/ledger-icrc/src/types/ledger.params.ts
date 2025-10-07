@@ -85,21 +85,26 @@ export type AllowanceParams = AllowanceArgs & QueryParams;
  * @param {number} [utcOffsetMinutes] - The user's local timezone offset in minutes from UTC. If absent, the default is UTC.
  * @param {string} language - BCP-47 language tag. See https://www.rfc-editor.org/rfc/bcp/bcp47.txt
  */
-export interface Icrc21ConsentMessageMetadata {
+export type Icrc21ConsentMessageMetadata = {
   utcOffsetMinutes?: number;
   language: string;
-}
+};
 
 /**
  * Device specification for displaying the consent message.
  *
  * @param {null} [GenericDisplay] -  A generic display able to handle large documents and do line wrapping and pagination / scrolling.  Text must be Markdown formatted, no external resources (e.g. images) are allowed.
- * @param {Object} [FieldsDisplay] - A simple display able to handle multiple fields with a title and content.
+ * @param {Object} [LineDisplay] - Simple display able to handle lines of text with a maximum number of characters per line.
+ * @param {number} LineDisplay.charactersPerLine - Maximum number of characters that can be displayed per line.
+ * @param {number} LineDisplay.linesPerPage - Maximum number of lines that can be displayed at once on a single page.
  */
 export type Icrc21ConsentMessageDeviceSpec =
   | { GenericDisplay: null }
   | {
-      FieldsDisplay: null;
+      LineDisplay: {
+        charactersPerLine: number;
+        linesPerPage: number;
+      };
     };
 
 /**
@@ -108,10 +113,10 @@ export type Icrc21ConsentMessageDeviceSpec =
  * @param {Icrc21ConsentMessageMetadata} metadata - Metadata of the consent message.
  * @param {Icrc21ConsentMessageDeviceSpec} [deviceSpec] - Information about the device responsible for presenting the consent message to the user.
  */
-export interface Icrc21ConsentMessageSpec {
+export type Icrc21ConsentMessageSpec = {
   metadata: Icrc21ConsentMessageMetadata;
   deriveSpec?: Icrc21ConsentMessageDeviceSpec;
-}
+};
 
 /**
  * Parameters for the consent message request.

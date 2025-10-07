@@ -11,7 +11,6 @@ export interface CanisterCallError {
   description: string;
 }
 export interface CanisterStatusResultV2 {
-  memory_metrics: [] | [MemoryMetrics];
   status: CanisterStatusType;
   memory_size: bigint;
   cycles: bigint;
@@ -224,16 +223,6 @@ export interface ListSnsNeuronRecipesRequest {
 }
 export interface ListSnsNeuronRecipesResponse {
   sns_neuron_recipes: Array<SnsNeuronRecipe>;
-}
-export interface MemoryMetrics {
-  wasm_binary_size: [] | [bigint];
-  wasm_chunk_store_size: [] | [bigint];
-  canister_history_size: [] | [bigint];
-  stable_memory_size: [] | [bigint];
-  snapshots_size: [] | [bigint];
-  wasm_memory_size: [] | [bigint];
-  global_memory_size: [] | [bigint];
-  custom_sections_size: [] | [bigint];
 }
 export interface NeuronAttributes {
   dissolve_delay_seconds: bigint;

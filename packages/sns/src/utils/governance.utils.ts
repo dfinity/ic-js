@@ -5,7 +5,7 @@ import {
   asciiStringToByteArray,
   numberToUint8Array,
 } from "@dfinity/utils";
-import { sha256 } from "@noble/hashes/sha2";
+import { sha256 } from "@noble/hashes/sha256";
 
 /**
  * Neuron subaccount is calculated as "sha256(0x0c . “neuron-stake” . controller . i)"

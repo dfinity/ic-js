@@ -12,8 +12,6 @@ export type Action =
     }
   | { AddGenericNervousSystemFunction: NervousSystemFunction }
   | { ManageDappCanisterSettings: ManageDappCanisterSettings }
-  | { ExecuteExtensionOperation: ExecuteExtensionOperation }
-  | { UpgradeExtension: UpgradeExtension }
   | { RemoveGenericNervousSystemFunction: bigint }
   | { SetTopicsForCustomProposals: SetTopicsForCustomProposals }
   | { RegisterExtension: RegisterExtension }
@@ -73,7 +71,6 @@ export interface CachedUpgradeSteps {
   requested_timestamp_seconds: [] | [bigint];
 }
 export interface CanisterStatusResultV2 {
-  memory_metrics: [] | [MemoryMetrics];
   status: CanisterStatusType;
   memory_size: bigint;
   cycles: bigint;
@@ -201,32 +198,11 @@ export interface DisburseResponse {
 export type DissolveState =
   | { DissolveDelaySeconds: bigint }
   | { WhenDissolvedTimestampSeconds: bigint };
-export interface ExecuteExtensionOperation {
-  extension_canister_id: [] | [Principal];
-  operation_name: [] | [string];
-  operation_arg: [] | [ExtensionOperationArg];
-}
 export interface ExecuteGenericNervousSystemFunction {
   function_id: bigint;
   payload: Uint8Array | number[];
 }
 export interface ExtensionInit {
-  value: [] | [PreciseValue];
-}
-export interface ExtensionOperationArg {
-  value: [] | [PreciseValue];
-}
-export interface ExtensionOperationSpec {
-  topic: [] | [Topic];
-  operation_type: [] | [ExtensionOperationType];
-  description: [] | [string];
-  extension_type: [] | [ExtensionType];
-}
-export type ExtensionOperationType =
-  | { TreasuryManagerWithdraw: null }
-  | { TreasuryManagerDeposit: null };
-export type ExtensionType = { TreasuryManager: null };
-export interface ExtensionUpgradeArg {
   value: [] | [PreciseValue];
 }
 export interface FinalizeDisburseMaturity {
@@ -345,7 +321,6 @@ export interface Governance {
   genesis_timestamp_seconds: bigint;
 }
 export interface GovernanceCachedMetrics {
-  treasury_metrics: Array<TreasuryMetrics>;
   not_dissolving_neurons_e8s_buckets: Array<[bigint, number]>;
   garbage_collectable_neurons_count: bigint;
   neurons_with_invalid_stake_count: bigint;
@@ -354,7 +329,6 @@ export interface GovernanceCachedMetrics {
   dissolved_neurons_count: bigint;
   total_staked_e8s: bigint;
   total_supply_governance_tokens: bigint;
-  voting_power_metrics: [] | [VotingPowerMetrics];
   not_dissolving_neurons_count: bigint;
   dissolved_neurons_e8s: bigint;
   neurons_with_less_than_6_months_dissolve_delay_e8s: bigint;
@@ -437,16 +411,6 @@ export interface MemoAndController {
   controller: [] | [Principal];
   memo: bigint;
 }
-export interface MemoryMetrics {
-  wasm_binary_size: [] | [bigint];
-  wasm_chunk_store_size: [] | [bigint];
-  canister_history_size: [] | [bigint];
-  stable_memory_size: [] | [bigint];
-  snapshots_size: [] | [bigint];
-  wasm_memory_size: [] | [bigint];
-  global_memory_size: [] | [bigint];
-  custom_sections_size: [] | [bigint];
-}
 export interface MergeMaturity {
   percentage_to_merge: number;
 }
@@ -455,15 +419,9 @@ export interface MergeMaturityResponse {
   new_stake_e8s: bigint;
 }
 export interface Metrics {
-  /**
-   * The metrics below are cached (albeit this is an implementation detail).
-   */
-  treasury_metrics: [] | [Array<TreasuryMetrics>];
-  voting_power_metrics: [] | [VotingPowerMetrics];
   last_ledger_block_timestamp: [] | [bigint];
   num_recently_executed_proposals: [] | [bigint];
   num_recently_submitted_proposals: [] | [bigint];
-  genesis_timestamp_seconds: [] | [bigint];
 }
 export interface MintSnsTokens {
   to_principal: [] | [Principal];
@@ -581,22 +539,6 @@ export interface PendingVersion {
 export interface Percentage {
   basis_points: [] | [bigint];
 }
-/**
- * This type is equivalant to `ICRC3Value`, but we give it another name since it is used here not
- * in the context of the ICRC-3 ledger standard. The justification is the same: The candid format
- * supports sharing information even when the client and the server involved do not have the same
- * schema (see the Upgrading and subtyping section of the candid spec). While this mechanism allows
- * to evolve services and clients independently without breaking them, it also means that a client
- * may not receive all the information that the server is sending, e.g. in case the client schema
- * lacks some fields that the server schema has.
- *
- * This loss of information is not an option for SNS voters deciding if an extension with particular
- * init args should be installed or if an extension function with particular arguments should be
- * called. The client must receive the same exact data the server sent in order to verify it.
- *
- * Verification of a priorly installed extension is done by hashing the extension's init arg data
- * and checking that the result is consistent with what has been certified by the SNS.
- */
 export type PreciseValue =
   | { Int: bigint }
   | { Map: Array<[string, PreciseValue]> }
@@ -658,10 +600,6 @@ export interface RegisterExtension {
 export interface RegisterVote {
   vote: number;
   proposal: [] | [ProposalId];
-}
-export interface RegisteredExtensionOperationSpec {
-  spec: [] | [ExtensionOperationSpec];
-  canister_id: [] | [Principal];
 }
 export interface RemoveNeuronPermissions {
   permissions_to_remove: [] | [NeuronPermissionList];
@@ -752,7 +690,6 @@ export type Topic =
   | { Governance: null }
   | { SnsFrameworkManagement: null };
 export interface TopicInfo {
-  extension_operations: [] | [Array<RegisteredExtensionOperationSpec>];
   native_functions: [] | [Array<NervousSystemFunction>];
   topic: [] | [Topic];
   is_critical: [] | [boolean];
@@ -769,38 +706,6 @@ export interface TransferSnsTreasuryFunds {
   to_subaccount: [] | [Subaccount];
   memo: [] | [bigint];
   amount_e8s: bigint;
-}
-export interface TreasuryMetrics {
-  /**
-   * A human-readable identified for this treasury, e.g., "ICP".
-   */
-  name: [] | [string];
-  /**
-   * The amount of tokens in this treasury at the end of swap finalization.
-   */
-  original_amount_e8s: [] | [bigint];
-  /**
-   * The regularly updated amount of tokens in this treasury.
-   */
-  amount_e8s: [] | [bigint];
-  account: [] | [Account];
-  /**
-   * The source of truth for the treasury balance is this ledger canister / account.
-   */
-  ledger_canister_id: [] | [Principal];
-  /**
-   * Same as, e.g., `TransferSnsTreasuryFunds.from_treasury`.
-   */
-  treasury: number;
-  /**
-   * When the metrics were last updated.
-   */
-  timestamp_seconds: [] | [bigint];
-}
-export interface UpgradeExtension {
-  extension_canister_id: [] | [Principal];
-  wasm: [] | [Wasm];
-  canister_upgrade_arg: [] | [ExtensionUpgradeArg];
 }
 export interface UpgradeInProgress {
   mark_failed_at_seconds: bigint;
@@ -881,13 +786,6 @@ export interface Version {
 export interface Versions {
   versions: Array<Version>;
 }
-export interface VotingPowerMetrics {
-  governance_total_potential_voting_power: [] | [bigint];
-  /**
-   * When the metrics were last updated.
-   */
-  timestamp_seconds: [] | [bigint];
-}
 export interface VotingRewardsParameters {
   final_reward_rate_basis_points: [] | [bigint];
   initial_reward_rate_basis_points: [] | [bigint];
@@ -897,9 +795,6 @@ export interface VotingRewardsParameters {
 export interface WaitForQuietState {
   current_deadline_timestamp_seconds: bigint;
 }
-export type Wasm =
-  | { Chunked: ChunkedCanisterWasm }
-  | { Bytes: Uint8Array | number[] };
 export interface _SERVICE {
   add_maturity: ActorMethod<[AddMaturityRequest], AddMaturityResponse>;
   advance_target_version: ActorMethod<
@@ -916,7 +811,6 @@ export interface _SERVICE {
   get_maturity_modulation: ActorMethod<[{}], GetMaturityModulationResponse>;
   get_metadata: ActorMethod<[{}], GetMetadataResponse>;
   get_metrics: ActorMethod<[GetMetricsRequest], GetMetricsResponse>;
-  get_metrics_replicated: ActorMethod<[GetMetricsRequest], GetMetricsResponse>;
   get_mode: ActorMethod<[{}], GetModeResponse>;
   get_nervous_system_parameters: ActorMethod<[null], NervousSystemParameters>;
   get_neuron: ActorMethod<[GetNeuron], GetNeuronResponse>;

@@ -42,7 +42,6 @@ export const topicInfoMock: TopicInfo = {
   name: ["Name"],
   native_functions: [],
   topic: [topicMock],
-  extension_operations: [],
 };
 
 export const topicsMock: TopicInfo[] = [topicInfoMock];

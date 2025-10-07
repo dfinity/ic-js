@@ -201,10 +201,6 @@ Parameters:
 
 Class representing the CkETH Orchestrator Canister, which manages the Ledger and Index canisters of ckERC20 tokens.
 
-References:
-
-- [Source Code](https://github.com/dfinity/ic/tree/master/rs/ethereum/ledger-suite-orchestrator)
-
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L15)
 
 #### Static Methods

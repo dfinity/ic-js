@@ -98,10 +98,10 @@ const daysInYears = (years: bigint): bigint => {
 };
 
 type LabelKey = "year" | "month" | "day" | "hour" | "minute" | "second";
-interface LabelInfo {
+type LabelInfo = {
   labelKey: LabelKey;
   amount: number;
-}
+};
 const createLabel = ({
   labelKey,
   amount,

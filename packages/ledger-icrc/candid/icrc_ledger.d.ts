@@ -60,27 +60,7 @@ export interface ArchiveInfo {
 }
 export type Block = Value;
 export type BlockIndex = bigint;
-/**
- * A prefix of the block range specified in the [GetBlocksArgs] request.
- */
 export interface BlockRange {
-  /**
-   * A prefix of the requested block range.
-   * The index of the first block is equal to [GetBlocksArgs.start].
-   *
-   * Note that the number of blocks might be less than the requested
-   * [GetBlocksArgs.length] for various reasons, for example:
-   *
-   * 1. The query might have hit the replica with an outdated state
-   * that doesn't have the whole range yet.
-   * 2. The requested range is too large to fit into a single reply.
-   *
-   * NOTE: the list of blocks can be empty if:
-   *
-   * 1. [GetBlocksArgs.length] was zero.
-   * 2. [GetBlocksArgs.start] was larger than the last block known to
-   * the canister.
-   */
   blocks: Array<Block>;
 }
 export interface Burn {
@@ -101,23 +81,13 @@ export interface ChangeArchiveOptions {
   controller_id: [] | [Principal];
 }
 export type ChangeFeeCollector = { SetTo: Account } | { Unset: null };
-/**
- * Certificate for the block at `block_index`.
- */
 export interface DataCertificate {
   certificate: [] | [Uint8Array | number[]];
   hash_tree: Uint8Array | number[];
 }
-/**
- * Number of nanoseconds between two [Timestamp]s.
- */
 export type Duration = bigint;
 export interface FeatureFlags {
   icrc2: boolean;
-}
-export interface FieldsDisplay {
-  fields: Array<[string, Icrc21Value]>;
-  intent: string;
 }
 export interface GetAllowancesArgs {
   take: [] | [bigint];
@@ -130,90 +100,29 @@ export type GetAllowancesError =
     }
   | { AccessDenied: { reason: string } };
 export interface GetArchivesArgs {
-  /**
-   * The last archive seen by the client.
-   * The Ledger will return archives coming
-   * after this one if set, otherwise it
-   * will return the first archives.
-   */
   from: [] | [Principal];
 }
 export type GetArchivesResult = Array<{
-  /**
-   * The last block in the archive
-   */
   end: bigint;
-  /**
-   * The id of the archive
-   */
   canister_id: Principal;
-  /**
-   * The first block in the archive
-   */
   start: bigint;
 }>;
 export interface GetBlocksArgs {
-  /**
-   * The index of the first block to fetch.
-   */
   start: BlockIndex;
-  /**
-   * Max number of blocks to fetch.
-   */
   length: bigint;
 }
-/**
- * The result of a "get_blocks" call.
- */
 export interface GetBlocksResponse {
-  /**
-   * System certificate for the hash of the latest block in the chain.
-   * Only present if `get_blocks` is called in a non-replicated query context.
-   */
   certificate: [] | [Uint8Array | number[]];
-  /**
-   * The index of the first block in "blocks".
-   * If the blocks vector is empty, the exact value of this field is not specified.
-   */
   first_index: BlockIndex;
-  /**
-   * List of blocks that were available in the ledger when it processed the call.
-   *
-   * The blocks form a contiguous range, with the first block having index
-   * [first_block_index] (see below), and the last block having index
-   * [first_block_index] + len(blocks) - 1.
-   *
-   * The block range can be an arbitrary sub-range of the originally requested range.
-   */
   blocks: Array<Block>;
-  /**
-   * The total number of blocks in the chain.
-   * If the chain length is positive, the index of the last block is `chain_len - 1`.
-   */
   chain_length: bigint;
-  /**
-   * Encoding of instructions for fetching archived blocks.
-   */
   archived_blocks: Array<{
-    /**
-     * Callback to fetch the archived blocks.
-     */
-    callback: [Principal, string];
-    /**
-     * The index of the first archived block.
-     */
+    callback: QueryBlockArchiveFn;
     start: BlockIndex;
-    /**
-     * The number of blocks that can be fetched.
-     */
     length: bigint;
   }>;
 }
 export interface GetBlocksResult {
-  /**
-   * Total number of blocks in the
-   * block log
-   */
   log_length: bigint;
   blocks: Array<{ id: bigint; block: ICRC3Value }>;
   archived_blocks: Array<{
@@ -223,9 +132,6 @@ export interface GetBlocksResult {
 }
 export type GetIndexPrincipalError =
   | {
-      /**
-       * Any error not covered by the above variants.
-       */
       GenericError: { description: string; error_code: bigint };
     }
   | { IndexPrincipalNotSet: null };
@@ -233,56 +139,16 @@ export type GetIndexPrincipalResult =
   | { Ok: Principal }
   | { Err: GetIndexPrincipalError };
 export interface GetTransactionsRequest {
-  /**
-   * The index of the first tx to fetch.
-   */
   start: TxIndex;
-  /**
-   * The number of transactions to fetch.
-   */
   length: bigint;
 }
 export interface GetTransactionsResponse {
-  /**
-   * The index of the first transaction in [transactions].
-   * If the transaction vector is empty, the exact value of this field is not specified.
-   */
   first_index: TxIndex;
-  /**
-   * The total number of transactions in the log.
-   */
   log_length: bigint;
-  /**
-   * List of transaction that were available in the ledger when it processed the call.
-   *
-   * The transactions form a contiguous range, with the first transaction having index
-   * [first_index] (see below), and the last transaction having index
-   * [first_index] + len(transactions) - 1.
-   *
-   * The transaction range can be an arbitrary sub-range of the originally requested range.
-   */
   transactions: Array<Transaction>;
-  /**
-   * Encoding of instructions for fetching archived transactions whose indices fall into the
-   * requested range.
-   *
-   * For each entry `e` in [archived_transactions], `[e.from, e.from + len)` is a sub-range
-   * of the originally requested transaction range.
-   */
   archived_transactions: Array<{
-    /**
-     * The function you should call to fetch the archived transactions.
-     * The range of the transaction accessible using this function is given by [from]
-     * and [len] fields above.
-     */
-    callback: [Principal, string];
-    /**
-     * The index of the first archived transaction you can fetch using the [callback].
-     */
+    callback: QueryArchiveFn;
     start: TxIndex;
-    /**
-     * The number of transactions you can fetch using the callback.
-     */
     length: bigint;
   }>;
 }
@@ -298,13 +164,7 @@ export interface HttpResponse {
   status_code: number;
 }
 export interface ICRC3DataCertificate {
-  /**
-   * See https://internetcomputer.org/docs/current/references/ic-interface-spec#certification
-   */
   certificate: Uint8Array | number[];
-  /**
-   * CBOR encoded hash_tree
-   */
   hash_tree: Uint8Array | number[];
 }
 export type ICRC3Value =
@@ -314,20 +174,6 @@ export type ICRC3Value =
   | { Blob: Uint8Array | number[] }
   | { Text: string }
   | { Array: Array<ICRC3Value> };
-export type Icrc21Value =
-  | { Text: { content: string } }
-  | {
-      TokenAmount: {
-        decimals: number;
-        amount: bigint;
-        symbol: string;
-      };
-    }
-  | { TimestampSeconds: { amount: bigint } }
-  | { DurationSeconds: { amount: bigint } };
-/**
- * The initialization parameters of the Ledger
- */
 export interface InitArgs {
   decimals: [] | [number];
   token_symbol: string;
@@ -353,9 +199,6 @@ export interface InitArgs {
 }
 export type LedgerArg = { Upgrade: [] | [UpgradeArgs] } | { Init: InitArgs };
 export type Map = Array<[string, Value]>;
-/**
- * The value returned from the [icrc1_metadata] endpoint.
- */
 export type MetadataValue =
   | { Int: bigint }
   | { Nat: bigint }
@@ -367,25 +210,16 @@ export interface Mint {
   created_at_time: [] | [Timestamp];
   amount: bigint;
 }
-/**
- * A function for fetching archived transaction.
- */
 export type QueryArchiveFn = ActorMethod<
   [GetTransactionsRequest],
   TransactionRange
 >;
-/**
- * A function for fetching archived blocks.
- */
 export type QueryBlockArchiveFn = ActorMethod<[GetBlocksArgs], BlockRange>;
 export interface StandardRecord {
   url: string;
   name: string;
 }
 export type Subaccount = Uint8Array | number[];
-/**
- * Number of nanoseconds since the UNIX epoch in UTC timezone.
- */
 export type Timestamp = bigint;
 export type Tokens = bigint;
 export interface Transaction {
@@ -396,27 +230,7 @@ export interface Transaction {
   timestamp: Timestamp;
   transfer: [] | [Transfer];
 }
-/**
- * A prefix of the transaction range specified in the [GetTransactionsRequest] request.
- */
 export interface TransactionRange {
-  /**
-   * A prefix of the requested transaction range.
-   * The index of the first transaction is equal to [GetTransactionsRequest.from].
-   *
-   * Note that the number of transactions might be less than the requested
-   * [GetTransactionsRequest.length] for various reasons, for example:
-   *
-   * 1. The query might have hit the replica with an outdated state
-   * that doesn't have the whole range yet.
-   * 2. The requested range is too large to fit into a single reply.
-   *
-   * NOTE: the list of transactions can be empty if:
-   *
-   * 1. [GetTransactionsRequest.length] was zero.
-   * 2. [GetTransactionsRequest.from] was larger than the last transaction known to
-   * the canister.
-   */
   transactions: Array<Transaction>;
 }
 export interface Transfer {
@@ -501,7 +315,7 @@ export interface icrc21_consent_info {
 }
 export type icrc21_consent_message =
   | {
-      FieldsDisplayMessage: FieldsDisplay;
+      LineDisplayMessage: { pages: Array<{ lines: Array<string> }> };
     }
   | { GenericDisplayMessage: string };
 export interface icrc21_consent_message_metadata {
@@ -518,13 +332,20 @@ export type icrc21_consent_message_response =
   | { Err: icrc21_error };
 export interface icrc21_consent_message_spec {
   metadata: icrc21_consent_message_metadata;
-  device_spec: [] | [{ GenericDisplay: null } | { FieldsDisplay: null }];
+  device_spec:
+    | []
+    | [
+        | { GenericDisplay: null }
+        | {
+            LineDisplay: {
+              characters_per_line: number;
+              lines_per_page: number;
+            };
+          },
+      ];
 }
 export type icrc21_error =
   | {
-      /**
-       * Any error not covered by the above variants.
-       */
       GenericError: { description: string; error_code: bigint };
     }
   | { InsufficientPayment: icrc21_error_info }

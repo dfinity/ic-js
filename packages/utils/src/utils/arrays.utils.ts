@@ -56,17 +56,6 @@ export const hexStringToUint8Array = (hexString: string): Uint8Array => {
   return Uint8Array.from(matches.map((byte) => parseInt(byte, 16)));
 };
 
-/**
- * Compare two Uint8Arrays for byte-level equality.
- *
- * @param {Object} params
- * @param {Uint8Array} params.a - First Uint8Array to compare.
- * @param {Uint8Array} params.b - Second Uint8Array to compare.
- * @returns {boolean} True if both arrays have the same length and identical contents.
- */
-export const uint8ArraysEqual = ({ a, b }: { a: Uint8Array; b: Uint8Array }) =>
-  a.length === b.length && a.every((byte, i) => byte === b[i]);
-
 export const uint8ArrayToHexString = (bytes: Uint8Array | number[]) => {
   if (!(bytes instanceof Uint8Array)) {
     bytes = Uint8Array.from(bytes);

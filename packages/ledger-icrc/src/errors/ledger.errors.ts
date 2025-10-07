@@ -1,7 +1,4 @@
-import type {
-  GetIndexPrincipalError,
-  icrc21_error as Icrc21RawError,
-} from "../../candid/icrc_ledger";
+import type { icrc21_error as Icrc21RawError } from "../../candid/icrc_ledger";
 
 export class IcrcTransferError<T> extends Error {
   public errorType: T;
@@ -56,22 +53,5 @@ export const mapIcrc21ConsentMessageError = (
   // Edge case
   return new ConsentMessageError(
     `Unknown error type ${JSON.stringify(rawError)}`,
-  );
-};
-
-export class IndexPrincipalNotSetError extends Error {}
-
-export const mapIcrc106GetIndexPrincipalError = (
-  err: GetIndexPrincipalError,
-) => {
-  if ("IndexPrincipalNotSet" in err) {
-    return new IndexPrincipalNotSetError(
-      "Index principal is not set for this ledger canister.",
-    );
-  }
-
-  return new GenericError(
-    err.GenericError.description,
-    err.GenericError.error_code,
   );
 };

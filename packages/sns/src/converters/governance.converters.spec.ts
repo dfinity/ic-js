@@ -109,7 +109,6 @@ describe("governance converters", () => {
           automatically_advance_target_version: true,
         },
       };
-
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -157,44 +156,6 @@ describe("governance converters", () => {
           },
         },
       };
-
-      expect(fromCandidAction(action)).toEqual(expectedAction);
-    });
-
-    it("converts ManageDappCanisterSettings action", () => {
-      const canister_ids = [mockPrincipal, Principal.fromHex("123f")];
-      const freezing_threshold = BigInt(1);
-      const wasm_memory_threshold = BigInt(2);
-      const reserved_cycles_limit = BigInt(3);
-      const log_visibility = 4;
-      const wasm_memory_limit = BigInt(5);
-      const memory_allocation = BigInt(6);
-      const compute_allocation = BigInt(7);
-      const action: ActionCandid = {
-        ManageDappCanisterSettings: {
-          freezing_threshold: [freezing_threshold],
-          wasm_memory_threshold: [wasm_memory_threshold],
-          canister_ids,
-          reserved_cycles_limit: [reserved_cycles_limit],
-          log_visibility: [log_visibility],
-          wasm_memory_limit: [wasm_memory_limit],
-          memory_allocation: [memory_allocation],
-          compute_allocation: [compute_allocation],
-        },
-      };
-      const expectedAction: Action = {
-        ManageDappCanisterSettings: {
-          freezing_threshold,
-          wasm_memory_threshold,
-          canister_ids,
-          reserved_cycles_limit,
-          log_visibility,
-          wasm_memory_limit,
-          memory_allocation,
-          compute_allocation,
-        },
-      };
-
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -265,7 +226,6 @@ describe("governance converters", () => {
           custom_function_id_to_topic: [[BigInt(3), topicMock]],
         },
       };
-
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -302,7 +262,6 @@ describe("governance converters", () => {
           extension_init,
         },
       };
-
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -310,7 +269,6 @@ describe("governance converters", () => {
       const action: ActionCandid = {
         RemoveGenericNervousSystemFunction: BigInt(3),
       };
-
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -318,7 +276,6 @@ describe("governance converters", () => {
       const action: ActionCandid = {
         UpgradeSnsToNextVersion: {},
       };
-
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -328,7 +285,6 @@ describe("governance converters", () => {
           canister_ids: [mockPrincipal],
         },
       };
-
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -355,7 +311,6 @@ describe("governance converters", () => {
           amount_e8s,
         },
       };
-
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -397,7 +352,6 @@ describe("governance converters", () => {
           mode,
         },
       };
-
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -408,7 +362,6 @@ describe("governance converters", () => {
           new_controllers: [Principal.fromHex("AB")],
         },
       };
-
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -416,7 +369,6 @@ describe("governance converters", () => {
       const action: ActionCandid = {
         Unspecified: {},
       };
-
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -439,7 +391,6 @@ describe("governance converters", () => {
           description: undefined,
         },
       };
-
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
@@ -450,7 +401,6 @@ describe("governance converters", () => {
           payload: new Uint8Array(),
         },
       };
-
       expect(fromCandidAction(action)).toEqual(action);
     });
 
@@ -458,7 +408,6 @@ describe("governance converters", () => {
       const action: ActionCandid = {
         Motion: { motion_text: "test motion" },
       };
-
       expect(fromCandidAction(action)).toEqual(action);
     });
   });

@@ -85,7 +85,6 @@ describe("ckETH orchestrator canister", () => {
       const canister = orchestrator(service);
 
       const res = await canister.getOrchestratorInfo();
-
       expect(service.get_orchestrator_info).toHaveBeenCalled();
       expect(res).toEqual(orchestratorInfoMock);
     });

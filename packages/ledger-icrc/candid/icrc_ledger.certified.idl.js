@@ -242,7 +242,13 @@ export const idlFactory = ({ IDL }) => {
   const icrc21_consent_message_spec = IDL.Record({
     'metadata' : icrc21_consent_message_metadata,
     'device_spec' : IDL.Opt(
-      IDL.Variant({ 'GenericDisplay' : IDL.Null, 'FieldsDisplay' : IDL.Null })
+      IDL.Variant({
+        'GenericDisplay' : IDL.Null,
+        'LineDisplay' : IDL.Record({
+          'characters_per_line' : IDL.Nat16,
+          'lines_per_page' : IDL.Nat16,
+        }),
+      })
     ),
   });
   const icrc21_consent_message_request = IDL.Record({
@@ -250,22 +256,10 @@ export const idlFactory = ({ IDL }) => {
     'method' : IDL.Text,
     'user_preferences' : icrc21_consent_message_spec,
   });
-  const Icrc21Value = IDL.Variant({
-    'Text' : IDL.Record({ 'content' : IDL.Text }),
-    'TokenAmount' : IDL.Record({
-      'decimals' : IDL.Nat8,
-      'amount' : IDL.Nat64,
-      'symbol' : IDL.Text,
-    }),
-    'TimestampSeconds' : IDL.Record({ 'amount' : IDL.Nat64 }),
-    'DurationSeconds' : IDL.Record({ 'amount' : IDL.Nat64 }),
-  });
-  const FieldsDisplay = IDL.Record({
-    'fields' : IDL.Vec(IDL.Tuple(IDL.Text, Icrc21Value)),
-    'intent' : IDL.Text,
-  });
   const icrc21_consent_message = IDL.Variant({
-    'FieldsDisplayMessage' : FieldsDisplay,
+    'LineDisplayMessage' : IDL.Record({
+      'pages' : IDL.Vec(IDL.Record({ 'lines' : IDL.Vec(IDL.Text) })),
+    }),
     'GenericDisplayMessage' : IDL.Text,
   });
   const icrc21_consent_info = IDL.Record({
@@ -377,7 +371,7 @@ export const idlFactory = ({ IDL }) => {
           'callback' : IDL.Func(
               [IDL.Vec(GetBlocksArgs)],
               [GetBlocksResult],
-              ['query'],
+              [],
             ),
         })
       ),
@@ -449,7 +443,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(IDL.Record({ 'url' : IDL.Text, 'block_type' : IDL.Text }))],
         [],
       ),
-    'is_ledger_ready' : IDL.Func([], [IDL.Bool], ['query']),
+    'is_ledger_ready' : IDL.Func([], [IDL.Bool], []),
   });
 };
 export const init = ({ IDL }) => {

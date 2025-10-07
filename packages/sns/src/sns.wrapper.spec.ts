@@ -81,13 +81,10 @@ describe("SnsWrapper", () => {
 
   it("should call list of neurons with query or update", async () => {
     await snsWrapper.listNeurons({});
-
     expect(mockGovernanceCanister.listNeurons).toHaveBeenCalledWith({
       certified: false,
     });
-
     await certifiedSnsWrapper.listNeurons({});
-
     expect(mockCertifiedGovernanceCanister.listNeurons).toHaveBeenCalledWith({
       certified: true,
     });
@@ -95,13 +92,10 @@ describe("SnsWrapper", () => {
 
   it("should call list of proposals with query or update", async () => {
     await snsWrapper.listProposals({});
-
     expect(mockGovernanceCanister.listProposals).toHaveBeenCalledWith({
       certified: false,
     });
-
     await certifiedSnsWrapper.listProposals({});
-
     expect(mockCertifiedGovernanceCanister.listProposals).toHaveBeenCalledWith({
       certified: true,
     });
@@ -112,14 +106,11 @@ describe("SnsWrapper", () => {
       ...proposalIdMock,
     };
     await snsWrapper.getProposal({ proposalId });
-
     expect(mockGovernanceCanister.getProposal).toHaveBeenCalledWith({
       proposalId,
       certified: false,
     });
-
     await certifiedSnsWrapper.getProposal({ proposalId });
-
     expect(mockCertifiedGovernanceCanister.getProposal).toHaveBeenCalledWith({
       proposalId,
       certified: true,
@@ -128,15 +119,12 @@ describe("SnsWrapper", () => {
 
   it("should call list of nervous system functions with query or update", async () => {
     await snsWrapper.listNervousSystemFunctions({});
-
     expect(
       mockGovernanceCanister.listNervousSystemFunctions,
     ).toHaveBeenCalledWith({
       certified: false,
     });
-
     await certifiedSnsWrapper.listNervousSystemFunctions({});
-
     expect(
       mockCertifiedGovernanceCanister.listNervousSystemFunctions,
     ).toHaveBeenCalledWith({
@@ -149,14 +137,11 @@ describe("SnsWrapper", () => {
       id: arrayOfNumberToUint8Array([1, 2, 3]),
     };
     await snsWrapper.getNeuron({ neuronId });
-
     expect(mockGovernanceCanister.getNeuron).toHaveBeenCalledWith({
       neuronId,
       certified: false,
     });
-
     await certifiedSnsWrapper.getNeuron({ neuronId });
-
     expect(mockCertifiedGovernanceCanister.getNeuron).toHaveBeenCalledWith({
       neuronId,
       certified: true,
@@ -170,7 +155,6 @@ describe("SnsWrapper", () => {
     const principal = Principal.fromText("aaaaa-aa");
     const permissions = [SnsNeuronPermissionType.NEURON_PERMISSION_TYPE_VOTE];
     await snsWrapper.addNeuronPermissions({ permissions, neuronId, principal });
-
     expect(mockGovernanceCanister.addNeuronPermissions).toHaveBeenCalledWith({
       neuronId,
       permissions,
@@ -189,7 +173,6 @@ describe("SnsWrapper", () => {
       neuronId,
       principal,
     });
-
     expect(mockGovernanceCanister.removeNeuronPermissions).toHaveBeenCalledWith(
       {
         neuronId,
@@ -236,7 +219,7 @@ describe("SnsWrapper", () => {
     });
   });
 
-  it("should collect nervous system parameters with query or update", async () => {
+  it("should collect metadata with query or update", async () => {
     await snsWrapper.nervousSystemParameters({});
     await certifiedSnsWrapper.nervousSystemParameters({});
 
@@ -332,30 +315,23 @@ describe("SnsWrapper", () => {
 
   it("should call leger totalTokensSupply with query or update", async () => {
     await snsWrapper.totalTokensSupply({});
-
     expect(mockLedgerCanister.totalTokensSupply).toHaveBeenCalledWith({
       certified: false,
     });
 
     await certifiedSnsWrapper.totalTokensSupply({});
-
     expect(mockCertifiedLedgerCanister.totalTokensSupply).toHaveBeenCalledWith({
       certified: true,
     });
 
-    expect(mockLedgerCanister.totalTokensSupply).toHaveBeenCalledTimes(1);
-    expect(mockCertifiedLedgerCanister.totalTokensSupply).toHaveBeenCalledTimes(
-      1,
-    );
+    expect(mockLedgerCanister.totalTokensSupply).toBeCalledTimes(1);
+    expect(mockCertifiedLedgerCanister.totalTokensSupply).toBeCalledTimes(1);
   });
 
   it("should call swapState with query and update", async () => {
     await snsWrapper.swapState({});
-
     expect(mockSwapCanister.state).toHaveBeenCalledWith({ certified: false });
-
     await certifiedSnsWrapper.swapState({});
-
     expect(mockCertifiedSwapCanister.state).toHaveBeenCalledWith({
       certified: true,
     });
@@ -363,13 +339,10 @@ describe("SnsWrapper", () => {
 
   it("should call getLifecycle with query and update", async () => {
     await snsWrapper.getLifecycle({});
-
     expect(mockSwapCanister.getLifecycle).toHaveBeenCalledWith({
       certified: false,
     });
-
     await certifiedSnsWrapper.getLifecycle({});
-
     expect(mockCertifiedSwapCanister.getLifecycle).toHaveBeenCalledWith({
       certified: true,
     });
@@ -377,13 +350,10 @@ describe("SnsWrapper", () => {
 
   it("should call getFinalizationStatus with query and update", async () => {
     await snsWrapper.getFinalizationStatus({});
-
     expect(mockSwapCanister.getFinalizationStatus).toHaveBeenCalledWith({
       certified: false,
     });
-
     await certifiedSnsWrapper.getFinalizationStatus({});
-
     expect(
       mockCertifiedSwapCanister.getFinalizationStatus,
     ).toHaveBeenCalledWith({
@@ -393,14 +363,11 @@ describe("SnsWrapper", () => {
 
   it("should call getSaleParameters with query and update", async () => {
     await snsWrapper.getSaleParameters({});
-
     expect(mockSwapCanister.getSaleParameters).toHaveBeenCalledWith({
       certified: false,
     });
-    expect(mockSwapCanister.getSaleParameters).toHaveBeenCalledTimes(1);
-
+    expect(mockSwapCanister.getSaleParameters).toBeCalledTimes(1);
     await certifiedSnsWrapper.getSaleParameters({});
-
     expect(mockCertifiedSwapCanister.getSaleParameters).toHaveBeenCalledWith({
       certified: true,
     });
@@ -408,14 +375,11 @@ describe("SnsWrapper", () => {
 
   it("should call getDerivedState with query and update", async () => {
     await snsWrapper.getDerivedState({});
-
     expect(mockSwapCanister.getDerivedState).toHaveBeenCalledWith({
       certified: false,
     });
-    expect(mockSwapCanister.getDerivedState).toHaveBeenCalledTimes(1);
-
+    expect(mockSwapCanister.getDerivedState).toBeCalledTimes(1);
     await certifiedSnsWrapper.getDerivedState({});
-
     expect(mockCertifiedSwapCanister.getDerivedState).toHaveBeenCalledWith({
       certified: true,
     });
@@ -423,7 +387,6 @@ describe("SnsWrapper", () => {
 
   it("should call notifyPaymentFailure", async () => {
     await snsWrapper.notifyPaymentFailure();
-
     expect(mockSwapCanister.notifyPaymentFailure).toHaveBeenCalledWith();
   });
 
@@ -431,7 +394,6 @@ describe("SnsWrapper", () => {
     const confirmation_text: [string] = ["I agree"];
     const params = { buyer: "aaaaa-aa", confirmation_text };
     await snsWrapper.notifyParticipation(params);
-
     expect(mockSwapCanister.notifyParticipation).toHaveBeenCalledWith(params);
   });
 
@@ -439,26 +401,21 @@ describe("SnsWrapper", () => {
     await snsWrapper.getUserCommitment({
       principal_id: [Principal.fromText("aaaaa-aa")],
     });
-
-    expect(mockSwapCanister.getUserCommitment).toHaveBeenCalled();
-    expect(mockCertifiedSwapCanister.getUserCommitment).not.toHaveBeenCalled();
-
+    expect(mockSwapCanister.getUserCommitment).toBeCalled();
+    expect(mockCertifiedSwapCanister.getUserCommitment).not.toBeCalled();
     await certifiedSnsWrapper.getUserCommitment({
       principal_id: [Principal.fromText("aaaaa-aa")],
     });
-
-    expect(mockCertifiedSwapCanister.getUserCommitment).toHaveBeenCalled();
+    expect(mockCertifiedSwapCanister.getUserCommitment).toBeCalled();
   });
 
   it("should call getOpenTicket with query and update", async () => {
     await snsWrapper.getOpenTicket({ certified: false });
-
-    expect(mockSwapCanister.getOpenTicket).toHaveBeenCalled();
-    expect(mockCertifiedSwapCanister.getOpenTicket).not.toHaveBeenCalled();
+    expect(mockSwapCanister.getOpenTicket).toBeCalled();
+    expect(mockCertifiedSwapCanister.getOpenTicket).not.toBeCalled();
 
     await certifiedSnsWrapper.getOpenTicket({ certified: true });
-
-    expect(mockCertifiedSwapCanister.getOpenTicket).toHaveBeenCalled();
+    expect(mockCertifiedSwapCanister.getOpenTicket).toBeCalled();
   });
 
   it("should call newSaleTicket", async () => {
@@ -468,10 +425,9 @@ describe("SnsWrapper", () => {
       subaccount,
       amount_icp_e8s,
     });
-
-    expect(mockSwapCanister.newSaleTicket).not.toHaveBeenCalled();
-    expect(mockCertifiedSwapCanister.newSaleTicket).toHaveBeenCalled();
-    expect(mockCertifiedSwapCanister.newSaleTicket).toHaveBeenCalledWith({
+    expect(mockSwapCanister.newSaleTicket).not.toBeCalled();
+    expect(mockCertifiedSwapCanister.newSaleTicket).toBeCalled();
+    expect(mockCertifiedSwapCanister.newSaleTicket).toBeCalledWith({
       subaccount,
       amount_icp_e8s,
     });
@@ -580,7 +536,6 @@ describe("SnsWrapper", () => {
       vote,
       proposalId,
     });
-
     expect(mockGovernanceCanister.registerVote).toHaveBeenCalledWith({
       neuronId,
       vote,
@@ -664,7 +619,6 @@ describe("SnsWrapper", () => {
       neuronId,
       percentageToStake,
     });
-
     expect(mockGovernanceCanister.stakeMaturity).toHaveBeenCalledWith({
       neuronId,
       percentageToStake,
@@ -685,7 +639,6 @@ describe("SnsWrapper", () => {
       percentageToDisburse,
       toAccount,
     });
-
     expect(mockGovernanceCanister.disburseMaturity).toHaveBeenCalledWith({
       neuronId,
       percentageToDisburse,
@@ -702,7 +655,6 @@ describe("SnsWrapper", () => {
       neuronId,
       autoStake,
     });
-
     expect(mockGovernanceCanister.autoStakeMaturity).toHaveBeenCalledWith({
       neuronId,
       autoStake,
@@ -756,19 +708,19 @@ describe("SnsWrapper", () => {
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[0][0]
               .certified,
-          ).toBeFalsy();
+          ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[1][0]
               .certified,
-          ).toBeFalsy();
+          ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[2][0]
               .certified,
-          ).toBeFalsy();
+          ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[3][0]
               .certified,
-          ).toBeTruthy();
+          ).toBe(true);
         });
 
         it("should check query neuron with update when one is found", async () => {
@@ -792,19 +744,19 @@ describe("SnsWrapper", () => {
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[2][0]
               .certified,
-          ).toBeFalsy();
+          ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[3][0]
               .certified,
-          ).toBeTruthy();
+          ).toBe(true);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[4][0]
               .certified,
-          ).toBeFalsy();
+          ).toBe(false);
           expect(
             mockCertifiedGovernanceCanister.queryNeuron.mock.calls[5][0]
               .certified,
-          ).toBeTruthy();
+          ).toBe(true);
         });
 
         it("should make a transfer and claim the neuron", async () => {
@@ -844,7 +796,7 @@ describe("SnsWrapper", () => {
               controller: mockPrincipal,
             });
 
-          await expect(call).rejects.toThrow("error");
+          await expect(call).rejects.toThrowError("error");
           expect(
             mockCertifiedGovernanceCanister.queryNeuron,
           ).toHaveBeenCalledTimes(2);
@@ -919,7 +871,7 @@ describe("SnsWrapper", () => {
               neuronId: neuronIdMock,
             });
 
-          await expect(call).rejects.toThrow("error");
+          await expect(call).rejects.toThrowError("error");
 
           expect(mockCertifiedLedgerCanister.transfer).toHaveBeenCalled();
 
@@ -978,7 +930,9 @@ describe("SnsWrapper", () => {
 
       const call = () => certifiedSnsWrapper.nextNeuronAccount(mockPrincipal);
 
-      await expect(call).rejects.toThrow("No more neuron accounts available");
+      await expect(call).rejects.toThrowError(
+        "No more neuron accounts available",
+      );
     });
   });
 });

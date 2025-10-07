@@ -529,15 +529,6 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
-  if ("DeregisterKnownNeuron" in action) {
-    const { DeregisterKnownNeuron } = action;
-    return {
-      DeregisterKnownNeuron: {
-        id: DeregisterKnownNeuron.id[0]?.id,
-      },
-    };
-  }
-
   if ("SetSnsTokenSwapOpenTimeWindow" in action) {
     const { SetSnsTokenSwapOpenTimeWindow } = action;
     const request = SetSnsTokenSwapOpenTimeWindow.request?.length
@@ -686,18 +677,6 @@ const toAction = (action: RawAction): Action => {
     };
   }
 
-  if ("FulfillSubnetRentalRequest" in action) {
-    return {
-      FulfillSubnetRentalRequest: {
-        user: fromNullable(action.FulfillSubnetRentalRequest.user),
-        replicaVersionId: fromNullable(
-          action.FulfillSubnetRentalRequest.replica_version_id,
-        ),
-        nodeIds: fromNullable(action.FulfillSubnetRentalRequest.node_ids),
-      },
-    };
-  }
-
   throw new UnsupportedValueError(action);
 };
 
@@ -727,7 +706,6 @@ const toCommand = (command: RawCommand): Command => {
     return {
       Split: {
         amount: split.amount_e8s,
-        memo: split.memo?.[0],
       },
     };
   }
@@ -1344,7 +1322,6 @@ export const toKnownNeuron = ({
   id: id[0]?.id ?? BigInt(0),
   name: known_neuron_data[0]?.name ?? "",
   description: known_neuron_data[0]?.description[0] ?? "",
-  links: fromNullable(known_neuron_data[0]?.links ?? []),
 });
 
 const toPercentage = (

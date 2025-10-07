@@ -122,7 +122,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(SubAccount)],
         [],
       ),
-    'status' : IDL.Func([], [Status], ['query']),
+    'status' : IDL.Func([], [Status], []),
   });
 };
 export const init = ({ IDL }) => {

@@ -23,9 +23,8 @@ describe("IndexCanister", () => {
         accountIdentifier: mockAccountIdentifier,
         certified: false,
       });
-
       expect(balance).toEqual(balanceMock);
-      expect(service.get_account_identifier_balance).toHaveBeenCalled();
+      expect(service.get_account_identifier_balance).toBeCalled();
     });
 
     it("returns account balance with update call", async () => {
@@ -39,9 +38,8 @@ describe("IndexCanister", () => {
         accountIdentifier: mockAccountIdentifier,
         certified: true,
       });
-
       expect(balance).toEqual(balanceMock);
-      expect(service.get_account_identifier_balance).toHaveBeenCalled();
+      expect(service.get_account_identifier_balance).toBeCalled();
     });
 
     it("returns account balance with account identifier as hex", async () => {
@@ -55,9 +53,8 @@ describe("IndexCanister", () => {
         accountIdentifier: mockAccountIdentifier.toHex(),
         certified: false,
       });
-
       expect(balance).toEqual(balanceMock);
-      expect(service.get_account_identifier_balance).toHaveBeenCalled();
+      expect(service.get_account_identifier_balance).toBeCalled();
     });
 
     it("should bubble errors", () => {
@@ -75,7 +72,7 @@ describe("IndexCanister", () => {
           accountIdentifier: mockAccountIdentifier.toHex(),
           certified: false,
         }),
-      ).toThrow();
+      ).toThrowError();
     });
   });
 
@@ -139,7 +136,7 @@ describe("IndexCanister", () => {
       });
 
       expect(transactions).toEqual(transactionsMock.Ok);
-      expect(service.get_account_identifier_transactions).toHaveBeenCalledWith({
+      expect(service.get_account_identifier_transactions).toBeCalledWith({
         account_identifier: mockAccountIdentifier.toHex(),
         max_results: 10n,
         start: [],
@@ -162,7 +159,7 @@ describe("IndexCanister", () => {
       });
 
       expect(transactions).toEqual(transactionsMock.Ok);
-      expect(service.get_account_identifier_transactions).toHaveBeenCalledWith({
+      expect(service.get_account_identifier_transactions).toBeCalledWith({
         account_identifier: mockAccountIdentifier.toHex(),
         max_results: 10n,
         start: [],
@@ -185,7 +182,7 @@ describe("IndexCanister", () => {
       });
 
       expect(transactions).toEqual(transactionsMock.Ok);
-      expect(service.get_account_identifier_transactions).toHaveBeenCalledWith({
+      expect(service.get_account_identifier_transactions).toBeCalledWith({
         account_identifier: mockAccountIdentifier.toHex(),
         max_results: 10n,
         start: [],
@@ -209,7 +206,7 @@ describe("IndexCanister", () => {
       });
 
       expect(transactions).toEqual(transactionsMock.Ok);
-      expect(service.get_account_identifier_transactions).toHaveBeenCalledWith({
+      expect(service.get_account_identifier_transactions).toBeCalledWith({
         account_identifier: mockAccountIdentifier.toHex(),
         max_results: 10n,
         start: [3n],
@@ -237,7 +234,7 @@ describe("IndexCanister", () => {
           certified: false,
           maxResults: 10n,
         }),
-      ).rejects.toThrow();
+      ).rejects.toThrowError();
     });
 
     it("should bubble errors", async () => {
@@ -256,7 +253,7 @@ describe("IndexCanister", () => {
           certified: false,
           maxResults: 10n,
         }),
-      ).rejects.toThrow();
+      ).rejects.toThrowError();
     });
   });
 });

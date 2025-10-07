@@ -8,7 +8,7 @@ import type {
 import type { AccountIdentifier } from "../account_identifier";
 import type { E8s } from "./common";
 
-export interface TransferRequest {
+export type TransferRequest = {
   to: AccountIdentifier;
   amount: bigint;
   memo?: bigint;
@@ -19,14 +19,14 @@ export interface TransferRequest {
   // See the link for more details on deduplication
   // https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#transaction_deduplication
   createdAt?: bigint;
-}
+};
 
 // WARNING: When using the ICRC-1 interface of the ICP ledger, there is no
 // relationship between the memo and the icrc1Memo of a transaction. The ICRC-1
 // interface simply cannot set the memo field and the non-ICRC-1 interface
 // cannot set the icrc1Memo field, even though the icrc1Memo field is called
 // just "memo" in canister method params.
-export interface Icrc1TransferRequest {
+export type Icrc1TransferRequest = {
   to: Account;
   amount: Icrc1Tokens;
   icrc1Memo?: Uint8Array;
@@ -36,7 +36,7 @@ export interface Icrc1TransferRequest {
   // See the link for more details on deduplication
   // https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#transaction_deduplication
   createdAt?: Icrc1Timestamp;
-}
+};
 
 /**
  * Params for an icrc2_approve.
@@ -60,21 +60,26 @@ export type Icrc2ApproveRequest = Omit<Icrc1TransferRequest, "to"> & {
  * @param {number} [utcOffsetMinutes] - The user's local timezone offset in minutes from UTC. If absent, the default is UTC.
  * @param {string} language - BCP-47 language tag. See https://www.rfc-editor.org/rfc/bcp/bcp47.txt
  */
-export interface Icrc21ConsentMessageMetadata {
+export type Icrc21ConsentMessageMetadata = {
   utcOffsetMinutes?: number;
   language: string;
-}
+};
 
 /**
  * Device specification for displaying the consent message.
  *
  * @param {null} [GenericDisplay] -  A generic display able to handle large documents and do line wrapping and pagination / scrolling.  Text must be Markdown formatted, no external resources (e.g. images) are allowed.
- * @param {Object} [FieldsDisplay] - A simple display able to handle multiple fields with a title and content.
+ * @param {Object} [LineDisplay] - Simple display able to handle lines of text with a maximum number of characters per line.
+ * @param {number} LineDisplay.charactersPerLine - Maximum number of characters that can be displayed per line.
+ * @param {number} LineDisplay.linesPerPage - Maximum number of lines that can be displayed at once on a single page.
  */
 export type Icrc21ConsentMessageDeviceSpec =
   | { GenericDisplay: null }
   | {
-      FieldsDisplay: null;
+      LineDisplay: {
+        charactersPerLine: number;
+        linesPerPage: number;
+      };
     };
 
 /**
@@ -83,10 +88,10 @@ export type Icrc21ConsentMessageDeviceSpec =
  * @param {Icrc21ConsentMessageMetadata} metadata - Metadata of the consent message.
  * @param {Icrc21ConsentMessageDeviceSpec} [deviceSpec] - Information about the device responsible for presenting the consent message to the user.
  */
-export interface Icrc21ConsentMessageSpec {
+export type Icrc21ConsentMessageSpec = {
   metadata: Icrc21ConsentMessageMetadata;
   deriveSpec?: Icrc21ConsentMessageDeviceSpec;
-}
+};
 
 /**
  * Parameters for the consent message request.

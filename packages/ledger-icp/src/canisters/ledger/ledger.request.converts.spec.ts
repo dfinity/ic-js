@@ -117,13 +117,18 @@ describe("ledger.request.converts", () => {
     );
   });
 
-  it("toIcrc21ConsentMessageRawRequest should return a valid ICRC-21 fields display consent message request", () => {
+  it("toIcrc21ConsentMessageRawRequest should return a valid ICRC-21 line display consent message request", () => {
+    const lineDisplay = {
+      charactersPerLine: 2,
+      linesPerPage: 10,
+    };
+
     const consentMessageRequest = {
       ...mockConsentMessageRequest,
       userPreferences: {
         ...mockConsentMessageRequest.userPreferences,
         deriveSpec: {
-          FieldsDisplay: null,
+          LineDisplay: lineDisplay,
         },
       },
     };
@@ -132,7 +137,10 @@ describe("ledger.request.converts", () => {
 
     expect(result.user_preferences.device_spec).toEqual(
       toNullable({
-        FieldsDisplay: null,
+        LineDisplay: {
+          characters_per_line: lineDisplay.charactersPerLine,
+          lines_per_page: lineDisplay.linesPerPage,
+        },
       }),
     );
   });

@@ -71,8 +71,7 @@ describe("neurons-utils", () => {
         proposal,
         neurons: ineligibleNeuronsDate,
       });
-
-      expect(ineligible).toHaveLength(1);
+      expect(ineligible.length).toEqual(1);
     });
 
     it("should has an ineligible neuron because dissolve too short", () => {
@@ -80,14 +79,12 @@ describe("neurons-utils", () => {
         proposal,
         neurons: ineligibleNeuronsTooShort,
       });
-
-      expect(ineligible).toHaveLength(1);
+      expect(ineligible.length).toEqual(1);
     });
 
     it("should has not ineligible neuron because empty", () => {
       const ineligible = ineligibleNeurons({ proposal, neurons: [] });
-
-      expect(ineligible).toHaveLength(0);
+      expect(ineligible.length).toEqual(0);
     });
   });
 
@@ -97,15 +94,13 @@ describe("neurons-utils", () => {
         proposal,
         neurons: ineligibleNeuronsDate,
       });
-
-      expect(votable).toHaveLength(0);
+      expect(votable.length).toEqual(0);
 
       votable = votableNeurons({
         proposal,
         neurons: ineligibleNeuronsTooShort,
       });
-
-      expect(votable).toHaveLength(0);
+      expect(votable.length).toEqual(0);
     });
 
     it("should not have votable neurons because already voted", () => {
@@ -123,8 +118,7 @@ describe("neurons-utils", () => {
           },
         ],
       });
-
-      expect(votable).toHaveLength(0);
+      expect(votable.length).toEqual(0);
     });
 
     it("should have votable neurons because not yet voted", () => {
@@ -151,8 +145,7 @@ describe("neurons-utils", () => {
         },
         neurons: eligibleNeuronsData,
       });
-
-      expect(votable).toHaveLength(1);
+      expect(votable.length).toEqual(1);
       expect(votable).toEqual([eligibleNeuronsData[0]]);
     });
 
@@ -180,8 +173,7 @@ describe("neurons-utils", () => {
         },
         neurons: eligibleNeuronsData,
       });
-
-      expect(votable).toHaveLength(2);
+      expect(votable.length).toEqual(2);
       expect(votable).toEqual([eligibleNeuronsData[0], eligibleNeuronsData[2]]);
     });
   });
@@ -211,7 +203,6 @@ describe("neurons-utils", () => {
         },
         neurons: eligibleNeuronsData,
       });
-
       expect(voted).toEqual([eligibleNeuronsData[1], eligibleNeuronsData[2]]);
     });
   });
@@ -242,7 +233,6 @@ describe("neurons-utils", () => {
       );
       const controller = Principal.fromText("jl4mq-2sfmr-lekya");
       const memo = 456456456n;
-
       expect(
         memoToNeuronAccountIdentifier({
           controller,

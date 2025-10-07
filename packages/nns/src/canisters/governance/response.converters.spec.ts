@@ -216,7 +216,6 @@ describe("response.converters", () => {
 
     it("should convert a voting power refreshed timestamp", () => {
       const timestamp = 1_333_444_999n;
-
       expect(
         toNeuronInfo({
           neuronId,
@@ -235,7 +234,6 @@ describe("response.converters", () => {
 
     it("should convert potential voting power", () => {
       const potentialVotingPower = 1_000_000n;
-
       expect(
         toNeuronInfo({
           neuronId,
@@ -251,7 +249,6 @@ describe("response.converters", () => {
 
     it("should convert deciding voting power", () => {
       const decidingVotingPower = 1_001_000n;
-
       expect(
         toNeuronInfo({
           neuronId,
@@ -278,7 +275,6 @@ describe("response.converters", () => {
 
     it("should convert a voting power refreshed timestamp", () => {
       const timestamp = 1_333_444_999n;
-
       expect(
         toNeuron({
           neuron: {
@@ -458,7 +454,6 @@ describe("response.converters", () => {
 
     it("should convert a voting power refreshed timestamp", () => {
       const timestamp = 1_333_444_998n;
-
       expect(
         toRawNeuron({
           neuron: {

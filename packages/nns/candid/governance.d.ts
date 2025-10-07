@@ -11,11 +11,9 @@ export interface AccountIdentifier {
 }
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
-  | { FulfillSubnetRentalRequest: FulfillSubnetRentalRequest }
   | { ManageNeuron: ManageNeuron }
   | { UpdateCanisterSettings: UpdateCanisterSettings }
   | { InstallCode: InstallCode }
-  | { DeregisterKnownNeuron: DeregisterKnownNeuron }
   | { StopOrStartCanister: StopOrStartCanister }
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
@@ -94,9 +92,6 @@ export interface ClaimOrRefreshNeuronFromAccountResponse {
 export interface ClaimOrRefreshResponse {
   refreshed_neuron_id: [] | [NeuronId];
 }
-/**
- * KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
- */
 export type Command =
   | { Spawn: Spawn }
   | { Split: Split }
@@ -178,9 +173,6 @@ export interface DateRangeFilter {
 export interface Decimal {
   human_readable: [] | [string];
 }
-export interface DeregisterKnownNeuron {
-  id: [] | [NeuronId];
-}
 export interface DerivedProposalInformation {
   swap_background_information: [] | [SwapBackgroundInformation];
 }
@@ -230,43 +222,6 @@ export interface FolloweesForTopic {
   topic: [] | [number];
   followees: [] | [Array<NeuronId>];
 }
-/**
- * Creates a rented subnet from a rental request (in the Subnet Rental
- * canister).
- */
-export interface FulfillSubnetRentalRequest {
-  /**
-   * Identifies which rental request to fulfill.
-   *
-   * (Identifying the rental request by user works, because a user can have at
-   * most one rental request in the Subnet Rental canister).
-   */
-  user: [] | [Principal];
-  /**
-   * What software the nodes will run.
-   *
-   * This must be approved by a prior proposal to bless an IC OS version.
-   *
-   * This is a FULL git commit ID in the ic repo. (Therefore, it must be a 40
-   * character hexidecimal string, not an abbreviated git commit ID.)
-   *
-   * One way to find a suitable value is with the following command:
-   *
-   * ic-admin \
-   * get-subnet 0 \
-   * --nns-urls https://nns.ic0.app \
-   * | grep replica_version_id
-   *
-   * Where to obtain a recent version of ic-admin:
-   *
-   * https://github.com/dfinity/ic/releases/latest
-   */
-  replica_version_id: [] | [string];
-  /**
-   * Which nodes will be members of the subnet.
-   */
-  node_ids: [] | [Array<Principal>];
-}
 export interface GetNeuronsFundAuditInfoRequest {
   nns_proposal_id: [] | [ProposalId];
 }
@@ -278,6 +233,7 @@ export interface GlobalTimeOfDay {
 }
 export interface Governance {
   default_followees: Array<[number, Followees]>;
+  making_sns_proposal: [] | [MakingSnsProposal];
   most_recent_monthly_node_provider_rewards: [] | [MonthlyNodeProviderRewards];
   maturity_modulation_last_updated_at_timestamp_seconds: [] | [bigint];
   wait_for_quiet_threshold_seconds: bigint;
@@ -398,7 +354,6 @@ export interface KnownNeuron {
 export interface KnownNeuronData {
   name: string;
   description: [] | [string];
-  links: [] | [Array<string>];
 }
 export interface LedgerParameters {
   transaction_fee: [] | [Tokens];
@@ -409,45 +364,17 @@ export interface LedgerParameters {
 export interface ListKnownNeuronsResponse {
   known_neurons: Array<KnownNeuron>;
 }
-/**
- * Parameters of the list_neurons method.
- */
 export interface ListNeurons {
   page_size: [] | [bigint];
-  /**
-   * When a public neuron is a member of the result set, include it in the
-   * full_neurons field (of ListNeuronsResponse). This does not affect which
-   * neurons are part of the result set.
-   */
   include_public_neurons_in_full_neurons: [] | [boolean];
-  /**
-   * These fields select neurons to be in the result set.
-   */
   neuron_ids: BigUint64Array | bigint[];
   page_number: [] | [bigint];
-  /**
-   * Only has an effect when include_neurons_readable_by_caller.
-   */
   include_empty_neurons_readable_by_caller: [] | [boolean];
   neuron_subaccounts: [] | [Array<NeuronSubaccount>];
   include_neurons_readable_by_caller: boolean;
 }
-/**
- * Output of the list_neurons method.
- */
 export interface ListNeuronsResponse {
-  /**
-   * Per the NeuronInfo type, this is a redacted view of the neurons in the
-   * result set consisting of information that require no special privileges to
-   * view.
-   */
   neuron_infos: Array<[bigint, NeuronInfo]>;
-  /**
-   * If the caller has the necessary special privileges (or the neuron is
-   * public, and the request sets include_public_neurons_in_full_neurons to
-   * true), then all the information about the neurons in the result set is made
-   * available here.
-   */
   full_neurons: Array<Neuron>;
   total_pages_available: [] | [bigint];
 }
@@ -482,18 +409,16 @@ export interface MakeProposalResponse {
   message: [] | [string];
   proposal_id: [] | [ProposalId];
 }
-/**
- * Not to be confused with ManageNeuronRequest. (Yes, this is very structurally
- * similar to that, but not actually exactly equivalent.)
- */
+export interface MakingSnsProposal {
+  proposal: [] | [Proposal];
+  caller: [] | [Principal];
+  proposer_id: [] | [NeuronId];
+}
 export interface ManageNeuron {
   id: [] | [NeuronId];
   command: [] | [Command];
   neuron_id_or_subaccount: [] | [NeuronIdOrSubaccount];
 }
-/**
- * KEEP THIS IN SYNC WITH COMMAND!
- */
 export type ManageNeuronCommandRequest =
   | { Spawn: Spawn }
   | { Split: Split }
@@ -510,31 +435,12 @@ export type ManageNeuronCommandRequest =
   | { StakeMaturity: StakeMaturity }
   | { MergeMaturity: MergeMaturity }
   | { Disburse: Disburse };
-/**
- * Parameters of the manage_neuron method.
- */
 export interface ManageNeuronRequest {
-  /**
-   * Deprecated. Use neuron_id_or_subaccount instead.
-   */
   id: [] | [NeuronId];
-  /**
-   * What operation to perform on the neuron.
-   */
   command: [] | [ManageNeuronCommandRequest];
-  /**
-   * Which neuron to operate on.
-   */
   neuron_id_or_subaccount: [] | [NeuronIdOrSubaccount];
 }
-/**
- * Output of the manage_neuron method.
- */
 export interface ManageNeuronResponse {
-  /**
-   * Corresponds to the command field in ManageNeuronRequest, which determines
-   * what operation was performed.
-   */
   command: [] | [Command_1];
 }
 export interface MaturityDisbursement {
@@ -574,9 +480,6 @@ export interface Motion {
 }
 export interface NetworkEconomics {
   neuron_minimum_stake_e8s: bigint;
-  /**
-   * Parameters that affect the voting power of neurons.
-   */
   voting_power_economics: [] | [VotingPowerEconomics];
   max_proposals_to_keep_per_topic: number;
   neuron_management_fee_per_proposal_e8s: bigint;
@@ -594,67 +497,10 @@ export interface Neuron {
   recent_ballots: Array<BallotInfo>;
   voting_power_refreshed_timestamp_seconds: [] | [bigint];
   kyc_verified: boolean;
-  /**
-   * The amount of "sway" this neuron can have if it refreshes its voting power
-   * frequently enough.
-   *
-   * Unlike deciding_voting_power, this does NOT take refreshing into account.
-   * Rather, this only takes three factors into account:
-   *
-   * 1. (Net) staked amount - This is the "base" of a neuron's voting power.
-   * This primarily consists of the neuron's ICP balance.
-   *
-   * 2. Age - Neurons with more age have more voting power (all else being
-   * equal).
-   *
-   * 3. Dissolve delay - Neurons with longer dissolve delay have more voting
-   * power (all else being equal). Neurons with a dissolve delay of less
-   * than six months are not eligible to vote. Therefore, such neurons
-   * are considered to have 0 voting power.
-   *
-   * Per NNS policy, this is opt. Nevertheless, it will never be null.
-   */
   potential_voting_power: [] | [bigint];
   neuron_type: [] | [number];
   not_for_profit: boolean;
   maturity_e8s_equivalent: bigint;
-  /**
-   * The amount of "sway" this neuron has when voting on proposals.
-   *
-   * When a proposal is created, each eligible neuron gets a "blank" ballot. The
-   * amount of voting power in that ballot is set to the neuron's deciding
-   * voting power at the time of proposal creation. There are two ways that a
-   * proposal can become decided:
-   *
-   * 1. Early: Either more than half of the total voting power in the ballots
-   * votes in favor (then the proposal is approved), or at least half of the
-   * votal voting power in the ballots votes against (then, the proposal is
-   * rejected).
-   *
-   * 2. The proposal's voting deadline is reached. At that point, if there is
-   * more voting power in favor than against, and at least 3% of the total
-   * voting power voted in favor, then the proposal is approved. Otherwise, it
-   * is rejected.
-   *
-   * If a neuron regularly refreshes its voting power, this has the same value
-   * as potential_voting_power. Actions that cause a refresh are as follows:
-   *
-   * 1. voting directly (not via following)
-   * 2. set following
-   * 3. refresh voting power
-   *
-   * (All of these actions are performed via the manage_neuron method.)
-   *
-   * However, if a neuron has not refreshed in a "long" time, this will be less
-   * than potential voting power. See VotingPowerEconomics. As a further result
-   * of less deciding voting power, not only does it have less influence on the
-   * outcome of proposals, the neuron receives less voting rewards (when it
-   * votes indirectly via following).
-   *
-   * For details, see https://dashboard.internetcomputer.org/proposal/132411.
-   *
-   * Per NNS policy, this is opt. Nevertheless, it will never be null.
-   */
   deciding_voting_power: [] | [bigint];
   cached_neuron_stake_e8s: bigint;
   created_timestamp_seconds: bigint;
@@ -663,10 +509,6 @@ export interface Neuron {
   hot_keys: Array<Principal>;
   account: Uint8Array | number[];
   joined_community_fund_timestamp_seconds: [] | [bigint];
-  /**
-   * The maturity disbursements in progress, i.e. the disbursements that are initiated but not
-   * finalized. The finalization happens 7 days after the disbursement is initiated.
-   */
   maturity_disbursements_in_progress: [] | [Array<MaturityDisbursement>];
   dissolve_state: [] | [DissolveState];
   followees: Array<[number, Followees]>;
@@ -701,14 +543,6 @@ export interface NeuronInFlightCommand {
   command: [] | [Command_2];
   timestamp: bigint;
 }
-/**
- * A limit view of Neuron that allows some aspects of all neurons to be read by
- * anyone (i.e. without having to be the neuron's controller nor one of its
- * hotkeys).
- *
- * As such, the meaning of each field in this type is generally the same as the
- * one of the same (or at least similar) name in Neuron.
- */
 export interface NeuronInfo {
   dissolve_delay_seconds: bigint;
   recent_ballots: Array<BallotInfo>;
@@ -718,27 +552,11 @@ export interface NeuronInfo {
   deciding_voting_power: [] | [bigint];
   created_timestamp_seconds: bigint;
   state: number;
-  /**
-   * The amount of ICP (and staked maturity) locked in this neuron.
-   *
-   * This is the foundation of the neuron's voting power.
-   *
-   * cached_neuron_stake_e8s - neuron_fees_e8s + staked_maturity_e8s_equivalent
-   */
   stake_e8s: bigint;
   joined_community_fund_timestamp_seconds: [] | [bigint];
   retrieved_at_timestamp_seconds: bigint;
   visibility: [] | [number];
   known_neuron_data: [] | [KnownNeuronData];
-  /**
-   * Deprecated. Use either deciding_voting_power or potential_voting_power
-   * instead. Has the same value as deciding_voting_power.
-   *
-   * Previously, if a neuron had < 6 months dissolve delay (making it ineligible
-   * to vote), this would not get set to 0 (zero). That was pretty confusing.
-   * Now that this is set to deciding_voting_power, this actually does get
-   * zeroed out.
-   */
   voting_power: bigint;
   age_seconds: bigint;
 }
@@ -878,11 +696,9 @@ export interface Proposal {
 }
 export type ProposalActionRequest =
   | { RegisterKnownNeuron: KnownNeuron }
-  | { FulfillSubnetRentalRequest: FulfillSubnetRentalRequest }
   | { ManageNeuron: ManageNeuronRequest }
   | { UpdateCanisterSettings: UpdateCanisterSettings }
   | { InstallCode: InstallCodeRequest }
-  | { DeregisterKnownNeuron: DeregisterKnownNeuron }
   | { StopOrStartCanister: StopOrStartCanister }
   | { CreateServiceNervousSystem: CreateServiceNervousSystem }
   | { ExecuteNnsFunction: ExecuteNnsFunction }
@@ -936,11 +752,6 @@ export interface ProposalInfo {
   proposer: [] | [NeuronId];
   executed_timestamp_seconds: bigint;
 }
-/**
- * This is one way for a neuron to make sure that its deciding_voting_power is
- * not less than its potential_voting_power. See the description of those fields
- * in Neuron.
- */
 export type RefreshVotingPower = {};
 export type RefreshVotingPowerResponse = {};
 export interface RegisterVote {
@@ -1042,7 +853,6 @@ export interface SpawnResponse {
   created_neuron_id: [] | [NeuronId];
 }
 export interface Split {
-  memo: [] | [bigint];
   amount_e8s: bigint;
 }
 export interface StakeMaturity {
@@ -1113,41 +923,9 @@ export interface UpdateCanisterSettings {
 export interface UpdateNodeProvider {
   reward_account: [] | [AccountIdentifier];
 }
-/**
- * Parameters that affect the voting power of neurons.
- */
 export interface VotingPowerEconomics {
-  /**
-   * If a neuron has not "refreshed" its voting power after this amount of time,
-   * its deciding voting power starts decreasing linearly. See also
-   * clear_following_after_seconds.
-   *
-   * For explanation of what "refresh" means in this context, see
-   * https://dashboard.internetcomputer.org/proposal/132411
-   *
-   * Initially, set to 0.5 years. (The nominal length of a year is 365.25 days).
-   */
   start_reducing_voting_power_after_seconds: [] | [bigint];
-  /**
-   * The minimum dissolve delay a neuron must have in order to be eligible to vote.
-   *
-   * Neurons with a dissolve delay lower than this threshold will not have
-   * voting power, even if they are otherwise active.
-   *
-   * This value is an essential part of the staking mechanism, promoting
-   * long-term alignment with the network's governance.
-   */
   neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
-  /**
-   * After a neuron has experienced voting power reduction for this amount of
-   * time, a couple of things happen:
-   *
-   * 1. Deciding voting power reaches 0.
-   *
-   * 2. Its following on topics other than NeuronManagement are cleared.
-   *
-   * Initially, set to 1/12 years.
-   */
   clear_following_after_seconds: [] | [bigint];
 }
 export interface VotingRewardParameters {

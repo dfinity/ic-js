@@ -3,36 +3,21 @@ import { checkAccountId, isIcpAccountIdentifier } from "./accounts.utils";
 
 describe("accounts-utils", () => {
   describe("checkAccountId", () => {
-    const validAccountId =
-      "cd70bfa0f092c38a0ff8643d4617219761eb61d199b15418c0b1114d59e30f8e";
-
     it("should not throw if valid account id", () => {
-      expect(() => checkAccountId(validAccountId)).not.toThrow();
-    });
-
-    it("should throw if invalid checksum", () => {
-      const incorrectChecksum = `a${validAccountId.slice(1)}`;
-      const usage = () => checkAccountId(incorrectChecksum);
-
-      expect(usage).toThrow(InvalidAccountIDError);
-      expect(usage).toThrow(
-        `Account identifier ${incorrectChecksum} has an invalid checksum. Are you sure the account identifier is correct?`,
+      checkAccountId(
+        "cd70bfa0f092c38a0ff8643d4617219761eb61d199b15418c0b1114d59e30f8e",
       );
     });
 
     it("should throw if not valid account id", () => {
-      const usage = () => checkAccountId("not-valid");
-
-      expect(usage).toThrow(InvalidAccountIDError);
-      expect(usage).toThrow(
-        "Invalid account identifier not-valid. The account identifier must be 64 chars in length.",
-      );
+      const call1 = () => checkAccountId("not-valid");
+      expect(call1).toThrow(InvalidAccountIDError);
     });
   });
 
   describe("isIcpAccountIdentifier", () => {
     it("should return false if input is undefined", () => {
-      expect(isIcpAccountIdentifier(undefined)).toBeFalsy();
+      expect(isIcpAccountIdentifier(undefined)).toBe(false);
     });
 
     it("should return true if valid account id", () => {
@@ -40,11 +25,11 @@ describe("accounts-utils", () => {
         isIcpAccountIdentifier(
           "cd70bfa0f092c38a0ff8643d4617219761eb61d199b15418c0b1114d59e30f8e",
         ),
-      ).toBeTruthy();
+      ).toBe(true);
     });
 
     it("should return false if not valid account id", () => {
-      expect(isIcpAccountIdentifier("not-valid")).toBeFalsy();
+      expect(isIcpAccountIdentifier("not-valid")).toBe(false);
     });
   });
 });

@@ -1,10 +1,4 @@
-import {
-  bigEndianCrc32,
-  hexStringToUint8Array,
-  isNullish,
-  uint8ArrayToHexString,
-  uint8ArraysEqual,
-} from "@dfinity/utils";
+import { bigEndianCrc32, isNullish } from "@dfinity/utils";
 import { InvalidAccountIDError } from "../errors/ledger.errors";
 
 /**
@@ -20,12 +14,14 @@ export const checkAccountId = (accountId: string): void => {
     );
   }
 
-  const toAccountBytes = hexStringToUint8Array(accountId);
+  const toAccountBytes = Buffer.from(accountId, "hex");
   const foundChecksum = toAccountBytes.slice(0, 4);
-  const expectedCheckum = bigEndianCrc32(toAccountBytes.slice(4));
-  if (!uint8ArraysEqual({ a: expectedCheckum, b: foundChecksum })) {
+  const expectedCheckum = Buffer.from(bigEndianCrc32(toAccountBytes.slice(4)));
+  if (!expectedCheckum.equals(foundChecksum)) {
     throw new InvalidAccountIDError(
-      `Account identifier ${accountId} has an invalid checksum. Are you sure the account identifier is correct?\n\nExpected checksum: ${uint8ArrayToHexString(expectedCheckum)}\nFound checksum: ${uint8ArrayToHexString(foundChecksum)}`,
+      `Account identifier ${accountId} has an invalid checksum. Are you sure the account identifier is correct?\n\nExpected checksum: ${expectedCheckum.toString(
+        "hex",
+      )}\nFound checksum: ${foundChecksum.toString("hex")}`,
     );
   }
 };

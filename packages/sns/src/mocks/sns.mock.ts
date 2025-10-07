@@ -30,7 +30,6 @@ export const snsMock: ListSnsCanistersResponse = {
   index: [indexCanisterIdMock],
   dapps: [],
   archives: [],
-  extensions: [],
 };
 
 export const saleTicketMock: Ticket = {

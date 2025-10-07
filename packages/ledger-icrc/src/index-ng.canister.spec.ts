@@ -76,7 +76,6 @@ describe("Index canister", () => {
         account: fakeSnsAccount,
         max_results: BigInt(10),
       });
-
       expect(res.transactions).toEqual([transactionWithId]);
     });
 
@@ -97,8 +96,7 @@ describe("Index canister", () => {
           account: fakeSnsAccount,
           max_results: BigInt(10),
         });
-
-      await expect(call).rejects.toThrow(IndexError);
+      await expect(call).rejects.toThrowError(IndexError);
     });
   });
 
@@ -117,8 +115,7 @@ describe("Index canister", () => {
       const res = await canister.balance({
         owner,
       });
-
-      expect(service.icrc1_balance_of).toHaveBeenCalled();
+      expect(service.icrc1_balance_of).toBeCalled();
       expect(res).toEqual(balance);
     });
 
@@ -138,7 +135,6 @@ describe("Index canister", () => {
         owner,
         subaccount,
       });
-
       expect(res).toEqual(balance);
     });
   });
@@ -154,7 +150,6 @@ describe("Index canister", () => {
       });
 
       const res = await canister.ledgerId({});
-
       expect(res).toEqual(ledgerCanisterIdMock);
     });
   });
@@ -174,7 +169,6 @@ describe("Index canister", () => {
       });
 
       const res = await canister.status({});
-
       expect(res).toEqual(mockStatus);
     });
   });
