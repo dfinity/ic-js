@@ -547,17 +547,12 @@ const convertUpgradeExtension = (
 });
 
 const convertChunkedCanisterWasm = (
-  params: ChunkedCanisterWasmCandid | undefined,
-): ChunkedCanisterWasm | undefined => {
-  if (params === undefined) {
-    return undefined;
-  }
-  return {
-    wasm_module_hash: params.wasm_module_hash,
-    store_canister_id: fromNullable(params.store_canister_id),
-    chunk_hashes_list: params.chunk_hashes_list,
-  };
-};
+  params: ChunkedCanisterWasmCandid,
+): ChunkedCanisterWasm => ({
+  wasm_module_hash: params.wasm_module_hash,
+  store_canister_id: fromNullable(params.store_canister_id),
+  chunk_hashes_list: params.chunk_hashes_list,
+});
 
 const convertExtensionOperationArg = (
   params: ExtensionOperationArgCandid | undefined,
@@ -619,10 +614,7 @@ const convertPreciseValue = (value: PreciseValueCandid): PreciseValue => {
 
   if ("Map" in value) {
     return {
-      Map: value.Map.map(
-        ([key, val]) =>
-          [key, convertPreciseValue(val)] as [string, PreciseValue],
-      ),
+      Map: value.Map.map(([key, val]) => [key, convertPreciseValue(val)]),
     };
   }
 
@@ -639,9 +631,7 @@ const convertWasm = (params: WasmCandid | undefined): Wasm | undefined => {
 
   if ("Chunked" in params) {
     return {
-      Chunked: convertChunkedCanisterWasm(
-        params.Chunked,
-      ) as ChunkedCanisterWasm,
+      Chunked: convertChunkedCanisterWasm(params.Chunked),
     };
   }
 
@@ -657,9 +647,9 @@ const convertUpgradeSnsControlledCanister = (
   params: UpgradeSnsControlledCanisterCandid,
 ): UpgradeSnsControlledCanister => ({
   new_canister_wasm: params.new_canister_wasm,
-  chunked_canister_wasm: convertChunkedCanisterWasm(
-    fromNullable(params.chunked_canister_wasm),
-  ),
+  chunked_canister_wasm: fromNullable(params.chunked_canister_wasm)
+    ? convertChunkedCanisterWasm(fromNullable(params.chunked_canister_wasm))
+    : undefined,
   canister_id: fromNullable(params.canister_id),
   canister_upgrade_arg: fromNullable(params.canister_upgrade_arg),
   mode: fromNullable(params.mode),
@@ -806,8 +796,9 @@ const convertNervousSystemParams = (
 const convertRegisterExtension = (
   params: RegisterExtensionCandid,
 ): RegisterExtension => ({
-  chunked_canister_wasm: convertChunkedCanisterWasm(
-    fromNullable(params.chunked_canister_wasm),
-  ),
+  chunked_canister_wasm:
+    params.chunked_canister_wasm?.[0] !== undefined
+      ? convertChunkedCanisterWasm(params.chunked_canister_wasm[0])
+      : undefined,
   extension_init: fromNullable(params.extension_init),
 });
