@@ -13,7 +13,7 @@
 | `@dfinity/nns`           | v10.2.0 | Enhanced 🔧️  |
 | `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
 | `@dfinity/sns`           | v4.1.0  | Enhanced 🔧️  |
-| `@dfinity/utils`         | v3.2.0  | Enhanced 🔧️  |
+| `@dfinity/utils`         | v3.2.0  | Unchanged️    |
 | `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️    |
 
 ## Features
