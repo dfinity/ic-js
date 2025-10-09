@@ -1,5 +1,5 @@
-import { Principal } from "@dfinity/principal";
 import { toNullable } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 import { mockPrincipalText } from "../mocks/ledger.mock";
 import type {
   ApproveParams,

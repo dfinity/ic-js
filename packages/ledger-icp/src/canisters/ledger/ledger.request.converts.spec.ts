@@ -1,5 +1,5 @@
-import { Principal } from "@dfinity/principal";
 import { toNullable } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 import { mockAccountIdentifier } from "../../mocks/ledger.mock";
 import { mockConsentMessageRequest } from "../../mocks/ledger.request.mock";
 import type {

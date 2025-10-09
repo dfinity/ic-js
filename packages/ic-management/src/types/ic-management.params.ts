@@ -1,5 +1,5 @@
-import { Principal } from "@dfinity/principal";
 import { isNullish, toNullable } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 import type {
   canister_install_mode,
   canister_settings,

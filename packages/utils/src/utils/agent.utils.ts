@@ -3,7 +3,7 @@ import {
   HttpAgent,
   type Agent,
   type Identity,
-} from "@dfinity/agent";
+} from "@icp-sdk/core/agent";
 import type { CreateAgentParams } from "../types/agent.utils";
 import { isNullish, nonNullish } from "./nullish.utils";
 

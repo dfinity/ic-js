@@ -1,4 +1,3 @@
-import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   assertPercentageNumber,
@@ -7,6 +6,7 @@ import {
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,

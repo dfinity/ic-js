@@ -1,4 +1,4 @@
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 import { decodeBase32, encodeBase32 } from "./base32.utils";
 import { bigEndianCrc32 } from "./crc.utils";
 
@@ -18,7 +18,7 @@ describe("base32-utils", () => {
     expect(encodeBase32(crc)).toEqual(checksum);
   });
 
-  // Same logic as in @dfinity/principal.fromText
+  // Same logic as in @icp-sdk/core/principal.fromText
   it("should decode base32", () => {
     const canisterIdNoDash = "rrkah-fqaaa-aaaaa-aaaaq-cai"
       .toLowerCase()

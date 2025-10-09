@@ -10,12 +10,12 @@ import type {
   IcrcTokens,
   TransferParams,
 } from "@dfinity/ledger-icrc";
-import type { Principal } from "@dfinity/principal";
 import {
   bigIntToUint8Array,
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,

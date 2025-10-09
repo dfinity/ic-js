@@ -6,7 +6,7 @@
     "strict": true,
     "noImplicitAny": false,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "module": "esnext",
     "skipLibCheck": true,
     "outDir": "./dist"

@@ -21,7 +21,7 @@ npm i @dfinity/sns
 The bundle needs peer dependencies, be sure that following resources are available in your project as well.
 
 ```bash
-npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils @dfinity/ledger
+npm i @icp-sdk/core @dfinity/utils @dfinity/ledger
 ```
 
 ## Usage

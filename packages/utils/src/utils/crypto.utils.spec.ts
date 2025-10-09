@@ -1,5 +1,5 @@
-import { Expiry, SubmitRequestType } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import { Expiry, SubmitRequestType } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { hashObject, hashText } from "./crypto.utils";
 
 describe("crypto.utils", () => {

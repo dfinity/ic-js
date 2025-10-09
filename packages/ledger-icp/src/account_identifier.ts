@@ -1,4 +1,3 @@
-import type { Principal } from "@dfinity/principal";
 import {
   arrayOfNumberToUint8Array,
   asciiStringToByteArray,
@@ -6,6 +5,7 @@ import {
   hexStringToUint8Array,
   uint8ArrayToHexString,
 } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import { sha224 } from "@noble/hashes/sha2";
 
 /**
