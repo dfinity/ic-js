@@ -2,6 +2,7 @@ import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "vitest-mock-extended";
+import type { Account } from "../candid/icrc_index";
 import type {
   Allowance,
   ApproveArgs,
@@ -34,7 +35,6 @@ import type {
   TransferFromParams,
   TransferParams,
 } from "./types/ledger.params";
-import type { Account } from "../candid/icrc_index";
 
 describe("Ledger canister", () => {
   describe("metadata", () => {
@@ -857,7 +857,7 @@ describe("Ledger canister", () => {
   describe("getMintingAccount", () => {
     it("should return the account of the minting account", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
-      const account : Account = {
+      const account: Account = {
         owner: mockPrincipal,
         subaccount: [],
       };
