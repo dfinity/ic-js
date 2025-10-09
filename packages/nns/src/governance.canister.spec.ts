@@ -2425,6 +2425,53 @@ describe("GovernanceCanister", () => {
         neuron_id_or_subaccount: [],
       });
     });
+
+    it("disburses maturity to account", async () => {
+      const neuronId = BigInt(10);
+      const percentageToDisburse = 25;
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ DisburseMaturity: { amount_disbursed_e8s: [BigInt(25)] } }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const owner = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
+      await governance.disburseMaturity({
+        neuronId,
+        percentageToDisburse,
+        toAccount: {
+          owner,
+          subaccount: undefined,
+        },
+      });
+
+      expect(service.manage_neuron).toHaveBeenCalledTimes(1);
+      expect(service.manage_neuron).toHaveBeenCalledWith({
+        command: [
+          {
+            DisburseMaturity: {
+              percentage_to_disburse: 25,
+              to_account: [
+                {
+                  owner: [owner],
+                  subaccount: [],
+                },
+              ],
+              to_account_identifier: [],
+            },
+          },
+        ],
+        id: [
+          {
+            id: 10n,
+          },
+        ],
+        neuron_id_or_subaccount: [],
+      });
+    });
   });
 
   describe("setFollowing", () => {
