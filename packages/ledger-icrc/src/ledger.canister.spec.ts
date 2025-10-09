@@ -1,6 +1,6 @@
 import type { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { arrayOfNumberToUint8Array } from "@dfinity/utils";
+import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "vitest-mock-extended";
 import type {
   Allowance,
@@ -34,6 +34,7 @@ import type {
   TransferFromParams,
   TransferParams,
 } from "./types/ledger.params";
+import type { Account } from "../candid/icrc_index";
 
 describe("Ledger canister", () => {
   describe("metadata", () => {
@@ -850,6 +851,26 @@ describe("Ledger canister", () => {
       const res = await canister.icrc10SupportedStandards({});
 
       expect(res).toEqual(standards);
+    });
+  });
+
+  describe("getMintingAccount", () => {
+    it("should return the list of standards", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const account : Account = {
+        owner: mockPrincipal,
+        subaccount: [],
+      };
+      service.icrc1_minting_account.mockResolvedValue(toNullable(account));
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getMintingAccount({});
+
+      expect(res).toEqual(toNullable(account));
     });
   });
 });

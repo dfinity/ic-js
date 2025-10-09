@@ -2,10 +2,12 @@ import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   createServices,
+  Nullable,
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
 import type {
+  Account,
   Allowance,
   BlockIndex,
   GetBlocksResult,
@@ -244,4 +246,14 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
     params: QueryParams,
   ): Promise<{ url: string; name: string }[]> =>
     this.caller(params).icrc10_supported_standards();
+
+  /**
+   * Returns the minting account of the ledger.
+   *
+   * @link: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#icrc1_minting_account
+   *
+   * @returns {Promise<Nullable<Account>>} The minting account as a Nullable object.
+   */
+  getMintingAccount = (params: QueryParams): Promise<Nullable<Account>> =>
+    this.caller(params).icrc1_minting_account();
 }
