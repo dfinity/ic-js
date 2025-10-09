@@ -82,6 +82,7 @@ import {
 import type { E8s, NeuronId } from "./types/common";
 import type { GovernanceCanisterOptions } from "./types/governance.options";
 import type {
+  Account,
   ClaimOrRefreshNeuronRequest,
   FollowRequest,
   FolloweesForTopic,
@@ -1050,21 +1051,25 @@ export class GovernanceCanister {
    * @param {Object} params
    * @param {NeuronId} params.neuronId The id of the neuron for which to disburse maturity
    * @param {number} params.percentageToDisburse The percentage of the neuron's maturity to disburse, between 1 and 100 (inclusive).
-   * @param {AccountIdentifierHex} [params.accountIdentifier] Optional. The account identifier to which the maturity will be disbursed. If not provided, the maturity will be disbursed to the caller's Main account.
+   * @param {AccountIdentifierHex} [params.toAccountIdentifier] Optional. The account identifier to which the maturity will be disbursed. If not provided, the maturity will be disbursed to the caller's Main account.
+   * @param {Account} [params.toAccount] Optional. The ICRC account to which the maturity will be disbursed. If not provided, the maturity will be disbursed to the caller's Main account.
    */
   public disburseMaturity = async ({
     neuronId,
     percentageToDisburse,
     toAccountIdentifier,
+    toAccount,
   }: {
     neuronId: NeuronId;
     percentageToDisburse: number;
     toAccountIdentifier?: AccountIdentifierHex;
+    toAccount?: Account;
   }): Promise<void> => {
     const request = toDisburseMaturityRequest({
       neuronId,
       percentageToDisburse,
       toAccountIdentifier,
+      toAccount,
     });
 
     await manageNeuron({
