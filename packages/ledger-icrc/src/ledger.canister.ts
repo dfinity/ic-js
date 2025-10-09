@@ -248,7 +248,7 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
     this.caller(params).icrc10_supported_standards();
 
   /**
-   * Returns the minting account of the ledger.
+   * Returns the minting account of the Ledger canister.
    *
    * @link: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#icrc1_minting_account
    *
