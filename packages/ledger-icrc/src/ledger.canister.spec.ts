@@ -855,7 +855,7 @@ describe("Ledger canister", () => {
   });
 
   describe("getMintingAccount", () => {
-    it("should return the list of standards", async () => {
+    it("should return the account of the minting account", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const account : Account = {
         owner: mockPrincipal,
