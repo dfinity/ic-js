@@ -1,5 +1,11 @@
-import { isNullish, toNullable } from "@dfinity/utils";
+import {
+  fromNullable,
+  isNullish,
+  nonNullish,
+  toNullable,
+} from "@dfinity/utils";
 import type {
+  Account,
   ApproveArgs,
   icrc21_consent_message_request as ConsentMessageArgs,
   TransferArg,
@@ -11,6 +17,7 @@ import type {
   TransferFromParams,
   TransferParams,
 } from "../types/ledger.params";
+import type { IcrcAccount } from "../types/ledger.responses";
 
 // WARNING: When using the ICRC-1 interface of the ICP ledger, there is no
 // relationship between the memo and the icrc1Memo of a transaction. The ICRC-1
@@ -87,3 +94,15 @@ export const toIcrc21ConsentMessageArgs = ({
         ),
   },
 });
+
+export const toIcrcAccount = ({
+  owner,
+  subaccount: nullableSubaccount,
+}: Account): IcrcAccount => {
+  const subaccount = fromNullable(nullableSubaccount);
+
+  return {
+    owner,
+    ...(nonNullish(subaccount) ? { subaccount } : {}),
+  };
+};

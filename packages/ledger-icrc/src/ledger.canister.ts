@@ -2,12 +2,12 @@ import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   createServices,
+  fromNullable,
+  nonNullish,
   toNullable,
-  type Nullable,
   type QueryParams,
 } from "@dfinity/utils";
 import type {
-  Account,
   Allowance,
   BlockIndex,
   GetBlocksResult,
@@ -21,6 +21,7 @@ import { idlFactory } from "../candid/icrc_ledger.idl";
 import {
   toApproveArgs,
   toIcrc21ConsentMessageArgs,
+  toIcrcAccount,
   toTransferArg,
   toTransferFromArgs,
 } from "./converters/ledger.converters";
@@ -39,7 +40,10 @@ import type {
   TransferFromParams,
   TransferParams,
 } from "./types/ledger.params";
-import type { IcrcTokenMetadataResponse } from "./types/ledger.responses";
+import type {
+  IcrcAccount,
+  IcrcTokenMetadataResponse,
+} from "./types/ledger.responses";
 
 export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
   static create(options: IcrcLedgerCanisterOptions<IcrcLedgerService>) {
@@ -252,8 +256,17 @@ export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
    *
    * @link: https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/README.md#icrc1_minting_account
    *
-   * @returns {Promise<Nullable<Account>>} The minting account as a Nullable object.
+   * @returns {Promise<IcrcAccount | undefined>} The minting account or undefined if not set.
    */
-  getMintingAccount = (params: QueryParams): Promise<Nullable<Account>> =>
-    this.caller(params).icrc1_minting_account();
+  getMintingAccount = async (
+    params: QueryParams,
+  ): Promise<IcrcAccount | undefined> => {
+    const { icrc1_minting_account } = this.caller(params);
+
+    const response = await icrc1_minting_account();
+
+    const account = fromNullable(response);
+
+    return nonNullish(account) ? toIcrcAccount(account) : undefined;
+  };
 }
