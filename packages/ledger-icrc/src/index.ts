@@ -1,6 +1,5 @@
 export type {
   ICRC3Value as Icrc3Value,
-  Account as IcrcAccount,
   Allowance as IcrcAllowance,
   ApproveError as IcrcApproveError,
   BlockIndex as IcrcBlockIndex,
@@ -8,7 +7,6 @@ export type {
   GetBlocksResult as IcrcGetBlocksResult,
   StandardRecord as IcrcStandardRecord,
   Subaccount as IcrcSubAccount,
-  Subaccount as IcrcSubaccount,
   Timestamp as IcrcTimestamp,
   Tokens as IcrcTokens,
   TransferArg as IcrcTransferArg,
