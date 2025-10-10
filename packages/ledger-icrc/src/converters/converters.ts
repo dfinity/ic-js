@@ -1,4 +1,4 @@
-import { fromNullable, nonNullish } from "@dfinity/utils";
+import { fromNullable, nonNullish, toNullable } from "@dfinity/utils";
 import type { Account } from "../../candid/icrc_ledger";
 import type { IcrcAccount } from "../types/ledger.responses";
 
@@ -19,3 +19,17 @@ export const fromCandidAccount = ({
     ...(nonNullish(subaccount) ? { subaccount } : {}),
   };
 };
+
+/**
+ * Converts an IcrcAccount to a Candid Account object, effectively transforming nullish properties into nullable ones.
+ *
+ * @param {IcrcAccount} - The IcrcAccount object to convert.
+ * @return {Account} - The converted Candid Account object.
+ */
+export const toCandidAccount = ({
+  owner,
+  subaccount,
+}: IcrcAccount): Account => ({
+  owner,
+  subaccount: toNullable(subaccount),
+});

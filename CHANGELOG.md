@@ -3,7 +3,7 @@
 ## Features
 
 - Add the `getMintingAccount` method in the `IcrcLedgerCanister` class.
-- Create util to convert a Candid `Account` object into an `IcrcAccount` type.
+- Create util to convert a Candid `Account` object into an `IcrcAccount` type, and vice versa.
 
 # v78
 
