@@ -8,7 +8,7 @@ import type { IcrcAccount } from "../types/ledger.responses";
  * @param {Account} - The Candid Account object to convert.
  * @return {IcrcAccount} - The converted IcrcAccount object.
  */
-export const toIcrcAccount = ({
+export const fromCandidAccount = ({
   owner,
   subaccount: nullableSubaccount,
 }: Account): IcrcAccount => {
