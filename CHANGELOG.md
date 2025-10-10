@@ -1,3 +1,9 @@
+# Next
+
+## Features
+
+- Add the `getMintingAccount` method in the `IcrcLedgerCanister` class.
+
 # v78
 
 ## Overview
