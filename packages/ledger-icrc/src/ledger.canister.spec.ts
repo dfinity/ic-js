@@ -872,5 +872,19 @@ describe("Ledger canister", () => {
 
       expect(res).toEqual(toNullable(account));
     });
+
+    it("should return an empty nullable if the minting account is not set", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc1_minting_account.mockResolvedValue(toNullable());
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getMintingAccount({});
+
+      expect(res).toEqual(toNullable());
+    });
   });
 });
