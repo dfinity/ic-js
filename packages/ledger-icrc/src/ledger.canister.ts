@@ -2,8 +2,8 @@ import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   createServices,
-  Nullable,
   toNullable,
+  type Nullable,
   type QueryParams,
 } from "@dfinity/utils";
 import type {
