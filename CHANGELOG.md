@@ -1,7 +1,24 @@
-# Next
+# v79
+
+## Overview
+
+| Library                  | Version | Status       |
+| ------------------------ | ------- | ------------ |
+| `@dfinity/ckbtc`         | v4.0.4  | Unchanged️   |
+| `@dfinity/cketh`         | v4.0.4  | Unchanged️   |
+| `@dfinity/cmc`           | v6.0.4  | Unchanged️   |
+| `@dfinity/ic-management` | v7.1.1  | Unchanged️   |
+| `@dfinity/ledger-icp`    | v6.1.0  | Unchanged️   |
+| `@dfinity/ledger-icrc`   | v4.1.0  | Enhanced 🔧️ |
+| `@dfinity/nns`           | v10.3.0 | Enhanced 🔧️ |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️   |
+| `@dfinity/sns`           | v4.1.0  | Unchanged️   |
+| `@dfinity/utils`         | v3.2.0  | Unchanged️   |
+| `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️   |
 
 ## Features
 
+- Support the parameter `toAccount` in the function to disburse maturity in the NNS package.
 - Add the `getMintingAccount` method in the `IcrcLedgerCanister` class.
 - Create util to convert a Candid `Account` object into an `IcrcAccount` type, and vice versa.
 
