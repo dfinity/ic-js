@@ -891,7 +891,7 @@ describe("Ledger canister", () => {
 
       const res = await canister.getMintingAccount({});
 
-      expect(res).toBeUndefined()
+      expect(res).toBeUndefined();
     });
 
     it("should handle an empty subaccount", async () => {
