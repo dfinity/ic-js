@@ -7,6 +7,7 @@ export type {
   GetBlocksArgs as IcrcGetBlocksArgs,
   GetBlocksResult as IcrcGetBlocksResult,
   StandardRecord as IcrcStandardRecord,
+  Subaccount as IcrcSubAccount,
   Subaccount as IcrcSubaccount,
   Timestamp as IcrcTimestamp,
   Tokens as IcrcTokens,
