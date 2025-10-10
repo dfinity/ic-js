@@ -3,6 +3,7 @@ export type {
   Allowance as IcrcAllowance,
   ApproveError as IcrcApproveError,
   BlockIndex as IcrcBlockIndex,
+  Account as IcrcCandidAccount,
   GetBlocksArgs as IcrcGetBlocksArgs,
   GetBlocksResult as IcrcGetBlocksResult,
   StandardRecord as IcrcStandardRecord,

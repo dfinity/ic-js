@@ -1,6 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { toNullable } from "@dfinity/utils";
-import { mockPrincipal, mockPrincipalText } from "../mocks/ledger.mock";
+import { mockPrincipalText } from "../mocks/ledger.mock";
 import type {
   ApproveParams,
   Icrc21ConsentMessageParams,
@@ -10,7 +10,6 @@ import type {
 import {
   toApproveArgs,
   toIcrc21ConsentMessageArgs,
-  toIcrcAccount,
   toTransferArg,
   toTransferFromArgs,
 } from "./ledger.converters";
@@ -157,35 +156,6 @@ describe("ledger.converters", () => {
           },
           device_spec: toNullable(),
         },
-      });
-    });
-  });
-
-  describe("toIcrcAccount", () => {
-    const owner = mockPrincipal;
-
-    it("should transform IcrcAccountParams to IcrcAccount correctly", () => {
-      const subaccount = new Uint8Array([1, 2, 3]);
-
-      expect(
-        toIcrcAccount({
-          owner,
-          subaccount: toNullable(subaccount),
-        }),
-      ).toStrictEqual({
-        owner,
-        subaccount,
-      });
-    });
-
-    it("should handle nullish subaccount", () => {
-      expect(
-        toIcrcAccount({
-          owner,
-          subaccount: toNullable(),
-        }),
-      ).toStrictEqual({
-        owner,
       });
     });
   });

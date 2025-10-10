@@ -855,15 +855,11 @@ describe("Ledger canister", () => {
   });
 
   describe("getMintingAccount", () => {
-    const owner = mockPrincipal;
-
     it("should return the account of the minting account", async () => {
-      const subaccount = new Uint8Array([1, 2, 3]);
-
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       const account: Account = {
-        owner,
-        subaccount: toNullable(subaccount),
+        owner: mockPrincipal,
+        subaccount: toNullable(new Uint8Array([1, 2, 3])),
       };
       service.icrc1_minting_account.mockResolvedValue(toNullable(account));
 
@@ -874,13 +870,10 @@ describe("Ledger canister", () => {
 
       const res = await canister.getMintingAccount({});
 
-      expect(res).toStrictEqual({
-        owner,
-        subaccount,
-      });
+      expect(res).toEqual(toNullable(account));
     });
 
-    it("should return undefined if the minting account is not set", async () => {
+    it("should return an empty nullable if the minting account is not set", async () => {
       const service = mock<ActorSubclass<IcrcLedgerService>>();
       service.icrc1_minting_account.mockResolvedValue(toNullable());
 
@@ -891,27 +884,7 @@ describe("Ledger canister", () => {
 
       const res = await canister.getMintingAccount({});
 
-      expect(res).toBeUndefined();
-    });
-
-    it("should handle an empty subaccount", async () => {
-      const service = mock<ActorSubclass<IcrcLedgerService>>();
-      const account: Account = {
-        owner,
-        subaccount: toNullable(),
-      };
-      service.icrc1_minting_account.mockResolvedValue(toNullable(account));
-
-      const canister = IcrcLedgerCanister.create({
-        canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
-
-      const res = await canister.getMintingAccount({});
-
-      expect(res).toStrictEqual({
-        owner,
-      });
+      expect(res).toEqual(toNullable());
     });
   });
 });
