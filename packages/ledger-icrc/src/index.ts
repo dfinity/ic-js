@@ -1,5 +1,6 @@
 export type {
   ICRC3Value as Icrc3Value,
+  Account as IcrcAccount,
   Allowance as IcrcAllowance,
   ApproveError as IcrcApproveError,
   BlockIndex as IcrcBlockIndex,
