@@ -64,10 +64,6 @@ patch_import_did() {
 
   local out_path="packages/${pkg}/candid/${out_filename}"
 
-  echo "$in_fullpath"
-  echo "$patch_fullpath"
-  echo "$out_path"
-
   # Apply the patch over the did file.
   # Write the output to the generated DID file,
   # this way we do not need a temporary file.
