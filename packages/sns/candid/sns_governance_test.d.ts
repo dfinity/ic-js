@@ -37,6 +37,9 @@ export type ActionAuxiliary =
     }
   | { MintSnsTokens: MintSnsTokensActionAuxiliary }
   | { AdvanceSnsTargetVersion: AdvanceSnsTargetVersionActionAuxiliary };
+/**
+ * The following types are for feature = "test"
+ */
 export interface AddMaturityRequest {
   id: [] | [NeuronId];
   amount_e8s: [] | [bigint];
@@ -901,6 +904,9 @@ export type Wasm =
   | { Chunked: ChunkedCanisterWasm }
   | { Bytes: Uint8Array | number[] };
 export interface _SERVICE {
+  /**
+   * The following are methods for feature = "test"
+   */
   add_maturity: ActorMethod<[AddMaturityRequest], AddMaturityResponse>;
   advance_target_version: ActorMethod<
     [AdvanceTargetVersionRequest],

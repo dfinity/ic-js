@@ -1,4 +1,4 @@
-// Generated from IC repo commit 4565785 (2025-10-01 tags: release-2025-10-02_03-13-base) 'rs/sns/governance/canister/governance_test.did' by import-candid
+// Generated from IC repo commit 285897d (2025-10-08 tags: release-2025-10-09_03-15-base) 'packages/sns/candid/sns_governance_test.did.tmp' by import-candid
 
 type Account = record {
   owner : opt principal;
@@ -32,15 +32,6 @@ type ActionAuxiliary = variant {
   TransferSnsTreasuryFunds : MintSnsTokensActionAuxiliary;
   MintSnsTokens : MintSnsTokensActionAuxiliary;
   AdvanceSnsTargetVersion : AdvanceSnsTargetVersionActionAuxiliary;
-};
-
-type AddMaturityRequest = record {
-  id : opt NeuronId;
-  amount_e8s : opt nat64;
-};
-
-type AddMaturityResponse = record {
-  new_maturity_e8s : opt nat64;
 };
 
 type AddNeuronPermissions = record {
@@ -308,7 +299,7 @@ type VotingPowerMetrics = record {
 type Metrics = record {
   num_recently_submitted_proposals : opt nat64;
   num_recently_executed_proposals: opt nat64;
-  
+
   last_ledger_block_timestamp : opt nat64;
 
   // The metrics below are cached (albeit this is an implementation detail).
@@ -547,11 +538,6 @@ type MintSnsTokensActionAuxiliary = record {
 
 type AdvanceSnsTargetVersionActionAuxiliary = record {
   target_version : opt SnsVersion;
-};
-
-type MintTokensRequest = record {
-  recipient : opt Account;
-  amount_e8s : opt nat64;
 };
 
 type Motion = record {
@@ -1029,10 +1015,6 @@ type GetUpgradeJournalResponse = record {
   upgrade_journal_entry_count: opt nat64;
 };
 
-type AdvanceTargetVersionRequest = record { target_version : opt Version; };
-type AdvanceTargetVersionResponse = record {};
-
-
 type Topic = variant {
   DaoCommunitySettings;
   SnsFrameworkManagement;
@@ -1059,8 +1041,25 @@ type ListTopicsResponse = record {
   uncategorized_functions: opt vec NervousSystemFunction
 };
 
+// The following types are for feature = "test"
+type AddMaturityRequest = record {
+  id : opt NeuronId;
+  amount_e8s : opt nat64;
+};
+
+type AddMaturityResponse = record {
+  new_maturity_e8s : opt nat64;
+};
+
+type MintTokensRequest = record {
+  recipient : opt Account;
+  amount_e8s : opt nat64;
+};
+
+type AdvanceTargetVersionRequest = record { target_version : opt Version; };
+type AdvanceTargetVersionResponse = record {};
+
 service : (Governance) -> {
-  add_maturity : (AddMaturityRequest) -> (AddMaturityResponse);
   claim_swap_neurons : (ClaimSwapNeuronsRequest) -> (ClaimSwapNeuronsResponse);
   fail_stuck_upgrade_in_progress : (record {}) -> (record {});
   get_build_metadata : () -> (text) query;
@@ -1082,11 +1081,14 @@ service : (Governance) -> {
   list_proposals : (ListProposals) -> (ListProposalsResponse) query;
   list_topics : (ListTopicsRequest) -> (ListTopicsResponse) query;
   manage_neuron : (ManageNeuron) -> (ManageNeuronResponse);
-  mint_tokens : (MintTokensRequest) -> (record {});
   set_mode : (SetMode) -> (record {});
-  update_neuron : (Neuron) -> (opt GovernanceError);
-  advance_target_version : (AdvanceTargetVersionRequest) -> (AdvanceTargetVersionResponse);
   reset_timers : (record {}) -> (record {});
   get_timers : (record {}) -> (GetTimersResponse) query;
+
+  // The following are methods for feature = "test"
+  add_maturity : (AddMaturityRequest) -> (AddMaturityResponse);
+  advance_target_version : (AdvanceTargetVersionRequest) -> (AdvanceTargetVersionResponse);
+  mint_tokens : (MintTokensRequest) -> (record {});
   refresh_cached_upgrade_steps : (record {}) -> (record {});
+  update_neuron : (Neuron) -> (opt GovernanceError);
 }
