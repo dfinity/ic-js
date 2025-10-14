@@ -76,6 +76,13 @@ export interface canister_log_record {
   timestamp_nanos: bigint;
   content: Uint8Array | number[];
 }
+export interface canister_metadata_args {
+  name: string;
+  canister_id: canister_id;
+}
+export interface canister_metadata_result {
+  value: Uint8Array | number[];
+}
 export interface canister_settings {
   freezing_threshold: [] | [bigint];
   wasm_memory_threshold: [] | [bigint];
@@ -487,7 +494,14 @@ export interface _SERVICE {
     [bitcoin_send_transaction_args],
     undefined
   >;
+  /**
+   * Public canister data
+   */
   canister_info: ActorMethod<[canister_info_args], canister_info_result>;
+  canister_metadata: ActorMethod<
+    [canister_metadata_args],
+    canister_metadata_result
+  >;
   canister_status: ActorMethod<[canister_status_args], canister_status_result>;
   clear_chunk_store: ActorMethod<[clear_chunk_store_args], undefined>;
   create_canister: ActorMethod<[create_canister_args], create_canister_result>;
