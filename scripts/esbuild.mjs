@@ -66,7 +66,7 @@ const buildBrowser = ({ multi } = { multi: false }) => {
       target: ["esnext"],
       platform: "browser",
       conditions: ["worker", "browser"],
-      external: externalPeerDependencies
+      external: externalPeerDependencies,
     })
     .catch(() => process.exit(1));
 };
@@ -91,9 +91,9 @@ const buildNode = ({ multi } = { multi: false }) => {
       platform: "node",
       target: ["node20", "esnext"],
       banner: {
-        js: "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);"
+        js: "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);",
       },
-      external: externalPeerDependencies
+      external: externalPeerDependencies,
     })
     .catch(() => process.exit(1));
 };
