@@ -27,7 +27,8 @@
     "docs": "node scripts/docs.js && prettier --write packages/**/README.md",
     "build": "npm run build --workspaces",
     "size": "size-limit --json",
-    "update:agent": "./scripts/update-agent"
+    "update:agent": "./scripts/update-agent",
+    "clean": "npm run clean --workspaces --if-present"
   },
   "repository": {
     "type": "git",
@@ -62,6 +63,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -74,6 +76,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -86,6 +89,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -98,6 +102,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -110,6 +115,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -122,6 +128,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils",
         "@dfinity/ledger-icp"
       ]
@@ -141,6 +148,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils",
         "@dfinity/ledger-icrc"
       ]
@@ -153,7 +161,8 @@
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
-        "@dfinity/principal"
+        "@dfinity/principal",
+        "@icp-sdk/core"
       ]
     },
     {
@@ -163,7 +172,8 @@
       "gzip": true,
       "ignore": [
         "zod",
-        "@dfinity/principal"
+        "@dfinity/principal",
+        "@icp-sdk/core"
       ]
     },
     {
@@ -175,6 +185,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     }

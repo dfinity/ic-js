@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# Except
+!src/
+!esbuild.mjs
+!LICENSE
+!package.json
+!README.md
+!tsconfig.json
+!vitest.config.ts
+
+!src/**
