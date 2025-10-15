@@ -60,10 +60,8 @@
     "network-nervous-system"
   ],
   "peerDependencies": {
-    "@dfinity/agent": "^3",
-    "@dfinity/candid": "^3",
     "@dfinity/ledger-icp": "^6",
-    "@dfinity/principal": "^3",
-    "@dfinity/utils": "^3"
+    "@dfinity/utils": "^3",
+    "@icp-sdk/core": "^4"
   }
 }
