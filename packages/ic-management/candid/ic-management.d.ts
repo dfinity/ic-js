@@ -147,6 +147,7 @@ export type change_details =
       load_snapshot: {
         canister_version: bigint;
         source: { metadata_upload: any } | { taken_from_canister: any };
+        from_canister_id: [] | [Principal];
         taken_at_timestamp: bigint;
         snapshot_id: snapshot_id;
       };
