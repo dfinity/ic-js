@@ -1,6 +1,7 @@
 import type { DerEncodedPublicKey } from "@dfinity/agent";
 import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
+import type { TopicToFollow } from "../../candid/governance";
 import type {
   CanisterAction,
   CanisterInstallMode,
@@ -201,6 +202,7 @@ export interface KnownNeuron {
   name: string;
   description: Option<string>;
   links: Option<Array<string>>;
+  committed_topics: Option<Array<[] | [TopicToFollow]>>;
 }
 export interface DeregisterKnownNeuron {
   id: Option<NeuronId>;

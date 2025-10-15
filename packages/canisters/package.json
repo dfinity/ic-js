@@ -1,7 +1,7 @@
 {
-  "name": "@dfinity/utils",
-  "version": "3.2.0",
-  "description": "A collection of utilities and constants for NNS/SNS projects.",
+  "name": "@icp-sdk/canisters",
+  "version": "1.0.0",
+  "description": "A modular library for interacting with canisters on the Internet Computer.",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/node/index.mjs",
@@ -34,34 +34,26 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dfinity/ic-js.git",
-    "directory": "packages/utils"
+    "directory": "packages/canisters"
   },
   "bugs": {
     "url": "https://github.com/dfinity/ic-js"
   },
   "keywords": [
     "internet computer",
-    "internet-computer",
-    "ic",
+    "icp",
+    "icrc",
     "dfinity",
-    "dfx",
     "canister",
-    "candid",
-    "motoko",
-    "javascript",
-    "typescript",
-    "blockchain",
-    "crypto",
+    "token",
+    "ledger",
+    "ckbtc",
+    "bitcoin",
+    "cketh",
+    "ethereum",
+    "minter",
     "nns",
-    "network nervous system",
-    "network-nervous-system",
-    "sns",
-    "service nervous system",
-    "service-nervous-system"
+    "sns"
   ],
-  "peerDependencies": {
-    "@dfinity/agent": "^3",
-    "@dfinity/candid": "^3",
-    "@dfinity/principal": "^3"
-  }
+  "homepage": "https://github.com/dfinity/ic-js#readme"
 }
