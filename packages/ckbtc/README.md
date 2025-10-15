@@ -72,11 +72,11 @@ Parameters:
 - `params`: The Bitcoin address and network to parse
 - `params.network`: Optional. Default BtcNetwork is Mainnet
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L195)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/utils/btc.utils.ts#L195)
 
 ### :factory: CkBTCMinterCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L42)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L42)
 
 #### Static Methods
 
@@ -88,7 +88,7 @@ Parameters:
 | -------- | ------------------------------------------------------------------ |
 | `create` | `(options: CkBTCCanisterOptions<_SERVICE>) => CkBTCMinterCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L43)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L43)
 
 #### Methods
 
@@ -123,7 +123,7 @@ Returns:
 
 The BTC address of the given account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L64)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L64)
 
 ##### :gear: updateBalance
 
@@ -145,7 +145,7 @@ Returns:
 
 The result of the balance update.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L83)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L83)
 
 ##### :gear: getWithdrawalAccount
 
@@ -159,7 +159,7 @@ Returns:
 
 The account to which ckBTC needs to be transferred. Provide corresponding information to map an Icrc1 account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L106)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L106)
 
 ##### :gear: retrieveBtc
 
@@ -187,7 +187,7 @@ Returns:
 
 The result or the operation.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L125)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L125)
 
 ##### :gear: retrieveBtcWithApproval
 
@@ -217,7 +217,7 @@ Returns:
 
 The result or the operation.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L155)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L155)
 
 ##### :gear: retrieveBtcStatus
 
@@ -237,7 +237,7 @@ Returns:
 
 The status of the BTC retrieval request.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L187)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L187)
 
 ##### :gear: retrieveBtcStatusV2ByAccount
 
@@ -256,7 +256,7 @@ Returns:
 
 The statuses of the BTC retrieval requests.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L205)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L205)
 
 ##### :gear: estimateWithdrawalFee
 
@@ -272,7 +272,7 @@ Parameters:
 - `params.certified`: query or update call
 - `params.amount`: The optional amount for which the fee should be estimated.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L239)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L239)
 
 ##### :gear: getMinterInfo
 
@@ -287,7 +287,7 @@ Parameters:
 - `params`: The parameters to get the minter info.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L253)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L253)
 
 ##### :gear: getKnownUtxos
 
@@ -307,11 +307,11 @@ Returns:
 
 The known utxos (with no guarantee in the ordering).
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/minter.canister.ts#L266)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/minter.canister.ts#L266)
 
 ### :factory: BitcoinCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L17)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L17)
 
 #### Static Methods
 
@@ -323,7 +323,7 @@ The known utxos (with no guarantee in the ordering).
 | -------- | -------------------------------------------------------------- |
 | `create` | `(options: CkBTCCanisterOptions<_SERVICE>) => BitcoinCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L18)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L18)
 
 #### Methods
 
@@ -350,7 +350,7 @@ Returns:
 
 The UTXOs are returned sorted by block height in descending order.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L42)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L42)
 
 ##### :gear: getBalanceQuery
 
@@ -372,7 +372,7 @@ Returns:
 
 The balance is returned in `Satoshi` (10^8 Satoshi = 1 Bitcoin).
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L64)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc/src/bitcoin.canister.ts#L64)
 
 <!-- TSDOC_END -->
 

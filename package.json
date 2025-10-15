@@ -30,10 +30,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dfinity/ic-js.git"
+    "url": "git+https://github.com/dfinity/icp-js-canisters.git"
   },
   "bugs": {
-    "url": "https://github.com/dfinity/ic-js"
+    "url": "https://github.com/dfinity/icp-js-canisters"
   },
   "devDependencies": {
     "@dfinity/eslint-config-oisy-wallet": "^0.2.0",

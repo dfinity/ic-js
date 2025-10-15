@@ -62,7 +62,7 @@ schema.parse("https://example.com"); // Valid
 schema.parse("wss://example.com"); // Valid
 schema.parse("http://localhost"); // Invalid if allowHttpLocally is false
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L27)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/zod-schemas/src/url.ts#L27)
 
 ### :wrench: Constants
 
@@ -87,7 +87,7 @@ const result = PrincipalTextSchema.safeParse("aaaaa-aa");
 console.log(result.success); // true or false
 ```
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/principal.ts#L16)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/zod-schemas/src/principal.ts#L16)
 
 #### :gear: UrlSchema
 
@@ -102,6 +102,6 @@ Examples:
 UrlSchema.parse("https://example.com"); // Valid
 UrlSchema.parse("http://127.0.0.1"); // Valid (localhost exception)
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/zod-schemas/src/url.ts#L64)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/zod-schemas/src/url.ts#L64)
 
 <!-- TSDOC_END -->
