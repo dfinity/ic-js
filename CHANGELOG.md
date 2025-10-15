@@ -1,8 +1,17 @@
 # v82
 
+## Breaking Changes
+
+- Migrate peer dependencies to `@icp-sdk/core` instead of `@dfinity` scoped libraries for the agent, identity and candid.
+- NodeJS bundles shipped as `esm`.
+
 ## Features
 
 - Release new `@icp-sdk/canisters` - a modular entry-point library for interacting with core Internet Computer canisters.
+
+## Fix
+
+- `Subaccount` type reference was incorrectly scoped to the ledger ICRC lib instead of its own definition in ckETH minter.
 
 # v81
 
