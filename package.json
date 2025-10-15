@@ -27,7 +27,8 @@
     "docs": "node scripts/docs.js && prettier --write packages/**/README.md",
     "build": "npm run build --workspaces",
     "size": "size-limit --json",
-    "update:agent": "./scripts/update-agent"
+    "update:agent": "./scripts/update-agent",
+    "clean": "npm run clean --workspaces --if-present"
   },
   "repository": {
     "type": "git",

@@ -61,11 +61,11 @@ const entryPoints = readdirSync(join(process.cwd(), "src"))
   )
   .map((file) => `src/${file}`);
 
-const buildBrowser = () => {
+const buildBrowser = ({ multi } = { multi: false }) => {
   esbuild
     .build({
       entryPoints,
-      outdir: join(dist, "browser"),
+      outdir: multi === true ? process.cwd() : join(dist, "browser"),
       bundle: true,
       sourcemap: true,
       minify: true,
@@ -80,14 +80,19 @@ const buildBrowser = () => {
     .catch(() => process.exit(1));
 };
 
-const buildNode = ({ format }) => {
+const buildNode = ({ multi, format }) => {
   esbuild
     .build({
-      entryPoints: ["src/index.ts"],
-      outfile:
-        format === "cjs"
-          ? join(dist, "cjs", "index.cjs.js")
-          : join(dist, "node", "index.mjs"),
+      ...(multi === true
+        ? {
+            entryPoints,
+            outdir: process.cwd(),
+            outExtension: { ".js": ".mjs" },
+          }
+        : {
+            entryPoints: ["src/index.ts"],
+            outfile: join(dist, "node", "index.mjs"),
+          }),
       bundle: true,
       sourcemap: true,
       minify: true,
@@ -116,13 +121,32 @@ const writeNodeCjsRootEntry = () => {
   );
 };
 
-export const build = ({ nodeFormat } = { nodeFormat: "esm" }) => {
+/**
+ * Build the libraries for the browser and Node.
+ * @param multi True to generate a subpath-only import library
+ * @param nodeFormat Output format for NodeJS bundle: esm (default) or cjs
+ */
+export const build = (
+  { multi, nodeFormat } = { multi: false, nodeFormat: "esm" },
+) => {
+  if (multi === undefined) {
+    console.error("Missing parameter 'multi'");
+    process.exit(1);
+  }
+
+  if (nodeFormat === undefined) {
+    console.error("Missing parameter 'nodeFormat'");
+    process.exit(1);
+  }
+
   createDistFolder();
 
-  buildBrowser();
-  buildNode({ format: nodeFormat });
+  buildBrowser({ multi });
+  buildNode({ format: nodeFormat, multi });
 
-  writeBrowserRootEntry();
+  if (!multi) {
+    writeBrowserRootEntry();
+  }
 
   if (nodeFormat === "cjs") {
     writeNodeCjsRootEntry();
