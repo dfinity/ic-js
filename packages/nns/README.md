@@ -531,7 +531,7 @@ Parameters:
 
 Merge Maturity of a neuron
 
-| Method        | Type                                                                                                                                                                                            |
+| Method        | Type                                                                                                                                                                                                               |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `spawnNeuron` | `({ neuronId, percentageToSpawn, newController, nonce, }: { neuronId: bigint; percentageToSpawn?: number or undefined; newController?: Principal or undefined; nonce?: bigint or undefined; }) => Promise<bigint>` |
 
@@ -561,7 +561,7 @@ Remove hotkey to neuron
 
 Gets the NeuronID of a newly created neuron.
 
-| Method                            | Type                                                                                           |
+| Method                            | Type                                                                                                              |
 | --------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | `claimOrRefreshNeuronFromAccount` | `({ memo, controller, }: { memo: bigint; controller?: Principal or undefined; }) => Promise<bigint or undefined>` |
 
