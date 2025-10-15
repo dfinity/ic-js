@@ -1,3 +1,9 @@
+# v81
+
+## Features
+
+- Release new `@icp-sdk/canisters` - a modular entry-point library for interacting with core Internet Computer canisters.
+
 # v79
 
 ## Overview
