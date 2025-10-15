@@ -4,6 +4,9 @@ function rm_agent() {
   local package=$1
 
   npm rm @icp-sdk/core --workspace=packages/"$package"
+
+  # Just in case, make sure the dependencies re-exported by `@icp-sdk/core` are properly removed
+  npm rm @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/identity @dfinity/identity-secp256k1 --workspace=packages/"$package"
 }
 
 function install_agent() {
