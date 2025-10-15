@@ -7,6 +7,7 @@ export const shouldReExportAllMembers = ({
   source: string;
   reexport: string;
 }) => {
+  // eslint-disable-next-line vitest/require-top-level-describe
   it("should re-export all members", async () => {
     const sourceModule = { ...(await import(source)) };
     const reexportModule = { ...(await import(reexport)) };
