@@ -20,7 +20,7 @@ npm i @dfinity/utils
 The bundle needs peer dependencies, be sure that following resources are available in your project as well.
 
 ```bash
-npm i @dfinity/agent @dfinity/candid @dfinity/principal
+npm i @icp-sdk/core
 ```
 
 ## Features
