@@ -5,8 +5,8 @@ export type {
   RetrieveErc20Request,
   RetrieveEthRequest,
   RetrieveEthStatus,
-  TxFinalizedStatus,
   Subaccount,
+  TxFinalizedStatus,
 } from "../candid/minter";
 export type {
   CyclesManagement,
