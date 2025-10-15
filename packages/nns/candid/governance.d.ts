@@ -267,6 +267,13 @@ export interface FulfillSubnetRentalRequest {
    */
   node_ids: [] | [Array<Principal>];
 }
+export interface GetNeuronIndexRequest {
+  page_size: [] | [number];
+  exclusive_start_neuron_id: [] | [NeuronId];
+}
+export type GetNeuronIndexResult =
+  | { Ok: NeuronIndexData }
+  | { Err: GovernanceError };
 export interface GetNeuronsFundAuditInfoRequest {
   nns_proposal_id: [] | [ProposalId];
 }
@@ -397,6 +404,12 @@ export interface KnownNeuron {
 }
 export interface KnownNeuronData {
   name: string;
+  /**
+   * The first `opt` makes it so that the field can be renamed/deprecated in the future, and
+   * the second `opt` makes it so that an older client not recognizing a new variant can still
+   * get the rest of the `vec`.
+   */
+  committed_topics: [] | [Array<[] | [TopicToFollow]>];
   description: [] | [string];
   links: [] | [Array<string>];
 }
@@ -700,6 +713,9 @@ export type NeuronIdOrSubaccount =
 export interface NeuronInFlightCommand {
   command: [] | [Command_2];
   timestamp: bigint;
+}
+export interface NeuronIndexData {
+  neurons: Array<NeuronInfo>;
 }
 /**
  * A limit view of Neuron that allows some aspects of all neurons to be read by
@@ -1106,6 +1122,31 @@ export interface TimeWindow {
 export interface Tokens {
   e8s: [] | [bigint];
 }
+/**
+ * A topic that can be followed. It is almost the same as the topic on the
+ * proposal, except that the `CatchAll` is a special value and following on this
+ * `topic` will let the neuron follow the votes on all topics except for
+ * Governance and SnsAndCommunityFund.
+ */
+export type TopicToFollow =
+  | { Kyc: null }
+  | { ServiceNervousSystemManagement: null }
+  | { ApiBoundaryNodeManagement: null }
+  | { ApplicationCanisterManagement: null }
+  | { SubnetRental: null }
+  | { NeuronManagement: null }
+  | { NodeProviderRewards: null }
+  | { SubnetManagement: null }
+  | { ExchangeRate: null }
+  | { CatchAll: null }
+  | { NodeAdmin: null }
+  | { IcOsVersionElection: null }
+  | { ProtocolCanisterManagement: null }
+  | { NetworkEconomics: null }
+  | { IcOsVersionDeployment: null }
+  | { ParticipantManagement: null }
+  | { Governance: null }
+  | { SnsAndCommunityFund: null };
 export interface UpdateCanisterSettings {
   canister_id: [] | [Principal];
   settings: [] | [CanisterSettings];
@@ -1183,6 +1224,7 @@ export interface _SERVICE {
   >;
   get_network_economics_parameters: ActorMethod<[], NetworkEconomics>;
   get_neuron_ids: ActorMethod<[], BigUint64Array | bigint[]>;
+  get_neuron_index: ActorMethod<[GetNeuronIndexRequest], GetNeuronIndexResult>;
   get_neuron_info: ActorMethod<[bigint], Result_5>;
   get_neuron_info_by_id_or_subaccount: ActorMethod<
     [NeuronIdOrSubaccount],
