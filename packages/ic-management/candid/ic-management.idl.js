@@ -92,6 +92,7 @@ export const idlFactory = ({ IDL }) => {
         'metadata_upload' : IDL.Reserved,
         'taken_from_canister' : IDL.Reserved,
       }),
+      'from_canister_id' : IDL.Opt(IDL.Principal),
       'taken_at_timestamp' : IDL.Nat64,
       'snapshot_id' : snapshot_id,
     }),
