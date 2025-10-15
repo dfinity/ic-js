@@ -113,13 +113,13 @@ describe("AccountIdentifier", () => {
   it("should reject an invalid hex string", () => {
     expect(() => {
       AccountIdentifier.fromHex("foo bar");
-    }).toThrow("Invalid AccountIdentifier: expected 32 bytes, got 0.");
+    }).toThrow("Invalid AccountIdentifier: expected 32 bytes, got 4.");
   });
 
   it("should reject an empty hex string", () => {
     expect(() => {
       AccountIdentifier.fromHex("");
-    }).toThrow("Invalid AccountIdentifier: expected 32 bytes, got 0.");
+    }).toThrow("Invalid hex string.");
   });
 
   it("should reject an hex string too short", () => {

@@ -3,6 +3,8 @@ import type {
   Action as ActionCandid,
   DefaultFollowees,
   ExtensionInit,
+  ExtensionOperationArg as ExtensionOperationArgCandid,
+  ExtensionUpgradeArg as ExtensionUpgradeArgCandid,
   Topic,
 } from "../../candid/sns_governance";
 import { topicMock } from "../mocks/governance.mock";
@@ -112,6 +114,39 @@ describe("governance converters", () => {
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
+    it("converts AdvanceSnsTargetVersion action", () => {
+      const archive_wasm_hash = new Uint8Array([1, 2, 3]);
+      const root_wasm_hash = new Uint8Array([4, 5, 6]);
+      const action: ActionCandid = {
+        AdvanceSnsTargetVersion: {
+          new_target: [
+            {
+              archive_wasm_hash: [archive_wasm_hash],
+              root_wasm_hash: [root_wasm_hash],
+              swap_wasm_hash: [],
+              ledger_wasm_hash: [],
+              governance_wasm_hash: [],
+              index_wasm_hash: [],
+            },
+          ],
+        },
+      };
+      const expectedAction: Action = {
+        AdvanceSnsTargetVersion: {
+          new_target: {
+            archive_wasm_hash,
+            root_wasm_hash,
+            swap_wasm_hash: undefined,
+            ledger_wasm_hash: undefined,
+            governance_wasm_hash: undefined,
+            index_wasm_hash: undefined,
+          },
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
     it("converts AddGenericNervousSystemFunction action", () => {
       const id = BigInt(3);
       const name = "test function";
@@ -152,6 +187,89 @@ describe("governance converters", () => {
               validator_method_name,
               target_method_name,
               topic,
+            },
+          },
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
+    it("converts ManageDappCanisterSettings action", () => {
+      const canister_ids = [mockPrincipal, Principal.fromHex("123f")];
+      const freezing_threshold = BigInt(1);
+      const wasm_memory_threshold = BigInt(2);
+      const reserved_cycles_limit = BigInt(3);
+      const log_visibility = 4;
+      const wasm_memory_limit = BigInt(5);
+      const memory_allocation = BigInt(6);
+      const compute_allocation = BigInt(7);
+      const action: ActionCandid = {
+        ManageDappCanisterSettings: {
+          freezing_threshold: [freezing_threshold],
+          wasm_memory_threshold: [wasm_memory_threshold],
+          canister_ids,
+          reserved_cycles_limit: [reserved_cycles_limit],
+          log_visibility: [log_visibility],
+          wasm_memory_limit: [wasm_memory_limit],
+          memory_allocation: [memory_allocation],
+          compute_allocation: [compute_allocation],
+        },
+      };
+      const expectedAction: Action = {
+        ManageDappCanisterSettings: {
+          freezing_threshold,
+          wasm_memory_threshold,
+          canister_ids,
+          reserved_cycles_limit,
+          log_visibility,
+          wasm_memory_limit,
+          memory_allocation,
+          compute_allocation,
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
+    it("converts ExecuteExtensionOperation action", () => {
+      const extension_canister_id = mockPrincipal;
+      const operation_name = "do_something";
+      const operation_arg: ExtensionOperationArgCandid = {
+        value: [
+          {
+            Map: [
+              [
+                "nested",
+                {
+                  Array: [{ Bool: true }, { Text: "payload" }],
+                },
+              ],
+            ],
+          },
+        ],
+      };
+      const action: ActionCandid = {
+        ExecuteExtensionOperation: {
+          extension_canister_id: [extension_canister_id],
+          operation_name: [operation_name],
+          operation_arg: [operation_arg],
+        },
+      };
+      const expectedAction: Action = {
+        ExecuteExtensionOperation: {
+          extension_canister_id,
+          operation_name,
+          operation_arg: {
+            value: {
+              Map: [
+                [
+                  "nested",
+                  {
+                    Array: [{ Bool: true }, { Text: "payload" }],
+                  },
+                ],
+              ],
             },
           },
         },
@@ -207,6 +325,83 @@ describe("governance converters", () => {
       expect(fromCandidAction(action)).toEqual(expectedAction);
     });
 
+    it("converts UpgradeExtension action", () => {
+      const extension_canister_id = mockPrincipal;
+      const wasm_module_hash = new Uint8Array([9, 8, 7]);
+      const store_canister_id = Principal.fromHex("321f");
+      const chunk_hashes_list = [new Uint8Array([6, 5, 4])];
+      const wasm = {
+        Chunked: {
+          wasm_module_hash,
+          store_canister_id: [store_canister_id] as [Principal],
+          chunk_hashes_list,
+        },
+      };
+      const canister_upgrade_arg: ExtensionUpgradeArgCandid = {
+        value: [
+          {
+            Map: [
+              [
+                "config",
+                {
+                  Map: [
+                    ["threshold", { Nat: BigInt(1) }],
+                    [
+                      "flags",
+                      {
+                        Array: [{ Bool: true }, { Bool: false }],
+                      },
+                    ],
+                  ],
+                },
+              ],
+            ],
+          },
+        ],
+      };
+      const action: ActionCandid = {
+        UpgradeExtension: {
+          extension_canister_id: [extension_canister_id],
+          wasm: [wasm],
+          canister_upgrade_arg: [canister_upgrade_arg],
+        },
+      };
+      const expectedAction: Action = {
+        UpgradeExtension: {
+          extension_canister_id,
+          wasm: {
+            Chunked: {
+              wasm_module_hash,
+              store_canister_id,
+              chunk_hashes_list,
+            },
+          },
+          canister_upgrade_arg: {
+            value: {
+              Map: [
+                [
+                  "config",
+                  {
+                    Map: [
+                      ["threshold", { Nat: BigInt(1) }],
+                      [
+                        "flags",
+                        {
+                          Array: [{ Bool: true }, { Bool: false }],
+                        },
+                      ],
+                    ],
+                  },
+                ],
+              ],
+            },
+          },
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
     it("converts RemoveGenericNervousSystemFunction action", () => {
       const action: ActionCandid = {
         RemoveGenericNervousSystemFunction: BigInt(3),
@@ -252,6 +447,33 @@ describe("governance converters", () => {
           from_treasury,
           to_principal,
           to_subaccount: undefined,
+          memo,
+          amount_e8s,
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
+    it("converts MintSnsTokens action", () => {
+      const to_principal = mockPrincipal;
+      const to_subaccount = {
+        subaccount: new Uint8Array([1, 2, 3]),
+      };
+      const memo = BigInt(7);
+      const amount_e8s = BigInt(500);
+      const action: ActionCandid = {
+        MintSnsTokens: {
+          to_principal: [to_principal],
+          to_subaccount: [to_subaccount],
+          memo: [memo],
+          amount_e8s: [amount_e8s],
+        },
+      };
+      const expectedAction: Action = {
+        MintSnsTokens: {
+          to_principal,
+          to_subaccount,
           memo,
           amount_e8s,
         },
@@ -338,6 +560,31 @@ describe("governance converters", () => {
           logo: undefined,
           name,
           description: undefined,
+        },
+      };
+
+      expect(fromCandidAction(action)).toEqual(expectedAction);
+    });
+
+    it("converts ManageLedgerParameters action", () => {
+      const token_symbol = "SNS";
+      const transfer_fee = BigInt(10);
+      const token_logo = "https://logo";
+      const token_name = "Service Token";
+      const action: ActionCandid = {
+        ManageLedgerParameters: {
+          token_symbol: [token_symbol],
+          transfer_fee: [transfer_fee],
+          token_logo: [token_logo],
+          token_name: [token_name],
+        },
+      };
+      const expectedAction: Action = {
+        ManageLedgerParameters: {
+          token_symbol,
+          transfer_fee,
+          token_logo,
+          token_name,
         },
       };
 

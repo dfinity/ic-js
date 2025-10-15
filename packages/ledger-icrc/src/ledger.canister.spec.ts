@@ -1,7 +1,8 @@
-import { arrayOfNumberToUint8Array } from "@dfinity/utils";
-import type { ActorSubclass } from "@icp-sdk/core/agent";
-import { Principal } from "@icp-sdk/core/principal";
+import type { ActorSubclass } from "@dfinity/agent";
+import { Principal } from "@dfinity/principal";
+import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { mock } from "vitest-mock-extended";
+import type { Account } from "../candid/icrc_index";
 import type {
   Allowance,
   ApproveArgs,
@@ -850,6 +851,40 @@ describe("Ledger canister", () => {
       const res = await canister.icrc10SupportedStandards({});
 
       expect(res).toEqual(standards);
+    });
+  });
+
+  describe("getMintingAccount", () => {
+    it("should return the account of the minting account", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      const account: Account = {
+        owner: mockPrincipal,
+        subaccount: toNullable(new Uint8Array([1, 2, 3])),
+      };
+      service.icrc1_minting_account.mockResolvedValue(toNullable(account));
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getMintingAccount({});
+
+      expect(res).toEqual(toNullable(account));
+    });
+
+    it("should return an empty nullable if the minting account is not set", async () => {
+      const service = mock<ActorSubclass<IcrcLedgerService>>();
+      service.icrc1_minting_account.mockResolvedValue(toNullable());
+
+      const canister = IcrcLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const res = await canister.getMintingAccount({});
+
+      expect(res).toEqual(toNullable());
     });
   });
 });

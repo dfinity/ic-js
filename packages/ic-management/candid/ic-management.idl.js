@@ -112,6 +112,11 @@ export const idlFactory = ({ IDL }) => {
     'recent_changes' : IDL.Vec(change),
     'total_num_changes' : IDL.Nat64,
   });
+  const canister_metadata_args = IDL.Record({
+    'name' : IDL.Text,
+    'canister_id' : canister_id,
+  });
+  const canister_metadata_result = IDL.Record({ 'value' : IDL.Vec(IDL.Nat8) });
   const canister_status_args = IDL.Record({ 'canister_id' : canister_id });
   const environment_variable = IDL.Record({
     'value' : IDL.Text,
@@ -237,6 +242,7 @@ export const idlFactory = ({ IDL }) => {
       })
     ),
     'headers' : IDL.Vec(http_header),
+    'is_replicated' : IDL.Opt(IDL.Bool),
   });
   const canister_install_mode = IDL.Variant({
     'reinstall' : IDL.Null,
@@ -518,6 +524,11 @@ export const idlFactory = ({ IDL }) => {
     'canister_info' : IDL.Func(
         [canister_info_args],
         [canister_info_result],
+        [],
+      ),
+    'canister_metadata' : IDL.Func(
+        [canister_metadata_args],
+        [canister_metadata_result],
         [],
       ),
     'canister_status' : IDL.Func(

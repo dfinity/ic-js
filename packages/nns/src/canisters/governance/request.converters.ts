@@ -1363,7 +1363,7 @@ export const fromDisburseRequest = (request: DisburseRequest): PbManageNeuron =>
   if (request.toAccountId) {
     const toAccountIdentifier = new PbAccountIdentifier();
     toAccountIdentifier.setHash(
-      Uint8Array.from(Buffer.from(request.toAccountId, "hex"))
+      uint8ArrayToHexString(request.toAccountId)
     );
     disburse.setToAccount(toAccountIdentifier);
   }
@@ -1504,17 +1504,19 @@ export const toDisburseMaturityRequest = ({
   neuronId,
   percentageToDisburse,
   toAccountIdentifier,
+  toAccount,
 }: {
   neuronId: NeuronId;
   percentageToDisburse: number;
   toAccountIdentifier?: AccountIdentifierHex;
+  toAccount?: Account;
 }): RawManageNeuron =>
   toCommand({
     neuronId,
     command: {
       DisburseMaturity: {
         percentage_to_disburse: percentageToDisburse,
-        to_account: [],
+        to_account: nonNullish(toAccount) ? [fromAccount(toAccount)] : [],
         to_account_identifier: nonNullish(toAccountIdentifier)
           ? [fromAccountIdentifier(toAccountIdentifier)]
           : [],

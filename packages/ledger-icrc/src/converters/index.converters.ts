@@ -1,17 +1,9 @@
 import { toNullable } from "@dfinity/utils";
-import type {
-  Account,
-  GetAccountTransactionsArgs,
-} from "../../candid/icrc_index";
+import type { GetAccountTransactionsArgs } from "../../candid/icrc_index";
 import type { ListSubaccountsArgs } from "../../candid/icrc_index-ng";
 import type { ListSubaccountsParams } from "../types/index-ng.params";
 import type { GetAccountTransactionsParams } from "../types/index.params";
-import type { IcrcAccount } from "../types/ledger.responses";
-
-const toCandidAccount = ({ owner, subaccount }: IcrcAccount): Account => ({
-  owner,
-  subaccount: toNullable(subaccount),
-});
+import { toCandidAccount } from "./converters";
 
 export const toGetTransactionsArgs = ({
   account,
