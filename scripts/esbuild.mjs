@@ -116,7 +116,9 @@ const writeNodeCjsRootEntry = () => {
  * Build the libraries for the browser and Node.
  * @param multi True to generate a subpath-only import library.
  */
-export const build = ({ multi, nodeFormat } = { multi: false, nodeFormat: "esm" }) => {
+export const build = (
+  { multi, nodeFormat } = { multi: false, nodeFormat: "esm" },
+) => {
   createDistFolder();
 
   buildBrowser({ multi });
