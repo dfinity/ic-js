@@ -1,4 +1,4 @@
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 import type {
   MaturityDisbursement as RawMaturityDisbursement,
   Neuron as RawNeuron,

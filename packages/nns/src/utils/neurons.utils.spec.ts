@@ -1,5 +1,5 @@
-import { Principal } from "@dfinity/principal";
 import { uint8ArrayToHexString } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 import { Vote } from "../enums/governance.enums";
 import type { NeuronInfo, ProposalInfo } from "../types/governance_converters";
 import {

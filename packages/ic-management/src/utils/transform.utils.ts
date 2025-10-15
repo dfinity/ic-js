@@ -1,6 +1,6 @@
-import type { ActorConfig, CallConfig } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
 import { fromNullable, nonNullish } from "@dfinity/utils";
+import type { ActorConfig, CallConfig } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 
 type CallTransform = Required<ActorConfig>["callTransform"];
 

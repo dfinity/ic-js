@@ -1,11 +1,9 @@
-import { Actor, type ActorSubclass, type Agent } from "@dfinity/agent";
 import {
   AccountIdentifier,
   checkAccountId,
   type AccountIdentifierHex,
   type LedgerCanister,
 } from "@dfinity/ledger-icp";
-import type { Principal } from "@dfinity/principal";
 import {
   assertPercentageNumber,
   createServices,
@@ -15,6 +13,8 @@ import {
   uint8ArrayToBigInt,
   type Nullable,
 } from "@dfinity/utils";
+import { Actor, type ActorSubclass, type Agent } from "@icp-sdk/core/agent";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   Command_1,
   _SERVICE as GovernanceService,

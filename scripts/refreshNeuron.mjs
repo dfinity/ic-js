@@ -1,5 +1,5 @@
-import { HttpAgent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import { HttpAgent } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import pkg from "../packages/nns/dist/index.cjs.js";
 const { GovernanceCanister } = pkg;
 

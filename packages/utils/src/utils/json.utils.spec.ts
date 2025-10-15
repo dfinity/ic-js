@@ -1,6 +1,6 @@
-import { AnonymousIdentity } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
+import { AnonymousIdentity } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { jsonReplacer, jsonReviver } from "./json.utils";
 
 describe("json-utils", () => {

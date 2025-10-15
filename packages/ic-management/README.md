@@ -228,9 +228,9 @@ Stop a canister
 
 Get canister details (memory size, status, etc.)
 
-| Method           | Type                                                         |
-| ---------------- | ------------------------------------------------------------ |
-| `canisterStatus` | `(canisterId: Principal) => Promise<canister_status_result>` |
+| Method           | Type                                          |
+| ---------------- | --------------------------------------------- |
+| `canisterStatus` | `(canisterId: Principal) => Promise<unknown>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L291)
 
@@ -258,9 +258,9 @@ Creates a canister. Only available on development instances.
 
 Given a canister ID as input, this method returns a vector of logs of that canister including its trap messages. The canister logs are not collected in canister methods running in non-replicated mode (NRQ, CQ, CRy, CRt, CC, and F modes, as defined in Overview of imports). The total size of all returned logs does not exceed 4KiB. If new logs are added resulting in exceeding the maximum total log size of 4KiB, the oldest logs will be removed. Logs persist across canister upgrades and they are deleted if the canister is reinstalled or uninstalled.
 
-| Method              | Type                                                             |
-| ------------------- | ---------------------------------------------------------------- |
-| `fetchCanisterLogs` | `(canisterId: Principal) => Promise<fetch_canister_logs_result>` |
+| Method              | Type                                          |
+| ------------------- | --------------------------------------------- |
+| `fetchCanisterLogs` | `(canisterId: Principal) => Promise<unknown>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ic-management/src/ic-management.canister.ts#L343)
 

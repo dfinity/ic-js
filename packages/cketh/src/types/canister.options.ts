@@ -1,5 +1,5 @@
-import type { Principal } from "@dfinity/principal";
 import type { CanisterOptions } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 
 export interface CkETHMinterCanisterOptions<T>
   extends Omit<CanisterOptions<T>, "canisterId"> {

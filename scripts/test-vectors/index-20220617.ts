@@ -1,7 +1,7 @@
 // Date represents the date of the issue with the test vectors sent to Zondax:
 // https://github.com/Zondax/ledger-icp/issues/162
 // We'll keep each script for reproducibility.
-import { IDL } from "@dfinity/candid";
+import { IDL } from "@icp-sdk/core/candid";
 import { Memo, Payment, SendRequest } from "../../proto/ledger_pb";
 import { AccountIdentifier } from "../../src/account_identifier";
 import {
