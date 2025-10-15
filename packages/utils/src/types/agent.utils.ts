@@ -1,4 +1,4 @@
-import type { HttpAgentOptions, Identity } from "@dfinity/agent";
+import type { HttpAgentOptions, Identity } from "@icp-sdk/core/agent";
 
 export type CreateAgentParams = Pick<
   HttpAgentOptions,

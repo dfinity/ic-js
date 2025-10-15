@@ -1,4 +1,4 @@
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 
 export const GOVERNANCE_CANISTER_ID = Principal.fromText(
   "rrkah-fqaaa-aaaaa-aaaaq-cai",

@@ -5,8 +5,8 @@ import {
   Expiry,
   ReadRequest,
   SubmitRequestType,
-} from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+} from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { writeFileSync } from "fs";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../packages/nns/src/constants/canister_ids";
 

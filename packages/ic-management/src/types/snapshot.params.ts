@@ -1,5 +1,5 @@
-import type { Principal } from "@dfinity/principal";
 import { assertNever, isNullish, nonNullish, toNullable } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   canister_id,
   read_canister_snapshot_data_args,
