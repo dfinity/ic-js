@@ -114,11 +114,22 @@ const writeNodeCjsRootEntry = () => {
 
 /**
  * Build the libraries for the browser and Node.
- * @param multi True to generate a subpath-only import library.
+ * @param multi True to generate a subpath-only import library
+ * @param nodeFormat Output format for NodeJS bundle: esm (default) or cjs
  */
 export const build = (
   { multi, nodeFormat } = { multi: false, nodeFormat: "esm" },
 ) => {
+  if (multi === undefined) {
+    console.error("Missing parameter 'multi'");
+    process.exit(1);
+  }
+
+  if (nodeFormat === undefined) {
+    console.error("Missing parameter 'nodeFormat'");
+    process.exit(1);
+  }
+
   createDistFolder();
 
   buildBrowser({ multi });
