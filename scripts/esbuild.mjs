@@ -71,35 +71,51 @@ const buildBrowser = () => {
     .catch(() => process.exit(1));
 };
 
-const buildNode = () => {
+const buildNode = ({ format }) => {
   esbuild
     .build({
       entryPoints: ["src/index.ts"],
-      outfile: join(dist, "node", "index.mjs"),
+      outfile:
+        format === "cjs"
+          ? join(dist, "cjs", "index.cjs.js")
+          : join(dist, "node", "index.mjs"),
       bundle: true,
       sourcemap: true,
       minify: true,
-      format: "esm",
+      ...(format === "esm" && {
+        format,
+        banner: {
+          js: "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);",
+        },
+      }),
       platform: "node",
       target: ["node20", "esnext"],
-      banner: {
-        js: "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);",
-      },
       external: externalPeerDependencies,
     })
     .catch(() => process.exit(1));
 };
 
-const writeEntries = () => {
+const writeBrowserRootEntry = () => {
   // an entry for the browser as default
   writeFileSync(join(dist, "index.js"), "export * from './browser/index.js';");
 };
 
-export const build = () => {
+const writeNodeCjsRootEntry = () => {
+  writeFileSync(
+    join(dist, "index.cjs.js"),
+    "module.exports = require('./cjs/index.cjs.js');",
+  );
+};
+
+export const build = ({ nodeFormat } = { nodeFormat: "esm" }) => {
   createDistFolder();
 
   buildBrowser();
-  buildNode();
+  buildNode({ format: nodeFormat });
 
-  writeEntries();
+  writeBrowserRootEntry();
+
+  if (nodeFormat === "cjs") {
+    writeNodeCjsRootEntry();
+  }
 };
