@@ -1,1 +1,1 @@
-export * from '@dfinity/ckbtc';
+export * from "@dfinity/ckbtc";
