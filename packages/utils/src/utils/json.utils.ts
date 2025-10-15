@@ -1,4 +1,4 @@
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 import { nonNullish } from "./nullish.utils";
 
 const JSON_KEY_BIGINT = "__bigint__";

@@ -1,10 +1,10 @@
-import type { ActorSubclass } from "@dfinity/agent";
-import type { Principal } from "@dfinity/principal";
 import {
   assertNonNullish,
   createServices,
   type CanisterOptions,
 } from "@dfinity/utils";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
+import type { Principal } from "@icp-sdk/core/principal";
 import { idlFactory } from "../candid/governance.idl";
 import type { _SERVICE as GovernanceService } from "../candid/governance_test";
 import { idlFactory as certifiedIdlFactory } from "../candid/governance_test.certified.idl";

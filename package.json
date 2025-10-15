@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/ic-js",
-  "version": "79",
+  "version": "80",
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
   "workspaces": [
@@ -39,11 +39,11 @@
   },
   "devDependencies": {
     "@dfinity/eslint-config-oisy-wallet": "^0.2.0",
+    "@icp-sdk/bindgen": "^0.1.2",
     "@size-limit/esbuild": "^11.2.0",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@types/node": "^24.0.14",
     "esbuild": "^0.25.8",
-    "node-fetch": "^3.3.2",
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.1.0",
     "size-limit": "^11.2.0",
@@ -63,6 +63,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -75,6 +76,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -87,6 +89,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -99,6 +102,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -111,6 +115,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -123,6 +128,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils",
         "@dfinity/ledger-icp"
       ]
@@ -142,6 +148,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils",
         "@dfinity/ledger-icrc"
       ]
@@ -154,7 +161,8 @@
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
-        "@dfinity/principal"
+        "@dfinity/principal",
+        "@icp-sdk/core"
       ]
     },
     {
@@ -164,7 +172,8 @@
       "gzip": true,
       "ignore": [
         "zod",
-        "@dfinity/principal"
+        "@dfinity/principal",
+        "@icp-sdk/core"
       ]
     },
     {
@@ -176,6 +185,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     }

@@ -1,6 +1,6 @@
-import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, type QueryParams } from "@dfinity/utils";
+import type { ActorSubclass, HttpAgent } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
 import type {
   _SERVICE as CMCService,

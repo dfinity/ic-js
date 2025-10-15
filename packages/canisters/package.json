@@ -63,6 +63,6 @@
   ],
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "peerDependencies": {
-    "@dfinity/ckbtc": "4.0.4"
+    "@dfinity/ckbtc": "4.0.6"
   }
 }

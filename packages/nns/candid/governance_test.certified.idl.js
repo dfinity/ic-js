@@ -262,8 +262,29 @@ export const idlFactory = ({ IDL }) => {
     'total' : IDL.Nat64,
     'timestamp_seconds' : IDL.Nat64,
   });
+  const TopicToFollow = IDL.Variant({
+    'Kyc' : IDL.Null,
+    'ServiceNervousSystemManagement' : IDL.Null,
+    'ApiBoundaryNodeManagement' : IDL.Null,
+    'ApplicationCanisterManagement' : IDL.Null,
+    'SubnetRental' : IDL.Null,
+    'NeuronManagement' : IDL.Null,
+    'NodeProviderRewards' : IDL.Null,
+    'SubnetManagement' : IDL.Null,
+    'ExchangeRate' : IDL.Null,
+    'CatchAll' : IDL.Null,
+    'NodeAdmin' : IDL.Null,
+    'IcOsVersionElection' : IDL.Null,
+    'ProtocolCanisterManagement' : IDL.Null,
+    'NetworkEconomics' : IDL.Null,
+    'IcOsVersionDeployment' : IDL.Null,
+    'ParticipantManagement' : IDL.Null,
+    'Governance' : IDL.Null,
+    'SnsAndCommunityFund' : IDL.Null,
+  });
   const KnownNeuronData = IDL.Record({
     'name' : IDL.Text,
+    'committed_topics' : IDL.Opt(IDL.Vec(IDL.Opt(TopicToFollow))),
     'description' : IDL.Opt(IDL.Text),
     'links' : IDL.Opt(IDL.Vec(IDL.Text)),
   });
@@ -706,6 +727,10 @@ export const idlFactory = ({ IDL }) => {
     'Ok' : MonthlyNodeProviderRewards,
     'Err' : GovernanceError,
   });
+  const GetNeuronIndexRequest = IDL.Record({
+    'page_size' : IDL.Opt(IDL.Nat32),
+    'exclusive_start_neuron_id' : IDL.Opt(NeuronId),
+  });
   const NeuronInfo = IDL.Record({
     'dissolve_delay_seconds' : IDL.Nat64,
     'recent_ballots' : IDL.Vec(BallotInfo),
@@ -722,6 +747,11 @@ export const idlFactory = ({ IDL }) => {
     'known_neuron_data' : IDL.Opt(KnownNeuronData),
     'voting_power' : IDL.Nat64,
     'age_seconds' : IDL.Nat64,
+  });
+  const NeuronIndexData = IDL.Record({ 'neurons' : IDL.Vec(NeuronInfo) });
+  const GetNeuronIndexResult = IDL.Variant({
+    'Ok' : NeuronIndexData,
+    'Err' : GovernanceError,
   });
   const Result_5 = IDL.Variant({ 'Ok' : NeuronInfo, 'Err' : GovernanceError });
   const GetNeuronsFundAuditInfoRequest = IDL.Record({
@@ -978,6 +1008,11 @@ export const idlFactory = ({ IDL }) => {
       ),
     'get_network_economics_parameters' : IDL.Func([], [NetworkEconomics], []),
     'get_neuron_ids' : IDL.Func([], [IDL.Vec(IDL.Nat64)], []),
+    'get_neuron_index' : IDL.Func(
+        [GetNeuronIndexRequest],
+        [GetNeuronIndexResult],
+        [],
+      ),
     'get_neuron_info' : IDL.Func([IDL.Nat64], [Result_5], []),
     'get_neuron_info_by_id_or_subaccount' : IDL.Func(
         [NeuronIdOrSubaccount],
@@ -1293,8 +1328,29 @@ export const init = ({ IDL }) => {
     'total' : IDL.Nat64,
     'timestamp_seconds' : IDL.Nat64,
   });
+  const TopicToFollow = IDL.Variant({
+    'Kyc' : IDL.Null,
+    'ServiceNervousSystemManagement' : IDL.Null,
+    'ApiBoundaryNodeManagement' : IDL.Null,
+    'ApplicationCanisterManagement' : IDL.Null,
+    'SubnetRental' : IDL.Null,
+    'NeuronManagement' : IDL.Null,
+    'NodeProviderRewards' : IDL.Null,
+    'SubnetManagement' : IDL.Null,
+    'ExchangeRate' : IDL.Null,
+    'CatchAll' : IDL.Null,
+    'NodeAdmin' : IDL.Null,
+    'IcOsVersionElection' : IDL.Null,
+    'ProtocolCanisterManagement' : IDL.Null,
+    'NetworkEconomics' : IDL.Null,
+    'IcOsVersionDeployment' : IDL.Null,
+    'ParticipantManagement' : IDL.Null,
+    'Governance' : IDL.Null,
+    'SnsAndCommunityFund' : IDL.Null,
+  });
   const KnownNeuronData = IDL.Record({
     'name' : IDL.Text,
+    'committed_topics' : IDL.Opt(IDL.Vec(IDL.Opt(TopicToFollow))),
     'description' : IDL.Opt(IDL.Text),
     'links' : IDL.Opt(IDL.Vec(IDL.Text)),
   });

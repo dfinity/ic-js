@@ -2,7 +2,6 @@ import type {
   AccountIdentifier as AccountIdentifierClass,
   AccountIdentifierHex,
 } from "@dfinity/ledger-icp";
-import { Principal } from "@dfinity/principal";
 import {
   arrayBufferToUint8Array,
   isNullish,
@@ -10,6 +9,7 @@ import {
   toNullable,
   type Nullable,
 } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 import type {
   Amount,
   ListProposalInfo,
@@ -594,6 +594,7 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
                 ? [knownNeuron.description]
                 : [],
             links: toNullable(knownNeuron.links),
+            committed_topics: toNullable(knownNeuron.committed_topics),
           },
         ],
       },

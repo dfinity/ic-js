@@ -1,8 +1,8 @@
 // Date represents the date of the issue with the test vectors sent to Zondax:
 // https://github.com/Zondax/ledger-icp/issues/161
 // We'll keep each script for reproducibility.
-import { IDL } from "@dfinity/candid";
-import { Principal } from "@dfinity/principal";
+import { IDL } from "@icp-sdk/core/candid";
+import { Principal } from "@icp-sdk/core/principal";
 import { NeuronId as PbNeuronId } from "../../proto/base_types_pb";
 import {
   ListNeurons as PbListNeurons,

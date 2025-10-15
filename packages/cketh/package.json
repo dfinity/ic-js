@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/cketh",
-  "version": "4.0.4",
+  "version": "4.0.6",
   "description": "A library for interfacing with ckETH.",
   "license": "Apache-2.0",
   "type": "module",
@@ -51,9 +51,7 @@
   ],
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "peerDependencies": {
-    "@dfinity/agent": "^3",
-    "@dfinity/candid": "^3",
-    "@dfinity/principal": "^3",
-    "@dfinity/utils": "^3"
+    "@dfinity/utils": "^3",
+    "@icp-sdk/core": "^4"
   }
 }
