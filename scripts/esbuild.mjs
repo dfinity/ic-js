@@ -54,6 +54,7 @@ const entryPoints = readdirSync(join(process.cwd(), "src"))
   .filter(
     (file) =>
       !file.includes("test") &&
+      !file.includes("test.utils") &&
       !file.includes("spec") &&
       !file.includes("mock") &&
       !file.endsWith(".swp") &&

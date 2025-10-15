@@ -12,6 +12,11 @@
       "types": "./index.d.ts",
       "import": "./index.js",
       "require": "./index.mjs"
+    },
+    "./ckbtc": {
+      "types": "./ckbtc.d.ts",
+      "import": "./ckbtc.js",
+      "require": "./ckbtc.mjs"
     }
   },
   "files": [
@@ -30,6 +35,7 @@
     "ts-declaration": "tsc --emitDeclarationOnly -outDir .",
     "build": "npm run clean && tsc --noEmit && node esbuild.mjs && npm run ts-declaration",
     "prepack": "npm run build",
+    "pretest": "npm run build",
     "test": "vitest"
   },
   "repository": {
@@ -56,5 +62,8 @@
     "nns",
     "sns"
   ],
-  "homepage": "https://github.com/dfinity/ic-js#readme"
+  "homepage": "https://github.com/dfinity/ic-js#readme",
+  "peerDependencies": {
+    "@dfinity/ckbtc": "4.0.6"
+  }
 }
