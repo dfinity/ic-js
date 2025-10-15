@@ -28,6 +28,10 @@ const commonPeerDependencies = rootPeerDependencies();
 const workspacePeerDependencies = peerDependencies(
   join(process.cwd(), "package.json"),
 );
+const externalPeerDependencies = [
+  ...Object.keys(commonPeerDependencies),
+  ...Object.keys(workspacePeerDependencies),
+];
 
 const dist = join(process.cwd(), "dist");
 
@@ -37,22 +41,22 @@ const createDistFolder = () => {
   }
 };
 
-const buildEsmCjs = () => {
-  const entryPoints = readdirSync(join(process.cwd(), "src"))
-    .filter(
-      (file) =>
-        !file.includes("test") &&
-        !file.includes("spec") &&
-        !file.endsWith(".swp") &&
-        statSync(join(process.cwd(), "src", file)).isFile(),
-    )
-    .map((file) => `src/${file}`);
+const entryPoints = readdirSync(join(process.cwd(), "src"))
+  .filter(
+    (file) =>
+      !file.includes("test") &&
+      !file.includes("spec") &&
+      !file.includes("mock") &&
+      !file.endsWith(".swp") &&
+      statSync(join(process.cwd(), "src", file)).isFile(),
+  )
+  .map((file) => `src/${file}`);
 
-  // esm output bundles with code splitting
+const buildBrowser = () => {
   esbuild
     .build({
       entryPoints,
-      outdir: "dist/esm",
+      outdir: join(dist, "browser"),
       bundle: true,
       sourcemap: true,
       minify: true,
@@ -62,44 +66,40 @@ const buildEsmCjs = () => {
       target: ["esnext"],
       platform: "browser",
       conditions: ["worker", "browser"],
-      external: [
-        ...Object.keys(commonPeerDependencies),
-        ...Object.keys(workspacePeerDependencies),
-      ],
+      external: externalPeerDependencies
     })
     .catch(() => process.exit(1));
+};
 
-  // cjs output bundle
+const buildNode = () => {
   esbuild
     .build({
       entryPoints: ["src/index.ts"],
-      outfile: "dist/cjs/index.cjs.js",
+      outfile: join(dist, "node", "index.mjs"),
       bundle: true,
       sourcemap: true,
       minify: true,
+      format: "esm",
       platform: "node",
-      target: ["node16"],
-      external: [
-        ...Object.keys(commonPeerDependencies),
-        ...Object.keys(workspacePeerDependencies),
-      ],
+      target: ["node20", "esnext"],
+      banner: {
+        js: "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);"
+      },
+      external: externalPeerDependencies
     })
     .catch(() => process.exit(1));
 };
 
 const writeEntries = () => {
-  // an entry file for cjs at the root of the bundle
-  writeFileSync(join(dist, "index.js"), "export * from './esm/index.js';");
-
-  // an entry file for esm at the root of the bundle
-  writeFileSync(
-    join(dist, "index.cjs.js"),
-    "module.exports = require('./cjs/index.cjs.js');",
-  );
+  // an entry for the browser as default
+  writeFileSync(join(dist, "index.js"), "export * from './browser/index.js';");
 };
 
 export const build = () => {
   createDistFolder();
-  buildEsmCjs();
+
+  buildBrowser();
+  buildNode();
+
   writeEntries();
 };
