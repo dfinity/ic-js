@@ -1,0 +1,60 @@
+{
+  "name": "@icp-sdk/canisters",
+  "version": "1.0.0",
+  "description": "A modular library for interacting with canisters on the Internet Computer.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./index.mjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "**/*.js",
+    "**/*.js.map",
+    "**/*.mjs",
+    "**/*.mjs.map",
+    "**/*.d.ts",
+    "**/*.d.ts.map"
+  ],
+  "scripts": {
+    "clean": "git ls-files --others --ignored --exclude-standard | grep -v \"LICENSE\" | xargs rm -rf",
+    "ts-declaration": "tsc --emitDeclarationOnly -outDir .",
+    "build": "npm run clean && tsc --noEmit && node esbuild.mjs && npm run ts-declaration",
+    "prepack": "npm run build",
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfinity/ic-js.git",
+    "directory": "packages/canisters"
+  },
+  "bugs": {
+    "url": "https://github.com/dfinity/ic-js"
+  },
+  "keywords": [
+    "internet computer",
+    "icp",
+    "icrc",
+    "dfinity",
+    "canister",
+    "token",
+    "ledger",
+    "ckbtc",
+    "bitcoin",
+    "cketh",
+    "ethereum",
+    "minter",
+    "nns",
+    "sns"
+  ],
+  "homepage": "https://github.com/dfinity/ic-js#readme"
+}

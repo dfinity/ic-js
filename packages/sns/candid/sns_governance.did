@@ -1,4 +1,4 @@
-// Generated from IC repo commit 206b61a (2025-09-25 tags: release-2025-09-25_09-52-base) 'rs/sns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit c211885f7c (2025-10-09) 'rs/sns/governance/canister/governance.did' by import-candid
 
 type Account = record {
   owner : opt principal;
@@ -290,7 +290,7 @@ type TreasuryMetrics = record {
 };
 
 type VotingPowerMetrics = record {
-  governance_total_potential_voting_power : opt nat64; 
+  governance_total_potential_voting_power : opt nat64;
 
   // When the metrics were last updated.
   timestamp_seconds : opt nat64;

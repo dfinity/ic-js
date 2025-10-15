@@ -1345,6 +1345,7 @@ export const toKnownNeuron = ({
   name: known_neuron_data[0]?.name ?? "",
   description: known_neuron_data[0]?.description[0] ?? "",
   links: fromNullable(known_neuron_data[0]?.links ?? []),
+  committed_topics: fromNullable(known_neuron_data[0]?.committed_topics ?? []),
 });
 
 const toPercentage = (

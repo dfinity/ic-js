@@ -3,6 +3,7 @@ export type {
   Allowance as IcrcAllowance,
   ApproveError as IcrcApproveError,
   BlockIndex as IcrcBlockIndex,
+  Account as IcrcCandidAccount,
   GetBlocksArgs as IcrcGetBlocksArgs,
   GetBlocksResult as IcrcGetBlocksResult,
   StandardRecord as IcrcStandardRecord,
@@ -14,6 +15,7 @@ export type {
   TransferError as IcrcTransferVariantError,
   Value as IcrcValue,
 } from "../candid/icrc_ledger";
+export * from "./converters/converters";
 export * from "./converters/ledger.converters";
 export * from "./errors/index.errors";
 export * from "./errors/ledger.errors";

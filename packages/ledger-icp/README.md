@@ -24,7 +24,7 @@ npm i @dfinity/ledger-icp
 The bundle needs peer dependencies, be sure that following resources are available in your project as well.
 
 ```bash
-npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
+npm i @icp-sdk/core @dfinity/utils
 ```
 
 ## Usage
@@ -71,7 +71,7 @@ References:
 - [https://internetcomputer.org/docs/defi/token-ledgers/setup/icp_ledger_setup](https://internetcomputer.org/docs/defi/token-ledgers/setup/icp_ledger_setup)
 - [https://internetcomputer.org/docs/references/ledger#\_operations_transactions_blocks_transaction_ledger](https://internetcomputer.org/docs/references/ledger#_operations_transactions_blocks_transaction_ledger)
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L22)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L23)
 
 #### Static Methods
 
@@ -95,7 +95,7 @@ Returns:
 
 An instance of `AccountIdentifier`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L33)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L34)
 
 ##### :gear: fromPrincipal
 
@@ -118,7 +118,7 @@ Returns:
 
 An instance of `AccountIdentifier`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L67)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L68)
 
 #### Methods
 
@@ -140,7 +140,7 @@ Returns:
 
 Hex representation (64-character string).
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L99)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L100)
 
 ##### :gear: toUint8Array
 
@@ -154,7 +154,7 @@ Returns:
 
 The raw bytes of the account identifier.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L108)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L109)
 
 ##### :gear: toNumbers
 
@@ -168,7 +168,7 @@ Returns:
 
 An array of byte values.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L117)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L118)
 
 ##### :gear: toAccountIdentifierHash
 
@@ -182,7 +182,7 @@ Returns:
 
 `{ hash: Uint8Array }` where `hash` is the raw 32-byte `Uint8Array`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L126)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L127)
 
 ### :factory: SubAccount
 
@@ -193,7 +193,7 @@ References:
 
 - [https://internetcomputer.org/docs/references/ledger#\_accounts](https://internetcomputer.org/docs/references/ledger#_accounts)
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L139)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L140)
 
 #### Static Methods
 
@@ -217,7 +217,7 @@ Returns:
 
 A `SubAccount` instance.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L149)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L150)
 
 ##### :gear: fromPrincipal
 
@@ -237,7 +237,7 @@ Returns:
 
 A `SubAccount` instance.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L165)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L166)
 
 ##### :gear: fromID
 
@@ -258,7 +258,7 @@ Returns:
 
 A `SubAccount` instance.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L188)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L189)
 
 #### Methods
 
@@ -276,7 +276,7 @@ Returns:
 
 A 32-byte array.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L217)
+[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L218)
 
 ### :factory: LedgerCanister
 

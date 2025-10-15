@@ -214,7 +214,12 @@ describe("GovernanceCanister", () => {
           {
             id: [{ id: BigInt(100) }],
             known_neuron_data: [
-              { name: "aaa", description: ["xyz"], links: [["test.com"]] },
+              {
+                name: "aaa",
+                description: ["xyz"],
+                links: [["test.com"]],
+                committed_topics: [[[{ CatchAll: null }]]],
+              },
             ],
           },
         ],
@@ -232,15 +237,18 @@ describe("GovernanceCanister", () => {
         name: "aaa",
         description: "xyz",
         links: ["test.com"],
+        committed_topics: [[{ CatchAll: null }]],
       });
     });
 
-    it("handles description and links being undefined", async () => {
+    it("handles fields being undefined", async () => {
       const response: ListKnownNeuronsResponse = {
         known_neurons: [
           {
             id: [{ id: BigInt(100) }],
-            known_neuron_data: [{ name: "aaa", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "aaa", description: [], links: [], committed_topics: [] },
+            ],
           },
         ],
       };
@@ -257,6 +265,7 @@ describe("GovernanceCanister", () => {
         name: "aaa",
         description: undefined,
         links: undefined,
+        committed_topics: undefined,
       });
     });
 
@@ -265,19 +274,27 @@ describe("GovernanceCanister", () => {
         known_neurons: [
           {
             id: [{ id: BigInt(100) }],
-            known_neuron_data: [{ name: "aaa", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "aaa", description: [], links: [], committed_topics: [] },
+            ],
           },
           {
             id: [{ id: BigInt(200) }],
-            known_neuron_data: [{ name: "bbb", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "bbb", description: [], links: [], committed_topics: [] },
+            ],
           },
           {
             id: [{ id: BigInt(300) }],
-            known_neuron_data: [{ name: "ccc", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "ccc", description: [], links: [], committed_topics: [] },
+            ],
           },
           {
             id: [{ id: BigInt(400) }],
-            known_neuron_data: [{ name: "ddd", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "ddd", description: [], links: [], committed_topics: [] },
+            ],
           },
         ],
       };
@@ -2413,6 +2430,53 @@ describe("GovernanceCanister", () => {
             DisburseMaturity: {
               percentage_to_disburse: 25,
               to_account: [],
+              to_account_identifier: [],
+            },
+          },
+        ],
+        id: [
+          {
+            id: 10n,
+          },
+        ],
+        neuron_id_or_subaccount: [],
+      });
+    });
+
+    it("disburses maturity to account", async () => {
+      const neuronId = BigInt(10);
+      const percentageToDisburse = 25;
+      const serviceResponse: ManageNeuronResponse = {
+        command: [{ DisburseMaturity: { amount_disbursed_e8s: [BigInt(25)] } }],
+      };
+      const service = mock<ActorSubclass<GovernanceService>>();
+      service.manage_neuron.mockResolvedValue(serviceResponse);
+
+      const governance = GovernanceCanister.create({
+        certifiedServiceOverride: service,
+      });
+      const owner = Principal.fromText("kb4lg-bqaaa-aaaab-qabfq-cai");
+      await governance.disburseMaturity({
+        neuronId,
+        percentageToDisburse,
+        toAccount: {
+          owner,
+          subaccount: undefined,
+        },
+      });
+
+      expect(service.manage_neuron).toHaveBeenCalledTimes(1);
+      expect(service.manage_neuron).toHaveBeenCalledWith({
+        command: [
+          {
+            DisburseMaturity: {
+              percentage_to_disburse: 25,
+              to_account: [
+                {
+                  owner: [owner],
+                  subaccount: [],
+                },
+              ],
               to_account_identifier: [],
             },
           },

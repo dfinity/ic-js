@@ -76,6 +76,13 @@ export interface canister_log_record {
   timestamp_nanos: bigint;
   content: Uint8Array | number[];
 }
+export interface canister_metadata_args {
+  name: string;
+  canister_id: canister_id;
+}
+export interface canister_metadata_result {
+  value: Uint8Array | number[];
+}
 export interface canister_settings {
   freezing_threshold: [] | [bigint];
   wasm_memory_threshold: [] | [bigint];
@@ -140,6 +147,7 @@ export type change_details =
       load_snapshot: {
         canister_version: bigint;
         source: { metadata_upload: any } | { taken_from_canister: any };
+        from_canister_id: [] | [Principal];
         taken_at_timestamp: bigint;
         snapshot_id: snapshot_id;
       };
@@ -221,6 +229,7 @@ export interface http_request_args {
     | []
     | [{ function: [Principal, string]; context: Uint8Array | number[] }];
   headers: Array<http_header>;
+  is_replicated: [] | [boolean];
 }
 export interface http_request_result {
   status: bigint;
@@ -486,7 +495,14 @@ export interface _SERVICE {
     [bitcoin_send_transaction_args],
     undefined
   >;
+  /**
+   * Public canister data
+   */
   canister_info: ActorMethod<[canister_info_args], canister_info_result>;
+  canister_metadata: ActorMethod<
+    [canister_metadata_args],
+    canister_metadata_result
+  >;
   canister_status: ActorMethod<[canister_status_args], canister_status_result>;
   clear_chunk_store: ActorMethod<[clear_chunk_store_args], undefined>;
   create_canister: ActorMethod<[create_canister_args], create_canister_result>;
