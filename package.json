@@ -14,7 +14,8 @@
     "packages/ckbtc",
     "packages/ic-management",
     "packages/cketh",
-    "packages/zod-schemas"
+    "packages/zod-schemas",
+    "packages/canisters"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
