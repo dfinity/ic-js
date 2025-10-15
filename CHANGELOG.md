@@ -1,3 +1,29 @@
+# v80
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@dfinity/ckbtc`         | v4.0.5  | Maintained ⚙ |
+| `@dfinity/cketh`         | v4.0.5  | Maintained ⚙ |
+| `@dfinity/cmc`           | v6.0.5  | Maintained ⚙ |
+| `@dfinity/ic-management` | v7.1.2  | Maintained ⚙ |
+| `@dfinity/ledger-icp`    | v6.1.1  | Maintained ⚙ |
+| `@dfinity/ledger-icrc`   | v4.1.1  | Maintained ⚙ |
+| `@dfinity/nns`           | v10.3.1 | Maintained ⚙ |
+| `@dfinity/nns-proto`     | v2.0.2  | Unchanged️    |
+| `@dfinity/sns`           | v4.1.1  | Maintained ⚙ |
+| `@dfinity/utils`         | v3.2.0  | Unchanged️    |
+| `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️    |
+
+## Features
+
+- Update latest Candid files.
+
+## Chore
+
+- Adapt script that generates DID files to support governance patches.
+
 # v79
 
 ## Overview
