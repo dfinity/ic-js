@@ -1,6 +1,5 @@
 import { HttpAgent } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import fetch from "node-fetch";
 import pkg from "../packages/nns/dist/index.cjs.js";
 const { GovernanceCanister } = pkg;
 

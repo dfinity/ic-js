@@ -1,5 +1,4 @@
 import { existsSync, readFileSync, writeFileSync } from "fs";
-import fetch from "node-fetch";
 import { join } from "path";
 
 // The project - name of the library in the workspace - and suffix we use to publish to npm as wip version
