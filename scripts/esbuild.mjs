@@ -24,10 +24,23 @@ const rootPeerDependencies = () => {
   return peerDependencies(packageJson);
 };
 
-const commonPeerDependencies = rootPeerDependencies();
+// TODO: To be removed once all imports have been migrated to `@icp-sdk/core/...`
+const agentJsPeerDependencies = {
+  "@dfinity/agent": "^3",
+  "@dfinity/candid": "^3",
+  "@dfinity/principal": "^3",
+};
+const commonPeerDependencies = {
+  ...rootPeerDependencies(),
+  ...agentJsPeerDependencies,
+};
 const workspacePeerDependencies = peerDependencies(
   join(process.cwd(), "package.json"),
 );
+const externalPeerDependencies = [
+  ...Object.keys(commonPeerDependencies),
+  ...Object.keys(workspacePeerDependencies),
+];
 
 const dist = join(process.cwd(), "dist");
 
@@ -37,22 +50,22 @@ const createDistFolder = () => {
   }
 };
 
-const buildEsmCjs = () => {
-  const entryPoints = readdirSync(join(process.cwd(), "src"))
-    .filter(
-      (file) =>
-        !file.includes("test") &&
-        !file.includes("spec") &&
-        !file.endsWith(".swp") &&
-        statSync(join(process.cwd(), "src", file)).isFile(),
-    )
-    .map((file) => `src/${file}`);
+const entryPoints = readdirSync(join(process.cwd(), "src"))
+  .filter(
+    (file) =>
+      !file.includes("test") &&
+      !file.includes("spec") &&
+      !file.includes("mock") &&
+      !file.endsWith(".swp") &&
+      statSync(join(process.cwd(), "src", file)).isFile(),
+  )
+  .map((file) => `src/${file}`);
 
-  // esm output bundles with code splitting
+const buildBrowser = ({ multi } = { multi: false }) => {
   esbuild
     .build({
       entryPoints,
-      outdir: "dist/esm",
+      outdir: multi === true ? process.cwd() : join(dist, "browser"),
       bundle: true,
       sourcemap: true,
       minify: true,
@@ -62,44 +75,80 @@ const buildEsmCjs = () => {
       target: ["esnext"],
       platform: "browser",
       conditions: ["worker", "browser"],
-      external: [
-        ...Object.keys(commonPeerDependencies),
-        ...Object.keys(workspacePeerDependencies),
-      ],
-    })
-    .catch(() => process.exit(1));
-
-  // cjs output bundle
-  esbuild
-    .build({
-      entryPoints: ["src/index.ts"],
-      outfile: "dist/cjs/index.cjs.js",
-      bundle: true,
-      sourcemap: true,
-      minify: true,
-      platform: "node",
-      target: ["node16"],
-      external: [
-        ...Object.keys(commonPeerDependencies),
-        ...Object.keys(workspacePeerDependencies),
-      ],
+      external: externalPeerDependencies,
     })
     .catch(() => process.exit(1));
 };
 
-const writeEntries = () => {
-  // an entry file for cjs at the root of the bundle
-  writeFileSync(join(dist, "index.js"), "export * from './esm/index.js';");
+const buildNode = ({ multi, format }) => {
+  esbuild
+    .build({
+      ...(multi === true
+        ? {
+            entryPoints,
+            outdir: process.cwd(),
+            outExtension: { ".js": ".mjs" },
+          }
+        : {
+            entryPoints: ["src/index.ts"],
+            outfile: join(dist, "node", "index.mjs"),
+          }),
+      bundle: true,
+      sourcemap: true,
+      minify: true,
+      ...(format === "esm" && {
+        format,
+        banner: {
+          js: "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);",
+        },
+      }),
+      platform: "node",
+      target: ["node20", "esnext"],
+      external: externalPeerDependencies,
+    })
+    .catch(() => process.exit(1));
+};
 
-  // an entry file for esm at the root of the bundle
+const writeBrowserRootEntry = () => {
+  // an entry for the browser as default
+  writeFileSync(join(dist, "index.js"), "export * from './browser/index.js';");
+};
+
+const writeNodeCjsRootEntry = () => {
   writeFileSync(
     join(dist, "index.cjs.js"),
     "module.exports = require('./cjs/index.cjs.js');",
   );
 };
 
-export const build = () => {
+/**
+ * Build the libraries for the browser and Node.
+ * @param multi True to generate a subpath-only import library
+ * @param nodeFormat Output format for NodeJS bundle: esm (default) or cjs
+ */
+export const build = (
+  { multi, nodeFormat } = { multi: false, nodeFormat: "esm" },
+) => {
+  if (multi === undefined) {
+    console.error("Missing parameter 'multi'");
+    process.exit(1);
+  }
+
+  if (nodeFormat === undefined) {
+    console.error("Missing parameter 'nodeFormat'");
+    process.exit(1);
+  }
+
   createDistFolder();
-  buildEsmCjs();
-  writeEntries();
+
+  buildBrowser({ multi });
+  buildNode({ format: nodeFormat, multi });
+
+  if (!multi) {
+    writeBrowserRootEntry();
+  }
+
+  if (nodeFormat === "cjs") {
+    writeNodeCjsRootEntry();
+  }
 };

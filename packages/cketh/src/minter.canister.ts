@@ -1,4 +1,3 @@
-import type { Subaccount } from "@dfinity/ledger-icrc/candid/icrc_ledger";
 import type { Principal } from "@dfinity/principal";
 import {
   Canister,
@@ -13,6 +12,7 @@ import type {
   RetrieveErc20Request,
   RetrieveEthRequest,
   RetrieveEthStatus,
+  Subaccount,
 } from "../candid/minter";
 import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
 import { idlFactory } from "../candid/minter.idl";
