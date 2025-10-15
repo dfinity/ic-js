@@ -5,6 +5,7 @@ export type {
   RetrieveErc20Request,
   RetrieveEthRequest,
   RetrieveEthStatus,
+  Subaccount,
   TxFinalizedStatus,
 } from "../candid/minter";
 export type {
