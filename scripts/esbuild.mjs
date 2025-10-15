@@ -103,6 +103,10 @@ const writeEntries = () => {
   writeFileSync(join(dist, "index.js"), "export * from './browser/index.js';");
 };
 
+/**
+ * Build the libraries for the browser and Node.
+ * @param multi True to generate a subpath-only import library.
+ */
 export const build = ({ multi } = { multi: false }) => {
   createDistFolder();
 

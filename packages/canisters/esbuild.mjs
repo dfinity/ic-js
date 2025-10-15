@@ -2,4 +2,4 @@
 
 import { build } from "../../scripts/esbuild.mjs";
 
-build();
+build({multi: true});
