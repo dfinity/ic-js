@@ -21,7 +21,7 @@ npm i @dfinity/nns
 The bundle needs peer dependencies, be sure that following resources are available in your project as well.
 
 ```bash
-npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
+npm i @icp-sdk/core @dfinity/utils
 ```
 
 ## Usage
@@ -49,7 +49,7 @@ To execute this on a local environment, you will need to fetch the root key when
 
 ```typescript
 import { GovernanceCanister } from "@dfinity/nns";
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({

@@ -60,7 +60,7 @@
     "service-nervous-system"
   ],
   "peerDependencies": {
-    "@dfinity/principal": "*",
+    "@icp-sdk/core": "*",
     "zod": "^4"
   }
 }

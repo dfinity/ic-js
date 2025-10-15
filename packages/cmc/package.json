@@ -49,9 +49,7 @@
   ],
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "peerDependencies": {
-    "@dfinity/agent": "^3",
-    "@dfinity/candid": "^3",
-    "@dfinity/principal": "^3",
-    "@dfinity/utils": "^3"
+    "@dfinity/utils": "^3",
+    "@icp-sdk/core": "^4"
   }
 }
