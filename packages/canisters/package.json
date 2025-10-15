@@ -3,25 +3,27 @@
   "version": "1.0.0",
   "description": "A modular library for interacting with canisters on the Internet Computer.",
   "license": "Apache-2.0",
-  "main": "./dist/node/index.mjs",
-  "module": "./dist/browser/index.js",
-  "types": "./dist/types/index.d.ts",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "require": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/node/index.mjs"
-      }
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./index.mjs"
     }
   },
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "**/*.js",
+    "**/*.js.map",
+    "**/*.mjs",
+    "**/*.mjs.map",
+    "**/*.d.ts",
+    "**/*.d.ts.map"
   ],
   "scripts": {
     "rmdir": "node ../../scripts/rmdir.mjs",
