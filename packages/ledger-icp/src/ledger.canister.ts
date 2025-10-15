@@ -1,5 +1,5 @@
-import type { Principal } from "@dfinity/principal";
 import { Canister, createServices, type QueryParams } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   Icrc1BlockIndex,
   _SERVICE as LedgerService,

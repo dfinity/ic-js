@@ -1,4 +1,4 @@
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 import type { ListSnsCanistersResponse } from "../../candid/sns_root";
 import type { Ticket } from "../../candid/sns_swap";
 

@@ -1,4 +1,4 @@
-import type { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type { _SERVICE as GovernanceService } from "../candid/governance_test";
 import { toNeuron } from "./canisters/governance/response.converters";
