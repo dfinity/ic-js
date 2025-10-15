@@ -37,22 +37,22 @@ const createDistFolder = () => {
   }
 };
 
-const buildEsmCjs = () => {
-  const entryPoints = readdirSync(join(process.cwd(), "src"))
-    .filter(
-      (file) =>
-        !file.includes("test") &&
-        !file.includes("spec") &&
-        !file.endsWith(".swp") &&
-        statSync(join(process.cwd(), "src", file)).isFile(),
-    )
-    .map((file) => `src/${file}`);
+const entryPoints = readdirSync(join(process.cwd(), "src"))
+  .filter(
+    (file) =>
+      !file.includes("test") &&
+      !file.includes("spec") &&
+      !file.includes("mock") &&
+      !file.endsWith(".swp") &&
+      statSync(join(process.cwd(), "src", file)).isFile(),
+  )
+  .map((file) => `src/${file}`);
 
-  // esm output bundles with code splitting
+const buildBrowser = ({ multi } = { multi: false }) => {
   esbuild
     .build({
       entryPoints,
-      outdir: "dist/esm",
+      outdir: multi === true ? process.cwd() : join(dist, "browser"),
       bundle: true,
       sourcemap: true,
       minify: true,
@@ -68,17 +68,27 @@ const buildEsmCjs = () => {
       ],
     })
     .catch(() => process.exit(1));
+};
 
-  // cjs output bundle
+const buildNode = ({ multi } = { multi: false }) => {
   esbuild
     .build({
-      entryPoints: ["src/index.ts"],
-      outfile: "dist/cjs/index.cjs.js",
+      ...(multi === true
+        ? {
+            entryPoints,
+            outdir: process.cwd(),
+            outExtension: { ".js": ".mjs" },
+          }
+        : {
+            entryPoints: ["src/index.ts"],
+            outfile: join(dist, "node", "index.mjs"),
+          }),
       bundle: true,
       sourcemap: true,
       minify: true,
+      format: "esm",
       platform: "node",
-      target: ["node16"],
+      target: ["node20", "esnext"],
       external: [
         ...Object.keys(commonPeerDependencies),
         ...Object.keys(workspacePeerDependencies),
@@ -88,18 +98,17 @@ const buildEsmCjs = () => {
 };
 
 const writeEntries = () => {
-  // an entry file for cjs at the root of the bundle
-  writeFileSync(join(dist, "index.js"), "export * from './esm/index.js';");
-
-  // an entry file for esm at the root of the bundle
-  writeFileSync(
-    join(dist, "index.cjs.js"),
-    "module.exports = require('./cjs/index.cjs.js');",
-  );
+  // an entry for the browser as default
+  writeFileSync(join(dist, "index.js"), "export * from './browser/index.js';");
 };
 
-export const build = () => {
+export const build = ({ multi } = { multi: false }) => {
   createDistFolder();
-  buildEsmCjs();
-  writeEntries();
+
+  buildBrowser({ multi });
+  buildNode({ multi });
+
+  if (!multi) {
+    writeEntries();
+  }
 };
