@@ -71,7 +71,7 @@ const buildBrowser = ({ multi } = { multi: false }) => {
     .catch(() => process.exit(1));
 };
 
-const buildNode = ({ multi } = { multi: false }) => {
+const buildNode = ({ multi, format }) => {
   esbuild
     .build({
       ...(multi === true
@@ -87,33 +87,59 @@ const buildNode = ({ multi } = { multi: false }) => {
       bundle: true,
       sourcemap: true,
       minify: true,
-      format: "esm",
+      ...(format === "esm" && {
+        format,
+        banner: {
+          js: "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);",
+        },
+      }),
       platform: "node",
       target: ["node20", "esnext"],
-      banner: {
-        js: "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);",
-      },
       external: externalPeerDependencies,
     })
     .catch(() => process.exit(1));
 };
 
-const writeEntries = () => {
+const writeBrowserRootEntry = () => {
   // an entry for the browser as default
   writeFileSync(join(dist, "index.js"), "export * from './browser/index.js';");
 };
 
+const writeNodeCjsRootEntry = () => {
+  writeFileSync(
+    join(dist, "index.cjs.js"),
+    "module.exports = require('./cjs/index.cjs.js');",
+  );
+};
+
 /**
  * Build the libraries for the browser and Node.
- * @param multi True to generate a subpath-only import library.
+ * @param multi True to generate a subpath-only import library
+ * @param nodeFormat Output format for NodeJS bundle: esm (default) or cjs
  */
-export const build = ({ multi } = { multi: false }) => {
+export const build = (
+  { multi, nodeFormat } = { multi: false, nodeFormat: "esm" },
+) => {
+  if (multi === undefined) {
+    console.error("Missing parameter 'multi'");
+    process.exit(1);
+  }
+
+  if (nodeFormat === undefined) {
+    console.error("Missing parameter 'nodeFormat'");
+    process.exit(1);
+  }
+
   createDistFolder();
 
   buildBrowser({ multi });
-  buildNode({ multi });
+  buildNode({ format: nodeFormat, multi });
 
   if (!multi) {
-    writeEntries();
+    writeBrowserRootEntry();
+  }
+
+  if (nodeFormat === "cjs") {
+    writeNodeCjsRootEntry();
   }
 };
