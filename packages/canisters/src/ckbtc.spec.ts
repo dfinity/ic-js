@@ -1,6 +1,5 @@
-import * as source from "@dfinity/ckbtc";
-import * as reexport from "./ckbtc";
 import { BitcoinCanister, CkBTCMinterCanister } from "./ckbtc";
+import { shouldReExportAllMembers } from "./utils/test.utils";
 
 describe("@icp-sdk/ckbtc", () => {
   it("should re-export CkBTCMinterCanister", () => {
@@ -11,15 +10,8 @@ describe("@icp-sdk/ckbtc", () => {
     expect(BitcoinCanister).not.toBeUndefined();
   });
 
-  it("should re-export all members", () => {
-    const sourceKeys = Object.keys(source);
-    const reexportKeys = Object.keys(reexport);
-
-    expect(reexportKeys).toHaveLength(sourceKeys.length);
-
-    for (const key of Object.keys(source)) {
-      expect(reexport).toHaveProperty(key);
-      expect(reexport[key]).toBe(source[key]);
-    }
+  shouldReExportAllMembers({
+    source: "@dfinity/ckbtc",
+    reexport: "@icp-sdk/canisters/ckbtc",
   });
 });
