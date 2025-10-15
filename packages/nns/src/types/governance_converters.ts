@@ -1,7 +1,7 @@
 import type { DerEncodedPublicKey } from "@dfinity/agent";
 import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
 import type { Principal } from "@dfinity/principal";
-import { TopicToFollow } from "../../candid/governance";
+import type { TopicToFollow } from "../../candid/governance";
 import type {
   CanisterAction,
   CanisterInstallMode,
