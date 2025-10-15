@@ -49,7 +49,6 @@
   "peerDependencies": {
     "@dfinity/ledger-icp": "^6",
     "@dfinity/utils": "^3",
-    "@icp-sdk/auth": "^4.0.0-beta.1",
-    "@icp-sdk/core": "^4.0.4"
+    "@icp-sdk/core": "^4"
   }
 }

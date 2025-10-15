@@ -47,7 +47,7 @@
     "service-nervous-system"
   ],
   "peerDependencies": {
-    "@icp-sdk/core": "^4.0.4",
+    "@icp-sdk/core": "^4",
     "zod": "^4"
   }
 }

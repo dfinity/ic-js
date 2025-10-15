@@ -39,8 +39,7 @@
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "peerDependencies": {
     "@dfinity/utils": "^3",
-    "@icp-sdk/auth": "^4.0.0-beta.1",
-    "@icp-sdk/core": "^4.0.4"
+    "@icp-sdk/core": "^4"
   },
   "dependencies": {
     "@noble/hashes": "^1.8.0",
