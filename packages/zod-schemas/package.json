@@ -3,6 +3,7 @@
   "version": "2.1.0",
   "description": "A collection of reusable Zod schemas and validators for common data patterns in ICP applications",
   "license": "Apache-2.0",
+  "type": "module",
   "main": "./dist/node/index.mjs",
   "module": "./dist/browser/index.js",
   "types": "./dist/types/index.d.ts",
