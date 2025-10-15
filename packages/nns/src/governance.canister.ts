@@ -304,6 +304,7 @@ export class GovernanceCanister {
         name: knownNeuronData?.name ?? "",
         description: fromNullable(knownNeuronData?.description ?? []),
         links: fromNullable(knownNeuronData?.links ?? []),
+        committed_topics: fromNullable(knownNeuronData?.committed_topics ?? []),
       };
     });
   };

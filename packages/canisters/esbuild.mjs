@@ -2,4 +2,4 @@
 
 import { build } from "../../scripts/esbuild.mjs";
 
-build({ multi: false, nodeFormat: "cjs" });
+build({ nodeFormat: "esm", multi: true });

@@ -594,6 +594,7 @@ const fromAction = (action: ProposalActionRequest): RawAction => {
                 ? [knownNeuron.description]
                 : [],
             links: toNullable(knownNeuron.links),
+            committed_topics: toNullable(knownNeuron.committed_topics),
           },
         ],
       },
