@@ -18,7 +18,7 @@
 
 ## Features
 
-- Map `committed_topics` in the `RegisterKnownNeuron` proposal action type.
+- Map `committed_topics` in the `RegisterKnownNeuron` proposal action type of `nns-js`.
 - Update latest Candid files.
 
 # v80
