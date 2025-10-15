@@ -28,6 +28,10 @@ const commonPeerDependencies = rootPeerDependencies();
 const workspacePeerDependencies = peerDependencies(
   join(process.cwd(), "package.json"),
 );
+const externalPeerDependencies = [
+  ...Object.keys(commonPeerDependencies),
+  ...Object.keys(workspacePeerDependencies),
+];
 
 const dist = join(process.cwd(), "dist");
 
@@ -62,10 +66,7 @@ const buildBrowser = ({ multi } = { multi: false }) => {
       target: ["esnext"],
       platform: "browser",
       conditions: ["worker", "browser"],
-      external: [
-        ...Object.keys(commonPeerDependencies),
-        ...Object.keys(workspacePeerDependencies),
-      ],
+      external: externalPeerDependencies
     })
     .catch(() => process.exit(1));
 };
@@ -89,10 +90,10 @@ const buildNode = ({ multi } = { multi: false }) => {
       format: "esm",
       platform: "node",
       target: ["node20", "esnext"],
-      external: [
-        ...Object.keys(commonPeerDependencies),
-        ...Object.keys(workspacePeerDependencies),
-      ],
+      banner: {
+        js: "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);"
+      },
+      external: externalPeerDependencies
     })
     .catch(() => process.exit(1));
 };
