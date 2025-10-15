@@ -80,13 +80,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install didc
-        run: |
-          mkdir -p .bin
-          curl -L https://github.com/dfinity/candid/releases/download/2025-10-02/didc-linux64 > .bin/didc
-          chmod +x .bin/didc
-      - name: Add didc to the PATH
-        run: echo "${PWD}/.bin" >> $GITHUB_PATH
       - name: Install ts dependencies
         run: npm ci --include=dev
       - name: Compile candid
