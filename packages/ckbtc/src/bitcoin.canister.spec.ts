@@ -1,5 +1,5 @@
-import type { ActorSubclass } from "@dfinity/agent";
 import type { CanisterOptions } from "@dfinity/utils";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type {
   _SERVICE as BitcoinService,
