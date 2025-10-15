@@ -6,6 +6,7 @@ export type {
   RetrieveEthRequest,
   RetrieveEthStatus,
   TxFinalizedStatus,
+  Subaccount,
 } from "../candid/minter";
 export type {
   CyclesManagement,
