@@ -44,8 +44,8 @@ Import the desired module directly from its entry point and refer to its individ
 | CKETH         | `@icp-sdk/canisters/cketh`         | [README](https://github.com/dfinity/ic-js/tree/main/packages/cketh)         |
 | CMC           | `@icp-sdk/canisters/cmc`           | [README](https://github.com/dfinity/ic-js/tree/main/packages/cmc)           |
 | IC Management | `@icp-sdk/canisters/ic-management` | [README](https://github.com/dfinity/ic-js/tree/main/packages/ic-management) |
-| Ledger ICP    | `@icp-sdk/canisters/ledger-icp`    | [README](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp)    |
-| Ledger ICRC   | `@icp-sdk/canisters/ledger-icrc`   | [README](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc)   |
+| Ledger ICP    | `@icp-sdk/canisters/ledger/icp`    | [README](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp)    |
+| Ledger ICRC   | `@icp-sdk/canisters/ledger/icrc`   | [README](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc)   |
 | NNS           | `@icp-sdk/canisters/nns`           | [README](https://github.com/dfinity/ic-js/tree/main/packages/nns)           |
 | SNS           | `@icp-sdk/canisters/sns`           | [README](https://github.com/dfinity/ic-js/tree/main/packages/sns)           |
 
@@ -54,7 +54,7 @@ Import the desired module directly from its entry point and refer to its individ
 Here's for example how to use the ICRC Ledger module through its sub-entry:
 
 ```typescript
-import { IcrcLedgerCanister } from "@icp-sdk/canisters/ledger-icrc";
+import { IcrcLedgerCanister } from "@icp-sdk/canisters/ledger/icrc";
 import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({
