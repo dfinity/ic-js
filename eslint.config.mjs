@@ -35,8 +35,6 @@ export default [
       "!packages/**/declarations/**/*.js",
       "!packages/**/declarations/**/*.mjs",
       "!packages/**/declarations/**/*.d.ts",
-
-      "!packages/**/global.d.ts",
     ],
   },
 ];
