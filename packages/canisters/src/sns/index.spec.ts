@@ -1,3 +1,4 @@
+import { shouldReExportAllMembers } from "../utils/test.utils";
 import {
   initSnsWrapper,
   SnsGovernanceCanister,
@@ -6,7 +7,6 @@ import {
   SnsSwapCanister,
   SnsWrapper,
 } from "./index";
-import { shouldReExportAllMembers } from "../utils/test.utils";
 
 describe("@icp-sdk/sns", () => {
   it("should re-export SnsGovernanceCanister", () => {

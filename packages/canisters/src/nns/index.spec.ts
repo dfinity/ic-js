@@ -1,10 +1,10 @@
+import { shouldReExportAllMembers } from "../utils/test.utils";
 import {
   GenesisTokenCanister,
   GovernanceCanister,
   GovernanceTestCanister,
   SnsWasmCanister,
 } from "./index";
-import { shouldReExportAllMembers } from "../utils/test.utils";
 
 describe("@icp-sdk/nns", () => {
   it("should re-export GovernanceCanister", () => {
