@@ -17,6 +17,11 @@
       "types": "./ckbtc.d.ts",
       "import": "./ckbtc.js",
       "require": "./ckbtc.mjs"
+    },
+    "./sns": {
+      "types": "./sns.d.ts",
+      "import": "./sns.js",
+      "require": "./sns.mjs"
     }
   },
   "files": [
@@ -64,6 +69,7 @@
   ],
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "peerDependencies": {
-    "@dfinity/ckbtc": "4.0.6"
+    "@dfinity/ckbtc": "4.0.6",
+    "@dfinity/sns": "4.1.2"
   }
 }
