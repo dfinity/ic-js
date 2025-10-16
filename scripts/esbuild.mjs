@@ -78,6 +78,7 @@ const buildNode = ({ multi, format }) => {
         ? {
             entryPoints,
             outdir: process.cwd(),
+            outExtension: { ".js": ".mjs" },
           }
         : {
             entryPoints: ["src/index.ts"],
