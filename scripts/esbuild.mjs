@@ -1,32 +1,32 @@
 import esbuild from "esbuild";
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  statSync,
-  writeFileSync,
-} from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
-const peerDependencies = (packageJson) => {
+/**
+ * Read the package.json of the package (library) to build.
+ */
+const pkgJson = (packageJson) => {
   const json = readFileSync(packageJson, "utf8");
-  const { peerDependencies } = JSON.parse(json);
-  return peerDependencies ?? {};
+  const { peerDependencies, exports } = JSON.parse(json);
+  return { peerDependencies: peerDependencies ?? {}, exports: exports ?? {} };
 };
 
-/** Root peerDependencies are common external dependencies for all libraries of the mono-repo */
+/**
+ * Root peerDependencies are common external dependencies for all libraries of the mono-repo
+ */
 const rootPeerDependencies = () => {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const packageJson = join(__dirname, "../package.json");
-  return peerDependencies(packageJson);
+  const { peerDependencies } = pkgJson(packageJson);
+  return peerDependencies;
 };
 
-const workspacePeerDependencies = peerDependencies(
-  join(process.cwd(), "package.json"),
-);
+const {
+  peerDependencies: workspacePeerDependencies,
+  exports: workspaceExports,
+} = pkgJson(join(process.cwd(), "package.json"));
 const externalPeerDependencies = [
   ...Object.keys(rootPeerDependencies()),
   ...Object.keys(workspacePeerDependencies),
@@ -40,23 +40,60 @@ const createDistFolder = () => {
   }
 };
 
-const entryPoints = readdirSync(join(process.cwd(), "src"))
-  .filter(
-    (file) =>
-      !file.includes("test") &&
-      !file.includes("test.utils") &&
-      !file.includes("spec") &&
-      !file.includes("mock") &&
-      !file.endsWith(".swp") &&
-      statSync(join(process.cwd(), "src", file)).isFile(),
-  )
-  .map((file) => `src/${file}`);
+/**
+ * When we build a subpaths-only library, we discover the files to build
+ * based on the exports of the package.json which is the field that rules what the consumer
+ * sees and what are the related bundled files.
+ *
+ * We assume that the name of the TypeScript source file to use to build the related
+ * JavaScript file are similar.
+ *
+ * @returns {string[]} Absolute paths to the source files to bundle.
+ */
+const multiPathsLibEntryPoints = () => {
+  const paths = Object.values(workspaceExports)
+    .filter(({ import: i }) => typeof i === "string")
+    .map(({ import: i }) => {
+      // trim leading ./ otherwise join() treat the . as a folder
+      // replace extension js from its corresponding ts file
+      const file = i.replace(/^\.\//, "").replace(/\.js$/, ".ts");
+      return join(process.cwd(), "src", file);
+    });
+
+  if (paths.length === 0) {
+    console.error("No source files to bundle.");
+    process.exit(1);
+  }
+
+  const unknownPaths = paths.filter((path) => !existsSync(path));
+
+  if (unknownPaths.length > 0) {
+    console.error(`Some source files are missing: ${unknownPaths.join(",")}`);
+    process.exit(1);
+  }
+
+  return paths;
+};
+
+/**
+ * For single entry library there is, well, a single entry which we always
+ * define as index.ts
+ * @type {string} The source file
+ */
+const singleLibEntryPoint = "src/index.ts";
 
 const buildBrowser = ({ multi } = { multi: false }) => {
   esbuild
     .build({
-      entryPoints,
-      outdir: multi === true ? process.cwd() : dist,
+      ...(multi === true
+        ? {
+            entryPoints: multiPathsLibEntryPoints(),
+            outdir: process.cwd(),
+          }
+        : {
+            entryPoints: [singleLibEntryPoint],
+            outdir: dist,
+          }),
       bundle: true,
       sourcemap: true,
       minify: true,
@@ -76,11 +113,11 @@ const buildNode = ({ multi, format }) => {
     .build({
       ...(multi === true
         ? {
-            entryPoints,
+            entryPoints: multiPathsLibEntryPoints(),
             outdir: process.cwd(),
           }
         : {
-            entryPoints: ["src/index.ts"],
+            entryPoints: [singleLibEntryPoint],
             outfile:
               format === "cjs"
                 ? join(dist, "cjs", "index.cjs.js")
@@ -127,7 +164,9 @@ export const build = (
     process.exit(1);
   }
 
-  createDistFolder();
+  if (!multi) {
+    createDistFolder();
+  }
 
   buildBrowser({ multi });
   buildNode({ format: nodeFormat, multi });

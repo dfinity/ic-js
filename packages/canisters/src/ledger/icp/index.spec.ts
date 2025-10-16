@@ -1,5 +1,5 @@
-import { AccountIdentifier, IndexCanister, LedgerCanister } from "./ledger-icp";
-import { shouldReExportAllMembers } from "./utils/test.utils";
+import { AccountIdentifier, IndexCanister, LedgerCanister } from "./index";
+import { shouldReExportAllMembers } from "../../utils/test.utils";
 
 describe("@icp-sdk/ledger-icp", () => {
   it("should re-export LedgerCanister", () => {

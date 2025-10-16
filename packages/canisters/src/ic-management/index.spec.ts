@@ -1,5 +1,5 @@
-import { ICManagementCanister } from "./ic-management";
-import { shouldReExportAllMembers } from "./utils/test.utils";
+import { ICManagementCanister } from "./index";
+import { shouldReExportAllMembers } from "../utils/test.utils";
 
 describe("@icp-sdk/ic-management", () => {
   it("should re-export ICManagementCanister", () => {
