@@ -27,6 +27,11 @@
       "types": "./cmc.d.ts",
       "import": "./cmc.js",
       "require": "./cmc.mjs"
+    },
+    "./ic-management": {
+      "types": "./ic-management.d.ts",
+      "import": "./ic-management.js",
+      "require": "./ic-management.mjs"
     }
   },
   "files": [
@@ -76,6 +81,7 @@
   "peerDependencies": {
     "@dfinity/ckbtc": "4.0.6",
     "@dfinity/cketh": "4.0.6",
-    "@dfinity/cmc": "6.0.6"
+    "@dfinity/cmc": "6.0.6",
+    "@dfinity/ic-management": "7.1.3"
   }
 }
