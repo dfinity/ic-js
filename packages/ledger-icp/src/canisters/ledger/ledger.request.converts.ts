@@ -9,7 +9,7 @@ import type {
   ApproveArgs as Icrc2ApproveRawRequest,
   Tokens,
   TransferArgs as TransferRawRequest,
-} from "../../../candid/ledger";
+} from "../../candid/ledger";
 import { TRANSACTION_FEE } from "../../constants/constants";
 import type {
   Icrc1TransferRequest,

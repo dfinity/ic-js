@@ -3,9 +3,9 @@ import type { Principal } from "@icp-sdk/core/principal";
 import type {
   GetTransactions,
   _SERVICE as IcrcIndexService,
-} from "../candid/icrc_index";
-import { idlFactory as certifiedIdlFactory } from "../candid/icrc_index.certified.idl";
-import { idlFactory } from "../candid/icrc_index.idl";
+} from "./candid/icrc_index";
+import { idlFactory as certifiedIdlFactory } from "./candid/icrc_index.certified.idl";
+import { idlFactory } from "./candid/icrc_index.idl";
 import { toGetTransactionsArgs } from "./converters/index.converters";
 import { IndexError } from "./errors/index.errors";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";

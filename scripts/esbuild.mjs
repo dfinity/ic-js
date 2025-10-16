@@ -56,7 +56,7 @@ const buildBrowser = ({ multi } = { multi: false }) => {
   esbuild
     .build({
       entryPoints,
-      outdir: multi === true ? process.cwd() : join(dist, "browser"),
+      outdir: multi === true ? process.cwd() : dist,
       bundle: true,
       sourcemap: true,
       minify: true,
@@ -78,11 +78,13 @@ const buildNode = ({ multi, format }) => {
         ? {
             entryPoints,
             outdir: process.cwd(),
-            outExtension: { ".js": ".mjs" },
           }
         : {
             entryPoints: ["src/index.ts"],
-            outfile: join(dist, "node", "index.mjs"),
+            outfile:
+              format === "cjs"
+                ? join(dist, "cjs", "index.cjs.js")
+                : join(dist, "index.mjs"),
           }),
       bundle: true,
       sourcemap: true,
@@ -100,15 +102,10 @@ const buildNode = ({ multi, format }) => {
     .catch(() => process.exit(1));
 };
 
-const writeBrowserRootEntry = () => {
-  // an entry for the browser as default
-  writeFileSync(join(dist, "index.js"), "export * from './browser/index.js';");
-};
-
 const writeNodeCjsRootEntry = () => {
   writeFileSync(
     join(dist, "index.cjs.js"),
-    "module.exports = require('./cjs/index.cjs.js');",
+    "module.exports = require('./cjs/index.js');",
   );
 };
 
@@ -134,10 +131,6 @@ export const build = (
 
   buildBrowser({ multi });
   buildNode({ format: nodeFormat, multi });
-
-  if (!multi) {
-    writeBrowserRootEntry();
-  }
 
   if (nodeFormat === "cjs") {
     writeNodeCjsRootEntry();

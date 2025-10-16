@@ -3,4 +3,4 @@ export type {
   Transaction as IcrcTransaction,
   TransactionWithId as IcrcTransactionWithId,
   TxId as IcrcTxId,
-} from "../../candid/icrc_index";
+} from "../candid/icrc_index";

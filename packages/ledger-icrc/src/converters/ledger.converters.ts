@@ -4,7 +4,7 @@ import type {
   icrc21_consent_message_request as ConsentMessageArgs,
   TransferArg,
   TransferFromArgs,
-} from "../../candid/icrc_ledger";
+} from "../candid/icrc_ledger";
 import type {
   ApproveParams,
   Icrc21ConsentMessageParams,

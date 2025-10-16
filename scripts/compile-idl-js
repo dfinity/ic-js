@@ -6,7 +6,7 @@ set -euo pipefail
 
 did_files_to_compile_for_pkg() {
   local pkg="$1"
-  local path=packages/${pkg}/candid
+  local path=packages/${pkg}/src/candid
 
   find ${path} -type f -name '*.did' |
     grep -vE ${path}/+payloads.did
@@ -86,7 +86,7 @@ generate_did() {
 generate_did_factory_ts() {
   local tsFactoryFile="$1"
 
-  echo "import type { IDL } from \"@dfinity/candid\";export const idlFactory: IDL.InterfaceFactory;" >"${tsFactoryFile}"
+  echo "import type { IDL } from \"@icp-core/sdk/candid\";export const idlFactory: IDL.InterfaceFactory;" >"${tsFactoryFile}"
 }
 
 # First generate default certified versions of normal did files.

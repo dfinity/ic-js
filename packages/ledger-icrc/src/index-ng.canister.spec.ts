@@ -8,7 +8,7 @@ import type {
   Status,
   SubAccount,
   Transaction,
-} from "../candid/icrc_index-ng";
+} from "./candid/icrc_index-ng";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexNgCanister } from "./index-ng.canister";
 import {

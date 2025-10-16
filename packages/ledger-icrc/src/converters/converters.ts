@@ -1,5 +1,5 @@
 import { fromNullable, nonNullish, toNullable } from "@dfinity/utils";
-import type { Account } from "../../candid/icrc_ledger";
+import type { Account } from "../candid/icrc_ledger";
 import type { IcrcAccount } from "../types/ledger.responses";
 
 /**

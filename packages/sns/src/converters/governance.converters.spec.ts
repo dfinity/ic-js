@@ -6,7 +6,7 @@ import type {
   ExtensionOperationArg as ExtensionOperationArgCandid,
   ExtensionUpgradeArg as ExtensionUpgradeArgCandid,
   Topic,
-} from "../../candid/sns_governance";
+} from "../candid/sns_governance";
 import { topicMock } from "../mocks/governance.mock";
 import type { Action } from "../types/actions";
 import { fromCandidAction } from "./governance.converters";

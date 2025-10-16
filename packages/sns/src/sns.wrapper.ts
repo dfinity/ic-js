@@ -24,7 +24,7 @@ import type {
   Neuron,
   NeuronId,
   ProposalData,
-} from "../candid/sns_governance";
+} from "./candid/sns_governance";
 import type {
   BuyerState,
   GetAutoFinalizationStatusResponse,
@@ -36,7 +36,7 @@ import type {
   RefreshBuyerTokensRequest,
   RefreshBuyerTokensResponse,
   Ticket,
-} from "../candid/sns_swap";
+} from "./candid/sns_swap";
 import { MAX_NEURONS_SUBACCOUNTS } from "./constants/governance.constants";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import type { SnsGovernanceCanister } from "./governance.canister";

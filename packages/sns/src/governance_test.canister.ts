@@ -8,9 +8,9 @@ import {
 import type {
   NeuronId,
   _SERVICE as SnsGovernanceTestService,
-} from "../candid/sns_governance_test";
-import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance_test.certified.idl";
-import { idlFactory } from "../candid/sns_governance_test.idl";
+} from "./candid/sns_governance_test";
+import { idlFactory as certifiedIdlFactory } from "./candid/sns_governance_test.certified.idl";
+import { idlFactory } from "./candid/sns_governance_test.idl";
 import { SnsGovernanceError } from "./errors/governance.errors";
 import type { SnsCanisterOptions } from "./types/canister.options";
 import type { SnsAddMaturityParams } from "./types/governance_test.params";

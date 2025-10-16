@@ -1,9 +1,9 @@
 import { Canister, toNullable } from "@dfinity/utils";
-import type { _SERVICE as IcrcIndexNgService } from "../candid/icrc_index-ng";
+import type { _SERVICE as IcrcIndexNgService } from "./candid/icrc_index-ng";
 import type {
   _SERVICE as IcrcLedgerService,
   Tokens,
-} from "../candid/icrc_ledger";
+} from "./candid/icrc_ledger";
 import type { BalanceParams } from "./types/ledger.params";
 
 export abstract class IcrcCanister<
