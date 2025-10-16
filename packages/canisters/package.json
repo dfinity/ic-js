@@ -34,14 +34,14 @@
       "require": "./ic-management.mjs"
     },
     "./ledger/icp": {
-      "types": "./ledger/icp.d.ts",
-      "import": "./ledger/icp.js",
-      "require": "./ledger/icp.mjs"
+      "types": "./ledger-icp.d.ts",
+      "import": "./ledger-icp.js",
+      "require": "./ledger-icp.mjs"
     },
     "./ledger/icrc": {
-      "types": "./ledger/icrc.d.ts",
-      "import": "./ledger/icrc.js",
-      "require": "./ledger/icrc.mjs"
+      "types": "./ledger-icrc.d.ts",
+      "import": "./ledger-icrc.js",
+      "require": "./ledger-icrc.mjs"
     },
     "./nns": {
       "types": "./nns.d.ts",
