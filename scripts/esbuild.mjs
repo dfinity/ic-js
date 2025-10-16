@@ -89,7 +89,6 @@ const buildBrowser = ({ multi } = { multi: false }) => {
         ? {
             entryPoints: multiPathsLibEntryPoints(),
             outdir: process.cwd(),
-            outExtension: { ".js": ".mjs" },
           }
         : {
             entryPoints: [singleLibEntryPoint],
@@ -116,6 +115,7 @@ const buildNode = ({ multi, format }) => {
         ? {
             entryPoints: multiPathsLibEntryPoints(),
             outdir: process.cwd(),
+            outExtension: { ".js": ".mjs" },
           }
         : {
             entryPoints: [singleLibEntryPoint],
