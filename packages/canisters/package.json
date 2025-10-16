@@ -17,6 +17,11 @@
       "types": "./ckbtc.d.ts",
       "import": "./ckbtc.js",
       "require": "./ckbtc.mjs"
+    },
+    "./ic-management": {
+      "types": "./ic-management.d.ts",
+      "import": "./ic-management.js",
+      "require": "./ic-management.mjs"
     }
   },
   "files": [
@@ -64,6 +69,7 @@
   ],
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "peerDependencies": {
-    "@dfinity/ckbtc": "4.0.6"
+    "@dfinity/ckbtc": "4.0.6",
+    "@dfinity/ic-management": "7.1.3"
   }
 }
