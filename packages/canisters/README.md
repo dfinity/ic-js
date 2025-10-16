@@ -51,7 +51,26 @@ Import the desired module directly from its entry point and refer to its individ
 
 ## Example
 
-Here's for example how to use the ICRC Ledger module through its sub-entry:
+Here's for example how to use the ckETH module through its sub-entry:
+
+```typescript
+import { CkETHMinterCanister } from "@icp-sdk/canisters/cketh";
+import { createAgent } from "@dfinity/utils";
+
+const agent = await createAgent({
+  identity,
+  host: HOST,
+});
+
+const { getSmartContractAddress } = CkETHMinterCanister.create({
+  agent,
+  canisterId: MY_CKETH_MINTER_CANISTER_ID,
+});
+
+const address = await getSmartContractAddress({});
+```
+
+Similarly, the ICP and ICRC ledgers can be used as follows, with the slight difference that their imports are nested under a common parent.
 
 ```typescript
 import { IcrcLedgerCanister } from "@icp-sdk/canisters/ledger/icrc";
