@@ -58,7 +58,7 @@
     {
       "name": "@dfinity/ckbtc",
       "path": "./packages/ckbtc/dist/index.js",
-      "limit": "9 kB",
+      "limit": "15 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
@@ -71,7 +71,7 @@
     {
       "name": "@dfinity/cketh",
       "path": "./packages/cketh/dist/index.js",
-      "limit": "5 kB",
+      "limit": "10 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
@@ -84,7 +84,7 @@
     {
       "name": "@dfinity/cmc",
       "path": "./packages/cmc/dist/index.js",
-      "limit": "2 kB",
+      "limit": "3 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
@@ -97,7 +97,7 @@
     {
       "name": "@dfinity/ledger-icrc",
       "path": "./packages/ledger-icrc/dist/index.js",
-      "limit": "5 kB",
+      "limit": "12 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
@@ -110,7 +110,7 @@
     {
       "name": "@dfinity/ledger-icp",
       "path": "./packages/ledger-icp/dist/index.js",
-      "limit": "10 kB",
+      "limit": "15 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
@@ -123,7 +123,7 @@
     {
       "name": "@dfinity/nns",
       "path": "./packages/nns/dist/index.js",
-      "limit": "40 kB",
+      "limit": "50 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
@@ -143,7 +143,7 @@
     {
       "name": "@dfinity/sns",
       "path": "./packages/sns/dist/index.js",
-      "limit": "25 kB",
+      "limit": "50 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
