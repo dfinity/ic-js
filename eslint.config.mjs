@@ -26,4 +26,15 @@ export default [
       "eslint-local-rules.cjs",
     ],
   },
+  {
+    ignores: [
+      "packages/**/*.js",
+      "packages/**/*.mjs",
+      "packages/**/*.d.ts",
+
+      "!packages/**/declarations/**/*.js",
+      "!packages/**/declarations/**/*.mjs",
+      "!packages/**/declarations/**/*.d.ts",
+    ],
+  },
 ];
