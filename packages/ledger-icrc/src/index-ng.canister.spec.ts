@@ -1,4 +1,3 @@
-import type { Status } from "@dfinity/ledger-icp/candid";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { Principal } from "@icp-sdk/core/principal";
@@ -6,6 +5,7 @@ import { mock } from "vitest-mock-extended";
 import type {
   Account,
   _SERVICE as IcrcIndexNgService,
+  Status,
   SubAccount,
   Transaction,
 } from "../candid/icrc_index-ng";
