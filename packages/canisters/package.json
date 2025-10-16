@@ -22,6 +22,11 @@
       "types": "./cketh.d.ts",
       "import": "./cketh.js",
       "require": "./cketh.mjs"
+    },
+    "./cmc": {
+      "types": "./cmc.d.ts",
+      "import": "./cmc.js",
+      "require": "./cmc.mjs"
     }
   },
   "files": [
@@ -70,6 +75,7 @@
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "peerDependencies": {
     "@dfinity/ckbtc": "4.0.6",
-    "@dfinity/cketh": "4.0.6"
+    "@dfinity/cketh": "4.0.6",
+    "@dfinity/cmc": "6.0.6"
   }
 }
