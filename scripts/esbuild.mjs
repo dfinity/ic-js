@@ -24,21 +24,11 @@ const rootPeerDependencies = () => {
   return peerDependencies(packageJson);
 };
 
-// TODO: To be removed once all imports have been migrated to `@icp-sdk/core/...`
-const agentJsPeerDependencies = {
-  "@dfinity/agent": "^3",
-  "@dfinity/candid": "^3",
-  "@dfinity/principal": "^3",
-};
-const commonPeerDependencies = {
-  ...rootPeerDependencies(),
-  ...agentJsPeerDependencies,
-};
 const workspacePeerDependencies = peerDependencies(
   join(process.cwd(), "package.json"),
 );
 const externalPeerDependencies = [
-  ...Object.keys(commonPeerDependencies),
+  ...Object.keys(rootPeerDependencies()),
   ...Object.keys(workspacePeerDependencies),
 ];
 

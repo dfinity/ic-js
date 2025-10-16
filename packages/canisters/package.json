@@ -33,12 +33,12 @@
       "import": "./ic-management.js",
       "require": "./ic-management.mjs"
     },
-    "./ledger-icp": {
+    "./ledger/icp": {
       "types": "./ledger-icp.d.ts",
       "import": "./ledger-icp.js",
       "require": "./ledger-icp.mjs"
     },
-    "./ledger-icrc": {
+    "./ledger/icrc": {
       "types": "./ledger-icrc.d.ts",
       "import": "./ledger-icrc.js",
       "require": "./ledger-icrc.mjs"

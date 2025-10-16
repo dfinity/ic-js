@@ -20,6 +20,6 @@ describe("@icp-sdk/ledger-icrc", () => {
 
   shouldReExportAllMembers({
     source: "@dfinity/ledger-icrc",
-    reexport: "@icp-sdk/canisters/ledger-icrc",
+    reexport: "@icp-sdk/canisters/ledger/icrc",
   });
 });
