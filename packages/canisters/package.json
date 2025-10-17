@@ -73,11 +73,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dfinity/ic-js.git",
+    "url": "git+https://github.com/dfinity/icp-sdk-canisters.git",
     "directory": "packages/canisters"
   },
   "bugs": {
-    "url": "https://github.com/dfinity/ic-js"
+    "url": "https://github.com/dfinity/icp-sdk-canisters"
   },
   "keywords": [
     "internet computer",
@@ -95,7 +95,7 @@
     "nns",
     "sns"
   ],
-  "homepage": "https://github.com/dfinity/ic-js#readme",
+  "homepage": "https://github.com/dfinity/icp-sdk-canisters#readme",
   "dependencies": {
     "@dfinity/ckbtc": "^4",
     "@dfinity/cketh": "^4",

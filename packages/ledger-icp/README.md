@@ -71,7 +71,7 @@ References:
 - [https://internetcomputer.org/docs/defi/token-ledgers/setup/icp_ledger_setup](https://internetcomputer.org/docs/defi/token-ledgers/setup/icp_ledger_setup)
 - [https://internetcomputer.org/docs/references/ledger#\_operations_transactions_blocks_transaction_ledger](https://internetcomputer.org/docs/references/ledger#_operations_transactions_blocks_transaction_ledger)
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L23)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L23)
 
 #### Static Methods
 
@@ -95,7 +95,7 @@ Returns:
 
 An instance of `AccountIdentifier`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L34)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L34)
 
 ##### :gear: fromPrincipal
 
@@ -118,7 +118,7 @@ Returns:
 
 An instance of `AccountIdentifier`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L68)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L68)
 
 #### Methods
 
@@ -140,7 +140,7 @@ Returns:
 
 Hex representation (64-character string).
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L100)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L100)
 
 ##### :gear: toUint8Array
 
@@ -154,7 +154,7 @@ Returns:
 
 The raw bytes of the account identifier.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L109)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L109)
 
 ##### :gear: toNumbers
 
@@ -168,7 +168,7 @@ Returns:
 
 An array of byte values.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L118)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L118)
 
 ##### :gear: toAccountIdentifierHash
 
@@ -182,7 +182,7 @@ Returns:
 
 `{ hash: Uint8Array }` where `hash` is the raw 32-byte `Uint8Array`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L127)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L127)
 
 ### :factory: SubAccount
 
@@ -193,7 +193,7 @@ References:
 
 - [https://internetcomputer.org/docs/references/ledger#\_accounts](https://internetcomputer.org/docs/references/ledger#_accounts)
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L140)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L140)
 
 #### Static Methods
 
@@ -217,7 +217,7 @@ Returns:
 
 A `SubAccount` instance.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L150)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L150)
 
 ##### :gear: fromPrincipal
 
@@ -237,7 +237,7 @@ Returns:
 
 A `SubAccount` instance.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L166)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L166)
 
 ##### :gear: fromID
 
@@ -258,7 +258,7 @@ Returns:
 
 A `SubAccount` instance.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L189)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L189)
 
 #### Methods
 
@@ -276,11 +276,11 @@ Returns:
 
 A 32-byte array.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/account_identifier.ts#L218)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/account_identifier.ts#L218)
 
 ### :factory: LedgerCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L35)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/ledger.canister.ts#L35)
 
 #### Static Methods
 
@@ -292,7 +292,7 @@ A 32-byte array.
 | -------- | ----------------------------------------------------- |
 | `create` | `(options?: LedgerCanisterOptions) => LedgerCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L36)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/ledger.canister.ts#L36)
 
 #### Methods
 
@@ -325,7 +325,7 @@ Returns:
 
 The balance of the given account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L64)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/ledger.canister.ts#L64)
 
 ##### :gear: metadata
 
@@ -343,7 +343,7 @@ Returns:
 
 The metadata of the ICP ledger. A promise that resolves to an array of metadata entries, where each entry is a tuple consisting of a string and a value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L83)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/ledger.canister.ts#L83)
 
 ##### :gear: transactionFee
 
@@ -361,7 +361,7 @@ Returns:
 
 A promise that resolves to the transaction fee as a bigint.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L94)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/ledger.canister.ts#L94)
 
 ##### :gear: transfer
 
@@ -372,7 +372,7 @@ Returns the index of the block containing the tx if it was successful.
 | ---------- | ----------------------------------------------- |
 | `transfer` | `(request: TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L112)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/ledger.canister.ts#L112)
 
 ##### :gear: icrc1Transfer
 
@@ -383,7 +383,7 @@ Returns the index of the block containing the tx if it was successful.
 | --------------- | ---------------------------------------------------- |
 | `icrc1Transfer` | `(request: Icrc1TransferRequest) => Promise<bigint>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L132)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/ledger.canister.ts#L132)
 
 ##### :gear: icrc2Approve
 
@@ -403,7 +403,7 @@ Returns:
 
 The block index of the approved transaction.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L152)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/ledger.canister.ts#L152)
 
 ##### :gear: icrc21ConsentMessage
 
@@ -421,11 +421,11 @@ Returns:
 
 - A promise that resolves to the consent message response, which includes the consent message in the specified language and other related information.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/ledger.canister.ts#L179)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/ledger.canister.ts#L179)
 
 ### :factory: IndexCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L19)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/index.canister.ts#L19)
 
 #### Static Methods
 
@@ -437,7 +437,7 @@ Returns:
 | -------- | --------------------------------------------------------------------------------------------- |
 | `create` | `({ canisterId: optionsCanisterId, ...options }: CanisterOptions<_SERVICE>) => IndexCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L20)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/index.canister.ts#L20)
 
 #### Methods
 
@@ -462,7 +462,7 @@ Returns:
 
 The balance of the given account.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L45)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/index.canister.ts#L45)
 
 ##### :gear: getTransactions
 
@@ -484,7 +484,7 @@ Returns:
 
 The transactions, balance and the transaction id of the oldest transaction the account has.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp/src/index.canister.ts#L64)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp/src/index.canister.ts#L64)
 
 <!-- TSDOC_END -->
 
