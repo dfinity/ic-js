@@ -3,30 +3,16 @@ import {
   existsSync,
   mkdirSync,
   readdirSync,
-  readFileSync,
   statSync,
   writeFileSync,
-} from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+} from "node:fs";
+import { join } from "node:path";
+import { readPackageJson, rootPeerDependencies } from "./build.utils.mjs";
 
-const peerDependencies = (packageJson) => {
-  const json = readFileSync(packageJson, "utf8");
-  const { peerDependencies } = JSON.parse(json);
-  return peerDependencies ?? {};
-};
-
-/** Root peerDependencies are common external dependencies for all libraries of the mono-repo */
-const rootPeerDependencies = () => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const packageJson = join(__dirname, "../package.json");
-  return peerDependencies(packageJson);
-};
-
-const workspacePeerDependencies = peerDependencies(
+const { peerDependencies: workspacePeerDependencies } = readPackageJson(
   join(process.cwd(), "package.json"),
 );
+
 const externalPeerDependencies = [
   ...Object.keys(rootPeerDependencies()),
   ...Object.keys(workspacePeerDependencies),
@@ -128,7 +114,9 @@ export const build = (
     process.exit(1);
   }
 
-  createDistFolder();
+  if (!multi) {
+    createDistFolder();
+  }
 
   buildBrowser({ multi });
   buildNode({ format: nodeFormat, multi });

@@ -86,7 +86,7 @@ generate_did() {
 generate_did_factory_ts() {
   local tsFactoryFile="$1"
 
-  echo "import type { IDL } from \"@icp-core/sdk/candid\";export const idlFactory: IDL.InterfaceFactory;" >"${tsFactoryFile}"
+  echo "import type { IDL } from \"@icp-sdk/core/candid\";export const idlFactory: IDL.InterfaceFactory;" >"${tsFactoryFile}"
 }
 
 # First generate default certified versions of normal did files.
