@@ -4,4 +4,4 @@ export type {
   TransactionWithId as IcrcIndexNgTransactionWithId,
   Status as IcrcNgStatus,
   BlockIndex as IcrcNgTxId,
-} from "../../candid/icrc_index-ng";
+} from "../candid/icrc_index-ng";

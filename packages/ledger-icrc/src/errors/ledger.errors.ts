@@ -1,7 +1,7 @@
 import type {
   GetIndexPrincipalError,
   icrc21_error as Icrc21RawError,
-} from "../../candid/icrc_ledger";
+} from "../candid/icrc_ledger";
 
 export class IcrcTransferError<T> extends Error {
   public errorType: T;
