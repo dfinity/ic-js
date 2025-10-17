@@ -4,18 +4,18 @@
   "description": "A library for interfacing with ckETH.",
   "license": "Apache-2.0",
   "type": "module",
-  "main": "./dist/node/index.mjs",
-  "module": "./dist/browser/index.js",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": {
         "types": "./dist/index.d.ts",
-        "default": "./dist/browser/index.js"
+        "default": "./dist/index.js"
       },
       "require": {
         "types": "./dist/index.d.ts",
-        "default": "./dist/node/index.mjs"
+        "default": "./dist/index.mjs"
       }
     }
   },
