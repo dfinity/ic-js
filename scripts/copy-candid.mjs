@@ -1,10 +1,6 @@
 import { cp } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { readPackageJson, SCRIPTS_PATH } from "./build.utils.mjs";
-
-const { exports: workspaceExports } = readPackageJson(
-  join(process.cwd(), "package.json"),
-);
+import { join } from "node:path";
+import { sourceExportPaths } from "./copy-utils.mjs";
 
 /**
  * Copies all Candid interface definition files from their source packages
@@ -25,33 +21,10 @@ const { exports: workspaceExports } = readPackageJson(
  * @returns {Promise<void>} A promise that resolves when all Candid files have been copied.
  */
 export const copyCandid = async () => {
-  const paths = Object.entries(workspaceExports)
-    // The root index does not contain any logic or Candid files.
-    .filter(([key]) => key !== ".")
-    .map(([key, { import: i }]) => {
-      // - trim leading ./ otherwise join() treat the . as a folder
-      // - replace remaining "/" with "-" to match the folder naming pattern
-      // used for single-path libraries (e.g., ledger/icrc -> ledger-icrc)
-      const singlePathLib = key.replace(/^\.\//, "").replace(/\//, "-");
-      const source = join(
-        SCRIPTS_PATH,
-        "..",
-        "packages",
-        singlePathLib,
-        "src",
-        "candid",
-      );
-
-      // - trim leading ./ otherwise join() treat the . as a folder
-      // - example: "import": "./ckbtc/index.js" → "/ckbtc/index.js"
-      // → absolute path to "packages/canisters/ckbtc"
-      const multiPathsLibExport = dirname(
-        join(process.cwd(), i.replace(/^\.\//, "")),
-      );
-      const destination = join(multiPathsLibExport, "candid");
-
-      return { source, destination };
-    });
+  const paths = sourceExportPaths().map(({ source, destination }) => ({
+    source: join(source, "src", "candid"),
+    destination: join(destination, "candid"),
+  }));
 
   await Promise.all(
     paths.map(({ source, destination }) =>
