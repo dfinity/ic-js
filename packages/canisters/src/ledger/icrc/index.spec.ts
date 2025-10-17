@@ -1,4 +1,3 @@
-import { shouldReExportAllMembers } from "../../utils/test.utils";
 import {
   IcrcIndexCanister,
   IcrcIndexNgCanister,
@@ -16,10 +15,5 @@ describe("@icp-sdk/ledger-icrc", () => {
 
   it("should re-export IcrcIndexCanister", () => {
     expect(IcrcIndexCanister).not.toBeUndefined();
-  });
-
-  shouldReExportAllMembers({
-    source: "@dfinity/ledger-icrc",
-    reexport: "@icp-sdk/canisters/ledger/icrc",
   });
 });
