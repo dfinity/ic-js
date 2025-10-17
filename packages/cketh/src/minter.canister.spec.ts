@@ -7,7 +7,7 @@ import type {
   MinterInfo,
   RetrieveErc20Request,
   RetrieveEthRequest,
-} from "../candid/minter";
+} from "./candid/minter";
 import {
   LedgerAmountTooLowError,
   LedgerInsufficientAllowanceError,

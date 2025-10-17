@@ -6,9 +6,9 @@ import type {
   NotifyCreateCanisterArg,
   NotifyTopUpArg,
   SubnetTypesToSubnetsResponse,
-} from "../candid/cmc";
-import { idlFactory as certifiedIdlFactory } from "../candid/cmc.certified.idl";
-import { idlFactory } from "../candid/cmc.idl";
+} from "./candid/cmc";
+import { idlFactory as certifiedIdlFactory } from "./candid/cmc.certified.idl";
+import { idlFactory } from "./candid/cmc.idl";
 import { throwNotifyError } from "./cmc.errors";
 import type { CMCCanisterOptions } from "./cmc.options";
 

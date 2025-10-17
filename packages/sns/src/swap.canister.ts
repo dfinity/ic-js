@@ -17,9 +17,9 @@ import type {
   RefreshBuyerTokensResponse,
   _SERVICE as SnsSwapService,
   Ticket,
-} from "../candid/sns_swap";
-import { idlFactory as certifiedIdlFactory } from "../candid/sns_swap.certified.idl";
-import { idlFactory } from "../candid/sns_swap.idl";
+} from "./candid/sns_swap";
+import { idlFactory as certifiedIdlFactory } from "./candid/sns_swap.certified.idl";
+import { idlFactory } from "./candid/sns_swap.idl";
 import { toNewSaleTicketRequest } from "./converters/swap.converters";
 import { UnsupportedMethodError } from "./errors/common.errors";
 import {

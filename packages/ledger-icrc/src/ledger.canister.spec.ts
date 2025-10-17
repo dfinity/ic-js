@@ -2,7 +2,7 @@ import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
-import type { Account } from "../candid/icrc_index";
+import type { Account } from "./candid/icrc_index";
 import type {
   Allowance,
   ApproveArgs,
@@ -12,7 +12,7 @@ import type {
   TransferArg,
   TransferFromArgs,
   icrc21_consent_message_response,
-} from "../candid/icrc_ledger";
+} from "./candid/icrc_ledger";
 import {
   ConsentMessageError,
   ConsentMessageUnavailableError,

@@ -7,7 +7,7 @@ import type {
   environment_variable,
   log_visibility,
   upload_chunk_args,
-} from "../../candid/ic-management";
+} from "../candid/ic-management";
 
 export enum LogVisibility {
   Controllers,

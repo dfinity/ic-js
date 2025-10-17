@@ -1,5 +1,5 @@
 import { assertNever, jsonReplacer } from "@dfinity/utils";
-import type { NotifyError } from "../candid/cmc";
+import type { NotifyError } from "./candid/cmc";
 
 export class RefundedError extends Error {}
 export class InvalidaTransactionError extends Error {}
