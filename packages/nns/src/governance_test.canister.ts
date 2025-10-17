@@ -5,9 +5,9 @@ import {
 } from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
 import type { Principal } from "@icp-sdk/core/principal";
-import { idlFactory } from "../candid/governance.idl";
-import type { _SERVICE as GovernanceService } from "../candid/governance_test";
-import { idlFactory as certifiedIdlFactory } from "../candid/governance_test.certified.idl";
+import { idlFactory } from "./candid/governance.idl";
+import type { _SERVICE as GovernanceService } from "./candid/governance_test";
+import { idlFactory as certifiedIdlFactory } from "./candid/governance_test.certified.idl";
 import { fromListNeurons } from "./canisters/governance/request.converters";
 import { toRawNeuron } from "./canisters/governance/response.converters";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "./constants/canister_ids";

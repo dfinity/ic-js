@@ -1,6 +1,6 @@
 import type { CanisterOptions } from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
-import type { _SERVICE as GovernanceService } from "../../candid/governance";
+import type { _SERVICE as GovernanceService } from "../candid/governance";
 
 export interface GovernanceCanisterOptions
   extends CanisterOptions<GovernanceService> {
