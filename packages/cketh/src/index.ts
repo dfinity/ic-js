@@ -5,15 +5,16 @@ export type {
   RetrieveErc20Request,
   RetrieveEthRequest,
   RetrieveEthStatus,
+  Subaccount,
   TxFinalizedStatus,
-} from "../candid/minter";
+} from "./candid/minter";
 export type {
   CyclesManagement,
   Erc20Contract,
   ManagedCanisterStatus,
   ManagedCanisters,
   OrchestratorInfo,
-} from "../candid/orchestrator";
+} from "./candid/orchestrator";
 export * from "./errors/minter.errors";
 export { CkETHMinterCanister } from "./minter.canister";
 export { CkETHOrchestratorCanister } from "./orchestrator.canister";

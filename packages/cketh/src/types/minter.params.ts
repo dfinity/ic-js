@@ -1,6 +1,6 @@
-import type { Principal } from "@dfinity/principal";
 import { isNullish, toNullable, type QueryParams } from "@dfinity/utils";
-import type { Eip1559TransactionPriceArg } from "../../candid/minter";
+import type { Principal } from "@icp-sdk/core/principal";
+import type { Eip1559TransactionPriceArg } from "../candid/minter";
 
 export type Eip1559TransactionPriceParams = {
   ckErc20LedgerId?: Principal;

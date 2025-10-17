@@ -1,11 +1,10 @@
-import type { Subaccount } from "@dfinity/ledger-icrc/candid/icrc_ledger";
-import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   createServices,
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   _SERVICE as CkETHMinterService,
   Eip1559TransactionPrice,
@@ -13,9 +12,10 @@ import type {
   RetrieveErc20Request,
   RetrieveEthRequest,
   RetrieveEthStatus,
-} from "../candid/minter";
-import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
-import { idlFactory } from "../candid/minter.idl";
+  Subaccount,
+} from "./candid/minter";
+import { idlFactory as certifiedIdlFactory } from "./candid/minter.certified.idl";
+import { idlFactory } from "./candid/minter.idl";
 import {
   createWithdrawErc20Error,
   createWithdrawEthError,

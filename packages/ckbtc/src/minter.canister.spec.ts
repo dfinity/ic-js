@@ -1,6 +1,6 @@
-import type { ActorSubclass } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
 import type {
   Account,
@@ -11,7 +11,7 @@ import type {
   RetrieveBtcStatusV2,
   UpdateBalanceError,
   Utxo,
-} from "../candid/minter";
+} from "./candid/minter";
 import {
   MinterAlreadyProcessingError,
   MinterAmountTooLowError,

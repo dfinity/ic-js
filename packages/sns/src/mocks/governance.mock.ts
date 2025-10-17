@@ -6,7 +6,7 @@ import type {
   ProposalData,
   Topic,
   TopicInfo,
-} from "../../candid/sns_governance";
+} from "../candid/sns_governance";
 
 export const neuronIdMock: NeuronId = { id: arrayOfNumberToUint8Array([1]) };
 

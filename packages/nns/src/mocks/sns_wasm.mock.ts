@@ -1,5 +1,5 @@
-import { Principal } from "@dfinity/principal";
-import type { DeployedSns } from "../../candid/sns_wasm";
+import { Principal } from "@icp-sdk/core/principal";
+import type { DeployedSns } from "../candid/sns_wasm";
 
 export const deployedSnsMock: DeployedSns[] = [
   {

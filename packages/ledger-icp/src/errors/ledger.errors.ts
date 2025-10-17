@@ -5,7 +5,7 @@ import type {
   ApproveError as RawApproveError,
   Icrc1TransferError as RawIcrc1TransferError,
   TransferError as RawTransferError,
-} from "../../candid/ledger";
+} from "../candid/ledger";
 import type { BlockHeight } from "../types/common";
 
 export class IcrcError extends Error {}

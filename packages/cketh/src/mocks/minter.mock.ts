@@ -1,4 +1,4 @@
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 
 export const minterCanisterIdMock: Principal = Principal.fromText(
   "sv3dd-oaaaa-aaaar-qacoa-cai",

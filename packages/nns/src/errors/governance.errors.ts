@@ -1,4 +1,4 @@
-import type { GovernanceError as GovernanceErrorDetail } from "../../candid/governance";
+import type { GovernanceError as GovernanceErrorDetail } from "../candid/governance";
 
 export abstract class StakeNeuronError extends Error {}
 

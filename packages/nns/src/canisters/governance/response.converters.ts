@@ -1,5 +1,4 @@
 import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
-import { Principal } from "@dfinity/principal";
 import {
   fromDefinedNullable,
   fromNullable,
@@ -10,6 +9,7 @@ import {
   uint8ArrayToHexString,
   type Nullable,
 } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 
 import type {
   Params,
@@ -62,7 +62,7 @@ import type {
   Tokens as RawTokens,
   VotingPowerEconomics as RawVotingPowerEconomics,
   VotingRewardParameters as RawVotingRewardParameters,
-} from "../../../candid/governance";
+} from "../../candid/governance";
 import type {
   CanisterAction,
   CanisterInstallMode,
@@ -1345,6 +1345,7 @@ export const toKnownNeuron = ({
   name: known_neuron_data[0]?.name ?? "",
   description: known_neuron_data[0]?.description[0] ?? "",
   links: fromNullable(known_neuron_data[0]?.links ?? []),
+  committed_topics: fromNullable(known_neuron_data[0]?.committed_topics ?? []),
 });
 
 const toPercentage = (

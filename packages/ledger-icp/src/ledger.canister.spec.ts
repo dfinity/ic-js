@@ -1,6 +1,6 @@
-import type { ActorSubclass } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
 import { arrayOfNumberToUint8Array } from "@dfinity/utils";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
 import type {
   Account,
@@ -8,7 +8,7 @@ import type {
   _SERVICE as LedgerService,
   Value,
   icrc21_consent_message_response,
-} from "../candid/ledger";
+} from "./candid/ledger";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
   AllowanceChangedError,
