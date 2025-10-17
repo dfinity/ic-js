@@ -8,7 +8,7 @@ import type {
   NotifyCreateCanisterResult,
   NotifyTopUpResult,
   SubnetTypesToSubnetsResponse,
-} from "../candid/cmc";
+} from "./candid/cmc";
 import { CMCCanister } from "./cmc.canister";
 import {
   CMCError,
