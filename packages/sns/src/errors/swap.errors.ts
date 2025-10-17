@@ -1,4 +1,4 @@
-import type { InvalidUserAmount, Ticket } from "../../candid/sns_swap";
+import type { InvalidUserAmount, Ticket } from "../candid/sns_swap";
 import type {
   GetOpenTicketErrorType,
   NewSaleTicketResponseErrorType,

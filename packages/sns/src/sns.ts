@@ -9,7 +9,7 @@ import type { Principal } from "@icp-sdk/core/principal";
 import type {
   ListSnsCanistersResponse,
   _SERVICE as SnsRootService,
-} from "../candid/sns_root";
+} from "./candid/sns_root";
 import { SnsGovernanceCanister } from "./governance.canister";
 import { SnsRootCanister } from "./root.canister";
 import { SnsWrapper } from "./sns.wrapper";
