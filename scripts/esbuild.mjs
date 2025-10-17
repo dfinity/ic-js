@@ -34,6 +34,9 @@ const createDistFolder = () => {
  */
 const multiPathsLibEntryPoints = () => {
   const paths = Object.values(workspaceExports)
+    // This guard is useful because a single-entry library uses an object
+    // for the "import" field, unlike a multi-path library, which uses
+    // a string path.
     .filter(({ import: i }) => typeof i === "string")
     .map(({ import: i }) => {
       // trim leading ./ otherwise join() treat the . as a folder
