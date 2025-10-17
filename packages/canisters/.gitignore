@@ -4,6 +4,7 @@
 # Except
 !src/
 !esbuild.mjs
+!copy-candid.mjs
 !LICENSE
 !package.json
 !README.md
