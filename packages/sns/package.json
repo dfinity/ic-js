@@ -6,15 +6,15 @@
   "type": "module",
   "main": "./dist/node/index.mjs",
   "module": "./dist/browser/index.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/types/index.d.ts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "require": {
-        "types": "./dist/types/index.d.ts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/node/index.mjs"
       }
     }
@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "rmdir": "node ../../scripts/rmdir.mjs",
-    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
+    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist",
     "build": "npm run rmdir && mkdir -p dist && cp -R src/candid dist && node esbuild.mjs && npm run ts-declaration",
     "prepack": "npm run build",
     "test": "vitest"
