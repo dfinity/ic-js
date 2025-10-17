@@ -119,7 +119,9 @@ export const build = (
     process.exit(1);
   }
 
-  createDistFolder();
+  if (!multi) {
+    createDistFolder();
+  }
 
   buildBrowser({ multi });
   buildNode({ format: nodeFormat, multi });
