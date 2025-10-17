@@ -3,9 +3,9 @@ import type {
   _SERVICE as BitcoinService,
   get_utxos_response,
   satoshi,
-} from "../candid/bitcoin";
-import { idlFactory as certifiedIdlFactory } from "../candid/bitcoin.certified.idl";
-import { idlFactory } from "../candid/bitcoin.idl";
+} from "./candid/bitcoin";
+import { idlFactory as certifiedIdlFactory } from "./candid/bitcoin.certified.idl";
+import { idlFactory } from "./candid/bitcoin.idl";
 import {
   toGetBalanceParams,
   toGetUtxosParams,
