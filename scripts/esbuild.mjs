@@ -1,32 +1,13 @@
 import esbuild from "esbuild";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-
-/**
- * Read the package.json of the package (library) to build.
- */
-const pkgJson = (packageJson) => {
-  const json = readFileSync(packageJson, "utf8");
-  const { peerDependencies, exports } = JSON.parse(json);
-  return { peerDependencies: peerDependencies ?? {}, exports: exports ?? {} };
-};
-
-/**
- * Root peerDependencies are common external dependencies for all libraries of the mono-repo
- */
-const rootPeerDependencies = () => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const packageJson = join(__dirname, "../package.json");
-  const { peerDependencies } = pkgJson(packageJson);
-  return peerDependencies;
-};
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { readPackageJson, rootPeerDependencies } from "./build.utils.mjs";
 
 const {
   peerDependencies: workspacePeerDependencies,
   exports: workspaceExports,
-} = pkgJson(join(process.cwd(), "package.json"));
+} = readPackageJson(join(process.cwd(), "package.json"));
+
 const externalPeerDependencies = [
   ...Object.keys(rootPeerDependencies()),
   ...Object.keys(workspacePeerDependencies),
@@ -143,7 +124,7 @@ const buildNode = ({ multi, format }) => {
 const writeNodeCjsRootEntry = () => {
   writeFileSync(
     join(dist, "index.cjs.js"),
-    "module.exports = require('./cjs/index.js');",
+    "module.exports = require('./cjs/index.cjs.js');",
   );
 };
 
