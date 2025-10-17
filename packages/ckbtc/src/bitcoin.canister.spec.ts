@@ -1,12 +1,12 @@
 import type { CanisterOptions } from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
+import { BitcoinCanister } from "./bitcoin.canister";
 import type {
   _SERVICE as BitcoinService,
   get_utxos_response,
   satoshi,
 } from "./candid/bitcoin";
-import { BitcoinCanister } from "./bitcoin.canister";
 import { bitcoinAddressMock, bitcoinCanisterIdMock } from "./mocks/minter.mock";
 import type { GetBalanceParams, GetUtxosParams } from "./types/bitcoin.params";
 

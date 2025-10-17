@@ -1,3 +1,4 @@
+export { BitcoinCanister } from "./bitcoin.canister";
 export type {
   block_hash,
   block_height,
@@ -17,7 +18,6 @@ export type {
   UtxoStatus,
   Account as WithdrawalAccount,
 } from "./candid/minter";
-export { BitcoinCanister } from "./bitcoin.canister";
 export * from "./enums/btc.enums";
 export * from "./errors/btc.errors";
 export * from "./errors/minter.errors";
