@@ -4,8 +4,8 @@
   "description": "The protobuf source used by nns-js to support hardware wallets.",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.cjs.js",
-  "module": "dist/browser/index.js",
-  "types": "dist/types/index.d.ts",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "README.md",
@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "rmdir": "node ../../scripts/rmdir.mjs",
-    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
+    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist",
     "build": "npm run rmdir && mkdir -p dist && cp -R proto dist && node esbuild.mjs && npm run ts-declaration",
     "prepack": "npm run build",
     "test": ""

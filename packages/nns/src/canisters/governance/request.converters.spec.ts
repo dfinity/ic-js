@@ -1,6 +1,6 @@
-import { Principal } from "@dfinity/principal";
 import { arrayBufferToUint8Array, toNullable } from "@dfinity/utils";
-import type { ManageNeuronRequest as RawManageNeuron } from "../../../candid/governance";
+import { Principal } from "@icp-sdk/core/principal";
+import type { ManageNeuronRequest as RawManageNeuron } from "../../candid/governance";
 import {
   CanisterAction,
   CanisterInstallMode,

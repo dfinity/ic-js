@@ -2,7 +2,6 @@ import type {
   AccountIdentifier as AccountIdentifierClass,
   AccountIdentifierHex,
 } from "@dfinity/ledger-icp";
-import { Principal } from "@dfinity/principal";
 import {
   arrayBufferToUint8Array,
   isNullish,
@@ -10,6 +9,7 @@ import {
   toNullable,
   type Nullable,
 } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 import type {
   Amount,
   ListProposalInfo,
@@ -49,7 +49,7 @@ import type {
   Tokens as RawTokens,
   VotingPowerEconomics as RawVotingPowerEconomics,
   VotingRewardParameters as RawVotingRewardParameters,
-} from "../../../candid/governance";
+} from "../../candid/governance";
 import type { NeuronVisibility, Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { E8s, NeuronId, Option } from "../../types/common";

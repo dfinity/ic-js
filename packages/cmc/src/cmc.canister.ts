@@ -1,14 +1,14 @@
-import type { Principal } from "@dfinity/principal";
 import { Canister, createServices, type QueryParams } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   _SERVICE as CMCCanisterService,
   Cycles,
   NotifyCreateCanisterArg,
   NotifyTopUpArg,
   SubnetTypesToSubnetsResponse,
-} from "../candid/cmc";
-import { idlFactory as certifiedIdlFactory } from "../candid/cmc.certified.idl";
-import { idlFactory } from "../candid/cmc.idl";
+} from "./candid/cmc";
+import { idlFactory as certifiedIdlFactory } from "./candid/cmc.certified.idl";
+import { idlFactory } from "./candid/cmc.idl";
 import { throwNotifyError } from "./cmc.errors";
 import type { CMCCanisterOptions } from "./cmc.options";
 

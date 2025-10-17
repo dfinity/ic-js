@@ -1,11 +1,11 @@
-import type { ActorSubclass } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
 import type {
   Account,
   _SERVICE as IcrcIndexService,
   Transaction,
-} from "../candid/icrc_index";
+} from "./candid/icrc_index";
 import { IndexError } from "./errors/index.errors";
 import { IcrcIndexCanister } from "./index.canister";
 import { indexCanisterIdMock, ledgerCanisterIdMock } from "./mocks/ledger.mock";

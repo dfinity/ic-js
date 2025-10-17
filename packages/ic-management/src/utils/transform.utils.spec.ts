@@ -1,5 +1,5 @@
-import type { CallConfig } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import type { CallConfig } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { mockCanisterId } from "../ic-management.mock";
 import { transform } from "./transform.utils";
 

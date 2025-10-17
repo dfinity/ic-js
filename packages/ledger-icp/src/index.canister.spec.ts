@@ -1,10 +1,10 @@
-import type { ActorSubclass } from "@dfinity/agent";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type {
   GetAccountIdentifierTransactionsError,
   GetAccountIdentifierTransactionsResponse,
   _SERVICE as IndexService,
-} from "../candid/index";
+} from "./candid/index";
 import { IndexCanister } from "./index.canister";
 import { mockAccountIdentifier } from "./mocks/ledger.mock";
 

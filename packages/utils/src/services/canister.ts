@@ -1,4 +1,4 @@
-import type { Principal } from "@dfinity/principal";
+import type { Principal } from "@icp-sdk/core/principal";
 import type { QueryParams } from "../types/query.params";
 
 export abstract class Canister<T> {

@@ -1,5 +1,12 @@
 dist
 **/*.did.js
-**/*.idl.js
 **/proto/*
 .github/*
+
+packages/**/*.js
+packages/**/*.mjs
+packages/**/*.d.ts
+!packages/**/candid/**/*.js
+!packages/**/candid/**/*.mjs
+!packages/**/candid/**/*.d.ts
+!packages/**/esbuild.mjs

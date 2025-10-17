@@ -1,13 +1,13 @@
-import type { Principal } from "@dfinity/principal";
 import { Canister, createServices, type QueryParams } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   Icrc1BlockIndex,
   _SERVICE as LedgerService,
   Value,
   icrc21_consent_info,
-} from "../candid/ledger";
-import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
-import { idlFactory } from "../candid/ledger.idl";
+} from "./candid/ledger";
+import { idlFactory as certifiedIdlFactory } from "./candid/ledger.certified.idl";
+import { idlFactory } from "./candid/ledger.idl";
 import {
   toIcrc1TransferRawRequest,
   toIcrc21ConsentMessageRawRequest,

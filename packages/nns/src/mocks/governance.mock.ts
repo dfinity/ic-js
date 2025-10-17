@@ -1,9 +1,9 @@
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 import type {
   ListNeuronsResponse,
   Neuron,
   NeuronInfo,
-} from "../../candid/governance";
+} from "../candid/governance";
 
 const one = BigInt(1);
 export const mockNeuronId = BigInt(14567);

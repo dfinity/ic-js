@@ -12,10 +12,49 @@
       "types": "./index.d.ts",
       "import": "./index.js",
       "require": "./index.mjs"
+    },
+    "./ckbtc": {
+      "types": "./ckbtc/index.d.ts",
+      "import": "./ckbtc/index.js",
+      "require": "./ckbtc/index.mjs"
+    },
+    "./cketh": {
+      "types": "./cketh/index.d.ts",
+      "import": "./cketh/index.js",
+      "require": "./cketh/index.mjs"
+    },
+    "./cmc": {
+      "types": "./cmc/index.d.ts",
+      "import": "./cmc/index.js",
+      "require": "./cmc/index.mjs"
+    },
+    "./ic-management": {
+      "types": "./ic-management/index.d.ts",
+      "import": "./ic-management/index.js",
+      "require": "./ic-management/index.mjs"
+    },
+    "./ledger/icp": {
+      "types": "./ledger/icp/index.d.ts",
+      "import": "./ledger/icp/index.js",
+      "require": "./ledger/icp/index.mjs"
+    },
+    "./ledger/icrc": {
+      "types": "./ledger/icrc/index.d.ts",
+      "import": "./ledger/icrc/index.js",
+      "require": "./ledger/icrc/index.mjs"
+    },
+    "./nns": {
+      "types": "./nns/index.d.ts",
+      "import": "./nns/index.js",
+      "require": "./nns/index.mjs"
+    },
+    "./sns": {
+      "types": "./sns/index.d.ts",
+      "import": "./sns/index.js",
+      "require": "./sns/index.mjs"
     }
   },
   "files": [
-    "dist",
     "README.md",
     "LICENSE",
     "**/*.js",
@@ -27,9 +66,9 @@
   ],
   "scripts": {
     "clean": "git ls-files --others --ignored --exclude-standard | grep -v \"LICENSE\" | xargs rm -rf",
-    "ts-declaration": "tsc --emitDeclarationOnly -outDir .",
-    "build": "npm run clean && tsc --noEmit && node esbuild.mjs && npm run ts-declaration",
+    "build": "npm run clean && tsc --noEmit && node esbuild.mjs && node copy-candid.mjs && node copy-ts-declarations.mjs",
     "prepack": "npm run build",
+    "pretest": "npm run build",
     "test": "vitest"
   },
   "repository": {
@@ -56,5 +95,19 @@
     "nns",
     "sns"
   ],
-  "homepage": "https://github.com/dfinity/ic-js#readme"
+  "homepage": "https://github.com/dfinity/ic-js#readme",
+  "dependencies": {
+    "@dfinity/ckbtc": "^4",
+    "@dfinity/cketh": "^4",
+    "@dfinity/cmc": "^6",
+    "@dfinity/ic-management": "^7",
+    "@dfinity/ledger-icp": "^6",
+    "@dfinity/ledger-icrc": "^4",
+    "@dfinity/nns": "^10",
+    "@dfinity/sns": "^4"
+  },
+  "peerDependencies": {
+    "@dfinity/utils": "^3",
+    "@icp-sdk/core": "^4"
+  }
 }

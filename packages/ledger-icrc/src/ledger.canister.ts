@@ -1,4 +1,3 @@
-import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   createServices,
@@ -6,6 +5,7 @@ import {
   type Nullable,
   type QueryParams,
 } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   Account,
   Allowance,
@@ -15,9 +15,9 @@ import type {
   _SERVICE as IcrcLedgerService,
   StandardRecord,
   Tokens,
-} from "../candid/icrc_ledger";
-import { idlFactory as certifiedIdlFactory } from "../candid/icrc_ledger.certified.idl";
-import { idlFactory } from "../candid/icrc_ledger.idl";
+} from "./candid/icrc_ledger";
+import { idlFactory as certifiedIdlFactory } from "./candid/icrc_ledger.certified.idl";
+import { idlFactory } from "./candid/icrc_ledger.idl";
 import {
   toApproveArgs,
   toIcrc21ConsentMessageArgs,

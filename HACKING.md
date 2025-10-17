@@ -71,13 +71,13 @@ The files of the [candid](./candid) folders are shared across packages. Their ar
 - `something.certified.idl.js`: the factory js file for the certified calls (1)
 - `something.certified.idl.d.ts`: the TypeScript definition of the above factory file
 
-(1) auto-generated with [`didc`](https://github.com/dfinity/candid)
+(1) auto-generated with [`@dfinity/bindgen`](https://github.com/dfinity/icp-js-bindgen)
 
 # Update peer dependencies
 
 Saving peer dependencies in `package-lock.json` needs npm >= v7.
 
 ```bash
-npm rm @dfinity/agent @dfinity/candid @dfinity/principal --workspaces
-npm i @dfinity/agent @dfinity/candid @dfinity/principal --save-peer --workspaces
+npm rm @icp-sdk/core --workspaces
+npm i @icp-sdk/core --save-peer --workspaces
 ```

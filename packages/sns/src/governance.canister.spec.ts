@@ -1,10 +1,10 @@
-import type { ActorSubclass } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
 import {
   arrayOfNumberToUint8Array,
   InvalidPercentageError,
   toNullable,
 } from "@dfinity/utils";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
 import type {
   ListNervousSystemFunctionsResponse,
@@ -16,7 +16,7 @@ import type {
   NeuronId,
   _SERVICE as SnsGovernanceService,
   Topic,
-} from "../candid/sns_governance";
+} from "./candid/sns_governance";
 import {
   DEFAULT_PROPOSALS_LIMIT,
   MAX_LIST_NEURONS_RESULTS,

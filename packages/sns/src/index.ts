@@ -25,8 +25,8 @@ export type {
   Topic as SnsTopic,
   TopicInfo as SnsTopicInfo,
   VotingRewardsParameters as SnsVotingRewardsParameters,
-} from "../candid/sns_governance";
-export type { CanisterStatusResultV2 as SnsCanisterStatus } from "../candid/sns_root";
+} from "./candid/sns_governance";
+export type { CanisterStatusResultV2 as SnsCanisterStatus } from "./candid/sns_root";
 export type {
   CfParticipant,
   FinalizeSwapResponse as SnsFinalizeSwapResponse,
@@ -48,7 +48,7 @@ export type {
   Init as SnsSwapInit,
   Ticket as SnsSwapTicket,
   TransferableAmount as SnsTransferableAmount,
-} from "../candid/sns_swap";
+} from "./candid/sns_swap";
 export { fromCandidAction } from "./converters/governance.converters";
 export * from "./enums/governance.enums";
 export * from "./enums/swap.enums";

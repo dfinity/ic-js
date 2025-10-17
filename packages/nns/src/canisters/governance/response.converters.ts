@@ -1,5 +1,4 @@
 import type { AccountIdentifierHex } from "@dfinity/ledger-icp";
-import { Principal } from "@dfinity/principal";
 import {
   fromDefinedNullable,
   fromNullable,
@@ -10,6 +9,7 @@ import {
   uint8ArrayToHexString,
   type Nullable,
 } from "@dfinity/utils";
+import { Principal } from "@icp-sdk/core/principal";
 
 import type {
   Params,
@@ -62,7 +62,7 @@ import type {
   Tokens as RawTokens,
   VotingPowerEconomics as RawVotingPowerEconomics,
   VotingRewardParameters as RawVotingRewardParameters,
-} from "../../../candid/governance";
+} from "../../candid/governance";
 import type {
   CanisterAction,
   CanisterInstallMode,

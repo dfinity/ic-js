@@ -3,9 +3,9 @@ import {
   type ActorConfig,
   type ActorSubclass,
   type Agent,
-} from "@dfinity/agent";
-import type { IDL } from "@dfinity/candid";
-import type { Principal } from "@dfinity/principal";
+} from "@icp-sdk/core/agent";
+import type { IDL } from "@icp-sdk/core/candid";
+import type { Principal } from "@icp-sdk/core/principal";
 import type { CanisterOptions } from "../types/canister.options";
 import { defaultAgent } from "./agent.utils";
 

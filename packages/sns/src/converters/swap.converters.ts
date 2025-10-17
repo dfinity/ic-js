@@ -1,4 +1,4 @@
-import type { NewSaleTicketRequest } from "../../candid/sns_swap";
+import type { NewSaleTicketRequest } from "../candid/sns_swap";
 import type { NewSaleTicketParams } from "../types/swap.params";
 
 // Helper for building `NewSaleTicketRequest` structure

@@ -1,6 +1,6 @@
-import type { Principal } from "@dfinity/principal";
 import type { QueryParams } from "@dfinity/utils";
-import type { RetrieveBtcArgs } from "../../candid/minter";
+import type { Principal } from "@icp-sdk/core/principal";
+import type { RetrieveBtcArgs } from "../candid/minter";
 
 export interface MinterAccount {
   owner: Principal;

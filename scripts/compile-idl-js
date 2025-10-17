@@ -4,18 +4,9 @@
 
 set -euo pipefail
 
-if [ "$(didc --version)" != "didc 0.5.2" ]; then
-  {
-    echo "didc version 0.5.2 is required. To install it on Mac:"
-    echo "curl -Lf https://github.com/dfinity/candid/releases/download/2025-10-02/didc-macos -o install_didc"
-    echo "install -m 755 install_didc /$HOME/.local/bin/didc"
-  } >&2
-  exit 1
-fi
-
 did_files_to_compile_for_pkg() {
   local pkg="$1"
-  local path=packages/${pkg}/candid
+  local path=packages/${pkg}/src/candid
 
   find ${path} -type f -name '*.did' |
     grep -vE ${path}/+payloads.did
@@ -35,18 +26,11 @@ did_files_to_compile() {
 # Normal API access.
 compile_did() {
   local didfile="$1"
+  local didfolder="$(dirname "$didfile")"
   local jsFactoryFile="$(echo "$didfile" | sed 's/did$/idl.js/g')"
   local tsFactoryFile="$(echo "$didfile" | sed 's/did$/idl.d.ts/g')"
-  local tsfile="$(echo "$didfile" | sed 's/did$/d.ts/g')"
 
-  {
-    echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
-    didc bind -t js "${didfile}"
-  } | sed -E "s/^export default/export const idlFactory =/g" >"${jsFactoryFile}"
-
-  generate_did_factory_ts
-
-  didc bind -t ts "${didfile}" >"${tsfile}"
+  generate_did "$didfile" "$didfolder" "$jsFactoryFile" "$tsFactoryFile"
 }
 
 # The certified API makes use of the fact that update calls are always signed, so it calls query calls as updates.
@@ -54,24 +38,55 @@ compile_did() {
 # Note: It is not clear which API calls have certified responses or how to check that a query response has a certificate.
 compile_certified_did() {
   local didfile="$1"
-  local certified_didfile="$(mktemp)"
+
+  # Temporary folder and DID file
+  local didtmpfolder="$(mktemp -d)"
+  local certified_didfile="$didtmpfolder/tmp.did"
+
+  # Output finds place in the project
   local jsFactoryFile="$(echo "$didfile" | sed 's/did$/certified.idl.js/g')"
   local tsFactoryFile="$(echo "$didfile" | sed 's/did$/certified.idl.d.ts/g')"
 
   sed -E "s/(query|composite_query);/;/g" "$didfile" >"$certified_didfile"
 
-  {
-    echo "/* Do not edit.  Compiled with ./scripts/compile-idl-js from ${didfile} */"
-    didc bind -t js "${certified_didfile}"
-  } | sed "s/^export default/export const idlFactory =/g" >"${jsFactoryFile}"
+  generate_did "$certified_didfile" "$didtmpfolder" "$jsFactoryFile" "$tsFactoryFile"
 
-  generate_did_factory_ts
+  rm -r "$didtmpfolder"
+}
 
-  rm "$certified_didfile"
+generate_did() {
+  local didfile="$1"
+  local didfolder="$2"
+  local jsFactoryFile="$3"
+  local tsFactoryFile="$4"
+
+  local tsfile="$(echo "$didfile" | sed 's/did$/d.ts/g')"
+
+  # icp-bindgen non-optional output folder and filenames
+  local declarationsfolder="${didfolder}/declarations"
+  local filename="$(basename "$didfile" .did)"
+  local generatedTsfile="${declarationsfolder}/${filename}.did.d.ts"
+  local generatedJsfile="${declarationsfolder}/${filename}.did.js"
+
+  # --actor-disabled: skip generating actor files, since we handle those ourselves
+  # --force: overwrite files. Required; otherwise, icp-bindgen would delete files at preprocess,
+  # which causes issues when multiple .did files are located in the same folder.
+  npx icp-bindgen --did-file "${didfile}" --out-dir "${didfolder}" --actor-disabled --force
+
+  # icp-bindgen generates the files in a `declarations` subfolder
+  # using suffixes different from those historically used in ic-js.
+  # That's why we have to post-process the results.
+  mv "${generatedTsfile}" "${tsfile}"
+  mv "${generatedJsfile}" "${jsFactoryFile}"
+  rm -r "${declarationsfolder}"
+
+  generate_did_factory_ts "${tsFactoryFile}"
 }
 
 generate_did_factory_ts() {
-  echo "import type { IDL } from \"@dfinity/candid\";export const idlFactory: IDL.InterfaceFactory;" >"${tsFactoryFile}"
+  local tsFactoryFile="$1"
+
+  echo "import type { IDL } from \"@icp-sdk/core/candid\";export const idlFactory: IDL.InterfaceFactory;" >"${tsFactoryFile}"
 }
 
 # First generate default certified versions of normal did files.

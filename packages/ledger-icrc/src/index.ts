@@ -14,7 +14,7 @@ export type {
   TransferFromError as IcrcTransferFromError,
   TransferError as IcrcTransferVariantError,
   Value as IcrcValue,
-} from "../candid/icrc_ledger";
+} from "./candid/icrc_ledger";
 export * from "./converters/converters";
 export * from "./converters/ledger.converters";
 export * from "./errors/index.errors";

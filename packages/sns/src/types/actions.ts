@@ -1,4 +1,4 @@
-import type { Principal } from "@dfinity/principal";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   DefaultFollowees,
   DeregisterDappCanisters,
@@ -9,7 +9,7 @@ import type {
   RegisterDappCanisters,
   Subaccount,
   Topic,
-} from "../../candid/sns_governance";
+} from "../candid/sns_governance";
 import type { Option } from "./common";
 
 export type Action =

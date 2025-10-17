@@ -21,7 +21,7 @@ npm i @dfinity/nns
 The bundle needs peer dependencies, be sure that following resources are available in your project as well.
 
 ```bash
-npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
+npm i @icp-sdk/core @dfinity/utils
 ```
 
 ## Usage
@@ -49,7 +49,7 @@ To execute this on a local environment, you will need to fetch the root key when
 
 ```typescript
 import { GovernanceCanister } from "@dfinity/nns";
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 import { createAgent } from "@dfinity/utils";
 
 const agent = await createAgent({
@@ -531,9 +531,9 @@ Parameters:
 
 Merge Maturity of a neuron
 
-| Method        | Type                                                                                                                                                                                                               |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `spawnNeuron` | `({ neuronId, percentageToSpawn, newController, nonce, }: { neuronId: bigint; percentageToSpawn?: number or undefined; newController?: Principal or undefined; nonce?: bigint or undefined; }) => Promise<bigint>` |
+| Method        | Type                                                                                                                                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spawnNeuron` | `({ neuronId, percentageToSpawn, newController, nonce, }: { neuronId: bigint; percentageToSpawn?: number or undefined; newController?: any; nonce?: bigint or undefined; }) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L867)
 
@@ -561,9 +561,9 @@ Remove hotkey to neuron
 
 Gets the NeuronID of a newly created neuron.
 
-| Method                            | Type                                                                                                              |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `claimOrRefreshNeuronFromAccount` | `({ memo, controller, }: { memo: bigint; controller?: Principal or undefined; }) => Promise<bigint or undefined>` |
+| Method                            | Type                                                                                           |
+| --------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `claimOrRefreshNeuronFromAccount` | `({ memo, controller, }: { memo: bigint; controller?: any; }) => Promise<bigint or undefined>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/nns/src/governance.canister.ts#L952)
 
