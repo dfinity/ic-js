@@ -16,7 +16,7 @@ import_did() {
   local pkg="$3"
   local src_dir="${4:-$IC_DIR}"
   local in_fullpath="$src_dir/$in_path"
-  local out_path="packages/${pkg}/candid/${out_filename}"
+  local out_path="packages/${pkg}/src/candid/${out_filename}"
   echo "Copying ${in_fullpath} -> REPO_ROOT/${out_path}"
   {
     echo "// Generated from IC repo commit ${IC_COMMIT} (${IC_DATE}${IC_TAGS:+ tags: ${IC_TAGS% }}) '${in_path}' by $(basename "${0}")"
@@ -30,7 +30,7 @@ download_did() {
   local out_filename="$2"
   local pkg="$3"
 
-  local out_path="packages/${pkg}/candid/${out_filename}"
+  local out_path="packages/${pkg}/src/candid/${out_filename}"
 
   # Extract repository, branch, and file path from the raw URL
   local repo=$(echo "$raw_url" | awk -F '/' '{print $4"/"$5}')
@@ -63,7 +63,7 @@ patch_import_did() {
   local in_fullpath="$IC_DIR/$in_path"
   local patch_fullpath="$IC_DIR/$patch_path"
 
-  local out_path="packages/${pkg}/candid/${out_filename}.tmp"
+  local out_path="packages/${pkg}/src/candid/${out_filename}.tmp"
 
   # Apply the patch over the did file.
   patch --quiet "$in_fullpath" "$patch_fullpath" --output="$out_path"
@@ -109,37 +109,37 @@ IC_TAGS="$(cd "${IC_DIR}" && git tag --points-at HEAD | tr "\n" " ")"
 THIS_SCRIPT_NAME="$(basename "$0")"
 
 : Import canisters
-mkdir -p packages/nns/candid
+mkdir -p packages/nns/src/candid
 import_did "rs/nns/governance/canister/governance.did" "governance.did" "nns"
 patch_import_did "rs/nns/governance/canister/governance.did" "rs/nns/governance/canister/governance_test.did.patch" "governance_test.did" "nns"
 import_did "rs/nns/gtc/canister/gtc.did" "genesis_token.did" "nns"
 import_did "rs/nns/sns-wasm/canister/sns-wasm.did" "sns_wasm.did" "nns"
 
-mkdir -p packages/sns/candid
+mkdir -p packages/sns/src/candid
 import_did "rs/sns/swap/canister/swap.did" "sns_swap.did" "sns"
 import_did "rs/sns/root/canister/root.did" "sns_root.did" "sns"
 import_did "rs/sns/governance/canister/governance.did" "sns_governance.did" "sns"
 patch_import_did "rs/sns/governance/canister/governance.did" "rs/sns/governance/canister/governance_test.did.patch" "sns_governance_test.did" "sns"
 
-mkdir -p packages/cmc/candid
+mkdir -p packages/cmc/src/candid
 import_did "rs/nns/cmc/cmc.did" "cmc.did" "cmc"
 
-mkdir -p packages/ledger-icp/candid
+mkdir -p packages/ledger-icp/src/candid
 import_did "rs/ledger_suite/icp/ledger.did" "ledger.did" "ledger-icp"
 import_did "rs/ledger_suite/icp/index/index.did" "index.did" "ledger-icp"
 
-mkdir -p packages/ledger-icrc/candid
+mkdir -p packages/ledger-icrc/src/candid
 import_did "rs/ledger_suite/icrc1/ledger/ledger.did" "icrc_ledger.did" "ledger-icrc"
 import_did "rs/ledger_suite/icrc1/index-ng/index-ng.did" "icrc_index-ng.did" "ledger-icrc"
 
-mkdir -p packages/ckbtc/candid
+mkdir -p packages/ckbtc/src/candid
 import_did "rs/bitcoin/ckbtc/minter/ckbtc_minter.did" "minter.did" "ckbtc"
 download_did https://raw.githubusercontent.com/dfinity/bitcoin-canister/master/canister/candid.did "bitcoin.did" "ckbtc"
 
-mkdir -p packages/cketh/candid
+mkdir -p packages/cketh/src/candid
 import_did "rs/ethereum/cketh/minter/cketh_minter.did" "minter.did" "cketh"
 import_did "rs/ethereum/ledger-suite-orchestrator/ledger_suite_orchestrator.did" "orchestrator.did" "cketh"
 
-mkdir -p packages/ic-management/candid
+mkdir -p packages/ic-management/src/candid
 download_did https://raw.githubusercontent.com/dfinity/portal/master/docs/references/_attachments/ic.did "ic-management.did" "ic-management"
 : Fin
