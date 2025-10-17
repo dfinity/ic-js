@@ -3,7 +3,7 @@ import type {
   LedgerError as LedgerErrorType,
   WithdrawErc20Error,
   WithdrawalError,
-} from "../../candid/minter";
+} from "../candid/minter";
 
 export class DetailedError<T> extends Error {
   public details: T | undefined;

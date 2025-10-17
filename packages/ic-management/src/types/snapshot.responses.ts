@@ -1,5 +1,5 @@
 import { assertNever, fromNullable, isNullish } from "@dfinity/utils";
-import type { read_canister_snapshot_metadata_response } from "../../candid/ic-management";
+import type { read_canister_snapshot_metadata_response } from "../candid/ic-management";
 
 export interface ReadCanisterSnapshotMetadataResponse {
   globals: (

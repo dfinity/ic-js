@@ -11,9 +11,9 @@ import type {
   read_canister_snapshot_data_response,
   take_canister_snapshot_result,
   upload_canister_snapshot_metadata_response,
-} from "../candid/ic-management";
-import { idlFactory as certifiedIdlFactory } from "../candid/ic-management.certified.idl";
-import { idlFactory } from "../candid/ic-management.idl";
+} from "./candid/ic-management";
+import { idlFactory as certifiedIdlFactory } from "./candid/ic-management.certified.idl";
+import { idlFactory } from "./candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
   toCanisterSettings,

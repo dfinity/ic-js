@@ -26,7 +26,7 @@ import type {
   Result,
   RewardEvent,
   SetFollowingResponse,
-} from "../candid/governance";
+} from "./candid/governance";
 import {
   CanisterAction,
   CanisterInstallMode,
