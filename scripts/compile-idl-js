@@ -6,7 +6,7 @@ set -euo pipefail
 
 did_files_to_compile_for_pkg() {
   local pkg="$1"
-  local path=packages/${pkg}/candid
+  local path=packages/${pkg}/src/candid
 
   find ${path} -type f -name '*.did' |
     grep -vE ${path}/+payloads.did

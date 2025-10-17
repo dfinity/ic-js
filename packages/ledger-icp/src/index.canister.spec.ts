@@ -4,7 +4,7 @@ import type {
   GetAccountIdentifierTransactionsError,
   GetAccountIdentifierTransactionsResponse,
   _SERVICE as IndexService,
-} from "../candid/index";
+} from "./candid/index";
 import { IndexCanister } from "./index.canister";
 import { mockAccountIdentifier } from "./mocks/ledger.mock";
 

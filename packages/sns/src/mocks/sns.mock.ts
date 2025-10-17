@@ -1,6 +1,6 @@
 import { Principal } from "@icp-sdk/core/principal";
-import type { ListSnsCanistersResponse } from "../../candid/sns_root";
-import type { Ticket } from "../../candid/sns_swap";
+import type { ListSnsCanistersResponse } from "../candid/sns_root";
+import type { Ticket } from "../candid/sns_swap";
 
 export const rootCanisterIdMock: Principal = Principal.fromText(
   "pin7y-wyaaa-aaaaa-aacpa-cai",

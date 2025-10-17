@@ -13,9 +13,9 @@ import type {
   RetrieveBtcStatus,
   Utxo,
   Account as WithdrawalAccount,
-} from "../candid/minter";
-import { idlFactory as certifiedIdlFactory } from "../candid/minter.certified.idl";
-import { idlFactory } from "../candid/minter.idl";
+} from "./candid/minter";
+import { idlFactory as certifiedIdlFactory } from "./candid/minter.certified.idl";
+import { idlFactory } from "./candid/minter.idl";
 import {
   createRetrieveBtcError,
   createRetrieveBtcWithApprovalError,

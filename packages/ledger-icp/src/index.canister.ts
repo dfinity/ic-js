@@ -7,9 +7,9 @@ import {
 import type {
   GetAccountIdentifierTransactionsResponse,
   _SERVICE as IndexService,
-} from "../candid/index";
-import { idlFactory as certifiedIdlFactory } from "../candid/index.certified.idl";
-import { idlFactory } from "../candid/index.idl";
+} from "./candid/index";
+import { idlFactory as certifiedIdlFactory } from "./candid/index.certified.idl";
+import { idlFactory } from "./candid/index.idl";
 import { MAINNET_INDEX_CANISTER_ID } from "./constants/canister_ids";
 import { IndexError } from "./errors/index.errors";
 import type { GetTransactionsParams } from "./types/index.params";
