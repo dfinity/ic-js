@@ -14,19 +14,22 @@
     "packages/ckbtc",
     "packages/ic-management",
     "packages/cketh",
-    "packages/zod-schemas"
+    "packages/zod-schemas",
+    "packages/canisters"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
     "protoc": "bash ./scripts/update_proto.sh",
+    "pretest": "npm run pretest --workspaces --if-present",
     "test": "tsc --project tsconfig.spec.json --noEmit && vitest",
     "test-all": "npm ci && npm run test --workspaces",
     "docs": "node scripts/docs.js && prettier --write packages/**/README.md",
     "build": "npm run build --workspaces",
     "size": "size-limit --json",
-    "update:agent": "./scripts/update-agent"
+    "update:agent": "./scripts/update-agent",
+    "clean": "npm run clean --workspaces --if-present"
   },
   "repository": {
     "type": "git",
@@ -37,11 +40,11 @@
   },
   "devDependencies": {
     "@dfinity/eslint-config-oisy-wallet": "^0.2.0",
+    "@icp-sdk/bindgen": "^0.1.0-beta.6",
     "@size-limit/esbuild": "^11.2.0",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@types/node": "^24.0.14",
     "esbuild": "^0.25.8",
-    "node-fetch": "^3.3.2",
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.1.0",
     "size-limit": "^11.2.0",
@@ -61,6 +64,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -73,6 +77,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -85,6 +90,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -97,6 +103,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -109,6 +116,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     },
@@ -121,6 +129,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils",
         "@dfinity/ledger-icp"
       ]
@@ -140,6 +149,7 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils",
         "@dfinity/ledger-icrc"
       ]
@@ -152,7 +162,8 @@
       "ignore": [
         "@dfinity/agent",
         "@dfinity/candid",
-        "@dfinity/principal"
+        "@dfinity/principal",
+        "@icp-sdk/core"
       ]
     },
     {
@@ -162,7 +173,8 @@
       "gzip": true,
       "ignore": [
         "zod",
-        "@dfinity/principal"
+        "@dfinity/principal",
+        "@icp-sdk/core"
       ]
     },
     {
@@ -174,6 +186,113 @@
         "@dfinity/agent",
         "@dfinity/candid",
         "@dfinity/principal",
+        "@icp-sdk/core",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@icp-sdk/canisters/ckbtc",
+      "path": "./packages/canisters/ckbtc/index.js",
+      "limit": "9 kB",
+      "gzip": true,
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@icp-sdk/core",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@icp-sdk/canisters/cketh",
+      "path": "./packages/canisters/cketh/index.js",
+      "limit": "5 kB",
+      "gzip": true,
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@icp-sdk/core",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@icp-sdk/canisters/cmc",
+      "path": "./packages/canisters/cmc/index.js",
+      "limit": "2 kB",
+      "gzip": true,
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@icp-sdk/core",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@icp-sdk/canisters/ledger/icrc",
+      "path": "./packages/canisters/ledger/icrc/index.js",
+      "limit": "5 kB",
+      "gzip": true,
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@icp-sdk/core",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@icp-sdk/canisters/ledger/icp",
+      "path": "./packages/canisters/ledger/icp/index.js",
+      "limit": "10 kB",
+      "gzip": true,
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@icp-sdk/core",
+        "@dfinity/utils"
+      ]
+    },
+    {
+      "name": "@icp-sdk/canisters/nns",
+      "path": "./packages/canisters/nns/index.js",
+      "limit": "40 kB",
+      "gzip": true,
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@icp-sdk/core",
+        "@dfinity/utils",
+        "@dfinity/ledger-icp"
+      ]
+    },
+    {
+      "name": "@icp-sdk/canisters/sns",
+      "path": "./packages/canisters/sns/index.js",
+      "limit": "25 kB",
+      "gzip": true,
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@icp-sdk/core",
+        "@dfinity/utils",
+        "@dfinity/ledger-icrc"
+      ]
+    },
+    {
+      "name": "@icp-sdk/canisters/ic-management",
+      "path": "./packages/canisters/ic-management/index.js",
+      "limit": "10 kB",
+      "gzip": true,
+      "ignore": [
+        "@dfinity/agent",
+        "@dfinity/candid",
+        "@dfinity/principal",
+        "@icp-sdk/core",
         "@dfinity/utils"
       ]
     }

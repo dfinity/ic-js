@@ -1,4 +1,3 @@
-import type { Principal } from "@dfinity/principal";
 import {
   Canister,
   assertPercentageNumber,
@@ -7,6 +6,7 @@ import {
   toNullable,
   type QueryParams,
 } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   GetMetadataResponse,
   ListNervousSystemFunctionsResponse,
@@ -19,9 +19,9 @@ import type {
   NeuronId,
   ProposalData,
   _SERVICE as SnsGovernanceService,
-} from "../candid/sns_governance";
-import { idlFactory as certifiedIdlFactory } from "../candid/sns_governance.certified.idl";
-import { idlFactory } from "../candid/sns_governance.idl";
+} from "./candid/sns_governance";
+import { idlFactory as certifiedIdlFactory } from "./candid/sns_governance.certified.idl";
+import { idlFactory } from "./candid/sns_governance.idl";
 import { MAX_LIST_NEURONS_RESULTS } from "./constants/governance.constants";
 import {
   toAddPermissionsRequest,

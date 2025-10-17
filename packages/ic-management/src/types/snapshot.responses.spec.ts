@@ -1,4 +1,4 @@
-import type { read_canister_snapshot_metadata_response } from "../../candid/ic-management";
+import type { read_canister_snapshot_metadata_response } from "../candid/ic-management";
 import {
   fromReadCanisterSnapshotMetadataResponse,
   type ReadCanisterSnapshotMetadataResponse,

@@ -1,5 +1,5 @@
-import type { ActorSubclass, HttpAgent } from "@dfinity/agent";
 import { toNullable, type ServiceResponse } from "@dfinity/utils";
+import type { ActorSubclass, HttpAgent } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type {
   canister_install_mode,
@@ -10,7 +10,7 @@ import type {
   read_canister_snapshot_metadata_response,
   take_canister_snapshot_result,
   upload_canister_snapshot_metadata_response,
-} from "../candid/ic-management";
+} from "./candid/ic-management";
 import { ICManagementCanister } from "./ic-management.canister";
 import {
   mappedMockCanisterSettings,

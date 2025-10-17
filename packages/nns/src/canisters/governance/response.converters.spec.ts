@@ -1,9 +1,9 @@
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 import type {
   MaturityDisbursement as RawMaturityDisbursement,
   Neuron as RawNeuron,
   NeuronInfo as RawNeuronInfo,
-} from "../../../candid/governance";
+} from "../../candid/governance";
 import { MAINNET_GOVERNANCE_CANISTER_ID } from "../../constants/canister_ids";
 import { NeuronState } from "../../enums/governance.enums";
 import type {

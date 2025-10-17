@@ -4,7 +4,7 @@ import type {
   _SERVICE as GovernanceService,
   ManageNeuronRequest,
   ManageNeuronResponse,
-} from "../../../candid/governance";
+} from "../../candid/governance";
 import { GovernanceError } from "../../errors/governance.errors";
 
 /**

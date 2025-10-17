@@ -1,11 +1,11 @@
-import { AnonymousIdentity, type ActorSubclass } from "@dfinity/agent";
 import {
   AccountIdentifier,
   InvalidAccountIDError,
   type LedgerCanister,
 } from "@dfinity/ledger-icp";
-import { Principal } from "@dfinity/principal";
 import { InvalidPercentageError } from "@dfinity/utils";
+import { AnonymousIdentity, type ActorSubclass } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
 import type {
   ClaimOrRefreshNeuronFromAccountResponse,
@@ -26,7 +26,7 @@ import type {
   Result,
   RewardEvent,
   SetFollowingResponse,
-} from "../candid/governance";
+} from "./candid/governance";
 import {
   CanisterAction,
   CanisterInstallMode,
@@ -214,7 +214,12 @@ describe("GovernanceCanister", () => {
           {
             id: [{ id: BigInt(100) }],
             known_neuron_data: [
-              { name: "aaa", description: ["xyz"], links: [["test.com"]] },
+              {
+                name: "aaa",
+                description: ["xyz"],
+                links: [["test.com"]],
+                committed_topics: [[[{ CatchAll: null }]]],
+              },
             ],
           },
         ],
@@ -232,15 +237,18 @@ describe("GovernanceCanister", () => {
         name: "aaa",
         description: "xyz",
         links: ["test.com"],
+        committed_topics: [[{ CatchAll: null }]],
       });
     });
 
-    it("handles description and links being undefined", async () => {
+    it("handles fields being undefined", async () => {
       const response: ListKnownNeuronsResponse = {
         known_neurons: [
           {
             id: [{ id: BigInt(100) }],
-            known_neuron_data: [{ name: "aaa", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "aaa", description: [], links: [], committed_topics: [] },
+            ],
           },
         ],
       };
@@ -257,6 +265,7 @@ describe("GovernanceCanister", () => {
         name: "aaa",
         description: undefined,
         links: undefined,
+        committed_topics: undefined,
       });
     });
 
@@ -265,19 +274,27 @@ describe("GovernanceCanister", () => {
         known_neurons: [
           {
             id: [{ id: BigInt(100) }],
-            known_neuron_data: [{ name: "aaa", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "aaa", description: [], links: [], committed_topics: [] },
+            ],
           },
           {
             id: [{ id: BigInt(200) }],
-            known_neuron_data: [{ name: "bbb", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "bbb", description: [], links: [], committed_topics: [] },
+            ],
           },
           {
             id: [{ id: BigInt(300) }],
-            known_neuron_data: [{ name: "ccc", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "ccc", description: [], links: [], committed_topics: [] },
+            ],
           },
           {
             id: [{ id: BigInt(400) }],
-            known_neuron_data: [{ name: "ddd", description: [], links: [] }],
+            known_neuron_data: [
+              { name: "ddd", description: [], links: [], committed_topics: [] },
+            ],
           },
         ],
       };

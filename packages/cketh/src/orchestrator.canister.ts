@@ -2,9 +2,9 @@ import { Canister, createServices, type QueryParams } from "@dfinity/utils";
 import type {
   _SERVICE as CkETHOrchestratorService,
   OrchestratorInfo,
-} from "../candid/orchestrator";
-import { idlFactory as certifiedIdlFactory } from "../candid/orchestrator.certified.idl";
-import { idlFactory } from "../candid/orchestrator.idl";
+} from "./candid/orchestrator";
+import { idlFactory as certifiedIdlFactory } from "./candid/orchestrator.certified.idl";
+import { idlFactory } from "./candid/orchestrator.idl";
 import type { CkETHOrchestratorCanisterOptions } from "./types/canister.options";
 
 /**

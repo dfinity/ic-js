@@ -1,0 +1,15 @@
+# Ignore everything
+*
+
+# Except
+!src/
+!esbuild.mjs
+!copy-candid.mjs
+!copy-ts-declarations.mjs
+!LICENSE
+!package.json
+!README.md
+!tsconfig.json
+!vitest.config.ts
+
+!src/**

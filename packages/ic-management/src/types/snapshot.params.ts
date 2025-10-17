@@ -1,5 +1,5 @@
-import type { Principal } from "@dfinity/principal";
 import { assertNever, isNullish, nonNullish, toNullable } from "@dfinity/utils";
+import type { Principal } from "@icp-sdk/core/principal";
 import type {
   canister_id,
   read_canister_snapshot_data_args,
@@ -7,7 +7,7 @@ import type {
   take_canister_snapshot_args,
   upload_canister_snapshot_data_args,
   upload_canister_snapshot_metadata_args,
-} from "../../candid/ic-management";
+} from "../candid/ic-management";
 import { mapSnapshotId } from "../utils/ic-management.utils";
 import type { ReadCanisterSnapshotMetadataResponse } from "./snapshot.responses";
 

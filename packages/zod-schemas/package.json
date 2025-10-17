@@ -3,9 +3,22 @@
   "version": "2.1.0",
   "description": "A collection of reusable Zod schemas and validators for common data patterns in ICP applications",
   "license": "Apache-2.0",
-  "main": "dist/cjs/index.cjs.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
   "files": [
     "dist",
     "README.md",
@@ -13,7 +26,7 @@
   ],
   "scripts": {
     "rmdir": "node ../../scripts/rmdir.mjs",
-    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist/types",
+    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist",
     "build": "npm run rmdir && mkdir -p dist && node esbuild.mjs && npm run ts-declaration",
     "prepack": "npm run build",
     "test": "vitest"
@@ -47,7 +60,7 @@
     "service-nervous-system"
   ],
   "peerDependencies": {
-    "@dfinity/principal": "*",
+    "@icp-sdk/core": "*",
     "zod": "^4"
   }
 }

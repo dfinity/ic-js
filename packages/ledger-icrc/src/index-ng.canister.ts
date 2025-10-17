@@ -1,13 +1,13 @@
-import type { Principal } from "@dfinity/principal";
 import { createServices, type QueryParams } from "@dfinity/utils";
-import type { SubAccount } from "../candid/icrc_index";
+import type { Principal } from "@icp-sdk/core/principal";
+import type { SubAccount } from "./candid/icrc_index";
 import type {
   GetTransactions,
   _SERVICE as IcrcIndexNgService,
   Status,
-} from "../candid/icrc_index-ng";
-import { idlFactory as certifiedIdlFactory } from "../candid/icrc_index-ng.certified.idl";
-import { idlFactory } from "../candid/icrc_index-ng.idl";
+} from "./candid/icrc_index-ng";
+import { idlFactory as certifiedIdlFactory } from "./candid/icrc_index-ng.certified.idl";
+import { idlFactory } from "./candid/icrc_index-ng.idl";
 import { IcrcCanister } from "./canister";
 import {
   toGetTransactionsArgs,

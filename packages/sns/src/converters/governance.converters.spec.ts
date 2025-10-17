@@ -1,4 +1,4 @@
-import { Principal } from "@dfinity/principal";
+import { Principal } from "@icp-sdk/core/principal";
 import type {
   Action as ActionCandid,
   DefaultFollowees,
@@ -6,7 +6,7 @@ import type {
   ExtensionOperationArg as ExtensionOperationArgCandid,
   ExtensionUpgradeArg as ExtensionUpgradeArgCandid,
   Topic,
-} from "../../candid/sns_governance";
+} from "../candid/sns_governance";
 import { topicMock } from "../mocks/governance.mock";
 import type { Action } from "../types/actions";
 import { fromCandidAction } from "./governance.converters";

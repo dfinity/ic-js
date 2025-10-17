@@ -1,11 +1,11 @@
-import type { ActorSubclass } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
+import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
 import type {
   _SERVICE as CkETHOrchestratorService,
   ManagedCanisters,
   OrchestratorInfo,
-} from "../candid/orchestrator";
+} from "./candid/orchestrator";
 import { minterCanisterIdMock } from "./mocks/minter.mock";
 import { CkETHOrchestratorCanister } from "./orchestrator.canister";
 

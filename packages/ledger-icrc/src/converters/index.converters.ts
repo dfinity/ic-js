@@ -1,6 +1,6 @@
 import { toNullable } from "@dfinity/utils";
-import type { GetAccountTransactionsArgs } from "../../candid/icrc_index";
-import type { ListSubaccountsArgs } from "../../candid/icrc_index-ng";
+import type { GetAccountTransactionsArgs } from "../candid/icrc_index";
+import type { ListSubaccountsArgs } from "../candid/icrc_index-ng";
 import type { ListSubaccountsParams } from "../types/index-ng.params";
 import type { GetAccountTransactionsParams } from "../types/index.params";
 import { toCandidAccount } from "./converters";
