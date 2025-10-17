@@ -42,6 +42,11 @@ export const copyTsDeclarations = async () => {
   }
 };
 
+/**
+ * Execute a command in the specified folder (cwd). Useful for generating
+ * TypeScript declarations using the `tsconfig.json` located at the specified
+ * location.
+ */
 const execute = async ({ command, args, cwd }) =>
   await new Promise((resolve) => {
     const childProcess = spawnCommand(command, args ?? [], {
