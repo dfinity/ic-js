@@ -85,7 +85,7 @@ const buildNode = ({ multi, format }) => {
             outfile:
               format === "cjs"
                 ? join(dist, "cjs", "index.cjs.js")
-                : join(dist, "index.mjs"),
+                : join(dist, "node", "index.mjs"),
           }),
       bundle: true,
       sourcemap: true,
