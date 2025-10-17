@@ -14,7 +14,7 @@ export type {
   snapshot_id,
   take_canister_snapshot_result,
   upload_canister_snapshot_metadata_response,
-} from "../candid/ic-management";
+} from "./candid/ic-management";
 export { ICManagementCanister } from "./ic-management.canister";
 export * from "./types/canister.options";
 export * from "./types/ic-management.params";

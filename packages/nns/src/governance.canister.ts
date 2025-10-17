@@ -25,10 +25,10 @@ import type {
   NeuronInfo as RawNeuronInfo,
   ProposalInfo as RawProposalInfo,
   RewardEvent,
-} from "../candid/governance";
-import { idlFactory as certifiedIdlFactory } from "../candid/governance.certified.idl";
-import { idlFactory } from "../candid/governance.idl";
-import { idlFactory as oldListNeuronsCertifiedIdlFactory } from "../candid/old_list_neurons_service.certified.idl";
+} from "./candid/governance";
+import { idlFactory as certifiedIdlFactory } from "./candid/governance.certified.idl";
+import { idlFactory } from "./candid/governance.idl";
+import { idlFactory as oldListNeuronsCertifiedIdlFactory } from "./candid/old_list_neurons_service.certified.idl";
 import {
   fromClaimOrRefreshNeuronRequest,
   fromListNeurons,

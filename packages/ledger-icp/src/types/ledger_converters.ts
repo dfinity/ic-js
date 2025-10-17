@@ -1,11 +1,11 @@
+import type { AccountIdentifier } from "../account_identifier";
 import type {
   Account,
   Icrc1Timestamp,
   Icrc1Tokens,
   icrc21_consent_message_request,
   SubAccount,
-} from "../../candid/ledger";
-import type { AccountIdentifier } from "../account_identifier";
+} from "../candid/ledger";
 import type { E8s } from "./common";
 
 export interface TransferRequest {

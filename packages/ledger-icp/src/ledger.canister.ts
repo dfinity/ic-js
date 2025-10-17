@@ -5,9 +5,9 @@ import type {
   _SERVICE as LedgerService,
   Value,
   icrc21_consent_info,
-} from "../candid/ledger";
-import { idlFactory as certifiedIdlFactory } from "../candid/ledger.certified.idl";
-import { idlFactory } from "../candid/ledger.idl";
+} from "./candid/ledger";
+import { idlFactory as certifiedIdlFactory } from "./candid/ledger.certified.idl";
+import { idlFactory } from "./candid/ledger.idl";
 import {
   toIcrc1TransferRawRequest,
   toIcrc21ConsentMessageRawRequest,

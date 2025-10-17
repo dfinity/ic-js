@@ -62,7 +62,7 @@ import type {
   Tokens as RawTokens,
   VotingPowerEconomics as RawVotingPowerEconomics,
   VotingRewardParameters as RawVotingRewardParameters,
-} from "../../../candid/governance";
+} from "../../candid/governance";
 import type {
   CanisterAction,
   CanisterInstallMode,

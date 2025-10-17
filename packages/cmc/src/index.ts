@@ -3,6 +3,6 @@ export type {
   NotifyCreateCanisterArg,
   NotifyTopUpArg,
   SubnetTypesToSubnetsResponse,
-} from "../candid/cmc";
+} from "./candid/cmc";
 export { CMCCanister } from "./cmc.canister";
 export * from "./cmc.errors";

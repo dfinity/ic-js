@@ -15,9 +15,9 @@ import type {
   _SERVICE as IcrcLedgerService,
   StandardRecord,
   Tokens,
-} from "../candid/icrc_ledger";
-import { idlFactory as certifiedIdlFactory } from "../candid/icrc_ledger.certified.idl";
-import { idlFactory } from "../candid/icrc_ledger.idl";
+} from "./candid/icrc_ledger";
+import { idlFactory as certifiedIdlFactory } from "./candid/icrc_ledger.certified.idl";
+import { idlFactory } from "./candid/icrc_ledger.idl";
 import {
   toApproveArgs,
   toIcrc21ConsentMessageArgs,
