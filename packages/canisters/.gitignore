@@ -5,6 +5,7 @@
 !src/
 !esbuild.mjs
 !copy-candid.mjs
+!copy-ts-declarations.mjs
 !LICENSE
 !package.json
 !README.md
