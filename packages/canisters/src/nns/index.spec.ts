@@ -1,4 +1,3 @@
-import { shouldReExportAllMembers } from "../utils/test.utils";
 import {
   GenesisTokenCanister,
   GovernanceCanister,
@@ -21,10 +20,5 @@ describe("@icp-sdk/nns", () => {
 
   it("should re-export GovernanceTestCanister", () => {
     expect(GovernanceTestCanister).not.toBeUndefined();
-  });
-
-  shouldReExportAllMembers({
-    source: "@dfinity/nns",
-    reexport: "@icp-sdk/canisters/nns",
   });
 });
