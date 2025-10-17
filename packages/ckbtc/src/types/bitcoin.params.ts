@@ -3,7 +3,7 @@ import type {
   get_balance_request,
   get_utxos_request,
   network,
-} from "../../candid/bitcoin";
+} from "../candid/bitcoin";
 
 export type BitcoinNetwork = "testnet" | "mainnet" | "regtest";
 

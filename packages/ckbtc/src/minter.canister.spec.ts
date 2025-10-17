@@ -11,7 +11,7 @@ import type {
   RetrieveBtcStatusV2,
   UpdateBalanceError,
   Utxo,
-} from "../candid/minter";
+} from "./candid/minter";
 import {
   MinterAlreadyProcessingError,
   MinterAmountTooLowError,

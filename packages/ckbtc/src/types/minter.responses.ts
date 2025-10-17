@@ -5,7 +5,7 @@ import type {
   RetrieveBtcWithApprovalError,
   UpdateBalanceError,
   UtxoStatus,
-} from "../../candid/minter";
+} from "../candid/minter";
 
 export type UpdateBalanceOk = UtxoStatus[];
 

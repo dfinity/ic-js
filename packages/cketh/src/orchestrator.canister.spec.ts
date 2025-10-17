@@ -5,7 +5,7 @@ import type {
   _SERVICE as CkETHOrchestratorService,
   ManagedCanisters,
   OrchestratorInfo,
-} from "../candid/orchestrator";
+} from "./candid/orchestrator";
 import { minterCanisterIdMock } from "./mocks/minter.mock";
 import { CkETHOrchestratorCanister } from "./orchestrator.canister";
 
