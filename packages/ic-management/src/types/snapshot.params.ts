@@ -7,7 +7,7 @@ import type {
   take_canister_snapshot_args,
   upload_canister_snapshot_data_args,
   upload_canister_snapshot_metadata_args,
-} from "../../candid/ic-management";
+} from "../candid/ic-management";
 import { mapSnapshotId } from "../utils/ic-management.utils";
 import type { ReadCanisterSnapshotMetadataResponse } from "./snapshot.responses";
 
