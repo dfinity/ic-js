@@ -92,7 +92,7 @@ const buildNode = ({ multi, format }) => {
 const writeNodeCjsRootEntry = () => {
   writeFileSync(
     join(dist, "index.cjs.js"),
-    "module.exports = require('./cjs/index.js');",
+    "module.exports = require('./cjs/index.cjs.js');",
   );
 };
 
