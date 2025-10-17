@@ -1,5 +1,5 @@
-import { BitcoinCanister, CkBTCMinterCanister } from "./ckbtc";
-import { shouldReExportAllMembers } from "./utils/test.utils";
+import { shouldReExportAllMembers } from "../utils/test.utils";
+import { BitcoinCanister, CkBTCMinterCanister } from "./index";
 
 describe("@icp-sdk/ckbtc", () => {
   it("should re-export CkBTCMinterCanister", () => {

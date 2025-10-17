@@ -1,5 +1,5 @@
-import { CkETHMinterCanister, CkETHOrchestratorCanister } from "./cketh";
-import { shouldReExportAllMembers } from "./utils/test.utils";
+import { shouldReExportAllMembers } from "../utils/test.utils";
+import { CkETHMinterCanister, CkETHOrchestratorCanister } from "./index";
 
 describe("@icp-sdk/cketh", () => {
   it("should re-export CkETHMinterCanister", () => {

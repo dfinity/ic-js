@@ -12,8 +12,8 @@ export const SCRIPTS_PATH = __dirname;
  */
 export const readPackageJson = (packageJson) => {
   const json = readFileSync(packageJson, "utf8");
-  const { peerDependencies } = JSON.parse(json);
-  return { peerDependencies: peerDependencies ?? {} };
+  const { peerDependencies, exports } = JSON.parse(json);
+  return { peerDependencies: peerDependencies ?? {}, exports: exports ?? {} };
 };
 
 /**

@@ -14,48 +14,47 @@
       "require": "./index.mjs"
     },
     "./ckbtc": {
-      "types": "./ckbtc.d.ts",
-      "import": "./ckbtc.js",
-      "require": "./ckbtc.mjs"
+      "types": "./ckbtc/index.d.ts",
+      "import": "./ckbtc/index.js",
+      "require": "./ckbtc/index.mjs"
     },
     "./cketh": {
-      "types": "./cketh.d.ts",
-      "import": "./cketh.js",
-      "require": "./cketh.mjs"
+      "types": "./cketh/index.d.ts",
+      "import": "./cketh/index.js",
+      "require": "./cketh/index.mjs"
     },
     "./cmc": {
-      "types": "./cmc.d.ts",
-      "import": "./cmc.js",
-      "require": "./cmc.mjs"
+      "types": "./cmc/index.d.ts",
+      "import": "./cmc/index.js",
+      "require": "./cmc/index.mjs"
     },
     "./ic-management": {
-      "types": "./ic-management.d.ts",
-      "import": "./ic-management.js",
-      "require": "./ic-management.mjs"
+      "types": "./ic-management/index.d.ts",
+      "import": "./ic-management/index.js",
+      "require": "./ic-management/index.mjs"
     },
     "./ledger/icp": {
-      "types": "./ledger-icp.d.ts",
-      "import": "./ledger-icp.js",
-      "require": "./ledger-icp.mjs"
+      "types": "./ledger/icp/index.d.ts",
+      "import": "./ledger/icp/index.js",
+      "require": "./ledger/icp/index.mjs"
     },
     "./ledger/icrc": {
-      "types": "./ledger-icrc.d.ts",
-      "import": "./ledger-icrc.js",
-      "require": "./ledger-icrc.mjs"
+      "types": "./ledger/icrc/index.d.ts",
+      "import": "./ledger/icrc/index.js",
+      "require": "./ledger/icrc/index.mjs"
     },
     "./nns": {
-      "types": "./nns.d.ts",
-      "import": "./nns.js",
-      "require": "./nns.mjs"
+      "types": "./nns/index.d.ts",
+      "import": "./nns/index.js",
+      "require": "./nns/index.mjs"
     },
     "./sns": {
-      "types": "./sns.d.ts",
-      "import": "./sns.js",
-      "require": "./sns.mjs"
+      "types": "./sns/index.d.ts",
+      "import": "./sns/index.js",
+      "require": "./sns/index.mjs"
     }
   },
   "files": [
-    "dist",
     "README.md",
     "LICENSE",
     "**/*.js",

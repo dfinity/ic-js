@@ -1,5 +1,5 @@
-import { CMCCanister } from "./cmc";
-import { shouldReExportAllMembers } from "./utils/test.utils";
+import { shouldReExportAllMembers } from "../utils/test.utils";
+import { CMCCanister } from "./index";
 
 describe("@icp-sdk/cmc", () => {
   it("should re-export CMCCanister", () => {

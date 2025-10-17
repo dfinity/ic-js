@@ -1,9 +1,9 @@
+import { shouldReExportAllMembers } from "../../utils/test.utils";
 import {
   IcrcIndexCanister,
   IcrcIndexNgCanister,
   IcrcLedgerCanister,
-} from "./ledger-icrc";
-import { shouldReExportAllMembers } from "./utils/test.utils";
+} from "./index";
 
 describe("@icp-sdk/ledger-icrc", () => {
   it("should re-export IcrcLedgerCanister", () => {
