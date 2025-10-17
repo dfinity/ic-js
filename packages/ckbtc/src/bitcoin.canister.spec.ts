@@ -5,7 +5,7 @@ import type {
   _SERVICE as BitcoinService,
   get_utxos_response,
   satoshi,
-} from "../candid/bitcoin";
+} from "./candid/bitcoin";
 import { BitcoinCanister } from "./bitcoin.canister";
 import { bitcoinAddressMock, bitcoinCanisterIdMock } from "./mocks/minter.mock";
 import type { GetBalanceParams, GetUtxosParams } from "./types/bitcoin.params";

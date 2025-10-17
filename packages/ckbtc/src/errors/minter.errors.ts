@@ -4,7 +4,7 @@ import type {
   RetrieveBtcError,
   RetrieveBtcWithApprovalError,
   UpdateBalanceError,
-} from "../../candid/minter";
+} from "../candid/minter";
 
 export class MinterGenericError extends Error {}
 export class MinterTemporaryUnavailableError extends MinterGenericError {}

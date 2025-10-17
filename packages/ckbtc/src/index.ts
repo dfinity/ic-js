@@ -5,7 +5,7 @@ export type {
   outpoint,
   satoshi,
   utxo,
-} from "../candid/bitcoin";
+} from "./candid/bitcoin";
 export type {
   Account,
   MinterInfo,
@@ -16,7 +16,7 @@ export type {
   Utxo,
   UtxoStatus,
   Account as WithdrawalAccount,
-} from "../candid/minter";
+} from "./candid/minter";
 export { BitcoinCanister } from "./bitcoin.canister";
 export * from "./enums/btc.enums";
 export * from "./errors/btc.errors";
