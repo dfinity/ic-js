@@ -26,12 +26,7 @@ export const sourceExportPaths = () =>
       // - replace remaining "/" with "-" to match the folder naming pattern
       // used for single-path libraries (e.g., ledger/icrc -> ledger-icrc)
       const singlePathLib = key.replace(/^\.\//, "").replace(/\//, "-");
-      const source = join(
-        SCRIPTS_PATH,
-        "..",
-        "packages",
-        singlePathLib,
-      );
+      const source = join(SCRIPTS_PATH, "..", "packages", singlePathLib);
 
       // - trim leading ./ otherwise join() treat the . as a folder
       // - example: "import": "./ckbtc/index.js" → "/ckbtc/index.js"
