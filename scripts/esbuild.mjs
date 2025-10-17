@@ -82,7 +82,10 @@ const buildNode = ({ multi, format }) => {
           }
         : {
             entryPoints: ["src/index.ts"],
-            outfile: join(dist, "node", "index.mjs"),
+            outfile:
+              format === "cjs"
+                ? join(dist, "cjs", "index.cjs.js")
+                : join(dist, "index.mjs"),
           }),
       bundle: true,
       sourcemap: true,
