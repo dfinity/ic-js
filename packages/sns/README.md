@@ -716,33 +716,33 @@ Parameters:
 
 ##### :gear: transactionFee
 
-| Method           | Type                                                              |
-| ---------------- | ----------------------------------------------------------------- |
-| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokens>` |
+| Method           | Type                                                          |
+| ---------------- | ------------------------------------------------------------- |
+| `transactionFee` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L172)
 
 ##### :gear: totalTokensSupply
 
-| Method              | Type                                                              |
-| ------------------- | ----------------------------------------------------------------- |
-| `totalTokensSupply` | `(params: Omit<QueryParams, "certified">) => Promise<IcrcTokens>` |
+| Method              | Type                                                          |
+| ------------------- | ------------------------------------------------------------- |
+| `totalTokensSupply` | `(params: Omit<QueryParams, "certified">) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L177)
 
 ##### :gear: balance
 
-| Method    | Type                                                                |
-| --------- | ------------------------------------------------------------------- |
-| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<IcrcTokens>` |
+| Method    | Type                                                            |
+| --------- | --------------------------------------------------------------- |
+| `balance` | `(params: Omit<BalanceParams, "certified">) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L182)
 
 ##### :gear: transfer
 
-| Method     | Type                                                  |
-| ---------- | ----------------------------------------------------- |
-| `transfer` | `(params: TransferParams) => Promise<IcrcBlockIndex>` |
+| Method     | Type                                          |
+| ---------- | --------------------------------------------- |
+| `transfer` | `(params: TransferParams) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L186)
 
@@ -812,9 +812,9 @@ This is a convenient method that transfers the stake to the neuron subaccount an
 
 ##### :gear: getNeuronBalance
 
-| Method             | Type                                          |
-| ------------------ | --------------------------------------------- |
-| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<IcrcTokens>` |
+| Method             | Type                                      |
+| ------------------ | ----------------------------------------- |
+| `getNeuronBalance` | `(neuronId: NeuronId) => Promise<bigint>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L327)
 
@@ -1010,9 +1010,9 @@ Always certified
 
 ##### :gear: getTransactions
 
-| Method            | Type                                                                     |
-| ----------------- | ------------------------------------------------------------------------ |
-| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<IcrcGetTransactions>` |
+| Method            | Type                                                                 |
+| ----------------- | -------------------------------------------------------------------- |
+| `getTransactions` | `(params: GetAccountTransactionsParams) => Promise<GetTransactions>` |
 
 [:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/sns/src/sns.wrapper.ts#L447)
 
