@@ -1,5 +1,5 @@
 import { Principal } from "@icp-sdk/core/principal";
-import type { MetadataValue } from "../../candid/icrc_ledger";
+import type { MetadataValue } from "../candid/icrc_ledger";
 import { IcrcMetadataResponseEntries } from "../types/ledger.responses";
 
 export const tokenMetadataResponseMock: [
