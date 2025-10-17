@@ -1,32 +1,13 @@
 import esbuild from "esbuild";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-
-/**
- * Read the package.json of the package (library) to build.
- */
-const pkgJson = (packageJson) => {
-  const json = readFileSync(packageJson, "utf8");
-  const { peerDependencies, exports } = JSON.parse(json);
-  return { peerDependencies: peerDependencies ?? {}, exports: exports ?? {} };
-};
-
-/**
- * Root peerDependencies are common external dependencies for all libraries of the mono-repo
- */
-const rootPeerDependencies = () => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const packageJson = join(__dirname, "../package.json");
-  const { peerDependencies } = pkgJson(packageJson);
-  return peerDependencies;
-};
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { readPackageJson, rootPeerDependencies } from "./build.utils.mjs";
 
 const {
   peerDependencies: workspacePeerDependencies,
   exports: workspaceExports,
-} = pkgJson(join(process.cwd(), "package.json"));
+} = readPackageJson(join(process.cwd(), "package.json"));
+
 const externalPeerDependencies = [
   ...Object.keys(rootPeerDependencies()),
   ...Object.keys(workspacePeerDependencies),
@@ -41,17 +22,21 @@ const createDistFolder = () => {
 };
 
 /**
- * When we build a subpaths-only library, we discover the files to build
- * based on the exports of the package.json which is the field that rules what the consumer
- * sees and what are the related bundled files.
+ * When building a subpath-only library, the files to bundle are determined
+ * based on the `exports` field in the package.json, which defines what the consumer
+ * can access and which bundled files are exposed.
  *
- * We assume that the name of the TypeScript source file to use to build the related
- * JavaScript file are similar.
+ * It is assumed that the corresponding TypeScript source files share the same
+ * names as their related JavaScript output files, which is accurate since
+ * esbuild preserves file names when generating outputs.
  *
- * @returns {string[]} Absolute paths to the source files to bundle.
+ * @returns {string[]} Absolute paths to the TypeScript source files to bundle.
  */
 const multiPathsLibEntryPoints = () => {
   const paths = Object.values(workspaceExports)
+    // This guard is useful because a single-entry library uses an object
+    // for the "import" field, unlike a multi-path library, which uses
+    // a string path.
     .filter(({ import: i }) => typeof i === "string")
     .map(({ import: i }) => {
       // trim leading ./ otherwise join() treat the . as a folder
@@ -76,8 +61,9 @@ const multiPathsLibEntryPoints = () => {
 };
 
 /**
- * For single entry library there is, well, a single entry which we always
- * define as index.ts
+ * For a single-entry library, there is only one entry point, which is always
+ * defined as `index.ts`.
+ *
  * @type {string} The source file
  */
 const singleLibEntryPoint = "src/index.ts";
@@ -143,7 +129,7 @@ const buildNode = ({ multi, format }) => {
 const writeNodeCjsRootEntry = () => {
   writeFileSync(
     join(dist, "index.cjs.js"),
-    "module.exports = require('./cjs/index.js');",
+    "module.exports = require('./cjs/index.cjs.js');",
   );
 };
 
