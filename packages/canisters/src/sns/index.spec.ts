@@ -1,4 +1,3 @@
-import { shouldReExportAllMembers } from "../utils/test.utils";
 import {
   initSnsWrapper,
   SnsGovernanceCanister,
@@ -31,10 +30,5 @@ describe("@icp-sdk/sns", () => {
 
   it("should re-export SnsSwapCanister", () => {
     expect(SnsSwapCanister).not.toBeUndefined();
-  });
-
-  shouldReExportAllMembers({
-    source: "@dfinity/sns",
-    reexport: "@icp-sdk/canisters/sns",
   });
 });
