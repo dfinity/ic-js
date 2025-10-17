@@ -49,7 +49,7 @@ import type {
   Tokens as RawTokens,
   VotingPowerEconomics as RawVotingPowerEconomics,
   VotingRewardParameters as RawVotingRewardParameters,
-} from "../../../candid/governance";
+} from "../../candid/governance";
 import type { NeuronVisibility, Vote } from "../../enums/governance.enums";
 import { UnsupportedValueError } from "../../errors/governance.errors";
 import type { E8s, NeuronId, Option } from "../../types/common";
