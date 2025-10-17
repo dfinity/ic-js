@@ -1,5 +1,5 @@
 import { cp } from "node:fs/promises";
-import { dirname, join } from "path";
+import { dirname, join } from "node:path";
 import { readPackageJson, SCRIPTS_PATH } from "./build.utils.mjs";
 
 const { exports: workspaceExports } = readPackageJson(
