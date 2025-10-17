@@ -1,4 +1,5 @@
-export type * from "../candid/index";
+export { AccountIdentifier, SubAccount } from "./account_identifier";
+export type * from "./candid/index";
 export type {
   Account as Icrc1Account,
   ApproveError as Icrc1ApproveError,
@@ -12,8 +13,7 @@ export type {
   TransferFromError as Icrc2TransferFromError,
   TransferFromResult as Icrc2TransferFromResult,
   Value,
-} from "../candid/ledger";
-export { AccountIdentifier, SubAccount } from "./account_identifier";
+} from "./candid/ledger";
 export * from "./canisters/ledger/ledger.request.converts";
 export * from "./errors/ledger.errors";
 export { IndexCanister } from "./index.canister";

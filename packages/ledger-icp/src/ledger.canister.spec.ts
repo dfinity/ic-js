@@ -8,7 +8,7 @@ import type {
   _SERVICE as LedgerService,
   Value,
   icrc21_consent_message_response,
-} from "../candid/ledger";
+} from "./candid/ledger";
 import { TRANSACTION_FEE } from "./constants/constants";
 import {
   AllowanceChangedError,
