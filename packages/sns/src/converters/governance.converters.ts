@@ -34,7 +34,7 @@ import type {
   UpgradeSnsControlledCanister as UpgradeSnsControlledCanisterCandid,
   VotingRewardsParameters as VotingRewardsParametersCandid,
   Wasm as WasmCandid,
-} from "../../candid/sns_governance";
+} from "../candid/sns_governance";
 import { DEFAULT_PROPOSALS_LIMIT } from "../constants/governance.constants";
 import type {
   Action,

@@ -12,7 +12,7 @@ import type {
   NewSaleTicketResponse,
   _SERVICE as SnsSwapService,
   Swap,
-} from "../candid/sns_swap";
+} from "./candid/sns_swap";
 import {
   GetOpenTicketErrorType,
   NewSaleTicketResponseErrorType,

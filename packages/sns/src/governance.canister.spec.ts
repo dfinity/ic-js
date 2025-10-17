@@ -16,7 +16,7 @@ import type {
   NeuronId,
   _SERVICE as SnsGovernanceService,
   Topic,
-} from "../candid/sns_governance";
+} from "./candid/sns_governance";
 import {
   DEFAULT_PROPOSALS_LIMIT,
   MAX_LIST_NEURONS_RESULTS,

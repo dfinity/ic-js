@@ -5,7 +5,7 @@ import type {
 } from "@dfinity/ledger-icrc";
 import type { QueryParams } from "@dfinity/utils";
 import type { Principal } from "@icp-sdk/core/principal";
-import type { NeuronId, ProposalId, Topic } from "../../candid/sns_governance";
+import type { NeuronId, ProposalId, Topic } from "../candid/sns_governance";
 import type {
   SnsNeuronPermissionType,
   SnsProposalDecisionStatus,
