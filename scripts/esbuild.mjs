@@ -22,14 +22,15 @@ const createDistFolder = () => {
 };
 
 /**
- * When we build a subpaths-only library, we discover the files to build
- * based on the exports of the package.json which is the field that rules what the consumer
- * sees and what are the related bundled files.
+ * When building a subpath-only library, the files to bundle are determined
+ * based on the `exports` field in the package.json, which defines what the consumer
+ * can access and which bundled files are exposed.
  *
- * We assume that the name of the TypeScript source file to use to build the related
- * JavaScript file are similar.
+ * It is assumed that the corresponding TypeScript source files share the same
+ * names as their related JavaScript output files, which is accurate since
+ * esbuild preserves file names when generating outputs.
  *
- * @returns {string[]} Absolute paths to the source files to bundle.
+ * @returns {string[]} Absolute paths to the TypeScript source files to bundle.
  */
 const multiPathsLibEntryPoints = () => {
   const paths = Object.values(workspaceExports)
@@ -57,8 +58,9 @@ const multiPathsLibEntryPoints = () => {
 };
 
 /**
- * For single entry library there is, well, a single entry which we always
- * define as index.ts
+ * For a single-entry library, there is only one entry point, which is always
+ * defined as `index.ts`.
+ *
  * @type {string} The source file
  */
 const singleLibEntryPoint = "src/index.ts";
