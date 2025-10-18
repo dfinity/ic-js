@@ -1,1 +1,1 @@
-export * from "@dfinity/ckbtc";
+throw new Error("Must be overwritten by prebuild script");
