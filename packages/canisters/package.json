@@ -104,7 +104,10 @@
     "@dfinity/ledger-icp": "^6",
     "@dfinity/ledger-icrc": "^4",
     "@dfinity/nns": "^10",
-    "@dfinity/sns": "^4"
+    "@dfinity/sns": "^4",
+    "@noble/hashes": "^1.8.0",
+    "base58-js": "^3.0.3",
+    "bech32": "^2.0.0"
   },
   "peerDependencies": {
     "@dfinity/utils": "^3",
