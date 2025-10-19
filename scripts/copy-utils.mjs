@@ -1,4 +1,4 @@
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import { readPackageJson, SCRIPTS_PATH } from "./build.utils.mjs";
 
 const { exports: workspaceExports } = readPackageJson(
@@ -10,7 +10,7 @@ const { exports: workspaceExports } = readPackageJson(
  * to its corresponding path within the multi-entry library.
  *
  * Example:
- * { source: "packages/ckbtc", destination: "packages/canisters/ckbtc" }
+ * { source: "packages/ckbtc/src", destination: "packages/canisters/src/ckbtc" }
  *
  * The mapping is derived from the `"exports"` field of the multi-library's `package.json`.
  *
@@ -18,22 +18,18 @@ const { exports: workspaceExports } = readPackageJson(
  * An array of objects, each containing the source and destination paths.
  */
 export const sourceExportPaths = () =>
-  Object.entries(workspaceExports)
-    // The root index does not contain any logic or Candid files.
-    .filter(([key]) => key !== ".")
-    .map(([key, { import: i }]) => {
+  Object.keys(workspaceExports)
+    // The root index of the multi-paths library does not correspond to any library or logiy.
+    .filter((key) => key !== ".")
+    .map((key) => {
       // - trim leading ./ otherwise join() treat the . as a folder
-      // - replace remaining "/" with "-" to match the folder naming pattern
-      // used for single-path libraries (e.g., ledger/icrc -> ledger-icrc)
-      const singlePathLib = key.replace(/^\.\//, "").replace(/\//, "-");
-      const source = join(SCRIPTS_PATH, "..", "packages", singlePathLib);
+      const lib = key.replace(/^\.\//, "");
 
-      // - trim leading ./ otherwise join() treat the . as a folder
-      // - example: "import": "./ckbtc/index.js" → "/ckbtc/index.js"
-      // → absolute path to "packages/canisters/ckbtc"
-      const multiPathsLibExport = dirname(
-        join(process.cwd(), i.replace(/^\.\//, "")),
-      );
+      // e.g. ledger/icrc -> ledger-icrc
+      const singlePathLib = lib.replace(/\//, "-");
+      const source = join(SCRIPTS_PATH, "..", "packages", singlePathLib, "src");
 
-      return { source, destination: multiPathsLibExport };
+      const destination = join(process.cwd(), "src", lib);
+
+      return { source, destination };
     });

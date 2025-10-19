@@ -20,10 +20,7 @@ import { sourceExportPaths } from "./copy-utils.mjs";
  * @returns {Promise<void>} A promise that resolves when all files have been copied.
  */
 export const copyLibs = async () => {
-  const paths = sourceExportPaths().map(({ source, destination }) => ({
-    source: join(source, "src"),
-    destination: join(destination, "candid"),
-  }));
+  const paths = sourceExportPaths();
 
   await Promise.all(
     paths.map(({ source, destination }) =>
