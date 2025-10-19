@@ -1,1 +1,1 @@
-export * from "@dfinity/cmc";
+throw new Error("Must be overwritten by the prebuild script");

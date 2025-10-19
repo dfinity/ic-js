@@ -1,1 +1,1 @@
-export * from "@dfinity/cketh";
+throw new Error("Must be overwritten by the prebuild script");

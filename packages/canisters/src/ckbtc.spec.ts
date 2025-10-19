@@ -1,7 +1,7 @@
 describe("@icp-sdk/canisters/ckbtc", () => {
   it("should not throw loading error", async () => {
     await expect(import("@icp-sdk/canisters/ckbtc")).resolves.not.toThrow(
-      "Must be overwritten by prebuild script",
+      "Must be overwritten by the prebuild script",
     );
   });
 

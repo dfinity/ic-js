@@ -1,1 +1,1 @@
-throw new Error("Must be overwritten by prebuild script");
+throw new Error("Must be overwritten by the prebuild script");
