@@ -97,17 +97,17 @@
   ],
   "homepage": "https://github.com/dfinity/ic-js#readme",
   "dependencies": {
-    "@dfinity/ckbtc": "^4",
-    "@dfinity/cketh": "^4",
-    "@dfinity/cmc": "^6",
-    "@dfinity/ic-management": "^7",
-    "@dfinity/ledger-icp": "^6",
-    "@dfinity/ledger-icrc": "^4",
-    "@dfinity/nns": "^10",
-    "@dfinity/sns": "^4"
+    "@dfinity/ckbtc": "^5",
+    "@dfinity/cketh": "^5",
+    "@dfinity/cmc": "^7",
+    "@dfinity/ic-management": "^8",
+    "@dfinity/ledger-icp": "^7",
+    "@dfinity/ledger-icrc": "^5",
+    "@dfinity/nns": "^11",
+    "@dfinity/sns": "^5"
   },
   "peerDependencies": {
-    "@dfinity/utils": "^3",
+    "@dfinity/utils": "^4",
     "@icp-sdk/core": "^4"
   }
 }
