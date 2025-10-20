@@ -44,9 +44,9 @@ const nextVersion = async ({ project, currentVersion }) => {
 };
 
 const updateVersion = async () => {
-  if (project === undefined || process.argv.length > 4) {
+  if (project === undefined || process.argv.length > 5) {
     console.log(
-      "Invalid arguments: node update-version.mjs nns|sns|etc. [tag]",
+      "Invalid arguments: node update-version.mjs nns|sns|etc. dfinity|icp-sdk [tag]",
     );
     process.exit(1);
   }
