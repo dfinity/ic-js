@@ -30,50 +30,50 @@ jobs:
         run: ./scripts/build-next --tag=${{ inputs.tag }}
 
       - name: Publish utils
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/utils
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/utils
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish Ledger ICRC
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/ledger-icrc
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/ledger-icrc
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish Ledger ICP
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/ledger-icp
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/ledger-icp
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish NNS-proto
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/nns-proto
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/nns-proto
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish NNS
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/nns
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/nns
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish SNS
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/sns
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/sns
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish CMC
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/cmc
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/cmc
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish ckBTC
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/ckbtc
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/ckbtc
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish ckETH
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/cketh
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/cketh
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish ic-management
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/ic-management
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/ic-management
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish Zod schemas
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/zod-schemas
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/zod-schemas
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish @icp-sdk/canisters
-        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/canisters
+        run: npm publish --provenance --access public --tag ${{ inputs.tag }} --workspace=packages/canisters
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
