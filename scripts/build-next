@@ -21,17 +21,18 @@ while [[ $# -gt 0 ]]; do
 done
 
 : Update the package.json version before build and publish
-node ./scripts/update-version.mjs utils $TAG
-node ./scripts/update-version.mjs zod-schemas $TAG
-node ./scripts/update-version.mjs nns-proto $TAG
-node ./scripts/update-version.mjs ledger-icp $TAG
-node ./scripts/update-version.mjs ledger-icrc $TAG
-node ./scripts/update-version.mjs nns $TAG
-node ./scripts/update-version.mjs sns $TAG
-node ./scripts/update-version.mjs cmc $TAG
-node ./scripts/update-version.mjs ckbtc $TAG
-node ./scripts/update-version.mjs cketh $TAG
-node ./scripts/update-version.mjs ic-management $TAG
+node ./scripts/update-version.mjs utils dfinity $TAG
+node ./scripts/update-version.mjs zod-schemas dfinity $TAG
+node ./scripts/update-version.mjs nns-proto dfinity $TAG
+node ./scripts/update-version.mjs ledger-icp dfinity $TAG
+node ./scripts/update-version.mjs ledger-icrc dfinity $TAG
+node ./scripts/update-version.mjs nns dfinity $TAG
+node ./scripts/update-version.mjs sns dfinity $TAG
+node ./scripts/update-version.mjs cmc dfinity $TAG
+node ./scripts/update-version.mjs ckbtc dfinity $TAG
+node ./scripts/update-version.mjs cketh dfinity $TAG
+node ./scripts/update-version.mjs ic-management dfinity $TAG
+node ./scripts/update-version.mjs canisters icp-sdk $TAG
 
 : Now we can build
 npm run build --workspaces
