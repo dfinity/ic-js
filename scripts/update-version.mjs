@@ -1,8 +1,27 @@
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
-// The project - name of the library in the workspace - and suffix we use to publish to npm as wip version
-const [project, tag] = process.argv.slice(2);
+// The project - name of the library in the workspace -, organisation and suffix we use to publish to npm as wip version
+const [project, org, tag] = process.argv.slice(2);
+
+const assertOrg = () => {
+  if (org === undefined || org === "") {
+    console.error(
+      "Missing organization. Please provide either 'dfinity' or 'icp-sdk'.",
+    );
+    process.exit(1);
+  }
+
+  if (!["dfinity", "icp-sdk"].includes(org)) {
+    console.error(
+      `Invalid organization '${org}'. Expected 'dfinity' or 'icp-sdk'.`,
+    );
+    process.exit(1);
+  }
+};
+
+assertOrg();
+
 const suffix = tag !== undefined && tag !== "" ? tag : "next";
 
 const nextVersion = async ({ project, currentVersion }) => {
@@ -11,7 +30,7 @@ const nextVersion = async ({ project, currentVersion }) => {
     .slice(0, 10)}`;
 
   const { versions } = await (
-    await fetch(`https://registry.npmjs.org/@dfinity/${project}`)
+    await fetch(`https://registry.npmjs.org/@${org}/${project}`)
   ).json();
 
   // The wip version has never been published

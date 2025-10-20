@@ -73,3 +73,7 @@ jobs:
         run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/zod-schemas
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish @icp-sdk/canisters
+        run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/canisters
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
