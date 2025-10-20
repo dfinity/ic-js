@@ -34,7 +34,7 @@ const nextVersion = async ({ project, currentVersion }) => {
   ).json();
 
   // The wip version has never been published
-  if (versions[version] === undefined) {
+  if (versions?.[version] === undefined) {
     return version;
   }
 
