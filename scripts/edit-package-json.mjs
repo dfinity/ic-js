@@ -6,6 +6,10 @@ import { sourceExportPaths } from "./copy-utils.mjs";
 
 const pkgJsonPath = join(process.cwd(), "package.json");
 
+/**
+ * Remove dependencies from the package.json of a library matching a given key.
+ * @param {{ key?: string }} [opts] - Key to match (default: "@dfinity/").
+ */
 export const removeDependencies = async (
   { key: keyToReplace } = { key: "@dfinity/" },
 ) => {
@@ -29,6 +33,10 @@ export const removeDependencies = async (
   await writeFile(pkgJsonPath, JSON.stringify(pkgJsonForPublishing, null, 2));
 };
 
+/**
+ * Re-add dependencies from the exports of a multi-path library’s package.json,
+ * using the corresponding names and major versions of the legacy libraries.
+ */
 export const redoDependencies = async () => {
   const libs = sourceExportPaths().map(({ source }) => {
     const { name, version } = readFullPackageJson(join(source, "package.json"));
