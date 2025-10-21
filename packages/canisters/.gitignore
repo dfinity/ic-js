@@ -2,10 +2,13 @@
 *
 
 # Except
+!.npmignore
 !src/
 !esbuild.mjs
 !copy-candid.mjs
 !copy-ts-declarations.mjs
+!pre-publish.mjs
+!post-publish.mjs
 !LICENSE
 !package.json
 !README.md
