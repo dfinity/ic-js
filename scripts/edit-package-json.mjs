@@ -1,7 +1,7 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { major } from "semver";
-import { readFullPackageJson } from "./build.utils.mjs";
+import { readPackageJson } from "./build.utils.mjs";
 import { sourceExportPaths } from "./copy-utils.mjs";
 
 const pkgJsonPath = join(process.cwd(), "package.json");
@@ -13,7 +13,7 @@ const pkgJsonPath = join(process.cwd(), "package.json");
 export const removeDependencies = async (
   { key: keyToReplace } = { key: "@dfinity/" },
 ) => {
-  const pkgJson = readFullPackageJson(pkgJsonPath);
+  const pkgJson = readPackageJson(pkgJsonPath);
 
   const { dependencies, ...rest } = pkgJson;
 
@@ -39,11 +39,11 @@ export const removeDependencies = async (
  */
 export const redoDependencies = async () => {
   const libs = sourceExportPaths().map(({ source }) => {
-    const { name, version } = readFullPackageJson(join(source, "package.json"));
+    const { name, version } = readPackageJson(join(source, "package.json"));
     return { name, version: `^${major(version)}` };
   });
 
-  const pkgJson = readFullPackageJson(pkgJsonPath);
+  const pkgJson = readPackageJson(pkgJsonPath);
 
   const redoPkgJson = {
     ...pkgJson,
