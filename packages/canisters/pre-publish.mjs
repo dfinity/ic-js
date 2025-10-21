@@ -2,4 +2,4 @@
 
 import { removeDependencies } from "../../scripts/edit-package-json.mjs";
 
-await removeDependencies()
+await removeDependencies();
