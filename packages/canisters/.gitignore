@@ -2,6 +2,7 @@
 *
 
 # Except
+!.npmignore
 !src/
 !esbuild.mjs
 !copy-candid.mjs
