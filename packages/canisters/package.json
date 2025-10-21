@@ -69,6 +69,7 @@
     "build": "npm run clean && tsc --noEmit && node esbuild.mjs && node copy-candid.mjs && node copy-ts-declarations.mjs",
     "prepack": "npm run build",
     "prepublishOnly": "node pre-publish.mjs",
+    "postpublish": "node post-publish.mjs",
     "pretest": "npm run build",
     "test": "vitest"
   },
