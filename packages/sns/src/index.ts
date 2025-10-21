@@ -1,7 +1,9 @@
 export type {
+  Account as SnsAccount,
   Action as SnsAction,
   Ballot as SnsBallot,
   DefaultFollowees as SnsDefaultFollowees,
+  DisburseMaturityInProgress as SnsDisburseMaturityInProgress,
   Followee as SnsFollowee,
   FolloweesForTopic as SnsFolloweesForTopic,
   FunctionType as SnsFunctionType,
@@ -16,6 +18,7 @@ export type {
   NervousSystemParameters as SnsNervousSystemParameters,
   Neuron as SnsNeuron,
   NeuronId as SnsNeuronId,
+  NeuronPermission as SnsNeuronPermission,
   NeuronPermissionList as SnsNeuronPermissionList,
   Percentage as SnsPercentage,
   ProposalData as SnsProposalData,
