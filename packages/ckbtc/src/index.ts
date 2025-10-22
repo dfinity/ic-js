@@ -11,6 +11,8 @@ export type {
   Account,
   MinterInfo,
   PendingUtxo,
+  ReimbursedDeposit,
+  ReimbursementRequest,
   RetrieveBtcOk,
   RetrieveBtcStatus,
   RetrieveBtcStatusV2,
