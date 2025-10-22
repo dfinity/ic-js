@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { cp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { readFullPackageJson } from "./build.utils.mjs";
+import { readPackageJson } from "./build.utils.mjs";
 
 const pkgJsonPath = join(process.cwd(), "package.json");
 const pkgJsonBackupPath = join(process.cwd(), "package.json.backup");
@@ -17,7 +17,7 @@ export const removeDependencies = async (
 
   console.log("package.json.backup saved");
 
-  const pkgJson = readFullPackageJson(pkgJsonPath);
+  const pkgJson = readPackageJson(pkgJsonPath);
 
   const { dependencies, ...rest } = pkgJson;
 
