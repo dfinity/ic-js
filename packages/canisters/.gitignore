@@ -7,8 +7,8 @@
 !esbuild.mjs
 !copy-candid.mjs
 !copy-ts-declarations.mjs
-!pre-publish.mjs
-!post-publish.mjs
+!pre-pack.mjs
+!post-pack.mjs
 !LICENSE
 !package.json
 !README.md

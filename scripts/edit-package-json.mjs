@@ -1,10 +1,10 @@
-import { writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { cp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { major } from "semver";
 import { readFullPackageJson } from "./build.utils.mjs";
-import { sourceExportPaths } from "./copy-utils.mjs";
 
 const pkgJsonPath = join(process.cwd(), "package.json");
+const pkgJsonBackupPath = join(process.cwd(), "package.json.backup");
 
 /**
  * Remove dependencies from the package.json of a library matching a given key.
@@ -13,6 +13,10 @@ const pkgJsonPath = join(process.cwd(), "package.json");
 export const removeDependencies = async (
   { key: keyToReplace } = { key: "@dfinity/" },
 ) => {
+  await cp(pkgJsonPath, pkgJsonBackupPath);
+
+  console.log("package.json.backup saved");
+
   const pkgJson = readFullPackageJson(pkgJsonPath);
 
   const { dependencies, ...rest } = pkgJson;
@@ -31,32 +35,23 @@ export const removeDependencies = async (
   };
 
   await writeFile(pkgJsonPath, JSON.stringify(pkgJsonForPublishing, null, 2));
+
+  console.log("dependencies filtered from package.json");
 };
 
 /**
- * Re-add dependencies from the exports of a multi-path library’s package.json,
- * using the corresponding names and major versions of the legacy libraries.
+ * Re-add dependencies by overwritting the package.json
+ * of a lib with its backup.
  */
 export const redoDependencies = async () => {
-  const libs = sourceExportPaths().map(({ source }) => {
-    const { name, version } = readFullPackageJson(join(source, "package.json"));
-    return { name, version: `^${major(version)}` };
-  });
+  if (!existsSync(pkgJsonBackupPath)) {
+    console.error("No package.json.backup found");
+    process.exit(1);
+  }
 
-  const pkgJson = readFullPackageJson(pkgJsonPath);
+  await cp(pkgJsonBackupPath, pkgJsonPath);
 
-  const redoPkgJson = {
-    ...pkgJson,
-    ...(libs.length > 0 && {
-      dependencies: libs.reduce(
-        (acc, { name, version }) => ({
-          ...acc,
-          [name]: version,
-        }),
-        {},
-      ),
-    }),
-  };
+  await rm(pkgJsonBackupPath);
 
-  await writeFile(pkgJsonPath, JSON.stringify(redoPkgJson, null, 2));
+  console.log("package.json restored");
 };
