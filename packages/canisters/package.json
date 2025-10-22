@@ -67,9 +67,8 @@
   "scripts": {
     "clean": "git ls-files --others --ignored --exclude-standard | grep -v \"LICENSE\" | xargs rm -rf",
     "build": "npm run clean && tsc --noEmit && node esbuild.mjs && node copy-candid.mjs && node copy-ts-declarations.mjs",
-    "prepack": "npm run build",
-    "prepublishOnly": "node pre-publish.mjs",
-    "postpublish": "node post-publish.mjs",
+    "prepack": "npm run build && node pre-pack.mjs",
+    "postpack": "node post-pack.mjs",
     "pretest": "npm run build",
     "test": "vitest"
   },
