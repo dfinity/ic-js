@@ -1,0 +1,4 @@
+copy-candid.mjs
+copy-ts-declarations.mjs
+pre-publish.mjs
+post-publish.mjs
