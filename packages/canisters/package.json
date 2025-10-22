@@ -54,16 +54,6 @@
       "require": "./sns/index.mjs"
     }
   },
-  "files": [
-    "README.md",
-    "LICENSE",
-    "**/*.js",
-    "**/*.js.map",
-    "**/*.mjs",
-    "**/*.mjs.map",
-    "**/*.d.ts",
-    "**/*.d.ts.map"
-  ],
   "scripts": {
     "clean": "git ls-files --others --ignored --exclude-standard | grep -v \"LICENSE\" | xargs rm -rf",
     "build": "npm run clean && tsc --noEmit && node esbuild.mjs && node copy-candid.mjs && node copy-ts-declarations.mjs",
