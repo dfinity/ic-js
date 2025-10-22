@@ -1,4 +1,14 @@
-copy-candid.mjs
+# Git and config files
+.gitignore
+tsconfig.json
+vitest.config.ts
+
+# Build and publish scripts
 copy-ts-declarations.mjs
-pre-pack.mjs
+copy-candid.mjs
+esbuild.mjs
 post-pack.mjs
+pre-pack.mjs
+
+# Sources
+src/
