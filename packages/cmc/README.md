@@ -55,7 +55,7 @@ const rate = await getIcpToCyclesConversionRate();
 
 ### :factory: CMCCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L15)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc/src/cmc.canister.ts#L15)
 
 #### Static Methods
 
@@ -67,7 +67,7 @@ const rate = await getIcpToCyclesConversionRate();
 | -------- | ---------------------------------------------- |
 | `create` | `(options: CMCCanisterOptions) => CMCCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L16)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc/src/cmc.canister.ts#L16)
 
 #### Methods
 
@@ -94,7 +94,7 @@ Returns:
 
 Promise<BigInt>
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L35)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc/src/cmc.canister.ts#L35)
 
 ##### :gear: notifyCreateCanister
 
@@ -109,7 +109,7 @@ Returns:
 
 Promise<Principal>
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L57)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc/src/cmc.canister.ts#L57)
 
 ##### :gear: notifyTopUp
 
@@ -124,7 +124,7 @@ Returns:
 
 Promise<Cycles>
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L85)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc/src/cmc.canister.ts#L85)
 
 ##### :gear: getDefaultSubnets
 
@@ -146,7 +146,7 @@ Returns:
 - A promise that resolves to an array of `Principal` objects
   representing the default subnets.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L110)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc/src/cmc.canister.ts#L110)
 
 ##### :gear: getSubnetTypesToSubnets
 
@@ -169,6 +169,6 @@ Returns:
 - A promise that resolves to an object representing
   the mapping of subnet types to subnets.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cmc/src/cmc.canister.ts#L129)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc/src/cmc.canister.ts#L129)
 
 <!-- TSDOC_END -->
