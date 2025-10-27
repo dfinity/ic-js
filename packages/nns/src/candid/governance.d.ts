@@ -430,6 +430,40 @@ export interface LedgerParameters {
 export interface ListKnownNeuronsResponse {
   known_neurons: Array<KnownNeuron>;
 }
+export interface ListNeuronVotesRequest {
+  /**
+   * Only fetch the voting history for proposal whose id `< before_proposal`. This can be used as a
+   * pagination token - pass the minimum proposal id as `before_proposal` for the next page.
+   */
+  before_proposal: [] | [ProposalId];
+  /**
+   * The maximum number of votes to fetch. The maximum number allowed is 500, and 500 will be used
+   * if is set as either null or > 500.
+   */
+  limit: [] | [bigint];
+  /**
+   * The neuron id for which the voting history will be returned. Currently, the voting history is
+   * only recorded for known neurons.
+   */
+  neuron_id: [] | [NeuronId];
+}
+export type ListNeuronVotesResponse =
+  | {
+      Ok: {
+        votes: [] | [Array<NeuronVote>];
+        /**
+         * All the proposals before this id is "finalized", which means if a proposal before this id
+         * does not exist in the votes, it will never appear in the voting history, either because the
+         * neuron is not eligible to vote on the proposal, or the neuron is not a known neuron at the
+         * time of the proposal creation. Therefore, if a client syncs the entire voting history of a
+         * certain neuron and store `all_finalized_before_proposal`, it doesn't need to start from
+         * scratch the next time - it can stop as soon as they have seen any votes
+         * `< all_finalized_before_proposal`.
+         */
+        all_finalized_before_proposal: [] | [ProposalId];
+      };
+    }
+  | { Err: GovernanceError };
 /**
  * Parameters of the list_neurons method.
  */
@@ -793,6 +827,13 @@ export interface NeuronSubsetMetrics {
   total_voting_power: [] | [bigint];
   potential_voting_power_buckets: Array<[bigint, bigint]>;
   count_buckets: Array<[bigint, bigint]>;
+}
+export interface NeuronVote {
+  /**
+   * The vote of the neuron on the specific proposal id.
+   */
+  vote: [] | [Vote];
+  proposal_id: [] | [ProposalId];
 }
 export interface NeuronsFundAuditInfo {
   final_neurons_fund_participation: [] | [NeuronsFundParticipation];
@@ -1162,6 +1203,15 @@ export interface UpdateCanisterSettings {
 export interface UpdateNodeProvider {
   reward_account: [] | [AccountIdentifier];
 }
+export type Vote =
+  | { No: null }
+  | { Yes: null }
+  | {
+      /**
+       * Abstentions are recorded as Unspecified.
+       */
+      Unspecified: null;
+    };
 /**
  * Parameters that affect the voting power of neurons.
  */
@@ -1247,6 +1297,10 @@ export interface _SERVICE {
   get_proposal_info: ActorMethod<[bigint], [] | [ProposalInfo]>;
   get_restore_aging_summary: ActorMethod<[], RestoreAgingSummary>;
   list_known_neurons: ActorMethod<[], ListKnownNeuronsResponse>;
+  list_neuron_votes: ActorMethod<
+    [ListNeuronVotesRequest],
+    ListNeuronVotesResponse
+  >;
   list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
   list_node_provider_rewards: ActorMethod<
     [ListNodeProviderRewardsRequest],

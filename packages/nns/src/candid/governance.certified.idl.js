@@ -784,6 +784,27 @@ export const idlFactory = ({ IDL }) => {
   const ListKnownNeuronsResponse = IDL.Record({
     known_neurons: IDL.Vec(KnownNeuron),
   });
+  const ListNeuronVotesRequest = IDL.Record({
+    before_proposal: IDL.Opt(ProposalId),
+    limit: IDL.Opt(IDL.Nat64),
+    neuron_id: IDL.Opt(NeuronId),
+  });
+  const Vote = IDL.Variant({
+    No: IDL.Null,
+    Yes: IDL.Null,
+    Unspecified: IDL.Null,
+  });
+  const NeuronVote = IDL.Record({
+    vote: IDL.Opt(Vote),
+    proposal_id: IDL.Opt(ProposalId),
+  });
+  const ListNeuronVotesResponse = IDL.Variant({
+    Ok: IDL.Record({
+      votes: IDL.Opt(IDL.Vec(NeuronVote)),
+      all_finalized_before_proposal: IDL.Opt(ProposalId),
+    }),
+    Err: GovernanceError,
+  });
   const NeuronSubaccount = IDL.Record({ subaccount: IDL.Vec(IDL.Nat8) });
   const ListNeurons = IDL.Record({
     page_size: IDL.Opt(IDL.Nat64),
@@ -1018,6 +1039,11 @@ export const idlFactory = ({ IDL }) => {
     get_proposal_info: IDL.Func([IDL.Nat64], [IDL.Opt(ProposalInfo)], []),
     get_restore_aging_summary: IDL.Func([], [RestoreAgingSummary], []),
     list_known_neurons: IDL.Func([], [ListKnownNeuronsResponse], []),
+    list_neuron_votes: IDL.Func(
+      [ListNeuronVotesRequest],
+      [ListNeuronVotesResponse],
+      [],
+    ),
     list_neurons: IDL.Func([ListNeurons], [ListNeuronsResponse], []),
     list_node_provider_rewards: IDL.Func(
       [ListNodeProviderRewardsRequest],

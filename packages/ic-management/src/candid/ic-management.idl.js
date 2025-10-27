@@ -535,7 +535,7 @@ export const idlFactory = ({ IDL }) => {
     canister_status: IDL.Func(
       [canister_status_args],
       [canister_status_result],
-      [],
+      ["query"],
     ),
     clear_chunk_store: IDL.Func([clear_chunk_store_args], [], []),
     create_canister: IDL.Func(
