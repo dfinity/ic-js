@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -eux
 
-npm ci
-
 : Optional tag argument
 TAG=
 
