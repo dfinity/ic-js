@@ -91,7 +91,7 @@ Returns:
 
 bigint | FromStringToTokenError
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L12)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L12)
 
 #### :gear: isNullish
 
@@ -109,7 +109,7 @@ Returns:
 
 `true` if the argument is null or undefined; otherwise, `false`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L8)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/nullish.utils.ts#L8)
 
 #### :gear: nonNullish
 
@@ -127,7 +127,7 @@ Returns:
 
 `true` if the argument is not null or undefined; otherwise, `false`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L19)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/nullish.utils.ts#L19)
 
 #### :gear: notEmptyString
 
@@ -145,7 +145,7 @@ Returns:
 
 `true` if the value is not null, not undefined, and not an empty string; otherwise, `false`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L29)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/nullish.utils.ts#L29)
 
 #### :gear: isEmptyString
 
@@ -163,7 +163,7 @@ Returns:
 
 Type predicate indicating if the value is null, undefined, or an empty string.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/nullish.utils.ts#L39)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/nullish.utils.ts#L39)
 
 #### :gear: queryAndUpdate
 
@@ -205,7 +205,7 @@ Returns:
 
 A promise that resolves when the request is done.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/query.ts#L36)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/services/query.ts#L36)
 
 #### :gear: defaultAgent
 
@@ -219,7 +219,7 @@ Returns:
 
 The default agent to use
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L14)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/agent.utils.ts#L14)
 
 #### :gear: createAgent
 
@@ -238,7 +238,7 @@ Parameters:
 - `params.verifyQuerySignatures`: Check for signatures in the state tree signed by the node that replies to queries - i.e. certify responses.
 - `params.retryTimes`: Set the number of retries the agent should perform before error.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L30)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/agent.utils.ts#L30)
 
 #### :gear: createServices
 
@@ -246,7 +246,7 @@ Parameters:
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `createServices` | `<T>({ options: { canisterId, serviceOverride, certifiedServiceOverride, agent: agentOption, callTransform, queryTransform, }, idlFactory, certifiedIdlFactory, }: { options: Required<Pick<CanisterOptions<T>, "canisterId">> and Omit<CanisterOptions<T>, "canisterId"> and Pick<...>; idlFactory: IDL.InterfaceFactory; certifi...` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/actor.utils.ts#L17)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/actor.utils.ts#L17)
 
 #### :gear: assertNonNullish
 
@@ -254,7 +254,7 @@ Parameters:
 | ------------------ | --------------------------------------------------------------------------------- |
 | `assertNonNullish` | `<T>(value: T, message?: string or undefined) => asserts value is NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L4)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/asserts.utils.ts#L4)
 
 #### :gear: asNonNullish
 
@@ -262,7 +262,7 @@ Parameters:
 | -------------- | ---------------------------------------------------------------- |
 | `asNonNullish` | `<T>(value: T, message?: string or undefined) => NonNullable<T>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L18)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/asserts.utils.ts#L18)
 
 #### :gear: assertPercentageNumber
 
@@ -270,7 +270,7 @@ Parameters:
 | ------------------------ | ------------------------------ |
 | `assertPercentageNumber` | `(percentage: number) => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L23)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/asserts.utils.ts#L23)
 
 #### :gear: assertNever
 
@@ -292,7 +292,7 @@ Parameters:
   the TypeScript compiler will flag a type error.
 - `message`: - Optional custom error message to include in the thrown error.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L47)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/asserts.utils.ts#L47)
 
 #### :gear: uint8ArrayToBigInt
 
@@ -300,7 +300,7 @@ Parameters:
 | -------------------- | ------------------------------------------------ |
 | `uint8ArrayToBigInt` | `(array: Uint8Array<ArrayBufferLike>) => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L3)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L3)
 
 #### :gear: bigIntToUint8Array
 
@@ -308,7 +308,7 @@ Parameters:
 | -------------------- | ------------------------------------------------ |
 | `bigIntToUint8Array` | `(value: bigint) => Uint8Array<ArrayBufferLike>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L14)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L14)
 
 #### :gear: numberToUint8Array
 
@@ -316,7 +316,7 @@ Parameters:
 | -------------------- | ------------------------------------------------ |
 | `numberToUint8Array` | `(value: number) => Uint8Array<ArrayBufferLike>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L30)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L30)
 
 #### :gear: arrayBufferToUint8Array
 
@@ -324,7 +324,7 @@ Parameters:
 | ------------------------- | ------------------------------------------------------ |
 | `arrayBufferToUint8Array` | `(buffer: ArrayBuffer) => Uint8Array<ArrayBufferLike>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L39)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L39)
 
 #### :gear: uint8ArrayToArrayOfNumber
 
@@ -332,7 +332,7 @@ Parameters:
 | --------------------------- | -------------------------------------------------- |
 | `uint8ArrayToArrayOfNumber` | `(array: Uint8Array<ArrayBufferLike>) => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L42)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L42)
 
 #### :gear: arrayOfNumberToUint8Array
 
@@ -340,7 +340,7 @@ Parameters:
 | --------------------------- | ---------------------------------------------------- |
 | `arrayOfNumberToUint8Array` | `(numbers: number[]) => Uint8Array<ArrayBufferLike>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L45)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L45)
 
 #### :gear: asciiStringToByteArray
 
@@ -348,7 +348,7 @@ Parameters:
 | ------------------------ | ---------------------------- |
 | `asciiStringToByteArray` | `(text: string) => number[]` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L48)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L48)
 
 #### :gear: hexStringToUint8Array
 
@@ -356,7 +356,7 @@ Parameters:
 | ----------------------- | ---------------------------------------------------- |
 | `hexStringToUint8Array` | `(hexString: string) => Uint8Array<ArrayBufferLike>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L51)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L51)
 
 #### :gear: uint8ArraysEqual
 
@@ -375,7 +375,7 @@ Returns:
 
 True if both arrays have the same length and identical contents.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L67)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L67)
 
 #### :gear: uint8ArrayToHexString
 
@@ -383,7 +383,7 @@ True if both arrays have the same length and identical contents.
 | ----------------------- | ------------------------------------------------------------ |
 | `uint8ArrayToHexString` | `(bytes: Uint8Array<ArrayBufferLike> or number[]) => string` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L70)
 
 #### :gear: candidNumberArrayToBigInt
 
@@ -391,7 +391,7 @@ True if both arrays have the same length and identical contents.
 | --------------------------- | ----------------------------- |
 | `candidNumberArrayToBigInt` | `(array: number[]) => bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/arrays.utils.ts#L80)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/arrays.utils.ts#L80)
 
 #### :gear: encodeBase32
 
@@ -409,7 +409,7 @@ Returns:
 
 A Base32 string encoding the input.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base32.utils.ts#L21)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/base32.utils.ts#L21)
 
 #### :gear: decodeBase32
 
@@ -424,7 +424,7 @@ Parameters:
 - `input`: The input string to decode.
 - `input`: The base32 encoded string to decode.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base32.utils.ts#L67)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/base32.utils.ts#L67)
 
 #### :gear: uint8ArrayToBase64
 
@@ -442,7 +442,7 @@ Returns:
 
 - The base64 encoded string representation of the binary data.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base64.utils.ts#L7)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/base64.utils.ts#L7)
 
 #### :gear: base64ToUint8Array
 
@@ -460,7 +460,7 @@ Returns:
 
 - The Uint8Array representation of the decoded binary data.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/base64.utils.ts#L16)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/base64.utils.ts#L16)
 
 #### :gear: bigEndianCrc32
 
@@ -468,7 +468,7 @@ Returns:
 | ---------------- | --------------------------------------------------------------------- |
 | `bigEndianCrc32` | `(bytes: Uint8Array<ArrayBufferLike>) => Uint8Array<ArrayBufferLike>` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/crc.utils.ts#L61)
 
 #### :gear: jsonReplacer
 
@@ -494,7 +494,7 @@ Returns:
 
 The transformed value if it matches a known type, otherwise the original value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L22)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/json.utils.ts#L22)
 
 #### :gear: jsonReviver
 
@@ -521,7 +521,7 @@ Returns:
 
 The reconstructed value if it matches a known type, otherwise the original value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/json.utils.ts#L55)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/json.utils.ts#L55)
 
 #### :gear: hashObject
 
@@ -542,7 +542,7 @@ Returns:
 
 A promise that resolves to the hex string of the SHA-256 hash.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L14)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/crypto.utils.ts#L14)
 
 #### :gear: hashText
 
@@ -563,7 +563,7 @@ Returns:
 
 A promise that resolves to the hex string of the SHA-256 hash.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/crypto.utils.ts#L31)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/crypto.utils.ts#L31)
 
 #### :gear: secondsToDuration
 
@@ -583,7 +583,7 @@ Returns:
 
 The human-readable duration string.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L43)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/date.utils.ts#L43)
 
 #### :gear: nowInBigIntNanoSeconds
 
@@ -597,7 +597,7 @@ Returns:
 
 The current timestamp in nanoseconds.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L123)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/date.utils.ts#L123)
 
 #### :gear: toBigIntNanoSeconds
 
@@ -615,7 +615,7 @@ Returns:
 
 The timestamp in nanoseconds.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/date.utils.ts#L132)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/date.utils.ts#L132)
 
 #### :gear: debounce
 
@@ -638,7 +638,7 @@ Returns:
 
 A debounced version of the original function.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/debounce.utils.ts#L13)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/debounce.utils.ts#L13)
 
 #### :gear: toNullable
 
@@ -656,7 +656,7 @@ Returns:
 
 A Candid-style variant representation: an empty array for `null` and `undefined` or an array with the value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L12)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/did.utils.ts#L12)
 
 #### :gear: fromNullable
 
@@ -674,7 +674,7 @@ Returns:
 
 The extracted value, or `undefined` if the array is empty.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L22)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/did.utils.ts#L22)
 
 #### :gear: fromDefinedNullable
 
@@ -693,7 +693,7 @@ Returns:
 
 The extracted value.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L34)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/did.utils.ts#L34)
 
 #### :gear: fromNullishNullable
 
@@ -711,7 +711,7 @@ Returns:
 
 The extracted value, or `undefined` if the input is nullish or the array is empty.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/did.utils.ts#L49)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/did.utils.ts#L49)
 
 #### :gear: principalToSubAccount
 
@@ -726,7 +726,7 @@ Parameters:
 
 - `principal`: The principal that needs to be converted to Subaccount
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/principal.utils.ts#L8)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/principal.utils.ts#L8)
 
 #### :gear: smallerVersion
 
@@ -746,7 +746,7 @@ Returns:
 
 boolean
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/version.utils.ts#L34)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/version.utils.ts#L34)
 
 ### :wrench: Constants
 
@@ -759,7 +759,7 @@ boolean
 | --------------- | -------- |
 | `E8S_PER_TOKEN` | `bigint` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/constants/constants.ts#L1)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/constants/constants.ts#L1)
 
 #### :gear: ICPToken
 
@@ -767,7 +767,7 @@ boolean
 | ---------- | ------- |
 | `ICPToken` | `Token` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L116)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L116)
 
 ### :factory: TokenAmount
 
@@ -775,7 +775,7 @@ Deprecated. Use TokenAmountV2 instead which supports decimals !== 8.
 
 Represents an amount of tokens.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L130)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L130)
 
 #### Static Methods
 
@@ -796,7 +796,7 @@ Parameters:
 - `params.amount`: The amount in bigint format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L147)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L147)
 
 ##### :gear: fromString
 
@@ -815,7 +815,7 @@ Parameters:
 - `params.amount`: The amount in string format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L168)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L168)
 
 ##### :gear: fromNumber
 
@@ -832,7 +832,7 @@ Parameters:
 - `params.amount`: The amount in number format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L198)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L198)
 
 #### Methods
 
@@ -848,13 +848,13 @@ Returns:
 
 The amount of e8s.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L224)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L224)
 
 ### :factory: TokenAmountV2
 
 Represents an amount of tokens.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L236)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L236)
 
 #### Static Methods
 
@@ -875,7 +875,7 @@ Parameters:
 - `params.amount`: The amount in bigint format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L249)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L249)
 
 ##### :gear: fromString
 
@@ -894,7 +894,7 @@ Parameters:
 - `params.amount`: The amount in string format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L270)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L270)
 
 ##### :gear: fromNumber
 
@@ -911,7 +911,7 @@ Parameters:
 - `params.amount`: The amount in number format.
 - `params.token`: The token type.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L294)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L294)
 
 #### Methods
 
@@ -928,7 +928,7 @@ Returns:
 
 The amount of ulps.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L324)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L324)
 
 ##### :gear: toE8s
 
@@ -940,11 +940,11 @@ Returns:
 
 The amount of ulps in e8s precision
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/parser/token.ts#L332)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/parser/token.ts#L332)
 
 ### :factory: Canister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/services/canister.ts#L4)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/services/canister.ts#L4)
 
 ### :factory: AgentManager
 
@@ -953,7 +953,7 @@ AgentManager class manages HttpAgent instances for different identities.
 It caches agents by identity to optimise resource usage and avoid unnecessary agent creation.
 Provides functionality to create new agents, retrieve cached agents, and clear the cache when needed.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L56)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/agent.utils.ts#L56)
 
 #### Static Methods
 
@@ -980,7 +980,7 @@ Returns:
 
 A new instance of `AgentManager`.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L72)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/agent.utils.ts#L72)
 
 #### Methods
 
@@ -1006,7 +1006,7 @@ Returns:
 
 The HttpAgent associated with the given identity.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L85)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/agent.utils.ts#L85)
 
 ##### :gear: clearAgents
 
@@ -1019,15 +1019,15 @@ Useful when identities have changed or if you want to reset all active connectio
 | ------------- | ------------ |
 | `clearAgents` | `() => void` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/agent.utils.ts#L117)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/agent.utils.ts#L117)
 
 ### :factory: InvalidPercentageError
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L1)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/asserts.utils.ts#L1)
 
 ### :factory: NullishError
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/utils/asserts.utils.ts#L2)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/utils/asserts.utils.ts#L2)
 
 ### :nut_and_bolt: Enum
 
@@ -1041,6 +1041,6 @@ Useful when identities have changed or if you want to reset all active connectio
 | `InvalidFormat`               | ``   |             |
 | `FractionalTooManyDecimals`   | ``   |             |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/utils/src/enums/token.enums.ts#L1)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/utils/src/enums/token.enums.ts#L1)
 
 <!-- TSDOC_END -->
