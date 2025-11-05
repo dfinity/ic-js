@@ -25,11 +25,11 @@ function publish_npm() {
 }
 
 # Tips: libs use by other libs first
-# DFINITY_LIBS=utils,zod-schemas,ledger-icrc,ledger-icp,nns-proto,nns,sns,cmc,ckbtc,cketh,ic-management
+DFINITY_LIBS=utils,zod-schemas,ledger-icrc,ledger-icp,nns-proto,nns,sns,cmc,ckbtc,cketh,ic-management
 
-# for lib in $(echo $DFINITY_LIBS | sed "s/,/ /g"); do
-#   publish_npm "$lib" "dfinity"
-# done
+for lib in $(echo $DFINITY_LIBS | sed "s/,/ /g"); do
+  publish_npm "$lib" "dfinity"
+done
 
 ICP_SDK=canisters
 

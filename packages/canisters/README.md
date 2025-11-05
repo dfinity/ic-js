@@ -9,7 +9,7 @@ A modular library for interacting with canisters on the Internet Computer.
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Example](#example)
+- [Examples](#examples)
 
 ## Features
 
@@ -26,30 +26,24 @@ You can use the library by installing it in your project.
 npm i @icp-sdk/canisters
 ```
 
-This library has several peer dependencies. Make sure the following packages are also installed in your project:
-
-```bash
-npm i @dfinity/ckbtc @dfinity/cketh @dfinity/cmc @dfinity/ic-management @dfinity/ledger-icp @dfinity/ledger-icrc @dfinity/nns @dfinity/sns @dfinity/utils @icp-sdk/core
-```
-
 ## Usage
 
 The SDK re-exports modules for core Internet Computer canisters and exposes them as sub-entries. Each sub-entry corresponds to a specific canister library.
 
 Import the desired module directly from its entry point and refer to its individual documentation for details.
 
-| Canister(s)   | Import                             | Documentation                                                               |
-| ------------- | ---------------------------------- | --------------------------------------------------------------------------- |
-| CKBTC         | `@icp-sdk/canisters/ckbtc`         | [README](https://github.com/dfinity/ic-js/tree/main/packages/ckbtc)         |
-| CKETH         | `@icp-sdk/canisters/cketh`         | [README](https://github.com/dfinity/ic-js/tree/main/packages/cketh)         |
-| CMC           | `@icp-sdk/canisters/cmc`           | [README](https://github.com/dfinity/ic-js/tree/main/packages/cmc)           |
-| IC Management | `@icp-sdk/canisters/ic-management` | [README](https://github.com/dfinity/ic-js/tree/main/packages/ic-management) |
-| Ledger ICP    | `@icp-sdk/canisters/ledger/icp`    | [README](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icp)    |
-| Ledger ICRC   | `@icp-sdk/canisters/ledger/icrc`   | [README](https://github.com/dfinity/ic-js/tree/main/packages/ledger-icrc)   |
-| NNS           | `@icp-sdk/canisters/nns`           | [README](https://github.com/dfinity/ic-js/tree/main/packages/nns)           |
-| SNS           | `@icp-sdk/canisters/sns`           | [README](https://github.com/dfinity/ic-js/tree/main/packages/sns)           |
+| Canister(s)   | Import                             | Documentation                                                                          |
+| ------------- | ---------------------------------- | -------------------------------------------------------------------------------------- |
+| CKBTC         | `@icp-sdk/canisters/ckbtc`         | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc)         |
+| CKETH         | `@icp-sdk/canisters/cketh`         | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh)         |
+| CMC           | `@icp-sdk/canisters/cmc`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc)           |
+| IC Management | `@icp-sdk/canisters/ic-management` | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ic-management) |
+| Ledger ICP    | `@icp-sdk/canisters/ledger/icp`    | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp)    |
+| Ledger ICRC   | `@icp-sdk/canisters/ledger/icrc`   | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icrc)   |
+| NNS           | `@icp-sdk/canisters/nns`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/nns)           |
+| SNS           | `@icp-sdk/canisters/sns`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/sns)           |
 
-## Example
+## Examples
 
 Here's for example how to use the ckETH module through its sub-entry:
 
