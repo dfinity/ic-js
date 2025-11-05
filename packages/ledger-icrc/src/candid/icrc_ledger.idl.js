@@ -127,6 +127,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Timestamp = IDL.Nat64;
   const Burn = IDL.Record({
+    fee: IDL.Opt(IDL.Nat),
     from: Account,
     memo: IDL.Opt(IDL.Vec(IDL.Nat8)),
     created_at_time: IDL.Opt(Timestamp),
@@ -135,6 +136,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Mint = IDL.Record({
     to: Account,
+    fee: IDL.Opt(IDL.Nat),
     memo: IDL.Opt(IDL.Vec(IDL.Nat8)),
     created_at_time: IDL.Opt(Timestamp),
     amount: IDL.Nat,
