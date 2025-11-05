@@ -47,7 +47,7 @@ const { metadata } = LedgerCanister.create({
   canisterId: MY_LEDGER_CANISTER_ID,
 });
 
-const data = await metadata();
+const data = await metadata({});
 ```
 
 ## Features
