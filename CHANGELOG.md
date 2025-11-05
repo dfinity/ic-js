@@ -1,17 +1,55 @@
 # v82
 
+## Overview
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@icp-sdk/canisters`     | v1.0.0  | New 🚀              |
+| `@dfinity/ckbtc`         | v5.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/cketh`         | v5.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/cmc`           | v7.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ic-management` | v8.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ledger-icp`    | v7.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ledger-icrc`   | v5.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns`           | v11.0.0 | Breaking Changes ⚠️ |
+| `@dfinity/nns-proto`     | v2.0.3  | Maintained ⚙       |
+| `@dfinity/sns`           | v5.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/utils`         | v4.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/zod-schemas`   | v3.0.0  | Breaking Changes ⚠️ |
+
 ## Breaking Changes
 
-- Migrate peer dependencies to `@icp-sdk/core` instead of `@dfinity` scoped libraries for the agent, identity and candid.
-- NodeJS bundles shipped as `esm`.
+- Peer dependencies have been migrated to `@icp-sdk/core` instead of the `@dfinity/*` scoped libraries for agent, identity, and candid.
+- Node.js bundles are now shipped as `ESM`.
+- `Candid` types must be consumed through their exposed entry points and can no longer be imported via absolute paths (which, in any case, was never an official way to consume them).
+
+> [!NOTE]
+> Although this release introduces structural breaking changes, **no functional changes** are expected.  
+> A strict "no-changes" freeze was maintained to prepare this release.
 
 ## Features
 
-- Release new `@icp-sdk/canisters` - a modular entry-point library for interacting with core Internet Computer canisters.
+- Released `@icp-sdk/canisters`, a new modular entry-point library for interacting with core Internet Computer canisters.
+- Exposed `ReimbursedDeposit` and `ReimbursementRequest` in `ckbtc`.
+- Exposed `SnsAccount`, `SnsDisburseMaturityInProgress`, and `SnsNeuronPermission` in `sns`.
 
 ## Fix
 
-- `Subaccount` type reference was incorrectly scoped to the ledger ICRC lib instead of its own definition in ckETH minter.
+- Corrected the `Subaccount` type reference, which was previously incorrectly scoped to the ledger ICRC library instead of its own definition in the ckETH minter.
+
+## Refactoring
+
+- Internal structure refactored to support ESM for Node.js; bundles are now emitted at the root of each `dist` folder.
+- `candid` folders were moved from package roots to their respective `src` folders.
+
+## Build
+
+- Added `exports` fields to each `package.json`.
+- Migrated DID codegen tooling from `didc` to `@icp-sdk/binden`, required for generating interfaces that use the new `@icp-sdk` imports.
+
+## Chore
+
+- Removed modified boilerplate from license files.
 
 # v81
 
