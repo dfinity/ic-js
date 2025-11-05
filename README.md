@@ -63,7 +63,7 @@ npm i @dfinity/cmc
 npm i @dfinity/ckbtc
 ```
 
-To ensure proper tree-shaking and avoid code duplication, all packages reference [`@icp-sdk/core](https://github.com/dfinity/icp-js-core) and [`@dfinity/utils`](/packages/utils) as peer dependencies.
+To ensure proper tree-shaking and avoid code duplication, all packages reference [`@icp-sdk/core`](https://github.com/dfinity/icp-js-core) and [`@dfinity/utils`](/packages/utils) as peer dependencies.
 
 Make sure these are installed in your project:
 
