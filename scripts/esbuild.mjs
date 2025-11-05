@@ -1,12 +1,15 @@
 import esbuild from "esbuild";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { readPackageJson, rootPeerDependencies } from "./build.utils.mjs";
+import {
+  readPackageJsonPeerAndExports,
+  rootPeerDependencies,
+} from "./build.utils.mjs";
 
 const {
   peerDependencies: workspacePeerDependencies,
   exports: workspaceExports,
-} = readPackageJson(join(process.cwd(), "package.json"));
+} = readPackageJsonPeerAndExports(join(process.cwd(), "package.json"));
 
 const externalPeerDependencies = [
   ...Object.keys(rootPeerDependencies()),

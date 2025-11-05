@@ -1,6 +1,6 @@
 {
   "name": "@dfinity/nns",
-  "version": "10.4.0",
+  "version": "11.0.0",
   "description": "A library for interfacing with the Internet Computer's Network Nervous System.",
   "license": "Apache-2.0",
   "type": "module",
@@ -60,8 +60,8 @@
     "network-nervous-system"
   ],
   "peerDependencies": {
-    "@dfinity/ledger-icp": "^6",
-    "@dfinity/utils": "^3",
+    "@dfinity/ledger-icp": "^7",
+    "@dfinity/utils": "^4",
     "@icp-sdk/core": "^4"
   }
 }
