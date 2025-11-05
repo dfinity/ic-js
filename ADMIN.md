@@ -1,6 +1,6 @@
 # Administration
 
-Few useful bullet points to administrate [ic-js](https://github.com/dfinity/ic-js).
+Few useful bullet points to administrate [ic-js](https://github.com/dfinity/icp-js-canisters).
 
 # Table of contents
 
@@ -19,7 +19,7 @@ npm init -w ./packages/a
 
 Copy `package.json`, `license.md`, `esbuild.mjs`, `vitest.config.ts` and `tsconfig.json` files as in other libs.
 
-For example, copy the ones from [cmc](https://github.com/dfinity/ic-js/tree/main/packages/cmc) library.
+For example, copy the ones from [cmc](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc) library.
 
 Adapt `package.json` content.
 
@@ -61,7 +61,7 @@ Add new entry in the field `size-limit` of the main [package.json](./package.jso
 
 9. Update CI
 
-Add new library to "nightly" and "publish" CI [workflows](https://github.com/dfinity/ic-js/tree/main/.github/workflows).
+Add new library to "nightly" and "publish" CI [workflows](https://github.com/dfinity/icp-js-canisters/tree/main/.github/workflows).
 
 10. Build, PR and merge
 
@@ -82,9 +82,9 @@ Steps to release new versions of the libraries.
 - Run `npm i` from root directory.
 - Update Changelog.
 
-Example PR: https://github.com/dfinity/ic-js/pull/475
+Example PR: https://github.com/dfinity/icp-js-canisters/pull/475
 
-2. Create a new Github [release](https://github.com/dfinity/ic-js/releases).
+2. Create a new Github [release](https://github.com/dfinity/icp-js-canisters/releases).
 
 This will start an action that build and publish the libraries.
 
