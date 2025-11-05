@@ -1,5 +1,5 @@
 {
-  "name": "@dfinity/ic-js",
+  "name": "@dfinity/icp-js-canisters",
   "version": "80",
   "description": "A collection of library for interfacing with the Internet Computer.",
   "license": "Apache-2.0",
@@ -33,10 +33,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dfinity/ic-js.git"
+    "url": "git+https://github.com/dfinity/icp-js-canisters.git"
   },
   "bugs": {
-    "url": "https://github.com/dfinity/ic-js"
+    "url": "https://github.com/dfinity/icp-js-canisters"
   },
   "devDependencies": {
     "@dfinity/eslint-config-oisy-wallet": "^0.2.0",

@@ -53,7 +53,7 @@ const address = await getSmartContractAddress({});
 
 ### :factory: CkETHMinterCanister
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L29)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/minter.canister.ts#L29)
 
 #### Static Methods
 
@@ -65,7 +65,7 @@ const address = await getSmartContractAddress({});
 | -------- | ------------------------------------------------------------------------ |
 | `create` | `(options: CkETHMinterCanisterOptions<_SERVICE>) => CkETHMinterCanister` |
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L30)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/minter.canister.ts#L30)
 
 #### Methods
 
@@ -93,7 +93,7 @@ Returns:
 
 Address of the helper smart contract.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L48)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/minter.canister.ts#L48)
 
 ##### :gear: withdrawEth
 
@@ -119,7 +119,7 @@ Returns:
 
 The successful result or the operation.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L69)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/minter.canister.ts#L69)
 
 ##### :gear: withdrawErc20
 
@@ -146,7 +146,7 @@ Returns:
 
 The successful result or the operation.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L110)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/minter.canister.ts#L110)
 
 ##### :gear: eip1559TransactionPrice
 
@@ -166,7 +166,7 @@ Returns:
 
 - The estimated gas fee and limit.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L151)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/minter.canister.ts#L151)
 
 ##### :gear: retrieveEthStatus
 
@@ -180,7 +180,7 @@ Returns:
 
 The current status of an Ethereum transaction for a block index resulting from a withdrawal.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L166)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/minter.canister.ts#L166)
 
 ##### :gear: getMinterInfo
 
@@ -195,7 +195,7 @@ Parameters:
 - `params`: The parameters to get the minter info.
 - `params.certified`: query or update call
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/minter.canister.ts#L179)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/minter.canister.ts#L179)
 
 ### :factory: CkETHOrchestratorCanister
 
@@ -205,7 +205,7 @@ References:
 
 - [Source Code](https://github.com/dfinity/ic/tree/master/rs/ethereum/ledger-suite-orchestrator)
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L15)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/orchestrator.canister.ts#L15)
 
 #### Static Methods
 
@@ -227,7 +227,7 @@ Returns:
 
 A new instance of CkETHOrchestratorCanister.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L21)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/orchestrator.canister.ts#L21)
 
 #### Methods
 
@@ -250,7 +250,7 @@ Returns:
 
 A promise that resolves to the orchestrator information.
 
-[:link: Source](https://github.com/dfinity/ic-js/tree/main/packages/cketh/src/orchestrator.canister.ts#L40)
+[:link: Source](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh/src/orchestrator.canister.ts#L40)
 
 <!-- TSDOC_END -->
 
