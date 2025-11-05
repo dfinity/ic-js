@@ -9,7 +9,7 @@ A modular library for interacting with canisters on the Internet Computer.
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Example](#example)
+- [Examples](#examples)
 
 ## Features
 
@@ -24,12 +24,6 @@ You can use the library by installing it in your project.
 
 ```bash
 npm i @icp-sdk/canisters
-```
-
-This library has several peer dependencies. Make sure the following packages are also installed in your project:
-
-```bash
-npm i @dfinity/ckbtc @dfinity/cketh @dfinity/cmc @dfinity/ic-management @dfinity/ledger-icp @dfinity/ledger-icrc @dfinity/nns @dfinity/sns @dfinity/utils @icp-sdk/core
 ```
 
 ## Usage
@@ -49,7 +43,7 @@ Import the desired module directly from its entry point and refer to its individ
 | NNS           | `@icp-sdk/canisters/nns`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/nns)           |
 | SNS           | `@icp-sdk/canisters/sns`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/sns)           |
 
-## Example
+## Examples
 
 Here's for example how to use the ckETH module through its sub-entry:
 
