@@ -40,14 +40,14 @@ Import the desired module directly from its entry point and refer to its individ
 
 | Canister(s)   | Import                             | Documentation                                                                           |
 | ------------- | ---------------------------------- | --------------------------------------------------------------------------------------- |
-| CKBTC         | `@icp-sdk/canisters/ckbtc`         | [README](https://github.com/dfinity/icp-sdk-canisters/tree/main/packages/ckbtc)         |
-| CKETH         | `@icp-sdk/canisters/cketh`         | [README](https://github.com/dfinity/icp-sdk-canisters/tree/main/packages/cketh)         |
-| CMC           | `@icp-sdk/canisters/cmc`           | [README](https://github.com/dfinity/icp-sdk-canisters/tree/main/packages/cmc)           |
-| IC Management | `@icp-sdk/canisters/ic-management` | [README](https://github.com/dfinity/icp-sdk-canisters/tree/main/packages/ic-management) |
-| Ledger ICP    | `@icp-sdk/canisters/ledger/icp`    | [README](https://github.com/dfinity/icp-sdk-canisters/tree/main/packages/ledger-icp)    |
-| Ledger ICRC   | `@icp-sdk/canisters/ledger/icrc`   | [README](https://github.com/dfinity/icp-sdk-canisters/tree/main/packages/ledger-icrc)   |
-| NNS           | `@icp-sdk/canisters/nns`           | [README](https://github.com/dfinity/icp-sdk-canisters/tree/main/packages/nns)           |
-| SNS           | `@icp-sdk/canisters/sns`           | [README](https://github.com/dfinity/icp-sdk-canisters/tree/main/packages/sns)           |
+| CKBTC         | `@icp-sdk/canisters/ckbtc`         | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc)         |
+| CKETH         | `@icp-sdk/canisters/cketh`         | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh)         |
+| CMC           | `@icp-sdk/canisters/cmc`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc)           |
+| IC Management | `@icp-sdk/canisters/ic-management` | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ic-management) |
+| Ledger ICP    | `@icp-sdk/canisters/ledger/icp`    | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp)    |
+| Ledger ICRC   | `@icp-sdk/canisters/ledger/icrc`   | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icrc)   |
+| NNS           | `@icp-sdk/canisters/nns`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/nns)           |
+| SNS           | `@icp-sdk/canisters/sns`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/sns)           |
 
 ## Example
 
