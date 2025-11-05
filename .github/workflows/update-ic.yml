@@ -43,12 +43,12 @@ jobs:
           repository: dfinity/ic
           ref: ${{ steps.choose_ic_ref.outputs.ic_ref }}
           path: ic
+      - name: Prepare
+        uses: ./.github/actions/prepare
       - name: Update candid and related JS and TS files
         id: update
         run: |
           set -euxo pipefail
-          # Gets prettier in a minute
-          npm ci
           # Gets candid
           ./scripts/import-candid ic
           # Derives consequences
