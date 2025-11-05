@@ -1,4 +1,4 @@
-// Generated from IC repo commit c211885f7c (2025-10-09) 'rs/ledger_suite/icrc1/ledger/ledger.did' by import-candid
+// Generated from IC repo commit 199fb79 (2025-10-29 tags: release-2025-10-30_03-22-base) 'rs/ledger_suite/icrc1/ledger/ledger.did' by import-candid
 
 type BlockIndex = nat;
 type Subaccount = blob;
@@ -235,14 +235,16 @@ type Burn = record {
   memo : opt blob;
   created_at_time : opt Timestamp;
   amount : nat;
-  spender : opt Account
+  spender : opt Account;
+  fee : opt nat
 };
 
 type Mint = record {
   to : Account;
   memo : opt blob;
   created_at_time : opt Timestamp;
-  amount : nat
+  amount : nat;
+  fee : opt nat
 };
 
 type Transfer = record {

@@ -25,6 +25,10 @@ export const idlFactory = ({ IDL }) => {
     Filter: SubnetFilter,
     Subnet: IDL.Record({ subnet: IDL.Principal }),
   });
+  const environment_variable = IDL.Record({
+    value: IDL.Text,
+    name: IDL.Text,
+  });
   const log_visibility = IDL.Variant({
     controllers: IDL.Null,
     public: IDL.Null,
@@ -32,6 +36,7 @@ export const idlFactory = ({ IDL }) => {
   const CanisterSettings = IDL.Record({
     freezing_threshold: IDL.Opt(IDL.Nat),
     wasm_memory_threshold: IDL.Opt(IDL.Nat),
+    environment_variables: IDL.Opt(IDL.Vec(environment_variable)),
     controllers: IDL.Opt(IDL.Vec(IDL.Principal)),
     reserved_cycles_limit: IDL.Opt(IDL.Nat),
     log_visibility: IDL.Opt(log_visibility),

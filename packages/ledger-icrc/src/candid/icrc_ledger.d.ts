@@ -92,6 +92,7 @@ export interface BlockRange {
   blocks: Array<Block>;
 }
 export interface Burn {
+  fee: [] | [bigint];
   from: Account;
   memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [Timestamp];
@@ -371,6 +372,7 @@ export type MetadataValue =
   | { Text: string };
 export interface Mint {
   to: Account;
+  fee: [] | [bigint];
   memo: [] | [Uint8Array | number[]];
   created_at_time: [] | [Timestamp];
   amount: bigint;
