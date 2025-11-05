@@ -38,8 +38,8 @@ The SDK re-exports modules for core Internet Computer canisters and exposes them
 
 Import the desired module directly from its entry point and refer to its individual documentation for details.
 
-| Canister(s)   | Import                             | Documentation                                                                           |
-| ------------- | ---------------------------------- | --------------------------------------------------------------------------------------- |
+| Canister(s)   | Import                             | Documentation                                                                          |
+| ------------- | ---------------------------------- | -------------------------------------------------------------------------------------- |
 | CKBTC         | `@icp-sdk/canisters/ckbtc`         | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc)         |
 | CKETH         | `@icp-sdk/canisters/cketh`         | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh)         |
 | CMC           | `@icp-sdk/canisters/cmc`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc)           |
