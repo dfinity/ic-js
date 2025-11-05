@@ -15,6 +15,7 @@ export type BlockIndex = bigint;
 export interface CanisterSettings {
   freezing_threshold: [] | [bigint];
   wasm_memory_threshold: [] | [bigint];
+  environment_variables: [] | [Array<environment_variable>];
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [log_visibility];
@@ -273,6 +274,10 @@ export type SubnetSelection =
     };
 export interface SubnetTypesToSubnetsResponse {
   data: Array<[string, Array<Principal>]>;
+}
+export interface environment_variable {
+  value: string;
+  name: string;
 }
 export type log_visibility = { controllers: null } | { public: null };
 export interface _SERVICE {
