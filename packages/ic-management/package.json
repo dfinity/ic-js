@@ -33,11 +33,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dfinity/ic-js.git",
+    "url": "git+https://github.com/dfinity/icp-js-canisters.git",
     "directory": "packages/ic-management"
   },
   "bugs": {
-    "url": "https://github.com/dfinity/ic-js"
+    "url": "https://github.com/dfinity/icp-js-canisters"
   },
   "keywords": [
     "internet computer",
@@ -45,7 +45,7 @@
     "ic",
     "dfinity"
   ],
-  "homepage": "https://github.com/dfinity/ic-js#readme",
+  "homepage": "https://github.com/dfinity/icp-js-canisters#readme",
   "peerDependencies": {
     "@dfinity/utils": "^4",
     "@icp-sdk/core": "^4"

@@ -56,7 +56,7 @@ const icMgmtInputFiles = [
 const zodSchemasInputFiles = ["./packages/zod-schemas/src/index.ts"];
 
 const buildOptions = {
-  repo: { url: "https://github.com/dfinity/ic-js" },
+  repo: { url: "https://github.com/dfinity/icp-js-canisters" },
 };
 
 const markdownOptions = {
