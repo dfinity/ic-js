@@ -1,7 +1,7 @@
 import { dirname, join } from "node:path";
-import { readPackageJson, SCRIPTS_PATH } from "./build.utils.mjs";
+import { readPackageJsonPeerAndExports, SCRIPTS_PATH } from "./build.utils.mjs";
 
-const { exports: workspaceExports } = readPackageJson(
+const { exports: workspaceExports } = readPackageJsonPeerAndExports(
   join(process.cwd(), "package.json"),
 );
 
