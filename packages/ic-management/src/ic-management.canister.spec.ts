@@ -1,4 +1,8 @@
-import { toNullable, type ServiceResponse } from "@dfinity/utils";
+import {
+  toNullable,
+  type QueryParams,
+  type ServiceResponse,
+} from "@dfinity/utils";
 import type { ActorSubclass, HttpAgent } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type {
@@ -94,6 +98,7 @@ describe("ICManagementCanister", () => {
   ): ICManagementCanister =>
     ICManagementCanister.create({
       agent: mockAgent,
+      serviceOverride: service as ActorSubclass<IcManagementService>,
       certifiedServiceOverride: service as ActorSubclass<IcManagementService>,
     });
 
@@ -746,21 +751,22 @@ describe("ICManagementCanister", () => {
   });
 
   describe("fetchCanisterLogs", () => {
+    const response: FetchCanisterLogsResponse = {
+      canister_log_records: [
+        {
+          idx: 123n,
+          content: [1, 2, 3],
+          timestamp_nanos: 12345n,
+        },
+        {
+          idx: 456n,
+          content: [9, 8, 7],
+          timestamp_nanos: 12346n,
+        },
+      ],
+    };
+
     it("returns canister logs when success", async () => {
-      const response: FetchCanisterLogsResponse = {
-        canister_log_records: [
-          {
-            idx: 123n,
-            content: [1, 2, 3],
-            timestamp_nanos: 12345n,
-          },
-          {
-            idx: 456n,
-            content: [9, 8, 7],
-            timestamp_nanos: 12346n,
-          },
-        ],
-      };
       const service = mock<IcManagementService>();
       service.fetch_canister_logs.mockResolvedValue(response);
 
@@ -769,6 +775,24 @@ describe("ICManagementCanister", () => {
       const res = await icManagement.fetchCanisterLogs(mockCanisterId);
 
       expect(res).toEqual(response);
+    });
+
+    it("must use a query call to fetch canister logs", async () => {
+      const service = mock<IcManagementService>();
+      service.fetch_canister_logs.mockResolvedValue(response);
+
+      const icManagement = await createICManagement(service);
+
+      const callerSpy = vi.spyOn(
+        icManagement as unknown as {
+          caller: (params: QueryParams) => Promise<ICManagementCanister>;
+        },
+        "caller",
+      );
+
+      await icManagement.fetchCanisterLogs(mockCanisterId);
+
+      expect(callerSpy).toHaveBeenCalledWith({ certified: false });
     });
 
     it("throws Error", async () => {
