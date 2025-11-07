@@ -98,6 +98,7 @@ describe("ICManagementCanister", () => {
   ): ICManagementCanister =>
     ICManagementCanister.create({
       agent: mockAgent,
+      serviceOverride: service as ActorSubclass<IcManagementService>,
       certifiedServiceOverride: service as ActorSubclass<IcManagementService>,
     });
 
