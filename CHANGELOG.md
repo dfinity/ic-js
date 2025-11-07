@@ -4,7 +4,7 @@
 
 | Library                  | Version | Status                    |
 | ------------------------ | ------- | ------------------------- |
-| `@icp-sdk/canisters`     | v1.0.1  | Bundled with peer deps ⚠️ |
+| `@icp-sdk/canisters`     | v1.1.0  | Bundled with peer deps ⚠️ |
 | `@dfinity/ckbtc`         | v5.0.1  | Maintained ⚙             |
 | `@dfinity/cketh`         | v5.0.1  | Maintained ⚙             |
 | `@dfinity/cmc`           | v7.0.1  | Maintained ⚙             |
