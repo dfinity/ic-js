@@ -1,4 +1,8 @@
-import { toNullable, type ServiceResponse, type QueryParams } from "@dfinity/utils";
+import {
+  toNullable,
+  type QueryParams,
+  type ServiceResponse,
+} from "@dfinity/utils";
 import type { ActorSubclass, HttpAgent } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type {
