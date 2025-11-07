@@ -1,3 +1,30 @@
+# v84
+
+## Overview
+
+| Library                  | Version | Status        |
+| ------------------------ | ------- | ------------- |
+| `@icp-sdk/canisters`     | v1.1.1  | Maintained ⚙ |
+| `@dfinity/ckbtc`         | v5.0.1  | Unchanged️    |
+| `@dfinity/cketh`         | v5.0.1  | Unchanged️    |
+| `@dfinity/cmc`           | v7.0.1  | Unchanged️    |
+| `@dfinity/ic-management` | v8.0.2  | Maintained ⚙ |
+| `@dfinity/ledger-icp`    | v7.0.1  | Unchanged️    |
+| `@dfinity/ledger-icrc`   | v5.0.1  | Unchanged️    |
+| `@dfinity/nns`           | v11.1.1 | Maintained ⚙ |
+| `@dfinity/nns-proto`     | v2.0.3  | Unchanged️    |
+| `@dfinity/sns`           | v5.0.0  | Unchanged️    |
+| `@dfinity/utils`         | v4.0.0  | Unchanged️    |
+| `@dfinity/zod-schemas`   | v3.0.0  | Unchanged️    |
+
+## Fix
+
+- The IC management `canister_status` function is defined to support queries according latest DID files, but `@dfinity/ic-management` does not yet implement them. The service has therefore been pinned to use only update calls, as it always did previously.
+
+## Test
+
+- Update mocks data for `@dfinity/nns` according latest DID definitions.
+
 # v83
 
 ## Overview
