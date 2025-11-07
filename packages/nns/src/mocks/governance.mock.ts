@@ -8,7 +8,7 @@ import type {
 const one = BigInt(1);
 export const mockNeuronId = BigInt(14567);
 export const mockNeuronInfo: NeuronInfo = {
-  id: [{id: 678n}],
+  id: [{ id: 678n }],
   dissolve_delay_seconds: one,
   recent_ballots: [],
   neuron_type: [],

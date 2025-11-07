@@ -92,7 +92,7 @@ describe("response.converters", () => {
   };
 
   const defaultCandidNeuronInfo: RawNeuronInfo = {
-    id: [{id: 987n}],
+    id: [{ id: 987n }],
     dissolve_delay_seconds: dissolveDelaySeconds,
     recent_ballots: [],
     voting_power_refreshed_timestamp_seconds: [],
