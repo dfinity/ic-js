@@ -451,7 +451,7 @@ describe("ICManagementCanister", () => {
       expect(res).toEqual(response);
     });
 
-    it("should use an update call", async () => {
+    it("should use the certified service", async () => {
       const service = mock<IcManagementService>();
       service.canister_status.mockResolvedValue(response);
 
@@ -466,6 +466,29 @@ describe("ICManagementCanister", () => {
 
       const res = await icManagement.canisterStatus({
         canisterId: mockCanisterId,
+        certified: true,
+      });
+
+      expect(res).toEqual(response);
+      expect(callerSpy).toHaveBeenCalledWith({ certified: true });
+    });
+
+    it("should use the query service", async () => {
+      const service = mock<IcManagementService>();
+      service.canister_status.mockResolvedValue(response);
+
+      const icManagement = await createICManagement(service);
+
+      const callerSpy = vi.spyOn(
+        icManagement as unknown as {
+          caller: (params: QueryParams) => Promise<ICManagementCanister>;
+        },
+        "caller",
+      );
+
+      const res = await icManagement.canisterStatus({
+        canisterId: mockCanisterId,
+        certified: false,
       });
 
       expect(res).toEqual(response);
