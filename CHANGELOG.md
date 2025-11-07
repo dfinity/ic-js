@@ -21,6 +21,10 @@
 
 - The IC management `canister_status` function is defined to support queries according latest DID files, but `@dfinity/ic-management` does not yet implement them. The service has therefore been pinned to use only update calls, as it always did previously.
 
+## Features
+
+- The `ICManagementCanister` implementation has been extended to support both query and update factories. All functions now use the latter, except for `fetch_canister_logs`, which correctly requires a query call. This aligns with the existing behavior.
+
 ## Test
 
 - Update mocks data for `@dfinity/nns` according latest DID definitions.
