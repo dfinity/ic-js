@@ -56,9 +56,9 @@
   },
   "scripts": {
     "clean": "git ls-files --others --ignored --exclude-standard | grep -v \"LICENSE\" | xargs rm -rf",
-    "build": "npm run clean && tsc --noEmit && node esbuild.mjs && node copy-candid.mjs && node copy-ts-declarations.mjs",
-    "prepack": "npm run build && node pre-pack.mjs",
-    "postpack": "node post-pack.mjs",
+    "ts-declaration": "tsc --emitDeclarationOnly --outDir .",
+    "build": "npm run clean && node esbuild.mjs && npm run ts-declaration",
+    "prepack": "npm run build",
     "pretest": "npm run build",
     "test": "vitest"
   },
@@ -87,7 +87,7 @@
     "sns"
   ],
   "homepage": "https://github.com/dfinity/icp-js-canisters#readme",
-  "dependencies": {
+  "peerDependencies": {
     "@dfinity/ckbtc": "^5",
     "@dfinity/cketh": "^5",
     "@dfinity/cmc": "^7",
@@ -95,9 +95,7 @@
     "@dfinity/ledger-icp": "^7",
     "@dfinity/ledger-icrc": "^5",
     "@dfinity/nns": "^11",
-    "@dfinity/sns": "^5"
-  },
-  "peerDependencies": {
+    "@dfinity/sns": "^5",
     "@dfinity/utils": "^4",
     "@icp-sdk/core": "^4"
   }
