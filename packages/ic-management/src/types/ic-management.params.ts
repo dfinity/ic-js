@@ -1,4 +1,4 @@
-import { isNullish, toNullable } from "@dfinity/utils";
+import { isNullish, type QueryParams, toNullable } from "@dfinity/utils";
 import { Principal } from "@icp-sdk/core/principal";
 import type {
   canister_install_mode,
@@ -111,4 +111,8 @@ export interface ProvisionalCreateCanisterWithCyclesParams {
   amount?: bigint;
   settings?: CanisterSettings;
   canisterId?: Principal;
+}
+
+export interface CanisterStatusParams extends QueryParams {
+  canisterId: Principal;
 }
