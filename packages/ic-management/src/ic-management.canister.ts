@@ -355,7 +355,7 @@ export class ICManagementCanister {
   fetchCanisterLogs = (
     canisterId: Principal,
   ): Promise<FetchCanisterLogsResponse> => {
-    const { fetch_canister_logs } = this.certifiedService;
+    const { fetch_canister_logs } = this.caller({ certified: false });
 
     return fetch_canister_logs({
       canister_id: canisterId,
