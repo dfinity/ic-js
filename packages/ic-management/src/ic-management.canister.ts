@@ -50,12 +50,13 @@ import {
 import { transform } from "./utils/transform.utils";
 
 export class ICManagementCanister {
-  private constructor(private readonly service: IcManagementService) {
-    this.service = service;
-  }
+  private constructor(
+    private readonly _service: IcManagementService,
+    private readonly certifiedService: IcManagementService,
+  ) {}
 
   public static create(options: ICManagementCanisterOptions) {
-    const { service } = createServices<IcManagementService>({
+    const { service, certifiedService } = createServices<IcManagementService>({
       options: {
         ...options,
         // Resolve to "aaaaa-aa" on mainnet
@@ -67,7 +68,7 @@ export class ICManagementCanister {
       certifiedIdlFactory,
     });
 
-    return new ICManagementCanister(service);
+    return new ICManagementCanister(service, certifiedService);
   }
 
   /**
@@ -82,7 +83,7 @@ export class ICManagementCanister {
     settings,
     senderCanisterVersion,
   }: CreateCanisterParams = {}): Promise<Principal> => {
-    const { create_canister } = this.service;
+    const { create_canister } = this.certifiedService;
 
     const { canister_id } = await create_canister({
       settings: toNullable(toCanisterSettings(settings)),
@@ -106,7 +107,7 @@ export class ICManagementCanister {
     senderCanisterVersion,
     settings,
   }: UpdateSettingsParams): Promise<void> => {
-    const { update_settings } = this.service;
+    const { update_settings } = this.certifiedService;
 
     return update_settings({
       canister_id: canisterId,
@@ -132,7 +133,7 @@ export class ICManagementCanister {
     senderCanisterVersion,
     ...rest
   }: InstallCodeParams): Promise<void> => {
-    const { install_code } = this.service;
+    const { install_code } = this.certifiedService;
 
     return install_code({
       ...rest,
@@ -156,7 +157,7 @@ export class ICManagementCanister {
     canisterId,
     ...rest
   }: UploadChunkParams): Promise<chunk_hash> => {
-    const { upload_chunk } = this.service;
+    const { upload_chunk } = this.certifiedService;
 
     return upload_chunk({
       canister_id: canisterId,
@@ -175,7 +176,7 @@ export class ICManagementCanister {
   clearChunkStore = async ({
     canisterId,
   }: ClearChunkStoreParams): Promise<void> => {
-    const { clear_chunk_store } = this.service;
+    const { clear_chunk_store } = this.certifiedService;
 
     await clear_chunk_store({
       canister_id: canisterId,
@@ -194,7 +195,7 @@ export class ICManagementCanister {
   storedChunks = ({
     canisterId,
   }: StoredChunksParams): Promise<chunk_hash[]> => {
-    const { stored_chunks } = this.service;
+    const { stored_chunks } = this.certifiedService;
 
     return stored_chunks({
       canister_id: canisterId,
@@ -224,7 +225,7 @@ export class ICManagementCanister {
     wasmModuleHash,
     ...rest
   }: InstallChunkedCodeParams): Promise<void> => {
-    const { install_chunked_code } = this.service;
+    const { install_chunked_code } = this.certifiedService;
 
     await install_chunked_code({
       ...rest,
@@ -251,7 +252,7 @@ export class ICManagementCanister {
     canisterId,
     senderCanisterVersion,
   }: UninstallCodeParams): Promise<void> => {
-    const { uninstall_code } = this.service;
+    const { uninstall_code } = this.certifiedService;
 
     return uninstall_code({
       canister_id: canisterId,
@@ -266,7 +267,7 @@ export class ICManagementCanister {
    * @returns {Promise<void>}
    */
   startCanister = (canisterId: Principal): Promise<void> => {
-    const { start_canister } = this.service;
+    const { start_canister } = this.certifiedService;
 
     return start_canister({ canister_id: canisterId });
   };
@@ -278,7 +279,7 @@ export class ICManagementCanister {
    * @returns {Promise<void>}
    */
   stopCanister = (canisterId: Principal): Promise<void> => {
-    const { stop_canister } = this.service;
+    const { stop_canister } = this.certifiedService;
     return stop_canister({ canister_id: canisterId });
   };
 
@@ -289,7 +290,7 @@ export class ICManagementCanister {
    * @returns {Promise<CanisterStatusResponse>}
    */
   canisterStatus = (canisterId: Principal): Promise<CanisterStatusResponse> => {
-    const { canister_status } = this.service;
+    const { canister_status } = this.certifiedService;
 
     return canister_status({
       canister_id: canisterId,
@@ -303,7 +304,7 @@ export class ICManagementCanister {
    * @returns {Promise<void>}
    */
   deleteCanister = (canisterId: Principal): Promise<void> => {
-    const { delete_canister } = this.service;
+    const { delete_canister } = this.certifiedService;
 
     return delete_canister({ canister_id: canisterId });
   };
@@ -322,7 +323,7 @@ export class ICManagementCanister {
     amount,
     canisterId,
   }: ProvisionalCreateCanisterWithCyclesParams = {}): Promise<Principal> => {
-    const { provisional_create_canister_with_cycles } = this.service;
+    const { provisional_create_canister_with_cycles } = this.certifiedService;
 
     const { canister_id } = await provisional_create_canister_with_cycles({
       settings: toNullable(toCanisterSettings(settings)),
@@ -343,7 +344,7 @@ export class ICManagementCanister {
   fetchCanisterLogs = (
     canisterId: Principal,
   ): Promise<FetchCanisterLogsResponse> => {
-    const { fetch_canister_logs } = this.service;
+    const { fetch_canister_logs } = this.certifiedService;
 
     return fetch_canister_logs({
       canister_id: canisterId,
@@ -369,7 +370,7 @@ export class ICManagementCanister {
   takeCanisterSnapshot = (
     params: OptionSnapshotParams,
   ): Promise<take_canister_snapshot_result> => {
-    const { take_canister_snapshot } = this.service;
+    const { take_canister_snapshot } = this.certifiedService;
 
     return take_canister_snapshot(toReplaceSnapshotArgs(params));
   };
@@ -391,7 +392,7 @@ export class ICManagementCanister {
   }: {
     canisterId: Principal;
   }): Promise<list_canister_snapshots_result> => {
-    const { list_canister_snapshots } = this.service;
+    const { list_canister_snapshots } = this.certifiedService;
 
     return list_canister_snapshots({
       canister_id: canisterId,
@@ -418,7 +419,7 @@ export class ICManagementCanister {
   }: SnapshotParams & {
     senderCanisterVersion?: bigint;
   }): Promise<void> => {
-    const { load_canister_snapshot } = this.service;
+    const { load_canister_snapshot } = this.certifiedService;
 
     await load_canister_snapshot({
       ...toSnapshotArgs(rest),
@@ -440,7 +441,7 @@ export class ICManagementCanister {
    * @throws {Error} If the deletion operation fails.
    */
   deleteCanisterSnapshot = async (params: SnapshotParams): Promise<void> => {
-    const { delete_canister_snapshot } = this.service;
+    const { delete_canister_snapshot } = this.certifiedService;
 
     await delete_canister_snapshot(toSnapshotArgs(params));
   };
@@ -461,7 +462,7 @@ export class ICManagementCanister {
   readCanisterSnapshotMetadata = async (
     params: SnapshotParams,
   ): Promise<ReadCanisterSnapshotMetadataResponse> => {
-    const { read_canister_snapshot_metadata } = this.service;
+    const { read_canister_snapshot_metadata } = this.certifiedService;
 
     const metadata = await read_canister_snapshot_metadata(
       toSnapshotArgs(params),
@@ -488,7 +489,7 @@ export class ICManagementCanister {
     kind,
     ...params
   }: ReadCanisterSnapshotDataParams): Promise<read_canister_snapshot_data_response> => {
-    const { read_canister_snapshot_data } = this.service;
+    const { read_canister_snapshot_data } = this.certifiedService;
 
     return read_canister_snapshot_data({
       ...toSnapshotArgs(params),
@@ -514,7 +515,7 @@ export class ICManagementCanister {
     metadata,
     ...params
   }: UploadCanisterSnapshotMetadataParams): Promise<upload_canister_snapshot_metadata_response> => {
-    const { upload_canister_snapshot_metadata } = this.service;
+    const { upload_canister_snapshot_metadata } = this.certifiedService;
 
     return upload_canister_snapshot_metadata({
       ...toUploadCanisterSnapshotMetadata(metadata),
@@ -542,7 +543,7 @@ export class ICManagementCanister {
     chunk,
     ...params
   }: UploadCanisterSnapshotDataParams): Promise<void> => {
-    const { upload_canister_snapshot_data } = this.service;
+    const { upload_canister_snapshot_data } = this.certifiedService;
 
     await upload_canister_snapshot_data({
       ...toSnapshotArgs(params),

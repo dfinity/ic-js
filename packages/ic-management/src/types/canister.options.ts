@@ -3,5 +3,5 @@ import type { _SERVICE as IcManagementService } from "../candid/ic-management";
 
 export type ICManagementCanisterOptions = Pick<
   CanisterOptions<IcManagementService>,
-  "agent" | "serviceOverride"
+  "agent" | "serviceOverride" | "certifiedServiceOverride"
 >;
