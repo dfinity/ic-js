@@ -1,3 +1,32 @@
+# v83
+
+## Overview
+
+| Library                  | Version | Status                    |
+| ------------------------ | ------- | ------------------------- |
+| `@icp-sdk/canisters`     | v1.1.0  | Bundled with peer deps ⚠️ |
+| `@dfinity/ckbtc`         | v5.0.1  | Maintained ⚙             |
+| `@dfinity/cketh`         | v5.0.1  | Maintained ⚙             |
+| `@dfinity/cmc`           | v7.0.1  | Maintained ⚙             |
+| `@dfinity/ic-management` | v8.0.1  | Maintained ⚙             |
+| `@dfinity/ledger-icp`    | v7.0.1  | Maintained ⚙             |
+| `@dfinity/ledger-icrc`   | v5.0.1  | Maintained ⚙             |
+| `@dfinity/nns`           | v11.1.0 | Enhanced 🔧️              |
+| `@dfinity/nns-proto`     | v2.0.3  | Unchanged️                |
+| `@dfinity/sns`           | v5.0.0  | Maintained ⚙             |
+| `@dfinity/utils`         | v4.0.0  | Unchanged️                |
+| `@dfinity/zod-schemas`   | v3.0.0  | Unchanged️                |
+
+## Features
+
+- Re-export libraries as **peer dependencies** in `@icp-sdk/canisters` instead of bundling source code. This structural change is required to resolve inter-dependency issues.
+- Add new governance `nnsFunctions`.
+- Update to the latest Candid files.
+
+## Fix
+
+- Resolve type incompatibility when using functions from `@icp-sdk/canisters/nns` that require the ICP ledger canister as a parameter.
+
 # v82
 
 ## Overview
