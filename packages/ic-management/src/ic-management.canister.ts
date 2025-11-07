@@ -2,6 +2,7 @@ import {
   createServices,
   hexStringToUint8Array,
   toNullable,
+  type QueryParams,
 } from "@dfinity/utils";
 import { Principal } from "@icp-sdk/core/principal";
 import type {
@@ -51,9 +52,12 @@ import { transform } from "./utils/transform.utils";
 
 export class ICManagementCanister {
   private constructor(
-    private readonly _service: IcManagementService,
+    private readonly service: IcManagementService,
     private readonly certifiedService: IcManagementService,
   ) {}
+
+  private caller = ({ certified = true }: QueryParams): IcManagementService =>
+    certified ? this.certifiedService : this.service;
 
   public static create(options: ICManagementCanisterOptions) {
     const { service, certifiedService } = createServices<IcManagementService>({
@@ -344,7 +348,7 @@ export class ICManagementCanister {
   fetchCanisterLogs = (
     canisterId: Principal,
   ): Promise<FetchCanisterLogsResponse> => {
-    const { fetch_canister_logs } = this.certifiedService;
+    const { fetch_canister_logs } = this.caller({ certified: false });
 
     return fetch_canister_logs({
       canister_id: canisterId,
