@@ -11,6 +11,11 @@ export const idlFactory = ({ IDL }) => {
   const Proposal = IDL.Rec();
   const NeuronId = IDL.Record({ id: IDL.Nat64 });
   const Followees = IDL.Record({ followees: IDL.Vec(NeuronId) });
+  const DateUtc = IDL.Record({
+    day: IDL.Nat32,
+    month: IDL.Nat32,
+    year: IDL.Nat32,
+  });
   const AccountIdentifier = IDL.Record({ hash: IDL.Vec(IDL.Nat8) });
   const NodeProvider = IDL.Record({
     id: IDL.Opt(IDL.Principal),
@@ -35,8 +40,10 @@ export const idlFactory = ({ IDL }) => {
   });
   const MonthlyNodeProviderRewards = IDL.Record({
     minimum_xdr_permyriad_per_icp: IDL.Opt(IDL.Nat64),
+    end_date: IDL.Opt(DateUtc),
     registry_version: IDL.Opt(IDL.Nat64),
     node_providers: IDL.Vec(NodeProvider),
+    start_date: IDL.Opt(DateUtc),
     timestamp: IDL.Nat64,
     rewards: IDL.Vec(RewardNodeProvider),
     xdr_conversion_rate: IDL.Opt(XdrConversionRate),
@@ -1082,6 +1089,11 @@ export const init = ({ IDL }) => {
   const Proposal = IDL.Rec();
   const NeuronId = IDL.Record({ id: IDL.Nat64 });
   const Followees = IDL.Record({ followees: IDL.Vec(NeuronId) });
+  const DateUtc = IDL.Record({
+    day: IDL.Nat32,
+    month: IDL.Nat32,
+    year: IDL.Nat32,
+  });
   const AccountIdentifier = IDL.Record({ hash: IDL.Vec(IDL.Nat8) });
   const NodeProvider = IDL.Record({
     id: IDL.Opt(IDL.Principal),
@@ -1106,8 +1118,10 @@ export const init = ({ IDL }) => {
   });
   const MonthlyNodeProviderRewards = IDL.Record({
     minimum_xdr_permyriad_per_icp: IDL.Opt(IDL.Nat64),
+    end_date: IDL.Opt(DateUtc),
     registry_version: IDL.Opt(IDL.Nat64),
     node_providers: IDL.Vec(NodeProvider),
+    start_date: IDL.Opt(DateUtc),
     timestamp: IDL.Nat64,
     rewards: IDL.Vec(RewardNodeProvider),
     xdr_conversion_rate: IDL.Opt(XdrConversionRate),
