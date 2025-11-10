@@ -18,6 +18,7 @@ import { idlFactory } from "./candid/ic-management.idl";
 import type { ICManagementCanisterOptions } from "./types/canister.options";
 import {
   toCanisterSettings,
+  type CanisterStatusParams,
   type ClearChunkStoreParams,
   type CreateCanisterParams,
   type InstallChunkedCodeParams,
@@ -290,11 +291,17 @@ export class ICManagementCanister {
   /**
    * Get canister details (memory size, status, etc.)
    *
-   * @param {Principal} canisterId
-   * @returns {Promise<CanisterStatusResponse>}
+   * @param {CanisterStatusParams} params - The parameters for the status call.
+   * @param {Principal} params.canisterId - The principal ID of the canister for which the status should be fetched.
+   * @param {boolean} [params.certified] - Whether to perform a certified (update, default) or a query call.
+   * @returns {Promise<CanisterStatusResponse>} A promise that resolves with the canister status details.
+   *
    */
-  canisterStatus = (canisterId: Principal): Promise<CanisterStatusResponse> => {
-    const { canister_status } = this.certifiedService;
+  canisterStatus = ({
+    canisterId,
+    certified,
+  }: CanisterStatusParams): Promise<CanisterStatusResponse> => {
+    const { canister_status } = this.caller({ certified });
 
     return canister_status({
       canister_id: canisterId,
