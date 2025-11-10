@@ -1,10 +1,11 @@
-// Generated from IC repo commit 199fb79 (2025-10-29 tags: release-2025-10-30_03-22-base) 'rs/nns/cmc/cmc.did' by import-candid
+// Generated from IC repo commit 0378315 (2025-11-05 tags: release-2025-11-06_03-24-base) 'rs/nns/cmc/cmc.did' by import-candid
 
 type Cycles = nat;
 type BlockIndex = nat64;
 type log_visibility = variant {
   controllers;
   public;
+  allowed_viewers : vec principal;
 };
 type environment_variable = record { 
   name: text; 
@@ -20,6 +21,7 @@ type CanisterSettings = record {
   wasm_memory_limit : opt nat;
   wasm_memory_threshold : opt nat;
   environment_variables : opt vec environment_variable;
+  log_memory_limit : opt nat;
 };
 type Subaccount = opt blob;
 type Memo = opt blob;

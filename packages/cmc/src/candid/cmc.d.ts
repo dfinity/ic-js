@@ -19,6 +19,7 @@ export interface CanisterSettings {
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [log_visibility];
+  log_memory_limit: [] | [bigint];
   wasm_memory_limit: [] | [bigint];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
@@ -279,7 +280,10 @@ export interface environment_variable {
   value: string;
   name: string;
 }
-export type log_visibility = { controllers: null } | { public: null };
+export type log_visibility =
+  | { controllers: null }
+  | { public: null }
+  | { allowed_viewers: Array<Principal> };
 export interface _SERVICE {
   /**
    * Creates a canister using the cycles attached to the function call.
