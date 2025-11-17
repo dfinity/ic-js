@@ -28,6 +28,7 @@ export type {
   Topic as SnsTopic,
   TopicInfo as SnsTopicInfo,
   VotingRewardsParameters as SnsVotingRewardsParameters,
+  TransferSnsTreasuryFunds,
 } from "./candid/sns_governance";
 export type { CanisterStatusResultV2 as SnsCanisterStatus } from "./candid/sns_root";
 export type {

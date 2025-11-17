@@ -183,6 +183,11 @@ export interface DateRangeFilter {
   start_timestamp_seconds: [] | [bigint];
   end_timestamp_seconds: [] | [bigint];
 }
+export interface DateUtc {
+  day: number;
+  month: number;
+  year: number;
+}
 export interface Decimal {
   human_readable: [] | [string];
 }
@@ -617,8 +622,10 @@ export interface MergeResponse {
 }
 export interface MonthlyNodeProviderRewards {
   minimum_xdr_permyriad_per_icp: [] | [bigint];
+  end_date: [] | [DateUtc];
   registry_version: [] | [bigint];
   node_providers: Array<NodeProvider>;
+  start_date: [] | [DateUtc];
   timestamp: bigint;
   rewards: Array<RewardNodeProvider>;
   xdr_conversion_rate: [] | [XdrConversionRate];
