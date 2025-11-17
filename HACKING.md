@@ -13,7 +13,7 @@ You will also need `npm` v7+ as this repo is configured with [workspaces](https:
 From root directory, to build or test all packages:
 
 ```bash
-npm run build/test --workspaces
+npm run build/test
 ```
 
 To build or test a particular package - e.g. `sns`:
