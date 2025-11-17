@@ -4,7 +4,6 @@ import type {
 } from "@dfinity/ledger-icp";
 import {
   arrayBufferToUint8Array,
-  arrayOfNumberToUint8Array,
   isNullish,
   nonNullish,
   toNullable,
@@ -894,9 +893,7 @@ const fromOperation = (operation: Operation): RawOperation => {
 
 const fromAccount = (account: Account): RawAccount => ({
   owner: toNullable(account.owner),
-  subaccount: nonNullish(account.subaccount)
-    ? [arrayOfNumberToUint8Array(account.subaccount)]
-    : [],
+  subaccount: account.subaccount ? [account.subaccount] : [],
 });
 
 const fromChange = (change: Change): RawChange => {
