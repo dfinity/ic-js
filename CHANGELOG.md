@@ -1,3 +1,9 @@
+# Next
+
+## Breaking Changes
+
+- The `canisterStatus` function interface was modified to introduce support for query calls.
+
 # v84
 
 ## Overview

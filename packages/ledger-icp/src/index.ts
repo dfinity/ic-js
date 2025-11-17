@@ -1,3 +1,7 @@
+/**
+ * @module api/ledger/icp
+ */
+
 export { AccountIdentifier, SubAccount } from "./account_identifier";
 export type * from "./candid/index";
 export type {
