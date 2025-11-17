@@ -473,7 +473,7 @@ describe("ICManagementCanister", () => {
       const service = mock<IcManagementService>();
       service.canister_status.mockResolvedValue(response);
 
-      const icManagement = await createICManagement(service);
+      const icManagement = await createUpdateICManagement(service);
 
       const callerSpy = vi.spyOn(
         icManagement as unknown as {
@@ -518,7 +518,7 @@ describe("ICManagementCanister", () => {
       const service = mock<IcManagementService>();
       service.canister_status.mockRejectedValue(error);
 
-      const icManagement = await createUpdateICManagement(service);
+      const icManagement = await createICManagement(service);
 
       const call = () =>
         icManagement.canisterStatus({ canisterId: mockCanisterId });
