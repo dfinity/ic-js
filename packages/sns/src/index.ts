@@ -1,3 +1,7 @@
+/**
+ * @module api/sns
+ */
+
 export type {
   Account as SnsAccount,
   Action as SnsAction,
