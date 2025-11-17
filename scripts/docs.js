@@ -55,6 +55,8 @@ const icMgmtInputFiles = [
 
 const zodSchemasInputFiles = ["./packages/zod-schemas/src/index.ts"];
 
+const nftInputFiles = [];
+
 const buildOptions = {
   repo: { url: "https://github.com/dfinity/icp-js-canisters" },
 };
@@ -132,3 +134,11 @@ generateDocumentation({
   markdownOptions,
   buildOptions: { ...buildOptions, explore: true },
 });
+
+generateDocumentation({
+  inputFiles: nftInputFiles,
+  outputFile: "./packages/canisters/src/nft/README.md",
+  markdownOptions,
+  buildOptions: { ...buildOptions, explore: true },
+});
+
