@@ -114,7 +114,7 @@ jobs:
       - name: Prepare
         uses: ./.github/actions/prepare
       - name: Build
-        run: npm run build --workspaces
+        run: npm run build
 
   lint:
     runs-on: ubuntu-24.04
@@ -138,9 +138,9 @@ jobs:
       - name: Prepare
         uses: ./.github/actions/prepare
       - name: Build
-        run: npm run build --workspaces
+        run: npm run build
       - name: Test
-        run: npm run test --workspaces
+        run: npm run test
 
   size:
     runs-on: ubuntu-24.04

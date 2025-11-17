@@ -10,3 +10,7 @@ packages/**/*.d.ts
 !packages/**/candid/**/*.mjs
 !packages/**/candid/**/*.d.ts
 !packages/**/esbuild.mjs
+
+docs/src/content/tmp/
+docs/src/content/docs/api/
+docs/src/content/docs/changelog.md
