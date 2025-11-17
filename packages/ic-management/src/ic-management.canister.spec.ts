@@ -102,6 +102,23 @@ describe("ICManagementCanister", () => {
       certifiedServiceOverride: service as ActorSubclass<IcManagementService>,
     });
 
+  const createQueryICManagement = (
+    service: IcManagementService,
+  ): ICManagementCanister =>
+    ICManagementCanister.create({
+      agent: mockAgent,
+      serviceOverride: service as ActorSubclass<IcManagementService>,
+    });
+
+  const createUpdateICManagement = (
+    certifiedService: IcManagementService,
+  ): ICManagementCanister =>
+    ICManagementCanister.create({
+      agent: mockAgent,
+      certifiedServiceOverride:
+        certifiedService as ActorSubclass<IcManagementService>,
+    });
+
   describe("createCanister", () => {
     it("returns canister id when success", async () => {
       const response: ServiceResponse<IcManagementService, "create_canister"> =
@@ -400,53 +417,100 @@ describe("ICManagementCanister", () => {
   });
 
   describe("canisterStatus", () => {
+    const settings = {
+      freezing_threshold: BigInt(2),
+      controllers: [mockPrincipal],
+      memory_allocation: BigInt(4),
+      compute_allocation: BigInt(10),
+      reserved_cycles_limit: BigInt(11),
+      log_visibility: { controllers: null },
+      wasm_memory_limit: BigInt(500_00),
+      wasm_memory_threshold: BigInt(100),
+      environment_variables: [],
+    };
+    const response: CanisterStatusResponse = {
+      status: { running: null },
+      memory_size: BigInt(1000),
+      cycles: BigInt(10_000),
+      settings,
+      idle_cycles_burned_per_day: BigInt(0),
+      module_hash: [],
+      reserved_cycles: BigInt(11),
+      version: BigInt(1234),
+      ready_for_migration: false,
+      query_stats: {
+        num_calls_total: 100n,
+        num_instructions_total: 100_000n,
+        response_payload_bytes_total: 200n,
+        request_payload_bytes_total: 300n,
+      },
+      memory_metrics: {
+        wasm_binary_size: BigInt(2_000_900),
+        wasm_chunk_store_size: BigInt(2_100_800),
+        canister_history_size: BigInt(2_200_700),
+        stable_memory_size: BigInt(2_300_600),
+        snapshots_size: BigInt(2_400_500),
+        wasm_memory_size: BigInt(2_500_400),
+        global_memory_size: BigInt(2_600_300),
+        custom_sections_size: BigInt(2_700_200),
+      },
+    };
+
     it("returns canister status when success", async () => {
-      const settings = {
-        freezing_threshold: BigInt(2),
-        controllers: [mockPrincipal],
-        memory_allocation: BigInt(4),
-        compute_allocation: BigInt(10),
-        reserved_cycles_limit: BigInt(11),
-        log_visibility: { controllers: null },
-        wasm_memory_limit: BigInt(500_00),
-        wasm_memory_threshold: BigInt(100),
-        environment_variables: [],
-      };
-      const response: CanisterStatusResponse = {
-        status: { running: null },
-        memory_size: BigInt(1000),
-        cycles: BigInt(10_000),
-        settings,
-        idle_cycles_burned_per_day: BigInt(0),
-        module_hash: [],
-        reserved_cycles: BigInt(11),
-        version: BigInt(1234),
-        ready_for_migration: false,
-        query_stats: {
-          num_calls_total: 100n,
-          num_instructions_total: 100_000n,
-          response_payload_bytes_total: 200n,
-          request_payload_bytes_total: 300n,
-        },
-        memory_metrics: {
-          wasm_binary_size: BigInt(2_000_900),
-          wasm_chunk_store_size: BigInt(2_100_800),
-          canister_history_size: BigInt(2_200_700),
-          stable_memory_size: BigInt(2_300_600),
-          snapshots_size: BigInt(2_400_500),
-          wasm_memory_size: BigInt(2_500_400),
-          global_memory_size: BigInt(2_600_300),
-          custom_sections_size: BigInt(2_700_200),
-        },
-      };
       const service = mock<IcManagementService>();
       service.canister_status.mockResolvedValue(response);
 
       const icManagement = await createICManagement(service);
 
-      const res = await icManagement.canisterStatus(mockCanisterId);
+      const res = await icManagement.canisterStatus({
+        canisterId: mockCanisterId,
+      });
 
       expect(res).toEqual(response);
+    });
+
+    it("should use the certified service", async () => {
+      const service = mock<IcManagementService>();
+      service.canister_status.mockResolvedValue(response);
+
+      const icManagement = await createUpdateICManagement(service);
+
+      const callerSpy = vi.spyOn(
+        icManagement as unknown as {
+          caller: (params: QueryParams) => Promise<ICManagementCanister>;
+        },
+        "caller",
+      );
+
+      const res = await icManagement.canisterStatus({
+        canisterId: mockCanisterId,
+        certified: true,
+      });
+
+      expect(res).toEqual(response);
+      expect(callerSpy).toHaveBeenCalledWith({ certified: true });
+    });
+
+    it("should use the query service", async () => {
+      const service = mock<IcManagementService>();
+      service.canister_status.mockResolvedValue(response);
+
+      const icManagement = await createQueryICManagement(service);
+
+      const callerSpy = vi.spyOn(
+        icManagement as unknown as {
+          caller: (params: QueryParams) => Promise<ICManagementCanister>;
+        },
+        "caller",
+      );
+
+      const res = await icManagement.canisterStatus({
+        canisterId: mockCanisterId,
+        certified: false,
+      });
+
+      expect(res).toEqual(response);
+      expect(callerSpy).toHaveBeenCalledWith({ certified: false });
     });
 
     it("throws Error", async () => {
@@ -456,7 +520,8 @@ describe("ICManagementCanister", () => {
 
       const icManagement = await createICManagement(service);
 
-      const call = () => icManagement.canisterStatus(mockCanisterId);
+      const call = () =>
+        icManagement.canisterStatus({ canisterId: mockCanisterId });
 
       await expect(call).rejects.toThrow(error);
     });

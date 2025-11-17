@@ -18,7 +18,6 @@ import type { Principal } from "@icp-sdk/core/principal";
 import type {
   Command_1,
   _SERVICE as GovernanceService,
-  ListProposalInfo,
   MergeResponse,
   NeuronSubaccount,
   Neuron as RawNeuron,
@@ -336,7 +335,7 @@ export class GovernanceCanister {
     request: ListProposalsRequest;
     certified?: boolean;
   }): Promise<ListProposalsResponse> => {
-    const rawRequest: ListProposalInfo = fromListProposalsRequest(request);
+    const rawRequest = fromListProposalsRequest(request);
     const rawResponse =
       await this.getGovernanceService(certified).list_proposals(rawRequest);
     return toListProposalsResponse(rawResponse);
