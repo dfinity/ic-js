@@ -76,9 +76,9 @@ const updateVersion = async () => {
   ).reduce(
     (acc, [key, value]) => ({
       ...acc,
-      [key]: value.startsWith("@dfinity")
+      [key]: key.startsWith("@dfinity")
         ? "next"
-        : value.startsWith("@icp-sdk")
+        : key.startsWith("@icp-sdk")
           ? "*"
           : value,
     }),
