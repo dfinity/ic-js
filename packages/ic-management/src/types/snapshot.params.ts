@@ -42,7 +42,7 @@ export type CanisterSnapshotMetadataKind =
   | { wasmModule: { size: bigint; offset: bigint } }
   | { wasmMemory: { size: bigint; offset: bigint } }
   | { stableMemory: { size: bigint; offset: bigint } }
-  | { wasmChunk: { hash: Uint8Array | number[] } };
+  | { wasmChunk: { hash: Uint8Array } };
 
 export interface ReadCanisterSnapshotDataParams extends SnapshotParams {
   kind: CanisterSnapshotMetadataKind;
@@ -136,7 +136,7 @@ export interface ReadCanisterSnapshotMetadataParams extends SnapshotParams {
 }
 
 export interface UploadCanisterSnapshotDataParams extends SnapshotParams {
-  chunk: Uint8Array | number[];
+  chunk: Uint8Array;
   kind: UploadCanisterSnapshotDataKind;
 }
 
