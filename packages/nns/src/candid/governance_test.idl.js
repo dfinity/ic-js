@@ -841,7 +841,7 @@ export const idlFactory = ({ IDL }) => {
   const ListNodeProvidersResponse = IDL.Record({
     node_providers: IDL.Vec(NodeProvider),
   });
-  const ListProposalInfo = IDL.Record({
+  const ListProposalInfoRequest = IDL.Record({
     include_reward_status: IDL.Vec(IDL.Int32),
     omit_large_fields: IDL.Opt(IDL.Bool),
     before_proposal: IDL.Opt(ProposalId),
@@ -1068,7 +1068,7 @@ export const idlFactory = ({ IDL }) => {
     ),
     list_node_providers: IDL.Func([], [ListNodeProvidersResponse], ["query"]),
     list_proposals: IDL.Func(
-      [ListProposalInfo],
+      [ListProposalInfoRequest],
       [ListProposalInfoResponse],
       ["query"],
     ),
