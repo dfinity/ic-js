@@ -112,8 +112,5 @@ dist
 # TernJS port file
 .tern-port
 
-# Built documentation
-/docs/
-
 # IC if checked out, e.g. in CI
 /ic/

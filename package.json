@@ -15,7 +15,8 @@
     "packages/ic-management",
     "packages/cketh",
     "packages/zod-schemas",
-    "packages/canisters"
+    "packages/canisters",
+    "docs"
   ],
   "scripts": {
     "did": "scripts/compile-idl-js",
@@ -25,7 +26,7 @@
     "pretest": "npm run pretest --workspaces --if-present",
     "test": "tsc --project tsconfig.spec.json --noEmit && vitest",
     "docs": "node scripts/docs.js && prettier --write packages/**/README.md",
-    "build": "npm run build --workspaces",
+    "build": "npm run build --workspaces --if-present",
     "size": "size-limit --json",
     "update:agent": "./scripts/update-agent",
     "clean": "npm run clean --workspaces --if-present"
