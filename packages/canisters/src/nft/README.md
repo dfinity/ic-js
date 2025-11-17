@@ -11,7 +11,6 @@ A library for interfacing with [ICRC NFT standards](https://github.com/dfinity/I
 `nft-js` implements following features:
 
 <!-- TSDOC_START -->
-test
 
 
 <!-- TSDOC_END -->
