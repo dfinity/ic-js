@@ -2,6 +2,9 @@
   "name": "docs",
   "private": true,
   "type": "module",
+  "scripts": {
+    "docs": "typedoc --options ./typedoc.json"
+  },
   "devDependencies": {
     "@dfinity/typedoc-plugin-icp-docs": "^0.0.3",
     "typedoc": "^0.28.14",
