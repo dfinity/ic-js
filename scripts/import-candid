@@ -106,7 +106,6 @@ test -n "${IC_DIR:-}" || {
 IC_COMMIT="$(cd "${IC_DIR}" && git rev-parse --short HEAD)"
 IC_DATE="$(cd "${IC_DIR}" && git show -s --format=%as)"
 IC_TAGS="$(cd "${IC_DIR}" && git tag --points-at HEAD | tr "\n" " ")"
-THIS_SCRIPT_NAME="$(basename "$0")"
 
 : Import canisters
 mkdir -p packages/nns/src/candid
