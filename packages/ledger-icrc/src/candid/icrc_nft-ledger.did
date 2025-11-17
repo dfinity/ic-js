@@ -1,17 +1,17 @@
-// Generated from dfinity/ICRC commit 845124f1f40f7161eb3de5be799aad822dd118a0 for file 'ICRCs/ICRC-7/ICRC-7.did'
+// Generated from dfinity/ICRC commit 07e56ecedb51b7f58b7d06ec82ebf7114db42c6b for file 'ICRCs/ICRC-7/ICRC-7.did'
 
 type Subaccount = blob;
 
 type Account = record { owner : principal; subaccount : opt Subaccount };
 
 // Generic value in accordance with ICRC-3
-type Value = variant {
-    Blob : blob;
-    Text : text;
+type Value = variant { 
+    Blob : blob; 
+    Text : text; 
     Nat : nat;
     Int : int;
-    Array : vec Value;
-    Map : vec record { text; Value };
+    Array : vec Value; 
+    Map : vec record { text; Value }; 
 };
 
 type TransferArg = record {
