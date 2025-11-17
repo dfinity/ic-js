@@ -1,3 +1,7 @@
+/**
+ * @module api/nns
+ */
+
 export type { RewardEvent } from "./candid/governance";
 export type { DeployedSns } from "./candid/sns_wasm";
 export * from "./enums/governance.enums";
