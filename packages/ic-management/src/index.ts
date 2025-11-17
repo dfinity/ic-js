@@ -1,3 +1,7 @@
+/**
+ * @module api/ic-management
+ */
+
 export type {
   canister_install_mode,
   canister_log_record,
