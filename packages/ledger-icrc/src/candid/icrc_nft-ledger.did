@@ -1,4 +1,4 @@
-// Generated from
+// Generated from dfinity/ICRC commit 845124f1f40f7161eb3de5be799aad822dd118a0 for file 'ICRCs/ICRC-7/ICRC-7.did'
 
 type Subaccount = blob;
 
