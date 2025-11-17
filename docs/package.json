@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+  "name": "@dfinity/icp-js-canisters-docs",
   "private": true,
   "type": "module",
   "scripts": {
