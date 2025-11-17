@@ -1,3 +1,7 @@
+/**
+ * @module api/cketh
+ */
+
 export type {
   Eip1559TransactionPrice,
   EthTransaction,
