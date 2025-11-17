@@ -94,7 +94,7 @@ export interface SnsIncreaseStakeNeuronParams
 
 // Type to transform to a ClaimOrRefresh command
 export interface SnsClaimOrRefreshArgs extends Omit<QueryParams, "certified"> {
-  subaccount: Uint8Array | number[];
+  subaccount: Uint8Array;
   memo?: bigint;
   controller?: Principal;
 }
