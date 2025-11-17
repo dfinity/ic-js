@@ -106,7 +106,6 @@ test -n "${IC_DIR:-}" || {
   echo "       Use --help for usage."
   exit 1
 } >&2
-THIS_SCRIPT_NAME="$(basename "$0")"
 
 : Import canisters
 mkdir -p packages/nns/src/candid
