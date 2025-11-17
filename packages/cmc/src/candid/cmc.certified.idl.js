@@ -20,6 +20,14 @@ export const idlFactory = ({ IDL }) => {
     minting_account_id: IDL.Opt(AccountIdentifier),
     ledger_canister_id: IDL.Opt(IDL.Principal),
   });
+  const SubnetListWithType = IDL.Record({
+    subnets: IDL.Vec(IDL.Principal),
+    subnet_type: IDL.Text,
+  });
+  const ChangeSubnetTypeAssignmentArgs = IDL.Variant({
+    Add: SubnetListWithType,
+    Remove: SubnetListWithType,
+  });
   const SubnetFilter = IDL.Record({ subnet_type: IDL.Opt(IDL.Text) });
   const SubnetSelection = IDL.Variant({
     Filter: SubnetFilter,
@@ -123,8 +131,21 @@ export const idlFactory = ({ IDL }) => {
   });
   const Cycles = IDL.Nat;
   const NotifyTopUpResult = IDL.Variant({ Ok: Cycles, Err: NotifyError });
+  const SetAuthorizedSubnetworkListArgs = IDL.Record({
+    who: IDL.Opt(IDL.Principal),
+    subnets: IDL.Vec(IDL.Principal),
+  });
+  const UpdateSubnetTypeArgs = IDL.Variant({
+    Add: IDL.Text,
+    Remove: IDL.Text,
+  });
 
   return IDL.Service({
+    change_subnet_type_assignment: IDL.Func(
+      [ChangeSubnetTypeAssignmentArgs],
+      [],
+      [],
+    ),
     create_canister: IDL.Func([CreateCanisterArg], [CreateCanisterResult], []),
     get_build_metadata: IDL.Func([], [IDL.Text], []),
     get_default_subnets: IDL.Func([], [IDL.Vec(IDL.Principal)], []),
@@ -154,6 +175,12 @@ export const idlFactory = ({ IDL }) => {
       [],
     ),
     notify_top_up: IDL.Func([NotifyTopUpArg], [NotifyTopUpResult], []),
+    set_authorized_subnetwork_list: IDL.Func(
+      [SetAuthorizedSubnetworkListArgs],
+      [],
+      [],
+    ),
+    update_subnet_type: IDL.Func([UpdateSubnetTypeArgs], [], []),
   });
 };
 

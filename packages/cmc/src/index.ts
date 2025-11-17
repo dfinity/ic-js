@@ -1,3 +1,7 @@
+/**
+ * @module api/cmc
+ */
+
 export type {
   Cycles,
   NotifyCreateCanisterArg,
