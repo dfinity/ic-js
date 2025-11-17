@@ -102,6 +102,23 @@ describe("ICManagementCanister", () => {
       certifiedServiceOverride: service as ActorSubclass<IcManagementService>,
     });
 
+  const createQueryICManagement = (
+    service: IcManagementService,
+  ): ICManagementCanister =>
+    ICManagementCanister.create({
+      agent: mockAgent,
+      serviceOverride: service as ActorSubclass<IcManagementService>,
+    });
+
+  const createUpdateICManagement = (
+    certifiedService: IcManagementService,
+  ): ICManagementCanister =>
+    ICManagementCanister.create({
+      agent: mockAgent,
+      certifiedServiceOverride:
+        certifiedService as ActorSubclass<IcManagementService>,
+    });
+
   describe("createCanister", () => {
     it("returns canister id when success", async () => {
       const response: ServiceResponse<IcManagementService, "create_canister"> =
@@ -478,7 +495,7 @@ describe("ICManagementCanister", () => {
       const service = mock<IcManagementService>();
       service.canister_status.mockResolvedValue(response);
 
-      const icManagement = await createICManagement(service);
+      const icManagement = await createQueryICManagement(service);
 
       const callerSpy = vi.spyOn(
         icManagement as unknown as {
@@ -501,7 +518,7 @@ describe("ICManagementCanister", () => {
       const service = mock<IcManagementService>();
       service.canister_status.mockRejectedValue(error);
 
-      const icManagement = await createICManagement(service);
+      const icManagement = await createUpdateICManagement(service);
 
       const call = () =>
         icManagement.canisterStatus({ canisterId: mockCanisterId });
