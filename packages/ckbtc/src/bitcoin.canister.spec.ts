@@ -1,4 +1,7 @@
-import type { CanisterOptions } from "@dfinity/utils";
+import {
+  type CanisterOptions,
+  arrayOfNumberToUint8Array,
+} from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import { BitcoinCanister } from "./bitcoin.canister";
@@ -98,7 +101,7 @@ describe("BitcoinCanister", () => {
         serviceOverride: service,
       });
 
-      const page = [1, 2, 3];
+      const page = arrayOfNumberToUint8Array([1, 2, 3]);
       const pageParams: Omit<GetUtxosParams, "certified"> = {
         ...params,
         filter: {

@@ -15,7 +15,7 @@ const mapBitcoinNetwork: Record<BitcoinNetwork, network> = {
 
 export type GetUtxosParams = Omit<get_utxos_request, "network" | "filter"> & {
   network: BitcoinNetwork;
-  filter?: { page: Uint8Array | number[] } | { minConfirmations: number };
+  filter?: { page: Uint8Array } | { minConfirmations: number };
 } & Omit<QueryParams, "certified">;
 
 export const toGetUtxosParams = ({
