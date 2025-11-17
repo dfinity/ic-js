@@ -17,8 +17,8 @@ on:
 
 run-name: >-
   ${{
-    (github.event_name == 'release' || github.event.inputs.tag == 'release') && 'Publish Semver Release'
-    || (github.event_name == 'workflow_dispatch' && (github.event.inputs.tag == 'next' || github.event.inputs.tag == 'beta')) && format('Publish {0} Release', github.event.inputs.tag)
+    (github.event_name == 'release' || github.event.inputs.tag == 'release') && format('Publish {0}', github.event.release.tag_name)
+    || (github.event_name == 'workflow_dispatch' && (github.event.inputs.tag == 'next' || github.event.inputs.tag == 'beta')) && 'Publish Next'
     || 'Publish Release' }}
 
 jobs:
