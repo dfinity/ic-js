@@ -520,7 +520,7 @@ export interface ListNodeProviderRewardsResponse {
 export interface ListNodeProvidersResponse {
   node_providers: Array<NodeProvider>;
 }
-export interface ListProposalInfo {
+export interface ListProposalInfoRequest {
   include_reward_status: Int32Array | number[];
   omit_large_fields: [] | [boolean];
   before_proposal: [] | [ProposalId];
@@ -1315,7 +1315,10 @@ export interface _SERVICE {
     ListNodeProviderRewardsResponse
   >;
   list_node_providers: ActorMethod<[], ListNodeProvidersResponse>;
-  list_proposals: ActorMethod<[ListProposalInfo], ListProposalInfoResponse>;
+  list_proposals: ActorMethod<
+    [ListProposalInfoRequest],
+    ListProposalInfoResponse
+  >;
   manage_neuron: ActorMethod<[ManageNeuronRequest], ManageNeuronResponse>;
   settle_community_fund_participation: ActorMethod<
     [SettleCommunityFundParticipation],
