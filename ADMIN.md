@@ -51,7 +51,7 @@ describe("my-lib", () => {
 
 You need an `import` to avoid considering it a global script file.
 
-6. Add new library to [docs](./scripts/docs.js) generator.
+6. Add new library's index file to the [typedoc.json](./docs/typedoc.json) file.
 
 7. Add the new library to the [build-next](./scripts/build-next) script to tweak version and make dependencies less restrictive when the "next" version is published.
 

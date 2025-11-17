@@ -24,6 +24,9 @@ export interface CanisterSettings {
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
 }
+export type ChangeSubnetTypeAssignmentArgs =
+  | { Add: SubnetListWithType }
+  | { Remove: SubnetListWithType };
 /**
  * The argument of the [create_canister] method.
  */
@@ -256,9 +259,17 @@ export type NotifyTopUpResult =
 export interface PrincipalsAuthorizedToCreateCanistersToSubnetsResponse {
   data: Array<[Principal, Array<Principal>]>;
 }
+export interface SetAuthorizedSubnetworkListArgs {
+  who: [] | [Principal];
+  subnets: Array<Principal>;
+}
 export type Subaccount = [] | [Uint8Array | number[]];
 export interface SubnetFilter {
   subnet_type: [] | [string];
+}
+export interface SubnetListWithType {
+  subnets: Array<Principal>;
+  subnet_type: string;
 }
 export type SubnetSelection =
   | {
@@ -276,6 +287,7 @@ export type SubnetSelection =
 export interface SubnetTypesToSubnetsResponse {
   data: Array<[string, Array<Principal>]>;
 }
+export type UpdateSubnetTypeArgs = { Add: string } | { Remove: string };
 export interface environment_variable {
   value: string;
   name: string;
@@ -285,6 +297,10 @@ export type log_visibility =
   | { public: null }
   | { allowed_viewers: Array<Principal> };
 export interface _SERVICE {
+  change_subnet_type_assignment: ActorMethod<
+    [ChangeSubnetTypeAssignmentArgs],
+    undefined
+  >;
   /**
    * Creates a canister using the cycles attached to the function call.
    */
@@ -326,6 +342,14 @@ export interface _SERVICE {
    * into cycles and sending the cycles the specified canister.
    */
   notify_top_up: ActorMethod<[NotifyTopUpArg], NotifyTopUpResult>;
+  /**
+   * Below are methods that can only be called by other NNS canisters.
+   */
+  set_authorized_subnetwork_list: ActorMethod<
+    [SetAuthorizedSubnetworkListArgs],
+    undefined
+  >;
+  update_subnet_type: ActorMethod<[UpdateSubnetTypeArgs], undefined>;
 }
 export declare const idlFactory: IDL.InterfaceFactory;
 export declare const init: (args: { IDL: typeof IDL }) => IDL.Type[];

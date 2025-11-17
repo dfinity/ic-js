@@ -33,4 +33,4 @@ node ./scripts/update-version.mjs ic-management dfinity $TAG
 node ./scripts/update-version.mjs canisters icp-sdk $TAG
 
 : Now we can build
-npm run build --workspaces
+npm run build
