@@ -43,6 +43,11 @@
       "import": "./ledger/icrc/index.js",
       "require": "./ledger/icrc/index.mjs"
     },
+    "./nft": {
+      "types": "./nft/index.d.ts",
+      "import": "./nft/index.js",
+      "require": "./nft/index.mjs"
+    },
     "./nns": {
       "types": "./nns/index.d.ts",
       "import": "./nns/index.js",
