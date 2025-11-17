@@ -3,7 +3,8 @@
   "entryPoints": [
     "../packages/ckbtc/src/index.ts",
     "../packages/cketh/src/index.ts",
-    "../packages/cmc/src/index.ts"
+    "../packages/cmc/src/index.ts",
+    "../packages/ic-management/src/index.ts"
   ],
   "tsconfig": "../tsconfig.json",
   "readme": "none",
