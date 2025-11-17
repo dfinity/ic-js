@@ -1,4 +1,4 @@
-import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
+import { toNullable } from "@dfinity/utils";
 import { Principal } from "@icp-sdk/core/principal";
 import { mockAccountIdentifier } from "../../mocks/ledger.mock";
 import { mockConsentMessageRequest } from "../../mocks/ledger.request.mock";
@@ -33,7 +33,7 @@ describe("ledger.request.converts", () => {
 
   const mockIcrc1TransferRequest: Icrc1TransferRequest = {
     to,
-    fromSubAccount: arrayOfNumberToUint8Array([0, 1, 2]),
+    fromSubAccount: [0, 1, 2],
     amount: 1_000_000n,
     fee: 11_000n,
     icrc1Memo: new Uint8Array([1, 2, 3]),
@@ -42,7 +42,7 @@ describe("ledger.request.converts", () => {
 
   const mockIcrc2ApproveRequest: Icrc2ApproveRequest = {
     spender: to,
-    fromSubAccount: arrayOfNumberToUint8Array([0, 1, 2]),
+    fromSubAccount: [0, 1, 2],
     expected_allowance: 5_000n,
     expires_at: now + 200n,
     amount: 1_200_000n,
