@@ -1,5 +1,5 @@
 /**
- * @module ckbtc/api
+ * @module modules/ckbtc/api
  */
 
 export { BitcoinCanister } from "./bitcoin.canister";
