@@ -66,13 +66,24 @@ const updateVersion = async () => {
     currentVersion: packageJson.version,
   });
 
-  // Peer dependencies need to point to wip references - e.g. @dfinity/utils@0.0.1-next
+  // Peer dependencies need to reference WIP versions (e.g. @dfinity/utils@0.0.1-next),
+  // which is why the specific tag is used.
+  //
+  // Other foundation packages, like @icp-sdk/core, are referenced with a wildcard.
+  // This has proven useful when developing new features, as it allows more flexibility.
   const peerDependencies = Object.entries(
     packageJson.peerDependencies ?? {},
-  ).reduce((acc, [key, _value]) => {
-    acc[key] = `*`;
-    return acc;
-  }, {});
+  ).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      [key]: value.startsWith("@dfinity")
+        ? "next"
+        : value.startsWith("@icp-sdk")
+          ? "*"
+          : value,
+    }),
+    {},
+  );
 
   writeFileSync(
     packagePath,
