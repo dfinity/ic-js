@@ -1,0 +1,41 @@
+---
+title: Installation
+description: How to install the @icp-sdk/canisters package.
+---
+
+import { Code, Tabs, TabItem } from "@astrojs/starlight/components";
+
+<Tabs>
+  <TabItem label="npm" icon="npm">
+    <Code lang="shell" code="npm install @icp-sdk/canisters" />
+  </TabItem>
+  <TabItem label="pnpm" icon="pnpm">
+    <Code lang="shell" code="pnpm add @icp-sdk/canisters" />
+
+    You might need to install the peer dependencies of `@icp-sdk/canisters` manually:
+    <Code
+      lang="shell"
+      code="pnpm install @dfinity/ckbtc @dfinity/cketh @dfinity/cmc @dfinity/ic-management @dfinity/ledger-icp @dfinity/ledger-icrc @dfinity/nns @dfinity/sns @dfinity/utils @icp-sdk/core"
+    />
+
+  </TabItem>
+  <TabItem label="bun" icon="bun">
+    <Code lang="shell" code="bun add @icp-sdk/canisters" />
+  </TabItem>
+  <TabItem label="yarn" icon="seti:yarn">
+    <Code lang="shell" code="yarn add @icp-sdk/canisters" />
+
+    You might need to install the peer dependencies of `@icp-sdk/canisters` manually:
+    <Code
+      lang="shell"
+      code="yarn add @dfinity/ckbtc @dfinity/cketh @dfinity/cmc @dfinity/ic-management @dfinity/ledger-icp @dfinity/ledger-icrc @dfinity/nns @dfinity/sns @dfinity/utils @icp-sdk/core"
+    />
+
+  </TabItem>
+</Tabs>
+
+## CDN
+
+We do not recommend using the CDN distribution of the `@icp-sdk/canisters` package for **production** applications.
+
+It can constitute a security risk, because the CDN can potentially serve a different IC mainnet [root key](https://internetcomputer.org/docs/references/ic-interface-spec/#root-of-trust).
