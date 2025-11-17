@@ -25,7 +25,6 @@
     "protoc": "bash ./scripts/update_proto.sh",
     "pretest": "npm run pretest --workspaces --if-present",
     "test": "tsc --project tsconfig.spec.json --noEmit && vitest",
-    "test-all": "npm ci && npm run test --workspaces",
     "docs": "node scripts/docs.js && prettier --write packages/**/README.md",
     "build": "npm run build --workspaces --if-present",
     "size": "size-limit --json",

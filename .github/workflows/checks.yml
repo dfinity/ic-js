@@ -140,7 +140,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Test
-        run: npm run test --workspaces
+        run: npm run test
 
   size:
     runs-on: ubuntu-24.04
