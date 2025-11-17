@@ -17,4 +17,3 @@ A library for interfacing with [ICRC NFT standards](https://github.com/dfinity/I
 ## Resources
 
 - [ICRC-7 Standard](https://github.com/dfinity/ICRC/tree/main/ICRCs/ICRC-7)
-
