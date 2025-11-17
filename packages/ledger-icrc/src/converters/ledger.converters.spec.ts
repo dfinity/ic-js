@@ -1,4 +1,4 @@
-import { toNullable } from "@dfinity/utils";
+import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
 import { Principal } from "@icp-sdk/core/principal";
 import { mockPrincipalText } from "../mocks/ledger.mock";
 import type {
@@ -20,7 +20,7 @@ describe("ledger.converters", () => {
   describe("toTransferArg", () => {
     it("should transform TransferParams to TransferArg correctly", () => {
       const params: TransferParams = {
-        to: { owner, subaccount: [[7, 8, 9]] },
+        to: { owner, subaccount: [arrayOfNumberToUint8Array([7, 8, 9])] },
         amount: BigInt(1000),
         fee: BigInt(10),
         memo: new Uint8Array([1, 2, 3]),
@@ -44,8 +44,8 @@ describe("ledger.converters", () => {
   describe("toTransferFromArgs", () => {
     it("should transform TransferFromParams to TransferFromArgs correctly", () => {
       const params: TransferFromParams = {
-        from: { owner, subaccount: [[4, 5, 6]] },
-        to: { owner, subaccount: [[1, 2, 3]] },
+        from: { owner, subaccount: [arrayOfNumberToUint8Array([4, 5, 6])] },
+        to: { owner, subaccount: [arrayOfNumberToUint8Array([1, 2, 3])] },
         amount: BigInt(500),
         fee: BigInt(5),
         memo: new Uint8Array([7, 8, 9]),
@@ -70,7 +70,7 @@ describe("ledger.converters", () => {
   describe("toApproveArgs", () => {
     it("should transform ApproveParams to ApproveArgs correctly", () => {
       const params: ApproveParams = {
-        spender: { owner, subaccount: [[7, 8, 9]] },
+        spender: { owner, subaccount: [arrayOfNumberToUint8Array([7, 8, 9])] },
         amount: BigInt(200),
         fee: BigInt(2),
         memo: new Uint8Array([13, 14, 15]),
