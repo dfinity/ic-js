@@ -6,7 +6,8 @@
     "../packages/cmc/src/index.ts",
     "../packages/ic-management/src/index.ts",
     "../packages/ledger-icp/src/index.ts",
-    "../packages/ledger-icrc/src/index.ts"
+    "../packages/ledger-icrc/src/index.ts",
+    "../packages/nns/src/index.ts"
   ],
   "tsconfig": "../tsconfig.json",
   "readme": "none",
