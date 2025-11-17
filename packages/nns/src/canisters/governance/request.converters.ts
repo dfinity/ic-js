@@ -12,7 +12,6 @@ import {
 import { Principal } from "@icp-sdk/core/principal";
 import type {
   Amount,
-  ListProposalInfo,
   NeuronSubaccount,
   Account as RawAccount,
   AccountIdentifier as RawAccountIdentifier,
@@ -33,6 +32,7 @@ import type {
   InstallCodeRequest as RawInstallCode,
   LedgerParameters as RawLedgerParameters,
   ListNeurons as RawListNeurons,
+  ListProposalInfoRequest as RawListProposalInfo,
   ManageNeuronRequest as RawManageNeuron,
   NeuronBasketConstructionParameters as RawNeuronBasketConstructionParameters,
   NeuronDistribution as RawNeuronDistribution,
@@ -1109,7 +1109,7 @@ export const fromListProposalsRequest = ({
   limit,
   includeAllManageNeuronProposals,
   omitLargeFields,
-}: ListProposalsRequest): ListProposalInfo => ({
+}: ListProposalsRequest): RawListProposalInfo => ({
   include_reward_status: Int32Array.from(includeRewardStatus),
   before_proposal: beforeProposal ? [fromProposalId(beforeProposal)] : [],
   limit,
