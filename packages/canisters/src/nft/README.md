@@ -5,6 +5,7 @@ A library for interfacing with [ICRC NFT standards](https://github.com/dfinity/I
 ## Table of contents
 
 - [Features](#features)
+- [Resources](#resources)
 
 ## Features
 
