@@ -1,12 +1,14 @@
-# Next
+# Changelog
 
-## Breaking Changes
+## Next
+
+### Breaking Changes
 
 - The `canisterStatus` function interface was modified to introduce support for query calls.
 
-# v84
+## v84
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -23,21 +25,21 @@
 | `@dfinity/utils`         | v4.0.0  | Unchanged️    |
 | `@dfinity/zod-schemas`   | v3.0.0  | Unchanged️    |
 
-## Fix
+### Fix
 
 - The IC management `canister_status` function is defined to support queries according latest DID files, but `@dfinity/ic-management` does not yet implement them. The service has therefore been pinned to use only update calls, as it always did previously.
 
-## Features
+### Features
 
 - The `ICManagementCanister` implementation has been extended to support both query and update factories. All functions now use the latter, except for `fetch_canister_logs`, which correctly requires a query call. This aligns with the existing behavior.
 
-## Test
+### Test
 
 - Update mocks data for `@dfinity/nns` according latest DID definitions.
 
-# v83
+## v83
 
-## Overview
+### Overview
 
 | Library                  | Version | Status                    |
 | ------------------------ | ------- | ------------------------- |
@@ -54,19 +56,19 @@
 | `@dfinity/utils`         | v4.0.0  | Unchanged️                |
 | `@dfinity/zod-schemas`   | v3.0.0  | Unchanged️                |
 
-## Features
+### Features
 
 - Re-export libraries as **peer dependencies** in `@icp-sdk/canisters` instead of bundling source code. This structural change is required to resolve inter-dependency issues.
 - Add new governance `nnsFunctions`.
 - Update to the latest Candid files.
 
-## Fix
+### Fix
 
 - Resolve type incompatibility when using functions from `@icp-sdk/canisters/nns` that require the ICP ledger canister as a parameter.
 
-# v82
+## v82
 
-## Overview
+### Overview
 
 | Library                  | Version | Status              |
 | ------------------------ | ------- | ------------------- |
@@ -83,7 +85,7 @@
 | `@dfinity/utils`         | v4.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/zod-schemas`   | v3.0.0  | Breaking Changes ⚠️ |
 
-## Breaking Changes
+### Breaking Changes
 
 - Peer dependencies have been migrated to `@icp-sdk/core` instead of the `@dfinity/*` scoped libraries for agent, identity, and candid.
 - Node.js bundles are now shipped as `ESM`.
@@ -93,33 +95,33 @@
 > Although this release introduces structural breaking changes, **no functional changes** are expected.  
 > A strict "no-changes" freeze was maintained to prepare this release.
 
-## Features
+### Features
 
 - Released `@icp-sdk/canisters`, a new modular entry-point library for interacting with core Internet Computer canisters.
 - Exposed `ReimbursedDeposit` and `ReimbursementRequest` in `ckbtc`.
 - Exposed `SnsAccount`, `SnsDisburseMaturityInProgress`, and `SnsNeuronPermission` in `sns`.
 
-## Fix
+### Fix
 
 - Corrected the `Subaccount` type reference, which was previously incorrectly scoped to the ledger ICRC library instead of its own definition in the ckETH minter.
 
-## Refactoring
+### Refactoring
 
 - Internal structure refactored to support ESM for Node.js; bundles are now emitted at the root of each `dist` folder.
 - `candid` folders were moved from package roots to their respective `src` folders.
 
-## Build
+### Build
 
 - Added `exports` fields to each `package.json`.
 - Migrated DID codegen tooling from `didc` to `@icp-sdk/binden`, required for generating interfaces that use the new `@icp-sdk` imports.
 
-## Chore
+### Chore
 
 - Removed modified boilerplate from license files.
 
-# v81
+## v81
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -135,14 +137,14 @@
 | `@dfinity/utils`         | v3.2.0  | Unchanged️    |
 | `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️    |
 
-## Features
+### Features
 
 - Map `committed_topics` in the `RegisterKnownNeuron` proposal action type of `nns-js`.
 - Update latest Candid files.
 
-# v80
+## v80
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -158,17 +160,17 @@
 | `@dfinity/utils`         | v3.2.0  | Unchanged️    |
 | `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️    |
 
-## Features
+### Features
 
 - Update latest Candid files.
 
-## Chore
+### Chore
 
 - Adapt script that generates DID files to support governance patches.
 
-# v79
+## v79
 
-## Overview
+### Overview
 
 | Library                  | Version | Status       |
 | ------------------------ | ------- | ------------ |
@@ -184,15 +186,15 @@
 | `@dfinity/utils`         | v3.2.0  | Unchanged️   |
 | `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️   |
 
-## Features
+### Features
 
 - Support the parameter `toAccount` in the function to disburse maturity in the NNS package.
 - Add the `getMintingAccount` method in the `IcrcLedgerCanister` class.
 - Create util to convert a Candid `Account` object into an `IcrcAccount` type, and vice versa.
 
-# v78
+## v78
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -208,7 +210,7 @@
 | `@dfinity/utils`         | v3.2.0  | Unchanged️    |
 | `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️    |
 
-## Features
+### Features
 
 - Replace remaining usage of `Buffer` in `@dfinity/ledger-icp` in the `AccountIdentifier.fromHex` conversion.
 - Replace remaining usage of `Buffer` in `@dfinity/nns` in `accountIdentifierFromBytes`.
@@ -216,9 +218,9 @@
 - Use new utility `assertNever` in `@dfinity/sns`.
 - Update latest Candid files.
 
-# v77
+## v77
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -234,19 +236,19 @@
 | `@dfinity/utils`         | v3.2.0  | Enhanced 🔧️  |
 | `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️    |
 
-## Features
+### Features
 
 - Support functions required for downloading and uploading snapshots offline.
 - Add a new utility `assertNever` to `@dfinity/utils` to help detect when a new variant is added to a union but not yet handled in the logic.
 
-## Chore
+### Chore
 
 - Upgrade `didc` to `v0.5.2` that converts Candid files into JS and TS.
 - Update the library's Candid types as generated by the latest `didc` version.
 
-# v76
+## v76
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -262,19 +264,19 @@
 | `@dfinity/utils`         | v3.1.0  | Unchanged️    |
 | `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️    |
 
-## Features
+### Features
 
 - Updated `@dfinity/nns` to support a new action type, `DeregisterKnownNeuron`.
 - Updated `@dfinity/nns` to include a new `links` field in the `RegisterKnownNeuron` action.
 - Updated `@dfinity/nns` to add support for the `memo` field in the `Split` command.
 
-## Refactoring
+### Refactoring
 
 - Remove unused mocks and extract snapshot interfaces in `@dfinity/ic-management`.
 
-# v75
+## v75
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -290,15 +292,15 @@
 | `@dfinity/utils`         | v3.1.0  | Enhanced 🔧️  |
 | `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️    |
 
-## Features
+### Features
 
 - Expose Ledger canister response types: `Status` as `IcrcNgStatus`.
 - Expose Ledger canister response types: `ICRC3Value` as `Icrc3Value`, `Allowance` as `IcrcAllowance`, `GetBlocksArgs` as `IcrcGetBlocksArgs`, `GetBlocksResult` as `IcrcGetBlocksResult`, `Timestamp` as `IcrcTimestamp`.
 - Improve `Principal` detection in `jsonReplacer`.
 
-# v74
+## v74
 
-## Overview
+### Overview
 
 | Library                  | Version | Status              |
 | ------------------------ | ------- | ------------------- |
@@ -314,22 +316,22 @@
 | `@dfinity/utils`         | v3.0.1  | Maintained ⚙       |
 | `@dfinity/zod-schemas`   | v2.1.0  | Unchanged️          |
 
-## Breaking Changes
+### Breaking Changes
 
 - ICRC-21 `LineDisplay` has been deprecated and replaced with `FieldsDisplay` (see [related changes](https://github.com/dfinity/wg-identity-authentication/pull/229)). Consequently, the interfaces of `@dfinity/ledger-icp` and `@ledger-icrc` have been updated in a non–backwards-compatible way.
 
-## Features
+### Features
 
 - Removed usage of `Buffer` in `@dfinity/nns`.
 - Updated Candid file definitions to the latest version (except in `@dfinity/ic-management`).
 
-## Build
+### Build
 
 - Updated AgentJS libraries to `v3.2.4` for development.
 
-# v73
+## v73
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -345,7 +347,7 @@
 | `@dfinity/utils`         | v3.0.0  | Enhanced 🔧️  |
 | `@dfinity/zod-schemas`   | v2.1.0  | Enhanced 🔧️️ |
 
-## Build
+### Build
 
 - Migrate to AgentJS v3. For upgrade guidelines, check out its [release notes](https://js.icp.build/core/release-notes/v300/).
 - Accept any version of `@dfinity/principal` for `zod-schemas`.
@@ -354,9 +356,9 @@
 > The libraries are published using major versioning to highlight the update to this important peer dependency.
 > However, there are no other changes in this release, so no functional changes should be expected.
 
-# v72
+## v72
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -372,20 +374,20 @@
 | `@dfinity/utils`         | v2.14.0 | Enhanced 🔧️  |
 | `@dfinity/zod-schemas`   | v2.0.0  | Unchanged️    |
 
-## Features
+### Features
 
 - New utility `uint8ArraysEqual` to compare two Uint8Arrays for byte-level equality.
 - Replace usage of `Buffer` with `Uint8Array` in `checkAccountId` of `@dfinity/ledger-icp`.
 - Expose the `icrc1_supported_standards` and `icrc10_supported_standards` methods in the `IcrcLedgerCanister` class.
 
-## Build
+### Build
 
 - Bump `@noble/hashes` to v1.8.0 in ckBTC, NNS, and SNS JS libraries and update sha256 import for `@noble/hashes/sha2`.
 - Bump `base58-js` to v3.0.3 in ckBTC JS library and remove custom type declarations.
 
-# v71
+## v71
 
-## Overview
+### Overview
 
 | Library                  | Version | Status              |
 | ------------------------ | ------- | ------------------- |
@@ -401,13 +403,13 @@
 | `@dfinity/utils`         | v2.13.2 | Maintained ⚙️       |
 | `@dfinity/zod-schemas`   | v2.0.0  | Breaking Changes ⚠️ |
 
-## Breaking Changes
+### Breaking Changes
 
 - Move `accountIdentifierToBytes`, `accountIdentifierFromBytes` and `principalToAccountIdentifier` from `@dfinity/ledger-icp` to `@dfinity/nns`.
 - Rename `getLastestRewardEvent` to `getLatestRewardEvent` in `@dfinity/nns`.
 - Migrate `@dfinity/zod-schemas` to Zod library v4.
 
-## Features
+### Features
 
 - Updated `@dfinity/nns` to add support to a new type of action `RegisterExtension`.
 - Updated `@dfinity/nns` to add support for setting following for multiple topics (`setFollowing`).
@@ -416,17 +418,17 @@
 - Updated `@dfinity/nns` to expose `total_potential_voting_power` in `list_proposal`.
 - Expose method `icrc106_get_index_principal` in class `IcrcLedgerCanister`.
 
-## Build
+### Build
 
 - Add explicit dependency requirement on `buffer` to `@dfinity/nns`.
 
-## Chore
+### Chore
 
 - Migrate from `Jest` to `Vitest`.
 
-# v70
+## v70
 
-## Overview
+### Overview
 
 | Library                  | Version | Status              |
 | ------------------------ | ------- | ------------------- |
@@ -442,7 +444,7 @@
 | `@dfinity/utils`         | v2.13.1 | Maintained ⚙️       |
 | `@dfinity/zod-schemas`   | v1.0.0  | Breaking Changes ⚠️ |
 
-## Breaking Changes
+### Breaking Changes
 
 - Assert checksum when parsing ICP `AccountIdentifier` from hex. (\*).
 - Assert length equals 32 bytes when parsing ICP `AccountIdentifier` from hex. (\*)
@@ -454,15 +456,15 @@ Since that behavior was **incorrect**, we decided to proceed with the change any
 
 (\*\*) Returning an error was likely a historical artifact. For consistency, we decided to align this behavior with other similar functions.
 
-## Features
+### Features
 
 - Expose method `listSubaccounts` in class `IcrcIndexNgCanister`.
 - Extend the `transform` function to support `provisional_create_canister_with_cycles` when used with PocketIC.
 - Add validation to `decodeIcrcAccount` to reject account strings with more than one `.` separator.
 
-# v69
+## v69
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -478,19 +480,19 @@ Since that behavior was **incorrect**, we decided to proceed with the change any
 | `@dfinity/utils`         | v2.13.0 | Enhanced 🔧️  |
 | `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
 
-## Features
+### Features
 
 - Updated `@dfinity/sns` to add support for filtering SNS proposals by topics.
 - Removed (unused) `topic_followee_index` in NNS Governance Candid type.
 - Added `hashObject` and `hashText` utilities to generate a SHA-256 hash from the given object.
 
-## Chore
+### Chore
 
 - Upgraded GitHub actions runners to `ubuntu-24.04`.
 
-# v68
+## v68
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -506,7 +508,7 @@ Since that behavior was **incorrect**, we decided to proceed with the change any
 | `@dfinity/utils`         | v2.12.0 | Enhanced 🔧️  |
 | `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
 
-## Features
+### Features
 
 - Add utility `isIcpAccountIdentifier` to check if a string is a valid ICP account identifier.
 - Utility `notEmptyString` to use a type predicate, ensuring that the input is a string type when it returns true.
@@ -519,9 +521,9 @@ Since that behavior was **incorrect**, we decided to proceed with the change any
 - New service util `queryAndUpdate` that aids in executing a request and handling the results, for both type of calls.
 - Added type predicate to narrow value to `undefined`, `null`, or empty string in type guards in util `isEmptyString`.
 
-# 2025.03.10-1330Z
+## 2025.03.10-1330Z
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -537,15 +539,15 @@ Since that behavior was **incorrect**, we decided to proceed with the change any
 | `@dfinity/utils`         | v2.11.0 | Enhanced 🔧️  |
 | `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
 
-## Features
+### Features
 
 - Add utility `toBigIntNanoSeconds` to convert `Date` object to timestamp in nanoseconds `bigint`.
 - Add support to a new type of action `SetTopicsForCustomProposals` in sns.
 - Update Candid files for `@dfinity/sns`.
 
-# 2025.02.21-1530Z
+## 2025.02.21-1530Z
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -561,13 +563,13 @@ Since that behavior was **incorrect**, we decided to proceed with the change any
 | `@dfinity/utils`         | v2.10.1 | Unchanged️    |
 | `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
 
-## Features
+### Features
 
 - Support `topic` and `list_topics` in `@dfinity/sns`.
 
-# 2025.02.19-1030Z
+## 2025.02.19-1030Z
 
-## Overview
+### Overview
 
 | Library                  | Version | Status        |
 | ------------------------ | ------- | ------------- |
@@ -583,27 +585,27 @@ Since that behavior was **incorrect**, we decided to proceed with the change any
 | `@dfinity/utils`         | v2.10.1 | Patched ⚙️    |
 | `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️    |
 
-## Features
+### Features
 
 - Make methods of `AgentManager` usable after deconstruction.
 - Implement pagination for the `list_neurons` endpoint.
 - Update all Candid files to their latest versions.
 
-## Build
+### Build
 
 - Bump `esbuild` to `v0.25.0`.
 
-## Chore
+### Chore
 
 - Add the `zod-schemas` library to the list of `next` versions.
 
-## Docs
+### Docs
 
 - Review JSDoc types for `Icrc2ApproveRequest`.
 
-# 2025.01.30-0730Z
+## 2025.01.30-0730Z
 
-## Overview
+### Overview
 
 | Library                  | Version | Status              |
 | ------------------------ | ------- | ------------------- |
@@ -619,19 +621,19 @@ Since that behavior was **incorrect**, we decided to proceed with the change any
 | `@dfinity/utils`         | v2.10.0 | Enhanced 🔧️        |
 | `@dfinity/zod-schemas`   | v0.0.2  | Unchanged️          |
 
-## Breaking Changes
+### Breaking Changes
 
 - Default `getIcpToCyclesConversionRate` to an update call while providing a `certified` parameter for queries.
 
-## Features
+### Features
 
 - Support `NervousSystemParameters.automatically_advance_target_version` in `@dfinity/sns`.
 - Add converters to encode or decode base64 string into Uint8Array.
 - Support `neuron_subaccounts` in `list_neurons` from `@dfinity/nns`.
 
-# 2025.01.20-1800Z
+## 2025.01.20-1800Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -649,15 +651,15 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/utils`         | v2.9.0  | Enhanced 🔧️  |
 | `@dfinity/zod-schemas`   | v0.0.2  | Maintained ⚙️ |
 
-# Features
+## Features
 
 - Support `CanisterSettings.wasm_memory_threshold` in `@dfinity/nns`.
 - Support `UpgradeSnsControlledCanister.chunked_canister_wasm` in `@dfinity/sns`.
 - Add utility `fromNullishNullable` extracts the value from a nullish Candid-style variant representation.
 
-# 2025.01.20-1030Z
+## 2025.01.20-1030Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -675,7 +677,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/utils`         | v2.8.0  | Unchanged️    |
 | `@dfinity/zod-schemas`   | v0.0.1  | New 🚀        |
 
-## Features
+### Features
 
 - Expose types `IcrcApproveError` and `IcrcTransferFromError` in `@dfinity/ledger-icrc`.
 - Expose few additional did types in `@dfinity/ledger-icp`.
@@ -683,13 +685,13 @@ The current status of the libraries at the time of the release is as follows:
 - Api get network economics parameters.
 - Update `old_list_neurons_service.certified.idl.js`.
 
-## Fix
+### Fix
 
 - Typo in renamed exposed type `IcrcTransferVariatError`.
 
-# 2024.12.23-1215Z
+## 2024.12.23-1215Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -706,7 +708,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.2.6  | Maintained ⚙️ |
 | `@dfinity/utils`         | v2.8.0  | Enhanced 🔧️  |
 
-## Features
+### Features
 
 - Support `RefreshVotingPower` in `@dfinity/nns`.
 - Remove optional field `last_deposit_with_subaccount_scraped_block_number` from ckETH minter information.
@@ -717,9 +719,9 @@ The current status of the libraries at the time of the release is as follows:
 - Add utility `isEmptyString` (the opposite of existing `notEmptyString`).
 - Add utility `mapTokenMetadata` in `@dfinity/ledger-icrc` to map the token metadata information from a ledger response into a structured record.
 
-# 2024.11.27-1230Z
+## 2024.11.27-1230Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -736,22 +738,22 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.2.5  | Maintained ⚙️ |
 | `@dfinity/utils`         | v2.7.1  | Maintained ⚙️ |
 
-## Features
+### Features
 
 - Added definition for `AdvanceSnsTargetVersion` to the SNS governance DID `Action` declarations.
 
-## Fix
+### Fix
 
 - The IC management function `install_chunked_code` failed on mainnet because the `target_canister` was not mapped as `effective_canister_id`, as defined by the IC specification.
 
-## Chore
+### Chore
 
 - Enable eslint for tests.
 - Allow linter to permit underscore prefixes.
 
-# 2024.11.22-1600Z
+## 2024.11.22-1600Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -768,13 +770,13 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.2.4  | Unchanged️          |
 | `@dfinity/utils`         | v2.7.0  | Unchanged️          |
 
-# Breaking changes
+## Breaking changes
 
 - Inherits canister installation code arguments from Candid.
 
-# 2024.11.21-1600Z
+## 2024.11.21-1600Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -791,11 +793,11 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.2.4  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.7.0  | Enhanced 🔧️        |
 
-# Breaking changes
+## Breaking changes
 
 - Remove `stakeNeuronIcrc1`.
 
-## Features
+### Features
 
 - Added `memoToNeuronSubaccount` and `memoToNeuronAccountIdentifier`.
 - Support new neuron field `voting_power_refreshed_timestamp_seconds`.
@@ -803,13 +805,13 @@ The current status of the libraries at the time of the release is as follows:
 - Add support for snapshot features in `@dfinity@ic-management`.
 - Add `nowInBigIntNanoSeconds` to `@dfinity/utils`, a trivial function that is actually used across all our dapps.
 
-## Build
+### Build
 
 - Update the dev dependencies of the `ic-js` workspace.
 
-# 2024.10.29-1130Z
+## 2024.10.29-1130Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -826,23 +828,23 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.2.3  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.6.0  | Enhanced 🔧️        |
 
-## Breaking Changes
+### Breaking Changes
 
 - For consistency, the `CMCCanister.create` function now requires the `canisterId` option to be provided exclusively as
   a `Principal`.
 
-## Features
+### Features
 
 - Add support for `get_default_subnets` to `@dfinity/cmc`.
 - Add class `AgentManager` in `@dfinity/utils` which caches `HttpAgent` instances for different identities.
 
-## Docs
+### Docs
 
 - Rename DFINITY LLC to DFINITY Stiftung in licences.
 
-# 2024.10.09-1140Z
+## 2024.10.09-1140Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -859,13 +861,13 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.2.2  | Maintained ⚙️ |
 | `@dfinity/utils`         | v2.5.2  | Maintained ⚙️ |
 
-## Build
+### Build
 
 - Downgrade Agent-js to `^2.0.0` to let consumers pick the compatible version they wish to use.
 
-# 2024.09.30-1100Z
+## 2024.09.30-1100Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -882,24 +884,24 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.2.1  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.5.1  | Maintained ⚙️       |
 
-## Breaking changes
+### Breaking changes
 
 - Removed deprecated `OpenSnsTokenSwap`, `SetSnsTokenSwapOpenTimeWindow`, and `SetDefaultFollowees` from
   `ProposalActionRequest`.
 
-## Features
+### Features
 
 - Add support for `icrc21_canister_call_consent_message` to `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
 - Add support for `"regtest"` in `BitcoinNetwork`.
 - Expose `ledger-converters` utility modules in `@dfinity/ledger-icp` and `@dfinity/ledger-icrc`.
 
-## Build
+### Build
 
 - Incorporate Agent-js patch `v2.1.2`.
 
-# 2024.09.02-0830Z
+## 2024.09.02-0830Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -916,7 +918,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.2.0  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.5.0  | Maintained ⚙️       |
 
-## Breaking changes
+### Breaking changes
 
 - Rename values of enum Topic and NnsFunction to match the backend values.
 - Use different request/response types for NNS Governance proposals, and different fields for `InstallCode` proposals.
@@ -926,7 +928,7 @@ The current status of the libraries at the time of the release is as follows:
   performed by the canister. This is why `getUtxos` now only supports non-certified calls and has been renamed to
   `getUtxosQuery`.
 
-## Features
+### Features
 
 - Provide a new utility to convert Candid `Nat` to `BigInt`. This utility is useful for interpreting the fees provided
   by the SNS Aggregator.
@@ -935,13 +937,13 @@ The current status of the libraries at the time of the release is as follows:
 - Add function `getBalanceQuery` to `BitcoinCanister` object of package `@dfinity/ckbtc`, that implements the
   `bitcoin_get_balance_query` method of the IC Bitcoin API.
 
-## Build
+### Build
 
 - Upgrade `agent-js` dependencies to `v2.0.0`.
 
-# 2024.07.22-0645Z
+## 2024.07.22-0645Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -958,7 +960,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.1.0  | Maintained ⚙️  |
 | `@dfinity/utils`         | v2.4.0  | Maintained ⚙️  |
 
-## Features
+### Features
 
 - Add support for `wasm_memory_limit` in the canister settings.
 - Add optional `includeEmptyNeurons` parameter to `listNeurons`.
@@ -966,18 +968,18 @@ The current status of the libraries at the time of the release is as follows:
 - Add "Protocol Canister Management" and "Service Nervous System Management" topics support.
 - Add `asNonNullish` function, like `assertNonNullish` but returns the value.
 
-## Fix
+### Fix
 
 - `updateNeuron` to not change the neuron subaccount.
 - `list_neurons` to use old `ListNeurons` type for hardware wallet compatibility.
 
-## Build
+### Build
 
 - Upgrade `agent-js` dependencies to `v1.4.0`.
 
-# 2024.06.11-1630Z
+## 2024.06.11-1630Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -994,17 +996,17 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.0.6  | Maintained ⚙️  |
 | `@dfinity/utils`         | v2.3.1  | Maintained ⚙️  |
 
-## Features
+### Features
 
 - Update ckETH Candid definition.
 
-## Build
+### Build
 
 - Bump braces.
 
-# 2024.06.05-0835Z
+## 2024.06.05-0835Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1021,12 +1023,12 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.0.5  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.3.0  | Enhanced 🔧         |
 
-## Breaking changes
+### Breaking changes
 
 - `bitcoinGetUtxos` and `bitcoinGetUtxosQuery` have been removed from the `@dfinity/ic-management` library. Instead, use
   `getUtxos` from the new Bitcoin canister exposed in `@dfinity/ckbtc` to access similar data.
 
-## Features
+### Features
 
 - Support for `getUtxos` endpoint in the new Bitcoin canister from `@dfinity/ckbtc`.
 - Canister status response extended with query statistics.
@@ -1034,9 +1036,9 @@ The current status of the libraries at the time of the release is as follows:
 - Add optional parameters to ICP ledger `transactionFee`.
 - Add support for `icrc2_approve` on the ICP ledger canister in `@dfinity/ledger-icp`.
 
-# 2024.05.14-0630Z
+## 2024.05.14-0630Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1053,7 +1055,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.0.4  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.3.0  | Enhanced 🔧         |
 
-## Breaking changes
+### Breaking changes
 
 - `@dfinity/ic-management` function `canisterInfo` removed because users cannot call this method (
   see [documentation](https://internetcomputer.org/docs/current/references/ic-interface-spec#ic-canister-info)).
@@ -1061,23 +1063,23 @@ The current status of the libraries at the time of the release is as follows:
 - The size of the nns-proto-js library has noticeably increased, as it now exposes all types instead of just a manually
   picked subset.
 
-## Features
+### Features
 
 - Update Candid definition in ckBTC, ckETH, CMC, ICP and ICRC Ledgers, Nns and Sns.
 - Add "Subnet Rental" to the list of `NnsFunction` and to topic support.
 
-## Fix
+### Fix
 
 - Fixed `TokenAmountV2.fromNumber` for tokens with fewer than 8 decimals.
 
-## Build
+### Build
 
 - Upgrade `agent-js` dependencies to `v1.3.0` and revert the default retry times value to 10, given that the issue is
   fixed.
 
-# 2024.04.29-0930Z
+## 2024.04.29-0930Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1094,7 +1096,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.0.3  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.2.0  | Enhanced 🔧         |
 
-## Breaking changes
+### Breaking changes
 
 - Protocol buffers for hardware wallet transactions are no longer supported. Internet Computer Ledger app 2.4.9 or later
   is now required.
@@ -1102,7 +1104,7 @@ The current status of the libraries at the time of the release is as follows:
   transactions.
 - Potential errors thrown by `withdrawEth` provide now unparsed details.
 
-## Features
+### Features
 
 - ICP transactions, as provided by the Index canister, have been extended to include their block timestamp information.
 - When no fee is specified when making an ICP transaction, use the mandatory fee of 10000 e8s (0.0001 ICP) instead of
@@ -1117,7 +1119,7 @@ The current status of the libraries at the time of the release is as follows:
 - Set number of retries to 10 (as opposed to default 3) in `createAgent` utility to make the agent more resilient
   against watermark check failures.
 
-## Build
+### Build
 
 - Upgrade `agent-js` dependencies to `v1.2.1`. Note that it is advised to set the number of retries of the agent to 10
   to prevent the potential issue
@@ -1126,9 +1128,9 @@ The current status of the libraries at the time of the release is as follows:
   the [forum](https://forum.dfinity.org/t/timestamp-failed-to-pass-the-watermark-after-retrying-the-configured-3-times/29180/3?u=peterparker)).
 - Upgrade `didc` to `0.3.7` that converts candid files into JS and TS.
 
-# 2024.03.25-1430Z
+## 2024.03.25-1430Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1145,13 +1147,13 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.0.2  | Unchanged️️ |
 | `@dfinity/utils`         | v2.1.3  | Unchanged️  |
 
-## Fix
+### Fix
 
 - Incorrect import path to utils in ic-management: `@dfinity/utils/src`.
 
-# 2024.03.25-1345Z
+## 2024.03.25-1345Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1168,24 +1170,24 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.0.2  | Maintained ⚙️ |
 | `@dfinity/utils`         | v2.1.3  | Maintained ⚙️ |
 
-## Features
+### Features
 
 - Support for the installation of large canisters with chunked code of the Wasm module in `@dfinity/ic-management`.
 - Update most recent did files for ledgers (new optional field for initialization) and ckETH (new optional field in
   event).
 - Expose Utxo types in `@dfinity/ckbtc`.
 
-## Build
+### Build
 
 - Bump dev dependencies including esbuild and TypeScript.
 
-## Documentation
+### Documentation
 
 - Bump `tsdoc-markdown` to parse optional result into READMEs.
 
-# 2024.03.05-1100Z
+## 2024.03.05-1100Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1202,13 +1204,13 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.0.1  | Maintained ⚙       |
 | `@dfinity/utils`         | v2.1.2  | Unchanged️          |
 
-## Breaking Changes
+### Breaking Changes
 
 - Fix typo in `ic-management` interfaces (`senderCanisterVerion` -> `senderCanisterVersion`).
 - ckETH `eip1559TransactionPrice` expect a parameters which can optionally be set to execute a query (new) or update
   call.
 
-## Features
+### Features
 
 - Support for new ckETH endpoint `get_minter_info` which returns internal minter parameters such as the minimal
   withdrawal amount, the last observed block number, etc.
@@ -1217,9 +1219,9 @@ The current status of the libraries at the time of the release is as follows:
 - New `IndexNgCanister` in `@dfinity/ledger-icrc`, which can be used to interact with the newer version of the ICRC
   Index canister, notably exposing `getTransactions` as a `query` function.
 
-# 2024.02.21-0835Z
+## 2024.02.21-0835Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1236,18 +1238,18 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v3.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/utils`         | v2.1.2  | Maintained ⚙️       |
 
-## Breaking changes
+### Breaking changes
 
 - Update `listProposals` return type in sns governance canister.
 
-## Build
+### Build
 
 - Bump agent-js `v1.0.1` to hook on their semantic versioning, adopt last improvements and rollout
   a [security patch](https://github.com/dfinity/agent-js/security/advisories/GHSA-c9vv-fhgv-cjc3)
 
-# 2024.02.14-1600Z
+## 2024.02.14-1600Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1264,25 +1266,25 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v2.1.2  | Maintained ⚙️       |
 | `@dfinity/utils`         | v2.1.1  | Maintained ⚙️       |
 
-## Breaking changes
+### Breaking changes
 
 - Replace duplicate string type `AccountIdentifier` in `@dfinity/nns` with `AccountIdentifierHex` of
   `@dfinity/ledger-icp`.
 
-## Features
+### Features
 
 - Extend ckBTC `retrieveBtcStatusV2ByAccount` with optional `account` parameter.
 - Remove unused Uint8Array type `SubAccount` in `@dfinity/nns`.
 - Modify the `@dfinity/ledger-icp` package's `SubAccount.formID` function to support more than 256 subaccounts, enabling
   it to handle larger numbers.
 
-## Build
+### Build
 
 - Bump all dev dependencies of the ic-js workspace.
 
-# 2024.01.30-1600Z
+## 2024.01.30-1600Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1299,11 +1301,11 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v2.1.1  | Patched 🩹          |
 | `@dfinity/utils`         | v2.1.0  | Enhanced 🔧         |
 
-## Breaking changes
+### Breaking changes
 
 - Upgrade candid files for cmc canister with new fields `subnet_selection` and `settings`.
 
-## Features
+### Features
 
 - Add support for converting ckETH to ETH through the `withdrawEth` function and integrate useful features such as
   `eip1559TransactionPrice`, `encodePrincipalToEthAddress`, and `retrieve_eth_status`.
@@ -1313,17 +1315,17 @@ The current status of the libraries at the time of the release is as follows:
 - Update `sns-js` candid files with new fields in sns canisters.
 - Add public method `toE8s` to `TokenAmountV2`.
 
-## Fix
+### Fix
 
 - Various certified Candid IDL functions had their names trimmed of the keyword "query".
 
-## Build
+### Build
 
 - Fixed script to generate certified IDL factory files to respect the keyword "query" when used in functions' names.
 
-# 2024.01.09-1115Z
+## 2024.01.09-1115Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1340,13 +1342,13 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v2.1.0  | Unchanged  |
 | `@dfinity/utils`         | v2.0.0  | Unchanged️ |
 
-## Fix
+### Fix
 
 - When `@dfinity/ledger-icp` is bundled with Rollup v4, it leads to an incompatibility issue with iOS 15.
 
-# 2024.01.03-1115Z
+## 2024.01.03-1115Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1363,15 +1365,15 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v2.1.0  | Unchanged  |
 | `@dfinity/utils`         | v2.0.0  | Unchanged️ |
 
-## Features
+### Features
 
 - Introduces an early first version of `@dfinity/cketh`, which is meant to provide functions for interfacing with ckETH.
   The library doesn't do much at the moment, but we're releasing it to integrate it into our pipelines, and features
   will be added iteratively as required.
 
-# 2023.12.20-1000Z
+## 2023.12.20-1000Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1387,12 +1389,12 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v2.1.0  | Enhanced 🔧         |
 | `@dfinity/utils`         | v2.0.0  | Breaking Changes ⚠️ |
 
-## Breaking changes
+### Breaking changes
 
 - `decimals` mandatory field in `Token`.
 - `TokenAmount` rejects tokens with `decimals !== 8`.
 
-## Features
+### Features
 
 - Substitute `?` fields with `Option` fields in the converters related to NNS proposals.
 - Add retrieveBtcStatus to ckbtc minter canister.
@@ -1405,18 +1407,18 @@ The current status of the libraries at the time of the release is as follows:
 - Replace `https://ic0.app` by `https://icp-api.io` as the default host for the default anonymous agent provided by
   `defaultAgent`.
 
-## Fix
+### Fix
 
 - Utilize ICP Index `accountBalance` and `getTransactions` with account identifier hex directly, eliminating the need
   for conversion with Buffer and resolving usage in non-polyfilled environments.
 
-## Operations
+### Operations
 
 - Add a cron job to periodically update IC candid files and typescript bindings.
 
-# 2023.11.21-1400Z
+## 2023.11.21-1400Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1432,16 +1434,16 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v2.0.0  | Enhanced 🔧 |
 | `@dfinity/utils`         | v1.1.0  | Unchanged   |
 
-## Features
+### Features
 
 - Include timestamp and tags in the candid provenance record.
 - Update ckbtc candid to ic commit `4de99bc27be74048f80d13200f3c75cf2a43438c`.
 - Include pending UTXOs in MinterNoNewUtxosError.
 - Upgrade `didc` to `0.3.5` that converts candid files into JS and TS.
 
-# 2023.10.15-0600Z
+## 2023.10.15-0600Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1457,7 +1459,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v1.0.2  | Patched 🩹  |
 | `@dfinity/utils`         | v1.1.0  | Enhanced 🔧 |
 
-## Features
+### Features
 
 - add support for ICP Index canister to library `@dfinity/ledger-icp`. New `IndexCanister` functions: `accountBalance`
   and `getTransactions`
@@ -1472,9 +1474,9 @@ The current status of the libraries at the time of the release is as follows:
 - update `@dfinity/ledger-icrc` did files
 - update `@dfinity/sns` did files
 
-# 2023.10.02-1515Z
+## 2023.10.02-1515Z
 
-## Overview
+### Overview
 
 The current status of the libraries at the time of the release is as follows:
 
@@ -1491,7 +1493,7 @@ The current status of the libraries at the time of the release is as follows:
 | `@dfinity/sns`           | v1.0.0  | Patched             |
 | `@dfinity/utils`         | v1.0.0  | Unchanged           |
 
-## Release
+### Release
 
 - ckbtc `v1.0.1`
 - ledger-icp `v1.0.0`
@@ -1499,7 +1501,7 @@ The current status of the libraries at the time of the release is as follows:
 - nns `v2.0.0`
 - sns `v1.0.1`
 
-## Breaking Changes ⚠️
+### Breaking Changes ⚠️
 
 - **ICP** ledger-related features have been relocated from `@dfinity/nns` to a new dedicated library called
   `@dfinity/ledger-icp`
@@ -1508,18 +1510,18 @@ The current status of the libraries at the time of the release is as follows:
 - remove the `ICP` class, which was deprecated a long time ago, from `@dfinity/nns`. Instead, utilize the token parsers
   from `@dfinity/utils`
 
-## Build
+### Build
 
 - `@dfinity/sns` inherits the changes and now requires `@dfinity/ledger-icrc` as a peer dependency
 - `@dfinity/nns` inherits the changes and now requires `@dfinity/ledger-icp` as a peer dependency
 
-## Chore
+### Chore
 
 - minter params `Subaccount` declared as `Uint8Array` instead of inheriting a type
 
-# 1.0.0 (2023-10-02)
+## 1.0.0 (2023-10-02)
 
-## Release
+### Release
 
 - nns `v1.0.0`
 - sns `v1.0.0`
@@ -1530,21 +1532,21 @@ The current status of the libraries at the time of the release is as follows:
 - utils `v1.0.0`
 - nns-proto `v1.0.0`
 
-## Features
+### Features
 
 - add support for `icrc2_transfer_from`, `icrc2_approve` and `icrc2_allowance` in `@dfinity/ledger`
 - update index did definitions in ledger which provides more information in the transactions
 - add support for icrc1_transfer on the ICP ledger canister in `@dfinity/nns`
 
-## Build
+### Build
 
 - bump did files in Cmc
 - starting from this version, we commit to adhering to [semantic versioning](https://semver.org/) for any libraries
   published in ic-js
 
-# 0.18.4 (2023-09-05)
+## 0.18.4 (2023-09-05)
 
-## Release
+### Release
 
 - nns `v0.16.7`
 - sns `v0.0.22`
@@ -1555,13 +1557,13 @@ The current status of the libraries at the time of the release is as follows:
 - utils `v0.0.22`
 - nns-proto `v0.0.8`
 
-## Features
+### Features
 
 - replaces the `js-sha256` library with `@noble/hashes`
 
-# 0.18.3 (2023-09-04)
+## 0.18.3 (2023-09-04)
 
-## Release
+### Release
 
 - nns `v0.16.6`
 - sns `v0.0.21`
@@ -1572,17 +1574,17 @@ The current status of the libraries at the time of the release is as follows:
 - utils `v0.0.21`
 - nns-proto `v0.0.7`
 
-## Fix
+### Fix
 
 - bump agent-js `v0.19.2` to fix evaluation of subdomain when `host` is not specified
 
-## Build
+### Build
 
 - remove unused dependencies in `@dfinity/ic-management`
 
-# 0.18.2 (2023-08-24)
+## 0.18.2 (2023-08-24)
 
-## Release
+### Release
 
 - nns `v0.16.5`
 - sns `v0.0.20`
@@ -1593,18 +1595,18 @@ The current status of the libraries at the time of the release is as follows:
 - utils `v0.0.20`
 - nns-proto `v0.0.6`
 
-## Features
+### Features
 
 - Reviver and replacer to interpret `BigInt`, `Principal`, and `Uint8Array` in `JSON.stringify|parse`
 - Add Sns disburse maturity function
 
-## Build
+### Build
 
 - bump agent-js `v0.19.1`
 
-# 0.18.1 (2023-08-07)
+## 0.18.1 (2023-08-07)
 
-## Release
+### Release
 
 - nns `v0.16.4`
 - sns `v0.0.19`
@@ -1615,23 +1617,23 @@ The current status of the libraries at the time of the release is as follows:
 - utils `v0.0.19`
 - nns-proto `v0.0.5`
 
-## Features
+### Features
 
 - update `nns/governance.did` and `sns_wasm.did` for 1-proposal
 - update `ic.did` for `@dfinity/ic-management`
 - update `icrc1_ledger.did`
 
-## Build
+### Build
 
 - bump agent-js `v0.18.1`
 
-## Docs
+### Docs
 
 - add mention that ICRC-22 is currently a draft
 
-# 0.18.0 (2023-07-03)
+## 0.18.0 (2023-07-03)
 
-## Release
+### Release
 
 - nns `v0.16.3`
 - sns `v0.0.18`
@@ -1642,12 +1644,12 @@ The current status of the libraries at the time of the release is as follows:
 - utils `v0.0.18`
 - nns-proto `v0.0.4`
 
-## Breaking Changes
+### Breaking Changes
 
 - move `convertStringToE8s` and `TokenAmount` from Nns package to `@dfinity/utils`
 - retire `TokenAmount.toProto()`
 
-## Features
+### Features
 
 - add a new utils function `decodePayment` to the `@dfinity/ledger` library. Useful to decode payment through QR code
   that contains target address and amount
@@ -1655,23 +1657,23 @@ The current status of the libraries at the time of the release is as follows:
 - `CreateServiceNervousSystem` <-> `RawCreateServiceNervousSystem` transformations for Nns proposal
 - decode payment code (early support and not yet specified. see ICRC-22)
 
-## Build
+### Build
 
 - bump `semver`
 
-# 0.17.2 (2023-06-21)
+## 0.17.2 (2023-06-21)
 
-## Release
+### Release
 
 - ic-management `v0.0.3`
 
-## Build
+### Build
 
 No particular changes. Resolve a version conflicts in npmjs.
 
-# 0.17.1 (2023-06-21)
+## 0.17.1 (2023-06-21)
 
-## Release
+### Release
 
 - nns `v0.16.2`
 - sns `v0.0.17`
@@ -1682,22 +1684,22 @@ No particular changes. Resolve a version conflicts in npmjs.
 - utils `v0.0.17`
 - nns-proto `v0.0.3`
 
-## Fix
+### Fix
 
 - redo `global` polyfill for the browser
 - expose more types in new library `ic-management-js`
 
-## Build
+### Build
 
 - fix `ic-management-js` next dependencies and version
 
-## Docs
+### Docs
 
 - various improvements in READMEs
 
-# 0.17.0 (2023-06-20)
+## 0.17.0 (2023-06-20)
 
-## Release
+### Release
 
 - nns `v0.16.1`
 - sns `v0.0.16`
@@ -1708,11 +1710,11 @@ No particular changes. Resolve a version conflicts in npmjs.
 - utils `v0.0.16`
 - nns-proto `v0.0.2`
 
-## Breaking Changes
+### Breaking Changes
 
 - ckBTC `getDepositFee` has been deprecated. Instead, use the new feature `getMinterInfo`
 
-## Features
+### Features
 
 - introducing `@dfinity/ic-management` — a new library for interfacing with IC management canister
 - add `getMinterInfo` for ckBTC which returns internal minter parameters such as the minimal amount to retrieve BTC,
@@ -1721,24 +1723,24 @@ No particular changes. Resolve a version conflicts in npmjs.
 - expose Sns index canister id in wrapper
 - add `simulateMergeNeurons` to Nns governance
 
-## Refactor
+### Refactor
 
 - use `isNullish` and `fromNullable` utils in Nns `governance.canister.ts`
 
-## Build
+### Build
 
 - remove `global` polyfill for the browser and add `worker` conditions to bundle
 - improve docs generation in the CI
 - update Candid types in Nns
 
-## Docs
+### Docs
 
 - improve Sns README
 - generate README docs for BTC utils
 
-# 0.16.0 (2023-05-24)
+## 0.16.0 (2023-05-24)
 
-## Release
+### Release
 
 - nns `v0.16.0`
 - sns `v0.0.15`
@@ -1748,30 +1750,30 @@ No particular changes. Resolve a version conflicts in npmjs.
 - utils `v0.0.15`
 - nns-proto `v0.0.1`
 
-## Breaking Changes
+### Breaking Changes
 
 - the protobuf dependencies of `@dfinity/nns` have been extracted to a new peer dependency called `@dfinity/nns-proto`.
   In the NNS-dapp, we manually chunk the libraries. This change enables the dapp to load the required code of the
   hardware wallet only when necessary.
 
-## Features
+### Features
 
 - update `sns-js` and `nns-js` candid definitions
 - add `BitcoinSetConfig` to enum `NnsFunction`
 - expose some more Sns types
 
-## Build
+### Build
 
 - publish provenance to npm
 - do not run size checker on main branch
 
-## Docs
+### Docs
 
 - fix sample in `nns-js` README
 
-# 0.15.1 (2023-04-18)
+## 0.15.1 (2023-04-18)
 
-## Release
+### Release
 
 - nns `v0.15.1`
 - sns `v0.0.14`
@@ -1780,13 +1782,13 @@ No particular changes. Resolve a version conflicts in npmjs.
 - ckBTC `v0.0.3`
 - utils `v0.0.14`
 
-## Fix
+### Fix
 
 - correct absolute `utils` import in `ledger` library
 
-# 0.15.0 (2023-04-18)
+## 0.15.0 (2023-04-18)
 
-## Release
+### Release
 
 - nns `v0.15.0`
 - sns `v0.0.13`
@@ -1795,7 +1797,7 @@ No particular changes. Resolve a version conflicts in npmjs.
 - ckBTC `v0.0.2`
 - utils `v0.0.13`
 
-## Features
+### Features
 
 - new utils moved from NNS-dapp: `isNullish`, `nonNullish`, `notEmptyString` and `debounce`
 - added ckBTC `updateBalance`, `getWithdrawalAccount`, `retrieveBtc`, `estimateWithdrawalFee` and `getDepositFee`
@@ -1808,15 +1810,15 @@ No particular changes. Resolve a version conflicts in npmjs.
 - add total tokens supply endpoint
 - new utils to convert hex to/from uint8array, crc and base32
 
-## Build
+### Build
 
 - bump agent-js `v0.15.4`
 - bump all dev dependencies
 - hook size limit plugin to check the size of the libraries with the CI
 
-# 0.14.0 (2023-02-07)
+## 0.14.0 (2023-02-07)
 
-## Release
+### Release
 
 - nns `v0.14.0`
 - sns `v0.0.12`
@@ -1845,9 +1847,9 @@ No particular changes. Resolve a version conflicts in npmjs.
 - bump Nns dependencies
 - dependabot patch for json5 v1.0.2
 
-# 0.13.0 (2023-01-28)
+## 0.13.0 (2023-01-28)
 
-## Release
+### Release
 
 - nns `v0.13.0`
 - sns `v0.0.11`
@@ -1864,9 +1866,9 @@ No particular changes. Resolve a version conflicts in npmjs.
 
 - encode ICRC-1 accounts
 
-# 0.12.1 (2023-01-24)
+## 0.12.1 (2023-01-24)
 
-## Release
+### Release
 
 - nns `v0.12.1`
 - sns `v0.0.10`
@@ -1878,9 +1880,9 @@ No particular changes. Resolve a version conflicts in npmjs.
 
 - `utils` was wrongly referenced as a dependency instead of peer-dependency in last release of `cmc`
 
-# 0.12.0 (2023-01-24)
+## 0.12.0 (2023-01-24)
 
-## Release
+### Release
 
 - nns `v0.12.0`
 - sns `v0.0.9`
@@ -1904,9 +1906,9 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 
 - enable merge neurons for HW controlled neurons
 
-# 0.11.0 (2023-01-23)
+## 0.11.0 (2023-01-23)
 
-## Release
+### Release
 
 - nns `v0.11.0`
 - sns `v0.0.8`
@@ -1926,9 +1928,9 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 - bump Nns (`crc` and `google-protobuf`) dependencies
 - bump dev dependencies
 
-# 0.10.0 (2022-12-06)
+## 0.10.0 (2022-12-06)
 
-## Release
+### Release
 
 - nns `v0.10.0`
 - sns `v0.0.7`
@@ -1945,9 +1947,9 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 
 - rounding conversion from `number` to `Token`
 
-# 0.9.0 (2022-10-31)
+## 0.9.0 (2022-10-31)
 
-## Release
+### Release
 
 - nns `v0.9.0`
 - sns `v0.0.6`
@@ -1977,9 +1979,9 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 
 - refreshed [HACKING.md](/HACKING.md)
 
-# 0.8.0 (2022-09-26)
+## 0.8.0 (2022-09-26)
 
-## Release
+### Release
 
 - nns `v0.8.1`
 - sns `v0.0.5`
@@ -2002,9 +2004,9 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 - `disburse` Sns neurons
 - `createAgent` and `principalToSubAccount` added to utils
 
-# 0.7.0 (2022-09-19)
+## 0.7.0 (2022-09-19)
 
-## Release
+### Release
 
 - nns `v0.7.0`
 - sns `v0.0.3`
@@ -2031,9 +2033,9 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 - publish `next` instead of `nightly-build` working versions
 - add manual trigger to GitHub Actions for npm publish
 
-# 0.6.0 (2022-07-20)
+## 0.6.0 (2022-07-20)
 
-## Release
+### Release
 
 - nns `v0.6.0`
 - sns `v0.0.2`
@@ -2062,20 +2064,20 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 - rename repo from `nns-js` to `ic-js`
 - transform repo into a mono-repo for packages `nns`, `sns` and in the future more libraries
 
-# 0.5.0 (2022-06-23)
+## 0.5.0 (2022-06-23)
 
-## Breaking
+### Breaking
 
 - Change "fromSubAccountId: string" param to "fromSubAccount: number[]"
 
-## Features
+### Features
 
 - Remove payload, payloadBytes and nnsFunctionName fields from proposal of type ExecuteNnsFunction action (moved to
   nns-dapp)
 - Use Candid interface by default for ledger canister and proto for hardware wallet
 - New function transactionFee to query the current transaction fee
 
-# 0.4.3 (2022-06-01)
+## 0.4.3 (2022-06-01)
 
 ### Features
 
@@ -2085,7 +2087,7 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 
 - bump agent-js `v0.11.3` with `setBigUint64` for iOS < v15
 
-# 0.4.1 - 0.4.2 (2022-05-23)
+## 0.4.1 - 0.4.2 (2022-05-23)
 
 ### Features
 
@@ -2101,7 +2103,7 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 
 - bump dependencies
 
-# 0.4.0 (2022-04-22)
+## 0.4.0 (2022-04-22)
 
 ### Breaking Changes
 
@@ -2116,7 +2118,7 @@ De facto, `@dfinity/ledger` becomes a peer dependency of `@dfinity/sns`.
 - Add `votableNeurons(..)` utility function.
 - Update dependencies and stop using now deprecated functions.
 
-# 0.3.0 (2022-04-07)
+## 0.3.0 (2022-04-07)
 
 ### Breaking Changes
 
