@@ -1,4 +1,5 @@
 import {
+  arrayOfNumberToUint8Array,
   toNullable,
   type QueryParams,
   type ServiceResponse,
@@ -601,12 +602,12 @@ describe("ICManagementCanister", () => {
   describe("uploadChunk", () => {
     const params: UploadChunkParams = {
       canisterId: mockCanisterId,
-      chunk: [4, 5, 6],
+      chunk: arrayOfNumberToUint8Array([4, 5, 6]),
     };
 
     it("returns hash when success", async () => {
       const response: chunk_hash = {
-        hash: [1, 2, 3, 4],
+        hash: arrayOfNumberToUint8Array([1, 2, 3, 4]),
       };
       const service = mock<IcManagementService>();
       service.upload_chunk.mockResolvedValue(response);
@@ -673,9 +674,9 @@ describe("ICManagementCanister", () => {
 
     it("returns list of hash when success", async () => {
       const response: chunk_hash[] = [
-        { hash: [1, 2, 3, 4] },
-        { hash: [5, 6, 7] },
-        { hash: [8, 9, 10] },
+        { hash: arrayOfNumberToUint8Array([1, 2, 3, 4]) },
+        { hash: arrayOfNumberToUint8Array([5, 6, 7]) },
+        { hash: arrayOfNumberToUint8Array([8, 9, 10]) },
       ];
 
       const service = mock<IcManagementService>();
@@ -718,7 +719,10 @@ describe("ICManagementCanister", () => {
     > = {
       arg: new Uint8Array(),
       targetCanisterId: mockCanisterId,
-      chunkHashesList: [{ hash: [1, 2, 3] }, { hash: [4, 5, 6] }],
+      chunkHashesList: [
+        { hash: arrayOfNumberToUint8Array([1, 2, 3]) },
+        { hash: arrayOfNumberToUint8Array([4, 5, 6]) },
+      ],
     };
 
     it.each(mockInstallCodeModes)(
@@ -820,12 +824,12 @@ describe("ICManagementCanister", () => {
       canister_log_records: [
         {
           idx: 123n,
-          content: [1, 2, 3],
+          content: arrayOfNumberToUint8Array([1, 2, 3]),
           timestamp_nanos: 12345n,
         },
         {
           idx: 456n,
-          content: [9, 8, 7],
+          content: arrayOfNumberToUint8Array([9, 8, 7]),
           timestamp_nanos: 12346n,
         },
       ],
@@ -1241,7 +1245,7 @@ describe("ICManagementCanister", () => {
 
   describe("readCanisterSnapshotData", () => {
     const mockResponse: read_canister_snapshot_data_response = {
-      chunk: [4, 5, 6, 7, 7],
+      chunk: arrayOfNumberToUint8Array([4, 5, 6, 7, 7]),
     };
 
     const mockKind = { wasmModule: { size: 123n, offset: 344n } };

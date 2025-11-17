@@ -11,7 +11,7 @@ export interface ReadCanisterSnapshotMetadataResponse {
   )[];
   canisterVersion: bigint;
   source: { metadataUpload: unknown } | { takenFromCanister: unknown };
-  certifiedData: Uint8Array | number[];
+  certifiedData: Uint8Array;
   globalTimer?: { active: bigint } | { inactive: null };
   onLowWasmMemoryHookStatus?:
     | { conditionNotSatisfied: null }
@@ -19,7 +19,7 @@ export interface ReadCanisterSnapshotMetadataResponse {
     | { ready: null };
   wasmModuleSize: bigint;
   stableMemorySize: bigint;
-  wasmChunkStore: Array<{ hash: Uint8Array | number[] }>;
+  wasmChunkStore: Array<{ hash: Uint8Array }>;
   takenAtTimestamp: bigint;
   wasmMemorySize: bigint;
 }
