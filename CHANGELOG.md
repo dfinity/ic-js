@@ -1,3 +1,9 @@
+# Next
+
+## Features
+
+- New package to interact with NFTs on IC (ICRC-7 standard)
+
 # v84
 
 ## Overview
