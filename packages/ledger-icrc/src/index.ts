@@ -1,3 +1,7 @@
+/**
+ * @module api/ledger/icrc
+ */
+
 export type {
   ICRC3Value as Icrc3Value,
   Allowance as IcrcAllowance,
