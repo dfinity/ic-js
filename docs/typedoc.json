@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc-plugin-markdown.org/schema.json",
-  "entryPoints": [],
+  "entryPoints": ["../packages/ckbtc/src/index.ts"],
   "tsconfig": "../tsconfig.json",
   "readme": "none",
   "out": "src/content/tmp",
