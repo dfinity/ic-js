@@ -1,3 +1,7 @@
+/**
+ * @module api/ckbtc
+ */
+
 export { BitcoinCanister } from "./bitcoin.canister";
 export type {
   block_hash,
