@@ -88,14 +88,14 @@
   ],
   "homepage": "https://github.com/dfinity/icp-js-canisters#readme",
   "peerDependencies": {
-    "@dfinity/ckbtc": "^5",
-    "@dfinity/cketh": "^5",
-    "@dfinity/cmc": "^7",
-    "@dfinity/ic-management": "^8",
-    "@dfinity/ledger-icp": "^7",
-    "@dfinity/ledger-icrc": "^5",
+    "@dfinity/ckbtc": "^6",
+    "@dfinity/cketh": "^6",
+    "@dfinity/cmc": "^8",
+    "@dfinity/ic-management": "^9",
+    "@dfinity/ledger-icp": "^8",
+    "@dfinity/ledger-icrc": "^6",
     "@dfinity/nns": "^11",
-    "@dfinity/sns": "^5",
+    "@dfinity/sns": "^6",
     "@dfinity/utils": "^4",
     "@icp-sdk/core": "^4"
   }

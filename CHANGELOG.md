@@ -1,10 +1,38 @@
 # Changelog
 
-## Next
+## v85
+
+### Overview
+
+| Library                  | Version | Status              |
+| ------------------------ | ------- | ------------------- |
+| `@icp-sdk/canisters`     | v1.1.1  | Maintained ⚙       |
+| `@dfinity/ckbtc`         | v6.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/cketh`         | v6.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/cmc`           | v8.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ic-management` | v9.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ledger-icp`    | v8.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/ledger-icrc`   | v6.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/nns`           | v11.1.2 | Maintained ⚙       |
+| `@dfinity/nns-proto`     | v2.0.4  | Maintained ⚙       |
+| `@dfinity/sns`           | v6.0.0  | Breaking Changes ⚠️ |
+| `@dfinity/utils`         | v4.0.1  | Maintained ⚙       |
+| `@dfinity/zod-schemas`   | v3.0.1  | Maintained ⚙       |
 
 ### Breaking Changes
 
+- Various Candid-inherited types are no longer expressed as unions and resolves to a single type. For example: `Uint8Array` instead of `Uint8Array | number[]`.
 - The `canisterStatus` function interface was modified to introduce support for query calls.
+
+### Features
+
+- Update to the latest Candid files.
+- Expose type `TransferSnsTreasuryFunds` for SNS.
+
+### Chore
+
+- Set up a new package and pipeline to generate documentation using `typedoc`.
+- Updated the repo URL to `icp-js-canisters` in `package.json`.
 
 ## v84
 
