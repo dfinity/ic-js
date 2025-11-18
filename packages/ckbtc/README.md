@@ -4,6 +4,9 @@ A library for interfacing with [ckBTC](https://github.com/dfinity/ic/tree/master
 
 [![npm version](https://img.shields.io/npm/v/@dfinity/ckbtc.svg?logo=npm)](https://www.npmjs.com/package/@dfinity/ckbtc) [![GitHub license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+> [!TIP]
+> Still using `@dfinity/ckbtc`? Upgrade to [`@icp-sdk/canisters/ckbtc`](https://js.icp.build/canisters/latest/upgrading/v1/)!
+
 ## Table of contents
 
 - [Installation](#installation)
