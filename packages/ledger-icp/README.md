@@ -6,6 +6,9 @@ A library for interfacing with the [ICP ledger](https://internetcomputer.org/icp
 
 > ℹ️ This library is meant to interface with the ICP ledger only. If you are looking to interact with Snses, ckBTC, or other ICRC tokens, use the [ledger-icrc-js](../ledger-icrc) library.
 
+> [!TIP]
+> Still using `@dfinity/ledger-icp`? Upgrade to [`@icp-sdk/canisters/ledger/icp`](https://js.icp.build/canisters/latest/upgrading/v1/)!
+
 ## Table of contents
 
 - [Installation](#installation)
