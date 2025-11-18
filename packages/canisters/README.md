@@ -32,16 +32,16 @@ The SDK re-exports modules for core Internet Computer canisters and exposes them
 
 Import the desired module directly from its entry point and refer to its individual documentation for details.
 
-| Canister(s)   | Import                             | Documentation                                                                          |
-| ------------- | ---------------------------------- | -------------------------------------------------------------------------------------- |
-| CKBTC         | `@icp-sdk/canisters/ckbtc`         | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ckbtc)         |
-| CKETH         | `@icp-sdk/canisters/cketh`         | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cketh)         |
-| CMC           | `@icp-sdk/canisters/cmc`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/cmc)           |
-| IC Management | `@icp-sdk/canisters/ic-management` | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ic-management) |
-| Ledger ICP    | `@icp-sdk/canisters/ledger/icp`    | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icp)    |
-| Ledger ICRC   | `@icp-sdk/canisters/ledger/icrc`   | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/ledger-icrc)   |
-| NNS           | `@icp-sdk/canisters/nns`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/nns)           |
-| SNS           | `@icp-sdk/canisters/sns`           | [README](https://github.com/dfinity/icp-js-canisters/tree/main/packages/sns)           |
+| Canister(s)   | Import                             | Documentation                                                    |
+| ------------- | ---------------------------------- | ---------------------------------------------------------------- |
+| CKBTC         | `@icp-sdk/canisters/ckbtc`         | [Docs](https://js.icp.build/canisters/latest/api/ckbtc/)         |
+| CKETH         | `@icp-sdk/canisters/cketh`         | [Docs](https://js.icp.build/canisters/latest/api/cketh/)         |
+| CMC           | `@icp-sdk/canisters/cmc`           | [Docs](https://js.icp.build/canisters/latest/api/cmc/)           |
+| IC Management | `@icp-sdk/canisters/ic-management` | [Docs](https://js.icp.build/canisters/latest/api/ic-management/) |
+| Ledger ICP    | `@icp-sdk/canisters/ledger/icp`    | [Docs](https://js.icp.build/canisters/latest/api/ledger/icp/)    |
+| Ledger ICRC   | `@icp-sdk/canisters/ledger/icrc`   | [Docs](https://js.icp.build/canisters/latest/api/ledger/icrc/)   |
+| NNS           | `@icp-sdk/canisters/nns`           | [Docs](https://js.icp.build/canisters/latest/api/nns/)           |
+| SNS           | `@icp-sdk/canisters/sns`           | [Docs](https://js.icp.build/canisters/latest/api/sns/)           |
 
 ## Examples
 
