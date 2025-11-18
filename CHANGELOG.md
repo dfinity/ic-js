@@ -6,7 +6,7 @@
 
 | Library                  | Version | Status              |
 | ------------------------ | ------- | ------------------- |
-| `@icp-sdk/canisters`     | v1.1.1  | Maintained ⚙       |
+| `@icp-sdk/canisters`     | v2.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/ckbtc`         | v6.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/cketh`         | v6.0.0  | Breaking Changes ⚠️ |
 | `@dfinity/cmc`           | v8.0.0  | Breaking Changes ⚠️ |
