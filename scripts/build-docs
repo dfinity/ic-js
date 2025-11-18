@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-docs_version=${DOCS_VERSION:-local}
-
-rm -rf ./dist/$docs_version/ && mkdir -p ./dist/$docs_version/
-
-typedoc --options ./typedoc.json
-
-cp -r ./src/content/docs/* ./dist/$docs_version/
