@@ -4,6 +4,9 @@ A library for interfacing with the cycle minting canister.
 
 [![npm version](https://img.shields.io/npm/v/@dfinity/cmc.svg?logo=npm)](https://www.npmjs.com/package/@dfinity/cmc) [![GitHub license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+> [!TIP]
+> Still using `@dfinity/cmc`? Upgrade to [`@icp-sdk/canisters/cmc`](https://js.icp.build/canisters/latest/upgrading/v1/)!
+
 ## Table of contents
 
 - [Installation](#installation)
