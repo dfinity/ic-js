@@ -4,6 +4,9 @@ A library for interfacing with [ICRC ledger](https://github.com/dfinity/ic/tree/
 
 [![npm version](https://img.shields.io/npm/v/@dfinity/ledger-icrc.svg?logo=npm)](https://www.npmjs.com/package/@dfinity/ledger-icrc) [![GitHub license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+> [!TIP]
+> Still using `@dfinity/ledger-icrc`? Upgrade to [`@icp-sdk/canisters/ledger/icrc`](https://js.icp.build/canisters/latest/upgrading/v1/)!
+
 ## Table of contents
 
 - [Installation](#installation)
