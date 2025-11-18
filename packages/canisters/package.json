@@ -86,7 +86,7 @@
     "nns",
     "sns"
   ],
-  "homepage": "https://github.com/dfinity/icp-js-canisters#readme",
+  "homepage": "https://js.icp.build/canisters/",
   "peerDependencies": {
     "@dfinity/ckbtc": "^6",
     "@dfinity/cketh": "^6",
