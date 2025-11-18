@@ -47,6 +47,14 @@ jobs:
           echo "major_version=v${{ steps.extract-version.outputs.major }}" >> $GITHUB_OUTPUT
           echo "major_minor_patch_version=v${{ steps.extract-version.outputs.major }}.${{ steps.extract-version.outputs.minor }}.${{ steps.extract-version.outputs.patch }}" >> $GITHUB_OUTPUT
 
+      - name: Build packages
+        run: npm run build
+
+      - name: Build docs for version latest
+        env:
+          DOCS_VERSION: ${{ steps.ver.outputs.major_version }}
+        run: npm run docs
+
       - name: Build docs for version latest
         env:
           DOCS_VERSION: latest
