@@ -24,5 +24,20 @@ describe("NFT Ledger canister", () => {
 
       expect(res).toEqual(tokenMetadataResponseMock);
     });
+
+    it('should fail when the canister call fails', async () => {
+      const mockError = new Error('Canister call failed');
+      const service = mock<ActorSubclass<IcrcNftLedgerService>>();
+      service.icrc7_collection_metadata.mockRejectedValue(mockError);
+
+      const canister = IcrcNftLedgerCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await expect(canister.collectionMetadata({})).rejects.toThrowError(
+        mockError,
+      );
+    })
   });
 });
