@@ -1,4 +1,4 @@
-import type { ActorSubclass } from "@icp-sdk/core/lib/esm/agent";
+import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { mock } from "vitest-mock-extended";
 import type { _SERVICE as IcrcNftLedgerService } from "./candid/icrc_nft-ledger";
 import {
