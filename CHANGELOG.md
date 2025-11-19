@@ -1,6 +1,27 @@
 # Changelog
 
-## v86
+## v87
+
+### Overview
+
+| Library                  | Version | Status     |
+| ------------------------ | ------- | ---------- |
+| `@icp-sdk/canisters`     | v2.0.1  | Unchanged️ |
+| `@dfinity/ckbtc`         | v6.0.1  | Unchanged️ |
+| `@dfinity/cketh`         | v6.0.1  | Unchanged️ |
+| `@dfinity/cmc`           | v8.0.1  | Unchanged️ |
+| `@dfinity/ic-management` | v9.0.1  | Unchanged️ |
+| `@dfinity/ledger-icp`    | v8.0.1  | Unchanged️ |
+| `@dfinity/ledger-icrc`   | v6.0.1  | Unchanged️ |
+| `@dfinity/nns`           | v11.1.4 | Patched ⚙️ |
+| `@dfinity/nns-proto`     | v2.0.4  | Unchanged️ |
+| `@dfinity/sns`           | v6.0.1  | Unchanged️ |
+| `@dfinity/utils`         | v4.0.1  | Unchanged️ |
+| `@dfinity/zod-schemas`   | v3.0.1  | Unchanged️ |
+
+### Fix
+
+- Updated `@dfinity/nns` peer dependency to `@dfinity/ledger-icp >=7` to resolve installation conflicts with `@icp-sdk/canisters@1.1.1`.
 
 ### Overview
 
