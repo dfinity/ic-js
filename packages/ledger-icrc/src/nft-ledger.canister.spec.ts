@@ -8,7 +8,7 @@ import {
 import { IcrcNftLedgerCanister } from "./nft-ledger.canister";
 
 describe("NFT Ledger canister", () => {
-  describe("metadata", () => {
+  describe("collectionMetadata", () => {
     it("should return the collection metadata", async () => {
       const service = mock<ActorSubclass<IcrcNftLedgerService>>();
       service.icrc7_collection_metadata.mockResolvedValue(
@@ -20,7 +20,7 @@ describe("NFT Ledger canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const res = await canister.metadata({});
+      const res = await canister.collectionMetadata({});
 
       expect(res).toEqual(tokenMetadataResponseMock);
     });

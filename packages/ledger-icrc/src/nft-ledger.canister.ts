@@ -20,6 +20,6 @@ export class IcrcNftLedgerCanister extends Canister<IcrcNftLedgerService> {
   /**
    * The collection metadata.
    */
-  metadata = (params: QueryParams): Promise<IcrcTokenMetadataResponse> =>
+  collectionMetadata = (params: QueryParams): Promise<IcrcTokenMetadataResponse> =>
     this.caller(params).icrc7_collection_metadata();
 }

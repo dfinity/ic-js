@@ -5,7 +5,7 @@
 ### Features
 
 - New class `IcrcNftLedgerCanister` to interface with ICRC-7 standards.
-- Add method `metadata` in class `IcrcNftLedgerCanister` to fetch a collection's metadata.
+- Add method `collectionMetadata` in class `IcrcNftLedgerCanister` to fetch a collection's metadata.
 
 ## v87
 
