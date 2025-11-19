@@ -13,7 +13,7 @@
 | `@dfinity/ic-management` | v9.0.1  | Unchanged️ |
 | `@dfinity/ledger-icp`    | v8.0.1  | Unchanged️ |
 | `@dfinity/ledger-icrc`   | v6.0.1  | Unchanged️ |
-| `@dfinity/nns`           | v11.1.3 | Patched ⚙️ |
+| `@dfinity/nns`           | v11.1.4 | Patched ⚙️ |
 | `@dfinity/nns-proto`     | v2.0.4  | Unchanged️ |
 | `@dfinity/sns`           | v6.0.1  | Unchanged️ |
 | `@dfinity/utils`         | v4.0.1  | Unchanged️ |
