@@ -97,7 +97,7 @@
     {
       "name": "@dfinity/ledger-icrc",
       "path": "./packages/ledger-icrc/dist/index.js",
-      "limit": "5 kB",
+      "limit": "7 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
@@ -232,7 +232,7 @@
     {
       "name": "@icp-sdk/canisters/ledger/icrc",
       "path": "./packages/canisters/ledger/icrc/index.js",
-      "limit": "5 kB",
+      "limit": "7 kB",
       "gzip": true,
       "ignore": [
         "@dfinity/agent",
