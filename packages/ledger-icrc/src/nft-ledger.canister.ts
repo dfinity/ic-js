@@ -19,6 +19,9 @@ export class IcrcNftLedgerCanister extends Canister<IcrcNftLedgerService> {
 
   /**
    * The collection metadata.
+   *
+   * @param {QueryParams} params The parameters to get the metadata of the collection.
+   * @returns {Promise<IcrcTokenMetadataResponse>} The metadata as a list of metadata type and its value.
    */
   collectionMetadata = (
     params: QueryParams,
