@@ -1,4 +1,4 @@
-import { Canister, createServices, type QueryParams} from "@dfinity/utils";
+import { Canister, createServices, type QueryParams } from "@dfinity/utils";
 import type { _SERVICE as IcrcNftLedgerService } from "./candid/icrc_nft-ledger";
 import { idlFactory as certifiedIdlFactory } from "./candid/icrc_nft-ledger.certified.idl";
 import { idlFactory } from "./candid/icrc_nft-ledger.idl";
