@@ -60,7 +60,7 @@
     "network-nervous-system"
   ],
   "peerDependencies": {
-    "@dfinity/ledger-icp": "^8",
+    "@dfinity/ledger-icp": ">=7",
     "@dfinity/utils": "^4",
     "@icp-sdk/core": "^4"
   }
