@@ -71,7 +71,7 @@ The files of the [candid](./candid) folders are shared across packages. Their ar
 - `something.certified.idl.js`: the factory js file for the certified calls (1)
 - `something.certified.idl.d.ts`: the TypeScript definition of the above factory file
 
-(1) auto-generated with [`@dfinity/bindgen`](https://github.com/dfinity/icp-js-bindgen)
+(1) auto-generated with [`@icp-sdk/bindgen`](https://github.com/dfinity/icp-js-bindgen)
 
 # Update peer dependencies
 

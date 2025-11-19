@@ -1,6 +1,6 @@
 {
   "name": "@icp-sdk/canisters",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A modular library for interacting with canisters on the Internet Computer.",
   "license": "Apache-2.0",
   "type": "module",
@@ -86,7 +86,7 @@
     "nns",
     "sns"
   ],
-  "homepage": "https://github.com/dfinity/icp-js-canisters#readme",
+  "homepage": "https://js.icp.build/canisters/",
   "peerDependencies": {
     "@dfinity/ckbtc": "^6",
     "@dfinity/cketh": "^6",

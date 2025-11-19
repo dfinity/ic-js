@@ -97,3 +97,9 @@ jobs:
       - name: Publish @icp-sdk/canisters
         run: npm publish --provenance --tag ${{ inputs.tag }} --workspace=packages/canisters
 
+  publish-docs:
+    needs: publish
+    uses: ./.github/workflows/publish-docs.yml
+    with:
+      ref: ${{ github.event.release.tag_name }}
+    secrets: inherit
