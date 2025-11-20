@@ -1,13 +1,25 @@
-import { arrayOfNumberToUint8Array } from "@dfinity/utils";
+import { arrayOfNumberToUint8Array, createServices } from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
+import type { _SERVICE as IcrcLedgerService } from "./candid/icrc_ledger";
+import { idlFactory as certifiedIdlFactory } from "./candid/icrc_ledger.certified.idl";
+import { idlFactory } from "./candid/icrc_ledger.idl";
 import { IcrcCanister } from "./canister";
-import { ledgerCanisterIdMock } from "./mocks/ledger.mock";
 import type { IcrcCanisterService } from "./types/canister.types";
 
 describe("ICRC canister", () => {
-  class MockCanister extends IcrcCanister<IcrcCanisterService> {}
+  class MockCanister extends IcrcCanister<IcrcCanisterService> {
+    static create() {
+      const { service, certifiedService, canisterId } =
+        createServices<IcrcLedgerService>({
+          idlFactory,
+          certifiedIdlFactory,
+        });
+
+      return new MockCanister(canisterId, service, certifiedService);
+    }
+  }
 
   describe("balance", () => {
     it("should return the balance of main account", async () => {
@@ -15,10 +27,7 @@ describe("ICRC canister", () => {
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
-      const canister = MockCanister.create({
-        canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
+      const canister = MockCanister.create({});
 
       const owner = Principal.fromText("aaaaa-aa");
       const res = await canister.balance({
@@ -34,10 +43,7 @@ describe("ICRC canister", () => {
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
-      const canister = MockCanister.create({
-        canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
+      const canister = MockCanister.create({});
 
       const owner = Principal.fromText("aaaaa-aa");
       const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
