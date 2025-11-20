@@ -2,7 +2,6 @@ import { arrayOfNumberToUint8Array, createServices } from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
-import type { _SERVICE as IcrcLedgerService } from "./candid/icrc_ledger";
 import { idlFactory as certifiedIdlFactory } from "./candid/icrc_ledger.certified.idl";
 import { idlFactory } from "./candid/icrc_ledger.idl";
 import { IcrcCanister } from "./canister";
@@ -12,7 +11,7 @@ describe("ICRC canister", () => {
   class MockCanister extends IcrcCanister<IcrcCanisterService> {
     static create() {
       const { service, certifiedService, canisterId } =
-        createServices<IcrcLedgerService>({
+        createServices<IcrcCanisterService>({
           idlFactory,
           certifiedIdlFactory,
         });
