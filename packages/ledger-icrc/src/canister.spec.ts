@@ -5,6 +5,7 @@ import { mock } from "vitest-mock-extended";
 import { idlFactory as certifiedIdlFactory } from "./candid/icrc_ledger.certified.idl";
 import { idlFactory } from "./candid/icrc_ledger.idl";
 import { IcrcCanister } from "./canister";
+import { ledgerCanisterIdMock } from "./mocks/ledger.mock";
 import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
 import type { IcrcCanisterService } from "./types/canister.types";
 
@@ -28,7 +29,10 @@ describe("ICRC canister", () => {
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
-      const canister = MockCanister.create({});
+      const canister = MockCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
 
       const owner = Principal.fromText("aaaaa-aa");
       const res = await canister.balance({
@@ -44,7 +48,10 @@ describe("ICRC canister", () => {
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
-      const canister = MockCanister.create({});
+      const canister = MockCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
 
       const owner = Principal.fromText("aaaaa-aa");
       const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
