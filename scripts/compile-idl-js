@@ -4,6 +4,16 @@
 
 set -euo pipefail
 
+# Assert @icp-sdk/bindgen is installed
+
+if [[ ! "$(command -v npx)" || "$(npx icp-bindgen --version)" != "0.2.0" ]]
+then
+    echo "could not find @icp-sdk/binden 0.2.0"
+    echo "please run the following command:"
+    echo "  npm ci"
+    exit 1
+fi
+
 did_files_to_compile_for_pkg() {
   local pkg="$1"
   local path=packages/${pkg}/src/candid
