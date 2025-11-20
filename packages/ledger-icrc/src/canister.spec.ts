@@ -2,16 +2,16 @@ import { arrayOfNumberToUint8Array } from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { Principal } from "@icp-sdk/core/lib/esm/principal";
 import { mock } from "vitest-mock-extended";
-import type { _SERVICE as Icrc1Service } from "./candid/icrc_icrc-1";
 import { IcrcCanister } from "./canister";
 import { ledgerCanisterIdMock } from "./mocks/ledger.mock";
+import { IcrcCanisterService } from "./types/canister.types";
 
 describe("ICRC canister", () => {
-  class MockCanister extends IcrcCanister<Icrc1Service> {}
+  class MockCanister extends IcrcCanister<IcrcCanisterService> {}
 
   describe("balance", () => {
     it("should return the balance of main account", async () => {
-      const service = mock<ActorSubclass<Icrc1Service>>();
+      const service = mock<ActorSubclass<IcrcCanisterService>>();
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
@@ -30,7 +30,7 @@ describe("ICRC canister", () => {
     });
 
     it("should return the balance of subaccount", async () => {
-      const service = mock<ActorSubclass<Icrc1Service>>();
+      const service = mock<ActorSubclass<IcrcCanisterService>>();
       const balance = BigInt(100);
       service.icrc1_balance_of.mockResolvedValue(balance);
 
