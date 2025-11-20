@@ -5,13 +5,15 @@ import { mock } from "vitest-mock-extended";
 import { idlFactory as certifiedIdlFactory } from "./candid/icrc_ledger.certified.idl";
 import { idlFactory } from "./candid/icrc_ledger.idl";
 import { IcrcCanister } from "./canister";
+import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
 import type { IcrcCanisterService } from "./types/canister.types";
 
 describe("ICRC canister", () => {
   class MockCanister extends IcrcCanister<IcrcCanisterService> {
-    static create() {
+    static create(options: IcrcLedgerCanisterOptions<IcrcCanisterService>) {
       const { service, certifiedService, canisterId } =
         createServices<IcrcCanisterService>({
+          options,
           idlFactory,
           certifiedIdlFactory,
         });
