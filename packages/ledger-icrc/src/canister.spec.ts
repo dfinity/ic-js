@@ -4,7 +4,7 @@ import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
 import { IcrcCanister } from "./canister";
 import { ledgerCanisterIdMock } from "./mocks/ledger.mock";
-import { IcrcCanisterService } from "./types/canister.types";
+import type { IcrcCanisterService } from "./types/canister.types";
 
 describe("ICRC canister", () => {
   class MockCanister extends IcrcCanister<IcrcCanisterService> {}

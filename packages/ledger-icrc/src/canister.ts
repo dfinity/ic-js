@@ -1,6 +1,6 @@
 import { Canister, toNullable } from "@dfinity/utils";
 import type { Tokens } from "./candid/icrc_ledger";
-import { IcrcCanisterService } from "./types/canister.types";
+import type { IcrcCanisterService } from "./types/canister.types";
 import type { BalanceParams } from "./types/ledger.params";
 
 export abstract class IcrcCanister<
