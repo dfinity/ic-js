@@ -1,14 +1,9 @@
 import { Canister, toNullable } from "@dfinity/utils";
-import type { _SERVICE as IcrcIndexNgService } from "./candid/icrc_index-ng";
-import type {
-  _SERVICE as IcrcLedgerService,
-  Tokens,
-} from "./candid/icrc_ledger";
+import type { _SERVICE as Icrc1Service } from "./candid/icrc_icrc-1";
+import type { Tokens } from "./candid/icrc_ledger";
 import type { BalanceParams } from "./types/ledger.params";
 
-export abstract class IcrcCanister<
-  T extends IcrcLedgerService | IcrcIndexNgService,
-> extends Canister<T> {
+export abstract class IcrcCanister<T extends Icrc1Service> extends Canister<T> {
   /**
    * Returns the balance for a given account provided as owner and with optional subaccount.
    *
