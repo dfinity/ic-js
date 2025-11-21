@@ -77,7 +77,7 @@ const updateVersion = async () => {
     (acc, [key, value]) => ({
       ...acc,
       [key]: key.startsWith("@dfinity")
-        ? "next"
+        ? suffix
         : key.startsWith("@icp-sdk")
           ? "*"
           : value,
