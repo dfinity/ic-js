@@ -40,6 +40,7 @@ describe("ICRC canister", () => {
         certifiedServiceOverride: service,
       });
 
+
       const res = await canister.balance({
         owner,
       });
@@ -77,7 +78,7 @@ describe("ICRC canister", () => {
 
       const canister = MockCanister.create({
         canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
+        serviceOverride: service,
       });
 
       const res = await canister.balance({
@@ -90,19 +91,6 @@ describe("ICRC canister", () => {
         subaccount: [],
       });
       expect(res).toEqual(balance);
-    });
-
-    it("should fail when the canister call fails", async () => {
-      const mockError = new Error("Canister call failed");
-      const service = mock<ActorSubclass<IcrcCanisterService>>();
-      service.icrc1_balance_of.mockRejectedValue(mockError);
-
-      const canister = MockCanister.create({
-        canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
-
-      await expect(canister.balance({ owner })).rejects.toThrow(mockError);
     });
 
     it("should fail when the canister call fails", async () => {
