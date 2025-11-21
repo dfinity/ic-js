@@ -1,9 +1,9 @@
 import {
   Canister,
   createServices,
+  toNullable,
   type Nullable,
   type QueryParams,
-  toNullable,
 } from "@dfinity/utils";
 import type { Principal } from "@icp-sdk/core/principal";
 import type {
