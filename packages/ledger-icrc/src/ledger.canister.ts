@@ -1,7 +1,9 @@
 import {
+  Canister,
   createServices,
   type Nullable,
   type QueryParams,
+  toNullable,
 } from "@dfinity/utils";
 import type { Principal } from "@icp-sdk/core/principal";
 import type {
@@ -16,7 +18,6 @@ import type {
 } from "./candid/icrc_ledger";
 import { idlFactory as certifiedIdlFactory } from "./candid/icrc_ledger.certified.idl";
 import { idlFactory } from "./candid/icrc_ledger.idl";
-import { IcrcCanister } from "./canister";
 import {
   toApproveArgs,
   toIcrc21ConsentMessageArgs,
@@ -32,6 +33,7 @@ import type { IcrcLedgerCanisterOptions } from "./types/canister.options";
 import type {
   AllowanceParams,
   ApproveParams,
+  BalanceParams,
   GetBlocksParams,
   Icrc21ConsentMessageParams,
   TransferFromParams,
@@ -39,7 +41,7 @@ import type {
 } from "./types/ledger.params";
 import type { IcrcTokenMetadataResponse } from "./types/ledger.responses";
 
-export class IcrcLedgerCanister extends IcrcCanister<IcrcLedgerService> {
+export class IcrcLedgerCanister extends Canister<IcrcLedgerService> {
   static create(options: IcrcLedgerCanisterOptions<IcrcLedgerService>) {
     const { service, certifiedService, canisterId } =
       createServices<IcrcLedgerService>({
@@ -64,6 +66,18 @@ export class IcrcLedgerCanister extends IcrcCanister<IcrcLedgerService> {
    */
   transactionFee = (params: QueryParams): Promise<Tokens> =>
     this.caller(params).icrc1_fee();
+
+  /**
+   * Returns the balance for a given account provided as owner and with optional subaccount.
+   *
+   * @param {BalanceParams} params The parameters to get the balance of an account.
+   * @returns {Promise<Tokens>} The balance of the given account.
+   */
+  balance = (params: BalanceParams): Promise<Tokens> =>
+    this.caller({ certified: params.certified }).icrc1_balance_of({
+      owner: params.owner,
+      subaccount: toNullable(params.subaccount),
+    });
 
   /**
    * Transfers tokens from the sender to the given account.
