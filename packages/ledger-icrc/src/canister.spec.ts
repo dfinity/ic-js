@@ -23,6 +23,10 @@ describe("ICRC canister", () => {
     }
   }
 
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   describe("balance", () => {
     it("should return the balance of main account", async () => {
       const service = mock<ActorSubclass<IcrcCanisterService>>();
@@ -39,7 +43,10 @@ describe("ICRC canister", () => {
         owner,
       });
 
-      expect(service.icrc1_balance_of).toHaveBeenCalled();
+      expect(service.icrc1_balance_of).toHaveBeenCalledExactlyOnceWith({
+        owner,
+        subaccount: [],
+      });
       expect(res).toEqual(balance);
     });
 
@@ -61,6 +68,55 @@ describe("ICRC canister", () => {
       });
 
       expect(res).toEqual(balance);
+    });
+
+    it("should accept to be called as query", async () => {
+      const service = mock<ActorSubclass<IcrcCanisterService>>();
+      const balance = BigInt(100);
+      service.icrc1_balance_of.mockResolvedValue(balance);
+
+      const canister = MockCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      const owner = Principal.fromText("aaaaa-aa");
+      const res = await canister.balance({
+        owner,
+        certified: false,
+      });
+
+      expect(service.icrc1_balance_of).toHaveBeenCalledExactlyOnceWith({
+        owner,
+        subaccount: [],
+      });
+      expect(res).toEqual(balance);
+    });
+
+    it("should fail when the canister call fails", async () => {
+      const mockError = new Error("Canister call failed");
+      const service = mock<ActorSubclass<IcrcCanisterService>>();
+      service.icrc1_balance_of.mockRejectedValue(mockError);
+
+      const canister = MockCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await expect(canister.balance({ owner })).rejects.toThrow(mockError);
+    });
+
+    it("should fail when the canister call fails", async () => {
+      const mockError = new Error("Canister call failed");
+      const service = mock<ActorSubclass<IcrcCanisterService>>();
+      service.icrc1_balance_of.mockRejectedValue(mockError);
+
+      const canister = MockCanister.create({
+        canisterId: ledgerCanisterIdMock,
+        certifiedServiceOverride: service,
+      });
+
+      await expect(canister.balance({ owner })).rejects.toThrow(mockError);
     });
   });
 });
