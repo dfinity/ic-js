@@ -23,6 +23,8 @@ describe("ICRC canister", () => {
     }
   }
 
+  const owner = Principal.fromText("aaaaa-aa");
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -38,7 +40,7 @@ describe("ICRC canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const owner = Principal.fromText("aaaaa-aa");
+
       const res = await canister.balance({
         owner,
       });
@@ -60,7 +62,6 @@ describe("ICRC canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const owner = Principal.fromText("aaaaa-aa");
       const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
       const res = await canister.balance({
         owner,
@@ -80,7 +81,6 @@ describe("ICRC canister", () => {
         certifiedServiceOverride: service,
       });
 
-      const owner = Principal.fromText("aaaaa-aa");
       const res = await canister.balance({
         owner,
         certified: false,
