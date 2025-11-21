@@ -40,7 +40,6 @@ describe("ICRC canister", () => {
         certifiedServiceOverride: service,
       });
 
-
       const res = await canister.balance({
         owner,
       });
