@@ -20,7 +20,7 @@ export interface AccountIdentifier {
 export type Action =
   | { RegisterKnownNeuron: KnownNeuron }
   | { FulfillSubnetRentalRequest: FulfillSubnetRentalRequest }
-  | { ManageNeuron: ManageNeuron }
+  | { ManageNeuron: ManageNeuronProposal }
   | { UpdateCanisterSettings: UpdateCanisterSettings }
   | { InstallCode: InstallCode }
   | { DeregisterKnownNeuron: DeregisterKnownNeuron }
@@ -102,25 +102,6 @@ export interface ClaimOrRefreshNeuronFromAccountResponse {
 export interface ClaimOrRefreshResponse {
   refreshed_neuron_id: [] | [NeuronId];
 }
-/**
- * KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
- */
-export type Command =
-  | { Spawn: Spawn }
-  | { Split: Split }
-  | { Follow: Follow }
-  | { DisburseMaturity: DisburseMaturity }
-  | { RefreshVotingPower: RefreshVotingPower }
-  | { ClaimOrRefresh: ClaimOrRefresh }
-  | { Configure: Configure }
-  | { RegisterVote: RegisterVote }
-  | { Merge: Merge }
-  | { DisburseToNeuron: DisburseToNeuron }
-  | { SetFollowing: SetFollowing }
-  | { MakeProposal: Proposal }
-  | { StakeMaturity: StakeMaturity }
-  | { MergeMaturity: MergeMaturity }
-  | { Disburse: Disburse };
 export type Command_1 =
   | { Error: GovernanceError }
   | { Spawn: SpawnResponse }
@@ -543,15 +524,6 @@ export interface MakeProposalResponse {
   proposal_id: [] | [ProposalId];
 }
 /**
- * Not to be confused with ManageNeuronRequest. (Yes, this is very structurally
- * similar to that, but not actually exactly equivalent.)
- */
-export interface ManageNeuron {
-  id: [] | [NeuronId];
-  command: [] | [Command];
-  neuron_id_or_subaccount: [] | [NeuronIdOrSubaccount];
-}
-/**
  * KEEP THIS IN SYNC WITH COMMAND!
  */
 export type ManageNeuronCommandRequest =
@@ -567,6 +539,34 @@ export type ManageNeuronCommandRequest =
   | { DisburseToNeuron: DisburseToNeuron }
   | { SetFollowing: SetFollowing }
   | { MakeProposal: MakeProposalRequest }
+  | { StakeMaturity: StakeMaturity }
+  | { MergeMaturity: MergeMaturity }
+  | { Disburse: Disburse };
+/**
+ * Not to be confused with ManageNeuronRequest. This is only used to represent a manage neuron proposal.
+ * (Yes, this is very structurally similar to that, but not actually exactly equivalent)
+ */
+export interface ManageNeuronProposal {
+  id: [] | [NeuronId];
+  command: [] | [ManageNeuronProposalCommand];
+  neuron_id_or_subaccount: [] | [NeuronIdOrSubaccount];
+}
+/**
+ * KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
+ */
+export type ManageNeuronProposalCommand =
+  | { Spawn: Spawn }
+  | { Split: Split }
+  | { Follow: Follow }
+  | { DisburseMaturity: DisburseMaturity }
+  | { RefreshVotingPower: RefreshVotingPower }
+  | { ClaimOrRefresh: ClaimOrRefresh }
+  | { Configure: Configure }
+  | { RegisterVote: RegisterVote }
+  | { Merge: Merge }
+  | { DisburseToNeuron: DisburseToNeuron }
+  | { SetFollowing: SetFollowing }
+  | { MakeProposal: Proposal }
   | { StakeMaturity: StakeMaturity }
   | { MergeMaturity: MergeMaturity }
   | { Disburse: Disburse };
@@ -621,6 +621,7 @@ export interface MergeResponse {
   source_neuron_info: [] | [NeuronInfo];
 }
 export interface MonthlyNodeProviderRewards {
+  algorithm_version: [] | [number];
   minimum_xdr_permyriad_per_icp: [] | [bigint];
   end_date: [] | [DateUtc];
   registry_version: [] | [bigint];
