@@ -130,7 +130,7 @@ import_did "rs/ledger_suite/icp/index/index.did" "index.did" "ledger-icp"
 mkdir -p packages/ledger-icrc/src/candid
 import_did "rs/ledger_suite/icrc1/ledger/ledger.did" "icrc_ledger.did" "ledger-icrc"
 import_did "rs/ledger_suite/icrc1/index-ng/index-ng.did" "icrc_index-ng.did" "ledger-icrc"
-download_did "https://github.com/dfinity/ICRC-1/blob/main/standards/ICRC-1/ICRC-1.did" "icrc_icrc-1.did" "ledger-icrc"
+download_did "https://raw.githubusercontent.com/dfinity/ICRC-1/main/standards/ICRC-1/ICRC-1.did" "icrc_icrc-1.did" "ledger-icrc"
 download_did "https://raw.githubusercontent.com/dfinity/ICRC/main/ICRCs/ICRC-10/ICRC-10.did" "icrc_icrc-10.did" "ledger-icrc"
 # This is actually the candid file for ICRC-7 standard that is not the "complete" NFT standard in IC.
 # For example, some NFTs may implement the ICRC-37 standard too.
