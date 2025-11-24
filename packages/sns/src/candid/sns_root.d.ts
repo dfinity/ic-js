@@ -63,6 +63,15 @@ export interface ChunkedCanisterWasm {
   chunk_hashes_list: Array<Uint8Array>;
   store_canister_id: Principal;
 }
+export interface CleanUpFailedRegisterExtensionRequest {
+  canister_id: [] | [Principal];
+}
+export interface CleanUpFailedRegisterExtensionResponse {
+  result: [] | [CleanUpFailedRegisterExtensionResult];
+}
+export type CleanUpFailedRegisterExtensionResult =
+  | { Ok: {} }
+  | { Err: CanisterCallError };
 export interface DefiniteCanisterSettings {
   freezing_threshold: [] | [bigint];
   wasm_memory_threshold: [] | [bigint];
@@ -185,6 +194,10 @@ export interface Timers {
 export interface _SERVICE {
   canister_status: ActorMethod<[CanisterIdRecord], CanisterStatusResult>;
   change_canister: ActorMethod<[ChangeCanisterRequest], undefined>;
+  clean_up_failed_register_extension: ActorMethod<
+    [CleanUpFailedRegisterExtensionRequest],
+    CleanUpFailedRegisterExtensionResponse
+  >;
   get_build_metadata: ActorMethod<[], string>;
   get_sns_canisters_summary: ActorMethod<
     [GetSnsCanistersSummaryRequest],
