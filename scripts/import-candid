@@ -147,4 +147,8 @@ import_did "rs/ethereum/ledger-suite-orchestrator/ledger_suite_orchestrator.did"
 
 mkdir -p packages/ic-management/src/candid
 download_did https://raw.githubusercontent.com/dfinity/portal/master/docs/references/_attachments/ic.did "ic-management.did" "ic-management"
+
+mkdir -p packages/canisters/src/candid
+download_did https://raw.githubusercontent.com/dfinity/sdk/refs/heads/master/src/distributed/assetstorage.did "assets.did" "canisters"
+
 : Fin
