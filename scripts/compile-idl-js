@@ -6,6 +6,7 @@ set -euo pipefail
 
 did_files_to_compile_for_pkg() {
   local pkg="$1"
+  # TODO: default directly to 'declarations' when we have migrated all packages
   local dir="${2:-candid}"
   local path=packages/${pkg}/src/${dir}
 
