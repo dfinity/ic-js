@@ -1,3 +1,5 @@
+// Generated from dfinity/ICRC-1 commit f8c39bec71b1ac7f6cdb1a6c9844726efc58be38 for file 'standards/ICRC-1/ICRC-1.did'
+
 // Number of nanoseconds since the UNIX epoch in UTC timezone.
 type Timestamp = nat64;
 

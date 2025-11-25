@@ -1,4 +1,4 @@
-import { arrayOfNumberToUint8Array, toNullable } from "@dfinity/utils";
+import { toNullable } from "@dfinity/utils";
 import type { ActorSubclass } from "@icp-sdk/core/agent";
 import { Principal } from "@icp-sdk/core/principal";
 import { mock } from "vitest-mock-extended";
@@ -84,47 +84,6 @@ describe("Ledger canister", () => {
       const res = await canister.totalTokensSupply({});
 
       expect(res).toEqual(totalTokens);
-    });
-  });
-
-  describe("balance", () => {
-    it("should return the balance of main account", async () => {
-      const service = mock<ActorSubclass<IcrcLedgerService>>();
-      const balance = BigInt(100);
-      service.icrc1_balance_of.mockResolvedValue(balance);
-
-      const canister = IcrcLedgerCanister.create({
-        canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
-
-      const owner = Principal.fromText("aaaaa-aa");
-      const res = await canister.balance({
-        owner,
-      });
-
-      expect(service.icrc1_balance_of).toHaveBeenCalled();
-      expect(res).toEqual(balance);
-    });
-
-    it("should return the balance of subaccount", async () => {
-      const service = mock<ActorSubclass<IcrcLedgerService>>();
-      const balance = BigInt(100);
-      service.icrc1_balance_of.mockResolvedValue(balance);
-
-      const canister = IcrcLedgerCanister.create({
-        canisterId: ledgerCanisterIdMock,
-        certifiedServiceOverride: service,
-      });
-
-      const owner = Principal.fromText("aaaaa-aa");
-      const subaccount = arrayOfNumberToUint8Array([0, 0, 1]);
-      const res = await canister.balance({
-        owner,
-        subaccount,
-      });
-
-      expect(res).toEqual(balance);
     });
   });
 

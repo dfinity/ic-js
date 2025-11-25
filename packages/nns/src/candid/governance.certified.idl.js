@@ -39,6 +39,7 @@ export const idlFactory = ({ IDL }) => {
     timestamp_seconds: IDL.Opt(IDL.Nat64),
   });
   const MonthlyNodeProviderRewards = IDL.Record({
+    algorithm_version: IDL.Opt(IDL.Nat32),
     minimum_xdr_permyriad_per_icp: IDL.Opt(IDL.Nat64),
     end_date: IDL.Opt(DateUtc),
     registry_version: IDL.Opt(IDL.Nat64),
@@ -386,7 +387,7 @@ export const idlFactory = ({ IDL }) => {
     to_account: IDL.Opt(AccountIdentifier),
     amount: IDL.Opt(Amount),
   });
-  const Command = IDL.Variant({
+  const ManageNeuronProposalCommand = IDL.Variant({
     Spawn: Spawn,
     Split: Split,
     Follow: Follow,
@@ -407,9 +408,9 @@ export const idlFactory = ({ IDL }) => {
     Subaccount: IDL.Vec(IDL.Nat8),
     NeuronId: NeuronId,
   });
-  const ManageNeuron = IDL.Record({
+  const ManageNeuronProposal = IDL.Record({
     id: IDL.Opt(NeuronId),
-    command: IDL.Opt(Command),
+    command: IDL.Opt(ManageNeuronProposalCommand),
     neuron_id_or_subaccount: IDL.Opt(NeuronIdOrSubaccount),
   });
   const Controllers = IDL.Record({ controllers: IDL.Vec(IDL.Principal) });
@@ -575,7 +576,7 @@ export const idlFactory = ({ IDL }) => {
   const Action = IDL.Variant({
     RegisterKnownNeuron: KnownNeuron,
     FulfillSubnetRentalRequest: FulfillSubnetRentalRequest,
-    ManageNeuron: ManageNeuron,
+    ManageNeuron: ManageNeuronProposal,
     UpdateCanisterSettings: UpdateCanisterSettings,
     InstallCode: InstallCode,
     DeregisterKnownNeuron: DeregisterKnownNeuron,
@@ -1117,6 +1118,7 @@ export const init = ({ IDL }) => {
     timestamp_seconds: IDL.Opt(IDL.Nat64),
   });
   const MonthlyNodeProviderRewards = IDL.Record({
+    algorithm_version: IDL.Opt(IDL.Nat32),
     minimum_xdr_permyriad_per_icp: IDL.Opt(IDL.Nat64),
     end_date: IDL.Opt(DateUtc),
     registry_version: IDL.Opt(IDL.Nat64),
@@ -1464,7 +1466,7 @@ export const init = ({ IDL }) => {
     to_account: IDL.Opt(AccountIdentifier),
     amount: IDL.Opt(Amount),
   });
-  const Command = IDL.Variant({
+  const ManageNeuronProposalCommand = IDL.Variant({
     Spawn: Spawn,
     Split: Split,
     Follow: Follow,
@@ -1485,9 +1487,9 @@ export const init = ({ IDL }) => {
     Subaccount: IDL.Vec(IDL.Nat8),
     NeuronId: NeuronId,
   });
-  const ManageNeuron = IDL.Record({
+  const ManageNeuronProposal = IDL.Record({
     id: IDL.Opt(NeuronId),
-    command: IDL.Opt(Command),
+    command: IDL.Opt(ManageNeuronProposalCommand),
     neuron_id_or_subaccount: IDL.Opt(NeuronIdOrSubaccount),
   });
   const Controllers = IDL.Record({ controllers: IDL.Vec(IDL.Principal) });
@@ -1653,7 +1655,7 @@ export const init = ({ IDL }) => {
   const Action = IDL.Variant({
     RegisterKnownNeuron: KnownNeuron,
     FulfillSubnetRentalRequest: FulfillSubnetRentalRequest,
-    ManageNeuron: ManageNeuron,
+    ManageNeuron: ManageNeuronProposal,
     UpdateCanisterSettings: UpdateCanisterSettings,
     InstallCode: InstallCode,
     DeregisterKnownNeuron: DeregisterKnownNeuron,

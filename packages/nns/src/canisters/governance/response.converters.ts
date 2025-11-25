@@ -23,7 +23,7 @@ import type {
   Canister as RawCanister,
   CanisterSettings as RawCanisterSettings,
   Change as RawChange,
-  Command as RawCommand,
+  ManageNeuronProposalCommand as RawCommand,
   Countries as RawCountries,
   Decimal as RawDecimal,
   DeveloperDistribution as RawDeveloperDistribution,

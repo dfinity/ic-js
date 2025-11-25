@@ -1,4 +1,4 @@
-// Generated from IC repo commit fa06b0e (2025-11-12 tags: release-2025-11-13_03-24-base) 'rs/nns/governance/canister/governance.did' by import-candid
+// Generated from IC repo commit 948d5b9 (2025-11-19 tags: release-2025-11-20_03-21-base) 'rs/nns/governance/canister/governance.did' by import-candid
 
 type AccountIdentifier = record {
   hash : blob;
@@ -7,7 +7,7 @@ type AccountIdentifier = record {
 type Action = variant {
   RegisterKnownNeuron : KnownNeuron;
   DeregisterKnownNeuron : DeregisterKnownNeuron;
-  ManageNeuron : ManageNeuron;
+  ManageNeuron : ManageNeuronProposal;
   UpdateCanisterSettings : UpdateCanisterSettings;
   InstallCode : InstallCode;
   StopOrStartCanister : StopOrStartCanister;
@@ -155,7 +155,7 @@ type SetFollowingResponse = record {
 };
 
 // KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
-type Command = variant {
+type ManageNeuronProposalCommand = variant {
   Spawn : Spawn;
   Split : Split;
   Follow : Follow;
@@ -545,11 +545,11 @@ type MakeProposalResponse = record {
   proposal_id : opt ProposalId;
 };
 
-// Not to be confused with ManageNeuronRequest. (Yes, this is very structurally
-// similar to that, but not actually exactly equivalent.)
-type ManageNeuron = record {
+// Not to be confused with ManageNeuronRequest. This is only used to represent a manage neuron proposal. 
+// (Yes, this is very structurally similar to that, but not actually exactly equivalent)
+type ManageNeuronProposal = record {
   id : opt NeuronId;
-  command : opt Command;
+  command : opt ManageNeuronProposalCommand;
   neuron_id_or_subaccount : opt NeuronIdOrSubaccount;
 };
 
@@ -622,6 +622,7 @@ type DateUtc = record {
 type MonthlyNodeProviderRewards = record {
   minimum_xdr_permyriad_per_icp : opt nat64;
   registry_version : opt nat64;
+  algorithm_version : opt nat32;
   node_providers : vec NodeProvider;
   timestamp : nat64;
   start_date : opt DateUtc;
