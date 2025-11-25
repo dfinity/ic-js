@@ -32,8 +32,9 @@ download_did() {
   local raw_url="$1"
   local out_filename="$2"
   local pkg="$3"
+  local subdir="${4:-src/candid}"
 
-  local out_path="packages/${pkg}/src/candid/${out_filename}"
+  local out_path="packages/${pkg}/${subdir}/${out_filename}"
 
   # Extract repository, branch, and file path from the raw URL
   local repo=$(echo "$raw_url" | awk -F '/' '{print $4"/"$5}')
@@ -147,4 +148,8 @@ import_did "rs/ethereum/ledger-suite-orchestrator/ledger_suite_orchestrator.did"
 
 mkdir -p packages/ic-management/src/candid
 download_did https://raw.githubusercontent.com/dfinity/portal/master/docs/references/_attachments/ic.did "ic-management.did" "ic-management"
+
+mkdir -p packages/canisters/src/declarations/assets
+download_did https://raw.githubusercontent.com/dfinity/sdk/refs/heads/master/src/distributed/assetstorage.did "assets_assetstorage.did" "canisters" "declarations/assets"
+
 : Fin
